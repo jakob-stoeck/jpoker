@@ -1,0 +1,11 @@
+Package: jpoker
+Version: 1.0.0-1
+Section: web
+Priority: optional
+Architecture: all
+Depends: apache2
+Recommends: python-poker-network
+Installed-Size: 376
+Maintainer: Johan Euphrosine <proppy@aminche.com>
+Description: Javascript poker client
+ List tables and tournaments of poker-network based servers.
