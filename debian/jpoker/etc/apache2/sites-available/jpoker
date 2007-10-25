@@ -1,0 +1,5 @@
+Alias /jpoker /usr/share/jpoker
+
+<Directory /usr/share/jpoker/>
+    AllowOverride All
+</Directory>
