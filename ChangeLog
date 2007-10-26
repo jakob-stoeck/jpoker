@@ -1,3 +1,8 @@
+2007-10-26  Johan Euphrosine  <proppy@aminche.com>
+
+	* unittest.js, data.js, test.html: Add unittest framework
+	* jquery.js: Add jquery library
+
 2007-10-25  Johan Euphrosine  <proppy@aminche.com>
 
 	* apache2/sites-available/jpoker: Apache configuration.
