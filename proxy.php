@@ -1,6 +1,6 @@
 <?php
 $url = "http://127.0.0.1:19382/REST";
-$packet = array("type" => "PacketPing");
+$packet = $_POST;
 $postData = json_encode($packet);
 
 $ch = curl_init();
