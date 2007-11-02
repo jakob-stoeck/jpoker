@@ -496,7 +496,7 @@ Also see AdvancedOptions</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="2 November 2007" modifier="proppy" modified="200711021907" created="200711021855" tags="Implementation" changecount="9">
+<div title="2 November 2007" modifier="proppy" modified="200711022115" created="200711021855" tags="Implementation" changecount="13">
 <pre>http://jpoker.aminche.com/jpoker-1.0.1.zip
 
 Instructions:
@@ -510,7 +510,10 @@ firefox http://localhost/jpoker
 !What have you done since the last report?
 * Implemented php-curl based HTTP/POST json proxy to allow CrossDomain XMLHttpRequest
 * Unit-tested jPoker table and tourney refresh features
+** [[test_post.html|test_post.html]]
+** [[test_jpoker.html|test_jpoker.html]]
 * Patched the poker-network server to allow serialization of arbitrary python objects
+** http://jpoker.aminche.com/poker-table-is-not-json-serializable.patch
 !What went right?
 * curl based proxy was easy to implement
 * unittest.js framework and jquery helped a lot for writing fast and efficient unittest
