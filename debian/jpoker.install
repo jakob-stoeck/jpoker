@@ -1,7 +1,7 @@
 index.html usr/share/jpoker
 proxy.php usr/share/jpoker
 jquery.js usr/share/jpoker
-jpoker.js usr/share/jpoker
+jpoker.jquery.js usr/share/jpoker
 unittest.js usr/share/jpoker
 data.js usr/share/jpoker
 test_post.html usr/share/jpoker
