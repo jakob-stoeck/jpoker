@@ -496,6 +496,51 @@ Also see AdvancedOptions</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
+<div title="2 November 2007" modifier="proppy" modified="200711021907" created="200711021855" tags="Implementation" changecount="9">
+<pre>http://jpoker.aminche.com/jpoker-1.0.1.zip
+
+Instructions:
+{{{
+unzip jpoker-1.0.1.zip
+sudo dpkg -i jpoker-1.0.1/python-poker-network_1.3.0-1_all.deb
+sudo dpkg -i jpoker-1.0.1/jpoker_1.0.1-1_all.deb
+sudo /etc/init.d/apache2 reload
+firefox http://localhost/jpoker
+}}}
+!What have you done since the last report?
+* Implemented php-curl based HTTP/POST json proxy to allow CrossDomain XMLHttpRequest
+* Unit-tested jPoker table and tourney refresh features
+* Patched the poker-network server to allow serialization of arbitrary python objects
+!What went right?
+* curl based proxy was easy to implement
+* unittest.js framework and jquery helped a lot for writing fast and efficient unittest
+!What went wrong?
+* poker-network failed to serialize POKER_TABLE objects, see following thread for conversation with upstream:
+http://www.mail-archive.com/pokersource-users@gna.org/msg00581.html
+
+Please note that the mercurial repository is available at:
+http://hg.jpoker.aminche.com/</pre>
+</div>
+<div title="26 October 2007" modifier="proppy" modified="200711021854" created="200711021847" tags="Implementation" changecount="9">
+<pre>http://jpoker.aminche.com/jpoker-1.0.0.zip
+
+Instructions:
+{{{
+unzip jpoker-1.0.0.zip
+sudo dpkg -i jpoker-1.0.0/jpoker_1.0.0-1_all.deb
+sudo /etc/init.d/apache2 reload
+firefox http://localhost/jpoker
+}}}
+!What have you done since the last report?
+Debian packaging of the tiddlywiki based web page containing the specification of the lobby
+!What went right?
+Cdbs based packaging was very simple, and using a2[en|dis]site apache2 command help a lot in /jpoker Alias installation and removal
+!What went wrong?
+As REST interface listen on a different port than apache, even if installing the poker-server on the same host, I will have to supply an http proxy to deal with CrossDomain XMLHttpRequest.
+
+Please note that the mercurial repository is available at:
+http://hg.jpoker.aminche.com/</pre>
+</div>
 <div title="DefaultTiddlers" modifier="loic" modified="200705041233" created="200703051556" server.page.revision="200705041233" server.type="file" server.host="http://garden.dachary.org/empty.html">
 <pre>[[Summary]]
 [[Links]]
@@ -579,7 +624,7 @@ config.options.txtRssTag = &quot;toRSS&quot;; // default RssTag. use &lt;&lt;opt
 merge(config.optionsDesc,{txtRssTag: &quot;Only tiddlers with this tag will be included in the RSS Feed.&quot;});
 //}}}</pre>
 </div>
-<div title="Implementation" modifier="proppy" modified="200710221304" created="200703051559" tags="toRSS" server.page.revision="200705081821" server.type="file" server.host="http://garden.dachary.org/empty.html" changecount="6">
+<div title="Implementation" modifier="proppy" modified="200711021854" created="200703051559" tags="toRSS" server.page.revision="200705081821" server.type="file" server.host="http://garden.dachary.org/empty.html" changecount="8">
 <pre>* Inside a javascript setInterval callback send poll XmlHttpRequest(PacketPing) to poll available packets.
 * Send PacketPokerTableSelect and PacketPokerTourneySelect to query the the lists.
 * Decode PacketPokerTableList and PacketPokerTourneyList to get the content of these lists.</pre>
