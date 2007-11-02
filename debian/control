@@ -1,24 +1,13 @@
 Source: jpoker
-Maintainer: Johan Euphrosine (proppy) <proppy@aminche.com>
-Uploaders: Ola Lundqvist <opal@debian.org>, Loic Dachary (OuoU) <loic@dachary.org>
+Maintainer: Johan Euphrosine <proppy@aminche.com>
 Section: web
 Priority: optional
-Standards-Version: 3.7.3
+Standards-Version: 3.7.2
 Build-Depends: debhelper (>= 5), cdbs
-Suggests: rhino, jscoverage
 
 Package: jpoker
 Architecture: all
-Depends: apache2, libapache2-mod-php5
-Suggests: python-poker-network
-Description: javascript online poker client
- http://jspoker.pokersource.info/jpoker/ is a javascript client for
- playing online poker. It displays the list of poker tables and when
- the user choses one, it is displayed in the browser. The user can
- join the game and play hands. It supports multi table
- tournaments. The poker server to which jpoker connects must implement
- a protocol compatible with
- http://pokersource.info/poker-network/. jpoker user interface is
- based on http://tiddlywiki.com/. However the underlying
- http://jquery.com/ based library is independent and can be used to
- implement alternate look and feel.
+Depends: apache2, libapache2-mod-php5, php5-curl
+Recommends: python-poker-network
+Description: Javascript poker client
+ List tables and tournaments of poker-network based servers.
