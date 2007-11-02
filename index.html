@@ -544,8 +544,10 @@ As REST interface listen on a different port than apache, even if installing the
 Please note that the mercurial repository is available at:
 http://hg.jpoker.aminche.com/</pre>
 </div>
-<div title="DefaultTiddlers" modifier="loic" modified="200705041233" created="200703051556" server.page.revision="200705041233" server.type="file" server.host="http://garden.dachary.org/empty.html">
-<pre>[[Summary]]
+<div title="DefaultTiddlers" modifier="proppy" modified="200711022129" created="200703051556" server.page.revision="200705041233" server.type="file" server.host="http://garden.dachary.org/empty.html" changecount="4">
+<pre>[[2 November 2007]]
+[[26 October 2007]]
+[[Summary]]
 [[Links]]
 [[Rationale]]
 [[Use Cases]]
@@ -627,10 +629,12 @@ config.options.txtRssTag = &quot;toRSS&quot;; // default RssTag. use &lt;&lt;opt
 merge(config.optionsDesc,{txtRssTag: &quot;Only tiddlers with this tag will be included in the RSS Feed.&quot;});
 //}}}</pre>
 </div>
-<div title="Implementation" modifier="proppy" modified="200711021854" created="200703051559" tags="toRSS" server.page.revision="200705081821" server.type="file" server.host="http://garden.dachary.org/empty.html" changecount="8">
+<div title="Implementation" modifier="proppy" modified="200711022128" created="200703051559" tags="toRSS" server.page.revision="200705081821" server.type="file" server.host="http://garden.dachary.org/empty.html" changecount="12">
 <pre>* Inside a javascript setInterval callback send poll XmlHttpRequest(PacketPing) to poll available packets.
 * Send PacketPokerTableSelect and PacketPokerTourneySelect to query the the lists.
-* Decode PacketPokerTableList and PacketPokerTourneyList to get the content of these lists.</pre>
+** [[test_post.html|test_post.html]]
+* Decode PacketPokerTableList and PacketPokerTourneyList to get the content of these lists.
+** [[test_jpoker.html|test_jpoker.html]]</pre>
 </div>
 <div title="Links" modifier="proppy" modified="200710221303" created="200704231400" tags="toRSS" server.page.revision="200705081820" server.type="file" server.host="http://garden.dachary.org/empty.html" changecount="6">
 <pre>http://jquery.com/plugins/project/PokerLobby
