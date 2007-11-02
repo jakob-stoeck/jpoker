@@ -1,34 +1,5 @@
-jpoker (1.0.8-1) unstable; urgency=low
+jpoker (1.0.1-1) unstable; urgency=low
 
-  * New upstream version
-  * Run rhino test at post-build
-  * Update packaging licensing to GPLv3+
+  * Initial release. (Closes: #000000)
 
- -- Loic Dachary <loic@dachary.org>  Thu, 13 Mar 2008 10:26:07 +0000
-
-jpoker (1.0.7-1) unstable; urgency=low
-
-  * New upstream release.
-  * Now url for the server is configurable in /etc/jpoker.conf
-  * Recommend of python-poker-network changed to suggests.
-  * Added Ola to the uploaders list.
-  * Added a README.Debian document to document the installation instructions.
-  * Modified the postinst and postrm scripts to work better and also to
-    honor disabled site configuration.
-  * Split the apache configuration file to an alias part and a generic part.
-  * Corrected the copyright file to show all copyright holders and the fact
-    that some files are licensed under both GPL and MIT licenses.
-
- -- Ola Lundqvist <opal@debian.org>  Sun, 27 Jan 2008 09:39:21 +0100
-
-jpoker (1.0.6-1) unstable; urgency=low
-
-  * New upstream version.
-
- -- Johan Euphrosine (proppy) <proppy@aminche.com>  Tue, 27 Nov 2007 09:38:59 +0000
-
-jpoker (1.0.5-1) unstable; urgency=low
-
-  * Initial release. (Closes: #450897)
-
- -- Johan Euphrosine (proppy) <proppy@aminche.com>  Tue,  6 Nov 2007 14:51:58 +0000
+ -- Johan Euphrosine <proppy@aminche.com>  Fri,  2 Nov 2007 18:53:28 +0000
