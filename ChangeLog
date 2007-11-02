@@ -1,3 +1,9 @@
+2007-11-01  Johan Euphrosine  <proppy@aminche.com>	
+	* jpoker.js, test_jpoker.html: jpoker tests and stub implementation
+
+2007-10-31  Johan Euphrosine  <proppy@aminche.com>	
+	* proxy.php, test_post.html: Add curl based HTTP/POST JSON proxy
+	
 2007-10-26  Johan Euphrosine  <proppy@aminche.com>
 
 	* unittest.js, data.js, test.html: Add unittest framework
@@ -7,5 +13,3 @@
 
 	* apache2/sites-available/jpoker: Apache configuration.
 	* index.html: TiddlyWiki based specifications.
-	
-
