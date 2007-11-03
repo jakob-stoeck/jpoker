@@ -28,10 +28,19 @@ $.fn.extend({
 			var tables = packet.packets;
 			selector.each(function() {
 				var parent = $("<table>").appendTo(selector);
-				$("<thead><tr><th>Name</th></tr></thead>").appendTo(parent);
+				var head = $("<thead>").appendTo(parent);
+				var tr = $("<tr>").appendTo(head)
+						  .append("<th>Name</th>")
+						  .append("<th>Players</th>")
+						  .append("<th>Seats</th>")
+						  .append("<th>Betting Structure</th>");
 				var body = $("<tbody>").appendTo(parent);
 				$.each(tables, function() {
-					$("<tr class='table'><td>" + this.name + "</td></tr>").appendTo(body);
+					$("<tr class='table'>").appendTo(body)
+							       .append("<td>" + this.name + "</td>")
+							       .append("<td>" + this.players + "</td>")
+							       .append("<td>" + this.seats + "</td>")
+							       .append("<td>" + this.betting_structure + "</td>");
 				});
 				$(parent).tablesorter().addClass("tablesorter");
 			});
@@ -48,10 +57,19 @@ $.fn.extend({
 			var tourneys = packet.packets;
 			selector.each(function() {
 				var parent = $("<table>").appendTo(selector);
-				$("<thead><tr><th>Name</th></tr></thead>").appendTo(parent);
+				var head = $("<thead>").appendTo(parent);
+				var tr = $("<tr>").appendTo(head)
+						  .append("<th>Description</th>")
+						  .append("<th>Registered</th>")
+						  .append("<th>Players Quota</th>")
+						  .append("<th>State</th>");
 				var body = $("<tbody>").appendTo(parent);
 				$.each(tourneys, function() {
-					$("<tr class='tourney'><td>" + this.name + "</td></tr>").appendTo(body);
+					$("<tr class='tourney'>").appendTo(body)
+							       .append("<td>" + this.description_short + "</td>")
+							       .append("<td>" + this.registered + "</td>")
+							       .append("<td>" + this.players_quota + "</td>")
+							       .append("<td>" + this.state + "</td>");
 				});
 				$(parent).tablesorter().addClass("tablesorter");
 			});
