@@ -27,13 +27,13 @@ $.fn.extend({
 			var packet = packets[0];
 			var tables = packet.packets;
 			selector.each(function() {
-				var parent = $("<table id='tables'>").appendTo(selector);
+				var parent = $("<table>").appendTo(selector);
 				$("<thead><tr><th>Name</th></tr></thead>").appendTo(parent);
 				var body = $("<tbody>").appendTo(parent);
 				$.each(tables, function() {
 					$("<tr class='table'><td>" + this.name + "</td></tr>").appendTo(body);
 				});
-				$("#tables").tablesorter();
+				$(parent).tablesorter().addClass("tablesorter");
 			});
 		});
 		return this;
@@ -47,13 +47,13 @@ $.fn.extend({
 			var packet = packets[0];
 			var tourneys = packet.packets;
 			selector.each(function() {
-				var parent = $("<table id='tourneys'>").appendTo(selector);
+				var parent = $("<table>").appendTo(selector);
 				$("<thead><tr><th>Name</th></tr></thead>").appendTo(parent);
 				var body = $("<tbody>").appendTo(parent);
 				$.each(tourneys, function() {
 					$("<tr class='tourney'><td>" + this.name + "</td></tr>").appendTo(body);
 				});
-				$("#tourneys").tablesorter();
+				$(parent).tablesorter().addClass("tablesorter");
 			});
 		});
 		return this;
