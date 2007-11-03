@@ -1,20 +1,27 @@
+2007-11-03  Johan Euphrosine  <proppy@aminche.com>
+
+	* Renamed jpoker.jquery.js to jquery.jpoker.js to follow jQuery guidelines.
+	* Switch to table based layout.
+	* Add jquery.tablesorter.js support and css.
+	* Display additional fields.
+	
 2007-11-02  Johan Euphrosine  <proppy@aminche.com>
 
-	* renamed jpoker.js to jpoker.query.js to follow jQuery guidelines
-	* improved plugin declaration and indentation, thanks to Scott_Gonzalez
+	* Renamed jpoker.js to jpoker.query.js to follow jQuery guidelines.
+	* Improved plugin declaration and indentation, thanks to Scott_Gonzalez.
 
 2007-11-01  Johan Euphrosine  <proppy@aminche.com>	
 
-	* jpoker.js, test_jpoker.html: jpoker tests and stub implementation
+	* jpoker.js, test_jpoker.html: jpoker tests and stub implementation.
 
 2007-10-31  Johan Euphrosine  <proppy@aminche.com>	
 
-	* proxy.php, test_post.html: Add curl based HTTP/POST JSON proxy
+	* proxy.php, test_post.html: Add curl based HTTP/POST JSON proxy.
 	
 2007-10-26  Johan Euphrosine  <proppy@aminche.com>
 
-	* unittest.js, data.js, test.html: Add unittest framework
-	* jquery.js: Add jquery library
+	* unittest.js, data.js, test.html: Add unittest framework.
+	* jquery.js: Add jquery library.
 
 2007-10-25  Johan Euphrosine  <proppy@aminche.com>
 
