@@ -1,7 +1,14 @@
+2007-11-02  Johan Euphrosine  <proppy@aminche.com>
+
+	* renamed jpoker.js to jpoker.query.js to follow jQuery guidelines
+	* improved plugin declaration and indentation, thanks to Scott_Gonzalez
+
 2007-11-01  Johan Euphrosine  <proppy@aminche.com>	
+
 	* jpoker.js, test_jpoker.html: jpoker tests and stub implementation
 
 2007-10-31  Johan Euphrosine  <proppy@aminche.com>	
+
 	* proxy.php, test_post.html: Add curl based HTTP/POST JSON proxy
 	
 2007-10-26  Johan Euphrosine  <proppy@aminche.com>
