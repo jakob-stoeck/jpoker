@@ -1,7 +1,12 @@
 index.html usr/share/jpoker
 proxy.php usr/share/jpoker
 jquery.js usr/share/jpoker
-jpoker.jquery.js usr/share/jpoker
+jquery.jpoker.js usr/share/jpoker
+jquery.tablesorter.js usr/share/jpoker
+style.css usr/share/jpoker
+asc.gif usr/share/jpoker
+bg.gif usr/share/jpoker
+desc.gif usr/share/jpoker
 unittest.js usr/share/jpoker
 data.js usr/share/jpoker
 test_post.html usr/share/jpoker
