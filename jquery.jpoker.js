@@ -28,7 +28,10 @@ $.fn.extend({
 			var tables = packet.packets;
 			selector.each(function() {
 				$(this).children(".jPokerTables").remove();
-				var parent = $("<table>").addClass("jPokerTables").addClass("tablesorter").appendTo(this);
+				var parent = $("<table>").addClass("jPokerTables")
+							 .attr("refreshed", new Date())
+							 .addClass("tablesorter")
+						         .appendTo(this);
 				var head = $("<thead>").appendTo(parent);
 				var tr = $("<tr>").appendTo(head)
 						  .append("<th>Name</th>")
@@ -50,7 +53,7 @@ $.fn.extend({
 							       .append("<td>" + this.percent_flop + "</td>");
 				});
 			});
-			if (callback) callback();
+			if (callback) callback(selector);
 		});
 		return this;
 	},
@@ -64,7 +67,10 @@ $.fn.extend({
 			var tourneys = packet.packets;
 			selector.each(function() {
 				$(this).children(".jPokerTourneys").remove();
-				var parent = $("<table>").addClass("jPokerTourneys").addClass("tablesorter").appendTo(this);
+				var parent = $("<table>").addClass("jPokerTourneys")
+							 .attr("refreshed", new Date())
+						         .addClass("tablesorter")
+							 .appendTo(this);
 				var head = $("<thead>").appendTo(parent);
 				var tr = $("<tr>").appendTo(head)
 						  .append("<th>Description</th>")
@@ -80,9 +86,29 @@ $.fn.extend({
 							       .append("<td>" + this.state + "</td>");
 				});
 			});
-			if (callback) callback();
+			if (callback) callback(selector);
 		});
 		return this;
+	},
+	
+	jPokerRefreshTablesInterval: function(interval, callback)
+	{
+		function refresh(selector, callback)
+		{
+		$(selector).jPokerRefreshTables(callback);
+		}
+		intervalID = setInterval(refresh, interval, this, callback);
+		return intervalID;
+	},
+
+	jPokerRefreshTourneysInterval: function(interval, callback)
+	{
+		function refresh(selector, callback)
+		{
+		$(selector).jPokerRefreshTourneys(callback);
+		}
+		intervalID = setInterval(refresh, interval, this, callback);
+		return intervalID;
 	}
 });
 
