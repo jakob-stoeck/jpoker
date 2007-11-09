@@ -99,10 +99,10 @@ $.fn.extend({
 				body.empty();
 				$.each(tourneys, function() {
 					$("<tr class='tourney'>").appendTo(body)
-							       .append("<td>" + this.description_short + "</td>")
-							       .append("<td>" + this.registered + "</td>")
-							       .append("<td>" + this.players_quota + "</td>")
-							       .append("<td>" + this.state + "</td>");
+								 .append("<td>" + this.description_short + "</td>")
+								 .append("<td>" + this.registered + "</td>")
+								 .append("<td>" + this.players_quota + "</td>")
+								 .append("<td>" + this.state + "</td>");
 				});
 				$(this).find(".jPokerTourneys").attr("refreshed", new Date());
 			});
@@ -117,7 +117,8 @@ $.fn.extend({
 		{
 		$(selector).jPokerRefreshTables(callback);
 		}
-		returnValue.intervalID = setInterval(refresh, interval, this, callback);
+		var intervalID = setInterval(refresh, interval, this, callback);
+		if (returnValue) returnValue.intervalID = intervalID;
 		return this;
 	},
 
@@ -127,7 +128,8 @@ $.fn.extend({
 		{
 		$(selector).jPokerRefreshTourneys(callback);
 		}
-		returnValue.intervalID = setInterval(refresh, interval, this, callback);
+		var intervalID = setInterval(refresh, interval, this, callback);
+		if (returnValue) returnValue.intervalID = intervalID;
 		return this;
 	}
 });

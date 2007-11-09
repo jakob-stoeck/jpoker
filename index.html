@@ -30,8 +30,8 @@
 <script language="JavaScript" type="text/javascript" src="jquery.jpoker.js"></script>
 <script language="JavaScript" type="text/javascript">
 $(document).ready(function(){
-	$("#jpokertables").jPokerRefreshTables();
-	$("#jpokertournaments").jPokerRefreshTables();
+	$("#jpokertables").jPokerTables().jPokerRefreshTables().jPokerRefreshTablesInterval(10000);
+	$("#jpokertournaments").jPokerTourneys().jPokerRefreshTourneys().jPokerRefreshTablesInterval(10000);
 });
 </script>
 </head>
