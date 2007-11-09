@@ -19,6 +19,49 @@
 (function($) {
 
 $.fn.extend({
+	jPokerTables: function(callback)
+	{
+		var selector = this;
+		selector.each(function() {
+			$(this).children(".jPokerTables").remove();
+			var parent = $("<table>").addClass("jPokerTables")
+						 .attr("refreshed", new Date())
+						 .addClass("tablesorter")
+					         .appendTo(this);
+			var head = $("<thead>").appendTo(parent);
+			var tr = $("<tr>").appendTo(head)
+					  .append("<th>Name</th>")
+					  .append("<th>Players</th>")
+					  .append("<th>Seats</th>")
+					  .append("<th>Betting Structure</th>")
+					  .append("<th>Average Pot</th>")
+					  .append("<th>Hands/Hour</th>")
+					  .append("<th>% Flop</th>");
+			var body = $("<tbody>").appendTo(parent);
+			parent.tablesorter();
+		});
+		return this;
+	},
+	jPokerTourneys: function(callback)
+	{
+		var selector = this;
+		selector.each(function() {
+			$(this).children(".jPokerTourneys").remove();
+			var parent = $("<table>").addClass("jPokerTourneys")
+						 .attr("refreshed", new Date())
+					         .addClass("tablesorter")
+						 .appendTo(this);
+			var head = $("<thead>").appendTo(parent);
+			var tr = $("<tr>").appendTo(head)
+					  .append("<th>Description</th>")
+					  .append("<th>Registered</th>")
+					  .append("<th>Players Quota</th>")
+					  .append("<th>State</th>");
+			var body = $("<tbody>").appendTo(parent);
+			parent.tablesorter();
+		});
+		return this;
+	},
 	jPokerRefreshTables: function(callback)
 	{
 		var selector = this;
@@ -27,21 +70,8 @@ $.fn.extend({
 			var packet = packets[0];
 			var tables = packet.packets;
 			selector.each(function() {
-				$(this).children(".jPokerTables").remove();
-				var parent = $("<table>").addClass("jPokerTables")
-							 .attr("refreshed", new Date())
-							 .addClass("tablesorter")
-						         .appendTo(this);
-				var head = $("<thead>").appendTo(parent);
-				var tr = $("<tr>").appendTo(head)
-						  .append("<th>Name</th>")
-						  .append("<th>Players</th>")
-						  .append("<th>Seats</th>")
-						  .append("<th>Betting Structure</th>")
-						  .append("<th>Average Pot</th>")
-						  .append("<th>Hands/Hour</th>")
-						  .append("<th>% Flop</th>");
-				var body = $("<tbody>").appendTo(parent);
+				var body = $(this).find(".jPokerTables tbody");
+				body.empty();
 				$.each(tables, function() {
 					$("<tr class='table'>").appendTo(body)
 							       .append("<td>" + this.name + "</td>")
@@ -52,7 +82,6 @@ $.fn.extend({
 							       .append("<td>" + this.hands_per_hour + "</td>")
 							       .append("<td>" + this.percent_flop + "</td>");
 				});
-				parent.tablesorter();
 			});
 			if (callback) callback(selector);
 		});
@@ -67,18 +96,8 @@ $.fn.extend({
 			var packet = packets[0];
 			var tourneys = packet.packets;
 			selector.each(function() {
-				$(this).children(".jPokerTourneys").remove();
-				var parent = $("<table>").addClass("jPokerTourneys")
-							 .attr("refreshed", new Date())
-						         .addClass("tablesorter")
-							 .appendTo(this);
-				var head = $("<thead>").appendTo(parent);
-				var tr = $("<tr>").appendTo(head)
-						  .append("<th>Description</th>")
-						  .append("<th>Registered</th>")
-						  .append("<th>Players Quota</th>")
-						  .append("<th>State</th>");
-				var body = $("<tbody>").appendTo(parent);
+				var body = $(this).find(".jPokerTourneys tbody");
+				body.empty();
 				$.each(tourneys, function() {
 					$("<tr class='tourney'>").appendTo(body)
 							       .append("<td>" + this.description_short + "</td>")
@@ -86,7 +105,6 @@ $.fn.extend({
 							       .append("<td>" + this.players_quota + "</td>")
 							       .append("<td>" + this.state + "</td>");
 				});
-				parent.tablesorter();
 			});
 			if (callback) callback(selector);
 		});
