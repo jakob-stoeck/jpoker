@@ -1,6 +1,7 @@
 <?php
 $url = "http://127.0.0.1:19382/REST";
-$packet = $_POST;
+//$packet = $_POST;
+$packet = array('type' => 'PacketPokerTableSelect');
 $postData = json_encode($packet);
 
 $ch = curl_init();
