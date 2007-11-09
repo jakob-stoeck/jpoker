@@ -52,6 +52,7 @@ $.fn.extend({
 							       .append("<td>" + this.hands_per_hour + "</td>")
 							       .append("<td>" + this.percent_flop + "</td>");
 				});
+				parent.tablesorter();
 			});
 			if (callback) callback(selector);
 		});
@@ -85,6 +86,7 @@ $.fn.extend({
 							       .append("<td>" + this.players_quota + "</td>")
 							       .append("<td>" + this.state + "</td>");
 				});
+				parent.tablesorter();
 			});
 			if (callback) callback(selector);
 		});
