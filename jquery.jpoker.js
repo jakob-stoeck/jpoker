@@ -19,7 +19,7 @@
 (function($) {
 
 $.fn.extend({
-	jPokerTables: function(callback)
+	jPokerTablesCreate: function(callback)
 	{
 		var selector = this;
 		selector.each(function() {
@@ -37,11 +37,10 @@ $.fn.extend({
 					  .append("<th>Hands/Hour</th>")
 					  .append("<th>% Flop</th>");
 			var body = $("<tbody>").appendTo(parent);
-			parent.tablesorter();
 		});
 		return this;
 	},
-	jPokerTourneys: function(callback)
+	jPokerTourneysCreate: function(callback)
 	{
 		var selector = this;
 		selector.each(function() {
@@ -56,11 +55,10 @@ $.fn.extend({
 					  .append("<th>Players Quota</th>")
 					  .append("<th>State</th>");
 			var body = $("<tbody>").appendTo(parent);
-			parent.tablesorter();
 		});
 		return this;
 	},
-	jPokerRefreshTables: function(callback)
+	jPokerTablesRefresh: function(callback)
 	{
 		var selector = this;
 		$.post("proxy.php", {'type': 'PacketPokerTableSelect', 'string': ''}, function(data) {
@@ -80,14 +78,14 @@ $.fn.extend({
 							       .append("<td>" + this.hands_per_hour + "</td>")
 							       .append("<td>" + this.percent_flop + "</td>");
 				});
-				$(this).find(".jPokerTables").attr("refreshed", new Date());
+				$(this).find(".jPokerTables").attr("refreshed", new Date()).tablesorter();
 			});
 			if (callback) callback(selector);
 		});
 		return this;
 	},
 	
-	jPokerRefreshTourneys: function(callback)
+	jPokerTourneysRefresh: function(callback)
 	{
 		var selector = this;
 		$.post("proxy.php", {'type': 'PacketPokerTourneySelect', 'string': ''}, function(data) {
@@ -104,29 +102,29 @@ $.fn.extend({
 								 .append("<td>" + this.players_quota + "</td>")
 								 .append("<td>" + this.state + "</td>");
 				});
-				$(this).find(".jPokerTourneys").attr("refreshed", new Date());
+				$(this).find(".jPokerTourneys").attr("refreshed", new Date()).tablesorter();
 			});
 			if (callback) callback(selector);
 		});
 		return this;
 	},
 	
-	jPokerRefreshTablesInterval: function(interval, callback, returnValue)
+	jPokerTablesRefreshInterval: function(interval, callback, returnValue)
 	{
 		function refresh(selector, callback)
 		{
-		$(selector).jPokerRefreshTables(callback);
+		$(selector).jPokerTablesRefresh(callback);
 		}
 		var intervalID = setInterval(refresh, interval, this, callback);
 		if (returnValue) returnValue.intervalID = intervalID;
 		return this;
 	},
 
-	jPokerRefreshTourneysInterval: function(interval, callback, returnValue)
+	jPokerTourneysRefreshInterval: function(interval, callback, returnValue)
 	{
 		function refresh(selector, callback)
 		{
-		$(selector).jPokerRefreshTourneys(callback);
+		$(selector).jPokerTourneysRefresh(callback);
 		}
 		var intervalID = setInterval(refresh, interval, this, callback);
 		if (returnValue) returnValue.intervalID = intervalID;

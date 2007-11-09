@@ -30,12 +30,12 @@
 <script language="JavaScript" type="text/javascript" src="jquery.jpoker.js"></script>
 <script language="JavaScript" type="text/javascript">
 $(document).ready(function(){
-	$("#jpoker").jPokerRefreshTables();
+	$("#jpokertables").jPokerTables().jPokerRefreshTables().jPokerRefreshTablesInterval(10000);
 });
 </script>
 </head>
 
 <body>
-<div id="jpoker" />
+<div id="jpokertables"></div>
 </body>
 </html>

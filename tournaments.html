@@ -30,12 +30,12 @@
 <script language="JavaScript" type="text/javascript" src="jquery.jpoker.js"></script>
 <script language="JavaScript" type="text/javascript">
 $(document).ready(function(){
-	$("#jpoker").jPokerRefreshTourneys();
+	$("#jpokertourneys").jPokerTourneys().jPokerRefreshTourneys().jPokerRefreshTourneysInterval(10000);
 });
 </script>
 </head>
 
 <body>
-<div id="jpoker"></div>
+<div id="jpokertourneys"></div>
 </body>
 </html>
