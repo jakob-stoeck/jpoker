@@ -30,12 +30,16 @@
 <script language="JavaScript" type="text/javascript" src="jquery.jpoker.js"></script>
 <script language="JavaScript" type="text/javascript">
 $(document).ready(function(){
-	$("#jpokertourneys").jPokerTourneys().jPokerRefreshTourneys().jPokerRefreshTourneysInterval(10000);
+	$("#jpokertourneys").jPokerTourneysCreate().jPokerTourneysRefresh().jPokerTourneysRefreshInterval(10000);
+	$("#jpokertourneysrefresh").click(function(){
+	$("#jpokertourneys").jPokerTourneysRefresh();
+	});
 });
 </script>
 </head>
 
 <body>
+<input id="jpokertourneysrefresh" type="submit" value="Refresh">
 <div id="jpokertourneys"></div>
 </body>
 </html>

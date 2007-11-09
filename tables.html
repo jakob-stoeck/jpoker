@@ -30,12 +30,16 @@
 <script language="JavaScript" type="text/javascript" src="jquery.jpoker.js"></script>
 <script language="JavaScript" type="text/javascript">
 $(document).ready(function(){
-	$("#jpokertables").jPokerTables().jPokerRefreshTables().jPokerRefreshTablesInterval(10000);
+	$("#jpokertables").jPokerTablesCreate().jPokerTablesRefresh().jPokerTablesRefreshInterval(10000);
+	$("#jpokertablesrefresh").click(function(){
+	$("#jpokertables").jPokerTablesRefresh();
+	});
 });
 </script>
 </head>
 
 <body>
+<input id="jpokertablesrefresh" type="submit" value="Refresh">
 <div id="jpokertables"></div>
 </body>
 </html>

@@ -30,11 +30,11 @@
 <script language="JavaScript" type="text/javascript" src="jquery.jpoker.js"></script>
 <script language="JavaScript" type="text/javascript">
 $(document).ready(function(){
-	$("#jpokertables").jPokerTables().jPokerRefreshTables().jPokerRefreshTablesInterval(10000);
-	$("#jpokertourneys").jPokerTourneys().jPokerRefreshTourneys().jPokerRefreshTourneysInterval(10000);
+	$("#jpokertables").jPokerTablesCreate().jPokerTablesRefresh().jPokerTablesRefreshInterval(10000);
+	$("#jpokertourneys").jPokerTourneysCreate().jPokerTourneysRefresh().jPokerTourneysRefreshInterval(10000);
 	$("#jpokerrefresh").click(function(){
-	$("#jpokertables").jPokerRefreshTables();
-	$("#jpokertourneys").jPokerRefreshTourneys();
+	$("#jpokertables").jPokerTablesRefresh();
+	$("#jpokertourneys").jPokerTourneysRefresh();
 	});
 });
 </script>
