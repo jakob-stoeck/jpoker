@@ -33,14 +33,20 @@ $.fn.extend({
 						  .append("<th>Name</th>")
 						  .append("<th>Players</th>")
 						  .append("<th>Seats</th>")
-						  .append("<th>Betting Structure</th>");
+						  .append("<th>Betting Structure</th>")
+						  .append("<th>Average Pot</th>")
+						  .append("<th>Hands/Hour</th>")
+						  .append("<th>% Flop</th>");
 				var body = $("<tbody>").appendTo(parent);
 				$.each(tables, function() {
 					$("<tr class='table'>").appendTo(body)
 							       .append("<td>" + this.name + "</td>")
 							       .append("<td>" + this.players + "</td>")
 							       .append("<td>" + this.seats + "</td>")
-							       .append("<td>" + this.betting_structure + "</td>");
+							       .append("<td>" + this.betting_structure + "</td>")
+							       .append("<td>" + this.average_pot + "</td>")
+							       .append("<td>" + this.hands_per_hour + "</td>")
+							       .append("<td>" + this.percent_flop + "</td>");
 				});
 				$(parent).tablesorter().addClass("tablesorter");
 			});
