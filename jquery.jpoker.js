@@ -25,7 +25,6 @@ $.fn.extend({
 		selector.each(function() {
 			$(this).children(".jPokerTables").remove();
 			var parent = $("<table>").addClass("jPokerTables")
-						 .attr("refreshed", new Date())
 						 .addClass("tablesorter")
 					         .appendTo(this);
 			var head = $("<thead>").appendTo(parent);
@@ -48,7 +47,6 @@ $.fn.extend({
 		selector.each(function() {
 			$(this).children(".jPokerTourneys").remove();
 			var parent = $("<table>").addClass("jPokerTourneys")
-						 .attr("refreshed", new Date())
 					         .addClass("tablesorter")
 						 .appendTo(this);
 			var head = $("<thead>").appendTo(parent);
@@ -82,6 +80,7 @@ $.fn.extend({
 							       .append("<td>" + this.hands_per_hour + "</td>")
 							       .append("<td>" + this.percent_flop + "</td>");
 				});
+				$(this).find(".jPokerTables").attr("refreshed", new Date());
 			});
 			if (callback) callback(selector);
 		});
@@ -105,6 +104,7 @@ $.fn.extend({
 							       .append("<td>" + this.players_quota + "</td>")
 							       .append("<td>" + this.state + "</td>");
 				});
+				$(this).find(".jPokerTourneys").attr("refreshed", new Date());
 			});
 			if (callback) callback(selector);
 		});
