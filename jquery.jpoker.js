@@ -19,7 +19,7 @@
 (function($) {
 
 $.fn.extend({
-	jPokerRefreshTables: function()
+	jPokerRefreshTables: function(callback)
 	{
 		var selector = this;
 		$.post("proxy.php", {'type': 'PacketPokerTableSelect', 'string': ''}, function(data) {
@@ -50,11 +50,12 @@ $.fn.extend({
 							       .append("<td>" + this.percent_flop + "</td>");
 				});
 			});
+			if (callback) callback();
 		});
 		return this;
 	},
 	
-	jPokerRefreshTourneys: function()
+	jPokerRefreshTourneys: function(callback)
 	{
 		var selector = this;
 		$.post("proxy.php", {'type': 'PacketPokerTourneySelect', 'string': ''}, function(data) {
@@ -79,6 +80,7 @@ $.fn.extend({
 							       .append("<td>" + this.state + "</td>");
 				});
 			});
+			if (callback) callback();
 		});
 		return this;
 	}
