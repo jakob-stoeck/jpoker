@@ -27,7 +27,8 @@ $.fn.extend({
 			var packet = packets[0];
 			var tables = packet.packets;
 			selector.each(function() {
-				var parent = $("<table>").appendTo(this);
+				$(this).children(".jPokerTables").remove();
+				var parent = $("<table>").addClass("jPokerTables").addClass("tablesorter").appendTo(this);
 				var head = $("<thead>").appendTo(parent);
 				var tr = $("<tr>").appendTo(head)
 						  .append("<th>Name</th>")
@@ -48,7 +49,6 @@ $.fn.extend({
 							       .append("<td>" + this.hands_per_hour + "</td>")
 							       .append("<td>" + this.percent_flop + "</td>");
 				});
-				$(parent).tablesorter().addClass("tablesorter");
 			});
 		});
 		return this;
@@ -62,7 +62,8 @@ $.fn.extend({
 			var packet = packets[0];
 			var tourneys = packet.packets;
 			selector.each(function() {
-				var parent = $("<table>").appendTo(this);
+				$(this).children(".jPokerTourneys").remove();
+				var parent = $("<table>").addClass("jPokerTourneys").addClass("tablesorter").appendTo(this);
 				var head = $("<thead>").appendTo(parent);
 				var tr = $("<tr>").appendTo(head)
 						  .append("<th>Description</th>")
@@ -77,7 +78,6 @@ $.fn.extend({
 							       .append("<td>" + this.players_quota + "</td>")
 							       .append("<td>" + this.state + "</td>");
 				});
-				$(parent).tablesorter().addClass("tablesorter");
 			});
 		});
 		return this;
