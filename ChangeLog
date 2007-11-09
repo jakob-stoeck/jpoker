@@ -1,5 +1,16 @@
+2007-11-09  Johan Euphrosine  <proppy@aminche.com>
+
+	* Release 1.0.4
+	* Add and rename JPoker methods: jPoker*Create, jPoker*Refresh, jPoker*RefreshInterval
+	* Add average_pot hands_per_hour percent_flop fields
+	* Fix multiple selectors bug, thanks to b2b
+	* Add index.html, tables.html, tournaments.html
+	* Add refresh buttons
+	* Rename TiddlyWiki to lobbyweb.html
+
 2007-11-03  Johan Euphrosine  <proppy@aminche.com>
 
+	* Release 1.0.3
 	* Renamed jpoker.jquery.js to jquery.jpoker.js to follow jQuery guidelines.
 	* Switch to table based layout.
 	* Add jquery.tablesorter.js support and css.
@@ -7,11 +18,13 @@
 	
 2007-11-02  Johan Euphrosine  <proppy@aminche.com>
 
+	* Release 1.0.2
 	* Renamed jpoker.js to jpoker.query.js to follow jQuery guidelines.
 	* Improved plugin declaration and indentation, thanks to Scott_Gonzalez.
 
 2007-11-01  Johan Euphrosine  <proppy@aminche.com>	
 
+	* Release 1.0.1
 	* jpoker.js, test_jpoker.html: jpoker tests and stub implementation.
 
 2007-10-31  Johan Euphrosine  <proppy@aminche.com>	
@@ -25,5 +38,6 @@
 
 2007-10-25  Johan Euphrosine  <proppy@aminche.com>
 
+	* Release 1.0.0
 	* apache2/sites-available/jpoker: Apache configuration.
 	* index.html: TiddlyWiki based specifications.
