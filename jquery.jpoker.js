@@ -27,7 +27,7 @@ $.fn.extend({
 			var packet = packets[0];
 			var tables = packet.packets;
 			selector.each(function() {
-				var parent = $("<table>").appendTo(selector);
+				var parent = $("<table>").appendTo(this);
 				var head = $("<thead>").appendTo(parent);
 				var tr = $("<tr>").appendTo(head)
 						  .append("<th>Name</th>")
@@ -62,7 +62,7 @@ $.fn.extend({
 			var packet = packets[0];
 			var tourneys = packet.packets;
 			selector.each(function() {
-				var parent = $("<table>").appendTo(selector);
+				var parent = $("<table>").appendTo(this);
 				var head = $("<thead>").appendTo(parent);
 				var tr = $("<tr>").appendTo(head)
 						  .append("<th>Description</th>")
