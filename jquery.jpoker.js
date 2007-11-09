@@ -111,24 +111,24 @@ $.fn.extend({
 		return this;
 	},
 	
-	jPokerRefreshTablesInterval: function(interval, callback)
+	jPokerRefreshTablesInterval: function(interval, callback, returnValue)
 	{
 		function refresh(selector, callback)
 		{
 		$(selector).jPokerRefreshTables(callback);
 		}
-		intervalID = setInterval(refresh, interval, this, callback);
-		return intervalID;
+		returnValue.intervalID = setInterval(refresh, interval, this, callback);
+		return this;
 	},
 
-	jPokerRefreshTourneysInterval: function(interval, callback)
+	jPokerRefreshTourneysInterval: function(interval, callback, returnValue)
 	{
 		function refresh(selector, callback)
 		{
 		$(selector).jPokerRefreshTourneys(callback);
 		}
-		intervalID = setInterval(refresh, interval, this, callback);
-		return intervalID;
+		returnValue.intervalID = setInterval(refresh, interval, this, callback);
+		return this;
 	}
 });
 
