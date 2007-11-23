@@ -3,6 +3,7 @@
 	* Release 1.0.5
 	* COPYING: add GPL-2 LICENSE
 	* proxy.php: add LICENSE header
+	* unittest.js, data.js, test_*: remove test from release
 
 2007-11-09  Johan Euphrosine  <proppy@aminche.com>
 
