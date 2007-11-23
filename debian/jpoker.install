@@ -9,8 +9,4 @@ style.css usr/share/jpoker
 asc.gif usr/share/jpoker
 bg.gif usr/share/jpoker
 desc.gif usr/share/jpoker
-unittest.js usr/share/jpoker
-data.js usr/share/jpoker
-test_post.html usr/share/jpoker
-test_jpoker.html usr/share/jpoker
 apache2/sites-available/jpoker etc/apache2/sites-available
