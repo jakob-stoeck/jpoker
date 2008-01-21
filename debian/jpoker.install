@@ -9,4 +9,4 @@ style.css usr/share/jpoker
 asc.gif usr/share/jpoker
 bg.gif usr/share/jpoker
 desc.gif usr/share/jpoker
-apache2/sites-available/jpoker etc/apache2/sites-available
+debian/apache2/sites-available/jpoker etc/apache2/sites-available
