@@ -1,0 +1,13 @@
+Source: jpoker
+Maintainer: Johan Euphrosine (proppy) <proppy@aminche.com>
+Section: web
+Priority: optional
+Standards-Version: 3.7.2
+Build-Depends: debhelper (>= 5), cdbs
+
+Package: jpoker
+Architecture: all
+Depends: apache2, libapache2-mod-php5, php5-curl
+Recommends: python-poker-network
+Description: Javascript poker client
+ List tables and tournaments of poker-network based servers.
