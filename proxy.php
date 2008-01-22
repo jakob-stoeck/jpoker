@@ -1,3 +1,4 @@
+<?php
 //
 // Copyright (C) 2007 Johan Euphrosine <proppy@aminche.com>
 //
@@ -16,7 +17,6 @@
 // Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 
-<?php
 $url = "http://127.0.0.1:19382/REST";
 $packet = $_POST;
 $postData = json_encode($packet);
