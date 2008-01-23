@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+
+<!--
+#
+# Copyright (C) 2007 Johan Euphrosine <proppy@aminche.com>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+-->
+<html>
+<head>
+<script language="JavaScript" type="text/javascript" src="jquery.js"></script>
+<script language="JavaScript" type="text/javascript" src="testrunner.js"></script>
+<script language="JavaScript" type="text/javascript" src="jquery.tablesorter.js"></script>
+<script language="JavaScript" type="text/javascript" src="jquery.jpoker.js"></script>
+
+<script>
+module("jpoker");
+
+test("test post PacketPing - click to show details", function() {
+expect(1);
+stop();
+$.post("proxy.php", {'type': 'PacketPing'}, function(data) {equals(data, "[]");start();});
+});
+
+test("test post PokerTableSelect - click to show details", function() {
+expect(3);
+stop();
+$.post("proxy.php", {'type': 'PacketPokerTableSelect', 'string': ''}, function(data) {
+packets = eval(data);
+ok(0 != packets.length, "0 != packets.length");
+packet = packets[0];
+equals(packet.type, "PacketPokerTableList");
+tables = packet.packets;
+ok(0 != tables.length, "0 != tables.length");
+start();
+});});
+
+test("test post PokerTourneySelect - click to show details", function() {
+expect(3);
+stop();
+$.post("proxy.php", {'type': 'PacketPokerTourneySelect', 'string': ''}, function(data) {
+packets = eval(data);
+ok(0 != packets.length, "0 != packets.length");
+packet = packets[0];
+equals(packet.type, "PacketPokerTourneyList");
+tables = packet.packets;
+ok(0 != tables.length, "0 != tables.length");
+start();
+});});
+
+test("test jPokerTablesRefresh single selector - click to show details", function() {
+expect(2);
+stop();
+equals($("#jpoker .table").length, 0);
+$("#jpoker").jPokerTablesCreate().jPokerTablesRefresh(function() {
+ok(0 != $("#jpoker .table").length, '0 != $("#jpoker .table").length');
+start();
+});});
+
+test("test jPokerTourneysRefresh single selector - click to show details", function() {
+expect(2);
+stop();
+equals($("#jpoker .tourney").length, 0);
+$("#jpoker").jPokerTourneysCreate().jPokerTourneysRefresh(function() {
+ok(0 != $("#jpoker .tourney").length, '0 != $("#jpoker .tourney").length');
+start();
+});});
+
+test("test jPokerTablesRefresh multiple selectors - click to show details", function() {
+expect(2);
+stop();
+equals($(".jpokertables .table").length, 0);
+$(".jpokertables").jPokerTablesCreate().jPokerTablesRefresh(function() {
+ok(0 != $(".jpokertables .table").length, '0 != $(".jpokertables .table").length');
+start();
+});});
+
+test("test jPokerTourneysRefresh multiple selectors - click to show details", function() {
+expect(2);
+stop();
+equals($(".jpokertourneys .tourney").length, 0);
+$(".jpokertourneys").jPokerTourneysCreate().jPokerTourneysRefresh(function() {
+ok(0 != $(".jpokertourneys .tourney").length, '0 != $(".jpokertourneys .tourney").length');
+start();
+});});
+
+test("test multiple jPokerTablesRefresh - click to show details", function() {
+expect(2);
+stop();
+$("#jpoker").empty();
+equals($("#jpoker .table").length, 0);
+$("#jpoker").jPokerTablesCreate().jPokerTablesRefresh(function() {
+var length = $("#jpoker .table").length;
+$("#jpoker").jPokerTablesRefresh(function() {
+equals($("#jpoker .table").length, length);
+start()
+});});});
+
+test("test multiple jPokerTourneysRefresh - click to show details", function() {
+expect(2);
+stop();
+$("#jpoker").empty();
+equals($("#jpoker .tourney").length, 0);
+$("#jpoker").jPokerTourneysCreate().jPokerTourneysRefresh(function() {
+var length = $("#jpoker .tourney").length;
+$("#jpoker").jPokerTourneysRefresh(function() {
+equals($("#jpoker .tourney").length, length);
+start()
+});});});
+
+
+test("test jPokerTablesRefreshInterval", function() {
+expect(1);
+stop();
+var returnValue = {};
+$("#jpoker").jPokerTablesCreate().jPokerTablesRefresh(function() {
+var initialRefreshed = $("#jpoker .jPokerTables").attr("refreshed");
+$("#jpoker").jPokerTablesRefreshInterval(1000, function() {
+clearInterval(returnValue.intervalID);
+ok(initialRefreshed != $("#jpoker .jPokerTables").attr("refreshed"), 'initialRefreshed != $("#jpoker .jPokerTables").attr("refreshed")');
+start();
+}, returnValue);
+});});
+
+test("test jPokerTourneysRefreshInterval", function() {
+expect(1);
+stop();
+var returnValue = {};
+$("#jpoker").jPokerTourneysCreate().jPokerTourneysRefresh(function() {
+var initialRefreshed = $("#jpoker .jPokerTourneys").attr("refreshed");
+$("#jpoker").jPokerTourneysRefreshInterval(1000, function() {
+clearInterval(returnValue.intervalID);
+ok(initialRefreshed != $("#jpoker .jPokerTourneys").attr("refreshed"), 'initialRefreshed != $("#jpoker .jPokerTourneys").attr("refreshed")');
+start();
+}, returnValue);
+});});
+
+test("clean - click to show details", function(){ 
+$("#jpoker").empty();
+});
+
+</script>
+</head>
+<body>
+<div id="main"></div>
+<ol id="tests"></ol>
+
+<div id="jpoker">
+<div class="jpokertables"></div>
+<div class="jpokertables"></div>
+<div class="jpokertourneys"></div>
+<div class="jpokertourneys"></div>
+</div>
+
+</body>
+</html>
