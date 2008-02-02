@@ -17,7 +17,8 @@
 // Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 
-$url = "http://127.0.0.1:19382/REST";
+//$url = "http://127.0.0.1:19382/REST";
+require "/etc/jpoker.conf";
 $packet = $_POST;
 $postData = json_encode($packet);
 

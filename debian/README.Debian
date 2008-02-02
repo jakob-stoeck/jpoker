@@ -2,9 +2,8 @@ jpoker for Debian
 -----------------
 
 Jpoker requires access to a poker server in order to work. The poker
-server is provided by the python-poker-network package. By default the
-URL points to http://jspoker.pokersource.info/REST, it can be changed
-in /etc/jpoker.conf.
+server is provided by the python-poker-network package. If the server is
+located on a remote machine the URL need to be changed in /etc/jpoker.conf.
 
 On first installation the jpoker software is autmatically enabled using
 	a2ensite jpoker
@@ -14,5 +13,4 @@ You can use the above command in order to enable it again.
 If you want to disable it you can run
 	a2dissite jpoker
 
- -- Johan Euphrosine (proppy) <proppy@aminche.com>, Thu, 13 Mar 2008 17:54:36 +0100
  -- Ola Lundqvist <opal@debian.org>, Mon, 28 Jan 2008 20:08:06 +0100
