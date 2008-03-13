@@ -1,16 +1,4 @@
-test.html usr/share/jpoker
-testrunner.js usr/share/jpoker
-index.html usr/share/jpoker
-tables.html usr/share/jpoker
-tournaments.html usr/share/jpoker
-proxy.php usr/share/jpoker
-jquery.js usr/share/jpoker
-jquery.jpoker.js usr/share/jpoker
-jquery.tablesorter.js usr/share/jpoker
-style.css usr/share/jpoker
-asc.gif usr/share/jpoker
-bg.gif usr/share/jpoker
-desc.gif usr/share/jpoker
+jpoker usr/share
 debian/apache2/conf.d/jpoker etc/apache2/conf.d
 debian/apache2/sites-available/jpoker etc/apache2/sites-available
 debian/jpoker.conf etc
