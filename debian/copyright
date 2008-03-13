@@ -5,47 +5,26 @@ It was downloaded from http://jpoker.aminche.com/
 
 Upstream Authors:
 	Johan Euphrosine <proppy@aminche.com>
-	John Resig (jquery.com)
-	Christian Bach
+	Loic Dachary <loic@dachary.org>
+	Saq Imtiaz <lewcid@gmail.com>
 
 This package consists of files from different sources and with different
 copyright and license. Either they are dual licensed (MIT+GPL) or
 single GPL licensed. The license or reference to license can be seen below.
 
-
-
-
 Copyright for:
-	jquery.js
+	jquery.js jquery.
 
    Copyright (c) 2007 John Resig (jquery.com)
-	Licensed under MIT and GPL
-
-
+	Licensed under MIT and GPLv2+
 
 Copyright for:
 	jquery.tablesorter.js
 
    Copyright (c) 2007 Christian Bach
-	Licensed under MIT and GPL
+	Licensed under MIT and GPLv2+
 
-
-
-Copyright for:
-	index.html
-	jquery.jpoker.js
-	proxy.php
-	tables.html
-	test.html
-	testrunner.js
-	style.css
-	tournaments.html
-
-   Copyright (c) 2007 Johan Euphrosine <proppy@aminche.com>
-	Licensed under GPL.
-
-
-
+License for all other files is GPLv3+
 
 ------------------------------------------------------------------------------
 MIT License
@@ -70,21 +49,41 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------------------------------------------------------------------------------
-GPL License
+GPLv2+ License
 
    This package is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; version 2 dated June, 1991.
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
 
    This package is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this package; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
-   02110-1301, USA.
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+On Debian systems, the complete text of the GNU General
+Public License can be found in `/usr/share/common-licenses/GPL'.
+
+------------------------------------------------------------------------------
+GPLv3+ License
+
+   This package is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This package is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 On Debian systems, the complete text of the GNU General
 Public License can be found in `/usr/share/common-licenses/GPL'.

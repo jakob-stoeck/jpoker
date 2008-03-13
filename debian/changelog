@@ -1,3 +1,11 @@
+jpoker (1.0.8-1) unstable; urgency=low
+
+  * New upstream version
+  * Run rhino test at post-build
+  * Update packaging licensing to GPL2+
+
+ -- 
+
 jpoker (1.0.7-1) unstable; urgency=low
 
   * New upstream release.
