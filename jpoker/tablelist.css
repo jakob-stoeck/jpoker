@@ -1,0 +1,15 @@
+table.jPokerTableList {
+	border:1px solid #24B300;
+}
+
+table.jPokerTableList td {
+	padding: 0.5em 1em;
+}
+
+table.jPokerTableList tr.evenRow{
+	background:#CCFFBF;
+}
+
+table.jPokerTableList thead td,  table.jPokerTableList th  {
+	background: #73BF60;
+}
