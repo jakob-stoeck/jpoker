@@ -16,7 +16,8 @@
 //     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 config.macros.jpokerTableList = {
-    handler : function(place,macroName,params,wikifier,paramString,tiddler) {
-        $(place).jpoker('tableList', $.jpoker.com);
-    }
+	handler : function(place,macroName,params,wikifier,paramString,tiddler) {
+		var j = new jpoker.TableList(place);
+		jpoker.TableList.prototype.refresh(j.id);
+	}
 };
