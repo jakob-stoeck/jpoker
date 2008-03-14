@@ -3,6 +3,8 @@ jpoker (1.0.8-1) unstable; urgency=low
   * New upstream version
   * Run rhino test at post-build
   * Update packaging licensing to GPLv3+
+  * Add ProxyPass to jspoker.pokersource.info
+  * Enable jpoker site when upgrading
 
  -- Loic Dachary <loic@dachary.org>  Thu, 13 Mar 2008 10:26:07 +0000
 
