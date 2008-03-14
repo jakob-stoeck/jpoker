@@ -2,6 +2,8 @@
 
 	* Release 1.0.8
 
+	* remove GPL-LICENSE.txt because MIT fits.
+	
 	* upgrade to GPLv3+
 
 	* implement packet communication layer

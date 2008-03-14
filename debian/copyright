@@ -9,20 +9,20 @@ Upstream Authors:
 	Saq Imtiaz <lewcid@gmail.com>
 
 This package consists of files from different sources and with different
-copyright and license. Either they are dual licensed (MIT+GPL) or
-single GPL licensed. The license or reference to license can be seen below.
+copyright and license. All files are under a GPLv3+ compatible license. 
+The license or reference to license can be seen below.
 
 Copyright for:
 	jpoker/jquery.js jpoker/jquery.ajaxQueue.js
 
    Copyright (c) 2007 John Resig (jquery.com)
-	Licensed under MIT and GPLv2+
+	Licensed under MIT
 
 Copyright for:
 	jpoker/jquery.tablesorter.js
 
    Copyright (c) 2007 Christian Bach
-	Licensed under MIT and GPLv2+
+	Licensed under MIT
 
 Copyright for:
 	tiddlywiki as found in jpoker/poker.html
