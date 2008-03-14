@@ -1,4 +1,3 @@
 jpoker usr/share
 debian/apache2/conf.d/jpoker etc/apache2/conf.d
 debian/apache2/sites-available/jpoker etc/apache2/sites-available
-debian/jpoker.conf etc

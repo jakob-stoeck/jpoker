@@ -1,9 +1,8 @@
 #!/bin/bash
 set -e
 
-# If the option is configure and no previous version has been configured then
-# enable the site configuration.
-if [ "$1" = "configure" ] && [ -z "$2" ] ; then
+# If the option is configure then enable the site configuration.
+if [ "$1" = "configure" ] ; then
     if [ -x "$(which a2ensite)" ] ; then
 	a2ensite jpoker || true
     fi
