@@ -18,6 +18,8 @@
 //
 module("jpoker");
 
+var jpoker = $.fn.jpoker;
+
 test("jpoker: unique id generation test", function() {
         expect(10);
         var i = 0;
@@ -185,14 +187,14 @@ test("jpoker.com:sendPacket", function(){
         var handler = function(com, id, packet) {
             handled = [ com, id, packet ];
         };
-        self.registerHandler(self, 0, handler);
+        self.registerHandler(0, handler);
 
         var type = 'type1';
         var packet = {type: type};
 
-        self.sendPacket(self, packet);
+        self.sendPacket(packet);
 
-        self.unregisterHandler(self, 0, handler);
+        self.unregisterHandler(0, handler);
 
         equals(handled[0], self);
         equals(handled[1], 0);
@@ -207,7 +209,7 @@ test("jpoker.com:dequeueIncoming clearTimeout", function(){
         self.clearTimeout = function(id) { cleared = true; };
         self.setTimeout = function(cb, delay) { throw "setTimeout"; };
         
-        self.dequeueIncoming(self);
+        self.dequeueIncoming();
 
         ok(cleared);
     });
@@ -232,7 +234,7 @@ test("jpoker.com:dequeueIncoming setTimeout", function(){
                                     'delay':  0 },
                            'low': {'packets': [],
                                    'delay': 0 } }
-        self.dequeueIncoming(self);
+        self.dequeueIncoming();
 
         ok(!(1 in self.queues));
         ok(timercalled);
@@ -253,9 +255,9 @@ test("jpoker.com:dequeueIncoming handle", function(){
         var handler = function(com, id, packet) {
             handled = [ com, id, packet ];
         };
-        self.registerHandler(self, 0, handler);
-        self.dequeueIncoming(self);
-        self.unregisterHandler(self, 0, handler);
+        self.registerHandler(0, handler);
+        self.dequeueIncoming();
+        self.unregisterHandler(0, handler);
 
         equals(self.queues[0], undefined);
 
@@ -278,24 +280,24 @@ test("jpoker.com:dequeueIncoming delayed", function(){
 
         var packet = { type: 'type1', time__: 1 };
         var delay = 10;
-        self.delayQueue(self, 0, delay);
+        self.delayQueue(0, delay);
         equals(self.delays[0], delay);
         self.queues[0] = { 'high': {'packets': [],
                                     'delay':  0 },
                            'low': {'packets': [packet],
                                    'delay': 0 } }
-        self.dequeueIncoming(self);
+        self.dequeueIncoming();
         equals(self.queues[0].low.packets[0], packet);
         equals(self.queues[0].low.delay, delay);
 
         var message = false;
         self.verbose = 1;
         self.message = function(str) { message = true; }
-        self.dequeueIncoming(self);
+        self.dequeueIncoming();
         equals(self.queues[0].low.delay, delay);
         ok(message, "message");
 
-        self.noDelayQueue(self, 0);
+        self.noDelayQueue(0);
         equals(self.delays[0], undefined);
 
         self.queues = {};
@@ -319,9 +321,9 @@ test("jpoker.com:dequeueIncoming lagmax", function(){
         var handler = function(com, id, packet) {
             handled = [ com, id, packet ];
         };
-        self.registerHandler(self, 0, handler);
-        self.dequeueIncoming(self);
-        self.unregisterHandler(self, 0, handler);
+        self.registerHandler(0, handler);
+        self.dequeueIncoming();
+        self.unregisterHandler(0, handler);
         equals(handled[0], self);
         equals(handled[1], 0);
         equals(handled[2], packet);
@@ -340,7 +342,7 @@ test("jpoker.com:queueIncoming", function(){
                        {'type': 'PacketType3', 'game_id': 1},
                        {'type': high_type, 'game_id': 1}
                        ];
-        self.queueIncoming(self, packets);
+        self.queueIncoming(packets);
         equals(self.queues[0].low.packets[0].type, 'PacketType1');
         equals(self.queues[0].low.packets[1].type, 'PacketType2');
         equals(self.queues[1].low.packets[0].type, 'PacketType3');

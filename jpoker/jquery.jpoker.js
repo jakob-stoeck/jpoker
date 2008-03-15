@@ -16,157 +16,134 @@
 //     You should have received a copy of the GNU General Public License
 //     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
+$.fn.jpoker = function(name, options) {
+    return this.each(function() {
+            var $this = $(this);
+            eval('jQuery.jpoker.' + name + '.call($this, opts)');
+        });
+};
 
 (function($) {
 
-    $.fn.jpoker = function() {
-        var args = Array.prototype.slice.call(arguments);
-        var name = args.shift();
-        $.jpoker.plugins[name].apply(this, args);
-    };
-
-    $.jpoker = {
-
-        serial: 1,
-        uid: function() { return "jpoker" + $.jpoker.serial++ ; },
-
-        error: function(e) {
-            this.errorHandler(e);
-            throw e;
-        },
-
-        errorHandler: function(e) {
-            
-        }
-    };
+    $.fn.jpoker.uid = (
+                      function(){
+                          var id=0;
+                          return function(){
+                              return id++ ;
+                          };
+                      }
+                       )();
 	
-    var jpoker = $.jpoker;
+})(jQuery);
 
-    //
-    // refresh element "id" with the "handler" function after sending
-    // a packets with the "request" function to the "com" poker server 
-    //
-    jpoker.syncElement = function(com, id, request, handler, options) {
+(function($) {
 
-        var opts = $.extend({}, this.syncElement.defaults, options);
-        
-        var waiting = false;
+    var jpoker = $.fn.jpoker;
 
-        var time_sent = 0;
-
-        var callback = function() {
-            var element = opts.getElementById(id);
-            if(element) {
-                if(waiting) {
-                    if(( com.now() - time_sent ) > opts.timeout) {
-                        jpoker.error("$this timed out after " + opts.timeout + " seconds trying to update element id " + id);
-                    }
-                } else {
-                    time_sent = com.now();
-                    waiting = true;
-                    request(com, element);
-                }
-                return true;
-            } else {
-                opts.clearInterval(timer);
-                return false;
-            }
-        };
-        
-        if(callback()) {
-
-            var timer = opts.setInterval(callback, opts.delay);
-
-            var cb = function(com, game_id, packet) {
-                waiting = false;
-                var element = opts.getElementById(id);
-                if(element) {
-                    handler(com, element, packet);
-                }
-            };
-
-            com.registerHandler(opts.game_id, cb, opts);
-        }
-
-        return true;
-    };
-        
-    jpoker.syncElement.defaults = {
-        delay: 5000,
-        timeout: 20000,
-        game_id: 0,
-
-        setInterval: function(cb, delay) { return window.setInterval(cb, delay); },
-        clearInterval: function(id) { return window.clearInterval(id); },
-        getElementById: function(id) { return document.getElementById(id); }
-    };
-    
-    //
-    // jQuery plugin container (must only contain jQuery plugins)
-    //
-    jpoker.plugins = {};
-
-    //
-    // jQuery widget that displays a list of tables from 
-    // the "com" poker server
-    //
-    jpoker.plugins.tableList = function(com, options) {
-        var tableList = jpoker.plugins.tableList;
-        var opts = $.extend({}, tableList.defaults, options);
+    jpoker.TableList = function(fun, options) {
+        var opts = $.extend({}, jpoker.TableList.defaults, options);
         
         return this.each(function() {
                 var $this = $(this);
                 
-                id = jpoker.uid();
+                $this.place = place;
 		
-                $this.append('<table class="jPokertableList" id="' + id + '"></table>');
-
-                var request = function(com, element) {
-                    com.sendPacket({
-                            "type": "PacketPokerTableSelect",
-                            "string": opts.string
-                        });
+                $this.key = key || 'jpoker_autoid_';
+		
+                $this.getId = function(){
+                    return $this.key + jpoker.uid();
                 };
+        
+                $this.id = id = id || $this.getId();
+		
+                $this.table = $(place).append('<table class="jPokerTableList" id="' + $this.id + '"></table>');
 
-                var handler = function(com, element, packet) {
-                    $(element).html(tableList.getHTML(packet));
+                var cb = function(com, game_id, packet) {
+                    $this.populateTable(id, packet);
                 };
+                jpoker.com.registerHandler(0, cb);
 
-                jpoker.syncElement(com, id, request, handler, options);
-
-                return $this;
+                return id;
             });
     };
 
-    jpoker.plugins.tableList.defaults = $.extend({
-        string: ''
-        }, jpoker.syncElement.defaults);
+    var attr = {
 
-    jpoker.plugins.tableList.getHTML = function(packet) {
-        var t = this.templates;
-        var html = [];
-        html.push(t.header);
-        for(var i = 0; i < packet.packets.length; i++) {
-            var subpacket = packet.packets[i];
-            var rowHTML = t.rows;
-            $.each(subpacket, function(n,val){
-                    rowHTML = rowHTML.replace('\%'+n,val);
-                });
-            html.push(rowHTML.replace('\%class',(i%2? 'evenRow':'oddRow')));
+        defaults = { },
+
+        place: null,
+
+        key: null,
+
+        id: null,
+
+        table: null,
+
+        interval: 5000,
+	
+        timerId: null,
+
+        clearTimeout: function(id) { return window.clearTimeout(id); },
+
+        setTimeout: function(cb, delay) { return window.setTimeout(cb, delay); },
+
+        setTimer: function(id) {
+            this.clearTimeout(this.timerId);
+            var $this = this;
+            this.timerId = this.setTimeout(function(){
+                    $this.refresh(id);
+                },
+                this.interval);
+        },
+
+        refresh: function(id) {
+            if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1) {
+                window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+            }
+            jpoker.com.sendPacket({"type": "PacketPokerTableSelect", "string": ""});
+        },
+	
+        populateTable: function(id, packet) {
+            var table = document.getElementById(id);
+            if (table) {
+                $(table).html(this.getHTML(packet));
+                this.setTimer(id);
+            }
+        },
+	
+        getHTML: function(packet) {
+            var c = this;
+            var t = c.templates;
+            var html = [];
+            html.push(t.header);
+            for(var i = 0; i < packet.packets.length; i++) {
+                var subpacket = packet.packets[i];
+                var rowHTML = t.rows;
+                $.each(subpacket, function(n,val){
+                        rowHTML = rowHTML.replace('\%'+n,val);
+                    });
+                html.push(rowHTML.replace('\%class',(i%2? 'evenRow':'oddRow')));
+            }
+            html.push(t.footer);
+            return html.join('\n');
+        },
+
+        templates: {
+            header : '<thead><tr><td>Name</td><td>Players</td><td>Seats</td><td>Betting Structure</td><td>Average Pot</td><td>Hands/Hour</td><td>%Flop</td></tr></thead><tbody>',
+            rows : '<tr class="%class"><td>%name</td><td>%players</td><td>%seats</td><td>%betting_structure</td><td>%average_pot</td><td>%hands_per_hour</td><td>%percent_flop</td></tr>',
+            footer : '</tbody>'
         }
-        html.push(t.footer);
-        return html.join('\n');
     };
+    
+    $.each(attr, function(a) {
+            jpoker.TableList.prototype[a] = this;
+        });
+};
 
-    jpoker.plugins.tableList.templates = {
-        header : '<thead><tr><td>Name</td><td>Players</td><td>Seats</td><td>Betting Structure</td><td>Average Pot</td><td>Hands/Hour</td><td>%Flop</td></tr></thead><tbody>',
-        rows : '<tr class="%class"><td>%name</td><td>%players</td><td>%seats</td><td>%betting_structure</td><td>%average_pot</td><td>%hands_per_hour</td><td>%percent_flop</td></tr>',
-        footer : '</tbody>'
-    };
+(function($) {
 
-    //
-    // manage incoming and outgoing packet queues to the poker server
-    //
+    var jpoker = $.fn.jpoker;
+
     jpoker.com = {
 
         request: {
@@ -258,15 +235,15 @@
         },
 
         sendPacket: function(packet) {
-            var $this = this;
             var args = {
                 data: JSON.stringify(packet),
                 success: function(data, status) {
-                    $this.queueIncoming(data);
+                    this.queueIncoming(data);
                 }
             };
             this.ajax(jQuery.extend(args, this.request));
             this.clearTimeout(this.outgoingTimer);
+            var $this = this;
             this.outgoingTimer = this.setTimeout(function() {
                     $this.sendPacket({ type: "PacketPing" });
                 }, this.pingFrequency);
@@ -305,7 +282,7 @@
                 this.pollFrequency);
         },
 
-        dequeueIncoming: function() {
+        dequeueIncoming: function(this) {
             if(!this.blocked) {
                 now = this.now();
                 this.lag = 0;
