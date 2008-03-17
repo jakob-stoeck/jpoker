@@ -20,7 +20,7 @@
 //
 // dispatch the jpoker jQuery widget "name" to the appropriate
 // implementation in the jpoker name space
-//
+
 jQuery.fn.jpoker = function(name, options) {
     return this.each(function() {
             var $this = $(this);
@@ -30,9 +30,7 @@ jQuery.fn.jpoker = function(name, options) {
 
 (function($) {
 
-    var jpoker = $.jpoker;
-
-    jpoker = {
+    $.jpoker = {
         uid: (
               function(){
                   var id=0;
@@ -50,42 +48,102 @@ jQuery.fn.jpoker = function(name, options) {
         }
     };
 	
+    var jpoker = $.jpoker;
+
+    //
+    // refresh element "id" with the "handler" function after sending
+    // a packets with the "request" function to the "com" poker server 
+    //
+    jpoker.syncElement = function(com, id, request, handler, options) {
+
+        var opts = $.extend({}, this.syncElement.defaults, options);
+        
+        var waiting = false;
+
+        var time_sent = 0;
+
+        var callback = function() {
+            var element = opts.getElementById(id);
+            if(element) {
+                if(waiting) {
+                    if(( com.now() - time_sent ) > opts.timeout) {
+                        jpoker.error("$this timed out after " + opts.timeout + " seconds trying to update element id " + id);
+                    }
+                } else {
+                    time_sent = com.now();
+                    waiting = true;
+                    request(com, element);
+                }
+                return true;
+            } else {
+                opts.clearInterval(timer);
+                return false;
+            }
+        };
+        
+        if(callback()) {
+
+            var timer = opts.setInterval(callback, opts.delay);
+
+            var cb = function(com, game_id, packet) {
+                waiting = false;
+                var element = opts.getElementById(id);
+                if(element) {
+                    handler(com, element, packet);
+                }
+            };
+
+            com.registerHandler(opts.game_id, cb, opts);
+        }
+
+        return true;
+    };
+        
+    jpoker.syncElement.defaults = {
+        delay: 5000,
+        timeout: 20000,
+        game_id: 0,
+        setInterval: function(cb, delay) { return window.setInterval(cb, delay); },
+        clearInterval: function(id) { return window.clearInterval(id); },
+        getElementById: function(id) { return document.getElementById(id); }
+    };
+    
     //
     // jQuery widget that displays a list of tables from 
     // the "com" poker server
     //
-    jpoker.TableList = function(com, options) {
-        var opts = $.extend({}, jpoker.TableList.defaults, options);
+    jpoker.tableList = function(com, options) {
+        var opts = $.extend({}, jpoker.tableList.defaults, options);
         
         return this.each(function() {
                 var $this = $(this);
                 
                 id = jpoker.uid();
 		
-                $this.append('<table class="jPokerTableList" id="' + id + '"></table>');
+                $this.append('<table class="jPokertableList" id="' + id + '"></table>');
 
                 var request = function(com, element) {
                     com.sendPacket({
                             "type": "PacketPokerTableSelect",
-                            "string": opts['string']
+                            "string": opts.string
                         });
                 };
 
                 var handler = function(com, element, packet) {
-                    $(element).html(jpoker.TableList.getHTML(packet));
+                    $(element).html(jpoker.tableList.getHTML(packet));
                 };
 
-                jpoker.SyncElement(com, id, request, handler, options);
+                jpoker.syncElement(com, id, request, handler, options);
 
                 return $this;
             });
     };
 
-    jpoker.TableList.defaults = $.extend({
+    jpoker.tableList.defaults = $.extend({
         string: ''
-        }, jpoker.SyncElement.default);
+        }, jpoker.syncElement.defaults);
 
-    jpoker.TableList.getHTML = {
+    jpoker.tableList.getHTML = function(packet) {
         var t = this.templates;
         var html = [];
         html.push(t.header);
@@ -101,62 +159,12 @@ jQuery.fn.jpoker = function(name, options) {
         return html.join('\n');
     };
 
-    jpoker.TableList.templates = {
+    jpoker.tableList.templates = {
         header : '<thead><tr><td>Name</td><td>Players</td><td>Seats</td><td>Betting Structure</td><td>Average Pot</td><td>Hands/Hour</td><td>%Flop</td></tr></thead><tbody>',
         rows : '<tr class="%class"><td>%name</td><td>%players</td><td>%seats</td><td>%betting_structure</td><td>%average_pot</td><td>%hands_per_hour</td><td>%percent_flop</td></tr>',
         footer : '</tbody>'
     };
 
-    //
-    // refresh element "id" with the "handler" function after sending
-    // a packets with the "request" function to the "com" poker server 
-    //
-    jpoker.SyncElement = function(com, id, request, handler, options) {
-        var opts = $.extend({}, jpoker.SyncElement.defaults, options);
-        
-        var waiting = false;
-
-        var time_sent = 0;
-
-        var timer = jpoker.SyncElement.setInterval(function() {
-                var element = jpoker.SyncElement.getElementById(id);
-                if(element) {
-                    if(waiting) {
-                        if(( com.now() - time_sent ) > opts['delay']) {
-                            jpoker.error("jpoker.SyncElement timed out after " + opts['delay'] + " seconds trying to update element id " + id);
-                        }
-                    } else {
-                        time_sent = com.now();
-                        waiting = true;
-                        request(com, element);
-                    }
-                } else {
-                    jpoker.SyncElement.clearInterval(timer);
-                }
-            }, opts['delay']);
-
-        var cb = function(com, game_id, packet) {
-            waiting = false;
-            var element = jpoker.SyncElement.getElementById(id);
-            if(element) {
-                handler(com, element, packet);
-            }
-        };
-
-        com.registerHandler(opts['game_id'], cb, opts);
-
-    };
-        
-    jpoker.SyncElement.defaults = {
-        delay: 5000,
-        game_id: 0
-        
-    };
-    
-    jpoker.SyncElement.setInterval = function(cb, delay) { return window.setInterval(cb, delay); };
-    jpoker.SyncElement.clearInterval = function(id) { return window.clearInterval(id); };
-    jpoker.SyncElement.getElementById = function(id) { return document.getElementById(id); };
-    
     //
     // manage incoming and outgoing packet queues to the poker server
     //
