@@ -119,7 +119,7 @@
                 
                 id = jpoker.uid();
 		
-                $this.append('<table class="jpokerTableList" id="' + id + '"></table>');
+                $this.append('<table class="jPokertableList" id="' + id + '"></table>');
 
                 var request = function(com, element) {
                     com.sendPacket({
