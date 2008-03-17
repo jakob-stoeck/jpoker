@@ -1,1 +1,8 @@
 Alias /jpoker /usr/share/jpoker
+ProxyRequests Off
+<Proxy *>
+  Order deny,allow
+  Allow from all
+</Proxy>
+ProxyPass /REST http://jspoker.pokersource.info/REST
+ProxyPassReverse /REST http://jspoker.pokersource.info/REST
