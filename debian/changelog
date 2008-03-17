@@ -6,7 +6,7 @@ jpoker (1.0.8-1) unstable; urgency=low
   * Add ProxyPass to jspoker.pokersource.info
   * Enable jpoker site when upgrading
 
- -- Loic Dachary <loic@dachary.org>  Thu, 13 Mar 2008 10:26:07 +0000
+ -- Johan Euphrosine (proppy) <proppy@aminche.com>  Thu, 13 Mar 2008 10:26:07 +0000
 
 jpoker (1.0.7-1) unstable; urgency=low
 
