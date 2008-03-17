@@ -52,14 +52,14 @@
         
         var waiting = false;
 
-        var time_sent = 0;
+        var time_sent = com.now();
 
         var callback = function() {
             var element = opts.getElementById(id);
             if(element) {
                 if(waiting) {
                     if(( com.now() - time_sent ) > opts.timeout) {
-                        jpoker.error("$this timed out after " + opts.timeout + " seconds trying to update element id " + id);
+                        jpoker.error("$this timed out after " + (com.now() - time_sent) + " seconds trying to update element id " + id);
                     }
                 } else {
                     time_sent = com.now();
@@ -92,8 +92,8 @@
     };
         
     jpoker.syncElement.defaults = {
-        delay: 5000,
-        timeout: 20000,
+        delay: 120000,
+        timeout: 30000,
         game_id: 0,
 
         setInterval: function(cb, delay) { return window.setInterval(cb, delay); },
