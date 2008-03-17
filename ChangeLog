@@ -6,7 +6,13 @@
 	
 	* upgrade to GPLv3+
 
-	* implement packet communication layer
+	* implement packet communication layer 
+
+	* implement dom element synchronisation base class
+
+	* reorganize the name space
+
+	* fix apache adaptor problem in debian package 
 
 2008-01-23  Johan Euphrosine  <proppy@aminche.com>
 
