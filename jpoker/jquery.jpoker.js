@@ -17,32 +17,24 @@
 //     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-//
-// dispatch the jpoker jQuery widget "name" to the appropriate
-// implementation in the jpoker name space
-
-jQuery.fn.jpoker = function(name, options) {
-    return this.each(function() {
-            var $this = $(this);
-            eval('jQuery.jpoker.' + name + '.call($this, options)');
-        });
-};
-
 (function($) {
 
+    $.fn.jpoker = function() {
+        var args = Array.prototype.slice.call(arguments);
+        var name = args.shift();
+        $.jpoker.plugins[name].apply(this, args);
+    };
+
     $.jpoker = {
-        uid: (
-              function(){
-                  var id=0;
-                  return function(){
-                      return "jpoker" + id++ ;
-                  };
-              }
-              )(),
+
+        serial: 1,
+        uid: function() { return "jpoker" + $.jpoker.serial++ ; },
+
         error: function(e) {
             this.errorHandler(e);
             throw e;
         },
+
         errorHandler: function(e) {
             
         }
@@ -103,17 +95,24 @@ jQuery.fn.jpoker = function(name, options) {
         delay: 5000,
         timeout: 20000,
         game_id: 0,
+
         setInterval: function(cb, delay) { return window.setInterval(cb, delay); },
         clearInterval: function(id) { return window.clearInterval(id); },
         getElementById: function(id) { return document.getElementById(id); }
     };
     
     //
+    // jQuery plugin container (must only contain jQuery plugins)
+    //
+    jpoker.plugins = {};
+
+    //
     // jQuery widget that displays a list of tables from 
     // the "com" poker server
     //
-    jpoker.tableList = function(com, options) {
-        var opts = $.extend({}, jpoker.tableList.defaults, options);
+    jpoker.plugins.tableList = function(com, options) {
+        var tableList = jpoker.plugins.tableList;
+        var opts = $.extend({}, tableList.defaults, options);
         
         return this.each(function() {
                 var $this = $(this);
@@ -130,7 +129,7 @@ jQuery.fn.jpoker = function(name, options) {
                 };
 
                 var handler = function(com, element, packet) {
-                    $(element).html(jpoker.tableList.getHTML(packet));
+                    $(element).html(tableList.getHTML(packet));
                 };
 
                 jpoker.syncElement(com, id, request, handler, options);
@@ -139,11 +138,11 @@ jQuery.fn.jpoker = function(name, options) {
             });
     };
 
-    jpoker.tableList.defaults = $.extend({
+    jpoker.plugins.tableList.defaults = $.extend({
         string: ''
         }, jpoker.syncElement.defaults);
 
-    jpoker.tableList.getHTML = function(packet) {
+    jpoker.plugins.tableList.getHTML = function(packet) {
         var t = this.templates;
         var html = [];
         html.push(t.header);
@@ -159,7 +158,7 @@ jQuery.fn.jpoker = function(name, options) {
         return html.join('\n');
     };
 
-    jpoker.tableList.templates = {
+    jpoker.plugins.tableList.templates = {
         header : '<thead><tr><td>Name</td><td>Players</td><td>Seats</td><td>Betting Structure</td><td>Average Pot</td><td>Hands/Hour</td><td>%Flop</td></tr></thead><tbody>',
         rows : '<tr class="%class"><td>%name</td><td>%players</td><td>%seats</td><td>%betting_structure</td><td>%average_pot</td><td>%hands_per_hour</td><td>%percent_flop</td></tr>',
         footer : '</tbody>'

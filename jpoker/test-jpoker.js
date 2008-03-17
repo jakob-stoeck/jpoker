@@ -22,135 +22,9 @@ var jpoker = $.jpoker;
 
 test("jpoker: unique id generation test", function() {
         expect(2);
-        equals(jpoker.uid(), "jpoker0");
         equals(jpoker.uid(), "jpoker1");
+        equals(jpoker.uid(), "jpoker2");
     });
-
-var XMLHttpRequest = function() {};
-
-XMLHttpRequest.prototype = {
-    headers: [],
-
-    server: null,
-
-    readyState: 4,
-
-    status: 200,
-
-    responseText: "",
-
-    open: function(type, url, async) {
-        //window.console.log(url);
-    },
-    
-    setRequestHeader: function(header) {
-        this.headers.push(header);
-    },
-    
-    getResponseHeader: function(header) {
-        if(header == "content-type") {
-            return "text/plain";
-        } else {
-            return null;
-        }
-    },
-
-    send: function(data) {
-        this.server.handle(data);
-        this.responseText = this.server.outgoing; 
-    }
-};
-
-// var TABLE_LIST_PACKET = {"players": 4, "type": "PacketPokerTableList", "packets": [{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 1535, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 4, "waiting": 0, "skin": "default", "id": 100, "type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Two", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 101,"type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Three", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-pot-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 102,"type": "PacketPokerTable", "player_timeout": 60}]};
-
-// test("jpoker.TableList: new", function(){
-//         expect(2);
-//         var tableList = jpoker.TableList;
-
-//         tableList.prototype.clearTimeout = function(id) { };
-//         tableList.prototype.setTimeout = function(cb, delay) { };
-
-//         var id = 'testtableid';
-//         var place = $("#main");
-//         var t = place.jpoker('TableList', { id: id });
-
-//         var element = $("#" + id, place);
-//         equals(element.length, 1);
-//         equals(typeof jpoker.com.handlers[0][0], 'function');
-
-//         element.remove();
-
-//         jpoker.com.handlers = {};
-//     });
-
-// test("jpoker.TableList: refresh", function(){
-//         expect(3);
-//         com = jpoker.com;
-
-//         //
-//         // Mockup server that will always return TABLE_LIST_PACKET,
-//         // whatever is sent to it.
-//         //
-//         var PokerServer = function() {};
-
-//         PokerServer.prototype = {
-//             outgoing: "[ " + JSON.stringify(TABLE_LIST_PACKET) + " ]",
-
-//             handle: function(packet) { }
-//         };
-
-//         XMLHttpRequest.prototype.server = new PokerServer();
-
-//         com.request.async = false;
-//         delete com.request.mode;
-
-//         com.clearTimeout = function(id) { };
-//         com.setTimeout = function(cb, delay) {};
-
-//         var tableList = jpoker.TableList;
-
-//         tableList.prototype.clearTimeout = function(id) { };
-//         tableList.prototype.setTimeout = function(cb, delay) { };
-
-//         var id = 'testtableid';
-//         var place = $("#main");
-//         var t = place.jpoker('TableList', { id: id });
-//         jpoker.TableList.prototype.refresh(id);
-//         // the answer from the PokerServer is waiting in the incoming queue
-//         equals(com.queues[0].low.packets.length, 1);
-//         equals(com.queues[0].low.packets[0].type, TABLE_LIST_PACKET['type']);
-//         com.dequeueIncoming();
-
-//         var tr = $("#" + id + " tr", place);
-//         equals(tr.length, 4);
-
-//         $("#" + id, place).remove();
-//         jpoker.com.handlers = {};
-//     });
-
-// test("jpoker.TableList: populateTable", function(){
-//         expect(3);
-//         var tableList = jpoker.TableList;
-
-//         var timerId = 42;
-//         tableList.prototype.clearTimeout = function(id) { };
-//         tableList.prototype.setTimeout = function(cb, delay) { return timerId; };
-
-// 	var packet = TABLE_LIST_PACKET;
-
-//         var id = 'testtableid';
-//         var place = $("#main");
-//         var t = new tableList(place, null, id);
-//         t.populateTable(id, packet);
-
-//         var tr = $("#" + id + " tr", place);
-//         equals(t.id, id);
-//         equals(tr.length, 4);
-//         equals(tableList.prototype.timerId, timerId);
-
-//         $("#" + id, place).remove();
-//         jpoker.com.handlers = {};
-//     });
 
 test("jpoker.syncElement", function(){
         expect(13);
@@ -407,4 +281,90 @@ test("jpoker.com:queueIncoming", function(){
         equals(self.queues[0].low.packets[1].type, 'PacketType2');
         equals(self.queues[1].low.packets[0].type, 'PacketType3');
         equals(self.queues[1].high.packets[0].type, high_type);
+
+        self.queues = {};
     });
+
+var XMLHttpRequest = function() {};
+
+XMLHttpRequest.prototype = {
+    headers: [],
+
+    server: null,
+
+    readyState: 4,
+
+    status: 200,
+
+    responseText: "",
+
+    open: function(type, url, async) {
+        //window.console.log(url);
+    },
+    
+    setRequestHeader: function(header) {
+        this.headers.push(header);
+    },
+    
+    getResponseHeader: function(header) {
+        if(header == "content-type") {
+            return "text/plain";
+        } else {
+            return null;
+        }
+    },
+
+    send: function(data) {
+        this.server.handle(data);
+        this.responseText = this.server.outgoing; 
+    }
+};
+
+var TABLE_LIST_PACKET = {"players": 4, "type": "PacketPokerTableList", "packets": [{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 1535, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 4, "waiting": 0, "skin": "default", "id": 100, "type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Two", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 101,"type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Three", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-pot-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 102,"type": "PacketPokerTable", "player_timeout": 60}]};
+
+test("jpoker.TableList: refresh", function(){
+        expect(3);
+        com = jpoker.com;
+
+        //
+        // Mockup server that will always return TABLE_LIST_PACKET,
+        // whatever is sent to it.
+        //
+        var PokerServer = function() {};
+
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TABLE_LIST_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+
+        XMLHttpRequest.prototype.server = new PokerServer();
+
+        com.request.async = false;
+        delete com.request.mode;
+
+        com.clearTimeout = function(id) { };
+        com.setTimeout = function(cb, delay) {};
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $("#main");
+        //
+        // Not interested in firing the timeout because the request 
+        // is sent right away and the handler triggered immediately. 
+        //
+        var t = place.jpoker('tableList', com, {
+                clearTimeout: function(id) { },
+                setTimeout: function(cb, delay) { }
+            });
+        // the answer from the PokerServer is waiting in the incoming queue
+        equals(com.queues[0].low.packets.length, 1);
+        equals(com.queues[0].low.packets[0].type, TABLE_LIST_PACKET['type']);
+        com.dequeueIncoming();
+
+        var tr = $("#" + id + " tr", place);
+        equals(tr.length, 4);
+
+        $("#" + id, place).remove();
+        jpoker.com.handlers = {};
+    });
+
