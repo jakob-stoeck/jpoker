@@ -17,6 +17,6 @@
 //
 config.macros.jpokerTableList = {
     handler : function(place,macroName,params,wikifier,paramString,tiddler) {
-        $(place).jpoker('TableList', jpoker.com);
+        $(place).jpoker('tableList', $.jpoker.com);
     }
 };
