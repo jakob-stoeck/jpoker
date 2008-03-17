@@ -59,6 +59,7 @@
             if(element) {
                 if(waiting) {
                     if(( com.now() - time_sent ) > opts.timeout) {
+			opts.clearInterval(timer);
                         jpoker.error("$this timed out after " + (com.now() - time_sent) + " seconds trying to update element id " + id);
                     }
                 } else {
