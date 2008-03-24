@@ -40,20 +40,20 @@
         serial: Date.now(),
 
         servers: {},
-        
+
         uid: function() { return "jpoker" + $.jpoker.serial++ ; },
 
         message: function(str) {
             if(window.console) { window.console.log(str); }
         },
 
-        error: function(e) {
-            this.errorHandler(e);
-            throw e;
+        error: function(reason) {
+            this.errorHandler(reason);
+            throw reason;
         },
 
-        errorHandler: function(e) {
-            
+        errorHandler: function(reason) {
+            this.message(reason);
         },
 
         reset: function(selectors) {
@@ -72,7 +72,7 @@
                 });
         },
 
-        now: function() { return Date.now(); }
+        now: function() { return Date.now(); },
 
         defaults: {
             destroyCallback: []
@@ -107,13 +107,21 @@
     // Abstract prototype for all objects that
     // call destroy and update callbacks
     //
+    jpoker.watchable = function(options) {
+        $.extend(this, jpoker.watchable.defaults, options);
+        this.constructor();
+    };
+
     jpoker.watchable.defaults = {
     };
 
     jpoker.watchable.prototype = {
-        callbacks: {
-            destroy: [],
-            update: []
+
+        constructor: function() {
+            this.callbacks = {
+                destroy: [],
+                update: []
+            };
         },
 
         notify: function(what) {
@@ -152,247 +160,267 @@
     // Abstract prototype to manage the communication with a single poker server
     //
     jpoker.connection = function(options) {
-        var opts = $.extend(this, jpoker.connection.defaults, options);
-        this.constructor(opts);
-    };
-    
-
-    jpoker.connection.defaults = {
-        mode: "queue",
-        url: '',
-        lagmax: 60,
-        pollFrequency:  100,
-        pingFrequency: 5000,
-        clearTimeout: function(id) { return window.clearTimeout(id); },
-        setTimeout: function(cb, delay) { return window.setTimeout(cb, delay); },
-        ajax: function(o) { return jQuery.ajax(o); },
+        $.extend(this, jpoker.connection.defaults, options);
+        this.constructor();
     };
 
-    jpoker.connection.prototype = {
 
-        session: null,
+    jpoker.connection.defaults = $.extend({
+            mode: "queue",
+            url: '',
+            async: true,
+            doPing: true,
+            lagmax: 60,
+            pollFrequency:  100,
+            pingFrequency: 5000,
+            clearTimeout: function(id) { return window.clearTimeout(id); },
+            setTimeout: function(cb, delay) { return window.setTimeout(cb, delay); },
+            ajax: function(o) { return jQuery.ajax(o); }
+        }, jpoker.watchable.defaults);
 
-        state: 'disconnected',
+    jpoker.connection.prototype = $.extend({}, jpoker.watchable.prototype, {
 
-        queues: {},
+            session: 'clear',
 
-        lag: 0,
+            state: 'disconnected',
 
-        high: ['PacketPokerChat', 'PacketPokerMessage', 'PacketPokerGameMessage'],
-        incomingTimer: -1,
+            lag: 0,
 
-        outgoingTimer: -1,
+            high: ['PacketPokerChat', 'PacketPokerMessage', 'PacketPokerGameMessage'],
+            incomingTimer: -1,
 
-        constructor: function() {
-            this.createSession();
-        },
+            pingTimer: -1,
 
-        clearSession: function() {
-            this.session = null;
-        },
+            constructor: function() {
+                jpoker.watchable.prototype.constructor.call(this);
+                this.handlers = {};
+                this.queues = {};
+                this.delays = {};
+                this.init();
+            },
 
-        createSession: function() {
-            this.session = jpoker.serial++;
-        },
+            init: function() {
+                this.reset();
+                if(this.state != 'connecting') {
+                    this.state = 'connecting';
+                    this.notifyUpdate();
+                }
+                if(this.doPing) {
+                    this.ping();
+                }
+            },
 
-        reset: function() {
-            this.clearTimeout(this.outgoingTimer);
-            this.outgoingTimer = -1;
-            this.clearTimeout(this.incomingTimer);
-            this.incomingTimer = -1;
-            // empty the outgoing queue
-            jQuery([$.ajax_queue]).queue("ajax", []);
-            // empty the incoming queue
-            this.queues = {};
-        },
+            clearSession: function() {
+                this.session = 'clear';
+            },
 
-        error: function(message) {
-            this.reset();
-            this.clearSession();
-            this.state = 'disconnected';
-            this.notifyUpdate();
-            jpoker.error(message);
-        },
+            createSession: function() {
+                this.session = jpoker.serial++;
+            },
 
-        timedout: function(message) {
-            this.reset();
-            this.createSession();
-            this.state = 'connecting';
-            this.notifyUpdate();
-            jpoker.error(message);
-        },
+            reset: function() {
+                this.clearTimeout(this.pingTimer);
+                this.pingTimer = -1;
+                this.clearTimeout(this.incomingTimer);
+                this.incomingTimer = -1;
+                // empty the outgoing queue
+                jQuery([$.ajax_queue]).queue("ajax", []);
+                // empty the incoming queue
+                this.queues = {};
+                this.delays = {};
+                this.clearSession();
+            },
 
-        running: function() {
-            return this.incomingTimer != -1;
-        },
+            error: function(reason) {
+                this.reset();
+                this.handlers = {};
+                this.state = 'disconnected';
+                this.notifyUpdate();
+                jpoker.error(reason);
+            },
 
-        connected: function() {
-            return this.state == 'connected';
-        },
+            connected: function() {
+                return this.state == 'connected';
+            },
 
-        handlers: {},
+            registerHandler: function(id, handler) {
+                if(!(id in this.handlers)) {
+                    this.handlers[id] = [];
+                }
+                this.handlers[id].push(handler);
+            },
 
-        registerHandler: function(id, handler) {
-            if(!(id in this.handlers)) {
-                this.handlers[id] = [];
-            }
-            this.handlers[id].push(handler);
-        },
+            unregisterHandler: function(id, handler) {
+                this.handlers[id] = jQuery.grep(this.handlers[id],
+                                                function(e, i) { return e != handler; });
+                if(this.handlers[id].length <= 0) {
+                    delete this.handlers[id];
+                }
+            },
 
-        unregisterHandler: function(id, handler) {
-            this.handlers[id] = jQuery.grep(this.handlers[id],
-                                            function(e, i) { return e != handler; });
-            if(this.handlers[id].length <= 0) {
-                delete this.handlers[id];
-            }
-        },
-
-        handle: function(id, packet) {
-            if(id in this.handlers) {
-                handlers = this.handlers[id];
-                for(var i = 0; i < handlers.length; i++) {
-                    try {
-                        handlers[i](this, id, packet);
-                    } catch(e) {
-                        this.error(e);
+            handle: function(id, packet) {
+                if(id in this.handlers) {
+                    handlers = this.handlers[id];
+                    for(var i = 0; i < handlers.length; i++) {
+                        try {
+                            handlers[i](this, id, packet);
+                        } catch(e) {
+                            this.error(e);
+                        }
                     }
                 }
-            }
-        },
+            },
 
-        delays: {},
+            delayQueue: function(id, time) {
+                this.delays[id] = time;
+            },
 
-        delayQueue: function(id, time) {
-            this.delays[id] = time;
-        },
-
-        noDelayQueue: function(id) {
-            if(id in this.delays) {
-                delete this.delays[id];
-            }
-        },
-
-        // null => no delay
-        handleDelay: function(id) {
-            if(id in this.delays) {
-                return this.delays[id];
-            } else {
-                return null;
-            }
-        },
-
-        sendPacket: function(packet) {
-            if(this.state != 'disconnected') {
-                var $this = this;
-                var args = {
-                    data: JSON.stringify(packet),
-                    mode: this.mode,
-                    url: this.url + '?session=' + this.session,
-                    type: "POST",
-                    dataType: "json",
-                    global: false, // do not fire global events
-                    success: function(data, status) {
-                        $this.queueIncoming(data);
-                    },
-                    error: function(xhr, status, error) {
-                        $this.error(error);
-                    }
-                };
-                this.ajax(jQuery.extend(args, this.request));
-                this.clearTimeout(this.outgoingTimer);
-                this.outgoingTimer = this.setTimeout(function() {
-                        $this.sendPacket({ type: "PacketPing" });
-                    }, this.pingFrequency);
-            }
-        },
-
-        queueIncoming: function(packets) {
-            for(var i = 0; i < packets.length; i++) {
-                packet = packets[i];
-                if("session" in packet) {
-                    delete packet.session;
+            noDelayQueue: function(id) {
+                if(id in this.delays) {
+                    delete this.delays[id];
                 }
-                packet.time__ = jpoker.now();
-                var id;
-                if("game_id" in packet) {
-                    id = packet.game_id;
+            },
+
+            // null => no delay
+            handleDelay: function(id) {
+                if(id in this.delays) {
+                    return this.delays[id];
                 } else {
-                    id = 0;
+                    return null;
                 }
-                if(!(id in this.queues)) {
-                    this.queues[id] = { 'high': {'packets': [],
-                                                 'delay': 0 },
-                                        'low': {'packets': [],
-                                                'delay': 0 } };
-                }
-                if(jQuery.inArray(packet.type, this.high) >= 0) {
-                    queue = this.queues[id].high;
-                } else {
-                    queue = this.queues[id].low;
-                }
-                queue.packets.push(packet);
-            }
-            this.clearTimeout(this.incomingTimer);
-            var $this = this;
-            this.incomingTimer = this.setTimeout(function() {
-                    $this.dequeueIncoming(); },
-                this.pollFrequency);
-        },
+            },
 
-        dequeueIncoming: function() {
-            if(this.state != 'disconnected') {
-                now = jpoker.now();
-                this.lag = 0;
-                for(var id in this.queues) {
-                    for(var priority in this.queues[id]) {
-                        queue = this.queues[id][priority];
-                        if(queue.packets.length <= 0) {
-                            continue;
-                        }
-                        lag = now - queue.packets[0].time__;
-                        this.lag = Math.max(this.lag, lag);
-                        if(queue.delay > now && lag > this.lagmax) {
-                            queue.delay = 0;
-                        }
-                        if(queue.delay <= now) {
-                            delay = this.handleDelay(id);
-                            if(lag > this.lagmax || delay === null || delay <= now) {
-                                packet = queue.packets.shift();
-                                delete packet.time__;
-                                this.handle(id, packet);
-                            } else {
-                                queue.delay = delay;
+            sendPacket: function(packet) {
+                if(this.state != 'disconnected') {
+                    var $this = this;
+                    var args = {
+                        async: this.async,
+                        data: JSON.stringify(packet),
+                        mode: this.mode,
+                        url: this.url + '?session=' + this.session,
+                        type: "POST",
+                        dataType: "json",
+                        global: false, // do not fire global events
+                        success: function(data, status) {
+                            if($this.state != 'connected') {
+                                $this.state = 'connected';
+                                $this.createSession();
+                                $this.notifyUpdate();
                             }
-                        } else if(jpoker.verbose > 0) {
-                            this.message("wait for " + queue.delay / 1000.0 + "s for queue " + id);
+                            $this.queueIncoming(data);
+                        },
+                        error: function(xhr, status, error) {
+                            if(status == "error") {
+                                $this.error(error);
+                            } else if(status == "timeout") {
+                                $this.init();
+                            } else {
+                                $this.error("unpexpected status = " + status + ", expected error or timeout instead (see jQuery.js code)");
+                            }
                         }
-                    }
-                    //
-                    // get rid of queues with no associated delay AND no pending packets
-                    //
-                    queue = this.queues[id];
-                    if(queue.high.packets.length <= 0 && queue.low.packets.length <= 0) {
-                        if(queue.high.delay <= now && queue.low.delay <= now) {
-                            delete this.queues[id];
-                        }
-                    }
+                    };
+                    this.ajax(jQuery.extend(args, this.request));
                 }
-            }
-            var empty = true;
-            for(var j in this.queues) {
-                empty = false;
-                break;
-            }
-            this.clearTimeout(this.incomingTimer);
-            if(!empty) {
+            },
+
+            ping: function() {
+                if(jQuery([$.ajax_queue]).queue("ajax").length <= 0) {
+                    this.sendPacket({ type: "PacketPing" });
+                }
+                this.clearTimeout(this.pingTimer);
+                var $this = this;
+                this.pingTimer = this.setTimeout(function() {
+                        $this.ping();
+                    }, this.pingFrequency);
+            },
+
+            queueIncoming: function(packets) {
+                for(var i = 0; i < packets.length; i++) {
+                    packet = packets[i];
+                    if("session" in packet) {
+                        delete packet.session;
+                    }
+                    packet.time__ = jpoker.now();
+                    var id;
+                    if("game_id" in packet) {
+                        id = packet.game_id;
+                    } else {
+                        id = 0;
+                    }
+                    if(!(id in this.queues)) {
+                        this.queues[id] = { 'high': {'packets': [],
+                                                     'delay': 0 },
+                                            'low': {'packets': [],
+                                                    'delay': 0 } };
+                    }
+                    if(jQuery.inArray(packet.type, this.high) >= 0) {
+                        queue = this.queues[id].high;
+                    } else {
+                        queue = this.queues[id].low;
+                    }
+                    queue.packets.push(packet);
+                }
+                this.clearTimeout(this.incomingTimer);
                 var $this = this;
                 this.incomingTimer = this.setTimeout(function() {
                         $this.dequeueIncoming(); },
                     this.pollFrequency);
-            }
-        }
+            },
 
-    };
+            dequeueIncoming: function() {
+                if(this.state != 'disconnected') {
+                    now = jpoker.now();
+                    this.lag = 0;
+                    for(var id in this.queues) {
+                        for(var priority in this.queues[id]) {
+                            queue = this.queues[id][priority];
+                            if(queue.packets.length <= 0) {
+                                continue;
+                            }
+                            lag = now - queue.packets[0].time__;
+                            this.lag = Math.max(this.lag, lag);
+                            if(queue.delay > now && lag > this.lagmax) {
+                                queue.delay = 0;
+                            }
+                            if(queue.delay <= now) {
+                                delay = this.handleDelay(id);
+                                if(lag > this.lagmax || delay === null || delay <= now) {
+                                    packet = queue.packets.shift();
+                                    delete packet.time__;
+                                    this.handle(id, packet);
+                                } else {
+                                    queue.delay = delay;
+                                }
+                            } else if(jpoker.verbose > 0) {
+                                this.message("wait for " + queue.delay / 1000.0 + "s for queue " + id);
+                            }
+                        }
+                        //
+                        // get rid of queues with no associated delay AND no pending packets
+                        //
+                        queue = this.queues[id];
+                        if(queue.high.packets.length <= 0 && queue.low.packets.length <= 0) {
+                            if(queue.high.delay <= now && queue.low.delay <= now) {
+                                delete this.queues[id];
+                            }
+                        }
+                    }
+                }
+                var empty = true;
+                for(var j in this.queues) {
+                    empty = false;
+                    break;
+                }
+                this.clearTimeout(this.incomingTimer);
+                if(!empty) {
+                    var $this = this;
+                    this.incomingTimer = this.setTimeout(function() {
+                            $this.dequeueIncoming(); },
+                        this.pollFrequency);
+                }
+            }
+
+        });
 
     //
     // server
@@ -400,19 +428,19 @@
     jpoker.server = function(options) {
         $.extend(this, jpoker.server.defaults, options);
         jpoker.connection.prototype.constructor.call(this);
-        this.constructor(url);
+        this.constructor();
     };
-    
+
     jpoker.server.defaults = $.extend({
-            
-        }, jpoker.connection.defaults, jpoker.watchable.defaults);
 
-    jpoker.server.prototype = $.extend({
-            tables: [],
+        }, jpoker.connection.defaults);
 
+    jpoker.server.prototype = $.extend({}, jpoker.connection.prototype, {
             constructor: function() {
+                jpoker.connection.prototype.call(this);
+                this.tables = [];
             }
-        }, jpoker.connection.prototype, jpoker.watchable.prototype);
+        });
 
     //
     // table
@@ -422,7 +450,7 @@
     };
 
     jpoker.table.defaults = {
-        
+
     };
 
     jpoker.table.prototype = $.extend({
@@ -441,7 +469,7 @@
     };
 
     jpoker.player.defaults = {
-        
+
     };
 
     jpoker.player.prototype = $.extend({
@@ -452,12 +480,12 @@
 
     //
     // refresh element "id" with the "handler" function after sending
-    // a packets with the "request" function to the poker server 
+    // a packets with the "request" function to the poker server
     //
     jpoker.syncElement = function(url, id, request, handler, options) {
 
         var opts = $.extend({}, this.syncElement.defaults, options);
-        
+
         var waiting = false;
 
         var time_sent = jpoker.now();
@@ -482,7 +510,7 @@
                 return false;
             }
         };
-        
+
         if(callback()) {
 
             var timer = opts.setInterval(callback, opts.delay);
@@ -500,7 +528,7 @@
 
         return true;
     };
-        
+
     jpoker.syncElement.defaults = {
         delay: 120000,
         timeout: 30000,
@@ -510,25 +538,25 @@
         clearInterval: function(id) { return window.clearInterval(id); },
         getElementById: function(id) { return document.getElementById(id); }
     };
-    
+
     //
     // jQuery plugin container (must only contain jQuery plugins)
     //
     jpoker.plugins = {};
 
     //
-    // jQuery widget that displays a list of tables from 
+    // jQuery widget that displays a list of tables from
     // the poker server
     //
     jpoker.plugins.tableList = function(url, options) {
         var tableList = jpoker.plugins.tableList;
         var opts = $.extend({}, tableList.defaults, options);
-        
+
         return this.each(function() {
                 var $this = $(this);
-                
+
                 id = jpoker.uid();
-		
+
                 $this.append('<table class="jpokerTableList jpokerBound jpoker" id="' + id + '"></table>');
 
                 var request = function(server, element) {

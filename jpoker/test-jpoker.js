@@ -22,76 +22,81 @@ var jpoker = $.jpoker;
 
 test("jpoker: unique id generation test", function() {
         expect(2);
+        jpoker.serial = 1;
         equals(jpoker.uid(), "jpoker1");
         equals(jpoker.uid(), "jpoker2");
     });
 
-test("jpoker.syncElement", function(){
-        expect(13);
+// test("jpoker.syncElement", function(){
+//         expect(13);
 
-        var error = jpoker.error;
-        var error_occured = false;
-        jpoker.error = function(e) {
-            error_occured = true;
-        };
-        var request_sent = false;
-        var request = function(com, element) {
-            equals(com.serial, 1, 'request1');
-            equals(element, 'element', 'request2');
-            request_sent = true;
-        };
-        var handler_called = false;
-        var handler = function(com, element, packet) {
-            equals(com, 'com', 'handler1');
-            equals(element, 'element', 'handler2');
-            equals(packet, 'packet', 'handler3');
-            handler_called = true;
-        };
-        var interval_callback = null;
-        var setInterval = function(callback, delay) {
-            equals(callback(), true, 'setInterval1');
-            equals(delay, jpoker.syncElement.defaults.delay, 'setInterval2');
-            interval_callback = callback;
-        };
-        var clearInterval = function(id) {};
-        var element = 'element';
-        var getElementById = function(id) { return element; };
-        var clock = 1;
-        com = {
-            serial: 1,
+//         var error = jpoker.error;
+//         var error_occured = false;
+//         jpoker.error = function(e) {
+//             error_occured = true;
+//         };
+//         var request_sent = false;
+//         var request = function(com, element) {
+//             equals(com.serial, 1, 'request1');
+//             equals(element, 'element', 'request2');
+//             request_sent = true;
+//         };
+//         var handler_called = false;
+//         var handler = function(com, element, packet) {
+//             equals(com, 'com', 'handler1');
+//             equals(element, 'element', 'handler2');
+//             equals(packet, 'packet', 'handler3');
+//             handler_called = true;
+//         };
+//         var interval_callback = null;
+//         var setInterval = function(callback, delay) {
+//             equals(callback(), true, 'setInterval1');
+//             equals(delay, jpoker.syncElement.defaults.delay, 'setInterval2');
+//             interval_callback = callback;
+//         };
+//         var clearInterval = function(id) {};
+//         var element = 'element';
+//         var getElementById = function(id) { return element; };
+//         var clock = 1;
+//         com = {
+//             serial: 1,
 
-            now: function() { return clock++; },
+//             now: function() { return clock++; },
 
-            registerHandler: function(game_id, cb, opts) {
-                equals(game_id, 1, 'registerHandler');
-                cb('com', game_id, 'packet');
-            }
-        };
-        //
-        // "request" is called once. The setInterval fires immediately
-        // and fails because syncElement is in wait state and timeout (set to 0)
-        // exired.
-        //
-        result = jpoker.syncElement(com, 42, request, handler,
-                                    {
-                                        game_id: 1,
-                                        timeout: 0,
-                                        setInterval: setInterval,
-                                        clearInterval: clearInterval,
-                                        getElementById: getElementById
-                                    });
-        equals(result, true, 'first call');
-        equals(request_sent, true, 'first call request');
-        equals(handler_called, true, 'first call handler');
-        equals(error_occured, true, 'first call error');
-        element = false;
-        equals(interval_callback(), false, 'second call 1');
-        jpoker.error = error; // restore error handler
-    });
+//             registerHandler: function(game_id, cb, opts) {
+//                 equals(game_id, 1, 'registerHandler');
+//                 cb('com', game_id, 'packet');
+//             }
+//         };
+//         //
+//         // "request" is called once. The setInterval fires immediately
+//         // and fails because syncElement is in wait state and timeout (set to 0)
+//         // exired.
+//         //
+//         result = jpoker.syncElement(com, 42, request, handler,
+//                                     {
+//                                         game_id: 1,
+//                                         timeout: 0,
+//                                         setInterval: setInterval,
+//                                         clearInterval: clearInterval,
+//                                         getElementById: getElementById
+//                                     });
+//         equals(result, true, 'first call');
+//         equals(request_sent, true, 'first call request');
+//         equals(handler_called, true, 'first call handler');
+//         equals(error_occured, true, 'first call error');
+//         element = false;
+//         equals(interval_callback(), false, 'second call 1');
+//         jpoker.error = error; // restore error handler
+//     });
 
-test("jpoker.com:sendPacket", function(){
+test("jpoker.connection:sendPacket ", function(){
         expect(3);
-        self = jpoker.com;
+        self = new jpoker.connection({
+                doPing: false,
+                async: false,
+                mode: null
+            });
 
         var PokerServer = function() {};
 
@@ -106,16 +111,11 @@ test("jpoker.com:sendPacket", function(){
         XMLHttpRequest.prototype.server = new PokerServer();
 
         var clock = 1;
-        self.now = function() { return clock++; }
+        jpoker.now = function() { return clock++; }
         self.clearTimeout = function(id) { };
         self.setTimeout = function(cb, delay) {
-            if(delay == self.pingFrequency)
-                return;
             return cb();
         };
-
-        self.request.async = false;
-        delete self.request.mode;
 
         var handled;
         var handler = function(com, id, packet) {
@@ -128,16 +128,14 @@ test("jpoker.com:sendPacket", function(){
 
         self.sendPacket(packet);
 
-        self.unregisterHandler(0, handler);
-
         equals(handled[0], self);
         equals(handled[1], 0);
         equals(handled[2].type, type);
     });
 
-test("jpoker.com:dequeueIncoming clearTimeout", function(){
+test("jpoker.connection:dequeueIncoming clearTimeout", function(){
         expect(1);
-        self = jpoker.com;
+        self = new jpoker.connection({ doPing: false });
 
         var cleared = false;
         self.clearTimeout = function(id) { cleared = true; };
@@ -145,15 +143,15 @@ test("jpoker.com:dequeueIncoming clearTimeout", function(){
         
         self.dequeueIncoming();
 
-        ok(cleared);
+        ok(cleared, "cleared");
     });
 
-test("jpoker.com:dequeueIncoming setTimeout", function(){
+test("jpoker.connection:dequeueIncoming setTimeout", function(){
         expect(2);
-        self = jpoker.com;
+        self = new jpoker.connection({ doPing: false });
 
         var clock = 1;
-        self.now = function() { return clock++; }
+        jpoker.now = function() { return clock++; }
         var timercalled = false;
         self.clearTimeout = function(id) { };
         self.setTimeout = function(cb, delay) { timercalled = true; };
@@ -174,9 +172,9 @@ test("jpoker.com:dequeueIncoming setTimeout", function(){
         ok(timercalled);
     });
 
-test("jpoker.com:dequeueIncoming handle", function(){
+test("jpoker.connection:dequeueIncoming handle", function(){
         expect(6);
-        self = jpoker.com;
+        self = new jpoker.connection({ doPing: false });
 
         self.clearTimeout = function(id) { };
 
@@ -201,12 +199,12 @@ test("jpoker.com:dequeueIncoming handle", function(){
 
         equals(self.handlers[0], undefined);
 
-        ok(!("time__" in packet));
+        equals(("time__" in packet), false);
     });
 
-test("jpoker.com:dequeueIncoming delayed", function(){
+test("jpoker.connection:dequeueIncoming delayed", function(){
         expect(6);
-        self = jpoker.com;
+        self = jpoker.connection;
 
         var clock = 1;
         self.now = function() { return clock++; }
@@ -237,9 +235,9 @@ test("jpoker.com:dequeueIncoming delayed", function(){
         self.queues = {};
     });
 
-test("jpoker.com:dequeueIncoming lagmax", function(){
+test("jpoker.connection:dequeueIncoming lagmax", function(){
         expect(4);
-        self = jpoker.com;
+        self = jpoker.connection;
 
         var clock = 10;
         self.now = function() { return clock++; }
@@ -265,9 +263,9 @@ test("jpoker.com:dequeueIncoming lagmax", function(){
         equals(self.handlers[0], undefined);
     });
 
-test("jpoker.com:queueIncoming", function(){
+test("jpoker.connection:queueIncoming", function(){
         expect(4);
-        self = jpoker.com;
+        self = jpoker.connection;
 
         var high_type = self.high[0];
         var packets = [
@@ -324,7 +322,7 @@ var TABLE_LIST_PACKET = {"players": 4, "type": "PacketPokerTableList", "packets"
 
 test("jpoker.TableList: refresh", function(){
         expect(3);
-        com = jpoker.com;
+        com = jpoker.connection;
 
         //
         // Mockup server that will always return TABLE_LIST_PACKET,
@@ -365,6 +363,6 @@ test("jpoker.TableList: refresh", function(){
         equals(tr.length, 4);
 
         $("#" + id, place).remove();
-        jpoker.com.handlers = {};
+        jpoker.connection.handlers = {};
     });
 
