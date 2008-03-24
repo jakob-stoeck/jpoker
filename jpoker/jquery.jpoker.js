@@ -446,37 +446,37 @@
     // table
     //
     jpoker.table = function(options) {
-        var opts = $.extend({}, jpoker.table.defaults, options);
+        $.extend(this, jpoker.table.defaults, options);
     };
 
     jpoker.table.defaults = {
 
     };
 
-    jpoker.table.prototype = $.extend({
+    jpoker.table.prototype = $.extend({}, jpoker.watchable.prototype, {
         seats: [],
         board: [],
         pots: [ null, null, null, null, null,
                 null, null, null, null, null ]
-        }, jpoker.watchable.prototype);
+        });
 
     //
     // player
     //
 
     jpoker.player = function(options) {
-        var opts = $.extend({}, jpoker.player.defaults, options);
+        $.extend(this, jpoker.player.defaults, options);
     };
 
     jpoker.player.defaults = {
 
     };
 
-    jpoker.player.prototype = $.extend({
+    jpoker.player.prototype = $.extend({}, jpoker.watchable.prototype, {
         money: 0,
         bet: 0,
         cards: []
-        }, jpoker.watchable.prototype);
+        });
 
     //
     // refresh element "id" with the "handler" function after sending

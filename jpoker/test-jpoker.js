@@ -204,10 +204,10 @@ test("jpoker.connection:dequeueIncoming handle", function(){
 
 test("jpoker.connection:dequeueIncoming delayed", function(){
         expect(6);
-        self = jpoker.connection;
+        self = new jpoker.connection({ doPing: false });
 
         var clock = 1;
-        self.now = function() { return clock++; }
+        jpoker.now = function() { return clock++; }
         self.clearTimeout = function(id) { };
 
         var packet = { type: 'type1', time__: 1 };
@@ -223,24 +223,24 @@ test("jpoker.connection:dequeueIncoming delayed", function(){
         equals(self.queues[0].low.delay, delay);
 
         var message = false;
-        self.verbose = 1;
+        jpoker.verbose = 1;
         self.message = function(str) { message = true; }
         self.dequeueIncoming();
         equals(self.queues[0].low.delay, delay);
-        ok(message, "message");
+        equals(message, true, "message");
 
         self.noDelayQueue(0);
-        equals(self.delays[0], undefined);
+        equals(self.delays[0], undefined, "delays[0]");
 
         self.queues = {};
     });
 
 test("jpoker.connection:dequeueIncoming lagmax", function(){
         expect(4);
-        self = jpoker.connection;
+        self = new jpoker.connection({ doPing: false });
 
         var clock = 10;
-        self.now = function() { return clock++; }
+        jpoker.now = function() { return clock++; }
         self.lagmax = 5;
         self.clearTimeout = function(id) { };
 
@@ -265,7 +265,7 @@ test("jpoker.connection:dequeueIncoming lagmax", function(){
 
 test("jpoker.connection:queueIncoming", function(){
         expect(4);
-        self = jpoker.connection;
+        self = new jpoker.connection({ doPing: false });
 
         var high_type = self.high[0];
         var packets = [
