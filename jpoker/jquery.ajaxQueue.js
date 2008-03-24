@@ -44,7 +44,10 @@ $(function(){
 
 
 ;(function($) {
-	
+
+        // save the pointer to ajax to be able to reset the queue
+        $.ajax_queue = $.ajax;
+
 	var ajax = $.ajax;
 	
 	var pendingRequests = {};
