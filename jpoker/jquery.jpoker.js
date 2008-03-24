@@ -25,10 +25,27 @@
         $.jpoker.plugins[name].apply(this, args);
     };
 
+    var destroyElement = function(element) {
+        var cb = element.data("destroy");
+        if(cb) {
+            $.each(cb, function() { cb(element); });
+        }
+        element.remove();
+    };
+
     $.jpoker = {
 
-        serial: 1,
+        verbose: 0,
+
+        serial: Date.now(),
+
+        servers: {},
+        
         uid: function() { return "jpoker" + $.jpoker.serial++ ; },
+
+        message: function(str) {
+            if(window.console) { window.console.log(str); }
+        },
 
         error: function(e) {
             this.errorHandler(e);
@@ -37,179 +54,181 @@
 
         errorHandler: function(e) {
             
+        },
+
+        reset: function(selectors) {
+            $($.merge([".jpoker"], selectors).join(",")).each(function() {
+                    if(this.hasClass("jpokerBound")) {
+                        destroyElement(this);
+                    } else {
+                        this.empty();
+                    }
+                });
+        },
+
+        destroy: function() {
+            $(".jpoker").each(function() {
+                    destroyElement(this);
+                });
+        },
+
+        now: function() { return Date.now(); }
+
+        defaults: {
+            destroyCallback: []
+        },
+
+        serverCreate: function(options) {
+            this.servers[options.url] = new jpoker.server(options);
+        },
+
+        serverDestroy: function(url) {
+            delete this.servers[url];
+        },
+
+        url2server: function(url) {
+            if(url in this.servers) {
+                var server = this.servers[url];
+                if(server.connected()) {
+                    return server;
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
         }
+
     };
-	
+
     var jpoker = $.jpoker;
 
     //
-    // refresh element "id" with the "handler" function after sending
-    // a packets with the "request" function to the "com" poker server 
+    // Abstract prototype for all objects that
+    // call destroy and update callbacks
     //
-    jpoker.syncElement = function(com, id, request, handler, options) {
-
-        var opts = $.extend({}, this.syncElement.defaults, options);
-        
-        var waiting = false;
-
-        var time_sent = com.now();
-
-        var callback = function() {
-            var element = opts.getElementById(id);
-            if(element) {
-                if(waiting) {
-                    if(( com.now() - time_sent ) > opts.timeout) {
-			opts.clearInterval(timer);
-                        jpoker.error("$this timed out after " + (com.now() - time_sent) + " seconds trying to update element id " + id);
-                    }
-                } else {
-                    time_sent = com.now();
-                    waiting = true;
-                    request(com, element);
-                }
-                return true;
-            } else {
-                opts.clearInterval(timer);
-                return false;
-            }
-        };
-        
-        if(callback()) {
-
-            var timer = opts.setInterval(callback, opts.delay);
-
-            var cb = function(com, game_id, packet) {
-                waiting = false;
-                var element = opts.getElementById(id);
-                if(element) {
-                    handler(com, element, packet);
-                }
-            };
-
-            com.registerHandler(opts.game_id, cb, opts);
-        }
-
-        return true;
-    };
-        
-    jpoker.syncElement.defaults = {
-        delay: 120000,
-        timeout: 30000,
-        game_id: 0,
-
-        setInterval: function(cb, delay) { return window.setInterval(cb, delay); },
-        clearInterval: function(id) { return window.clearInterval(id); },
-        getElementById: function(id) { return document.getElementById(id); }
-    };
-    
-    //
-    // jQuery plugin container (must only contain jQuery plugins)
-    //
-    jpoker.plugins = {};
-
-    //
-    // jQuery widget that displays a list of tables from 
-    // the "com" poker server
-    //
-    jpoker.plugins.tableList = function(com, options) {
-        var tableList = jpoker.plugins.tableList;
-        var opts = $.extend({}, tableList.defaults, options);
-        
-        return this.each(function() {
-                var $this = $(this);
-                
-                id = jpoker.uid();
-		
-                $this.append('<table class="jpokerTableList" id="' + id + '"></table>');
-
-                var request = function(com, element) {
-                    com.sendPacket({
-                            "type": "PacketPokerTableSelect",
-                            "string": opts.string
-                        });
-                };
-
-                var handler = function(com, element, packet) {
-                    $(element).html(tableList.getHTML(packet));
-                };
-
-                jpoker.syncElement(com, id, request, handler, options);
-
-                return $this;
-            });
+    jpoker.watchable.defaults = {
     };
 
-    jpoker.plugins.tableList.defaults = $.extend({
-        string: ''
-        }, jpoker.syncElement.defaults);
+    jpoker.watchable.prototype = {
+        callbacks: {
+            destroy: [],
+            update: []
+        },
 
-    jpoker.plugins.tableList.getHTML = function(packet) {
-        var t = this.templates;
-        var html = [];
-        html.push(t.header);
-        for(var i = 0; i < packet.packets.length; i++) {
-            var subpacket = packet.packets[i];
-            var rowHTML = t.rows;
-            $.each(subpacket, function(n,val){
-                    rowHTML = rowHTML.replace('\%'+n,val);
-                });
-            html.push(rowHTML.replace('\%class',(i%2? 'evenRow':'oddRow')));
-        }
-        html.push(t.footer);
-        return html.join('\n');
-    };
-
-    jpoker.plugins.tableList.templates = {
-        header : '<thead><tr><td>Name</td><td>Players</td><td>Seats</td><td>Betting Structure</td><td>Average Pot</td><td>Hands/Hour</td><td>%Flop</td></tr></thead><tbody>',
-        rows : '<tr class="%class"><td>%name</td><td>%players</td><td>%seats</td><td>%betting_structure</td><td>%average_pot</td><td>%hands_per_hour</td><td>%percent_flop</td></tr>',
-        footer : '</tbody>'
-    };
-
-    //
-    // manage incoming and outgoing packet queues to the poker server
-    //
-    jpoker.com = {
-
-        request: {
-            url: '/REST?session=yes',
-            mode: "queue",
-            type: "POST",
-            dataType: "json",
-            error: function(xhr, textStatus, errorThrown) {
-                throw errorThrown;
+        notify: function(what) {
+            l = this.callbacks[what];
+            for(i = 0; i < l.length; i++) {
+                l[0](this);
             }
         },
+
+        notifyUpdate: function() { this.notify('update'); },
+
+        notifyDestroy: function() { this.notify('destroy'); },
+
+        register: function(what, callback) {
+            if($.inArray(this.callback[what], callback) < 0) {
+                this.callbacks[what].push(callback);
+            }
+        },
+
+        registerUpdate: function(callback) { this.register('update', callback); },
+        registerDestroy: function(callback) { this.register('destroy', callback); },
+
+        unregister: function(what, callback) {
+            var i = $.inArray(this.callback[what], callback);
+            if(i >= 0) {
+                delete this.callback[what][i];
+            }
+        },
+
+        unregisterUpdate: function(callback) { this.unregister('update', callback); },
+        unregisterDestroy: function(callback) { this.unregister('destroy', callback); }
+
+    };
+
+    //
+    // Abstract prototype to manage the communication with a single poker server
+    //
+    jpoker.connection = function(options) {
+        var opts = $.extend(this, jpoker.connection.defaults, options);
+        this.constructor(opts);
+    };
     
-        blocked: false,
+
+    jpoker.connection.defaults = {
+        mode: "queue",
+        url: '',
+        lagmax: 60,
+        pollFrequency:  100,
+        pingFrequency: 5000,
+        clearTimeout: function(id) { return window.clearTimeout(id); },
+        setTimeout: function(cb, delay) { return window.setTimeout(cb, delay); },
+        ajax: function(o) { return jQuery.ajax(o); },
+    };
+
+    jpoker.connection.prototype = {
+
+        session: null,
+
+        state: 'disconnected',
 
         queues: {},
-
-        lagmax: 60,
 
         lag: 0,
 
         high: ['PacketPokerChat', 'PacketPokerMessage', 'PacketPokerGameMessage'],
-        // milliseconds
-        pollFrequency:  100,
-
         incomingTimer: -1,
-
-        // milliseconds
-        pingFrequency: 5000,
 
         outgoingTimer: -1,
 
-        verbose: 0,
+        constructor: function() {
+            this.createSession();
+        },
 
-        clearTimeout: function(id) { return window.clearTimeout(id); },
+        clearSession: function() {
+            this.session = null;
+        },
 
-        setTimeout: function(cb, delay) { return window.setTimeout(cb, delay); },
+        createSession: function() {
+            this.session = jpoker.serial++;
+        },
 
-        message: function(str) { if(window.console) { window.console.log(str); } },
+        reset: function() {
+            this.clearTimeout(this.outgoingTimer);
+            this.outgoingTimer = -1;
+            this.clearTimeout(this.incomingTimer);
+            this.incomingTimer = -1;
+            // empty the outgoing queue
+            jQuery([$.ajax_queue]).queue("ajax", []);
+            // empty the incoming queue
+            this.queues = {};
+        },
 
-        ajax: function(o) { return jQuery.ajax(o); },
+        error: function(message) {
+            this.reset();
+            this.clearSession();
+            this.state = 'disconnected';
+            this.notifyUpdate();
+            jpoker.error(message);
+        },
 
-        now: function() { return Date.now(); },
+        timedout: function(message) {
+            this.reset();
+            this.createSession();
+            this.state = 'connecting';
+            this.notifyUpdate();
+            jpoker.error(message);
+        },
+
+        running: function() {
+            return this.incomingTimer != -1;
+        },
+
+        connected: function() {
+            return this.state == 'connected';
+        },
 
         handlers: {},
 
@@ -232,7 +251,11 @@
             if(id in this.handlers) {
                 handlers = this.handlers[id];
                 for(var i = 0; i < handlers.length; i++) {
-                    handlers[i](this, id, packet);
+                    try {
+                        handlers[i](this, id, packet);
+                    } catch(e) {
+                        this.error(e);
+                    }
                 }
             }
         },
@@ -259,18 +282,28 @@
         },
 
         sendPacket: function(packet) {
-            var $this = this;
-            var args = {
-                data: JSON.stringify(packet),
-                success: function(data, status) {
-                    $this.queueIncoming(data);
-                }
-            };
-            this.ajax(jQuery.extend(args, this.request));
-            this.clearTimeout(this.outgoingTimer);
-            this.outgoingTimer = this.setTimeout(function() {
-                    $this.sendPacket({ type: "PacketPing" });
-                }, this.pingFrequency);
+            if(this.state != 'disconnected') {
+                var $this = this;
+                var args = {
+                    data: JSON.stringify(packet),
+                    mode: this.mode,
+                    url: this.url + '?session=' + this.session,
+                    type: "POST",
+                    dataType: "json",
+                    global: false, // do not fire global events
+                    success: function(data, status) {
+                        $this.queueIncoming(data);
+                    },
+                    error: function(xhr, status, error) {
+                        $this.error(error);
+                    }
+                };
+                this.ajax(jQuery.extend(args, this.request));
+                this.clearTimeout(this.outgoingTimer);
+                this.outgoingTimer = this.setTimeout(function() {
+                        $this.sendPacket({ type: "PacketPing" });
+                    }, this.pingFrequency);
+            }
         },
 
         queueIncoming: function(packets) {
@@ -279,7 +312,7 @@
                 if("session" in packet) {
                     delete packet.session;
                 }
-                packet.time__ = this.now();
+                packet.time__ = jpoker.now();
                 var id;
                 if("game_id" in packet) {
                     id = packet.game_id;
@@ -307,8 +340,8 @@
         },
 
         dequeueIncoming: function() {
-            if(!this.blocked) {
-                now = this.now();
+            if(this.state != 'disconnected') {
+                now = jpoker.now();
                 this.lag = 0;
                 for(var id in this.queues) {
                     for(var priority in this.queues[id]) {
@@ -330,7 +363,7 @@
                             } else {
                                 queue.delay = delay;
                             }
-                        } else if(this.verbose > 0) {
+                        } else if(jpoker.verbose > 0) {
                             this.message("wait for " + queue.delay / 1000.0 + "s for queue " + id);
                         }
                     }
@@ -358,5 +391,187 @@
                     this.pollFrequency);
             }
         }
+
     };
+
+    //
+    // server
+    //
+    jpoker.server = function(options) {
+        $.extend(this, jpoker.server.defaults, options);
+        jpoker.connection.prototype.constructor.call(this);
+        this.constructor(url);
+    };
+    
+    jpoker.server.defaults = $.extend({
+            
+        }, jpoker.connection.defaults, jpoker.watchable.defaults);
+
+    jpoker.server.prototype = $.extend({
+            tables: [],
+
+            constructor: function() {
+            }
+        }, jpoker.connection.prototype, jpoker.watchable.prototype);
+
+    //
+    // table
+    //
+    jpoker.table = function(options) {
+        var opts = $.extend({}, jpoker.table.defaults, options);
+    };
+
+    jpoker.table.defaults = {
+        
+    };
+
+    jpoker.table.prototype = $.extend({
+        seats: [],
+        board: [],
+        pots: [ null, null, null, null, null,
+                null, null, null, null, null ]
+        }, jpoker.watchable.prototype);
+
+    //
+    // player
+    //
+
+    jpoker.player = function(options) {
+        var opts = $.extend({}, jpoker.player.defaults, options);
+    };
+
+    jpoker.player.defaults = {
+        
+    };
+
+    jpoker.player.prototype = $.extend({
+        money: 0,
+        bet: 0,
+        cards: []
+        }, jpoker.watchable.prototype);
+
+    //
+    // refresh element "id" with the "handler" function after sending
+    // a packets with the "request" function to the poker server 
+    //
+    jpoker.syncElement = function(url, id, request, handler, options) {
+
+        var opts = $.extend({}, this.syncElement.defaults, options);
+        
+        var waiting = false;
+
+        var time_sent = jpoker.now();
+
+        var callback = function() {
+            var server = jpoker.url2server(url);
+            var element = opts.getElementById(id);
+            if(server && element) {
+                if(waiting) {
+                    if(( jpoker.now() - time_sent ) > opts.timeout) {
+			opts.clearInterval(timer);
+                        server.error("$this timed out after " + (jpoker.now() - time_sent) + " seconds trying to update element id " + id);
+                    }
+                } else {
+                    time_sent = jpoker.now();
+                    waiting = true;
+                    request(server, element);
+                }
+                return true;
+            } else {
+                opts.clearInterval(timer);
+                return false;
+            }
+        };
+        
+        if(callback()) {
+
+            var timer = opts.setInterval(callback, opts.delay);
+
+            var cb = function(server, game_id, packet) {
+                waiting = false;
+                var element = opts.getElementById(id);
+                if(element) {
+                    handler(server, element, packet);
+                }
+            };
+
+            server.registerHandler(opts.game_id, cb, opts);
+        }
+
+        return true;
+    };
+        
+    jpoker.syncElement.defaults = {
+        delay: 120000,
+        timeout: 30000,
+        game_id: 0,
+
+        setInterval: function(cb, delay) { return window.setInterval(cb, delay); },
+        clearInterval: function(id) { return window.clearInterval(id); },
+        getElementById: function(id) { return document.getElementById(id); }
+    };
+    
+    //
+    // jQuery plugin container (must only contain jQuery plugins)
+    //
+    jpoker.plugins = {};
+
+    //
+    // jQuery widget that displays a list of tables from 
+    // the poker server
+    //
+    jpoker.plugins.tableList = function(url, options) {
+        var tableList = jpoker.plugins.tableList;
+        var opts = $.extend({}, tableList.defaults, options);
+        
+        return this.each(function() {
+                var $this = $(this);
+                
+                id = jpoker.uid();
+		
+                $this.append('<table class="jpokerTableList jpokerBound jpoker" id="' + id + '"></table>');
+
+                var request = function(server, element) {
+                    server.sendPacket({
+                            "type": "PacketPokerTableSelect",
+                            "string": opts.string
+                        });
+                };
+
+                var handler = function(server, element, packet) {
+                    $(element).html(tableList.getHTML(packet));
+                };
+
+                jpoker.syncElement(url, id, request, handler, options);
+
+                return $this;
+            });
+    };
+
+    jpoker.plugins.tableList.defaults = $.extend({
+        string: ''
+        }, jpoker.syncElement.defaults, jpoker.defaults);
+
+    jpoker.plugins.tableList.getHTML = function(packet) {
+        var t = this.templates;
+        var html = [];
+        html.push(t.header);
+        for(var i = 0; i < packet.packets.length; i++) {
+            var subpacket = packet.packets[i];
+            var rowHTML = t.rows;
+            $.each(subpacket, function(n,val){
+                    rowHTML = rowHTML.replace('\%'+n,val);
+                });
+            html.push(rowHTML.replace('\%class',(i%2? 'evenRow':'oddRow')));
+        }
+        html.push(t.footer);
+        return html.join('\n');
+    };
+
+    jpoker.plugins.tableList.templates = {
+        header : '<thead><tr><td>Name</td><td>Players</td><td>Seats</td><td>Betting Structure</td><td>Average Pot</td><td>Hands/Hour</td><td>%Flop</td></tr></thead><tbody>',
+        rows : '<tr class="%class"><td>%name</td><td>%players</td><td>%seats</td><td>%betting_structure</td><td>%average_pot</td><td>%hands_per_hour</td><td>%percent_flop</td></tr>',
+        footer : '</tbody>'
+    };
+
 })(jQuery);
