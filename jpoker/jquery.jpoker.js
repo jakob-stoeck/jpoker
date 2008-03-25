@@ -136,7 +136,7 @@
         notifyDestroy: function() { this.notify('destroy'); },
 
         register: function(what, callback) {
-            if($.inArray(this.callback[what], callback) < 0) {
+            if($.inArray(this.callbacks[what], callback) < 0) {
                 this.callbacks[what].push(callback);
             }
         },
@@ -145,7 +145,7 @@
         registerDestroy: function(callback) { this.register('destroy', callback); },
 
         unregister: function(what, callback) {
-            var i = $.inArray(this.callback[what], callback);
+            var i = $.inArray(this.callbacks[what], callback);
             if(i >= 0) {
                 delete this.callback[what][i];
             }
@@ -173,6 +173,7 @@
             lagmax: 60,
             pollFrequency:  100,
             pingFrequency: 5000,
+            timeout: 10000,
             clearTimeout: function(id) { return window.clearTimeout(id); },
             setTimeout: function(cb, delay) { return window.setTimeout(cb, delay); },
             ajax: function(o) { return jQuery.ajax(o); }
@@ -297,6 +298,7 @@
                         async: this.async,
                         data: JSON.stringify(packet),
                         mode: this.mode,
+                        timeout: this.timeout,
                         url: this.url + '?session=' + this.session,
                         type: "POST",
                         dataType: "json",
@@ -310,16 +312,17 @@
                             $this.queueIncoming(data);
                         },
                         error: function(xhr, status, error) {
-                            if(status == "error") {
-                                $this.error(error);
-                            } else if(status == "timeout") {
+                            if(status == "timeout") {
                                 $this.init();
                             } else {
-                                $this.error("unpexpected status = " + status + ", expected error or timeout instead (see jQuery.js code)");
+                                $this.error({ xhr: xhr,
+                                              status: status,
+                                              error: error
+                                    });
                             }
                         }
                     };
-                    this.ajax(jQuery.extend(args, this.request));
+                    this.ajax(args);
                 }
             },
 

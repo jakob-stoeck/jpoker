@@ -90,8 +90,65 @@ test("jpoker: unique id generation test", function() {
 //         jpoker.error = error; // restore error handler
 //     });
 
-test("jpoker.connection:sendPacket ", function(){
+test("jpoker.connection:ping", function(){
         expect(3);
+        stop();
+        self = new jpoker.connection({
+                pingFrequency: 30 // be carefull not to launch faster than jQuery internal timer
+            });
+        equals(self.state, 'connecting');
+        var ping_count = 0;
+        self.registerUpdate(function(server) {
+                equals(server.state, 'connected');
+                if(++ping_count >= 2) {
+                    server.reset();
+                    start();
+                } else {
+                    server.state = 'connecting';
+                }
+            });
+    });
+
+test("jpoker.connection:sendPacket error", function(){
+        expect(1);
+        stop();
+        self = new jpoker.connection({
+                doPing: false
+            });
+        
+        error = jpoker.error
+        jpoker.error = function(reason) {
+            jpoker.error = error
+            equals(reason.xhr.status, 404);
+            start();
+        };
+        XMLHttpRequest.defaults.status = 404;
+        self.sendPacket({type: 'type'});
+        XMLHttpRequest.defaults.status = 200;
+    });
+
+test("jpoker.connection:sendPacket timeout", function(){
+        expect(2);
+        stop();
+        self = new jpoker.connection({
+                doPing: false,
+                timeout: 1
+            });
+        
+        self.init = function() {
+            equals(this.state, 'connected');
+            jpoker.connection.prototype.init.call(this);
+            equals(this.state, 'connecting');
+            start();
+        };
+        self.state = 'connected';
+        XMLHttpRequest.defaults.timeout = true;
+        self.sendPacket({type: 'type'});
+        XMLHttpRequest.defaults.timeout = false;
+    });
+
+test("jpoker.connection:sendPacket ", function(){
+        expect(5);
         self = new jpoker.connection({
                 doPing: false,
                 async: false,
@@ -126,11 +183,13 @@ test("jpoker.connection:sendPacket ", function(){
         var type = 'type1';
         var packet = {type: type};
 
+        equals(self.connected(), false, "disconnected()");
         self.sendPacket(packet);
 
         equals(handled[0], self);
         equals(handled[1], 0);
         equals(handled[2].type, type);
+        equals(self.connected(), true, "connected()");
     });
 
 test("jpoker.connection:dequeueIncoming clearTimeout", function(){
@@ -200,6 +259,27 @@ test("jpoker.connection:dequeueIncoming handle", function(){
         equals(self.handlers[0], undefined);
 
         equals(("time__" in packet), false);
+    });
+
+test("jpoker.connection:dequeueIncoming handle error", function(){
+        expect(1);
+        stop();
+        self = new jpoker.connection({ doPing: false });
+
+        var packet = { type: 'type1', time__: 1 };
+        self.queues[0] = { 'high': {'packets': [],
+                                    'delay':  0 },
+                           'low': {'packets': [packet],
+                                   'delay': 0 } }
+        var handler = function(com, id, packet) {
+            throw "the error";
+        };
+        self.error = function(reason) {
+            equals(reason, "the error");
+            start();
+        }
+        self.registerHandler(0, handler);
+        self.dequeueIncoming();
     });
 
 test("jpoker.connection:dequeueIncoming delayed", function(){
@@ -283,18 +363,20 @@ test("jpoker.connection:queueIncoming", function(){
         self.queues = {};
     });
 
-var XMLHttpRequest = function() {};
+var XMLHttpRequest = function(options) {
+    $.extend(this, XMLHttpRequest.defaults, options);
+    this.headers = [];
+};
+
+XMLHttpRequest.defaults = {
+    readyState: 4,
+    timeout: false,
+    status: 200,
+};
 
 XMLHttpRequest.prototype = {
-    headers: [],
 
-    server: null,
-
-    readyState: 4,
-
-    status: 200,
-
-    responseText: "",
+    responseText: "[]",
 
     open: function(type, url, async) {
         //window.console.log(url);
@@ -312,9 +394,14 @@ XMLHttpRequest.prototype = {
         }
     },
 
+    abort: function() {
+    },
+
     send: function(data) {
-        this.server.handle(data);
-        this.responseText = this.server.outgoing; 
+        if('server' in this && !this.timeout && this.status == 200) {
+            this.server.handle(data);
+            this.responseText = this.server.outgoing;
+        }
     }
 };
 
