@@ -125,9 +125,9 @@
         },
 
         notify: function(what) {
-            l = this.callbacks[what];
-            for(i = 0; i < l.length; i++) {
-                l[0](this);
+            var l = this.callbacks[what];
+            for(var i = 0; i < l.length; i++) {
+                l[i](this);
             }
         },
 
@@ -136,7 +136,7 @@
         notifyDestroy: function() { this.notify('destroy'); },
 
         register: function(what, callback) {
-            if($.inArray(this.callbacks[what], callback) < 0) {
+            if($.inArray(callback, this.callbacks[what]) < 0) {
                 this.callbacks[what].push(callback);
             }
         },
@@ -145,10 +145,8 @@
         registerDestroy: function(callback) { this.register('destroy', callback); },
 
         unregister: function(what, callback) {
-            var i = $.inArray(this.callbacks[what], callback);
-            if(i >= 0) {
-                delete this.callback[what][i];
-            }
+            this.callbacks[what] = $.grep(this.callbacks[what],
+                                          function(e, i) { return e != callback; });
         },
 
         unregisterUpdate: function(callback) { this.unregister('update', callback); },
@@ -252,8 +250,8 @@
             },
 
             unregisterHandler: function(id, handler) {
-                this.handlers[id] = jQuery.grep(this.handlers[id],
-                                                function(e, i) { return e != handler; });
+                this.handlers[id] = $.grep(this.handlers[id],
+                                           function(e, i) { return e != handler; });
                 if(this.handlers[id].length <= 0) {
                     delete this.handlers[id];
                 }

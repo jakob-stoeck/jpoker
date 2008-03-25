@@ -90,6 +90,33 @@ test("jpoker: unique id generation test", function() {
 //         jpoker.error = error; // restore error handler
 //     });
 
+//
+// jpoker.watchable
+//
+test("jpoker.watchable", function(){
+        expect(4);
+        var watchable = new jpoker.watchable({});
+        var stone = 0;
+        var callback = function(what) {
+            stone++;
+        };
+        watchable.registerUpdate(callback);
+        watchable.registerDestroy(callback);
+        watchable.notifyUpdate();
+        equals(stone, 1, "notifyUpdate");
+        watchable.notifyDestroy();
+        equals(stone, 2, "notifyDestroy");
+        watchable.unregisterUpdate(callback);
+        watchable.unregisterDestroy(callback);
+        watchable.notifyUpdate();
+        equals(stone, 2, "notifyUpdate (noop)");
+        watchable.notifyDestroy();
+        equals(stone, 2, "notifyDestroy (noop)");
+    });
+
+//
+// jpoker.connection
+//
 test("jpoker.connection:ping", function(){
         expect(3);
         stop();
