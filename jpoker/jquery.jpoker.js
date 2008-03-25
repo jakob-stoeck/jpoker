@@ -79,7 +79,7 @@
         },
 
         serverCreate: function(options) {
-            this.servers[options.url] = new jpoker.server(options);
+            return this.servers[options.url] = new jpoker.server(options);
         },
 
         serverDestroy: function(url) {
@@ -124,16 +124,20 @@
             };
         },
 
-        notify: function(what) {
+        notify: function(what, data) {
+            var result = [];
             var l = this.callbacks[what];
             for(var i = 0; i < l.length; i++) {
-                l[i](this);
+                if(l[i](this, data)) {
+                    result.push(l[i]);
+                }
             }
+            this.callbacks[what] = result;
         },
 
-        notifyUpdate: function() { this.notify('update'); },
+        notifyUpdate: function(data) { this.notify('update', data); },
 
-        notifyDestroy: function() { this.notify('destroy'); },
+        notifyDestroy: function(data) { this.notify('destroy', data); },
 
         register: function(what, callback) {
             if($.inArray(callback, this.callbacks[what]) < 0) {
@@ -440,7 +444,45 @@
     jpoker.server.prototype = $.extend({}, jpoker.connection.prototype, {
             constructor: function() {
                 jpoker.connection.prototype.constructor.call(this);
-                this.tables = [];
+                this.tables = {};
+                this.timers = {};
+            },
+
+            destructor: function() {
+                $.each(this.timers, function(key, value) {
+                        this.clearInterval(value.timer);
+                    });
+            },
+
+            refresh: function(tag, request, handler, options) {
+                if(tag in this.timers) {
+                    this.clearInterval(this.timers[tag].timer);
+                } else {
+                    this.timers[tag] = {};
+                }
+                this.timers[tag].timer = jpoker.refresh(this, request, handler, options);
+            },
+
+            refreshTables: function(string, options) {
+
+                if(!(string in this.tables)) {
+                    this.tables[string] = {};
+                }
+
+                var request = function(server) {
+                    server.sendPacket({
+                            "type": "PacketPokerTableSelect",
+                            "string": string
+                        });
+                };
+
+                var handler = function(server, packet) {
+                    var info = server.tables[string];
+                    info.packet = packet;
+                    server.notifyUpdate(packet);
+                };
+
+                this.refresh('tableList', request, handler, options);
             }
         });
 
@@ -481,18 +523,12 @@
         });
 
     //
-    // Refresh element "id" with the "handler" function after sending
+    // Refresh data with the "handler" function after sending
     // a packet to the "url" poker server with the "request" function.
     //
-    // If either "id" or "url" cannot be found, the loop stops.
+    // If either "url" cannot be found, the loop stops.
     //
-    jpoker.refresh = function(url, id, request, handler, options) {
-
-        var server = jpoker.url2server(url);
-
-        if(!server) {
-            return false;
-        }
+    jpoker.refresh = function(server, request, handler, options) {
 
         var opts = $.extend({}, this.refresh.defaults, options);
 
@@ -502,19 +538,20 @@
 
         var timer = 0;
 
+        var url = server.url;
+
         var callback = function() {
             var server = jpoker.url2server(url); // check if server still exists when the callback runs
-            var element = opts.getElementById(id);
-            if(server && element) {
+            if(server) {
                 if(waiting) {
                     if(( jpoker.now() - time_sent ) > opts.timeout) {
 			opts.clearInterval(timer);
-                        server.error("$this timed out after " + (jpoker.now() - time_sent) + " seconds trying to update element id " + id);
+                        server.error("$this timed out after " + (jpoker.now() - time_sent) + " seconds trying to update url " + url);
                     }
                 } else {
                     time_sent = jpoker.now();
                     waiting = true;
-                    request(server, element);
+                    request(server);
                 }
                 return true;
             } else {
@@ -529,16 +566,13 @@
 
             var cb = function(server, game_id, packet) {
                 waiting = false;
-                var element = opts.getElementById(id);
-                if(element) {
-                    handler(server, element, packet);
-                }
+                handler(server, packet);
             };
 
             server.registerHandler(opts.game_id, cb, opts);
         }
 
-        return true;
+        return timer;
     };
 
     jpoker.refresh.defaults = {
@@ -548,8 +582,7 @@
         game_id: 0,
 
         setInterval: function(cb, delay) { return window.setInterval(cb, delay); },
-        clearInterval: function(id) { return window.clearInterval(id); },
-        getElementById: function(id) { return document.getElementById(id); }
+        clearInterval: function(id) { return window.clearInterval(id); }
     };
 
     //
@@ -566,6 +599,12 @@
 
         var opts = $.extend({}, tableList.defaults, options);
 
+        var server = jpoker.url2server(url);
+
+        if(!server) {
+            throw url + " is not a known jpoker server";
+        }
+        
         return this.each(function() {
                 var $this = $(this);
 
@@ -573,20 +612,21 @@
 
                 $this.append('<table class="jpokerTableList jpokerBound jpoker" id="' + id + '"></table>');
 
-                var request = function(server, element) {
-                    server.sendPacket({
-                            "type": "PacketPokerTableSelect",
-                            "string": opts.string
-                        });
+                var updated = function(server, packet) {
+                    var element = document.getElementById(id);
+                    if(element) {
+                        $(element).html(tableList.getHTML(packet));
+                        return true;
+                    } else {
+                        return false;
+                    }
                 };
 
-                var handler = function(server, element, packet) {
-                    $(element).html(tableList.getHTML(packet));
-                };
+                server.registerUpdate(updated);
 
-                jpoker.refresh(url, id, request, handler, options);
+                server.refreshTables(opts.string, options);
 
-                return $this;
+                return this;
             });
     };
 

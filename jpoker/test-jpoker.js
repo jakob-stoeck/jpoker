@@ -30,26 +30,20 @@ test("jpoker: unique id generation test", function() {
 test("jpoker.refresh", function(){
         expect(13);
 
-        equals(jpoker.refresh('invalid'), false, 'invalid url');
-
         var clock = 1;
         jpoker.now = function() { return clock++; }
 
-        //        var error = jpoker.error;
         var error_occurred = 0;
-        //        jpoker.error = function(e) {
-        //            error_occured = true;
-        //        };
+
         var request_sent = false;
-        var request = function(server, element) {
-            equals(element, 'element', 'request1');
+        var request = function(server) {
+            equals(server.connected(), true, 'request1');
             request_sent = true;
         };
         var handler_called = false;
-        var handler = function(server, element, packet) {
+        var handler = function(server, packet) {
             equals(server, 'server', 'handler1');
-            equals(element, 'element', 'handler2');
-            equals(packet, 'packet', 'handler3');
+            equals(packet, 'packet', 'handler2');
             handler_called = true;
         };
         var interval_callback = null;
@@ -57,11 +51,14 @@ test("jpoker.refresh", function(){
             equals(callback(), true, 'setInterval1');
             equals(delay, jpoker.refresh.defaults.delay, 'setInterval2');
             interval_callback = callback;
+            return 42;
         };
-        var clearInterval = function(id) {};
-        var element = 'element';
-        var getElementById = function(id) { return element; };
+        var clearInterval = function(id) {
+            equals(id == 42 || id == 0, true, "id == 42 or 0");
+        };
         jpoker.servers['url'] = {
+            url: 'url',
+
             connected: function() {
                 return true;
             },
@@ -80,22 +77,19 @@ test("jpoker.refresh", function(){
         // and fails because refresh is in wait state and timeout (set to 0)
         // exired.
         //
-        result = jpoker.refresh('url', 42, request, handler,
-                                    {
-                                        game_id: 1,
-                                        timeout: 0,
-                                        setInterval: setInterval,
-                                        clearInterval: clearInterval,
-                                        getElementById: getElementById
-                                    });
-        equals(result, true, 'first call');
+        result = jpoker.refresh(jpoker.servers['url'], request, handler,
+                                {
+                                    game_id: 1,
+                                    timeout: 0,
+                                    setInterval: setInterval,
+                                    clearInterval: clearInterval
+                                });
+        equals(result, 42, 'first call');
         equals(request_sent, true, 'first call request');
         equals(handler_called, true, 'first call handler');
         equals(error_occurred, 1, 'first call error');
-        element = false;
-        equals(interval_callback(), false, 'second call 1');
-        //        jpoker.error = error; // restore error handler
         jpoker.servers = {}; // destroy fake server
+        equals(interval_callback(), false, 'second call 1');
     });
 
 //
@@ -105,20 +99,21 @@ test("jpoker.watchable", function(){
         expect(4);
         var watchable = new jpoker.watchable({});
         var stone = 0;
-        var callback = function(what) {
-            stone++;
+        var callback = function(what, data) {
+            stone += data;
+            return true;
         };
         watchable.registerUpdate(callback);
         watchable.registerDestroy(callback);
-        watchable.notifyUpdate();
+        watchable.notifyUpdate(1);
         equals(stone, 1, "notifyUpdate");
-        watchable.notifyDestroy();
+        watchable.notifyDestroy(1);
         equals(stone, 2, "notifyDestroy");
         watchable.unregisterUpdate(callback);
         watchable.unregisterDestroy(callback);
-        watchable.notifyUpdate();
+        watchable.notifyUpdate(10);
         equals(stone, 2, "notifyUpdate (noop)");
-        watchable.notifyDestroy();
+        watchable.notifyDestroy(20);
         equals(stone, 2, "notifyDestroy (noop)");
     });
 
@@ -133,7 +128,7 @@ test("jpoker.connection:ping", function(){
             });
         equals(self.state, 'connecting');
         var ping_count = 0;
-        self.registerUpdate(function(server) {
+        self.registerUpdate(function(server, data) {
                 equals(server.state, 'connected');
                 if(++ping_count >= 2) {
                     server.reset();
@@ -141,6 +136,7 @@ test("jpoker.connection:ping", function(){
                 } else {
                     server.state = 'connecting';
                 }
+                return true;
             });
     });
 
@@ -460,19 +456,22 @@ test("jpoker.TableList", function(){
 
         XMLHttpRequest.prototype.server = new PokerServer();
 
-        var server = new jpoker.server({ doPing: false });
+        var server = jpoker.serverCreate({
+                url: 'url',
+                doPing: false
+            });
         server.state = 'connected';
-        jpoker.servers['url'] = server;
 
         var id = 'jpoker' + jpoker.serial;
         var place = $("#main");
         place.jpoker('tableList', 'url', { delay: 30 });
-        window.setTimeout(function() {
+        server.registerUpdate(function(server, data) {
                 var tr = $("#" + id + " tr", place);
                 equals(tr.length, 4);
                 $("#" + id, place).remove();
                 jpoker.servers = {};
                 start();
-            }, 1000);
+                return false;
+            });
     });
 
