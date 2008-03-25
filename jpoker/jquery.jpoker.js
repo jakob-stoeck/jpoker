@@ -41,6 +41,16 @@
 
         servers: {},
 
+        destructor: function() {
+            $.each(this.servers,
+                   function(key, value) {
+                       value.destructor();
+                   });
+            this.servers = {};
+        },
+
+        now: function() { return Date.now(); },
+
         uid: function() { return "jpoker" + $.jpoker.serial++ ; },
 
         message: function(str) {
@@ -49,33 +59,12 @@
 
         error: function(reason) {
             this.errorHandler(reason);
+            this.destructor();
             throw reason;
         },
 
         errorHandler: function(reason) {
             this.message(reason);
-        },
-
-        reset: function(selectors) {
-            $($.merge([".jpoker"], selectors).join(",")).each(function() {
-                    if(this.hasClass("jpokerBound")) {
-                        destroyElement(this);
-                    } else {
-                        this.empty();
-                    }
-                });
-        },
-
-        destroy: function() {
-            $(".jpoker").each(function() {
-                    destroyElement(this);
-                });
-        },
-
-        now: function() { return Date.now(); },
-
-        defaults: {
-            destroyCallback: []
         },
 
         serverCreate: function(options) {
@@ -142,7 +131,6 @@
         },
 
         notifyUpdate: function(data) { this.notify('update', data); },
-
         notifyDestroy: function(data) { this.notify('destroy', data); },
 
         register: function(what, callback) {
@@ -395,7 +383,7 @@
                                 continue;
                             }
                             lag = now - queue.packets[0].time__;
-                            this.lag = Math.max(this.lag, lag);
+                            this.lag = this.lag > lag ? this.lag : lag;
                             if(queue.delay > now && lag > this.lagmax) {
                                 queue.delay = 0;
                             }
