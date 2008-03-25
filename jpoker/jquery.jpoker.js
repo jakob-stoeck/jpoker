@@ -25,14 +25,6 @@
         $.jpoker.plugins[name].apply(this, args);
     };
 
-    var destroyElement = function(element) {
-        var cb = element.data("destroy");
-        if(cb) {
-            $.each(cb, function() { cb(element); });
-        }
-        element.remove();
-    };
-
     $.jpoker = {
 
         verbose: 0,
