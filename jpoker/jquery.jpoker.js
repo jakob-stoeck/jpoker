@@ -125,6 +125,11 @@
             };
         },
 
+        destructor: function() {
+            this.notifyDestroy();
+            delete this.callbacks;
+        },
+
         notify: function(what, data) {
             var result = [];
             var l = this.callbacks[what];
@@ -202,6 +207,11 @@
                 this.queues = {};
                 this.delays = {};
                 this.init();
+            },
+
+            destructor: function() {
+                jpoker.watchable.prototype.destructor.call(this);
+                this.reset();
             },
 
             init: function() {
@@ -455,7 +465,7 @@
                 $.each(this.timers, function(key, value) {
                         $this.clearInterval(value.timer);
                     });
-                this.notifyDestroy();
+                jpoker.connection.prototype.destructor.call(this);
             },
 
             refresh: function(tag, request, handler, options) {
@@ -482,8 +492,10 @@
 
                 var handler = function(server, packet) {
                     var info = server.tables[string];
-                    info.packet = packet;
-                    server.notifyUpdate(packet);
+                    if(packet.type == "PacketPokerTableList") {
+                        info.packet = packet;
+                        server.notifyUpdate(packet);
+                    }
                 };
 
                 this.refresh('tableList', request, handler, options);
@@ -619,7 +631,9 @@
                 var updated = function(server, packet) {
                     var element = document.getElementById(id);
                     if(element) {
-                        $(element).html(tableList.getHTML(packet));
+                        if(packet.type == "PacketPokerTableList") {
+                            $(element).html(tableList.getHTML(packet));
+                        }
                         return true;
                     } else {
                         return false;
