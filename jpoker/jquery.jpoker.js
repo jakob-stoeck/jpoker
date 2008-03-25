@@ -186,6 +186,7 @@
             lag: 0,
 
             high: ['PacketPokerChat', 'PacketPokerMessage', 'PacketPokerGameMessage'],
+
             incomingTimer: -1,
 
             pingTimer: -1,
@@ -438,7 +439,7 @@
 
     jpoker.server.prototype = $.extend({}, jpoker.connection.prototype, {
             constructor: function() {
-                jpoker.connection.prototype.call(this);
+                jpoker.connection.prototype.constructor.call(this);
                 this.tables = [];
             }
         });
@@ -480,19 +481,29 @@
         });
 
     //
-    // refresh element "id" with the "handler" function after sending
-    // a packet to the poker server with the "request" function 
+    // Refresh element "id" with the "handler" function after sending
+    // a packet to the "url" poker server with the "request" function.
     //
-    jpoker.syncElement = function(url, id, request, handler, options) {
+    // If either "id" or "url" cannot be found, the loop stops.
+    //
+    jpoker.refresh = function(url, id, request, handler, options) {
 
-        var opts = $.extend({}, this.syncElement.defaults, options);
+        var server = jpoker.url2server(url);
+
+        if(!server) {
+            return false;
+        }
+
+        var opts = $.extend({}, this.refresh.defaults, options);
 
         var waiting = false;
 
         var time_sent = jpoker.now();
 
+        var timer = 0;
+
         var callback = function() {
-            var server = jpoker.url2server(url);
+            var server = jpoker.url2server(url); // check if server still exists when the callback runs
             var element = opts.getElementById(id);
             if(server && element) {
                 if(waiting) {
@@ -514,7 +525,7 @@
 
         if(callback()) {
 
-            var timer = opts.setInterval(callback, opts.delay);
+            timer = opts.setInterval(callback, opts.delay);
 
             var cb = function(server, game_id, packet) {
                 waiting = false;
@@ -524,16 +535,16 @@
                 }
             };
 
-            var server = jpoker.url2server(url);
             server.registerHandler(opts.game_id, cb, opts);
         }
 
         return true;
     };
 
-    jpoker.syncElement.defaults = {
+    jpoker.refresh.defaults = {
         delay: 120000,
-        timeout: 30000,
+        timeout: 5000, // must be lower than jpoker.connection timeout otherwise it will 
+                       // never fire
         game_id: 0,
 
         setInterval: function(cb, delay) { return window.setInterval(cb, delay); },
@@ -552,6 +563,7 @@
     //
     jpoker.plugins.tableList = function(url, options) {
         var tableList = jpoker.plugins.tableList;
+
         var opts = $.extend({}, tableList.defaults, options);
 
         return this.each(function() {
@@ -572,7 +584,7 @@
                     $(element).html(tableList.getHTML(packet));
                 };
 
-                jpoker.syncElement(url, id, request, handler, options);
+                jpoker.refresh(url, id, request, handler, options);
 
                 return $this;
             });
@@ -580,7 +592,7 @@
 
     jpoker.plugins.tableList.defaults = $.extend({
         string: ''
-        }, jpoker.syncElement.defaults, jpoker.defaults);
+        }, jpoker.refresh.defaults, jpoker.defaults);
 
     jpoker.plugins.tableList.getHTML = function(packet) {
         var t = this.templates;

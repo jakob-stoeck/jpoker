@@ -27,8 +27,10 @@ test("jpoker: unique id generation test", function() {
         equals(jpoker.uid(), "jpoker2");
     });
 
-test("jpoker.syncElement", function(){
-        expect(12);
+test("jpoker.refresh", function(){
+        expect(13);
+
+        equals(jpoker.refresh('invalid'), false, 'invalid url');
 
         var clock = 1;
         jpoker.now = function() { return clock++; }
@@ -53,7 +55,7 @@ test("jpoker.syncElement", function(){
         var interval_callback = null;
         var setInterval = function(callback, delay) {
             equals(callback(), true, 'setInterval1');
-            equals(delay, jpoker.syncElement.defaults.delay, 'setInterval2');
+            equals(delay, jpoker.refresh.defaults.delay, 'setInterval2');
             interval_callback = callback;
         };
         var clearInterval = function(id) {};
@@ -75,10 +77,10 @@ test("jpoker.syncElement", function(){
         };
         //
         // "request" is called once. The setInterval fires immediately
-        // and fails because syncElement is in wait state and timeout (set to 0)
+        // and fails because refresh is in wait state and timeout (set to 0)
         // exired.
         //
-        result = jpoker.syncElement('url', 42, request, handler,
+        result = jpoker.refresh('url', 42, request, handler,
                                     {
                                         game_id: 1,
                                         timeout: 0,
@@ -440,9 +442,9 @@ XMLHttpRequest.prototype = {
 
 var TABLE_LIST_PACKET = {"players": 4, "type": "PacketPokerTableList", "packets": [{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 1535, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 4, "waiting": 0, "skin": "default", "id": 100, "type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Two", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 101,"type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Three", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-pot-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 102,"type": "PacketPokerTable", "player_timeout": 60}]};
 
-test("jpoker.TableList: refresh", function(){
-        expect(3);
-        com = jpoker.connection;
+test("jpoker.TableList", function(){
+        expect(1);
+        stop();
 
         //
         // Mockup server that will always return TABLE_LIST_PACKET,
@@ -458,31 +460,19 @@ test("jpoker.TableList: refresh", function(){
 
         XMLHttpRequest.prototype.server = new PokerServer();
 
-        com.request.async = false;
-        delete com.request.mode;
-
-        com.clearTimeout = function(id) { };
-        com.setTimeout = function(cb, delay) {};
+        var server = new jpoker.server({ doPing: false });
+        server.state = 'connected';
+        jpoker.servers['url'] = server;
 
         var id = 'jpoker' + jpoker.serial;
         var place = $("#main");
-        //
-        // Not interested in firing the timeout because the request 
-        // is sent right away and the handler triggered immediately. 
-        //
-        var t = place.jpoker('tableList', com, {
-                clearTimeout: function(id) { },
-                setTimeout: function(cb, delay) { }
-            });
-        // the answer from the PokerServer is waiting in the incoming queue
-        equals(com.queues[0].low.packets.length, 1);
-        equals(com.queues[0].low.packets[0].type, TABLE_LIST_PACKET['type']);
-        com.dequeueIncoming();
-
-        var tr = $("#" + id + " tr", place);
-        equals(tr.length, 4);
-
-        $("#" + id, place).remove();
-        jpoker.connection.handlers = {};
+        place.jpoker('tableList', 'url', { delay: 30 });
+        window.setTimeout(function() {
+                var tr = $("#" + id + " tr", place);
+                equals(tr.length, 4);
+                $("#" + id, place).remove();
+                jpoker.servers = {};
+                start();
+            }, 1000);
     });
 
