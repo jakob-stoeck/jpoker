@@ -481,7 +481,7 @@
 
     //
     // refresh element "id" with the "handler" function after sending
-    // a packets with the "request" function to the poker server
+    // a packet to the poker server with the "request" function 
     //
     jpoker.syncElement = function(url, id, request, handler, options) {
 
@@ -524,6 +524,7 @@
                 }
             };
 
+            var server = jpoker.url2server(url);
             server.registerHandler(opts.game_id, cb, opts);
         }
 
