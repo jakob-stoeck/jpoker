@@ -439,7 +439,7 @@ XMLHttpRequest.prototype = {
 var TABLE_LIST_PACKET = {"players": 4, "type": "PacketPokerTableList", "packets": [{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 1535, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 4, "waiting": 0, "skin": "default", "id": 100, "type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Two", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 101,"type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Three", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-pot-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 102,"type": "PacketPokerTable", "player_timeout": 60}]};
 
 test("jpoker.TableList", function(){
-        expect(1);
+        expect(5);
         stop();
 
         //
@@ -464,14 +464,25 @@ test("jpoker.TableList", function(){
 
         var id = 'jpoker' + jpoker.serial;
         var place = $("#main");
+        equals(server.callbacks.update.length, 0, 'no update registered');
         place.jpoker('tableList', 'url', { delay: 30 });
+        equals(server.callbacks.update.length, 1, 'tableList update registered');
         server.registerUpdate(function(server, data) {
-                var tr = $("#" + id + " tr", place);
-                equals(tr.length, 4);
-                $("#" + id, place).remove();
-                jpoker.servers = {};
+                var element = $("#" + id);
+                if(element.length > 0) {
+                    var tr = $("#" + id + " tr", place);
+                    equals(tr.length, 4);
+                    $("#" + id).remove();
+                    return true;
+                } else {
+                    equals(server.callbacks.update.length, 2, 'tableList and test update registered');
+                    window.setTimeout(function() { jpoker.serverDestroy('url'); }, 30);
+                    return false;
+                }
+            });
+        server.registerDestroy(function(server) {
+                equals(server.callbacks.update.length, 0, 'no update registered');
                 start();
-                return false;
             });
     });
 

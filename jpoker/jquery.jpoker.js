@@ -83,6 +83,7 @@
         },
 
         serverDestroy: function(url) {
+            this.servers[url].destructor();
             delete this.servers[url];
         },
 
@@ -438,7 +439,8 @@
     };
 
     jpoker.server.defaults = $.extend({
-
+            setInterval: function(cb, delay) { return window.setInterval(cb, delay); },
+            clearInterval: function(id) { return window.clearInterval(id); }
         }, jpoker.connection.defaults);
 
     jpoker.server.prototype = $.extend({}, jpoker.connection.prototype, {
@@ -449,9 +451,11 @@
             },
 
             destructor: function() {
+                var $this = this;
                 $.each(this.timers, function(key, value) {
-                        this.clearInterval(value.timer);
+                        $this.clearInterval(value.timer);
                     });
+                this.notifyDestroy();
             },
 
             refresh: function(tag, request, handler, options) {
