@@ -81,6 +81,7 @@ test("jpoker.refresh", function(){
                                 {
                                     game_id: 1,
                                     timeout: 0,
+                                    requireSession: true,
                                     setInterval: setInterval,
                                     clearInterval: clearInterval
                                 });
@@ -124,9 +125,10 @@ test("jpoker.connection:ping", function(){
         expect(3);
         stop();
         var self = new jpoker.connection({
+                doPing: true,
                 pingFrequency: 30 // be carefull not to launch faster than jQuery internal timer
             });
-        equals(self.state, 'connecting');
+        equals(self.state, 'disconnected');
         var ping_count = 0;
         self.registerUpdate(function(server, data) {
                 equals(server.state, 'connected');
@@ -134,7 +136,7 @@ test("jpoker.connection:ping", function(){
                     server.reset();
                     start();
                 } else {
-                    server.state = 'connecting';
+                    server.state = 'disconnected';
                 }
                 return true;
             });
@@ -143,9 +145,7 @@ test("jpoker.connection:ping", function(){
 test("jpoker.connection:sendPacket error", function(){
         expect(1);
         stop();
-        var self = new jpoker.connection({
-                doPing: false
-            });
+        var self = new jpoker.connection();
         
         error = jpoker.error
         jpoker.error = function(reason) {
@@ -159,17 +159,14 @@ test("jpoker.connection:sendPacket error", function(){
     });
 
 test("jpoker.connection:sendPacket timeout", function(){
-        expect(2);
+        expect(1);
         stop();
         var self = new jpoker.connection({
-                doPing: false,
                 timeout: 1
             });
         
         self.init = function() {
-            equals(this.state, 'connected');
-            jpoker.connection.prototype.init.call(this);
-            equals(this.state, 'connecting');
+            equals(this.state, 'disconnected');
             start();
         };
         self.state = 'connected';
@@ -181,7 +178,6 @@ test("jpoker.connection:sendPacket timeout", function(){
 test("jpoker.connection:sendPacket ", function(){
         expect(5);
         var self = new jpoker.connection({
-                doPing: false,
                 async: false,
                 mode: null
             });
@@ -225,7 +221,7 @@ test("jpoker.connection:sendPacket ", function(){
 
 test("jpoker.connection:dequeueIncoming clearTimeout", function(){
         expect(1);
-        var self = new jpoker.connection({ doPing: false });
+        var self = new jpoker.connection();
 
         var cleared = false;
         self.clearTimeout = function(id) { cleared = true; };
@@ -238,7 +234,7 @@ test("jpoker.connection:dequeueIncoming clearTimeout", function(){
 
 test("jpoker.connection:dequeueIncoming setTimeout", function(){
         expect(2);
-        var self = new jpoker.connection({ doPing: false });
+        var self = new jpoker.connection();
 
         var clock = 1;
         jpoker.now = function() { return clock++; }
@@ -264,7 +260,7 @@ test("jpoker.connection:dequeueIncoming setTimeout", function(){
 
 test("jpoker.connection:dequeueIncoming handle", function(){
         expect(6);
-        var self = new jpoker.connection({ doPing: false });
+        var self = new jpoker.connection();
 
         self.clearTimeout = function(id) { };
 
@@ -295,7 +291,7 @@ test("jpoker.connection:dequeueIncoming handle", function(){
 test("jpoker.connection:dequeueIncoming handle error", function(){
         expect(1);
         stop();
-        var self = new jpoker.connection({ doPing: false });
+        var self = new jpoker.connection();
 
         var packet = { type: 'type1', time__: 1 };
         self.queues[0] = { 'high': {'packets': [],
@@ -315,7 +311,7 @@ test("jpoker.connection:dequeueIncoming handle error", function(){
 
 test("jpoker.connection:dequeueIncoming delayed", function(){
         expect(6);
-        var self = new jpoker.connection({ doPing: false });
+        var self = new jpoker.connection();
 
         var clock = 1;
         jpoker.now = function() { return clock++; }
@@ -348,7 +344,7 @@ test("jpoker.connection:dequeueIncoming delayed", function(){
 
 test("jpoker.connection:dequeueIncoming lagmax", function(){
         expect(4);
-        var self = new jpoker.connection({ doPing: false });
+        var self = new jpoker.connection();
 
         var clock = 10;
         jpoker.now = function() { return clock++; }
@@ -376,7 +372,7 @@ test("jpoker.connection:dequeueIncoming lagmax", function(){
 
 test("jpoker.connection:queueIncoming", function(){
         expect(4);
-        var self = new jpoker.connection({ doPing: false });
+        var self = new jpoker.connection();
 
         var high_type = self.high[0];
         var packets = [
@@ -456,10 +452,7 @@ test("jpoker.TableList", function(){
 
         XMLHttpRequest.prototype.server = new PokerServer();
 
-        var server = jpoker.serverCreate({
-                url: 'url',
-                doPing: false
-            });
+        var server = jpoker.serverCreate({ url: 'url' });
         server.state = 'connected';
 
         var id = 'jpoker' + jpoker.serial;

@@ -68,11 +68,11 @@
             delete this.servers[url];
         },
 
-        url2server: function(url) {
-	    if(!(url in this.servers)) {
-		this.serverCreate({ url: url });
+        url2server: function(options) {
+	    if(!(options.url in this.servers)) {
+		this.serverCreate(options);
 	    }
-	    return this.servers[url];
+	    return this.servers[options.url];
 	}
 
     };
@@ -146,12 +146,11 @@
         this.constructor();
     };
 
-
     jpoker.connection.defaults = $.extend({
             mode: "queue",
             url: '',
             async: true,
-            doPing: true,
+            doPing: false,
             lagmax: 60,
             pollFrequency:  100,
             pingFrequency: 5000,
@@ -190,10 +189,6 @@
 
             init: function() {
                 this.reset();
-                if(this.state != 'connecting') {
-                    this.state = 'connecting';
-                    this.notifyUpdate({type: 'PacketState', state: this.state});
-                }
                 if(this.doPing) {
                     this.ping();
                 }
@@ -223,9 +218,15 @@
             error: function(reason) {
                 this.reset();
                 this.handlers = {};
-                this.state = 'disconnected';
-		this.notifyUpdate({type: 'PacketState', state: this.state});
+                this.setState('disconnected');
                 jpoker.error(reason);
+            },
+
+            setState: function(state) {
+                if(this.state != state) {
+                    this.state = state;
+                    this.notifyUpdate({type: 'PacketState', state: state});
+                }
             },
 
             connected: function() {
@@ -280,38 +281,38 @@
             },
 
             sendPacket: function(packet) {
-                if(this.state != 'disconnected') {
-                    var $this = this;
-                    var args = {
-                        async: this.async,
-                        data: JSON.stringify(packet),
-                        mode: this.mode,
-                        timeout: this.timeout,
-                        url: this.url + '?session=' + this.session,
-                        type: "POST",
-                        dataType: "json",
-                        global: false, // do not fire global events
-                        success: function(data, status) {
-                            if($this.state != 'connected') {
-                                $this.state = 'connected';
+                var $this = this;
+                var args = {
+                    async: this.async,
+                    data: JSON.stringify(packet),
+                    mode: this.mode,
+                    timeout: this.timeout,
+                    url: this.url + '?session=' + this.session,
+                    type: "POST",
+                    dataType: "json",
+                    global: false, // do not fire global events
+                    success: function(data, status) {
+                        if($this.state != 'connected') {
+                            if($this.doPing) {
                                 $this.createSession();
-				$this.notifyUpdate({type: 'PacketState', state: this.state});
                             }
-                            $this.queueIncoming(data);
-                        },
-                        error: function(xhr, status, error) {
-                            if(status == "timeout") {
-                                $this.init();
-                            } else {
-                                $this.error({ xhr: xhr,
-                                              status: status,
-                                              error: error
-                                    });
-                            }
+                            $this.setState('connected');
                         }
-                    };
-                    this.ajax(args);
-                }
+                        $this.queueIncoming(data);
+                    },
+                    error: function(xhr, status, error) {
+                        if(status == "timeout") {
+                            $this.setState('disconnected');
+                            $this.init();
+                        } else {
+                            $this.error({ xhr: xhr,
+                                          status: status,
+                                          error: error
+                                });
+                        }
+                    }
+                };
+                this.ajax(args);
             },
 
             ping: function() {
@@ -359,41 +360,39 @@
             },
 
             dequeueIncoming: function() {
-                if(this.state != 'disconnected') {
-                    now = jpoker.now();
-                    this.lag = 0;
-                    for(var id in this.queues) {
-                        for(var priority in this.queues[id]) {
-                            queue = this.queues[id][priority];
-                            if(queue.packets.length <= 0) {
-                                continue;
-                            }
-                            lag = now - queue.packets[0].time__;
-                            this.lag = this.lag > lag ? this.lag : lag;
-                            if(queue.delay > now && lag > this.lagmax) {
-                                queue.delay = 0;
-                            }
-                            if(queue.delay <= now) {
-                                delay = this.handleDelay(id);
-                                if(lag > this.lagmax || delay === null || delay <= now) {
-                                    packet = queue.packets.shift();
-                                    delete packet.time__;
-                                    this.handle(id, packet);
-                                } else {
-                                    queue.delay = delay;
-                                }
-                            } else if(jpoker.verbose > 0) {
-                                this.message("wait for " + queue.delay / 1000.0 + "s for queue " + id);
-                            }
+                now = jpoker.now();
+                this.lag = 0;
+                for(var id in this.queues) {
+                    for(var priority in this.queues[id]) {
+                        queue = this.queues[id][priority];
+                        if(queue.packets.length <= 0) {
+                            continue;
                         }
-                        //
-                        // get rid of queues with no associated delay AND no pending packets
-                        //
-                        queue = this.queues[id];
-                        if(queue.high.packets.length <= 0 && queue.low.packets.length <= 0) {
-                            if(queue.high.delay <= now && queue.low.delay <= now) {
-                                delete this.queues[id];
+                        lag = now - queue.packets[0].time__;
+                        this.lag = this.lag > lag ? this.lag : lag;
+                        if(queue.delay > now && lag > this.lagmax) {
+                            queue.delay = 0;
+                        }
+                        if(queue.delay <= now) {
+                            delay = this.handleDelay(id);
+                            if(lag > this.lagmax || delay === null || delay <= now) {
+                                packet = queue.packets.shift();
+                                delete packet.time__;
+                                this.handle(id, packet);
+                            } else {
+                                queue.delay = delay;
                             }
+                        } else if(jpoker.verbose > 0) {
+                            this.message("wait for " + queue.delay / 1000.0 + "s for queue " + id);
+                        }
+                    }
+                    //
+                    // get rid of queues with no associated delay AND no pending packets
+                    //
+                    queue = this.queues[id];
+                    if(queue.high.packets.length <= 0 && queue.low.packets.length <= 0) {
+                        if(queue.high.delay <= now && queue.low.delay <= now) {
+                            delete this.queues[id];
                         }
                     }
                 }
@@ -516,8 +515,6 @@
     // Refresh data with the "handler" function after sending
     // a packet to the "url" poker server with the "request" function.
     //
-    // If either "url" cannot be found, the loop stops.
-    //
     jpoker.refresh = function(server, request, handler, options) {
 
         var opts = $.extend({}, this.refresh.defaults, options);
@@ -531,8 +528,8 @@
         var url = server.url;
 
         var callback = function() {
-            var server = jpoker.url2server(url); // check if server still exists when the callback runs
-            if(server) {
+            var server = jpoker.url2server({ url: url }); // check if server still exists when the callback runs
+            if(options.requireSession == false || server.connected()) {
                 if(waiting) {
                     if(( jpoker.now() - time_sent ) > opts.timeout) {
 			opts.clearInterval(timer);
@@ -570,6 +567,7 @@
         timeout: 5000, // must be lower than jpoker.connection timeout otherwise it will 
                        // never fire
         game_id: 0,
+        requireSession: false,
 
         setInterval: function(cb, delay) { return window.setInterval(cb, delay); },
         clearInterval: function(id) { return window.clearInterval(id); }
@@ -589,11 +587,7 @@
 
         var opts = $.extend({}, tableList.defaults, options);
 
-        var server = jpoker.url2server(url);
-
-	if(!server) {
-	    throw url + " is not a known server";
-	}
+        var server = jpoker.url2server({ url: url });
 
         return this.each(function() {
                 var $this = $(this);
