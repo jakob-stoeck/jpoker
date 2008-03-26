@@ -16,7 +16,18 @@
 //     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 config.macros.jpokerTableList = {
-    handler : function(place,macroName,params,wikifier,paramString,tiddler) {
-        $(place).jpoker('tableList', $.jpoker.com);
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+	var server = $.jpoker.get('/REST');
+	if(server.connected()) {
+	    $(place).jpoker('tableList', '/REST');
+	} else {
+	    var tableList = function(server, packet) {
+		if(packet && packet.type == 'PacketState' && packet.state == 'connected') {
+		    $(place).jpoker('tableList', '/REST');
+		    return false;
+		}
+	    }
+	    server.registerUpdate(tableList);
+	}
     }
 };

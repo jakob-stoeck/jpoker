@@ -69,17 +69,11 @@
         },
 
         url2server: function(url) {
-            if(url in this.servers) {
-                var server = this.servers[url];
-                if(server.connected()) {
-                    return server;
-                } else {
-                    return null;
-                }
-            } else {
-                return null;
-            }
-        }
+	    if(!(url in this.servers)) {
+		this.serverCreate({ url: url });
+	    }
+	    return this.servers[url];
+	}
 
     };
 
@@ -198,7 +192,7 @@
                 this.reset();
                 if(this.state != 'connecting') {
                     this.state = 'connecting';
-                    this.notifyUpdate();
+                    this.notifyUpdate({type: 'PacketState', state: this.state});
                 }
                 if(this.doPing) {
                     this.ping();
@@ -230,7 +224,7 @@
                 this.reset();
                 this.handlers = {};
                 this.state = 'disconnected';
-                this.notifyUpdate();
+		this.notifyUpdate({type: 'PacketState', state: this.state});
                 jpoker.error(reason);
             },
 
@@ -301,7 +295,7 @@
                             if($this.state != 'connected') {
                                 $this.state = 'connected';
                                 $this.createSession();
-                                $this.notifyUpdate();
+				$this.notifyUpdate({type: 'PacketState', state: this.state});
                             }
                             $this.queueIncoming(data);
                         },
@@ -597,21 +591,21 @@
 
         var server = jpoker.url2server(url);
 
-        if(!server) {
-            throw url + " is not a known jpoker server";
-        }
-        
+	if(!server) {
+	    throw url + " is not a known server";
+	}
+
         return this.each(function() {
                 var $this = $(this);
 
                 id = jpoker.uid();
 
-                $this.append('<table class="jpokerTableList jpokerBound jpoker" id="' + id + '"></table>');
+                $this.append('<table class="jpokerTableList" id="' + id + '"></table>');
 
                 var updated = function(server, packet) {
                     var element = document.getElementById(id);
                     if(element) {
-                        if(packet.type == "PacketPokerTableList") {
+                        if(packet && packet.type == "PacketPokerTableList") {
                             $(element).html(tableList.getHTML(packet));
                         }
                         return true;
