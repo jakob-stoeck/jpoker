@@ -422,6 +422,8 @@
     };
 
     jpoker.server.defaults = $.extend({
+	    players: null,
+	    tables: null,
             setInterval: function(cb, delay) { return window.setInterval(cb, delay); },
             clearInterval: function(id) { return window.clearInterval(id); }
         }, jpoker.connection.defaults);
@@ -467,6 +469,8 @@
                     var info = server.tables[string];
                     if(packet.type == "PacketPokerTableList") {
                         info.packet = packet;
+			server.players = packet.players;
+			server.tables = packet.tables;
                         server.notifyUpdate(packet);
                     }
                 };
@@ -578,10 +582,6 @@
     //
     jpoker.plugins = {};
 
-    //
-    // jQuery widget that displays a list of tables from
-    // the poker server
-    //
     jpoker.plugins.tableList = function(url, options) {
         var tableList = jpoker.plugins.tableList;
 
@@ -640,6 +640,65 @@
         header : '<thead><tr><td>Name</td><td>Players</td><td>Seats</td><td>Betting Structure</td><td>Average Pot</td><td>Hands/Hour</td><td>%Flop</td></tr></thead><tbody>',
         rows : '<tr class="%class"><td>%name</td><td>%players</td><td>%seats</td><td>%betting_structure</td><td>%average_pot</td><td>%hands_per_hour</td><td>%percent_flop</td></tr>',
         footer : '</tbody>'
+    };
+
+    jpoker.plugins.serverStatus = function(url, options) {
+        var serverStatus = jpoker.plugins.serverStatus;
+
+        var opts = $.extend({}, serverStatus.defaults, options);
+
+        var server = jpoker.url2server({ url: url });
+
+        return this.each(function() {
+                var $this = $(this);
+
+                id = jpoker.uid();
+
+                $this.append('<div class="jpokerServerStatus" id="' + id + '"></div>');
+
+                var updated = function(server) {
+                    var element = document.getElementById(id);
+                    if(element) {
+			$(element).html(serverStatus.getHTML(server));
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+
+                server.registerUpdate(updated);
+
+                return this;
+            });
+    };
+
+    jpoker.plugins.serverStatus.defaults = $.extend({
+        }, jpoker.refresh.defaults, jpoker.defaults);
+
+    jpoker.plugins.serverStatus.getHTML = function(server) {
+        var t = this.templates;
+	var html = [];
+	html.push(t.url.replace('%url', server.url));
+	if(server.connected()) {
+	    html.push(t.connected);
+	} else {
+	    html.push(t.disconnected);
+	}
+	if(server.players != null) {
+	    html.push(t.players.replace('%players', server.players));
+	}
+	if(server.tables != null) {
+	    html.push(t.tables.replace('%tables', server.tables));
+	}
+        return html.join('\n');
+    };
+
+    jpoker.plugins.serverStatus.templates = {
+	url: ' %url ',
+	disconnect: ' disconnected ',
+	connected: ' connected ',
+        players: ' %players players ',
+        tables: ' %tables tables '
     };
 
 })(jQuery);
