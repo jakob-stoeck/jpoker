@@ -529,7 +529,7 @@
 
         var callback = function() {
             var server = jpoker.url2server({ url: url }); // check if server still exists when the callback runs
-            if(options.requireSession == false || server.connected()) {
+            if(opts.requireSession == false || server.connected()) {
                 if(waiting) {
                     if(( jpoker.now() - time_sent ) > opts.timeout) {
 			opts.clearInterval(timer);
