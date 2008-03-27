@@ -603,7 +603,7 @@
         return this.each(function() {
                 var $this = $(this);
 
-                id = jpoker.uid();
+                var id = jpoker.uid();
 
                 $this.append('<table class="jpokerTableList" id="' + id + '"></table>');
 
@@ -663,7 +663,7 @@
         return this.each(function() {
                 var $this = $(this);
 
-                id = jpoker.uid();
+                var id = jpoker.uid();
 
                 $this.append('<div class="jpokerServerStatus" id="' + id + '"></div>');
 
