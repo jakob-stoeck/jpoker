@@ -482,15 +482,37 @@ test("jpoker.tableList", function(){
     });
 
 test("jpoker.serverStatus", function(){
-	expect(1);
+	expect(6);
 
         var server = jpoker.serverCreate({ url: 'url' });
 
         var id = 'jpoker' + jpoker.serial;
         var place = $("#main");
 
+        //
+        // disconnected
+        //
 	place.jpoker('serverStatus', 'url');
-
 	var content = $("#" + id).text();
 	equals(content.search("disconnected") >= 0, true, "disconnected");
+
+        //
+        // connected
+        //
+        server.playersCount = 12;
+        server.tablesCount = 23;
+        server.state = 'connected';
+        server.notifyUpdate();
+        content = $("#" + id).text();
+
+	equals(content.search("connected") >= 0, true, "connected");
+	equals(content.search("12") >= 0, true, "12 players");
+	equals(content.search("23") >= 0, true, "23 players");
+        //
+        // element destroyed
+        //
+        $("#" + id).remove();
+        equals(server.callbacks.update.length, 1, "1 update callback");
+        server.notifyUpdate();
+        equals(server.callbacks.update.length, 0, "0 update callback");
     });
