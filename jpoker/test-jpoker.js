@@ -453,6 +453,9 @@ test("jpoker.tableList", function(){
         XMLHttpRequest.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
+        jpoker.serverDestroy('url');
+        server = jpoker.serverCreate({ url: 'url' });
+        server.state = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
         var place = $("#main");
@@ -468,13 +471,13 @@ test("jpoker.tableList", function(){
                     return true;
                 } else {
                     equals(server.callbacks.update.length, 2, 'tableList and test update registered');
-                    window.setTimeout(function() { jpoker.serverDestroy('url'); }, 30);
+                    server.setTimeout = function(fun, delay) { };
+                    window.setTimeout(function() { jpoker.serverDestroy('url'); start(); }, 30);
                     return false;
                 }
             });
         server.registerDestroy(function(server) {
-                equals(server.callbacks.update.length, 0, 'no update registered');
-                start();
+                equals(server.callbacks.update.length, 0, 'update & destroy unregistered');
             });
     });
 
@@ -489,6 +492,5 @@ test("jpoker.serverStatus", function(){
 	place.jpoker('serverStatus', 'url');
 
 	var content = $("#" + id).text();
-	equals(content, '');
 	equals(content.search("disconnected") >= 0, true, "disconnected");
     });

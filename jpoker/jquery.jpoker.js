@@ -94,15 +94,19 @@
     jpoker.watchable.prototype = {
 
         constructor: function() {
-            this.callbacks = {
-                destroy: [],
-                update: []
-            };
+            this.setCallbacks();
         },
 
         destructor: function() {
             this.notifyDestroy();
-            delete this.callbacks;
+            this.setCallbacks();
+        },
+
+        setCallbacks: function() {
+            this.callbacks = {
+                destroy: [],
+                update: []
+            };
         },
 
         notify: function(what, data) {
@@ -162,6 +166,8 @@
 
     jpoker.connection.prototype = $.extend({}, jpoker.watchable.prototype, {
 
+            blocked: false,
+
             session: 'clear',
 
             state: 'disconnected',
@@ -183,6 +189,7 @@
             },
 
             destructor: function() {
+                this.blocked = true;
                 jpoker.watchable.prototype.destructor.call(this);
                 this.reset();
             },
@@ -327,72 +334,76 @@
             },
 
             queueIncoming: function(packets) {
-                for(var i = 0; i < packets.length; i++) {
-                    packet = packets[i];
-                    if("session" in packet) {
-                        delete packet.session;
+                if(!this.blocked) {
+                    for(var i = 0; i < packets.length; i++) {
+                        packet = packets[i];
+                        if("session" in packet) {
+                            delete packet.session;
+                        }
+                        packet.time__ = jpoker.now();
+                        var id;
+                        if("game_id" in packet) {
+                            id = packet.game_id;
+                        } else {
+                            id = 0;
+                        }
+                        if(!(id in this.queues)) {
+                            this.queues[id] = { 'high': {'packets': [],
+                                                         'delay': 0 },
+                                                'low': {'packets': [],
+                                                        'delay': 0 } };
+                        }
+                        if(jQuery.inArray(packet.type, this.high) >= 0) {
+                            queue = this.queues[id].high;
+                        } else {
+                            queue = this.queues[id].low;
+                        }
+                        queue.packets.push(packet);
                     }
-                    packet.time__ = jpoker.now();
-                    var id;
-                    if("game_id" in packet) {
-                        id = packet.game_id;
-                    } else {
-                        id = 0;
-                    }
-                    if(!(id in this.queues)) {
-                        this.queues[id] = { 'high': {'packets': [],
-                                                     'delay': 0 },
-                                            'low': {'packets': [],
-                                                    'delay': 0 } };
-                    }
-                    if(jQuery.inArray(packet.type, this.high) >= 0) {
-                        queue = this.queues[id].high;
-                    } else {
-                        queue = this.queues[id].low;
-                    }
-                    queue.packets.push(packet);
+                    this.clearTimeout(this.incomingTimer);
+                    var $this = this;
+                    this.incomingTimer = this.setTimeout(function() {
+                            $this.dequeueIncoming(); },
+                        this.pollFrequency);
                 }
-                this.clearTimeout(this.incomingTimer);
-                var $this = this;
-                this.incomingTimer = this.setTimeout(function() {
-                        $this.dequeueIncoming(); },
-                    this.pollFrequency);
             },
 
             dequeueIncoming: function() {
-                now = jpoker.now();
-                this.lag = 0;
-                for(var id in this.queues) {
-                    for(var priority in this.queues[id]) {
-                        queue = this.queues[id][priority];
-                        if(queue.packets.length <= 0) {
-                            continue;
-                        }
-                        lag = now - queue.packets[0].time__;
-                        this.lag = this.lag > lag ? this.lag : lag;
-                        if(queue.delay > now && lag > this.lagmax) {
-                            queue.delay = 0;
-                        }
-                        if(queue.delay <= now) {
-                            delay = this.handleDelay(id);
-                            if(lag > this.lagmax || delay === null || delay <= now) {
-                                packet = queue.packets.shift();
-                                delete packet.time__;
-                                this.handle(id, packet);
-                            } else {
-                                queue.delay = delay;
+                if(!this.blocked) {
+                    now = jpoker.now();
+                    this.lag = 0;
+                    for(var id in this.queues) {
+                        for(var priority in this.queues[id]) {
+                            queue = this.queues[id][priority];
+                            if(queue.packets.length <= 0) {
+                                continue;
                             }
-                        } else if(jpoker.verbose > 0) {
-                            this.message("wait for " + queue.delay / 1000.0 + "s for queue " + id);
+                            lag = now - queue.packets[0].time__;
+                            this.lag = this.lag > lag ? this.lag : lag;
+                            if(queue.delay > now && lag > this.lagmax) {
+                                queue.delay = 0;
+                            }
+                            if(queue.delay <= now) {
+                                delay = this.handleDelay(id);
+                                if(lag > this.lagmax || delay === null || delay <= now) {
+                                    packet = queue.packets.shift();
+                                    delete packet.time__;
+                                    this.handle(id, packet);
+                                } else {
+                                    queue.delay = delay;
+                                }
+                            } else if(jpoker.verbose > 0) {
+                                this.message("wait for " + queue.delay / 1000.0 + "s for queue " + id);
+                            }
                         }
-                    }
-                    //
-                    // get rid of queues with no associated delay AND no pending packets
-                    //
-                    queue = this.queues[id];
-                    if(queue.high.packets.length <= 0 && queue.low.packets.length <= 0) {
-                        if(queue.high.delay <= now && queue.low.delay <= now) {
-                            delete this.queues[id];
+                        //
+                        // get rid of queues with no associated delay AND no pending packets
+                        //
+                        queue = this.queues[id];
+                        if(queue.high.packets.length <= 0 && queue.low.packets.length <= 0) {
+                            if(queue.high.delay <= now && queue.low.delay <= now) {
+                                delete this.queues[id];
+                            }
                         }
                     }
                 }
@@ -422,8 +433,8 @@
     };
 
     jpoker.server.defaults = $.extend({
-	    players: null,
-	    tables: null,
+	    playersCount: null,
+	    tablesCount: null,
             setInterval: function(cb, delay) { return window.setInterval(cb, delay); },
             clearInterval: function(id) { return window.clearInterval(id); }
         }, jpoker.connection.defaults);
@@ -466,11 +477,11 @@
                 };
 
                 var handler = function(server, packet) {
-                    var info = server.tables[string];
+                    var info = server.tables && server.tables[string];
                     if(packet.type == "PacketPokerTableList") {
                         info.packet = packet;
-			server.players = packet.players;
-			server.tables = packet.tables;
+			server.playersCount = packet.players;
+			server.tablesCount = packet.tables;
                         server.notifyUpdate(packet);
                     }
                 };
@@ -666,14 +677,16 @@
                     }
                 };
 
-                server.registerUpdate(updated);
+                if(updated(server)) {
+                    server.registerUpdate(updated);
+                }
 
                 return this;
             });
     };
 
     jpoker.plugins.serverStatus.defaults = $.extend({
-        }, jpoker.refresh.defaults, jpoker.defaults);
+        }, jpoker.defaults);
 
     jpoker.plugins.serverStatus.getHTML = function(server) {
         var t = this.templates;
@@ -684,18 +697,18 @@
 	} else {
 	    html.push(t.disconnected);
 	}
-	if(server.players != null) {
-	    html.push(t.players.replace('%players', server.players));
+	if(server.playersCount != null) {
+	    html.push(t.players.replace('%players', server.playersCount));
 	}
-	if(server.tables != null) {
-	    html.push(t.tables.replace('%tables', server.tables));
+	if(server.tablesCount != null) {
+	    html.push(t.tables.replace('%tables', server.tablesCount));
 	}
         return html.join('\n');
     };
 
     jpoker.plugins.serverStatus.templates = {
 	url: ' %url ',
-	disconnect: ' disconnected ',
+	disconnected: ' disconnected ',
 	connected: ' connected ',
         players: ' %players players ',
         tables: ' %tables tables '
