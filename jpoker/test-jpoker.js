@@ -18,8 +18,57 @@
 //
 module("jpoker");
 
+if(!window.ActiveXObject) {
+    window.ActiveXObject = true;
+}
+
+var ActiveXObject = function(options) {
+    $.extend(this, ActiveXObject.defaults, options);
+    this.headers = [];
+};
+
+ActiveXObject.defaults = {
+    readyState: 4,
+    timeout: false,
+    status: 200
+};
+
+ActiveXObject.prototype = {
+
+    responseText: "[]",
+
+    open: function(type, url, async) {
+        //window.console.log(url);
+    },
+    
+    setRequestHeader: function(header) {
+        this.headers.push(header);
+    },
+    
+    getResponseHeader: function(header) {
+        if(header == "content-type") {
+            return "text/plain";
+        } else {
+            return null;
+        }
+    },
+
+    abort: function() {
+    },
+
+    send: function(data) {
+        if('server' in this && !this.timeout && this.status == 200) {
+            this.server.handle(data);
+            this.responseText = this.server.outgoing;
+        }
+    }
+};
+
 var jpoker = $.jpoker;
 
+//
+// jpoker
+//
 test("jpoker: unique id generation test", function() {
         expect(2);
         jpoker.serial = 1;
@@ -91,6 +140,133 @@ test("jpoker.refresh", function(){
         equals(error_occurred, 1, 'first call error');
         jpoker.servers = {}; // destroy fake server
         equals(interval_callback(), false, 'second call 1');
+    });
+
+//
+// jpoker.server
+//
+test("jpoker.login: ok", function(){
+        expect(6);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        equals(server.loggedIn(), false);
+        equals(server.pinging(), false);
+
+        var PokerServer = function() {};
+
+        PokerServer.prototype = {
+            outgoing: '[{"type": "PacketAuthOk"}, {"type": "PacketSerial", "serial": 1}]',
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        server.login("name", "password");
+        server.registerUpdate(function(server, packet) {
+                switch(packet.type) {
+                case "PacketSerial":
+                    equals(server.loggedIn(), true, "loggedIn");
+                    equals(server.pinging(), true);
+                    equals(server.connected(), true, "connected");
+                    start();
+                    return false;
+
+                case "PacketState":
+                    equals(server.connected(), true, "connected");
+                    return true;
+
+                default:
+                    fail("unexpected packet type " + packet.type);
+                    return false;
+                }
+            });
+    });
+
+test("jpoker.login: refused", function(){
+        expect(1);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        var PokerServer = function() {};
+
+        var refused = "not good";
+        PokerServer.prototype = {
+            outgoing: '[{"type": "PacketAuthRefused", "message": "' + refused + '"}]',
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        dialog = jpoker.dialog;
+        jpoker.dialog = function(message) {
+            equals(message, refused, "refused");
+            jpoker.dialog = dialog;
+            start();
+        };
+        server.login("name", "password");
+    });
+
+test("jpoker.login: already logged", function(){
+        expect(1);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        var PokerServer = function() {};
+
+        var refused = "not good";
+        PokerServer.prototype = {
+            outgoing: '[{"type": "PacketError", "other_type": ' + jpoker.packetName2Type.LOGIN + ' }]',
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        dialog = jpoker.dialog;
+        jpoker.dialog = function(message) {
+            equals(message.indexOf("already logged") >= 0, true, "already logged");
+            jpoker.dialog = dialog;
+            start();
+        };
+        server.login("name", "password");
+    });
+
+test("jpoker.login: serial is set", function(){
+        expect(2);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.serial = 1;
+        var caught = false;
+        try { 
+            server.login("name", "password");
+        } catch(error) {
+            equals(error.indexOf("serial is") >= 0, true, "serial is set");
+            caught = true;
+        }
+        equals(caught, true, "caught is true");
+
+        server.serial = 0;
+    });
+
+test("jpoker.logout", function(){
+        expect(3);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.serial = 1;
+        server.state = "connected";
+        equals(server.loggedIn(), true);
+        server.registerUpdate(function(server, packet) {
+                equals(server.loggedIn(), false);
+                equals(packet.type, "PacketLogout");
+                start();
+            });
+        server.logout();
     });
 
 //
@@ -390,52 +566,6 @@ test("jpoker.connection:queueIncoming", function(){
         self.queues = {};
     });
 
-if(!window.ActiveXObject) {
-    window.ActiveXObject = true;
-}
-
-var ActiveXObject = function(options) {
-    $.extend(this, ActiveXObject.defaults, options);
-    this.headers = [];
-};
-
-ActiveXObject.defaults = {
-    readyState: 4,
-    timeout: false,
-    status: 200
-};
-
-ActiveXObject.prototype = {
-
-    responseText: "[]",
-
-    open: function(type, url, async) {
-        //window.console.log(url);
-    },
-    
-    setRequestHeader: function(header) {
-        this.headers.push(header);
-    },
-    
-    getResponseHeader: function(header) {
-        if(header == "content-type") {
-            return "text/plain";
-        } else {
-            return null;
-        }
-    },
-
-    abort: function() {
-    },
-
-    send: function(data) {
-        if('server' in this && !this.timeout && this.status == 200) {
-            this.server.handle(data);
-            this.responseText = this.server.outgoing;
-        }
-    }
-};
-
 var TABLE_LIST_PACKET = {"players": 4, "type": "PacketPokerTableList", "packets": [{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 1535, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 4, "waiting": 0, "skin": "default", "id": 100, "type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Two", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 101,"type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Three", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-pot-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 102,"type": "PacketPokerTable", "player_timeout": 60}]};
 
 test("jpoker.tableList", function(){
@@ -498,7 +628,7 @@ test("jpoker.serverStatus", function(){
         //
 	place.jpoker('serverStatus', 'url');
 	var content = $("#" + id).text();
-	equals(content.search("disconnected") >= 0, true, "disconnected");
+	equals(content.indexOf("disconnected") >= 0, true, "disconnected");
 
         //
         // connected
@@ -509,9 +639,9 @@ test("jpoker.serverStatus", function(){
         server.notifyUpdate();
         content = $("#" + id).text();
 
-	equals(content.search("connected") >= 0, true, "connected");
-	equals(content.search("12") >= 0, true, "12 players");
-	equals(content.search("23") >= 0, true, "23 players");
+	equals(content.indexOf("connected") >= 0, true, "connected");
+	equals(content.indexOf("12") >= 0, true, "12 players");
+	equals(content.indexOf("23") >= 0, true, "23 players");
         //
         // element destroyed
         //
