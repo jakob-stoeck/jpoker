@@ -33,10 +33,10 @@
 
         servers: {},
 
-        destructor: function() {
+        uninit: function() {
             $.each(this.servers,
                    function(key, value) {
-                       value.destructor();
+                       value.uninit();
                    });
             this.servers = {};
         },
@@ -49,9 +49,13 @@
             if(window.console) { window.console.log(str); }
         },
 
+        dialog: function(element) {
+            $(element).dialog();
+        },
+
         error: function(reason) {
             this.errorHandler(reason);
-            this.destructor();
+            this.uninit();
             throw reason;
         },
 
@@ -65,7 +69,7 @@
         },
 
         serverDestroy: function(url) {
-            this.servers[url].destructor();
+            this.servers[url].uninit();
             delete this.servers[url];
         },
 
@@ -86,7 +90,7 @@
     //
     jpoker.watchable = function(options) {
         $.extend(this, jpoker.watchable.defaults, options);
-        this.constructor();
+        this.init();
     };
 
     jpoker.watchable.defaults = {
@@ -94,11 +98,11 @@
 
     jpoker.watchable.prototype = {
 
-        constructor: function() {
+        init: function() {
             this.setCallbacks();
         },
 
-        destructor: function() {
+        uninit: function() {
             this.notifyDestroy();
             this.setCallbacks();
         },
@@ -148,7 +152,7 @@
     //
     jpoker.connection = function(options) {
         $.extend(this, jpoker.connection.defaults, options);
-        this.constructor();
+        this.init();
     };
 
     jpoker.connection.defaults = $.extend({
@@ -180,18 +184,18 @@
 
             pingTimer: -1,
 
-            constructor: function() {
-                jpoker.watchable.prototype.constructor.call(this);
+            init: function() {
+                jpoker.watchable.prototype.init.call(this);
                 this.handlers = {};
                 this.queues = {};
                 this.delays = {};
-                this.init();
+                this.reset();
             },
 
-            destructor: function() {
+            uninit: function() {
                 this.blocked = true;
-                jpoker.watchable.prototype.destructor.call(this);
-                this.init();
+                jpoker.watchable.prototype.uninit.call(this);
+                this.reset();
             },
 
             clearSession: function() {
@@ -202,7 +206,7 @@
                 this.session = jpoker.serial++;
             },
 
-            init: function() {
+            reset: function() {
                 this.clearTimeout(this.pingTimer);
                 this.pingTimer = -1;
                 this.clearTimeout(this.incomingTimer);
@@ -216,7 +220,7 @@
             },
 
             error: function(reason) {
-                this.init();
+                this.reset();
                 this.handlers = {};
                 this.setState('disconnected');
                 jpoker.error(reason);
@@ -304,7 +308,7 @@
                     error: function(xhr, status, error) {
                         if(status == "timeout") {
                             $this.setState('disconnected');
-                            $this.init();
+                            $this.reset();
                         } else {
                             $this.error({ xhr: xhr,
                                           status: status,
@@ -424,8 +428,8 @@
     //
     jpoker.server = function(options) {
         $.extend(this, jpoker.server.defaults, options);
-        jpoker.connection.prototype.constructor.call(this);
-        this.constructor();
+        jpoker.connection.prototype.init.call(this);
+        this.init();
     };
 
     jpoker.server.defaults = $.extend({
@@ -436,20 +440,20 @@
         }, jpoker.connection.defaults);
 
     jpoker.server.prototype = $.extend({}, jpoker.connection.prototype, {
-            constructor: function() {
-                jpoker.connection.prototype.constructor.call(this);
+            init: function() {
+                jpoker.connection.prototype.init.call(this);
                 this.tables = {};
                 this.timers = {};
                 this.serial = 0;
                 this.logname = null;
             },
 
-            destructor: function() {
+            uninit: function() {
                 var $this = this;
                 $.each(this.timers, function(key, value) {
                         $this.clearInterval(value.timer);
                     });
-                jpoker.connection.prototype.destructor.call(this);
+                jpoker.connection.prototype.uninit.call(this);
             },
 
             refresh: function(tag, request, handler, options) {
@@ -493,7 +497,7 @@
             },
 
             login: function(name, password) {
-                if(this.serial != 0) {
+                if(this.serial !== 0) {
                     throw this.url + " attempt to login " + name + " although serial is " + this.serial + " instead of 0";
                 }
                 this.sendPacket({
@@ -504,12 +508,22 @@
                 this.ping();
                 var answer = function(server, packet) {
                     switch(packet.type) {
+                    case "PacketAuthOk":
+                    break;
+
+                    case "PacketAuthError":
+                    jpoker.dialog("error");
+                    break;
+
+                    case "PacketError":
+                    if(packet.code == 1)
+                    jpoker.dialog("error");
+                    break;
+
                     case "PacketSerial":
                     server.serial = packet.serial;
                     break;
 
-                    case "PacketError":
-                    break;
                     } 
                 };
                 this.registerHandler(0, answer);

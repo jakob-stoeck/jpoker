@@ -133,7 +133,7 @@ test("jpoker.connection:ping", function(){
         self.registerUpdate(function(server, data) {
                 equals(server.state, 'connected');
                 if(++ping_count >= 2) {
-                    server.init();
+                    server.reset();
                     start();
                 } else {
                     server.state = 'disconnected';
@@ -153,9 +153,9 @@ test("jpoker.connection:sendPacket error", function(){
             equals(reason.xhr.status, 404);
             start();
         };
-        XMLHttpRequest.defaults.status = 404;
+        ActiveXObject.defaults.status = 404;
         self.sendPacket({type: 'type'});
-        XMLHttpRequest.defaults.status = 200;
+        ActiveXObject.defaults.status = 200;
     });
 
 test("jpoker.connection:sendPacket timeout", function(){
@@ -165,14 +165,14 @@ test("jpoker.connection:sendPacket timeout", function(){
                 timeout: 1
             });
         
-        self.init = function() {
+        self.reset = function() {
             equals(this.state, 'disconnected');
             start();
         };
         self.state = 'connected';
-        XMLHttpRequest.defaults.timeout = true;
+        ActiveXObject.defaults.timeout = true;
         self.sendPacket({type: 'type'});
-        XMLHttpRequest.defaults.timeout = false;
+        ActiveXObject.defaults.timeout = false;
     });
 
 test("jpoker.connection:sendPacket ", function(){
@@ -192,7 +192,7 @@ test("jpoker.connection:sendPacket ", function(){
             }
         };
 
-        XMLHttpRequest.prototype.server = new PokerServer();
+        ActiveXObject.prototype.server = new PokerServer();
 
         var clock = 1;
         jpoker.now = function() { return clock++; };
@@ -390,18 +390,22 @@ test("jpoker.connection:queueIncoming", function(){
         self.queues = {};
     });
 
-var XMLHttpRequest = function(options) {
-    $.extend(this, XMLHttpRequest.defaults, options);
+if(!window.ActiveXObject) {
+    window.ActiveXObject = true;
+}
+
+var ActiveXObject = function(options) {
+    $.extend(this, ActiveXObject.defaults, options);
     this.headers = [];
 };
 
-XMLHttpRequest.defaults = {
+ActiveXObject.defaults = {
     readyState: 4,
     timeout: false,
     status: 200
 };
 
-XMLHttpRequest.prototype = {
+ActiveXObject.prototype = {
 
     responseText: "[]",
 
@@ -450,7 +454,7 @@ test("jpoker.tableList", function(){
             handle: function(packet) { }
         };
 
-        XMLHttpRequest.prototype.server = new PokerServer();
+        ActiveXObject.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
         jpoker.serverDestroy('url');
