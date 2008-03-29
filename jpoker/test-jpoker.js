@@ -125,15 +125,15 @@ test("jpoker.connection:ping", function(){
         expect(3);
         stop();
         var self = new jpoker.connection({
-                doPing: true,
                 pingFrequency: 30 // be carefull not to launch faster than jQuery internal timer
             });
         equals(self.state, 'disconnected');
+        self.ping();
         var ping_count = 0;
         self.registerUpdate(function(server, data) {
                 equals(server.state, 'connected');
                 if(++ping_count >= 2) {
-                    server.reset();
+                    server.init();
                     start();
                 } else {
                     server.state = 'disconnected';

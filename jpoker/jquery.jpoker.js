@@ -29,7 +29,7 @@
 
         verbose: 0,
 
-        serial: Date.now(),
+        serial: (new Date()).getTime(),
 
         servers: {},
 
@@ -41,7 +41,7 @@
             this.servers = {};
         },
 
-        now: function() { return Date.now(); },
+        now: function() { return (new Date()).getTime(); },
 
         uid: function() { return "jpoker" + $.jpoker.serial++ ; },
 
@@ -60,7 +60,8 @@
         },
 
         serverCreate: function(options) {
-            return this.servers[options.url] = new jpoker.server(options);
+            this.servers[options.url] = new jpoker.server(options);
+            return this.servers[options.url];
         },
 
         serverDestroy: function(url) {
@@ -154,7 +155,6 @@
             mode: "queue",
             url: '',
             async: true,
-            doPing: false,
             lagmax: 60,
             pollFrequency:  100,
             pingFrequency: 5000,
@@ -191,14 +191,7 @@
             destructor: function() {
                 this.blocked = true;
                 jpoker.watchable.prototype.destructor.call(this);
-                this.reset();
-            },
-
-            init: function() {
-                this.reset();
-                if(this.doPing) {
-                    this.ping();
-                }
+                this.init();
             },
 
             clearSession: function() {
@@ -209,7 +202,7 @@
                 this.session = jpoker.serial++;
             },
 
-            reset: function() {
+            init: function() {
                 this.clearTimeout(this.pingTimer);
                 this.pingTimer = -1;
                 this.clearTimeout(this.incomingTimer);
@@ -223,7 +216,7 @@
             },
 
             error: function(reason) {
-                this.reset();
+                this.init();
                 this.handlers = {};
                 this.setState('disconnected');
                 jpoker.error(reason);
@@ -257,14 +250,15 @@
 
             handle: function(id, packet) {
                 if(id in this.handlers) {
-                    handlers = this.handlers[id];
-                    for(var i = 0; i < handlers.length; i++) {
-                        try {
-                            handlers[i](this, id, packet);
-                        } catch(e) {
-                            this.error(e);
-                        }
-                    }
+                    var $this = this;
+                    this.handlers[id] = $.grep(this.handlers[id], function(element, index) {
+                            try {
+                                return element($this, id, packet);
+                            } catch(e) {
+                                $this.error(e);
+                                return false; // error will throw anyways
+                            }
+                        });
                 }
             },
 
@@ -300,7 +294,7 @@
                     global: false, // do not fire global events
                     success: function(data, status) {
                         if($this.state != 'connected') {
-                            if($this.doPing) {
+                            if($this.pinging()) {
                                 $this.createSession();
                             }
                             $this.setState('connected');
@@ -332,6 +326,8 @@
                         $this.ping();
                     }, this.pingFrequency);
             },
+
+            pinging: function() { return this.pingTimer >= 0; },
 
             queueIncoming: function(packets) {
                 if(!this.blocked) {
@@ -444,6 +440,8 @@
                 jpoker.connection.prototype.constructor.call(this);
                 this.tables = {};
                 this.timers = {};
+                this.serial = 0;
+                this.logname = null;
             },
 
             destructor: function() {
@@ -484,9 +482,42 @@
 			server.tablesCount = packet.tables;
                         server.notifyUpdate(packet);
                     }
+                    return true;
                 };
 
                 this.refresh('tableList', request, handler, options);
+            },
+
+            loggedIn: function() {
+                return this.serial !== 0;
+            },
+
+            login: function(name, password) {
+                if(this.serial != 0) {
+                    throw this.url + " attempt to login " + name + " although serial is " + this.serial + " instead of 0";
+                }
+                this.sendPacket({
+                        "type" : "PacketLogin",
+                        "name": name,
+                        "password": password
+                    });
+                this.ping();
+                var answer = function(server, packet) {
+                    switch(packet.type) {
+                    case "PacketSerial":
+                    server.serial = packet.serial;
+                    break;
+
+                    case "PacketError":
+                    break;
+                    } 
+                };
+                this.registerHandler(0, answer);
+            },
+
+            logout: function() {
+                this.serial = 0;
+                this.sendPacket({ type: "PacketLogout" });
             }
         });
 
@@ -544,11 +575,11 @@
 
         var callback = function() {
             var server = jpoker.url2server({ url: url }); // check if server still exists when the callback runs
-            if(opts.requireSession == false || server.connected()) {
+            if(opts.requireSession === false || server.connected()) {
                 if(waiting) {
                     if(( jpoker.now() - time_sent ) > opts.timeout) {
 			opts.clearInterval(timer);
-                        server.error("$this timed out after " + (jpoker.now() - time_sent) + " seconds trying to update url " + url);
+                        server.error(server.url + " timed out after " + (jpoker.now() - time_sent) + " seconds trying to update url " + url);
                     }
                 } else {
                     time_sent = jpoker.now();
@@ -568,7 +599,7 @@
 
             var cb = function(server, game_id, packet) {
                 waiting = false;
-                handler(server, packet);
+                return handler(server, packet);
             };
 
             server.registerHandler(opts.game_id, cb, opts);
@@ -697,10 +728,10 @@
 	} else {
 	    html.push(t.disconnected);
 	}
-	if(server.playersCount != null) {
+	if(server.playersCount !== null) {
 	    html.push(t.players.replace('%players', server.playersCount));
 	}
-	if(server.tablesCount != null) {
+	if(server.tablesCount !== null) {
 	    html.push(t.tables.replace('%tables', server.tablesCount));
 	}
         return html.join('\n');
@@ -712,6 +743,80 @@
 	connected: ' connected ',
         players: ' %players players ',
         tables: ' %tables tables '
+    };
+
+    jpoker.plugins.login = function(url, options) {
+ 
+        var opts = $.extend({}, jpoker.plugins.login.defaults, options);
+
+        var server = jpoker.url2server({ url: url });
+
+        return this.each(function() {
+                var $this = $(this);
+
+                var id = jpoker.uid();
+
+                $this.append('<div class="jpokerLogin" id="' + id + '"></div>');
+
+                var updated = function(server) {
+                    var element = document.getElementById(id);
+                    if(element) {
+			var e = $(element);
+                        e.html($this.getHTML(server));
+                        if(server.loggedIn()) {
+                            $("#logout", element).click(function() {
+                                    var server = jpoker.url2server({ url: url });
+                                    if(server.loggedIn()) {
+                                        server.sendPacket({ "type": "PacketLogout" });
+                                        $("#" + id + " > #logout").html("logout in progress");
+                                    }
+                                });
+                        } else {
+                            var login = $("#login", element);
+                            var action = function() {
+                                var name = $("#name", login).text();
+                                var password = $("#password", login).text();
+                                jpoker.url2server({ url: url }).login(name, password);
+                                $("#" + id + " > #login").html("login in progress");
+                            };
+                            login.click(action);
+                            login.keypress(function(e) {
+                                    if(e.which == 13) {
+                                        action.call(this);
+                                    }
+                                });
+                        }
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+
+                if(updated(server)) {
+                    server.registerUpdate(updated);
+                }
+
+                return this;
+            });
+    };
+
+    jpoker.plugins.login.defaults = $.extend({
+        }, jpoker.defaults);
+
+    jpoker.plugins.login.getHTML = function(server) {
+        var t = this.templates;
+	var html = [];
+	if(server.loggedIn()) {
+	    html.push(t.logout.replace('%player', server.logname));
+	} else {
+	    html.push(t.login);
+	}
+        return html.join('\n');
+    };
+
+    jpoker.plugins.login.templates = {
+	login: '<div id="login">login: <input type="text" id="name" size="10" />, password: <input type="password" id="password" size="10" /> </div>',
+	logout: '<div id="logout">%player logout<div>'
     };
 
 })(jQuery);
