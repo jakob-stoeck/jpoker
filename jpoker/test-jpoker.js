@@ -31,7 +31,7 @@ test("jpoker.refresh", function(){
         expect(13);
 
         var clock = 1;
-        jpoker.now = function() { return clock++; }
+        jpoker.now = function() { return clock++; };
 
         var error_occurred = 0;
 
@@ -54,9 +54,9 @@ test("jpoker.refresh", function(){
             return 42;
         };
         var clearInterval = function(id) {
-            equals(id == 42 || id == 0, true, "id == 42 or 0");
+            equals(id == 42 || id === 0, true, "id == 42 or 0");
         };
-        jpoker.servers['url'] = {
+        jpoker.servers.url = {
             url: 'url',
 
             connected: function() {
@@ -77,7 +77,7 @@ test("jpoker.refresh", function(){
         // and fails because refresh is in wait state and timeout (set to 0)
         // exired.
         //
-        result = jpoker.refresh(jpoker.servers['url'], request, handler,
+        result = jpoker.refresh(jpoker.servers.url, request, handler,
                                 {
                                     game_id: 1,
                                     timeout: 0,
@@ -147,9 +147,9 @@ test("jpoker.connection:sendPacket error", function(){
         stop();
         var self = new jpoker.connection();
         
-        error = jpoker.error
+        error = jpoker.error;
         jpoker.error = function(reason) {
-            jpoker.error = error
+            jpoker.error = error;
             equals(reason.xhr.status, 404);
             start();
         };
@@ -195,7 +195,7 @@ test("jpoker.connection:sendPacket ", function(){
         XMLHttpRequest.prototype.server = new PokerServer();
 
         var clock = 1;
-        jpoker.now = function() { return clock++; }
+        jpoker.now = function() { return clock++; };
         self.clearTimeout = function(id) { };
         self.setTimeout = function(cb, delay) {
             return cb();
@@ -237,7 +237,7 @@ test("jpoker.connection:dequeueIncoming setTimeout", function(){
         var self = new jpoker.connection();
 
         var clock = 1;
-        jpoker.now = function() { return clock++; }
+        jpoker.now = function() { return clock++; };
         var timercalled = false;
         self.clearTimeout = function(id) { };
         self.setTimeout = function(cb, delay) { timercalled = true; };
@@ -246,12 +246,12 @@ test("jpoker.connection:dequeueIncoming setTimeout", function(){
         self.queues[0] = { 'high': {'packets': [],
                                     'delay':  500 },
                            'low': {'packets': [],
-                                   'delay': 0 } }
+                                   'delay': 0 } };
         // will be deleted because it is empty
         self.queues[1] = { 'high': {'packets': [],
                                     'delay':  0 },
                            'low': {'packets': [],
-                                   'delay': 0 } }
+                                   'delay': 0 } };
         self.dequeueIncoming();
 
         ok(!(1 in self.queues));
@@ -268,7 +268,7 @@ test("jpoker.connection:dequeueIncoming handle", function(){
         self.queues[0] = { 'high': {'packets': [],
                                     'delay':  0 },
                            'low': {'packets': [packet],
-                                   'delay': 0 } }
+                                   'delay': 0 } };
         var handled;
         var handler = function(com, id, packet) {
             handled = [ com, id, packet ];
@@ -297,14 +297,14 @@ test("jpoker.connection:dequeueIncoming handle error", function(){
         self.queues[0] = { 'high': {'packets': [],
                                     'delay':  0 },
                            'low': {'packets': [packet],
-                                   'delay': 0 } }
+                                   'delay': 0 } };
         var handler = function(com, id, packet) {
             throw "the error";
         };
         self.error = function(reason) {
             equals(reason, "the error");
             start();
-        }
+        };
         self.registerHandler(0, handler);
         self.dequeueIncoming();
     });
@@ -314,7 +314,7 @@ test("jpoker.connection:dequeueIncoming delayed", function(){
         var self = new jpoker.connection();
 
         var clock = 1;
-        jpoker.now = function() { return clock++; }
+        jpoker.now = function() { return clock++; };
         self.clearTimeout = function(id) { };
 
         var packet = { type: 'type1', time__: 1 };
@@ -324,14 +324,14 @@ test("jpoker.connection:dequeueIncoming delayed", function(){
         self.queues[0] = { 'high': {'packets': [],
                                     'delay':  0 },
                            'low': {'packets': [packet],
-                                   'delay': 0 } }
+                                   'delay': 0 } };
         self.dequeueIncoming();
         equals(self.queues[0].low.packets[0], packet);
         equals(self.queues[0].low.delay, delay);
 
         var message = false;
         jpoker.verbose = 1;
-        self.message = function(str) { message = true; }
+        self.message = function(str) { message = true; };
         self.dequeueIncoming();
         equals(self.queues[0].low.delay, delay);
         equals(message, true, "message");
@@ -347,7 +347,7 @@ test("jpoker.connection:dequeueIncoming lagmax", function(){
         var self = new jpoker.connection();
 
         var clock = 10;
-        jpoker.now = function() { return clock++; }
+        jpoker.now = function() { return clock++; };
         self.lagmax = 5;
         self.clearTimeout = function(id) { };
 
@@ -355,7 +355,7 @@ test("jpoker.connection:dequeueIncoming lagmax", function(){
         self.queues[0] = { 'high': {'packets': [],
                                     'delay':  0 },
                            'low': {'packets': [packet],
-                                   'delay': 50 } }
+                                   'delay': 50 } };
         var handled;
         var handler = function(com, id, packet) {
             handled = [ com, id, packet ];
@@ -398,7 +398,7 @@ var XMLHttpRequest = function(options) {
 XMLHttpRequest.defaults = {
     readyState: 4,
     timeout: false,
-    status: 200,
+    status: 200
 };
 
 XMLHttpRequest.prototype = {
