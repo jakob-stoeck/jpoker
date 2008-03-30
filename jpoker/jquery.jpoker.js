@@ -832,7 +832,6 @@
                                 jpoker.url2server({ url: url }).login(name, password);
                                 $("#" + id + " > #login").html("login in progress");
                             };
-                            element.click(action);
                             element.keypress(function(e) {
                                     if(e.which == 13) {
                                         action.call(this);
