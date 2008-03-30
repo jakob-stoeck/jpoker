@@ -536,13 +536,15 @@
                     return true;
 
                     case "PacketAuthRefused":
-                    jpoker.dialog(packet.message);
+                    jpoker.dialog(packet.message + " (login name is '" + name + "')");
+                    server.notifyUpdate(packet);
                     return false;
 
                     case "PacketError":
                     if(packet.other_type == jpoker.packetName2Type.LOGIN) {
                         jpoker.dialog("user " + name + " is already logged in");
                     }
+                    server.notifyUpdate(packet);
                     return false;
 
                     case "PacketSerial":
@@ -820,15 +822,14 @@
                             $("#logout", element).click(function() {
                                     var server = jpoker.url2server({ url: url });
                                     if(server.loggedIn()) {
-                                        server.sendPacket({ "type": "PacketLogout" });
-                                        $("#" + id + " > #logout").html("logout in progress");
+                                        server.logout();
                                     }
                                 });
                         } else {
                             var element = $("#login", element);
                             var action = function() {
-                                var name = $("#name", element).text();
-                                var password = $("#password", element).text();
+                                var name = $("#name", element).attr('value');
+                                var password = $("#password", element).attr('value');
                                 jpoker.url2server({ url: url }).login(name, password);
                                 $("#" + id + " > #login").html("login in progress");
                             };

@@ -205,7 +205,7 @@ test("jpoker.login: refused", function(){
 
         dialog = jpoker.dialog;
         jpoker.dialog = function(message) {
-            equals(message, refused, "refused");
+            equals(message.indexOf(refused) >= 0, true, "refused");
             jpoker.dialog = dialog;
             start();
         };
@@ -686,35 +686,30 @@ test("jpoker.login", function(){
 	equals(content.indexOf("login:") >= 0, true, "login:");
 
         var expected = { name: 'logname', password: 'password' };
-        $("#name", place).text(expected.name);
-        $("#password", place).text(expected.password);
+        $("#name", place).attr('value', expected.name);
+        $("#password", place).attr('value', expected.password);
         var result = { name: null, password: null };
         server.login = function(name, password) {
             result.name = name;
             result.password = password;
         };
-        $("#login", place).click();
+        $("#login", place).triggerKeypress("13");
 	content = $("#" + id).text();
-        equals(content.indexOf("login in progress") >=0, true, "login click");
+        equals(content.indexOf("login in progress") >=0, true, "login keypress");
         equals(result.name, expected.name, "login name");
         equals(result.password, expected.password, "login password");
-
-        server.notifyUpdate();
-        $("#name", place).text(expected.name);
-        $("#password", place).text(expected.password);
-        result = { name: null, password: null };
-        $("#login", place).triggerKeypress("13");
-        equals(result.name, expected.name, "login name (2)");
-        equals(result.password, expected.password, "login password (2)");
-
 
         server.serial = 1;
         server.logname = 'logname';
         server.notifyUpdate();
 	var content = $("#" + id).text();
 	equals(content.indexOf("logname logout") >= 0, true, "logout");
+        equals(server.loggedIn(), true, "loggedIn");
 
         $("#logout", place).click();
+        equals(server.loggedIn(), false, "logged out");
 	content = $("#" + id).text();
-        equals(content.indexOf("logout in progress") >=0, true, "logout click");
+	equals(content.indexOf("login:") >= 0, true, "login:");
+
+        $("#" + id).remove();
     });
