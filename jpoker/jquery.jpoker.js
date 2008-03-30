@@ -204,8 +204,10 @@
                 this.session = 'clear';
             },
 
-            createSession: function() {
-                this.session = jpoker.serial++;
+            ensureSession: function() {
+                if(this.session == 'clear') {
+                    this.session = jpoker.serial++;
+                }
             },
 
             reset: function() {
@@ -321,9 +323,6 @@
                     global: false, // do not fire global events
                     success: function(data, status) {
                         if($this.state != 'connected') {
-                            if($this.pinging()) {
-                                $this.createSession();
-                            }
                             $this.setState('connected');
                         }
                         $this.queueIncoming(data);
@@ -529,6 +528,7 @@
                         "name": name,
                         "password": password
                     });
+                this.ensureSession();
                 this.ping();
                 var answer = function(server, id, packet) {
                     switch(packet.type) {
@@ -561,11 +561,14 @@
             },
 
             logout: function() {
-                this.serial = 0;
-                this.logname = null;
-                var packet = { type: "PacketLogout" };
-                this.sendPacket(packet);
-                this.notifyUpdate(packet);
+                if(this.serial !== 0) {
+                    this.serial = 0;
+                    this.logname = null;
+                    this.clearSession();
+                    var packet = { type: "PacketLogout" };
+                    this.sendPacket(packet);
+                    this.notifyUpdate(packet);
+                }
             }
         });
 

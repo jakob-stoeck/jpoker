@@ -146,7 +146,7 @@ test("jpoker.refresh", function(){
 // jpoker.server
 //
 test("jpoker.login: ok", function(){
-        expect(7);
+        expect(9);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -164,13 +164,15 @@ test("jpoker.login: ok", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var logname = "name";
+        equals(server.session, 'clear', "does not have session");
         server.login(logname, "password");
         server.registerUpdate(function(server, packet) {
                 switch(packet.type) {
                 case "PacketSerial":
                     equals(server.loggedIn(), true, "loggedIn");
                     equals(server.logname, logname, "logname");
-                    equals(server.pinging(), true);
+                    equals(server.pinging(), true, "pinging");
+                    equals(server.session != 'clear', true, "has session");
                     equals(server.connected(), true, "connected");
                     start();
                     return false;
@@ -256,18 +258,20 @@ test("jpoker.login: serial is set", function(){
     });
 
 test("jpoker.logout", function(){
-        expect(4);
+        expect(5);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
         server.serial = 1;
         server.serial = "logname";
         server.state = "connected";
+        server.session = 42;
         equals(server.loggedIn(), true);
         server.registerUpdate(function(server, packet) {
                 equals(server.loggedIn(), false);
                 equals(server.logname, null, "logname");
                 equals(packet.type, "PacketLogout");
+                equals(server.session, 'clear', "does not have session");
                 start();
             });
         server.logout();
