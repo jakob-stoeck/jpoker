@@ -77,6 +77,11 @@ test("jpoker: unique id generation test", function() {
     });
 
 test("jpoker.refresh", function(){
+        expect(1);
+        equals(jpoker.url2hash('url'), jpoker.url2hash('url'), "url2hash");
+    });
+
+test("jpoker.refresh", function(){
         expect(13);
 
         var clock = 1;
@@ -145,7 +150,7 @@ test("jpoker.refresh", function(){
 //
 // jpoker.server
 //
-test("jpoker.login: ok", function(){
+test("jpoker.server.login: ok", function(){
         expect(9);
         stop();
 
@@ -188,7 +193,7 @@ test("jpoker.login: ok", function(){
             });
     });
 
-test("jpoker.login: refused", function(){
+test("jpoker.server.login: refused", function(){
         expect(1);
         stop();
 
@@ -214,7 +219,7 @@ test("jpoker.login: refused", function(){
         server.login("name", "password");
     });
 
-test("jpoker.login: already logged", function(){
+test("jpoker.server.login: already logged", function(){
         expect(1);
         stop();
 
@@ -240,7 +245,7 @@ test("jpoker.login: already logged", function(){
         server.login("name", "password");
     });
 
-test("jpoker.login: serial is set", function(){
+test("jpoker.server.login: serial is set", function(){
         expect(2);
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -257,7 +262,7 @@ test("jpoker.login: serial is set", function(){
         server.serial = 0;
     });
 
-test("jpoker.logout", function(){
+test("jpoker.server.logout", function(){
         expect(5);
         stop();
 
