@@ -52,7 +52,7 @@
         },
 
         dialog: function(element) {
-            $(element).dialog();
+            humanMsg.displayMsg(element);
         },
 
         error: function(reason) {
