@@ -57,7 +57,7 @@ ActiveXObject.prototype = {
     },
 
     send: function(data) {
-        if('server' in this && !this.timeout && this.status == 200) {
+        if('server' in this && this.server && !this.timeout && this.status == 200) {
             this.server.handle(data);
             this.responseText = this.server.outgoing;
         }
@@ -146,7 +146,7 @@ test("jpoker.refresh", function(){
 // jpoker.server
 //
 test("jpoker.login: ok", function(){
-        expect(6);
+        expect(7);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -163,11 +163,13 @@ test("jpoker.login: ok", function(){
 
         ActiveXObject.prototype.server = new PokerServer();
 
-        server.login("name", "password");
+        var logname = "name";
+        server.login(logname, "password");
         server.registerUpdate(function(server, packet) {
                 switch(packet.type) {
                 case "PacketSerial":
                     equals(server.loggedIn(), true, "loggedIn");
+                    equals(server.logname, logname, "logname");
                     equals(server.pinging(), true);
                     equals(server.connected(), true, "connected");
                     start();
@@ -254,15 +256,17 @@ test("jpoker.login: serial is set", function(){
     });
 
 test("jpoker.logout", function(){
-        expect(3);
+        expect(4);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
         server.serial = 1;
+        server.serial = "logname";
         server.state = "connected";
         equals(server.loggedIn(), true);
         server.registerUpdate(function(server, packet) {
                 equals(server.loggedIn(), false);
+                equals(server.logname, null, "logname");
                 equals(packet.type, "PacketLogout");
                 start();
             });
@@ -566,6 +570,9 @@ test("jpoker.connection:queueIncoming", function(){
         self.queues = {};
     });
 
+//
+// tableList
+//
 var TABLE_LIST_PACKET = {"players": 4, "type": "PacketPokerTableList", "packets": [{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 1535, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 4, "waiting": 0, "skin": "default", "id": 100, "type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Two", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 101,"type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Three", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-pot-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 102,"type": "PacketPokerTable", "player_timeout": 60}]};
 
 test("jpoker.tableList", function(){
@@ -606,7 +613,11 @@ test("jpoker.tableList", function(){
                 } else {
                     equals(server.callbacks.update.length, 2, 'tableList and test update registered');
                     server.setTimeout = function(fun, delay) { };
-                    window.setTimeout(function() { jpoker.serverDestroy('url'); start(); }, 30);
+                    window.setTimeout(function() {
+                            jpoker.serverDestroy('url');
+                            delete ActiveXObject.prototype.server;
+                            start();
+                        }, 30);
                     return false;
                 }
             });
@@ -615,6 +626,9 @@ test("jpoker.tableList", function(){
             });
     });
 
+//
+// serverStatus
+//
 test("jpoker.serverStatus", function(){
 	expect(6);
 
@@ -649,4 +663,58 @@ test("jpoker.serverStatus", function(){
         equals(server.callbacks.update.length, 1, "1 update callback");
         server.notifyUpdate();
         equals(server.callbacks.update.length, 0, "0 update callback");
+    });
+
+//
+// login
+//
+$.fn.triggerKeypress = function(keyCode) {
+    return this.trigger("keypress", [$.event.fix({event:"keypress", keyCode: keyCode, target: this[0]})]);
+}
+
+test("jpoker.login", function(){
+        expect(8);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+
+	place.jpoker('login', 'url');
+        var content = null;
+        
+	content = $("#" + id).text();
+	equals(content.indexOf("login:") >= 0, true, "login:");
+
+        var expected = { name: 'logname', password: 'password' };
+        $("#name", place).text(expected.name);
+        $("#password", place).text(expected.password);
+        var result = { name: null, password: null };
+        server.login = function(name, password) {
+            result.name = name;
+            result.password = password;
+        };
+        $("#login", place).click();
+	content = $("#" + id).text();
+        equals(content.indexOf("login in progress") >=0, true, "login click");
+        equals(result.name, expected.name, "login name");
+        equals(result.password, expected.password, "login password");
+
+        server.notifyUpdate();
+        $("#name", place).text(expected.name);
+        $("#password", place).text(expected.password);
+        result = { name: null, password: null };
+        $("#login", place).triggerKeypress("13");
+        equals(result.name, expected.name, "login name (2)");
+        equals(result.password, expected.password, "login password (2)");
+
+
+        server.serial = 1;
+        server.logname = 'logname';
+        server.notifyUpdate();
+	var content = $("#" + id).text();
+	equals(content.indexOf("logname logout") >= 0, true, "logout");
+
+        $("#logout", place).click();
+	content = $("#" + id).text();
+        equals(content.indexOf("logout in progress") >=0, true, "logout click");
     });

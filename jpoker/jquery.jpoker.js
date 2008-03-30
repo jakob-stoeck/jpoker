@@ -523,6 +523,7 @@
                 if(this.serial !== 0) {
                     throw this.url + " attempt to login " + name + " although serial is " + this.serial + " instead of 0";
                 }
+                this.logname = name;
                 this.sendPacket({
                         "type" : "PacketLogin",
                         "name": name,
@@ -559,6 +560,7 @@
 
             logout: function() {
                 this.serial = 0;
+                this.logname = null;
                 var packet = { type: "PacketLogout" };
                 this.sendPacket(packet);
                 this.notifyUpdate(packet);
@@ -668,11 +670,13 @@
     //
     jpoker.plugins = {};
 
+    //
+    // tableList
+    //
     jpoker.plugins.tableList = function(url, options) {
+
         var tableList = jpoker.plugins.tableList;
-
         var opts = $.extend({}, tableList.defaults, options);
-
         var server = jpoker.url2server({ url: url });
 
         return this.each(function() {
@@ -728,11 +732,13 @@
         footer : '</tbody>'
     };
 
+    //
+    // serverStatus
+    //
     jpoker.plugins.serverStatus = function(url, options) {
+
         var serverStatus = jpoker.plugins.serverStatus;
-
         var opts = $.extend({}, serverStatus.defaults, options);
-
         var server = jpoker.url2server({ url: url });
 
         return this.each(function() {
@@ -789,10 +795,13 @@
         tables: ' %tables tables '
     };
 
+    //
+    // login
+    //
     jpoker.plugins.login = function(url, options) {
  
+        var login = jpoker.plugins.login;
         var opts = $.extend({}, jpoker.plugins.login.defaults, options);
-
         var server = jpoker.url2server({ url: url });
 
         return this.each(function() {
@@ -806,7 +815,7 @@
                     var element = document.getElementById(id);
                     if(element) {
 			var e = $(element);
-                        e.html($this.getHTML(server));
+                        e.html(login.getHTML(server));
                         if(server.loggedIn()) {
                             $("#logout", element).click(function() {
                                     var server = jpoker.url2server({ url: url });
@@ -816,15 +825,15 @@
                                     }
                                 });
                         } else {
-                            var login = $("#login", element);
+                            var element = $("#login", element);
                             var action = function() {
-                                var name = $("#name", login).text();
-                                var password = $("#password", login).text();
+                                var name = $("#name", element).text();
+                                var password = $("#password", element).text();
                                 jpoker.url2server({ url: url }).login(name, password);
                                 $("#" + id + " > #login").html("login in progress");
                             };
-                            login.click(action);
-                            login.keypress(function(e) {
+                            element.click(action);
+                            element.keypress(function(e) {
                                     if(e.which == 13) {
                                         action.call(this);
                                     }
