@@ -40,8 +40,6 @@ DAMAGE.
 <!--PRE-HEAD-START-->
 <!--{{{-->
 <link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml'/>
-<link href="/jpoker/tablelist.css" rel="stylesheet" type="text/css" />
-<link href="/jpoker/humanmsg.css" rel="stylesheet" type="text/css" />
 <!--}}}-->
 <!--PRE-HEAD-END-->
 <title> PokerSource.eu </title>
@@ -731,14 +729,26 @@ The pokersource.eu poker room will never provide real money tables. The only pok
 All the software and the graphics used at http://pokersource.eu/ are and will be Free Software. 
 </pre>
 </div>
-<div title="Login" modifier="Saq" modified="200803312008" created="200709031339" tags="SuperCookerTheme" changecount="6">
-<pre>&lt;&lt;jpokerLogin&gt;&gt;
-</pre>
+<div title="Login" modifier="Saq" modified="200709031815" created="200709031339" tags="SuperCookerTheme" changecount="6">
+<pre>&lt;html&gt;
+&lt;form id=&quot;form_login&quot; method=&quot;post&quot; action=&quot;login.php&quot;&gt;
+		&lt;table  cellspacing=&quot;0&quot; cellpadding=&quot;10&quot; class=&quot;login&quot;&gt;
+			&lt;tbody&gt;&lt;tr&gt;
+				&lt;td class=&quot;login_text&quot;&gt;&lt;b&gt;Login:&lt;/b&gt;&lt;/td&gt;
+				&lt;td class=&quot;login_input&quot;&gt;&lt;input type=&quot;text&quot; value=&quot;&quot; name=&quot;name&quot; maxlength=&quot;32&quot;/&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+				&lt;td class=&quot;login_text&quot;&gt;&lt;b&gt;Password:&lt;/b&gt;&lt;/td&gt;
+				&lt;td class=&quot;login_input&quot;&gt;&lt;input type=&quot;password&quot; id=&quot;password&quot; name=&quot;password&quot; maxlength=&quot;32&quot;/&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+		&lt;/tbody&gt;&lt;/table&gt;
+&lt;/form
+&lt;/html&gt;</pre>
 </div>
 <div title="MainMenu" modifier="YourName" modified="200709032321" created="200709022346" changecount="3">
 <pre>[[Introduction]]</pre>
 </div>
-<div title="PageTemplate" modifier="Saq" modified="200803312020" created="200709031403" tags="SuperCookerTheme" changecount="3">
+<div title="PageTemplate" modifier="Saq" modified="200709031816" created="200709031403" tags="SuperCookerTheme" changecount="3">
 <pre>&lt;!--{{{--&gt;
 &lt;div id=&quot;stickybod&quot;&gt;
 	&lt;div id=&quot;header&quot;&gt;
@@ -746,7 +756,6 @@ All the software and the graphics used at http://pokersource.eu/ are and will be
 		&lt;div id=&quot;headerTitle&quot; refresh=&quot;content&quot; force=&quot;true&quot; tiddler=&quot;SiteTitle&quot;&gt;&lt;/div&gt;
 
 	&lt;div id=&quot;headerImage&quot;&gt;&lt;/div&gt;
-	&lt;span id=&quot;statBar&quot; refresh=&quot;content&quot; force=&quot;true&quot; tiddler=&quot;SiteStats&quot;&gt;&lt;/span&gt;
 	&lt;div id=&quot;menu&quot; refresh=&quot;content&quot; force=&quot;true&quot; tiddler=&quot;MainMenu&quot;&gt;&lt;/div&gt;
 	&lt;/div&gt;
 	&lt;div id=&quot;myDisplayArea&quot;&gt;
@@ -1104,9 +1113,8 @@ Story.prototype.displayTiddlers = function(srcElement,titles,template,unused1,un
 }
 //}}}</pre>
 </div>
-<div title="SiteStats" modifier="Saq" modified="200803312006" created="200709031557" tags="SuperCookerTheme" changecount="4">
-<pre>&lt;&lt;jpokerServerStatus&gt;&gt;
-</pre>
+<div title="SiteStats" modifier="Saq" modified="200709031816" created="200709031557" tags="SuperCookerTheme" changecount="4">
+<pre>''5000'' players online in ''987'' rooms.</pre>
 </div>
 <div title="SiteSubtitle" modifier="Saq" modified="200803311956" created="200709031851" changecount="1">
 <pre></pre>
@@ -10078,14 +10086,7 @@ if(useJavaSaver)
 //]]>
 </script>
 <!--POST-SCRIPT-START-->
-<script src="/jpoker/jquery.js" type="text/javascript"></script>
-<script src="/jpoker/json2.js" type="text/javascript"></script>
-<script src="/jpoker/jquery.ajaxQueue.js" type="text/javascript"></script>
-<script src="/jpoker/humanmsg.js" type="text/javascript"></script>
-<script src="/jpoker/jquery.jpoker.js" type="text/javascript"></script>
-<script src="/jpoker/jpokerTableListPlugin.js" type="text/javascript"></script>
-<script src="/jpoker/jpokerServerStatusPlugin.js" type="text/javascript"></script>
-<script src="/jpoker/jpokerLoginPlugin.js" type="text/javascript"></script>
+
 <!--POST-SCRIPT-END-->
 </body>
 </html>
