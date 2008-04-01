@@ -1,5 +1,6 @@
 <!--{{{-->
 <link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml'/>
+<link href="jpoker.fr.json" lang="fr" rel="gettext"/>
 <link href="tablelist.css" rel="stylesheet" type="text/css" />
 <link href="humanmsg.css" rel="stylesheet" type="text/css" />
 <!--}}}-->

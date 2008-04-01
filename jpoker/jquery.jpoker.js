@@ -47,7 +47,7 @@
 
         now: function() { return (new Date()).getTime(); },
 
-        uid: function() { return "jpoker" + $.jpoker.serial++ ; },
+        uid: function() { return 'jpoker' + $.jpoker.serial++ ; },
 
         message: function(str) {
             if(window.console) { window.console.log(str); }
@@ -104,7 +104,7 @@
     // Licensed under Modified BSD
     //
 
-    // Crypto "namespace"
+    // Crypto namespace
     jpoker.Crypto = function() {}
 
     // Convert a string to an array of big-endian 32-bit words
@@ -126,7 +126,7 @@
     // Convert an array of big-endian 32-bit words to a string
     jpoker.Crypto.be32sToStr = function(be)
         {
-            var str = "";
+            var str = '';
             for(var i=0;i<be.length*32;i+=8)
 		str += String.fromCharCode((be[i>>5]>>>(24-i%32)) & 0xff);
             return str;
@@ -135,8 +135,8 @@
     // Convert an array of big-endian 32-bit words to a hex string
     jpoker.Crypto.be32sToHex = function(be)
         {
-            var hex = "0123456789ABCDEF";
-            var str = "";
+            var hex = '0123456789ABCDEF';
+            var str = '';
             for(var i=0;i<be.length*4;i++)
 		str += hex.charAt((be[i>>2]>>((3-i%4)*8+4))&0xF) + hex.charAt((be[i>>2]>>((3-i%4)*8))&0xF);
             return str;
@@ -310,7 +310,7 @@
     };
 
     jpoker.connection.defaults = $.extend({
-            mode: "queue",
+            mode: 'queue',
             url: '',
             async: true,
             lagmax: 60,
@@ -368,7 +368,7 @@
                 this.clearTimeout(this.incomingTimer);
                 this.incomingTimer = -1;
                 // empty the outgoing queue
-                jQuery([$.ajax_queue]).queue("ajax", []);
+                jQuery([$.ajax_queue]).queue('ajax', []);
                 // empty the incoming queue
                 this.queues = {};
                 this.delays = {};
@@ -394,8 +394,8 @@
             },
 
             //
-            // Call "handler" for each packet sent to the poker game "id"
-            // If id == 0, "handler" is called for each packet not associated with
+            // Call 'handler' for each packet sent to the poker game 'id'
+            // If id == 0, 'handler' is called for each packet not associated with
             // a poker game.
             //
             // Prototype: handler(server, id, packet) returns a boolean
@@ -408,7 +408,7 @@
             // 
             // If the return value is false, the handler is discarded and will not
             // be called again. If the return value is true, the handler is retained
-            // and will be called when the next packet matching the "id" paramater
+            // and will be called when the next packet matching the 'id' paramater
             // arrives.
             //
             // If the handler throws an exception, the server will be killed and
@@ -470,8 +470,8 @@
                     mode: this.mode,
                     timeout: this.timeout,
                     url: this.url + '?session=' + this.session,
-                    type: "POST",
-                    dataType: "json",
+                    type: 'POST',
+                    dataType: 'json',
                     global: false, // do not fire global events
                     success: function(data, status) {
                         if($this.state != 'connected') {
@@ -480,7 +480,7 @@
                         $this.queueIncoming(data);
                     },
                     error: function(xhr, status, error) {
-                        if(status == "timeout") {
+                        if(status == 'timeout') {
                             $this.setState('disconnected');
                             $this.reset();
                         } else {
@@ -495,8 +495,8 @@
             },
 
             ping: function() {
-                if(jQuery([$.ajax_queue]).queue("ajax").length <= 0) {
-                    this.sendPacket({ type: "PacketPing" });
+                if(jQuery([$.ajax_queue]).queue('ajax').length <= 0) {
+                    this.sendPacket({ type: 'PacketPing' });
                 }
                 this.clearTimeout(this.pingTimer);
                 var $this = this;
@@ -511,12 +511,12 @@
                 if(!this.blocked) {
                     for(var i = 0; i < packets.length; i++) {
                         packet = packets[i];
-                        if("session" in packet) {
+                        if('session' in packet) {
                             delete packet.session;
                         }
                         packet.time__ = jpoker.now();
                         var id;
-                        if("game_id" in packet) {
+                        if('game_id' in packet) {
                             id = packet.game_id;
                         } else {
                             id = 0;
@@ -567,7 +567,7 @@
                                     queue.delay = delay;
                                 }
                             } else if(jpoker.verbose > 0) {
-                                this.message("wait for " + queue.delay / 1000.0 + "s for queue " + id);
+                                this.message($.sprintf(_("wait for %ds for queue %d"), queue.delay / 1000.0, id));
                             }
                         }
                         //
@@ -647,14 +647,14 @@
 
                 var request = function(server) {
                     server.sendPacket({
-                            "type": "PacketPokerTableSelect",
-                            "string": string
+                            type: 'PacketPokerTableSelect',
+                            string: string
                         });
                 };
 
                 var handler = function(server, packet) {
                     var info = server.tables && server.tables[string];
-                    if(packet.type == "PacketPokerTableList") {
+                    if(packet.type == 'PacketPokerTableList') {
                         info.packet = packet;
 			server.playersCount = packet.players;
 			server.tablesCount = packet.tables;
@@ -672,40 +672,37 @@
 
             login: function(name, password) {
                 if(this.serial !== 0) {
-                    throw this.url + " attempt to login " + name + " although serial is " + this.serial + " instead of 0";
+                    throw $.sprintf(_("%s attempt to login %s although serial is %d instead of 0"), this.url, name, this.serial);
                 }
                 this.logname = name;
                 this.sendPacket({
-                        "type" : "PacketLogin",
-                        "name": name,
-                        "password": password
+                        type: 'PacketLogin',
+                        name: name,
+                        password: password
                     });
                 this.ensureSession();
                 this.ping();
                 var answer = function(server, id, packet) {
                     switch(packet.type) {
-                    case "PacketAuthOk":
+                    case 'PacketAuthOk':
                     return true;
 
-                    case "PacketAuthRefused":
-                    jpoker.dialog(packet.message + " (login name is '" + name + "')");
+                    case 'PacketAuthRefused':
+                    jpoker.dialog(_(packet.message) + $.sprintf(_(" (login name is %s )"), name));
                     server.notifyUpdate(packet);
                     return false;
 
-                    case "PacketError":
+                    case 'PacketError':
                     if(packet.other_type == jpoker.packetName2Type.LOGIN) {
-                        jpoker.dialog("user " + name + " is already logged in");
+                        jpoker.dialog($.sprintf(_("user %s is already logged in"), name));
                     }
                     server.notifyUpdate(packet);
                     return false;
 
-                    case "PacketSerial":
+                    case 'PacketSerial':
                     server.serial = packet.serial;
                     server.notifyUpdate(packet);
                     return false;
-
-                    default:
-                    throw "login answer unexpected packet type " + packet.type;
 
                     }
                 };
@@ -717,7 +714,7 @@
                     this.serial = 0;
                     this.logname = null;
                     this.clearSession();
-                    var packet = { type: "PacketLogout" };
+                    var packet = { type: 'PacketLogout' };
                     this.sendPacket(packet);
                     this.notifyUpdate(packet);
                 }
@@ -761,8 +758,8 @@
         });
 
     //
-    // Refresh data with the "handler" function after sending
-    // a packet to the "url" poker server with the "request" function.
+    // Refresh data with the 'handler' function after sending
+    // a packet to the 'url' poker server with the 'request' function.
     //
     jpoker.refresh = function(server, request, handler, options) {
 
@@ -782,7 +779,7 @@
                 if(waiting) {
                     if(( jpoker.now() - time_sent ) > opts.timeout) {
 			opts.clearInterval(timer);
-                        server.error(server.url + " timed out after " + (jpoker.now() - time_sent) + " seconds trying to update url " + url);
+                        server.error($.sprintf(_("%s timed out after %d seconds"), server.url, (jpoker.now() - time_sent)));
                     }
                 } else {
                     time_sent = jpoker.now();
@@ -841,12 +838,12 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<table class="jpokerTableList" id="' + id + '"></table>');
+                $this.append('<table class=\'jpokerTableList\' id=\'' + id + '\'></table>');
 
                 var updated = function(server, packet) {
                     var element = document.getElementById(id);
                     if(element) {
-                        if(packet && packet.type == "PacketPokerTableList") {
+                        if(packet && packet.type == 'PacketPokerTableList') {
                             $(element).html(tableList.getHTML(packet));
                         }
                         return true;
@@ -870,7 +867,7 @@
     jpoker.plugins.tableList.getHTML = function(packet) {
         var t = this.templates;
         var html = [];
-        html.push(t.header);
+        html.push($.sprintf(t.header, _("Name"), _("Players"), _("Seats"), _("Betting Structure"), _("Average Pot"), _("Hands/Hour"), _("%Flop")));
         for(var i = 0; i < packet.packets.length; i++) {
             var subpacket = packet.packets[i];
             var rowHTML = t.rows;
@@ -884,8 +881,8 @@
     };
 
     jpoker.plugins.tableList.templates = {
-        header : '<thead><tr><td>Name</td><td>Players</td><td>Seats</td><td>Betting Structure</td><td>Average Pot</td><td>Hands/Hour</td><td>%Flop</td></tr></thead><tbody>',
-        rows : '<tr class="%class"><td>%name</td><td>%players</td><td>%seats</td><td>%betting_structure</td><td>%average_pot</td><td>%hands_per_hour</td><td>%percent_flop</td></tr>',
+        header : '<thead><tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr></thead><tbody>',
+        rows : '<tr class=\'%class\'><td>%name</td><td>%players</td><td>%seats</td><td>%betting_structure</td><td>%average_pot</td><td>%hands_per_hour</td><td>%percent_flop</td></tr>',
         footer : '</tbody>'
     };
 
@@ -903,7 +900,7 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<div class="jpokerServerStatus" id="' + id + '"></div>');
+                $this.append('<div class=\'jpokerServerStatus\' id=\'' + id + '\'></div>');
 
                 var updated = function(server) {
                     var element = document.getElementById(id);
@@ -931,25 +928,25 @@
 	var html = [];
 	html.push(t.url.replace('%url', server.url));
 	if(server.connected()) {
-	    html.push(t.connected);
+	    html.push($.sprintf(t.connected, _("connected")));
 	} else {
-	    html.push(t.disconnected);
+	    html.push($.sprintf(t.disconnected, _("disconnected")));
 	}
-	if(server.playersCount !== null) {
-	    html.push(t.players.replace('%players', server.playersCount));
+	if(server.playersCount) {
+	    html.push($.sprintf(t.players, server.playersCount, _("players")));
 	}
-	if(server.tablesCount !== null) {
-	    html.push(t.tables.replace('%tables', server.tablesCount));
+	if(server.tablesCount) {
+	    html.push($.sprintf(t.tables, server.tablesCount, _("tables")));
 	}
         return html.join('\n');
     };
 
     jpoker.plugins.serverStatus.templates = {
 	url: ' %url ',
-	disconnected: ' disconnected ',
-	connected: ' connected ',
-        players: ' %players players ',
-        tables: ' %tables tables '
+	disconnected: ' %s ',
+	connected: ' %s ',
+        players: ' %d %s ',
+        tables: ' %d %s '
     };
 
     //
@@ -966,7 +963,7 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<div class="jpokerLogin" id="' + id + '"></div>');
+                $this.append('<div class=\'jpokerLogin\' id=\'' + id + '\'></div>');
 
                 var updated = function(server) {
                     var element = document.getElementById(id);
@@ -974,19 +971,19 @@
 			var e = $(element);
                         e.html(login.getHTML(server));
                         if(server.loggedIn()) {
-                            $("#logout", element).click(function() {
+                            $('#logout', element).click(function() {
                                     var server = jpoker.url2server({ url: url });
                                     if(server.loggedIn()) {
                                         server.logout();
                                     }
                                 });
                         } else {
-                            var element = $("#login", element);
+                            var element = $('#login', element);
                             var action = function() {
-                                var name = $("#name", element).attr('value');
-                                var password = $("#password", element).attr('value');
+                                var name = $('#name', element).attr('value');
+                                var password = $('#password', element).attr('value');
                                 jpoker.url2server({ url: url }).login(name, password);
-                                $("#" + id + " > #login").html("login in progress");
+                                $('#' + id + ' > #login').html(_("login in progress"));
                             };
                             element.keypress(function(e) {
                                     if(e.which == 13) {
@@ -1015,16 +1012,16 @@
         var t = this.templates;
 	var html = [];
 	if(server.loggedIn()) {
-	    html.push(t.logout.replace('%player', server.logname));
+	    html.push($.sprintf(t.logout, $.sprintf(_("%s logout"), server.logname)));
 	} else {
-	    html.push(t.login);
+	    html.push($.sprintf(t.login, _("login: "), _("password: ")));
 	}
         return html.join('\n');
     };
 
     jpoker.plugins.login.templates = {
-	login: '<div id="login">login: <input type="text" id="name" size="10" />, password: <input type="password" id="password" size="10" /> </div>',
-	logout: '<div id="logout">%player logout<div>'
+	login: '<div id=\'login\'>%s<input type=\'text\' id=\'name\' size=\'10\' /><br />%s<input type=\'password\' id=\'password\' size=\'10\' /> </div>',
+	logout: '<div id=\'logout\'>%s<div>'
     };
 
 })(jQuery);

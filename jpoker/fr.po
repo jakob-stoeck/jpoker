@@ -1,0 +1,101 @@
+# translation of fr.po to french
+# French translations for PACKAGE package
+# Traductions françaises du paquet PACKAGE.
+# Copyright (C) 2008 Loic Dachary <loic@dachary.org>
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Loic Dachary <loic@dachary.org>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: fr\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-04-01 19:59+0200\n"
+"PO-Revision-Date: 2008-04-01 23:38+0200\n"
+"Last-Translator: Loic Dachary <loic@dachary.org>\n"
+"Language-Team: french <fr@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: jpoker/jquery.jpoker.js:691
+msgid " (login name is %s )"
+msgstr "(nom de login %s)"
+
+#: jpoker/jquery.jpoker.js:870
+msgid "%Flop"
+msgstr "%Flop"
+
+#: jpoker/jquery.jpoker.js:675
+msgid "%s attempt to login %s although serial is %d instead of 0"
+msgstr "%s tentative d'authentification de %s bien que le numéro de série soit %d au lieu de 0"
+
+#: jpoker/jquery.jpoker.js:1015
+msgid "%s logout"
+msgstr "%s déconnexion"
+
+#: jpoker/jquery.jpoker.js:782
+msgid "%s timed out after %d seconds"
+msgstr "%s expiré après %d secondes"
+
+#: jpoker/jquery.jpoker.js:870
+msgid "Average Pot"
+msgstr "Pot moyen"
+
+#: jpoker/jquery.jpoker.js:870
+msgid "Betting Structure"
+msgstr "Structure de mise"
+
+#: jpoker/jquery.jpoker.js:870
+msgid "Hands/Hour"
+msgstr "Mains/heure"
+
+#: jpoker/jquery.jpoker.js:870
+msgid "Name"
+msgstr "Nom"
+
+#: jpoker/jquery.jpoker.js:870
+msgid "Players"
+msgstr "Joueurs"
+
+#: jpoker/jquery.jpoker.js:870
+msgid "Seats"
+msgstr "Sièges"
+
+#: jpoker/jquery.jpoker.js:931
+msgid "connected"
+msgstr "connecté"
+
+#: jpoker/jquery.jpoker.js:933
+msgid "disconnected"
+msgstr "déconnecté"
+
+#: jpoker/jquery.jpoker.js:986
+msgid "login in progress"
+msgstr "authentification en cours"
+
+#: jpoker/jquery.jpoker.js:1017
+msgid "login: "
+msgstr "login:"
+
+#: jpoker/jquery.jpoker.js:1017
+msgid "password: "
+msgstr "mot de passe:"
+
+#: jpoker/jquery.jpoker.js:936
+msgid "players"
+msgstr "joueurs"
+
+#: jpoker/jquery.jpoker.js:939
+msgid "tables"
+msgstr "tables"
+
+#: jpoker/jquery.jpoker.js:697
+msgid "user %s is already logged in"
+msgstr "l'utilisateur %s est déjà authentifié"
+
+#: jpoker/jquery.jpoker.js:570
+msgid "wait for %ds for queue %d"
+msgstr "en attente pour %ds dans la file %d"
+
