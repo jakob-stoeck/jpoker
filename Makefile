@@ -45,4 +45,7 @@ clean:
 check:
 	-cd tests ; ! rhino test-jpoker.js | grep FAIL
 
+mtime:
+	for f in `hg manifest`; do touch --date="`hg log -l1 --template '{date|isodate}' $$f`" $$f; done
+
 .PHONY: tests
