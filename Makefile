@@ -15,10 +15,26 @@
 #     along with this program.  If not, see <http:#www.gnu.org/licenses/>.
 #
 all:
+	xgettext --extract-all \
+		 --lang java \
+		 --from-code=UTF-8 \
+		 --copyright-holder='Loic Dachary <loic@dachary.org>' \
+		 --output=jpoker/messages.pot \
+		 --sort-output \
+		 jpoker/jquery.jpoker.js
+	msgmerge -s -U jpoker/fr.po jpoker/messages.pot
+	msgfmt --check --output-file fr/LC_MESSAGES/fr.mo jpoker/fr.po
+	: now edit with kbabel jpoker/fr.po
+	python mo2json.py fr > jpoker/jpoker.fr.json
 	-rm -fr tests ; jscoverage jpoker tests
+
+# mimic when a new lang shows
+newlang:
+	msginit -l fr_FR -o fr.po -i messages.pot
 
 clean: 
 	rm -fr tests
+	rm -f */LC_MESSAGES/*
 
 check:
 	-cd tests ; ! rhino test-jpoker.js | grep FAIL
