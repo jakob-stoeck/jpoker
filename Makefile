@@ -33,6 +33,10 @@ i18n:
 tests:
 	-rm -fr tests ; jscoverage jpoker tests
 
+cook:
+	cd jpoker ; tiddlywiki_cp -a index markup index.html
+	cd jpoker ; tiddlywiki_cp -a poker markup poker.html
+
 # mimic when a new lang shows
 newlang:
 	msginit -l fr_FR -o fr.po -i messages.pot
