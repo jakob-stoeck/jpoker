@@ -1,5 +1,1 @@
-Although poker-network is known to be able to serve 4,000 simultaneous players with very little resources (http://pokersource.info/stress-test/2007-08/), the pokersource.eu poker room will always be limited to a maximum of 500 simultaneous players.  The most compeling reason is that even the most talented room manager can't personaly watch over a thousand players: 500 is probably the best he can do. 
-
-The pokersource.eu poker room will never provide real money tables. The only poker chips allowed at the tables are those obeying the currency protocol implemented by poker-network. There will be no interface for credit cards.
-
-All the software and the graphics used at http://pokersource.eu/ are and will be Free Software. 
+<<jpokerTableList>>
