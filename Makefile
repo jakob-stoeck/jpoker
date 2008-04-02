@@ -19,10 +19,10 @@ all:
 		 --lang java \
 		 --from-code=UTF-8 \
 		 --copyright-holder='Loic Dachary <loic@dachary.org>' \
-		 --output=jpoker/messages.pot \
+		 --output=messages.pot \
 		 --sort-output \
 		 jpoker/jquery.jpoker.js
-	msgmerge -s -U jpoker/fr.po jpoker/messages.pot
+	msgmerge -s -U jpoker/fr.po messages.pot
 	msgfmt --check --output-file fr/LC_MESSAGES/fr.mo jpoker/fr.po
 	: now edit with kbabel jpoker/fr.po
 	python mo2json.py fr > jpoker/jpoker.fr.json
@@ -34,7 +34,8 @@ newlang:
 
 clean: 
 	rm -fr tests
-	rm -f */LC_MESSAGES/*
+	rm -f */LC_MESSAGES/*.mo
+	rm messages.pot
 
 check:
 	-cd tests ; ! rhino test-jpoker.js | grep FAIL
