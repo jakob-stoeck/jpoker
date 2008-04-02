@@ -18,6 +18,10 @@
 //
 module("jpoker");
 
+try {
+    console.profile();
+} catch(e) {}
+
 if(!window.ActiveXObject) {
     window.ActiveXObject = true;
 }
@@ -721,4 +725,10 @@ test("jpoker.login", function(){
 	equals(content.indexOf("login:") >= 0, true, "login:");
 
         $("#" + id).remove();
+    });
+
+test("profileEnd", function(){
+        try {
+            console.profileEnd();
+        } catch(e) {}
     });
