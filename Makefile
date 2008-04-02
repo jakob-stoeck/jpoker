@@ -14,7 +14,9 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <http:#www.gnu.org/licenses/>.
 #
-all:
+all: i18n tests
+
+i18n:
 	xgettext --extract-all \
 		 --lang java \
 		 --from-code=UTF-8 \
@@ -22,10 +24,13 @@ all:
 		 --output=messages.pot \
 		 --sort-output \
 		 jpoker/jquery.jpoker.js
-	msgmerge -s -U jpoker/fr.po messages.pot
-	msgfmt --check --output-file fr/LC_MESSAGES/fr.mo jpoker/fr.po
-	: now edit with kbabel jpoker/fr.po
-	python mo2json.py fr > jpoker/jpoker.fr.json
+	msgmerge -s -U jpoker/jpoker-fr.po messages.pot
+	mkdir -p fr/LC_MESSAGES
+	msgfmt --check --output-file fr/LC_MESSAGES/fr.mo jpoker/jpoker-fr.po
+	: now edit with kbabel jpoker/jpoker-fr.po
+	python mo2json.py fr > jpoker/jpoker-fr.json
+
+tests:
 	-rm -fr tests ; jscoverage jpoker tests
 
 # mimic when a new lang shows
@@ -34,8 +39,10 @@ newlang:
 
 clean: 
 	rm -fr tests
-	rm -f */LC_MESSAGES/*.mo
-	rm messages.pot
+	rm -fr fr
+	rm -f messages.pot
 
 check:
 	-cd tests ; ! rhino test-jpoker.js | grep FAIL
+
+.PHONY: tests
