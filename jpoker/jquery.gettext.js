@@ -56,33 +56,38 @@
 		pl_re: /^Plural-Forms:\s*nplurals\s*=\s*(\d+);\s*plural\s*=\s*([^a-zA-Z0-9\$]*([a-zA-Z0-9\$]+).+)$/m,
 		plural: function(n) {return n != 1;},
 		load: function() {
-			$('link[rel=gettext]').each(function(){
+                        $.gt.setLang($('html').attr('lang'));
+			$('link[rel=gettext],link[lang=' + this.lang + ']').each(function(){
 				var lang = this.lang;
-				$.get(this.href, function(data){
-					$.gt.messages[lang] = $.gt.messages[lang] || {};
-					try {
+				$.ajax({    type: 'GET',
+                                            url: this.href,
+                                            async: false,
+                                            success:
+                                        function(data) {
+                                            $.gt.messages[lang] = $.gt.messages[lang] || {};
+                                            try {
 						var messages = eval('(' + data + ')');
-					} catch(e) {
+                                            } catch(e) {
 						return;
-					}
+                                            }
 
-					$.extend($.gt.messages[lang], messages);
+                                            $.extend($.gt.messages[lang], messages);
 
-					var pl = $.gt.pl_re.exec($.gt.messages[lang]['']);
-					if(pl){
+                                            var pl = $.gt.pl_re.exec($.gt.messages[lang]['']);
+                                            if(pl){
 						var expr = pl[2];
 						var np = pl[1];
 						var v = pl[3];
 						try {
-							var fn = eval('(function(' + v + ') {return ' + expr + ';})');
+                                                    var fn = eval('(function(' + v + ') {return ' + expr + ';})');
 						} catch(e) {
-							return;
+                                                    return;
 						}
 						$.gt.plural = fn;
-					}
-				});
+                                            }
+                                        }
+                                    });
 			});
-			$.gt.setLang($('html').attr('lang'));
 		},
 		gettext: function(msgstr) {
 			var lang = $.gt.lang;
