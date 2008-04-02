@@ -1,7 +1,7 @@
 <!--{{{-->
 <script src="jquery.js" type="text/javascript"></script>
 <script src="json2.js" type="text/javascript"></script>
-<script src="jquery.printf.js" type="text/javascript"></script>
+<script src="jquery.sprintf.js" type="text/javascript"></script>
 <script src="jquery.gettext.js" type="text/javascript"></script>
 <script src="jquery.ajaxQueue.js" type="text/javascript"></script>
 <script src="humanmsg.js" type="text/javascript"></script>
