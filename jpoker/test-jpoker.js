@@ -683,7 +683,7 @@ test("jpoker.serverStatus", function(){
 //
 $.fn.triggerKeypress = function(keyCode) {
     return this.trigger("keypress", [$.event.fix({event:"keypress", keyCode: keyCode, target: this[0]})]);
-}
+};
 
 test("jpoker.login", function(){
         expect(8);
@@ -715,7 +715,7 @@ test("jpoker.login", function(){
         server.serial = 1;
         server.logname = 'logname';
         server.notifyUpdate();
-	var content = $("#" + id).text();
+	content = $("#" + id).text();
 	equals(content.indexOf("logname logout") >= 0, true, "logout");
         equals(server.loggedIn(), true, "loggedIn");
 

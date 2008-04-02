@@ -105,7 +105,7 @@
     //
 
     // Crypto namespace
-    jpoker.Crypto = function() {}
+    jpoker.Crypto = function() {};
 
     // Convert a string to an array of big-endian 32-bit words
     jpoker.Crypto.strToBe32s = function(str)
@@ -127,8 +127,9 @@
     jpoker.Crypto.be32sToStr = function(be)
         {
             var str = '';
-            for(var i=0;i<be.length*32;i+=8)
+            for(var i=0;i<be.length*32;i+=8) {
 		str += String.fromCharCode((be[i>>5]>>>(24-i%32)) & 0xff);
+            }
             return str;
         };
 
@@ -137,8 +138,9 @@
         {
             var hex = '0123456789ABCDEF';
             var str = '';
-            for(var i=0;i<be.length*4;i++)
+            for(var i=0;i<be.length*4;i++) {
 		str += hex.charAt((be[i>>2]>>((3-i%4)*8+4))&0xF) + hex.charAt((be[i>>2]>>((3-i%4)*8))&0xF);
+            }
             return str;
         };
 
@@ -978,14 +980,14 @@
                                     }
                                 });
                         } else {
-                            var element = $('#login', element);
+                            var login_element = $('#login', login_element);
                             var action = function() {
-                                var name = $('#name', element).attr('value');
-                                var password = $('#password', element).attr('value');
+                                var name = $('#name', login_element).attr('value');
+                                var password = $('#password', login_element).attr('value');
                                 jpoker.url2server({ url: url }).login(name, password);
                                 $('#' + id + ' > #login').html(_("login in progress"));
                             };
-                            element.keypress(function(e) {
+                            login_element.keypress(function(e) {
                                     if(e.which == 13) {
                                         action.call(this);
                                     }
