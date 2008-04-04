@@ -4,8 +4,8 @@ Uploaders: Ola Lundqvist <opal@debian.org>, Loic Dachary (OuoU) <loic@dachary.or
 Section: web
 Priority: optional
 Standards-Version: 3.7.3
-Build-Depends: debhelper (>= 5), cdbs, gettext, python, python-simplejson
-Suggests: rhino, jscoverage
+Build-Depends: debhelper (>= 5), cdbs, gettext, python, python-simplejson, rubygems
+Suggests: jscoverage
 
 Package: jpoker
 Architecture: all

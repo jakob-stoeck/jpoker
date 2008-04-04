@@ -34,8 +34,14 @@ tests:
 	-rm -fr tests ; jscoverage jpoker tests
 
 cook:
-	cd jpoker ; tiddlywiki_cp -a index markup index.html
+	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp
+	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/index-en jpoker/index jpoker/markup jpoker/index.html
+	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/index-fr jpoker/index jpoker/markup jpoker/index-fr.html
+	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/poker jpoker/markup jpoker/poker.html
+
+foo:
 	cd jpoker ; tiddlywiki_cp -a poker markup poker.html
+	cd jpoker ; tiddlywiki_cp -a poker-fr poker markup poker-fr.html
 
 # mimic when a new lang shows
 newlang:
@@ -45,9 +51,10 @@ clean:
 	rm -fr tests
 	rm -fr fr
 	rm -f messages.pot
+	rm -fr gems
 
 check:
-	-cd tests ; ! rhino test-jpoker.js | grep FAIL
+	cd jpoker ; x-www-browser test-jpoker.html # replace with jaxer when http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=474050 closed
 
 mtime:
 	for f in `hg manifest`; do touch --date="`hg log -l1 --template '{date|isodate}' $$f`" $$f; done
