@@ -1,5 +1,5 @@
 {
-"": "Project-Id-Version: fr\nReport-Msgid-Bugs-To: \nPOT-Creation-Date: 2008-04-01 19:59+0200\nPO-Revision-Date: 2008-04-01 23:38+0200\nLast-Translator: Loic Dachary <loic@dachary.org>\nLanguage-Team: french <fr@li.org>\nMIME-Version: 1.0\nContent-Type: text/plain; charset=ISO-8859-1\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=(n > 1);\nX-Generator: KBabel 1.11.4\n", 
+"": "Project-Id-Version: fr\nReport-Msgid-Bugs-To: \nPOT-Creation-Date: 2008-04-04 16:28+0000\nPO-Revision-Date: 2008-04-01 23:38+0200\nLast-Translator: Loic Dachary <loic@dachary.org>\nLanguage-Team: french <fr@li.org>\nMIME-Version: 1.0\nContent-Type: text/plain; charset=ISO-8859-1\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=(n > 1);\nX-Generator: KBabel 1.11.4\n", 
 "tables": "tables", 
 "wait for %ds for queue %d": "en attente pour %ds dans la file %d", 
 "password: ": "mot de passe:", 
