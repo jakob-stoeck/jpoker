@@ -47,7 +47,7 @@ body #contentWrapper {
 }
 
 #headerImage{
-	background: transparent url("banner.jpg") no-repeat;
+	background: transparent url("images/banner.jpg") no-repeat;
 	height:156px;
 	clear:both;
 	padding-bottom:0.5em;
