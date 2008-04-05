@@ -902,7 +902,7 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<div class=\'jpokerServerStatus\' id=\'' + id + '\'></div>');
+                $this.append('<span class=\'jpokerServerStatus\' id=\'' + id + '\'></span>');
 
                 var updated = function(server) {
                     var element = document.getElementById(id);
@@ -928,10 +928,8 @@
     jpoker.plugins.serverStatus.getHTML = function(server) {
         var t = this.templates;
 	var html = [];
-	html.push(t.url.replace('%url', server.url));
-	if(server.connected()) {
-	    html.push($.sprintf(t.connected, _("connected")));
-	} else {
+	
+	if(!server.connected()) {
 	    html.push($.sprintf(t.disconnected, _("disconnected")));
 	}
 	if(server.playersCount) {
@@ -940,7 +938,7 @@
 	if(server.tablesCount) {
 	    html.push($.sprintf(t.tables, server.tablesCount, _("tables")));
 	}
-        return html.join('\n');
+        return html.join(' ');
     };
 
     jpoker.plugins.serverStatus.templates = {
