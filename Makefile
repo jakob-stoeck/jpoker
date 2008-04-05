@@ -55,7 +55,7 @@ check:
 copyright:
 	cp COPYRIGHT/copyright.DEBIAN debian/copyright
 	cat COPYRIGHT/summary.txt >> debian/copyright
-	for license in COPYRIGHT/{GPLv2.txt,GPLv3.txt,MIT-LICENSE.txt,tiddlywiki.txt} ; do \
+	for license in COPYRIGHT/{GPLv3-notice.txt,MIT-LICENSE.txt,tiddlywiki.txt} ; do \
 		echo ; \
 		echo '---------------------------------------' ; \
 		echo ; \
