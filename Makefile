@@ -35,9 +35,13 @@ tests:
 
 cook:
 	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp
-	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/index-en jpoker/index jpoker/markup jpoker/index.html
-	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/index-fr jpoker/index jpoker/markup jpoker/index-fr.html
-	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/poker jpoker/markup jpoker/poker.html
+	[ -f empty.html ] || wget http://tiddlywiki.com/empty.html
+	cp empty.html jpoker/index.html
+	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-en jpoker/index jpoker/markup jpoker/index.html
+	cp empty.html jpoker/index-fr.html
+	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-fr jpoker/index jpoker/markup jpoker/index-fr.html
+	cp empty.html jpoker/poker.html
+	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/poker jpoker/markup jpoker/poker.html
 
 # mimic when a new lang shows
 newlang:
@@ -46,7 +50,7 @@ newlang:
 clean: 
 	rm -fr tests
 	rm -fr fr
-	rm -f messages.pot
+	rm -f messages.pot empty.html
 	rm -fr gems
 
 check:

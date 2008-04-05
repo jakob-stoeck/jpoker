@@ -1,0 +1,37 @@
+/***
+|''Name:''|jpokerPlugin|
+|''Description:''||
+|''Author:''|Loic Dachary (loic@dachary.org)|
+|''Source:''|http://jspoker.pokersource.info/jpoker/#JpokerPlugin.tiddler|
+|''Code Repository:''|http://upstream.jspoker.pokersource.info/|
+|''Version:''|1.0|
+|''Date:''|Apr 5, 2008|
+|''License:''|[[GNU GPLv3+|http://gnu.org/licenses/gpl.txt]]|
+|''~CoreVersion:''|2.3.0|
+***/
+//{{{
+
+// config.jpoker = { restURL : 'http://jspoker.pokersource.info/REST' };
+config.jpoker = { restURL : '/REST' };
+
+config.macros.jpokerLogin = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        $(place).jpoker('login', config.jpoker.restURL);
+    }
+};
+
+config.macros.jpokerServerStatus = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        $(place).jpoker('serverStatus', config.jpoker.restURL);
+    }
+};
+
+config.macros.jpokerTableList = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        $(place).jpoker('tableList', config.jpoker.restURL);
+    }
+};
+
+//}}}
+//!END-PLUGIN-CODE
+// %/

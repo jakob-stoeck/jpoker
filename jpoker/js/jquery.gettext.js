@@ -59,6 +59,9 @@
                         $.gt.setLang($('html').attr('lang'));
 			$('link[rel=gettext],link[lang=' + this.lang + ']').each(function(){
 				var lang = this.lang;
+                                if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1) {
+                                    window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+                                }
 				$.ajax({    type: 'GET',
                                             url: this.href,
                                             async: false,
@@ -133,7 +136,7 @@
 		}
 	});
 
-	$('document').ready($.gt.load);
+        $('document').ready($.gt.load);
 })(jQuery);
 
 if(typeof _ == 'undefined') {

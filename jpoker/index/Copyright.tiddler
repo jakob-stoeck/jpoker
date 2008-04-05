@@ -2,7 +2,7 @@
 Copyright 2008 Loic Dachary <mailto:loic@dachary.org>
 Copyright 2007,2008 Johan Euphrosine <mailto:proppy@aminche.com>
 Copyright 2008 Saq Imtiaz <mailto:lewcid@gmail.com>
-
+ 
 jpoker home is at http://jpoker.aminche.com/
 
 jpoker runs on this web browser and is Free Software. You may use
@@ -59,14 +59,16 @@ Copyright for:
         jpoker/index/PublisherPluginBeta.js
         jpoker/index/SplashScreenPlugin.js
         jpoker/index/TiddlerSubtitleTweak.js
+        jpoker/index/TiddlyLightBoxPlugin.js
 
-   Copyright (c) 2007, 2008 Saq Imtiaz <lewcid@gmail.com>
+   Copyright (c) 2006, 2007, 2008 Saq Imtiaz <lewcid@gmail.com>
 	Creative Commons Attribution-ShareAlike 3.0 
 
 Copyright for:
         jpoker/index/WebDavPlugin.js
 
-   Copyright (c) 2007, 2008 Saq Imtiaz <lewcid@gmail.com>, Loic Dachary <loic@dachary.org>
+   Copyright (c) 2007, 2008 Saq Imtiaz <lewcid@gmail.com>
+                            Loic Dachary <loic@dachary.org>
 	Creative Commons Attribution-ShareAlike 3.0 
 
 

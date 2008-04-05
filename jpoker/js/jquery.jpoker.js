@@ -1022,7 +1022,7 @@
     };
 
     jpoker.plugins.login.templates = {
-	login: '<div id=\'login\'>%s<input type=\'text\' id=\'name\' size=\'10\' /><br />%s<input type=\'password\' id=\'password\' size=\'10\' /> </div>',
+	login: "<table id=\"login\" cellspacing=\"0\" cellpadding=\"10\" class=\"login\">\n<tbody><tr>\n<td class=\"login_text\"><b>%s</b></td>\n<td class=\"login_input\"><input type=\"text\" id=\"name\" size=\"10\"/></td>\n</tr>\n<tr>\n<td class=\"login_text\"><b>%s</b></td>\n<td class=\"login_input\"><input type=\"password\" id=\"password\" size=\"10\"/></td>\n</tr>\n</tbody></table>",
 	logout: '<div id=\'logout\'>%s<div>'
     };
 
