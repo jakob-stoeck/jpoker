@@ -23,12 +23,12 @@ i18n:
 		 --copyright-holder='Loic Dachary <loic@dachary.org>' \
 		 --output=messages.pot \
 		 --sort-output \
-		 jpoker/jquery.jpoker.js
-	msgmerge -s -U jpoker/jpoker-fr.po messages.pot
+		 jpoker/js/jquery.jpoker.js
+	msgmerge -s -U jpoker/l10n/jpoker-fr.po messages.pot
 	mkdir -p fr/LC_MESSAGES
-	msgfmt --check --output-file fr/LC_MESSAGES/fr.mo jpoker/jpoker-fr.po
-	: now edit with kbabel jpoker/jpoker-fr.po
-	python mo2json.py fr > jpoker/jpoker-fr.json
+	msgfmt --check --output-file fr/LC_MESSAGES/fr.mo jpoker/l10n/jpoker-fr.po
+	: now edit with kbabel jpoker/l10n/jpoker-fr.po
+	python mo2json.py fr > jpoker/l10n/jpoker-fr.json
 
 tests:
 	-rm -fr tests ; jscoverage jpoker tests
@@ -38,10 +38,6 @@ cook:
 	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/index-en jpoker/index jpoker/markup jpoker/index.html
 	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/index-fr jpoker/index jpoker/markup jpoker/index-fr.html
 	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/poker jpoker/markup jpoker/poker.html
-
-foo:
-	cd jpoker ; tiddlywiki_cp -a poker markup poker.html
-	cd jpoker ; tiddlywiki_cp -a poker-fr poker markup poker-fr.html
 
 # mimic when a new lang shows
 newlang:
@@ -56,6 +52,16 @@ clean:
 check:
 	cd jpoker ; x-www-browser test-jpoker.html # replace with jaxer when http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=474050 closed
 
+copyright:
+	cp COPYRIGHT/copyright.DEBIAN debian/copyright
+	cat COPYRIGHT/summary.txt >> debian/copyright
+	for license in COPYRIGHT/{GPLv2.txt,GPLv3.txt,MIT-LICENSE.txt,tiddlywiki.txt} ; do \
+		echo ; \
+		echo '---------------------------------------' ; \
+		echo ; \
+		cat $$license ; \
+	done >> debian/copyright
+	
 mtime:
 	for f in `hg manifest`; do touch --date="`hg log -l1 --template '{date|isodate}' $$f`" $$f; done
 

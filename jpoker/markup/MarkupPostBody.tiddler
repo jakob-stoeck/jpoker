@@ -1,12 +1,12 @@
 <!--{{{-->
-<script src="jquery.js" type="text/javascript"></script>
-<script src="json2.js" type="text/javascript"></script>
-<script src="jquery.sprintf.js" type="text/javascript"></script>
-<script src="jquery.gettext.js" type="text/javascript"></script>
-<script src="jquery.ajaxQueue.js" type="text/javascript"></script>
-<script src="humanmsg.js" type="text/javascript"></script>
-<script src="jquery.jpoker.js" type="text/javascript"></script>
-<script src="jpokerTableListPlugin.js" type="text/javascript"></script>
-<script src="jpokerServerStatusPlugin.js" type="text/javascript"></script>
-<script src="jpokerLoginPlugin.js" type="text/javascript"></script>
+<script src="js/jquery.js" type="text/javascript"></script>
+<script src="js/json2.js" type="text/javascript"></script>
+<script src="js/jquery.sprintf.js" type="text/javascript"></script>
+<script src="js/jquery.gettext.js" type="text/javascript"></script>
+<script src="js/jquery.ajaxQueue.js" type="text/javascript"></script>
+<script src="js/humanmsg.js" type="text/javascript"></script>
+<script src="js/jquery.jpoker.js" type="text/javascript"></script>
+<script src="js/jpokerTableListPlugin.js" type="text/javascript"></script>
+<script src="js/jpokerServerStatusPlugin.js" type="text/javascript"></script>
+<script src="js/jpokerLoginPlugin.js" type="text/javascript"></script>
 <!--}}}-->

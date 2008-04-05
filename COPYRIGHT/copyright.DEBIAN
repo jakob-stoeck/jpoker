@@ -1,0 +1,21 @@
+This package was debianized by Johan Euphrosine <proppy@aminche.com>
+Thu, 25 Oct 2007 01:35:05 +0200
+
+It was downloaded from http://jpoker.aminche.com/
+
+Upstream Authors:
+	Johan Euphrosine <proppy@aminche.com>
+	Loic Dachary <loic@dachary.org>
+	Saq Imtiaz <lewcid@gmail.com>
+
+This package consists of files from different sources and with different
+copyright and license. All files are under a GPLv3+ compatible license. 
+The license or reference to license can be seen below.
+
+On Debian systems, the complete text of the GNU General
+Public License v2 can be found in `/usr/share/common-licenses/GPL'
+or `/usr/share/common-licenses/GPL-2'.
+
+On Debian systems, the complete text of the GNU General
+Public License v3 can be found in `/usr/share/common-licenses/GPL-3'.
+
