@@ -9,10 +9,10 @@ html, body {
 }
 
 .humanMsg {
-	font: normal 20px/50px Helvetica, Arial, Sans-Serif;
-	letter-spacing: -1px;
+	font: bold 20px/50px Helvetica, Arial, Sans-Serif;
+	letter-spacing: 1px;
 	position: fixed;
-	top: 130px;
+	top: 320px;
 	left: 25%;
 	width: 50%;
 	color: white;
