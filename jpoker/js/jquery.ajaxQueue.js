@@ -76,9 +76,6 @@ $(function(){
 			};
 		
 			jQuery([ ajax ]).queue("ajax" + port, function(){
-                                if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1) {
-                                    window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
-                                }
 				ajax( settings );
 			});
 			return undefined;
