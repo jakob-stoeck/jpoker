@@ -62,11 +62,13 @@ body #contentWrapper {
 
 #stickybod{
 	min-height: 100%;
-	height: auto !important;
 	height: 100%;
+	height: auto !important;
 	margin: 0 auto -75px; 
 	background:[[ColorPalette::Background]];
 }
+
+* html #stickybod {height:100%;}
 
 #myDisplayArea {
 	background:[[ColorPalette::Background]];
