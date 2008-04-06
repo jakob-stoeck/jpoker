@@ -56,40 +56,41 @@
 		pl_re: /^Plural-Forms:\s*nplurals\s*=\s*(\d+);\s*plural\s*=\s*([^a-zA-Z0-9\$]*([a-zA-Z0-9\$]+).+)$/m,
 		plural: function(n) {return n != 1;},
 		load: function() {
-                        $.gt.setLang($('html').attr('lang'));
-			$('link[rel=gettext],link[lang=' + this.lang + ']').each(function(){
+			$.gt.setLang($('html').attr('lang'));
+			$('link[rel=gettext][lang=' + this.lang + ']').each(function(){
 				var lang = this.lang;
-                                if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1) {
-                                    window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
-                                }
-				$.ajax({    type: 'GET',
-                                            url: this.href,
-                                            async: false,
-                                            success:
-                                        function(data) {
-                                            $.gt.messages[lang] = $.gt.messages[lang] || {};
-                                            try {
-						var messages = eval('(' + data + ')');
-                                            } catch(e) {
-						return;
-                                            }
+				try {
+					$.ajax({
+						type: 'GET',
+						url: this.href,
+						async: false,
+						success: function(data){
+							$.gt.messages[lang] = $.gt.messages[lang] || {};
+							try {
+								var messages = eval('(' + data + ')');
+							} catch(e) {
+								return;
+							}
 
-                                            $.extend($.gt.messages[lang], messages);
+							$.extend($.gt.messages[lang], messages);
 
-                                            var pl = $.gt.pl_re.exec($.gt.messages[lang]['']);
-                                            if(pl){
-						var expr = pl[2];
-						var np = pl[1];
-						var v = pl[3];
-						try {
-                                                    var fn = eval('(function(' + v + ') {return ' + expr + ';})');
-						} catch(e) {
-                                                    return;
+							var pl = $.gt.pl_re.exec($.gt.messages[lang]['']);
+							if(pl){
+								var expr = pl[2];
+								var np = pl[1];
+								var v = pl[3];
+								try {
+									var fn = eval('(function(' + v + ') {return ' + expr + ';})');
+								} catch(e) {
+									return;
+								}
+								$.gt.plural = fn;
+							}
 						}
-						$.gt.plural = fn;
-                                            }
-                                        }
-                                    });
+					});
+				} catch(e) { 
+					return; 
+				}
 			});
 		},
 		gettext: function(msgstr) {
@@ -136,7 +137,9 @@
 		}
 	});
 
-        $('document').ready($.gt.load);
+	$(document).ready(function(){
+		$.gt.load(); // for some strange reason, Firefox 3.0b5 won't execute the event otherwise
+	});
 })(jQuery);
 
 if(typeof _ == 'undefined') {
