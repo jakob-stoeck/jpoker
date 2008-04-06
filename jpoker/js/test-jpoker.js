@@ -660,6 +660,9 @@ test("jpoker.serverStatus", function(){
         //
         // connected
         //
+        if(jpoker.plugins.serverStatus.templates.connected == '') {
+            jpoker.plugins.serverStatus.templates.connected = 'connected';
+        }
         server.playersCount = 12;
         server.tablesCount = 23;
         server.state = 'connected';

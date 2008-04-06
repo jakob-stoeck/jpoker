@@ -929,7 +929,9 @@
         var t = this.templates;
 	var html = [];
 	
-	if(!server.connected()) {
+	if(server.connected()) {
+	    html.push(t.connected);
+	} else {
 	    html.push($.sprintf(t.disconnected, _("disconnected")));
 	}
 	if(server.playersCount) {
@@ -944,7 +946,7 @@
     jpoker.plugins.serverStatus.templates = {
 	url: ' %url ',
 	disconnected: ' %s ',
-	connected: ' %s ',
+	connected: '',
         players: ' %d %s ',
         tables: ' %d %s '
     };
