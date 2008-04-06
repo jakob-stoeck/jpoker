@@ -71,31 +71,6 @@ ActiveXObject.prototype = {
 var jpoker = $.jpoker;
 
 //
-// unborn jquery plugins 
-//
-test("jquery.allowLocalCrossDomain", function(){
-        var expected = 1;
-        var is_local = window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1;
-        if(is_local) {
-            expected++;
-        }
-        expect(expected);
-
-        beforeSend = $.ajaxSettings.beforeSend;
-        var called = false;
-        $.ajaxSettings.beforeSend = function(xml) {
-            called = true;
-            if(is_local) {
-                equals(true, true, "insert a test that assserts the privilege are set when the PrivilegeManager API is found");
-            }
-        };
-        $.ajax({ url: '', async: false });
-        equals(called, true, "called");
-        $.ajaxSettings.beforeSend = beforeSend;
-    });
-
-
-//
 // jpoker
 //
 test("jpoker: unique id generation test", function() {

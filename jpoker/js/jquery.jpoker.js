@@ -89,32 +89,9 @@
                 this.url2hashCache[url] = jpoker.Crypto.hexSha1Str(url);
             }
             return this.url2hashCache[url];
-        },
-        
-        //
-        // Allow cross domain requests when the protocol of 
-        // an XmlHTTPRequest is not http. This must be done before each XmlHTTPRequest call,
-        // it cannot be set globaly. By adding it to the beforeSend hook of each jquery
-        // ajax request, we make sure the jquery.ajaxQueue.js or jquery.gettext.js plugins
-        // will be able to do cross domain requests.
-        // The jQuery library does not support this, probably because it is browser specific
-        // and introduces an insecurity which is unsuitable for a widely spread library.
-        // This should probably be a jquery plugin.
-        //
-        allowLocalCrossDomain: function(){
-            var beforeSend = $.ajaxSettings.beforeSend;
-            $.ajaxSettings.beforeSend = function(xml) {
-                if(beforeSend) {
-                    beforeSend(xml);
-                }
-                if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1) {
-                    window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
-                }
-            };
         }
+        
     };
-
-    $.jpoker.allowLocalCrossDomain();
 
     var jpoker = $.jpoker;
 

@@ -29,6 +29,38 @@ $(function(){
 <ul style="position: absolute; top: 5px; right: 5px;"></ul>
 
  */
+/**
+ * Ajax Queue Plugin
+ * 
+ * Homepage: http://jquery.com/plugins/project/ajaxqueue
+ * Documentation: http://docs.jquery.com/AjaxQueue
+ */
+
+/**
+
+<script>
+$(function(){
+	jQuery.ajaxQueue({
+		url: "test.php",
+		success: function(html){ jQuery("ul").append(html); }
+	});
+	jQuery.ajaxQueue({
+		url: "test.php",
+		success: function(html){ jQuery("ul").append(html); }
+	});
+	jQuery.ajaxSync({
+		url: "test.php",
+		success: function(html){ jQuery("ul").append("<b>"+html+"</b>"); }
+	});
+	jQuery.ajaxSync({
+		url: "test.php",
+		success: function(html){ jQuery("ul").append("<b>"+html+"</b>"); }
+	});
+});
+</script>
+<ul style="position: absolute; top: 5px; right: 5px;"></ul>
+
+ */
 /*
  * Queued Ajax requests.
  * A new Ajax request won't be started until the previous queued 
@@ -44,10 +76,7 @@ $(function(){
 
 
 ;(function($) {
-
-        // save the pointer to ajax to be able to reset the queue
-        $.ajax_queue = $.ajax;
-
+	
 	var ajax = $.ajax;
 	
 	var pendingRequests = {};
@@ -70,12 +99,26 @@ $(function(){
 		case "queue": 
 			var _old = settings.complete;
 			settings.complete = function(){
-				if ( _old )
+                                if ( _old ) {
 					_old.apply( this, arguments );
+                                }
 				jQuery([ajax]).dequeue("ajax" + port );;
 			};
 		
 			jQuery([ ajax ]).queue("ajax" + port, function(){
+                                //
+                                // Allow cross domain requests when the protocol of 
+                                // an XmlHTTPRequest is not http. This must be done before each XmlHTTPRequest call,
+                                // it cannot be set globaly. By adding it to the beforeSend hook of each jquery
+                                // ajax request, we make sure the jquery.ajaxQueue.js or jquery.gettext.js plugins
+                                // will be able to do cross domain requests.
+                                // The jQuery library does not support this, probably because it is browser specific
+                                // and introduces an insecurity which is unsuitable for a widely spread library.
+                                // This should probably be a jquery plugin.
+                                //
+                                if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1) {
+                                    window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+                                }
 				ajax( settings );
 			});
 			return undefined;
@@ -112,6 +155,9 @@ $(function(){
 					}
 			};
 		}
+                if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1) {
+                    window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+                }
 		return ajax.apply(this, arguments);
 	};
 	
