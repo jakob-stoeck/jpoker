@@ -19,6 +19,20 @@
 
 (function($) {
 
+    if(!String.prototype.supplant) {
+        //
+        // Douglas Crockford douglas@crockford.com snippet
+        //
+        String.prototype.supplant = function (o) {
+            return this.replace(/{([^{}]*)}/g,
+                                function (a, b) {
+                                    var r = o[b];
+                                    return typeof r === 'string' || typeof r === 'number' ? r : a;
+                                }
+                                );
+        };
+    }
+
     $.fn.jpoker = function() {
         var args = Array.prototype.slice.call(arguments);
         var name = args.shift();
@@ -570,7 +584,7 @@
                                     queue.delay = delay;
                                 }
                             } else if(jpoker.verbose > 0) {
-                                this.message($.sprintf(_("wait for %ds for queue %d"), queue.delay / 1000.0, id));
+                                this.message(_("wait for {delay}s for queue {id}").supplant({ 'delay': queue.delay / 1000.0, 'id': id}));
                             }
                         }
                         //
@@ -675,7 +689,7 @@
 
             login: function(name, password) {
                 if(this.serial !== 0) {
-                    throw $.sprintf(_("%s attempt to login %s although serial is %d instead of 0"), this.url, name, this.serial);
+                    throw _("{url} attempt to login {name} although serial is {serial} instead of 0").supplant({ 'url': this.url, 'name': name, 'serial': this.serial});
                 }
                 this.logname = name;
                 this.sendPacket({
@@ -691,13 +705,13 @@
                     return true;
 
                     case 'PacketAuthRefused':
-                    jpoker.dialog(_(packet.message) + $.sprintf(_(" (login name is %s )"), name));
+                    jpoker.dialog(_(packet.message) + _(" (login name is {name} )").supplant({ 'name': name }));
                     server.notifyUpdate(packet);
                     return false;
 
                     case 'PacketError':
                     if(packet.other_type == jpoker.packetName2Type.LOGIN) {
-                        jpoker.dialog($.sprintf(_("user %s is already logged in"), name));
+                        jpoker.dialog(_("user {name} is already logged in".supplant({ 'name': name })));
                     }
                     server.notifyUpdate(packet);
                     return false;
@@ -782,7 +796,7 @@
                 if(waiting) {
                     if(( jpoker.now() - time_sent ) > opts.timeout) {
 			opts.clearInterval(timer);
-                        server.error($.sprintf(_("%s timed out after %d seconds"), server.url, (jpoker.now() - time_sent)));
+                        server.error(_("{url} timed out after {seconds} seconds").supplant({ 'url': server.url, 'seconds': (jpoker.now() - time_sent) }));
                     }
                 } else {
                     time_sent = jpoker.now();
@@ -870,22 +884,33 @@
     jpoker.plugins.tableList.getHTML = function(packet) {
         var t = this.templates;
         var html = [];
-        html.push($.sprintf(t.header, _("Name"), _("Players"), _("Seats"), _("Betting Structure"), _("Average Pot"), _("Hands/Hour"), _("%Flop")));
+        html.push(t.header.supplant({
+                    'seats': _("Seats"),
+                        'average_pot': _("Average Pot"),
+                        'hands_per_hour': _("Hands/Hour"),
+                        'percent_flop': _("%Flop"),
+                        'players': _("Players"),
+                        'observers': _("Observers"),
+                        'waiting': _("Waiting"),
+                        'player_timeout': _("Timeout"),
+                        'currency_serial': _("Currency"),
+                        'name': _("Name"),
+                        'variant': _("Variant"),
+                        'betting_structure': _("Betting Structure"),
+                        'skin': _("Skin")
+                        }));
         for(var i = 0; i < packet.packets.length; i++) {
             var subpacket = packet.packets[i];
-            var rowHTML = t.rows;
-            $.each(subpacket, function(n,val){
-                    rowHTML = rowHTML.replace('\%'+n,val);
-                });
-            html.push(rowHTML.replace('\%class',(i%2? 'evenRow':'oddRow')));
+            subpacket.class = i%2 ? 'evenRow' : 'oddRow';
+            html.push(t.rows.supplant(subpacket));
         }
         html.push(t.footer);
         return html.join('\n');
     };
 
     jpoker.plugins.tableList.templates = {
-        header : '<thead><tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr></thead><tbody>',
-        rows : '<tr class=\'%class\'><td>%name</td><td>%players</td><td>%seats</td><td>%betting_structure</td><td>%average_pot</td><td>%hands_per_hour</td><td>%percent_flop</td></tr>',
+        header : '<thead><tr><td>{name}</td><td>{players}</td><td>{seats}</td><td>{betting_structure}</td><td>{average_pot}</td><td>{hands_per_hour}</td><td>{percent_flop}</td></tr></thead><tbody>',
+        rows : '<tr class=\'{class}\'><td>{name}</td><td>{players}</td><td>{seats}</td><td>{betting_structure}</td><td>{average_pot}</td><td>{hands_per_hour}</td><td>{percent_flop}</td></tr>',
         footer : '</tbody>'
     };
 
@@ -933,23 +958,22 @@
 	if(server.connected()) {
 	    html.push(t.connected);
 	} else {
-	    html.push($.sprintf(t.disconnected, _("disconnected")));
+	    html.push(t.disconnected.supplant({ 'label': _("disconnected") }));
 	}
 	if(server.playersCount) {
-	    html.push($.sprintf(t.players, server.playersCount, _("players")));
+	    html.push(t.players.supplant({ 'count': server.playersCount, 'players': _("players") }));
 	}
 	if(server.tablesCount) {
-	    html.push($.sprintf(t.tables, server.tablesCount, _("tables")));
+	    html.push(t.tables.supplant({ 'count': server.tablesCount, 'tables': _("tables") }));
 	}
         return html.join(' ');
     };
 
     jpoker.plugins.serverStatus.templates = {
-	url: ' %url ',
-	disconnected: ' %s ',
+	disconnected: ' {label} ',
 	connected: '',
-        players: ' %d %s ',
-        tables: ' %d %s '
+        players: ' {count} {players} ',
+        tables: ' {count} {tables} '
     };
 
     //
@@ -1015,16 +1039,18 @@
         var t = this.templates;
 	var html = [];
 	if(server.loggedIn()) {
-	    html.push($.sprintf(t.logout, $.sprintf(_("%s logout"), server.logname)));
+	    html.push(t.logout.supplant({ 'logout': _("{logname} logout").supplant({ 'logname': server.logname }) }));
 	} else {
-	    html.push($.sprintf(t.login, _("login: "), _("password: ")));
+	    html.push(t.login.supplant({ 'login': _("login: "),
+                                         'password': _("password: ")
+                    }));
 	}
         return html.join('\n');
     };
 
     jpoker.plugins.login.templates = {
-	login: "<table id=\"login\" cellspacing=\"0\" cellpadding=\"10\" class=\"login\">\n<tbody><tr>\n<td class=\"login_text\"><b>%s</b></td>\n<td class=\"login_input\"><input type=\"text\" id=\"name\" size=\"10\"/></td>\n</tr>\n<tr>\n<td class=\"login_text\"><b>%s</b></td>\n<td class=\"login_input\"><input type=\"password\" id=\"password\" size=\"10\"/></td>\n</tr>\n</tbody></table>",
-	logout: '<div id=\'logout\'>%s<div>'
+	login: "<table id=\"login\" cellspacing=\"0\" cellpadding=\"10\" class=\"login\">\n<tbody><tr>\n<td class=\"login_text\"><b>{login}</b></td>\n<td class=\"login_input\"><input type=\"text\" id=\"name\" size=\"10\"/></td>\n</tr>\n<tr>\n<td class=\"login_text\"><b>{password}</b></td>\n<td class=\"login_input\"><input type=\"password\" id=\"password\" size=\"10\"/></td>\n</tr>\n</tbody></table>",
+	logout: '<div id=\'logout\'>{logout}<div>'
     };
 
 })(jQuery);

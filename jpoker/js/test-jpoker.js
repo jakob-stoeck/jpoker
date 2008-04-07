@@ -68,6 +68,11 @@ ActiveXObject.prototype = {
     }
 };
 
+test("String.supplant", function() {
+        expect(1);
+        equals("{a}".supplant({'a': 'b'}), 'b');
+    });
+
 var jpoker = $.jpoker;
 
 //
