@@ -1,82 +1,1584 @@
-2008-03-25  Loic Dachary  <loic@dachary.org>
+2008-04-07  root  <root@sd-11801.dedibox.fr>
 
-	* Release 1.0.9
+	* Release 1.0.11
 
-	* Rewrite
+	* debian/jpoker.postinst:
+	a2enmod proxy_http on configure
+	[76a3ddcfb45c] [tip]
 
-2008-03-13  Loic Dachary <loic@dachary.org>
+2008-04-06  loic  <loic@call.dachary.org>
+
+	* Release 1.0.10
+	
+	* jpoker/js/jquery.ajaxQueue.js:
+	restore queue variable
+	[fa2ee1ea8c65]
+
+	* jpoker/js/jquery.ajaxQueue.js, jpoker/js/jquery.jpoker.js, jpoker/js
+	/test-jpoker.js:
+	ajaxQueue enable privileges instead of non working beforeSend
+	[cd2903cb4ada]
+
+	* jpoker/js/test-jpoker.js, jpoker/js/testrunner.css, jpoker/test-
+	jpoker.html:
+	pimp test report and test local cross domain
+	[48cc1ae155c3]
+
+	* jpoker/js/jquery.gettext.js:
+	only select language according to lang tag
+	[93989a8f643d]
+
+	* jpoker/js/jquery.ajaxQueue.js, jpoker/js/jquery.jpoker.js:
+	local x domain in a jquery friendly way
+	[319703fbb4c4]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	implement a connected empty template
+	[a8e3160f25d7]
+
+	* jpoker/index/StyleSheet.css:
+	IE7 display specifics
+	[ca128b4bcc6b]
+
+	* jpoker/js/humanmsg.css:
+	move the error message
+	[f851f7e7909e]
+
+	* jpoker/index-fr.html, jpoker/index.html, jpoker/poker.html:
+	cook tw pages
+	[772a9abc7581]
+
+	* jpoker/index-en/lang.tiddler, jpoker/index-fr.html, jpoker/index-
+	fr/lang.tiddler, jpoker/index.html, jpoker/js/jpoker.css,
+	jpoker/js/jquery.jpoker.js, jpoker/js/testrunner-rhino.js,
+	jpoker/markup/MarkupPreHead.tiddler:
+	improve layout of the pokersource.eu page
+	[34902fd85353]
+
+2008-04-05  loic  <loic@call.dachary.org>
+
+	* jpoker/index-fr.html, jpoker/index.html, jpoker/index/Login.tiddler:
+	remove line break
+	[b0759b4b8b53]
+
+	* COPYRIGHT/summary.txt, Makefile,
+	jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/JpokerPlugin/JpokerPlugin.tiddler.div,
+	jpoker/images/banner.jpg, jpoker/index-fr.html, jpoker/index.html,
+	jpoker/index/AdminPageTemplate.html, jpoker/index/Copyright.tiddler,
+	jpoker/index/MainMenu.tiddler, jpoker/index/PageTemplate.html,
+	jpoker/index/StyleSheet.css, jpoker/index/TiddlyLightBoxPlugin.js,
+	jpoker/index/TiddlyLightBoxPlugin.js.div,
+	jpoker/js/jpokerLoginPlugin.js,
+	jpoker/js/jpokerServerStatusPlugin.js,
+	jpoker/js/jpokerTableListPlugin.js, jpoker/js/jquery.ajaxQueue.js,
+	jpoker/js/jquery.easing.js, jpoker/js/jquery.gettext.js,
+	jpoker/js/jquery.jpoker.js, jpoker/markup/MarkupPostBody.tiddler,
+	jpoker/poker.html:
+	improve layout of the pokersource.eu page
+	[a20a18bc626d]
+
+	* jpoker/favicon.ico, jpoker/index-fr.html, jpoker/index.html,
+	jpoker/index/Footer.tiddler:
+	favicon
+	[ea96ef87d37f]
+
+	* debian/control:
+	cannot suggests build dep
+	[f4855f523222]
+
+	* debian/changelog:
+	non native
+	[c58c9cd60582]
+
+	* COPYRIGHT/bidix.txt, COPYRIGHT/cc-by-sa-2.5-notice.txt, COPYRIGHT
+	/cc-by-sa-2.5.txt, COPYRIGHT/cc-by-sa-3.0-notice.txt, COPYRIGHT/cc-
+	by-sa-3.0.txt, COPYRIGHT/summary.txt, Makefile, debian/copyright,
+	jpoker/index-fr.html, jpoker/index.html,
+	jpoker/index/Copyright.tiddler, jpoker/index/Footer.tiddler,
+	jpoker/poker.html:
+	show copyrights, add licenses
+	[193756c24b14]
+
+	* jpoker/poker.html:
+	cook the Markup tiddlers
+	[1d54e1a6869f]
+
+	* jpoker/index/WebDAVSavingPlugin.js,
+	jpoker/index/WebDAVSavingPlugin.js.div,
+	jpoker/index/WebDavPlugin.js, jpoker/index/WebDavPlugin.js.div:
+	upgrade dav plugin
+	[06d80f60e35f]
+
+	* COPYRIGHT/GPLv2.txt, COPYRIGHT/GPLv3-notice.txt,
+	COPYRIGHT/copyright.DEBIAN, Makefile, debian/copyright, jpoker
+	/index-fr.html, jpoker/index.html, jpoker/index/SiteTitle.tiddler,
+	jpoker/test-jpoker.html:
+	fix image display of logo + remove gplv2
+	[5a9d89ca8a14]
+
+	* jpoker/images/banner.jpg, jpoker/images/loading.gif,
+	jpoker/images/loading3.gif, jpoker/images/logo.png,
+	jpoker/images/splash.png, jpoker/index-fr.html, jpoker/index.html,
+	jpoker/index/SplashScreen.tiddler, jpoker/index/StyleSheet.css:
+	populate images directory
+	[4588bab2d90b]
+
+	* AUTHORS, COPYING, COPYRIGHT/GPLv2.txt, COPYRIGHT/GPLv3.txt,
+	COPYRIGHT/MIT-LICENSE.txt, COPYRIGHT/copyright.DEBIAN,
+	COPYRIGHT/summary.txt, COPYRIGHT/tiddlywiki.txt, GPLv2.txt, MIT-
+	LICENSE.txt, Makefile, debian/changelog, debian/copyright,
+	jpoker/env.js, jpoker/humanmsg.css, jpoker/humanmsg.js, jpoker
+	/index-fr.html, jpoker/index.html, jpoker/index/Copyright.tiddler,
+	jpoker/index/Copyright.tiddler.div, jpoker/jpoker-fr.json, jpoker
+	/jpoker-fr.po, jpoker/jpokerLoginPlugin.js,
+	jpoker/jpokerServerStatusPlugin.js, jpoker/jpokerTableListPlugin.js,
+	jpoker/jquery.ajaxQueue.js, jpoker/jquery.gettext.js,
+	jpoker/jquery.jpoker.js, jpoker/jquery.js, jpoker/jquery.sprintf.js,
+	jpoker/js/env.js, jpoker/js/humanmsg.css, jpoker/js/humanmsg.js,
+	jpoker/js/jpokerLoginPlugin.js,
+	jpoker/js/jpokerServerStatusPlugin.js,
+	jpoker/js/jpokerTableListPlugin.js, jpoker/js/jquery.ajaxQueue.js,
+	jpoker/js/jquery.gettext.js, jpoker/js/jquery.jpoker.js,
+	jpoker/js/jquery.js, jpoker/js/jquery.sprintf.js,
+	jpoker/js/json2.js, jpoker/js/tablelist.css, jpoker/js/test-
+	jpoker.js, jpoker/js/testrunner-rhino.js, jpoker/js/testrunner.js,
+	jpoker/json2.js, jpoker/l10n/jpoker-fr.json, jpoker/l10n/jpoker-
+	fr.po, jpoker/markup/MarkupPostBody.tiddler,
+	jpoker/markup/MarkupPreHead.tiddler, jpoker/poker.html,
+	jpoker/tablelist.css, jpoker/test-jpoker.html, jpoker/test-
+	jpoker.js, jpoker/testrunner-rhino.js, jpoker/testrunner.js:
+	reorganize files
+	[5e1720f55944]
+
+2008-04-04  root  <root@bayou.pokersource.info>
+
+	* Makefile, jpoker/jpoker-fr.json, jpoker/jpoker-fr.po:
+	dont run i18n by default because it breaks on etch and may be not
+	very useful
+	[a1ca1ea75cc8]
+
+2008-04-04  loic  <loic@call.dachary.org>
+
+	* Makefile, debian/control, jpoker/index-en/lang.tiddler, jpoker
+	/index-en/lang.tiddler.div, jpoker/index-fr.html, jpoker/index-
+	fr/FrenchTranslationPlugin.tiddler, jpoker/index-
+	fr/FrenchTranslationPlugin.tiddler.div, jpoker/index-
+	fr/lang.tiddler, jpoker/index-fr/lang.tiddler.div,
+	jpoker/index.html, jpoker/index/PageTemplate.html,
+	jpoker/index/PageTemplate.html.div:
+	cook a french example page with a switch with the english example
+	page
+	[49d589c57e01]
+
+2008-04-03  loic  <loic@call.dachary.org>
+
+	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
+	jslint patches
+	[ead7c2eb196b]
+
+2008-04-02  loic  <loic@call.dachary.org>
+
+	* jpoker/test-jpoker.js:
+	enable profiling
+	[1b11ef66bd7a]
+
+	* jpoker/index.html, jpoker/poker.html:
+	the default tiddler is the list of tables
+	[07479fcbd506]
+
+	* jpoker/index/Introduction.tiddler:
+	the default tiddler is the list of tables
+	[0a3487f51b71]
+
+	* Makefile:
+	share markup between poker and index, memorize cook commands in
+	makefile
+	[faca9850c92a]
+
+	* jpoker/index.html, jpoker/index/MarkupPostBody.tiddler,
+	jpoker/index/MarkupPostBody.tiddler.div,
+	jpoker/index/MarkupPreHead.tiddler,
+	jpoker/index/MarkupPreHead.tiddler.div,
+	jpoker/markup/MarkupPostBody.tiddler,
+	jpoker/markup/MarkupPostBody.tiddler.div,
+	jpoker/markup/MarkupPreHead.tiddler,
+	jpoker/markup/MarkupPreHead.tiddler.div, jpoker/poker.html,
+	jpoker/poker/GettingStarted.tiddler,
+	jpoker/poker/GettingStarted.tiddler.div:
+	share markup between poker and index, memorize cook commands in
+	makefile
+	[c4d55e450b19]
+
+	* Makefile, jpoker/index.html:
+	restore dates + change translation file name
+	[b15c8c73cd27]
+
+	* jpoker/jquery.gettext.js:
+	syncrhonous requests + only load the lang file
+	[88f0dc8b144a]
+
+	* Makefile, debian/copyright, fr/LC_MESSAGES/PLACEHOLDER, mo2json.py:
+	remove temporary files and normalize file names to jpoker-xx.*
+	[82ef269e6ffe]
+
+	* jpoker/fr.po, jpoker/index.html, jpoker/index/MarkupPreHead.tiddler,
+	jpoker/jpoker-fr.json, jpoker/jpoker-fr.po, jpoker/jpoker.fr.json:
+	remove temporary files and normalize file names to jpoker-xx.*
+	[fd020e371049]
+
+	* .hgignore, jpoker/index.html~, jpoker/index/Login.tiddler~,
+	jpoker/index/MarkupPostBody.tiddler.div~,
+	jpoker/index/MarkupPostBody.tiddler~,
+	jpoker/index/MarkupPreHead.tiddler.div~,
+	jpoker/index/MarkupPreHead.tiddler~,
+	jpoker/index/PageTemplate.html~, jpoker/index/SiteStats.tiddler~:
+	get rid of backup files
+	[0fa6d2ad3633]
+
+	* Makefile, jpoker/messages.pot:
+	dont archive messages.pot
+	[5e9f44bd8cd0]
+
+	* jpoker/index.html, jpoker/index/MarkupPostBody.tiddler,
+	jpoker/jquery.gettext.js, jpoker/jquery.sprintf.js,
+	jpoker/messages.pot, jpoker/test-jpoker.html:
+	insert gettext sprintf jquery plugins
+	[fbc27250b2d7]
+
+	* merge proppy changes
+	[54e74a85e47c]
+
+2008-03-30  root  <root@sd-11801.dedibox.fr>
+
+	* merge dachary changes
+	[e2d6643058f6]
+
+2008-03-18  root  <root@sd-11801.dedibox.fr>
+
+	* jpoker/asc.gif, jpoker/bg.gif, jpoker/desc.gif, jpoker/jpoker.js,
+	jpoker/jquery.tablesorter.js:
+	merge dachary changes
+	[1d47280a56ad]
+
+2008-03-17  root  <root@sd-11801.dedibox.fr>
+
+	* merge dachary
+	[aa3cb56205f6]
+
+2008-03-17  convert-repo  <convert-repo>
+
+	* .hgtags:
+	update tags
+	[54933c7ea8aa]
+
+2008-03-14  root  <root@sd-11801.dedibox.fr>
+
+	* debian/README.Debian, debian/apache2/sites-available/jpoker,
+	debian/changelog, debian/jpoker.conf, debian/jpoker.install,
+	debian/jpoker.links, debian/jpoker.postinst:
+	Add apache proxy to packaging
+	[cf5c1e55aef8]
+
+2008-03-13  convert-repo  <convert-repo>
 
 	* Release 1.0.8
 
-	* remove GPL-LICENSE.txt because MIT fits.
-	
-	* upgrade to GPLv3+
+	* .hgtags:
+	update tags
+	[0db21cedd606]
 
-	* implement packet communication layer 
+2008-04-02  loic  <loic@call.dachary.org>
 
-	* implement dom element synchronisation base class
+	* jpoker/humanmsg.css, jpoker/humanmsg.js:
+	remove -x flag
+	[d930f299eb8e]
 
-	* reorganize the name space
+	* fr/LC_MESSAGES/PLACEHOLDER, mo2json.py:
+	i18n scripts and packaging
+	[ed41ffa07674]
 
-	* fix apache adaptor problem in debian package 
+	* Makefile, debian/control, debian/copyright:
+	i18n scripts and packaging
+	[e8a0934fe9a1]
 
-2008-01-23  Johan Euphrosine  <proppy@aminche.com>
+	* jpoker/jpoker.fr.json:
+	json fr translation
+	[29b5297210ac]
 
-	* Release 1.0.7
-	* test.html, testrunner.js: add jquery based test suite
+	* jpoker/fr.po, jpoker/index.html,
+	jpoker/index/MarkupPostBody.tiddler,
+	jpoker/index/MarkupPreHead.tiddler, jpoker/index/PageTemplate.html,
+	jpoker/index/SiteStats.tiddler, jpoker/jquery.jpoker.js,
+	jpoker/messages.pot, jpoker/test-jpoker.html:
+	i18n using gettext
+	[35a0d721d110]
 
-2007-11-27  Johan Euphrosine  <proppy@aminche.com>
+2008-03-31  root  <root@bayou.pokersource.info>
 
-	* Release 1.0.6
-	* GPL-LICENSE.txt, MIT-LICENSE.txt: add jquery licenses
+	* NEWS, debian/changelog, jpoker/index.html, jpoker/index.html~,
+	jpoker/index/404Plugin.js, jpoker/index/404Plugin.js.div,
+	jpoker/index/ActiveMenuLinksPlugin.js,
+	jpoker/index/ActiveMenuLinksPlugin.js.div,
+	jpoker/index/AdminPageTemplate.html,
+	jpoker/index/AdminPageTemplate.html.div,
+	jpoker/index/ColorPalette.tiddler,
+	jpoker/index/ColorPalette.tiddler.div,
+	jpoker/index/DefaultTiddlers.tiddler,
+	jpoker/index/DefaultTiddlers.tiddler.div,
+	jpoker/index/Footer.tiddler, jpoker/index/Footer.tiddler.div,
+	jpoker/index/GenerateRssByTagPlugin.js,
+	jpoker/index/GenerateRssByTagPlugin.js.div,
+	jpoker/index/GettingStarted.tiddler,
+	jpoker/index/GettingStarted.tiddler.div,
+	jpoker/index/Introduction.tiddler,
+	jpoker/index/Introduction.tiddler.div, jpoker/index/Login.tiddler,
+	jpoker/index/Login.tiddler.div, jpoker/index/Login.tiddler~,
+	jpoker/index/MainMenu.tiddler, jpoker/index/MainMenu.tiddler.div,
+	jpoker/index/MarkupPostBody.tiddler,
+	jpoker/index/MarkupPostBody.tiddler.div,
+	jpoker/index/MarkupPostBody.tiddler.div~,
+	jpoker/index/MarkupPostBody.tiddler~,
+	jpoker/index/MarkupPreHead.tiddler,
+	jpoker/index/MarkupPreHead.tiddler.div,
+	jpoker/index/MarkupPreHead.tiddler.div~,
+	jpoker/index/MarkupPreHead.tiddler~, jpoker/index/PageTemplate.html,
+	jpoker/index/PageTemplate.html.div, jpoker/index/PageTemplate.html~,
+	jpoker/index/PublicViewTemplate.html,
+	jpoker/index/PublicViewTemplate.html.div,
+	jpoker/index/PublisherGroupsConfig.tiddler,
+	jpoker/index/PublisherGroupsConfig.tiddler.div,
+	jpoker/index/PublisherPluginBeta.js,
+	jpoker/index/PublisherPluginBeta.js.div,
+	jpoker/index/PublisherPluginGuide.tiddler,
+	jpoker/index/PublisherPluginGuide.tiddler.div,
+	jpoker/index/SinglePageModePlugin.js,
+	jpoker/index/SinglePageModePlugin.js.div,
+	jpoker/index/SiteStats.tiddler, jpoker/index/SiteStats.tiddler.div,
+	jpoker/index/SiteStats.tiddler~, jpoker/index/SiteSubtitle.tiddler,
+	jpoker/index/SiteSubtitle.tiddler.div,
+	jpoker/index/SiteTitle.tiddler, jpoker/index/SiteTitle.tiddler.div,
+	jpoker/index/SplashScreen.tiddler,
+	jpoker/index/SplashScreen.tiddler.div,
+	jpoker/index/SplashScreenPlugin.js,
+	jpoker/index/SplashScreenPlugin.js.div, jpoker/index/StyleSheet.css,
+	jpoker/index/StyleSheet.css.div,
+	jpoker/index/SuperCookerTheme.tiddler,
+	jpoker/index/SuperCookerTheme.tiddler.div,
+	jpoker/index/TiddlerSubtitleTweak.js,
+	jpoker/index/TiddlerSubtitleTweak.js.div,
+	jpoker/index/ViewTemplate.html, jpoker/index/ViewTemplate.html.div,
+	jpoker/index/WebDAVSavingPlugin.js,
+	jpoker/index/WebDAVSavingPlugin.js.div:
+	bump to version 1.0.10 + integrate pokersource.eu homepage
+	[5a4971f2e092]
 
-2007-11-12  Johan Euphrosine  <proppy@aminche.com>
+	* .hgtags:
+	Added tag jpoker-1.0.9-1 for changeset 34ab1adc62af
+	[67925b89e265]
 
-	* Release 1.0.5
-	* COPYING: add GPL-2 LICENSE
-	* proxy.php: add LICENSE header
-	* unittest.js, data.js, test_*: remove test from release
+	* .hgtags:
+	Added tag jpoker_1_0_9_1 for changeset 69c865491d90
+	[34ab1adc62af] [jpoker-1.0.9-1]
 
-2007-11-09  Johan Euphrosine  <proppy@aminche.com>
+2008-03-30  loic  <loic@call.dachary.org>
 
-	* Release 1.0.4
-	* Add and rename JPoker methods: jPoker*Create, jPoker*Refresh, jPoker*RefreshInterval
-	* Add average_pot hands_per_hour percent_flop fields
-	* Fix multiple selectors bug, thanks to b2b
-	* Add index.html, tables.html, tournaments.html
-	* Add refresh buttons
-	* Rename TiddlyWiki to lobbyweb.html
+	* jpoker/index.html:
+	index.html copy
+	[69c865491d90] [jpoker_1_0_9_1]
 
-2007-11-03  Johan Euphrosine  <proppy@aminche.com>
+	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
+	sha1 of url instead of increasing serial number used for session
+	cookie naming
+	[5565189061d9]
 
-	* Release 1.0.3
-	* Renamed jpoker.jquery.js to jquery.jpoker.js to follow jQuery guidelines.
-	* Switch to table based layout.
-	* Add jquery.tablesorter.js support and css.
-	* Display additional fields.
-	
-2007-11-02  Johan Euphrosine  <proppy@aminche.com>
+	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
+	rework session logic
+	[c4889fc5162d]
 
-	* Release 1.0.2
-	* Renamed jpoker.js to jpoker.query.js to follow jQuery guidelines.
-	* Improved plugin declaration and indentation, thanks to Scott_Gonzalez.
+	* jpoker/jquery.jpoker.js, jpoker/poker.html, jpoker/test-jpoker.js:
+	notify when exiting login + silent when receiving unknown packets +
+	fix tests accordingly
+	[a6abf4376793]
 
-2007-11-01  Johan Euphrosine  <proppy@aminche.com>	
+	* jpoker/humanmsg.css, jpoker/humanmsg.js,
+	jpoker/jquery.dimensions.js, jpoker/jquery.jpoker.js,
+	jpoker/poker.html, jpoker/test-jpoker.html, jpoker/ui.dialog.js,
+	jpoker/ui.draggable.js, jpoker/ui.mouse.js, jpoker/ui.resizable.js:
+	use humanmsg to display dialog
+	[f4d332625695]
 
-	* Release 1.0.1
-	* jpoker.js, test_jpoker.html: jpoker tests and stub implementation.
+	* jpoker/jquery.jpoker.js, jpoker/poker.html:
+	unbind click + add dialog to poker.html
+	[582cc76c83bf]
 
-2007-10-31  Johan Euphrosine  <proppy@aminche.com>	
+	* jpoker/ui.dialog.js:
+	dialog for jquery
+	[4106060f452a]
 
-	* proxy.php, test_post.html: Add curl based HTTP/POST JSON proxy.
-	
-2007-10-26  Johan Euphrosine  <proppy@aminche.com>
+	* jpoker/jpokerLoginPlugin.js, jpoker/poker.html:
+	tw login plugin
+	[8205a5d1e679]
 
-	* unittest.js, data.js, test.html: Add unittest framework.
-	* jquery.js: Add jquery library.
+	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
+	login widget implementation and tests
+	[1e4f152f4238]
 
-2007-10-25  Johan Euphrosine  <proppy@aminche.com>
+	* jpoker/jquery.dimensions.js, jpoker/jquery.jpoker.js, jpoker/test-
+	jpoker.html, jpoker/test-jpoker.js, jpoker/ui.draggable.js,
+	jpoker/ui.mouse.js, jpoker/ui.resizable.js:
+	login and logout tests
+	[35501a968180]
 
-	* Release 1.0.0
-	* apache2/sites-available/jpoker: Apache configuration.
-	* index.html: TiddlyWiki based specifications.
+2008-03-29  loic  <loic@call.dachary.org>
+
+	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
+	mockup ActiveXObject instead of XMLHttpRequest for IE compatibility.
+	Replace constructor/destructor with init/uninit because constsructor
+	is a reserved keyword
+	[c6b5e048fe78]
+
+	* jpoker/test-jpoker.js:
+	jslint error fixes
+	[f2165efdb091]
+
+	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
+	preliminary login implementation
+	[90ed2ae8a259]
+
+2008-03-27  root  <root@bayou.pokersource.info>
+
+	* jpoker/jquery.jpoker.js:
+	id must be local to avoid overlapping
+	[ebc44197698b]
+
+2008-03-27  loic  <loic@call.dachary.org>
+
+	* jpoker/index.html, jpoker/jpokerServerStatus.js,
+	jpoker/jpokerServerStatusPlugin.js, jpoker/poker.html:
+	server status plugin in tw
+	[5c52c5de7b5f]
+
+	* jpoker/test-jpoker.js:
+	server status plugin
+	[50699a05c6f6]
+
+	* jpoker/jpokerServerStatus.js:
+	tw server status macro
+	[db4a86ede00a]
+
+	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
+	rename players to playersCount
+	[993fa800c191]
+
+2008-03-26  root  <root@bayou.pokersource.info>
+
+	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
+	serverStatus stub
+	[9dc19eb339b3]
+
+	* jpoker/jquery.jpoker.js:
+	use opts instead of options
+	[d1e70ec13ad7]
+
+	* debian/changelog:
+	upstream 1.0.9
+	[88127ee6ede1]
+
+2008-03-26  loic  <loic@call.dachary.org>
+
+	* jpoker/jpokerTableListPlugin.js, jpoker/jquery.jpoker.js, jpoker
+	/test-jpoker.js:
+	tableList is standalone, disconnected mode by default for
+	communications
+	[a155e78214a3]
+
+2008-03-26  root  <root@bayou.pokersource.info>
+
+	* jpoker/jpokerTableListPlugin.js, jpoker/jquery.jpoker.js:
+	tw API attempt
+	[7e9ae8b238d3]
+
+2008-03-25  loic  <loic@call.dachary.org>
+
+	* Release 1.0.9
+
+	* ChangeLog, NEWS:
+	bump to 1.0.9
+	[74ef4c597024]
+
+	* jpoker/jquery.jpoker.js:
+	kill obsolete code
+	[b37e6294a9db]
+
+	* jpoker/jquery.jpoker.js:
+	kill obsolete code and implement jpoker destructor
+	[77f95f092b22]
+
+	* jpoker/jquery.jpoker.js:
+	implement destructors for watchable, connection and server
+	[eef4e948a3f9]
+
+	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
+	server destruction code and tests
+	[6c69c69c7ec7]
+
+	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
+	jpoker.tableList tests
+	[11f20a15ddf4]
+
+	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
+	jpoker.syncElement rename to jpoker.refresh
+	[3233aceacad6]
+
+	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
+	jpoker.syncElement test coverage complete
+	[5da66b369b48]
+
+	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
+	jpoker.watchable test coverage complete
+	[a6a757bf7910]
+
+	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
+	jpoker.connection test coverage complete
+	[5928d6394f87]
+
+	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
+	connections tests complete
+	[25805d82968b]
+
+	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
+	connections tests for handlers and queues
+	[d5b887bdb8e2]
+
+2008-03-24  loic  <loic@call.dachary.org>
+
+	* jpoker/jquery.jpoker.js:
+	timeout handling in connections
+	[603ba3da1890]
+
+	* jpoker/jquery.ajaxQueue.js:
+	expose old ajax for dequeuing
+	[94f42463327a]
+
+2008-03-17  convert-repo  <convert-repo>
+
+	* .hgtags:
+	update tags
+	[ee0e1df8de10]
+
+2008-03-17  root  <root@bayou.pokersource.info>
+
+	* debian/changelog:
+	johan is uploader
+	[09225fac31dc]
+
+	* jpoker/jquery.jpoker.js:
+	clear interval on error
+	[1111f3c6afba]
+
+	* jpoker/jquery.jpoker.js:
+	increase timer delay by default and avoid timeout at first load
+	[eed30d69b664]
+
+	* ChangeLog, NEWS, jpoker/asc.gif, jpoker/bg.gif, jpoker/desc.gif,
+	jpoker/index.html, jpoker/jpoker.js, jpoker/jquery.tablesorter.js,
+	jpoker/poker.html:
+	cleanup
+	[c56714e7aabd]
+
+	* GPLv2.txt, debian/jpoker.conf:
+	merge packaging patches from proppy
+	[3de99c3eb259]
+
+	* jpoker/index.html, jpoker/jpokerTableListPlugin.js,
+	jpoker/jquery.jpoker.js, jpoker/poker.html, jpoker/tablelist.css:
+	1.0.8 with jquery compliant plugin
+	[2faf0746cd98]
+
+	* jpoker/index.html, jpoker/poker.html:
+	reference to cannonical js file names
+	[5222211e1e3d]
+
+	* restructure namespace
+	[6e2c767afb39]
+
+2008-03-13  root  <root@bayou.pokersource.info>
+
+	* debian/control:
+	rhino and jscoverage are suggests only
+	[ce8d7ebc0f08]
+
+	* debian/jpoker.postrm:
+	1.0.8 package
+	[42a36499506b] [jpoker_1_0_8_1]
+
+	* jpoker/index.html:
+	index page to play the game
+	[d16f4feaf6fc]
+
+	* debian/copyright:
+	add tiddlywiki copyright
+	[2b3bbfe9f10a]
+
+	* debian/control:
+	remove php-curl dependency
+	[7c9038f684db]
+
+	* jpoker/tablelist.css:
+	CSS for tablelist
+	[cb9c60060221]
+
+	* jpoker/env.js, jpoker/json2.js, jpoker/testrunner-rhino.js:
+	add json + rhino support files
+	[697d062194e2]
+
+	* Makefile, NEWS, jpoker/asc.gif, jpoker/bg.gif, jpoker/desc.gif,
+	jpoker/jpoker.js, jpoker/jpokerTableListPlugin.js,
+	jpoker/jquery.ajaxQueue.js, jpoker/jquery.js,
+	jpoker/jquery.tablesorter.js, jpoker/poker.html, jpoker/test-
+	jpoker.html, jpoker/test-jpoker.js, jpoker/testrunner.js:
+	move jpoker files to subdirectory
+	[a613b147e620]
+
+	* debian/control:
+	typo fix
+	[b447f730f60b]
+
+	* ChangeLog, asc.gif, bg.gif, debian/changelog, debian/control,
+	debian/jpoker.install, debian/rules, desc.gif, jquery.js,
+	jquery.tablesorter.js, testrunner.js:
+	use makefile based cdbs rules
+	[e4b16735c6d3]
+
+	* debian/compat:
+	lower compat for backporting
+	[a05f2473fc9f]
+
+	* COPYING, ChangeLog, GPL-LICENSE.txt, GPLv2.txt, debian/changelog,
+	debian/copyright, index.html, jquery.jpoker.js, proxy.php,
+	style.css, tables.html, test.html, tournaments.html:
+	update copyrights and add jpoker implementation to package
+	[92bf5ca99976]
+
+2008-02-02  root  <root@sd-11801.dedibox.fr>
+
+	* debian/README.Debian, debian/apache2/conf.d/jpoker, debian/apache2
+	/sites-available/jpoker, debian/changelog, debian/control,
+	debian/copyright, debian/jpoker.conf, debian/jpoker.install,
+	debian/jpoker.postinst, debian/jpoker.prerm, proxy.php:
+	merge ola packaging fix
+	[44d660a63ed2]
+
+2008-01-23  root  <root@sd-11801.dedibox.fr>
+
+	* merge 1.0.7
+	[c9120170e97c]
+
+2008-01-22  root  <root@sd-11801.dedibox.fr>
+
+	* test.html:
+	pull and merge upstream changes
+	[aad22805eae5]
+
+2008-01-21  root  <root@sd-11801.dedibox.fr>
+
+	* debian/apache2/sites-available/jpoker, debian/jpoker.install:
+	move apache2 to debian directory
+	[587082a2d489]
+
+	* debian/changelog, debian/compat, debian/control, debian/copyright,
+	debian/jpoker.install, debian/jpoker.postinst, debian/jpoker.postrm,
+	debian/rules:
+	restore debian packaging
+	[23b1ed39d8ea]
+
+2008-01-23  root  <root@sd-11801.dedibox.fr>
+
+	* ChangeLog:
+	update Changelog
+	[c9af6e26cd05]
+
+	* ChangeLog, test.html:
+	rename test_jpoker.html to test.html
+	[bfd49aa6e8ac]
+
+2008-01-22  root  <root@sd-11801.dedibox.fr>
+
+	* test.html, testrunner.js:
+	remove tests directory
+	[735792fe0cde]
+
+	* proxy.php:
+	rewrite post PacketPing with jquery
+	[122ddc3f0991]
+
+2008-01-21  root  <root@sd-11801.dedibox.fr>
+
+	* debian/changelog, debian/compat, debian/control, debian/copyright,
+	debian/jpoker.install, debian/jpoker.postinst, debian/jpoker.postrm,
+	debian/rules:
+	remove debian packaging
+	[b2672eb98664]
+
+2007-11-27  root  <root@sd-11801.dedibox.fr>
+
+	* ChangeLog, GPL-LICENSE.txt, MIT-LICENSE.txt, debian/changelog,
+	debian/control:
+	Add jquery GPL and MIT licenses
+	[e7fd9c44842e]
+
+2007-11-23  root  <root@sd-11801.dedibox.fr>
+
+	* debian/changelog:
+	bump debian/changelog
+	[6751178d4f42]
+
+	* ChangeLog:
+	jpoker-1.0.5
+	[ab02ba372080]
+
+	* debian/jpoker.install:
+	exclude test from release
+	[be13efb3a56c]
+
+2007-11-12  root  <root@sd-11801.dedibox.fr>
+
+	* ChangeLog:
+	ChangeLog
+	[f31db0aa2ca6]
+
+	* ChangeLog, debian/jpoker.install:
+	remove lobbyweb.html from release
+	[9f84188419c7]
+
+	* COPYING:
+	add GPL-2 COPYING
+	[96c0456b5426]
+
+	* proxy.php:
+	add LICENSE header
+	[3891516986cc]
+
+	* debian/changelog:
+	link to debian ITP
+	[2703bbbf2104]
+
+2007-11-10  root  <root@sd-11801.dedibox.fr>
+
+	* debian/changelog:
+	fixed changelog
+	[ded287bfdb87]
+
+	* debian/changelog, debian/jpoker.install:
+	update debian packaging
+	[6cd82b79d98b]
+
+2007-11-09  root  <root@sd-11801.dedibox.fr>
+
+	* ChangeLog:
+	update ChangeLog
+	[4566009e65b3]
+
+	* index.html, tables.html, tournaments.html:
+	refresh buttons
+	[1bd8608601cc]
+
+	* index.html, jquery.jpoker.js, tables.html, tournaments.html:
+	rename methods
+	[838210b3845e]
+
+	* index.html, jquery.jpoker.js:
+	fix optional returnValue
+	[8968cc1284dc]
+
+	* jquery.jpoker.js:
+	fix refreshed
+	[8e1992c6582c]
+
+	* jquery.jpoker.js:
+	jPokerRefresh return this
+	[23087ae72845]
+
+	* jquery.jpoker.js:
+	jPokerTables/jPokerTourneys split prepare and refresh
+	[161caad1421d]
+
+	* jquery.jpoker.js:
+	enable tablesorter
+	[1386c46a5dc7]
+
+	* jquery.jpoker.js:
+	jPokerRefreshTable/TourneyInterval test and implementation
+	[78a7a57cb76e]
+
+	* jquery.jpoker.js:
+	callback based refresh
+	[550f2da91d0a]
+
+	* jquery.jpoker.js:
+	multiple jPokerRefreshTables/Tourneys test and implementation
+	[05b6abd068ce]
+
+	* jquery.jpoker.js:
+	fix selector bug
+	[23a9522a0804]
+
+	* index.html:
+	add index page
+	[8a3a7ff987d4]
+
+	* index.html, tables.html, tournaments.html:
+	refactored test and directory layout
+	[1029f969d0d4]
+
+	* jquery.jpoker.js:
+	average_pot hands_per_hour percent_flop
+	[0a151fb2bde2]
+
+	* proxy.php:
+	revert proxy.php
+	[872afcbb4873]
+
+	* proxy.php:
+	apt-get source poker-network
+	[ddb1d65ea63a]
+
+2007-11-06  root  <root@sd-11801.dedibox.fr>
+
+	* debian/changelog:
+	update debian changelog
+	[a3181f665425]
+
+	* debian/jpoker.install:
+	add tablesorter and css style to debian package
+	[254293c4f7d8]
+
+2007-11-03  root  <root@sd-11801.dedibox.fr>
+
+	* ChangeLog:
+	jpoker-1.0.3
+	[78cda30670dd]
+
+	* jquery.jpoker.js:
+	display additional fields
+	[ad31a51f642e]
+
+	* asc.gif, bg.gif, desc.gif, jquery.jpoker.js, style.css:
+	add and bind css
+	[7c6dca1191de]
+
+	* jquery.jpoker.js:
+	fix tablesorter require thead
+	[713a9ab4f97e]
+
+	* jquery.jpoker.js:
+	rename file to jquery.jpoker.js + add tablesorter
+	[b290ed892f4c]
+
+	* jquery.tablesorter.js:
+	jquery.tablesorter.js
+	[edfdf06238b0]
+
+	* ChangeLog:
+	ChangeLog
+	[d9d30a7e985f]
+
+2007-11-02  root  <root@sd-11801.dedibox.fr>
+
+	* debian/jpoker.install:
+	s/jpoker.js/jpoker.jquery.js
+	[2127ea2d4160]
+
+	* index.html:
+	update jpoker_1.0.1.orig.tar.gz
+	[ad54b86c1bcc]
+
+	* index.html:
+	update tiddlywiki with url
+	[eafeee24dfcd]
+
+	* debian/jpoker.install:
+	fix typo in install
+	[422ae8baa631]
+
+	* debian/files, debian/jpoker/DEBIAN/conffiles,
+	debian/jpoker/DEBIAN/control, debian/jpoker/DEBIAN/md5sums,
+	debian/jpoker/DEBIAN/postinst, debian/jpoker/DEBIAN/postrm,
+	debian/jpoker/etc/apache2/sites-available/jpoker,
+	debian/jpoker/usr/share/doc/jpoker/changelog.Debian.gz,
+	debian/jpoker/usr/share/doc/jpoker/copyright,
+	debian/jpoker/usr/share/jpoker/index.html:
+	debuild clean
+	[9fcf3fab230e]
+
+	* index.html:
+	update tiddlywiki with status report
+	[ac78589e4350]
+
+	* debian/control:
+	update package dependencies
+	[d2b2e1c5ef1b]
+
+	* debian/changelog, debian/jpoker.install:
+	add jpoker proxy jquery and test_* to debian package
+	[127d09ffb08c]
+
+	* ChangeLog:
+	update ChangeLog
+	[5881376808da]
+
+2007-10-31  root  <root@sd-11801.dedibox.fr>
+
+	* proxy.php:
+	pass postdata to proxy
+	[c15e10f701e5]
+
+	* proxy.php:
+	json_encode(postdata)
+	[50b8e49baaf0]
+
+	* proxy.php:
+	fix curl_setpot
+	[6de742696b58]
+
+2007-10-27  root  <root@sd-11801.dedibox.fr>
+
+	* proxy.php:
+	test post and php based proxy
+	[342ac2c401a9]
+
+2007-10-26  root  <root@sd-11801.dedibox.fr>
+
+	* proxy.php:
+	fix downcase url in proxy
+	[cf4bead2d811]
+
+	* proxy.php:
+	added proxy.php
+	[be805ef7b49c]
+
+	* ChangeLog:
+	update ChangeLog
+	[c872ee054221]
+
+	* jquery.js:
+	add jquery
+	[45420237c208]
+
+	* test.html:
+	change copyright
+	[69da9c2b3959]
+
+	* test.html:
+	test skeleton
+	[ff2101737fb5]
+
+2007-10-25  root  <root@sd-11801.dedibox.fr>
+
+	* ChangeLog:
+	added ChangeLog
+	[f2a17e2c48db]
+
+	* debian/jpoker/DEBIAN/control, debian/jpoker/DEBIAN/md5sums:
+	apt-get install build-essential
+	[16d2cbe90d5e]
+
+	* debian/changelog, debian/compat, debian/control, debian/copyright,
+	debian/files, debian/jpoker.install, debian/jpoker.postinst,
+	debian/jpoker.postrm, debian/jpoker/DEBIAN/conffiles,
+	debian/jpoker/DEBIAN/control, debian/jpoker/DEBIAN/md5sums,
+	debian/jpoker/DEBIAN/postinst, debian/jpoker/DEBIAN/postrm,
+	debian/jpoker/etc/apache2/sites-available/jpoker,
+	debian/jpoker/usr/share/doc/jpoker/changelog.Debian.gz,
+	debian/jpoker/usr/share/doc/jpoker/copyright,
+	debian/jpoker/usr/share/jpoker/index.html, debian/rules, index.html:
+	import jpoker package
+	[5a117b392a61]
+
+2008-03-17  root  <root@bayou.pokersource.info>
+
+	* debian/jpoker.conf:
+	merge packaging patches from proppy
+	[8ded58e41a3f]
+
+2008-03-17  root  <root@sd-11801.dedibox.fr>
+
+	* merge dachary
+	[c73a34328f3c]
+
+2008-03-17  root  <root@bayou.pokersource.info>
+
+	* jpoker/index.html, jpoker/jpokerTableListPlugin.js,
+	jpoker/jquery.jpoker.js, jpoker/poker.html, jpoker/tablelist.css:
+	1.0.8 with jquery compliant plugin
+	[a7f4180c4d82]
+
+	* jpoker/index.html, jpoker/poker.html:
+	reference to cannonical js file names
+	[b549a1d8b70c]
+
+	* restructure namespace
+	[0848f3d9363f]
+
+2008-03-17  loic  <loic@call.dachary.org>
+
+	* jpoker/jpokerTableListPlugin.js:
+	use new jpoker API for tw plugin
+	[fde2bf7e81c2]
+
+	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
+	rewrite tests for new jpoker namespace
+	[2b4d6fe7170f]
+
+	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
+	run tests on syncElement
+	[fc3c4cf55df1]
+
+2008-03-16  loic  <loic@call.dachary.org>
+
+	* jpoker/jquery.jpoker.js:
+	rework and move to $.jpoker
+	[49a975284f19]
+
+2008-03-15  loic  <loic@call.dachary.org>
+
+	* jpoker/jpoker.js, jpoker/jquery.jpoker.js, jpoker/test-jpoker.html,
+	jpoker/test-jpoker.js:
+	rewrite jpoker.js as a jquery plugin
+	[985d6dcc94a4]
+
+2008-03-14  loic  <loic@call.dachary.org>
+
+	* ChangeLog, debian/copyright:
+	no need to copy the GPLv2
+	[d033bcb4dced]
+
+2008-03-13  root  <root@bayou.pokersource.info>
+
+	* debian/control:
+	rhino and jscoverage are suggests only
+	[da83e98e243d]
+
+	* debian/jpoker.postrm:
+	1.0.8 package
+	[bfc9604cd2f3]
+
+	* debian/copyright:
+	add tiddlywiki copyright
+	[0f8d90994db4]
+
+	* debian/control:
+	remove php-curl dependency
+	[7c2c8e7c42f5]
+
+	* jpoker/jpoker.js, jpoker/jpokerTableListPlugin.js, jpoker/test-
+	jpoker.html, jpoker/test-jpoker.js:
+	move jpoker files to subdirectory
+	[3133c5cb217c]
+
+	* debian/control:
+	typo fix
+	[c95ee3a9fa5e]
+
+	* ChangeLog, debian/changelog, debian/control, debian/jpoker.install,
+	debian/rules:
+	use makefile based cdbs rules
+	[f68df35accd7]
+
+	* debian/compat:
+	lower compat for backporting
+	[d3a510765e26]
+
+	* COPYING, ChangeLog, debian/changelog, debian/copyright:
+	update copyrights and add jpoker implementation to package
+	[845decdbf6ac]
+
+2008-02-02  root  <root@sd-11801.dedibox.fr>
+
+	* debian/apache2/sites-available/jpoker, debian/changelog,
+	debian/control, debian/copyright, debian/jpoker.install,
+	debian/jpoker.postinst:
+	merge ola packaging fix
+	[9db990a70c69]
+
+2008-01-23  root  <root@sd-11801.dedibox.fr>
+
+	* merge 1.0.7
+	[00bdb9f55cf5]
+
+2008-01-21  root  <root@sd-11801.dedibox.fr>
+
+	* debian/apache2/sites-available/jpoker, debian/jpoker.install:
+	move apache2 to debian directory
+	[58a28c543402]
+
+	* debian/changelog, debian/compat, debian/control, debian/copyright,
+	debian/jpoker.install, debian/jpoker.postinst, debian/jpoker.postrm,
+	debian/rules:
+	restore debian packaging
+	[c48bca7ce929]
+
+2008-01-23  root  <root@sd-11801.dedibox.fr>
+
+	* ChangeLog:
+	update Changelog
+	[c33815421871]
+
+	* ChangeLog:
+	rename test_jpoker.html to test.html
+	[72f1a3c0b4c8]
+
+2008-01-21  root  <root@sd-11801.dedibox.fr>
+
+	* debian/changelog, debian/compat, debian/control, debian/copyright,
+	debian/jpoker.install, debian/jpoker.postinst, debian/jpoker.postrm,
+	debian/rules:
+	remove debian packaging
+	[78f2604dbf81]
+
+2007-11-27  root  <root@sd-11801.dedibox.fr>
+
+	* ChangeLog, debian/changelog, debian/control:
+	Add jquery GPL and MIT licenses
+	[b8e2be01693a]
+
+2007-11-23  root  <root@sd-11801.dedibox.fr>
+
+	* debian/changelog:
+	bump debian/changelog
+	[086f254a5b5f]
+
+	* ChangeLog:
+	jpoker-1.0.5
+	[398224830d94]
+
+	* debian/jpoker.install:
+	exclude test from release
+	[8cbadf14de81]
+
+2007-11-12  root  <root@sd-11801.dedibox.fr>
+
+	* ChangeLog:
+	ChangeLog
+	[7c5a8b9c7e76]
+
+	* ChangeLog, debian/jpoker.install:
+	remove lobbyweb.html from release
+	[04224f1b8f94]
+
+	* COPYING:
+	add GPL-2 COPYING
+	[db836c7c01c0]
+
+	* debian/changelog:
+	link to debian ITP
+	[96fee9796d82]
+
+2007-11-10  root  <root@sd-11801.dedibox.fr>
+
+	* debian/changelog:
+	fixed changelog
+	[ea05777ceef1]
+
+	* debian/changelog, debian/jpoker.install:
+	update debian packaging
+	[cc09d6b5faf8]
+
+2007-11-09  root  <root@sd-11801.dedibox.fr>
+
+	* ChangeLog:
+	update ChangeLog
+	[644ebfe8dda9]
+
+2007-11-06  root  <root@sd-11801.dedibox.fr>
+
+	* debian/changelog:
+	update debian changelog
+	[1b4068e7ea87]
+
+	* debian/jpoker.install:
+	add tablesorter and css style to debian package
+	[41e64113f5a1]
+
+2007-11-03  root  <root@sd-11801.dedibox.fr>
+
+	* ChangeLog:
+	jpoker-1.0.3
+	[2fe535104aac]
+
+	* ChangeLog:
+	ChangeLog
+	[29e4aef5fb58]
+
+2007-11-02  root  <root@sd-11801.dedibox.fr>
+
+	* debian/jpoker.install:
+	s/jpoker.js/jpoker.jquery.js
+	[5725c996e91a]
+
+	* debian/jpoker.install:
+	fix typo in install
+	[0db6357f6f97]
+
+	* debian/jpoker/DEBIAN/control, debian/jpoker/DEBIAN/md5sums:
+	debuild clean
+	[7d15af058c20]
+
+	* debian/control:
+	update package dependencies
+	[6e1e84da8c44]
+
+	* debian/changelog, debian/jpoker.install:
+	add jpoker proxy jquery and test_* to debian package
+	[4613d3e673f7]
+
+	* ChangeLog:
+	update ChangeLog
+	[31c553356b6f]
+
+2007-10-26  root  <root@sd-11801.dedibox.fr>
+
+	* ChangeLog:
+	update ChangeLog
+	[de32910d3bec]
+
+2007-10-25  root  <root@sd-11801.dedibox.fr>
+
+	* ChangeLog:
+	added ChangeLog
+	[ee5016d1edf1]
+
+	* debian/jpoker/DEBIAN/control, debian/jpoker/DEBIAN/md5sums:
+	apt-get install build-essential
+	[8e0d9524d5c7]
+
+2008-03-17  loic  <loic@call.dachary.org>
+
+	* jpoker/jpokerTableListPlugin.js:
+	use new jpoker API for tw plugin
+	[7a89c7ff16e8]
+
+	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
+	rewrite tests for new jpoker namespace
+	[46061bdb6459]
+
+	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
+	run tests on syncElement
+	[492ca279f4f4]
+
+2008-03-16  loic  <loic@call.dachary.org>
+
+	* jpoker/jquery.jpoker.js:
+	rework and move to $.jpoker
+	[a41c67754c23]
+
+2008-03-15  loic  <loic@call.dachary.org>
+
+	* jpoker/jpoker.js, jpoker/jquery.jpoker.js, jpoker/test-jpoker.html,
+	jpoker/test-jpoker.js:
+	rewrite jpoker.js as a jquery plugin
+	[157b4b3cea1f]
+
+2008-03-14  loic  <loic@call.dachary.org>
+
+	* ChangeLog, debian/copyright:
+	no need to copy the GPLv2
+	[0f71adbff2be]
+
+2008-03-13  root  <root@bayou.pokersource.info>
+
+	* debian/control:
+	rhino and jscoverage are suggests only
+	[d6054ec14fa5]
+
+	* debian/jpoker.postrm:
+	1.0.8 package
+	[acfc0aad8cfe]
+
+	* jpoker/index.html:
+	index page to play the game
+	[943e6fdd7479]
+
+	* debian/copyright:
+	add tiddlywiki copyright
+	[5943a4490717]
+
+	* debian/control:
+	remove php-curl dependency
+	[1adfe9053a18]
+
+	* jpoker/tablelist.css:
+	CSS for tablelist
+	[9906ca1d39ef]
+
+	* jpoker/env.js, jpoker/json2.js, jpoker/testrunner-rhino.js:
+	add json + rhino support files
+	[f3103a47ff7c]
+
+	* Makefile, NEWS, jpoker/asc.gif, jpoker/bg.gif, jpoker/desc.gif,
+	jpoker/jpoker.js, jpoker/jpokerTableListPlugin.js,
+	jpoker/jquery.ajaxQueue.js, jpoker/jquery.js,
+	jpoker/jquery.tablesorter.js, jpoker/poker.html, jpoker/test-
+	jpoker.html, jpoker/test-jpoker.js, jpoker/testrunner.js:
+	move jpoker files to subdirectory
+	[986f309ca8c2]
+
+	* debian/control:
+	typo fix
+	[ea87731d23b2]
+
+	* ChangeLog, debian/changelog, debian/control, debian/jpoker.install,
+	debian/rules:
+	use makefile based cdbs rules
+	[b0b418bc59d0]
+
+	* debian/compat:
+	lower compat for backporting
+	[ce1f865648c7]
+
+	* COPYING, ChangeLog, debian/changelog, debian/copyright:
+	update copyrights and add jpoker implementation to package
+	[75eb41951b58]
+
+2008-03-14  root  <root@sd-11801.dedibox.fr>
+
+	* debian/README.Debian, debian/apache2/sites-available/jpoker,
+	debian/changelog, debian/jpoker.conf, debian/jpoker.install,
+	debian/jpoker.links, debian/jpoker.postinst:
+	Add apache proxy to packaging
+	[70701df2f8b7]
+
+2008-03-13  root  <root@bayou.pokersource.info>
+
+	* debian/control:
+	rhino and jscoverage are suggests only
+	[2978eb5f3b9f]
+
+	* debian/jpoker.postrm:
+	1.0.8 package
+	[0f688a0d665d]
+
+	* jpoker/index.html:
+	index page to play the game
+	[584c4a005edd]
+
+	* debian/copyright:
+	add tiddlywiki copyright
+	[767384513304]
+
+	* debian/control:
+	remove php-curl dependency
+	[085ce12e1b37]
+
+	* jpoker/tablelist.css:
+	CSS for tablelist
+	[879e04f2228f]
+
+	* jpoker/env.js, jpoker/json2.js, jpoker/testrunner-rhino.js:
+	add json + rhino support files
+	[2bcef62a5285]
+
+	* Makefile, NEWS, jpoker/asc.gif, jpoker/bg.gif, jpoker/desc.gif,
+	jpoker/jpoker.js, jpoker/jpokerTableListPlugin.js,
+	jpoker/jquery.ajaxQueue.js, jpoker/jquery.js,
+	jpoker/jquery.tablesorter.js, jpoker/poker.html, jpoker/test-
+	jpoker.html, jpoker/test-jpoker.js, jpoker/testrunner.js:
+	move jpoker files to subdirectory
+	[df96c27b0f0b]
+
+	* debian/control:
+	typo fix
+	[6c9f4bc92249]
+
+	* ChangeLog, debian/changelog, debian/control, debian/jpoker.install,
+	debian/rules:
+	use makefile based cdbs rules
+	[34a85faa76f5]
+
+	* debian/compat:
+	lower compat for backporting
+	[51c058dbd67f]
+
+	* COPYING, ChangeLog, GPLv2.txt, debian/changelog, debian/copyright:
+	update copyrights and add jpoker implementation to package
+	[ff45559c45be]
+
+2008-02-02  root  <root@sd-11801.dedibox.fr>
+
+	* debian/README.Debian, debian/apache2/conf.d/jpoker, debian/apache2
+	/sites-available/jpoker, debian/changelog, debian/control,
+	debian/copyright, debian/jpoker.conf, debian/jpoker.install,
+	debian/jpoker.postinst, debian/jpoker.prerm:
+	merge ola packaging fix
+	[a41ca7c9e3b6]
+
+2008-01-23  root  <root@sd-11801.dedibox.fr>
+
+	* merge 1.0.7
+	[246d51ed2cdd]
+
+2008-01-21  root  <root@sd-11801.dedibox.fr>
+
+	* debian/apache2/sites-available/jpoker, debian/jpoker.install:
+	move apache2 to debian directory
+	[a40e8a2f8494]
+
+	* debian/changelog, debian/compat, debian/control, debian/copyright,
+	debian/jpoker.install, debian/jpoker.postinst, debian/jpoker.postrm,
+	debian/rules:
+	restore debian packaging
+	[e6949f7fc5b7]
+
+2008-01-23  root  <root@sd-11801.dedibox.fr>
+
+	* ChangeLog:
+	update Changelog
+	[4115cd7e62f9]
+
+	* ChangeLog:
+	rename test_jpoker.html to test.html
+	[89494d6499a2]
+
+2008-01-21  root  <root@sd-11801.dedibox.fr>
+
+	* debian/changelog, debian/compat, debian/control, debian/copyright,
+	debian/jpoker.install, debian/jpoker.postinst, debian/jpoker.postrm,
+	debian/rules:
+	remove debian packaging
+	[076833e0c7fe]
+
+2007-11-27  root  <root@sd-11801.dedibox.fr>
+
+	* ChangeLog, MIT-LICENSE.txt, debian/changelog, debian/control:
+	Add jquery GPL and MIT licenses
+	[f78ad880526b]
+
+2007-11-23  root  <root@sd-11801.dedibox.fr>
+
+	* debian/changelog:
+	bump debian/changelog
+	[8ad5a4c87f0b]
+
+	* ChangeLog:
+	jpoker-1.0.5
+	[4b774fa1e32c]
+
+	* debian/jpoker.install:
+	exclude test from release
+	[c81cdb8bc76c]
+
+2007-11-12  root  <root@sd-11801.dedibox.fr>
+
+	* ChangeLog:
+	ChangeLog
+	[239e800ff4ae]
+
+	* ChangeLog, debian/jpoker.install:
+	remove lobbyweb.html from release
+	[7f93fb9d205c]
+
+	* COPYING:
+	add GPL-2 COPYING
+	[1ca94aac2cdf]
+
+	* debian/changelog:
+	link to debian ITP
+	[0339f28ac227]
+
+2007-11-10  root  <root@sd-11801.dedibox.fr>
+
+	* debian/changelog:
+	fixed changelog
+	[dbc43c88b2ca]
+
+	* debian/changelog, debian/jpoker.install:
+	update debian packaging
+	[02b9b9d208bf]
+
+2007-11-09  root  <root@sd-11801.dedibox.fr>
+
+	* ChangeLog:
+	update ChangeLog
+	[a5eb902f8990]
+
+2007-11-06  root  <root@sd-11801.dedibox.fr>
+
+	* debian/changelog:
+	update debian changelog
+	[e933e1acf8a0]
+
+	* debian/jpoker.install:
+	add tablesorter and css style to debian package
+	[b1abff1a1eec]
+
+2007-11-03  root  <root@sd-11801.dedibox.fr>
+
+	* ChangeLog:
+	jpoker-1.0.3
+	[e771a2f27530]
+
+	* ChangeLog:
+	ChangeLog
+	[806410906a20]
+
+2007-11-02  root  <root@sd-11801.dedibox.fr>
+
+	* debian/jpoker.install:
+	s/jpoker.js/jpoker.jquery.js
+	[efdfafa498b5]
+
+	* debian/jpoker.install:
+	fix typo in install
+	[cda89b9406fe]
+
+	* debian/files, debian/jpoker/DEBIAN/conffiles,
+	debian/jpoker/DEBIAN/control, debian/jpoker/DEBIAN/md5sums,
+	debian/jpoker/DEBIAN/postinst, debian/jpoker/DEBIAN/postrm,
+	debian/jpoker/etc/apache2/sites-available/jpoker,
+	debian/jpoker/usr/share/doc/jpoker/changelog.Debian.gz,
+	debian/jpoker/usr/share/doc/jpoker/copyright,
+	debian/jpoker/usr/share/jpoker/index.html:
+	debuild clean
+	[e208651c3fff]
+
+	* debian/control:
+	update package dependencies
+	[fdf10681f624]
+
+	* debian/changelog, debian/jpoker.install:
+	add jpoker proxy jquery and test_* to debian package
+	[70182b7f8b0b]
+
+	* ChangeLog:
+	update ChangeLog
+	[b8fb91dfec21]
+
+2007-10-26  root  <root@sd-11801.dedibox.fr>
+
+	* ChangeLog:
+	update ChangeLog
+	[bec25c2310df]
+
+2007-10-25  root  <root@sd-11801.dedibox.fr>
+
+	* ChangeLog:
+	added ChangeLog
+	[abd380a6c275]
+
+	* debian/jpoker/DEBIAN/control, debian/jpoker/DEBIAN/md5sums:
+	apt-get install build-essential
+	[3975cdbc544e]
+
+	* debian/changelog, debian/compat, debian/control, debian/copyright,
+	debian/files, debian/jpoker.install, debian/jpoker.postinst,
+	debian/jpoker.postrm, debian/jpoker/DEBIAN/conffiles,
+	debian/jpoker/DEBIAN/control, debian/jpoker/DEBIAN/md5sums,
+	debian/jpoker/DEBIAN/postinst, debian/jpoker/DEBIAN/postrm,
+	debian/jpoker/etc/apache2/sites-available/jpoker,
+	debian/jpoker/usr/share/doc/jpoker/changelog.Debian.gz,
+	debian/jpoker/usr/share/doc/jpoker/copyright,
+	debian/jpoker/usr/share/jpoker/index.html, debian/rules:
+	import jpoker package
+	[7f71d9e1fcdb]
+
