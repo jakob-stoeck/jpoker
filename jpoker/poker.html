@@ -47,7 +47,9 @@ DAMAGE.
 <!--}}}-->
 
 <!--PRE-HEAD-END-->
-<title> My TiddlyWiki - a reusable non-linear personal web notebook </title>
+<title>
+TiddlyWiki - a reusable non-linear personal web notebook
+</title>
 <style type="text/css">
 #saveTest {display:none;}
 #messageArea {display:none;}
@@ -58,12 +60,10 @@ DAMAGE.
 #javascriptWarning {width:100%; text-align:center; font-weight:bold; background-color:#dd1100; color:#fff; padding:1em 0em;}
 </style>
 <!--POST-HEAD-START-->
-
 <!--POST-HEAD-END-->
 </head>
 <body onload="main();" onunload="if(window.checkUnsavedChanges) checkUnsavedChanges(); if(window.scrubNodes) scrubNodes(document.body);">
 <!--PRE-BODY-START-->
-
 <!--PRE-BODY-END-->
 <div id="copyright">
 Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa Association
@@ -503,7 +503,7 @@ Also see AdvancedOptions</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="CryptoFunctionsPlugin" created="200710131134" tags="systemConfig excludeLists excludeSearch">
+<div title="CryptoFunctionsPlugin" modifier="" created="200710115934" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
 |''Name:''|CryptoFunctionsPlugin|
 |''Description:''|Support for cryptographic functions|
@@ -653,7 +653,7 @@ Crypto.sha1 = function(x,blen)
 }
 //}}}</pre>
 </div>
-<div title="DeprecatedFunctionsPlugin" created="200710140259" tags="systemConfig excludeLists excludeSearch">
+<div title="DeprecatedFunctionsPlugin" modifier="" created="200710125059" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
 |''Name:''|DeprecatedFunctionsPlugin|
 |''Description:''|Support for deprecated functions removed from core|
@@ -826,11 +826,10 @@ config.formatters.push(
 } //# end of &quot;install only once&quot;
 //}}}</pre>
 </div>
-<div title="MarkupPostBody" modifier="loic" modified="200804052124" created="200803312321" changecount="1">
+<div title="MarkupPostBody" modifier="loic" modified="200804072219" created="200803312321" changecount="1">
 <pre>&lt;!--{{{--&gt;
 &lt;script src=&quot;js/jquery.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;js/json2.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;js/jquery.sprintf.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;js/jquery.gettext.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;js/jquery.ajaxQueue.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;js/jquery.easing.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
@@ -849,7 +848,7 @@ config.formatters.push(
 &lt;!--}}}--&gt;
 </pre>
 </div>
-<div title="SparklinePlugin" created="200710140259" tags="systemConfig excludeLists excludeSearch">
+<div title="SparklinePlugin" modifier="" created="200710125059" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
 |''Name:''|SparklinePlugin|
 |''Description:''|Sparklines macro|
@@ -907,6 +906,16 @@ config.macros.sparkline.handler = function(place,macroName,params)
 </div>
 <!--POST-STOREAREA-->
 <!--POST-BODY-START-->
+<!--{{{-->
+<script src="js/jquery.js" type="text/javascript"></script>
+<script src="js/json2.js" type="text/javascript"></script>
+<script src="js/jquery.gettext.js" type="text/javascript"></script>
+<script src="js/jquery.ajaxQueue.js" type="text/javascript"></script>
+<script src="js/jquery.easing.js" type="text/javascript"></script>
+<script src="js/humanmsg.js" type="text/javascript"></script>
+<script src="js/jquery.jpoker.js" type="text/javascript"></script>
+<!--}}}-->
+
 <!--POST-BODY-END-->
 <script type="text/javascript">
 //<![CDATA[
@@ -9185,17 +9194,6 @@ if(useJavaSaver)
 //]]>
 </script>
 <!--POST-SCRIPT-START-->
-<!--{{{-->
-<script src="js/jquery.js" type="text/javascript"></script>
-<script src="js/json2.js" type="text/javascript"></script>
-<script src="js/jquery.sprintf.js" type="text/javascript"></script>
-<script src="js/jquery.gettext.js" type="text/javascript"></script>
-<script src="js/jquery.ajaxQueue.js" type="text/javascript"></script>
-<script src="js/jquery.easing.js" type="text/javascript"></script>
-<script src="js/humanmsg.js" type="text/javascript"></script>
-<script src="js/jquery.jpoker.js" type="text/javascript"></script>
-<!--}}}-->
-
 <!--POST-SCRIPT-END-->
 </body>
 </html>

@@ -35,7 +35,7 @@ tests:
 
 cook:
 	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp
-	[ -f empty.html ] || wget http://tiddlywiki.com/empty.html
+	[ -f empty.html ] || wget --quiet http://tiddlywiki.com/empty.html
 	cp empty.html jpoker/index.html
 	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-en jpoker/index jpoker/markup jpoker/index.html
 	cp empty.html jpoker/index-fr.html
@@ -48,10 +48,8 @@ newlang:
 	msginit -l fr_FR -o fr.po -i messages.pot
 
 clean: 
-	rm -fr tests
-	rm -fr fr
+	rm -fr tests gems fr 
 	rm -f messages.pot empty.html
-	rm -fr gems
 
 check:
 	cd jpoker ; x-www-browser test-jpoker.html # replace with jaxer when http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=474050 closed
