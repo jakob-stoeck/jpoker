@@ -6,6 +6,9 @@ if [ "$1" = "configure" ] ; then
     if [ -x "$(which a2ensite)" ] ; then
 	a2ensite jpoker || true
     fi
+    if [ -x "$(which a2enmod)" ] ; then
+	a2enmod proxy_http 
+    fi
 fi
 
 # dh_installdeb will replace this with shell code automatically
