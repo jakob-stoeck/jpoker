@@ -41,7 +41,7 @@ store.addNotification("TiddlyLightBoxStyles",refreshStyles);
 
 if (!window.TiddlyLightBox)
     window.TiddlyLightBox = {};
-    var loadingImage = "indicator.gif";
+    var loadingImage = "images/indicator.gif";
     window.TiddlyLightBox =
     {
     _curBox: null, // [sentinel]
