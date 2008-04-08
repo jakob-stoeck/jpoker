@@ -35,12 +35,11 @@ tests:
 
 cook:
 	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp
-	[ -f empty.html ] || wget --quiet http://tiddlywiki.com/empty.html
-	cp empty.html jpoker/index.html
+	cp tiddlywiki-2.3.html jpoker/index.html
 	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-en jpoker/index jpoker/markup jpoker/index.html
-	cp empty.html jpoker/index-fr.html
+	cp tiddlywiki-2.3.html jpoker/index-fr.html
 	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-fr jpoker/index jpoker/markup jpoker/index-fr.html
-	cp empty.html jpoker/poker.html
+	cp tiddlywiki-2.3.html jpoker/poker.html
 	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/poker jpoker/markup jpoker/poker.html
 
 # mimic when a new lang shows
@@ -49,7 +48,8 @@ newlang:
 
 clean: 
 	rm -fr tests gems fr 
-	rm -f messages.pot empty.html
+	rm -f messages.pot 
+	rm -f jpoker/{index.html,index-fr.html,poker.html}
 
 check:
 	cd jpoker ; x-www-browser test-jpoker.html # replace with jaxer when http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=474050 closed
