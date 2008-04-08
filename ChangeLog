@@ -1582,3 +1582,6 @@
 	import jpoker package
 	[7f71d9e1fcdb]
 
+Local Variables:
+compile-command: "hg log --style=changelog"
+End:
