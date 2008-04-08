@@ -116,6 +116,7 @@ test("jpoker.refresh", function(){
             equals(packet.type, 'packet');
             equals(timer != 0, true, 'timer');
             window.clearInterval(timer);
+            delete ActiveXObject.prototype.server;
             start();
         };
         timer = jpoker.refresh(server, request, handler);
@@ -586,7 +587,7 @@ test("jpoker.connection:queueIncoming", function(){
 var TABLE_LIST_PACKET = {"players": 4, "type": "PacketPokerTableList", "packets": [{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 1535, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 4, "waiting": 0, "skin": "default", "id": 100, "type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Two", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 101,"type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Three", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-pot-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 102,"type": "PacketPokerTable", "player_timeout": 60}]};
 
 test("jpoker.tableList", function(){
-        expect(5);
+        expect(7);
         stop();
 
         //
@@ -622,6 +623,7 @@ test("jpoker.tableList", function(){
                     return true;
                 } else {
                     equals(server.callbacks.update.length, 2, 'tableList and test update registered');
+                    equals('tableList' in server.timers, true, 'timer active');
                     server.setTimeout = function(fun, delay) { };
                     window.setTimeout(function() {
                             jpoker.serverDestroy('url');
@@ -632,6 +634,7 @@ test("jpoker.tableList", function(){
                 }
             });
         server.registerDestroy(function(server) {
+                equals('tableList' in server.timers, false, 'timer killed');
                 equals(server.callbacks.update.length, 0, 'update & destroy unregistered');
             });
     });

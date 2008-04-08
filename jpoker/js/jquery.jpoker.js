@@ -640,11 +640,16 @@
             },
 
             uninit: function() {
+                this.clearTimers();
+                jpoker.connection.prototype.uninit.call(this);
+            },
+
+            clearTimers: function() {
                 var $this = this;
                 $.each(this.timers, function(key, value) {
                         $this.clearInterval(value.timer);
                     });
-                jpoker.connection.prototype.uninit.call(this);
+                this.timers = {};
             },
 
             refresh: function(tag, request, handler, options) {
@@ -653,7 +658,7 @@
                 } else {
                     this.timers[tag] = {};
                 }
-                this.timers[tag].timer = jpoker.refresh(this, request, handler, options);
+                return this.timers[tag].timer = jpoker.refresh(this, request, handler, options);
             },
 
             refreshTables: function(string, options) {
@@ -681,7 +686,7 @@
                     return true;
                 };
 
-                this.refresh('tableList', request, handler, options);
+                return this.refresh('tableList', request, handler, options);
             },
 
             loggedIn: function() {
