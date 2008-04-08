@@ -333,7 +333,7 @@
             lagmax: 60,
             pollFrequency:  100,
             pingFrequency: 5000,
-            timeout: 10000,
+            timeout: 30000,
             clearTimeout: function(id) { return window.clearTimeout(id); },
             setTimeout: function(cb, delay) { return window.setTimeout(cb, delay); },
             ajax: function(o) { return jQuery.ajax(o); }
@@ -584,7 +584,7 @@
                                     queue.delay = delay;
                                 }
                             } else if(jpoker.verbose > 0) {
-                                this.message(_("wait for {delay}s for queue {id}").supplant({ 'delay': queue.delay / 1000.0, 'id': id}));
+                                jpoker.message(_("wait for {delay}s for queue {id}").supplant({ 'delay': queue.delay / 1000.0, 'id': id}));
                             }
                         }
                         //
@@ -670,6 +670,7 @@
                 };
 
                 var handler = function(server, packet) {
+                    // add something here to return false when server.tables[string] does not exist
                     var info = server.tables && server.tables[string];
                     if(packet.type == 'PacketPokerTableList') {
                         info.packet = packet;
@@ -784,8 +785,6 @@
 
         var waiting = false;
 
-        var time_sent = jpoker.now();
-
         var timer = 0;
 
         var url = server.url;
@@ -793,19 +792,16 @@
         var callback = function() {
             var server = jpoker.url2server({ url: url }); // check if server still exists when the callback runs
             if(opts.requireSession === false || server.connected()) {
-                if(waiting) {
-                    if(( jpoker.now() - time_sent ) > opts.timeout) {
-			opts.clearInterval(timer);
-                        server.error(_("{url} timed out after {seconds} seconds").supplant({ 'url': server.url, 'seconds': (jpoker.now() - time_sent) }));
-                    }
-                } else {
-                    time_sent = jpoker.now();
+                if(!waiting) {
                     waiting = true;
                     request(server);
-                }
+                } else if(jpoker.verbose > 0) {
+                    jpoker.message("refresh waiting");
+                } 
                 return true;
             } else {
                 opts.clearInterval(timer);
+                timer = 0;
                 return false;
             }
         };
@@ -827,8 +823,6 @@
 
     jpoker.refresh.defaults = {
         delay: 120000,
-        timeout: 5000, // must be lower than jpoker.connection timeout otherwise it will 
-                       // never fire
         game_id: 0,
         requireSession: false,
 

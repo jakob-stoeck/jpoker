@@ -75,6 +75,8 @@ test("String.supplant", function() {
 
 var jpoker = $.jpoker;
 
+jpoker.verbose = 100; // activate the code parts that depends on verbosity
+
 //
 // jpoker
 //
@@ -85,75 +87,48 @@ test("jpoker: unique id generation test", function() {
         equals(jpoker.uid(), "jpoker2");
     });
 
-test("jpoker.refresh", function(){
+test("jpoker.url2hash", function(){
         expect(1);
         equals(jpoker.url2hash('url'), jpoker.url2hash('url'), "url2hash");
     });
 
 test("jpoker.refresh", function(){
-        expect(13);
+        expect(2);
+        stop();
 
-        var clock = 1;
-        jpoker.now = function() { return clock++; };
+        var PokerServer = function() {};
 
-        var error_occurred = 0;
+        PokerServer.prototype = {
+            outgoing: '[{"type": "packet"}]',
 
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
         var request_sent = false;
         var request = function(server) {
-            equals(server.connected(), true, 'request1');
-            request_sent = true;
+            server.sendPacket({'type': 'packet'});
         };
-        var handler_called = false;
+        var timer = 0;
         var handler = function(server, packet) {
-            equals(server, 'server', 'handler1');
-            equals(packet, 'packet', 'handler2');
-            handler_called = true;
+            equals(packet.type, 'packet');
+            equals(timer != 0, true, 'timer');
+            window.clearInterval(timer);
+            start();
         };
-        var interval_callback = null;
-        var setInterval = function(callback, delay) {
-            equals(callback(), true, 'setInterval1');
-            equals(delay, jpoker.refresh.defaults.delay, 'setInterval2');
-            interval_callback = callback;
-            return 42;
-        };
-        var clearInterval = function(id) {
-            equals(id == 42 || id === 0, true, "id == 42 or 0");
-        };
-        jpoker.servers.url = {
-            url: 'url',
+        timer = jpoker.refresh(server, request, handler);
 
-            connected: function() {
-                return true;
-            },
+    });
 
-            error: function() {
-                error_occurred++;
-            },
+test("jpoker.refresh requireSession", function(){
+        expect(1);
 
-            registerHandler: function(game_id, cb, opts) {
-                equals(game_id, 1, 'registerHandler');
-                cb('server', game_id, 'packet');
-            }
-        };
-        //
-        // "request" is called once. The setInterval fires immediately
-        // and fails because refresh is in wait state and timeout (set to 0)
-        // exired.
-        //
-        result = jpoker.refresh(jpoker.servers.url, request, handler,
-                                {
-                                    game_id: 1,
-                                    timeout: 0,
-                                    requireSession: true,
-                                    setInterval: setInterval,
-                                    clearInterval: clearInterval
-                                });
-        equals(result, 42, 'first call');
-        equals(request_sent, true, 'first call request');
-        equals(handler_called, true, 'first call handler');
-        equals(error_occurred, 1, 'first call error');
-        jpoker.servers = {}; // destroy fake server
-        equals(interval_callback(), false, 'second call 1');
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        equals(jpoker.refresh(server, null, null, { requireSession: true }), 0, 'requireSession');
+
     });
 
 //
@@ -544,11 +519,12 @@ test("jpoker.connection:dequeueIncoming delayed", function(){
         equals(self.queues[0].low.delay, delay);
 
         var message = false;
-        jpoker.verbose = 1;
-        self.message = function(str) { message = true; };
+        var message_function = jpoker.message
+        jpoker.message = function(str) { message = true; };
         self.dequeueIncoming();
         equals(self.queues[0].low.delay, delay);
         equals(message, true, "message");
+        jpoker.message = message_function
 
         self.noDelayQueue(0);
         equals(self.delays[0], undefined, "delays[0]");
