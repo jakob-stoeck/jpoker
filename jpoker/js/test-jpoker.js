@@ -114,7 +114,7 @@ test("jpoker.refresh", function(){
         var timer = 0;
         var handler = function(server, packet) {
             equals(packet.type, 'packet');
-            equals(timer != 0, true, 'timer');
+            equals(timer !== 0, true, 'timer');
             window.clearInterval(timer);
             delete ActiveXObject.prototype.server;
             start();
@@ -520,12 +520,12 @@ test("jpoker.connection:dequeueIncoming delayed", function(){
         equals(self.queues[0].low.delay, delay);
 
         var message = false;
-        var message_function = jpoker.message
+        var message_function = jpoker.message;
         jpoker.message = function(str) { message = true; };
         self.dequeueIncoming();
         equals(self.queues[0].low.delay, delay);
         equals(message, true, "message");
-        jpoker.message = message_function
+        jpoker.message = message_function;
 
         self.noDelayQueue(0);
         equals(self.delays[0], undefined, "delays[0]");
@@ -579,6 +579,46 @@ test("jpoker.connection:queueIncoming", function(){
         equals(self.queues[1].high.packets[0].type, high_type);
 
         self.queues = {};
+    });
+
+test("closure", function(){
+        var f = function() { this.a = []; };
+        
+    });
+//
+// jpoker.table
+//
+test("jpoker.table", function(){
+        expect(5);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var game_id = 100;
+
+        var PokerServer = function() {};
+
+        PokerServer.prototype = {
+            outgoing: '[{"type": "PacketPokerTable", "id": ' + game_id + '}]',
+
+            handle: function(packet) {
+                equals(packet.type, "PacketPokerTableJoin");
+            }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var handler = function(server, packet) {
+            if(packet.type == "PacketPokerTable") {
+                equals(packet.id, game_id);
+                equals(game_id in server.tables, true, game_id + " created");
+                equals(server.tables[game_id].id, game_id, "id")
+                delete ActiveXObject.prototype.server;
+                start();
+            }
+            return true;
+        };
+        server.registerUpdate(handler);
+        server.tableJoin(game_id);
     });
 
 //
@@ -660,7 +700,7 @@ test("jpoker.serverStatus", function(){
         //
         // connected
         //
-        if(jpoker.plugins.serverStatus.templates.connected == '') {
+        if(jpoker.plugins.serverStatus.templates.connected === '') {
             jpoker.plugins.serverStatus.templates.connected = 'connected';
         }
         server.playersCount = 12;

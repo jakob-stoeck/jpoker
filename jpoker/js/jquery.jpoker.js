@@ -619,7 +619,6 @@
     //
     jpoker.server = function(options) {
         $.extend(this, jpoker.server.defaults, options);
-        jpoker.connection.prototype.init.call(this);
         this.init();
     };
 
@@ -634,13 +633,16 @@
             init: function() {
                 jpoker.connection.prototype.init.call(this);
                 this.tables = {};
+                this.tableLists = {};
                 this.timers = {};
                 this.serial = 0;
                 this.logname = null;
+                this.registerHandler(0, this.handler);
             },
 
             uninit: function() {
                 this.clearTimers();
+                this.unregisterHandler(0, this.handler);
                 jpoker.connection.prototype.uninit.call(this);
             },
 
@@ -652,19 +654,44 @@
                 this.timers = {};
             },
 
+            handler: function(server, id, packet) {
+                if(jpoker.verbose) {
+                    jpoker.message("server.handler " + JSON.stringify(packet));
+                }
+
+                switch(packet.type) {
+
+                case 'PacketPokerTable':
+                if(packet.id in server.tables) {
+                    throw 'table id ' + packet.id + ' matches an existing table';
+                }
+                server.tables[packet.id] = new jpoker.table(server, packet);
+                server.notifyUpdate(packet);
+                break;
+
+                }
+
+                return true;
+            },
+
             refresh: function(tag, request, handler, options) {
                 if(tag in this.timers) {
                     this.clearInterval(this.timers[tag].timer);
                 } else {
                     this.timers[tag] = {};
                 }
-                return this.timers[tag].timer = jpoker.refresh(this, request, handler, options);
+                var timer = jpoker.refresh(this, request, handler, options);
+                this.timers[tag].timer = timer;
+                return timer;
             },
 
+            //
+            // tables lists
+            //
             refreshTables: function(string, options) {
 
                 if(!(string in this.tables)) {
-                    this.tables[string] = {};
+                    this.tableLists[string] = {};
                 }
 
                 var request = function(server) {
@@ -675,10 +702,11 @@
                 };
 
                 var handler = function(server, packet) {
-                    // add something here to return false when server.tables[string] does not exist
-                    var info = server.tables && server.tables[string];
+                    var info = server.tableLists && server.tableLists[string];
                     if(packet.type == 'PacketPokerTableList') {
                         info.packet = packet;
+                        // although the tables/players count is sent with each
+                        // table list, it is global to the server
 			server.playersCount = packet.players;
 			server.tablesCount = packet.tables;
                         server.notifyUpdate(packet);
@@ -689,6 +717,9 @@
                 return this.refresh('tableList', request, handler, options);
             },
 
+            //
+            // login / logout
+            //
             loggedIn: function() {
                 return this.serial !== 0;
             },
@@ -741,25 +772,55 @@
                     this.sendPacket(packet);
                     this.notifyUpdate(packet);
                 }
+            },
+
+            tableJoin: function(game_id) {
+                this.sendPacket({ type: 'PacketPokerTableJoin', game_id: game_id });
             }
         });
 
     //
     // table
     //
-    jpoker.table = function(options) {
-        $.extend(this, jpoker.table.defaults, options);
+    jpoker.table = function(server, packet) {
+        $.extend(this, jpoker.table.defaults, packet);
+        server.registerHandler(packet.id, this.handler);
     };
 
     jpoker.table.defaults = {
-
     };
 
     jpoker.table.prototype = $.extend({}, jpoker.watchable.prototype, {
-        seats: [],
-        board: [],
-        pots: [ null, null, null, null, null,
-                null, null, null, null, null ]
+            init: function() {
+                this.seats = [ null, null, null, null, null, 
+                               null, null, null, null, null ];
+                this.board = [ null, null, null, null, null ];
+                this.pots = [ null, null, null, null, null,
+                              null, null, null, null, null ];
+            },
+
+            uninit: function() {
+                $this = this;
+                $.each([ 'seats', 'board', 'pots' ], function(index, value) {
+                        $.each($this[value], function(index, value) {
+                                value.uninit();
+                            });
+                    });
+            },
+
+            handler: function(server, id, packet) {
+                if(jpoker.verbose) {
+                    jpoker.message("table.handler " + JSON.stringify(packet));
+                }
+
+                switch(packet.type) {
+
+                case 'PacketPokerTableDestroy':
+                delete server.tables[packet.game_id];
+                break;
+
+                }
+            }
         });
 
     //
@@ -900,7 +961,7 @@
                         }));
         for(var i = 0; i < packet.packets.length; i++) {
             var subpacket = packet.packets[i];
-            subpacket.class = i%2 ? 'evenRow' : 'oddRow';
+            subpacket['class'] = i%2 ? 'evenRow' : 'oddRow';
             html.push(t.rows.supplant(subpacket));
         }
         html.push(t.footer);
@@ -1004,7 +1065,7 @@
                                     }
                                 });
                         } else {
-                            var login_element = $('#login', login_element);
+                            var login_element = $('#login', element);
                             var action = function() {
                                 var name = $('#name', login_element).attr('value');
                                 var password = $('#password', login_element).attr('value');
