@@ -50,6 +50,7 @@ clean:
 	rm -fr tests gems fr 
 	rm -f messages.pot 
 	rm -f jpoker/{index.html,index-fr.html,poker.html}
+	rm -f jpoker/index.200* jpoker/index-fr.200* jpoker/poker.200* 
 
 check:
 	cd jpoker ; x-www-browser test-jpoker.html # replace with jaxer when http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=474050 closed
