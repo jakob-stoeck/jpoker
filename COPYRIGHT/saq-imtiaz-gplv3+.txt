@@ -1,0 +1,94 @@
+From - Tue Apr 08 10:50:40 2008
+X-Mozilla-Status: 0011
+X-Mozilla-Status2: 00000000
+Return-Path: <lewcid@gmail.com>
+X-Original-To: loic@dachary.org
+Delivered-To: loic@dachary.org
+Received: by smtp.dmail.dachary.org (Postfix, from userid 65534)
+	id B7C444C5016; Tue,  8 Apr 2008 08:50:39 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.2.3 (2007-08-08) on dmail.dachary.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.6 required=5.0 tests=AWL,BAYES_00,HTML_MESSAGE
+	autolearn=ham version=3.2.3
+Received: from wf-out-1314.google.com (wf-out-1314.google.com [209.85.200.174])
+	by smtp.dmail.dachary.org (Postfix) with ESMTP id CCCCE4C5013
+	for <loic@dachary.org>; Tue,  8 Apr 2008 08:50:31 +0000 (UTC)
+Received: by wf-out-1314.google.com with SMTP id 24so2185564wfg.1
+        for <loic@dachary.org>; Tue, 08 Apr 2008 01:50:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to:subject:cc:in-reply-to:mime-version:content-type:references;
+        bh=z/lNStzsAx3LJSUcB9TpZ3KGjWXm9SEepXHuIFN6QU4=;
+        b=ldEmx52EhDgKA8cezh1xn4ibvNn9UkshRKbKCN7DQM0RO6VSYMdGk2XHu7bMXDO0zEMCd/Snf7rYWf7lZ4LANa5kFEQ3oCbAXqMG0+rb59yjgq4IwhOcl4QBp+WtHdwDvjHhN+kS/cXGQaaVltksNIZMewBy6ZuBzYUeE0V3unE=
+DomainKey-Signature: a=rsa-sha1; c=nofws;
+        d=gmail.com; s=gamma;
+        h=message-id:date:from:to:subject:cc:in-reply-to:mime-version:content-type:references;
+        b=gTWhGrPY4StvOIzQnhkeyauh/RVaqqVieyZYH6diUtrW37b9cit/5TSSZotZbKGu2UZP6O47xHSgrJ4xGlZ8Y7FBtrXV7Pps5f7PgthnpzdNWaLKaOj3wT/xqkzSkHUMMAMQiEePlox5x971+I6UZY/yIshdrlJDccF5e76hrBU=
+Received: by 10.142.78.10 with SMTP id a10mr3073266wfb.37.1207644628428;
+        Tue, 08 Apr 2008 01:50:28 -0700 (PDT)
+Received: by 10.142.188.2 with HTTP; Tue, 8 Apr 2008 01:50:28 -0700 (PDT)
+Message-ID: <e24817d10804080150p5c19a914m37e2a052bb387486@mail.gmail.com>
+Date: Tue, 8 Apr 2008 10:50:28 +0200
+From: "Saq Imtiaz" <lewcid@gmail.com>
+To: "Loic Dachary" <loic@dachary.org>
+Subject: Re: Permission to sublicense under the GPLv3 (or later)
+Cc: "Johan Euphrosine" <proppy@aminche.com>, mornifle@plopbyte.net
+In-Reply-To: <47FB2A71.6080209@dachary.org>
+MIME-Version: 1.0
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_17491_17052260.1207644628418"
+References: <47FB2A71.6080209@dachary.org>
+
+------=_Part_17491_17052260.1207644628418
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+I, Saq Imtiaz born February 12 1980, Lutvanns vn 37,Oslo, Norway,
+ grant a perpetual and irrevocable
+license to Loic Dachary, born  november 2 1965, 12 bd Magenta 75010
+Paris France, to sublicense all the TiddlyWiki plugins that are published by
+me
+under the Creative Commons Attribution-ShareAlike license (2.0, 2.5,
+3.0) as published at
+http://creativecommons.org/licenses/by-sa/3.0/
+http://creativecommons.org/licenses/by-sa/2.5/
+http://creativecommons.org/licenses/by-sa/2.0/) under the GPLv3 as
+published at http://gnu.org/licenses/gpl.txt with the following
+copyright notice.
+
+//
+//     This program is free software: you can redistribute it and/or
+modify
+//     it under the terms of the GNU General Public License as
+published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+//
+//     This program is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+//
+//     You should have received a copy of the GNU General Public License
+//     along with this program.  If not, see
+<http://www.gnu.org/licenses/>.
+//
+
+------=_Part_17491_17052260.1207644628418
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+I, Saq Imtiaz born February 12 1980, Lutvanns vn 37,Oslo, Norway,<br>&nbsp;grant a perpetual and irrevocable<br>license to Loic Dachary, born&nbsp; november 2 1965, 12 bd Magenta 75010<br>Paris France, to sublicense all the TiddlyWiki plugins that are published by me<br>
+under the Creative Commons Attribution-ShareAlike license (2.0, 2.5,<br>3.0) as published at<br><a href="http://creativecommons.org/licenses/by-sa/3.0/">http://creativecommons.org/licenses/by-sa/3.0/</a><br><a href="http://creativecommons.org/licenses/by-sa/2.5/">http://creativecommons.org/licenses/by-sa/2.5/</a><br>
+
+<a href="http://creativecommons.org/licenses/by-sa/2.0/">http://creativecommons.org/licenses/by-sa/2.0/</a>) under the GPLv3 as<br>published at <a href="http://gnu.org/licenses/gpl.txt">http://gnu.org/licenses/gpl.txt</a> with the following<br>
+copyright notice.<br><br>//<br>//&nbsp;&nbsp;&nbsp;&nbsp; This program is free software: you can redistribute it and/or<br>modify<br>//&nbsp;&nbsp;&nbsp;&nbsp; it under the terms of the GNU General Public License as<br>published by<br>//&nbsp;&nbsp;&nbsp;&nbsp; the Free Software Foundation, either version 3 of the License, or<br>
+//&nbsp;&nbsp;&nbsp;&nbsp; (at your option) any later version.<br>//<br>//&nbsp;&nbsp;&nbsp;&nbsp; This program is distributed in the hope that it will be useful,<br>//&nbsp;&nbsp;&nbsp;&nbsp; but WITHOUT ANY WARRANTY; without even the implied warranty of<br>//&nbsp;&nbsp;&nbsp;&nbsp; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.&nbsp; See the<br>
+//&nbsp;&nbsp;&nbsp;&nbsp; GNU General Public License for more details.<br>//<br>//&nbsp;&nbsp;&nbsp;&nbsp; You should have received a copy of the GNU General Public License<br>//&nbsp;&nbsp;&nbsp;&nbsp; along with this program.&nbsp; If not, see<br>&lt;<a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.<br>
+//
+
+------=_Part_17491_17052260.1207644628418--
+
+
