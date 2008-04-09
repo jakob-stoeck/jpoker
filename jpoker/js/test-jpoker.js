@@ -68,6 +68,19 @@ ActiveXObject.prototype = {
     }
 };
 
+var cleanup = function(id) {
+    if(id) {
+        $("#" + id).remove();
+    }
+    delete ActiveXObject.prototype.server;
+    jpoker.uninit();
+};
+
+var start_and_cleanup = function(id) {
+    cleanup(id);
+    start();
+};
+
 test("String.supplant", function() {
         expect(1);
         equals("{a}".supplant({'a': 'b'}), 'b');
@@ -76,6 +89,48 @@ test("String.supplant", function() {
 var jpoker = $.jpoker;
 
 jpoker.verbose = 100; // activate the code parts that depends on verbosity
+
+//
+// jpoker.watchable
+//
+test("jpoker.watchable", function(){
+        expect(10);
+        var watchable = new jpoker.watchable({});
+        var stone = 0;
+        var callback_stone = 0;
+        var callback = function(what, data, callback_data) {
+            stone += data;
+            callback_stone += callback_data;
+            return true;
+        };
+        watchable.registerUpdate(callback, 100);
+        watchable.registerDestroy(callback, 100);
+        watchable.notifyUpdate(1);
+        equals(stone, 1, "notifyUpdate");
+        equals(callback_stone, 100, "notifyUpdate callback_data");
+        watchable.notifyDestroy(1);
+        equals(stone, 2, "notifyDestroy");
+        equals(callback_stone, 200, "notifyDestroy callback_data");
+        watchable.unregisterUpdate(callback);
+        watchable.unregisterDestroy(callback);
+        watchable.notifyUpdate(10);
+        equals(stone, 2, "notifyUpdate (noop)");
+        equals(callback_stone, 200, "notifyUpdate callback_data");
+        watchable.notifyDestroy(20);
+        equals(stone, 2, "notifyDestroy (noop)");
+        equals(callback_stone, 200, "notifyDestroy callback_data");
+
+        var callback_autoremove = function() {
+            return false;
+        }
+        watchable.registerUpdate(callback_autoremove);
+        watchable.notifyUpdate();
+        equals(watchable.callbacks.update.length, 0, 'empty update');
+
+        watchable.registerDestroy(callback_autoremove);
+        watchable.notifyDestroy();
+        equals(watchable.callbacks.destroy.length, 0, 'empty destroy');
+    });
 
 //
 // jpoker
@@ -116,8 +171,8 @@ test("jpoker.refresh", function(){
             equals(packet.type, 'packet');
             equals(timer !== 0, true, 'timer');
             window.clearInterval(timer);
-            delete ActiveXObject.prototype.server;
-            start();
+            start_and_cleanup();
+            return false;
         };
         timer = jpoker.refresh(server, request, handler);
 
@@ -164,7 +219,7 @@ test("jpoker.server.login: ok", function(){
                     equals(server.pinging(), true, "pinging");
                     equals(server.session != 'clear', true, "has session");
                     equals(server.connected(), true, "connected");
-                    start();
+                    start_and_cleanup();
                     return false;
 
                 case "PacketState":
@@ -199,7 +254,7 @@ test("jpoker.server.login: refused", function(){
         jpoker.dialog = function(message) {
             equals(message.indexOf(refused) >= 0, true, "refused");
             jpoker.dialog = dialog;
-            start();
+            start_and_cleanup();
         };
         server.login("name", "password");
     });
@@ -225,7 +280,7 @@ test("jpoker.server.login: already logged", function(){
         jpoker.dialog = function(message) {
             equals(message.indexOf("already logged") >= 0, true, "already logged");
             jpoker.dialog = dialog;
-            start();
+            start_and_cleanup();
         };
         server.login("name", "password");
     });
@@ -262,34 +317,9 @@ test("jpoker.server.logout", function(){
                 equals(server.logname, null, "logname");
                 equals(packet.type, "PacketLogout");
                 equals(server.session, 'clear', "does not have session");
-                start();
+                start_and_cleanup();
             });
         server.logout();
-    });
-
-//
-// jpoker.watchable
-//
-test("jpoker.watchable", function(){
-        expect(4);
-        var watchable = new jpoker.watchable({});
-        var stone = 0;
-        var callback = function(what, data) {
-            stone += data;
-            return true;
-        };
-        watchable.registerUpdate(callback);
-        watchable.registerDestroy(callback);
-        watchable.notifyUpdate(1);
-        equals(stone, 1, "notifyUpdate");
-        watchable.notifyDestroy(1);
-        equals(stone, 2, "notifyDestroy");
-        watchable.unregisterUpdate(callback);
-        watchable.unregisterDestroy(callback);
-        watchable.notifyUpdate(10);
-        equals(stone, 2, "notifyUpdate (noop)");
-        watchable.notifyDestroy(20);
-        equals(stone, 2, "notifyDestroy (noop)");
     });
 
 //
@@ -608,8 +638,7 @@ test("jpoker.table.init", function(){
                 equals(packet.id, game_id);
                 equals(game_id in server.tables, true, game_id + " created");
                 equals(server.tables[game_id].id, game_id, "id")
-                delete ActiveXObject.prototype.server;
-                start();
+                start_and_cleanup();
             }
             return true;
         };
@@ -678,9 +707,7 @@ test("jpoker.plugins.tableList", function(){
                     equals('tableList' in server.timers, true, 'timer active');
                     server.setTimeout = function(fun, delay) { };
                     window.setTimeout(function() {
-                            jpoker.serverDestroy('url');
-                            delete ActiveXObject.prototype.server;
-                            start();
+                            start_and_cleanup();
                         }, 30);
                     return false;
                 }
@@ -731,6 +758,8 @@ test("jpoker.plugins.serverStatus", function(){
         equals(server.callbacks.update.length, 1, "1 update callback");
         server.notifyUpdate();
         equals(server.callbacks.update.length, 0, "0 update callback");
+
+        jpoker.uninit();
     });
 
 //
@@ -779,7 +808,7 @@ test("jpoker.plugins.login", function(){
 	content = $("#" + id).text();
 	equals(content.indexOf("login:") >= 0, true, "login:");
 
-        $("#" + id).remove();
+        cleanup(id);
     });
 
 //
@@ -812,10 +841,8 @@ test("jpoker.plugins.table", function(){
             if(packet.type == 'PacketPokerTable') {
                 content = $("#" + id).text();
                 equals(content.indexOf("CsCsCs") >= 0, true, "board");
-                equals($("#P01" + id).text(), "P01");
-                $("#" + id).remove();
-                delete ActiveXObject.prototype.server;
-                start();
+                equals($("#P1" + id).text(), "P01");
+                start_and_cleanup();
                 return false;
             } else {
                 return true;
@@ -831,4 +858,28 @@ test("profileEnd", function(){
             console.profileEnd();
         } catch(e) {}
     });
+
+
+//
+// catch leftovers
+//
+// test("leftovers", function(){
+//         expect(1);
+//         stop();
+
+//         var PokerServer = function() {};
+
+//         PokerServer.prototype = {
+//             outgoing: '[]',
+
+//             handle: function(packet) {
+//                 equals(packet, '');
+//                 start();
+//             }
+//         };
+
+//         ActiveXObject.prototype.server = new PokerServer();
+
+        
+//     });
 

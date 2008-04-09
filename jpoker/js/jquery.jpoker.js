@@ -299,18 +299,22 @@
         notifyUpdate: function(data) { this.notify('update', data); },
         notifyDestroy: function(data) { this.notify('destroy', data); },
 
-        register: function(what, callback) {
+        register: function(what, callback, callback_data) {
             if($.inArray(callback, this.callbacks[what]) < 0) {
-                this.callbacks[what].push(callback);
+                var wrapper = function($this, data) {
+                    return callback($this, data, callback_data);
+                };
+                wrapper.callback = callback;
+                this.callbacks[what].push(wrapper);
             }
         },
 
-        registerUpdate: function(callback) { this.register('update', callback); },
-        registerDestroy: function(callback) { this.register('destroy', callback); },
+        registerUpdate: function(callback, callback_data) { this.register('update', callback, callback_data); },
+        registerDestroy: function(callback, callback_data) { this.register('destroy', callback, callback_data); },
 
         unregister: function(what, callback) {
             this.callbacks[what] = $.grep(this.callbacks[what],
-                                          function(e, i) { return e != callback; });
+                                          function(e, i) { return e.callback != callback; });
         },
 
         unregisterUpdate: function(callback) { this.unregister('update', callback); },
@@ -588,12 +592,15 @@
                             }
                         }
                         //
-                        // get rid of queues with no associated delay AND no pending packets
+                        // get rid of queues with no associated delay AND no pending packets.
+                        // this.queues may be undefined if a handler destroyed the object
                         //
-                        queue = this.queues[id];
-                        if(queue.high.packets.length <= 0 && queue.low.packets.length <= 0) {
-                            if(queue.high.delay <= now && queue.low.delay <= now) {
-                                delete this.queues[id];
+                        if(id in this.queues) {
+                            queue = this.queues[id];
+                            if(queue.high.packets.length <= 0 && queue.low.packets.length <= 0) {
+                                if(queue.high.delay <= now && queue.low.delay <= now) {
+                                    delete this.queues[id];
+                                }
                             }
                         }
                     }
@@ -784,6 +791,7 @@
     //
     jpoker.table = function(server, packet) {
         $.extend(this, jpoker.table.defaults, packet);
+        this.url = server.url;
         this.init();
         server.registerHandler(packet.id, this.handler);
     };
@@ -1138,7 +1146,7 @@
                     var element = document.getElementById(id);
                     if(element) {
                         if(table.id in server.tables) {
-                            jpoker.plugins.table.create(element, id, server, table);
+                            jpoker.plugins.table.create($(element), id, server, table);
                             return false;
                         } else {
                             return true;
@@ -1157,17 +1165,28 @@
     jpoker.plugins.table.defaults = $.extend({
         }, jpoker.defaults);
 
-    jpoker.plugins.table.create = function(element, id, server, table) {
+    jpoker.plugins.table.create = function(element, id, server, table_packet) {
         var t = this.templates;
 	var html = t.players.supplant({ id: id,
                                         table: t.table.supplant({ id: id })
             });
-        $(element).html(html);
+        element.html(html);
+        var table = server.tables[table_packet.id];
+        table.registerUpdate(this.update, id);
+        table.registerDestroy(this.destroy, id);
+    };
+
+    jpoker.plugins.table.update = function(table, packet, id) {
+    };
+
+    jpoker.plugins.table.destroy = function(id) {
+        
     };
 
     jpoker.plugins.table.templates = {
 	table: '<div id=\'table{id}\'>\n<table border=1 width=\'100%\'>\n<tr>\n<td colspan=\'11\'>&nbsp</td>\n</tr>\n<tr>\n<td colspan=\'12\' class=\'board\'>CsCsCsCsCs</td>\n</tr>\n<tr>\n<td></td>\n<td id=\'p0{id}\'>P0</td>\n<td id=\'p1{id}\'>P1</td>\n<td id=\'p2{id}\'>P2</td>\n<td id=\'p3{id}\'>P3</td>\n<td id=\'p4{id}\'>P4</td>\n<td id=\'p5{id}\'>P5</td>\n<td id=\'p6{id}\'>P6</td>\n<td id=\'p7{id}\'>P7</td>\n<td id=\'p8{id}\'>P8</td>\n<td id=\'p9{id}\'>P9</td>\n<td></td>\n</tr>\n<tr>\n<td colspan=\'12\'>&nbsp</td>\n</tr>\n</table>\n</div>',
-        players: '<div id=\'players{id}\'>\n<table border=\'1\'>\n<tr>\n<td></td>\n<td id=\'P09{id}\' class=\'playerup seat\'>P09</td>\n<td id=\'P10{id}\' class=\'playerup seat\'>P10</td>\n<td id=\'P01{id}\' class=\'playerup seat\'>P01</td>\n<td id=\'P02{id}\' class=\'playerup seat\'>P02</td>\n<td></td>\n</tr>\n<tr>\n<td id=\'P08{id}\' class=\'playerleft seat\'>P08</td>\n<td colspan=\'4\' class=\'table\'>{table}</td>\n<td id=\'P03{id}\' class=\'playerright seat\'>P03</td>\n</tr>\n<tr>\n<td></td>\n<td id=\'P07{id}\' class=\'playerdown seat\'>P07</td>\n<td id=\'P06{id}\' class=\'playerdown seat\'>P06</td>\n<td id=\'P05{id}\' class=\'playerdown seat\'>P05</td>\n<td id=\'P04{id}\' class=\'playerdown seat\'>P04</td>\n<td></td>\n</tr>\n</table>\n</div>\n'
+        players: '<div id=\'players{id}\'>\n<table border=\'1\'>\n<tr>\n<td></td>\n<td id=\'P9{id}\' class=\'playerup seat\'>P09</td>\n<td id=\'P10{id}\' class=\'playerup seat\'>P10</td>\n<td id=\'P1{id}\' class=\'playerup seat\'>P01</td>\n<td id=\'P2{id}\' class=\'playerup seat\'>P02</td>\n<td></td>\n</tr>\n<tr>\n<td id=\'P8{id}\' class=\'playerleft seat\'>P08</td>\n<td colspan=\'4\' class=\'table\'>{table}</td>\n<td id=\'P3{id}\' class=\'playerright seat\'>P03</td>\n</tr>\n<tr>\n<td></td>\n<td id=\'P7{id}\' class=\'playerdown seat\'>P07</td>\n<td id=\'P6{id}\' class=\'playerdown seat\'>P06</td>\n<td id=\'P5{id}\' class=\'playerdown seat\'>P05</td>\n<td id=\'P4{id}\' class=\'playerdown seat\'>P04</td>\n<td></td>\n</tr>\n</table>\n</div>\n',
+        player: ''
     };
 
 })(jQuery);
