@@ -16,7 +16,7 @@
 #
 all: tests
 
-i18n:
+messages.pot:
 	xgettext --extract-all \
 		 --lang java \
 		 --from-code=UTF-8 \
@@ -24,17 +24,30 @@ i18n:
 		 --output=messages.pot \
 		 --sort-output \
 		 jpoker/js/jquery.jpoker.js
+
+jpoker-fr.po:
 	msgmerge -s -U jpoker/l10n/jpoker-fr.po messages.pot
+
+jpoker-jp.po:
+	msgmerge -s -U jpoker/l10n/jpoker-jp.po messages.pot
+
+fr.mo:
 	mkdir -p fr/LC_MESSAGES
 	msgfmt --check --output-file fr/LC_MESSAGES/fr.mo jpoker/l10n/jpoker-fr.po
+
+jp.mo:
+	mkdir -p jp/LC_MESSAGES
+	msgfmt --check --output-file jp/LC_MESSAGES/jp.mo jpoker/l10n/jpoker-jp.po
+
+jpoker-fr.json:
 	: now edit with kbabel jpoker/l10n/jpoker-fr.po
 	python mo2json.py fr > jpoker/l10n/jpoker-fr.json
 
-	msgmerge -s -U jpoker/l10n/jpoker-jp.po messages.pot
-	mkdir -p jp/LC_MESSAGES
-	msgfmt --check --output-file jp/LC_MESSAGES/jp.mo jpoker/l10n/jpoker-jp.po
+jpoker-jp.json:
 	: now edit with kbabel jpoker/l10n/jpoker-jp.po
 	python mo2json.py jp > jpoker/l10n/jpoker-jp.json
+
+i18n:   messages.pot jpoker-fr.po jpoker-jp.po fr.mo jp.mo jpoker-fr.json jpoker-jp.json
 
 tests:
 	-rm -fr tests ; jscoverage jpoker tests
