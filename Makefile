@@ -21,6 +21,7 @@ LANG = fr jp
 LANG_LIST = $(shell echo ${LANG}|sed s/\ /,/)
 LANG_DIR = jpoker/l10n
 LANG_JSON = $(LANG:%=${LANG_DIR}/jpoker-%.json)
+LANG_TW = $(LANG:%=jpoker/index-%.html)
 
 messages.pot: jpoker/js/jquery.jpoker.js
 	xgettext --extract-all \
@@ -46,17 +47,17 @@ i18n: ${LANG_JSON}
 tests:
 	-rm -fr tests ; jscoverage jpoker tests
 
-cook:
+gems/bin/tiddlywiki_cp: 
 	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp
+
+empty.html:
 	[ -f empty.html ] || wget http://tiddlywiki.com/empty.html
-	cp empty.html jpoker/index.html
-	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-en jpoker/index jpoker/markup jpoker/index.html
-	cp empty.html jpoker/index-fr.html
-	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-fr jpoker/index jpoker/markup jpoker/index-fr.html
-	cp empty.html jpoker/index-jp.html
-	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-jp jpoker/index jpoker/markup jpoker/index-jp.html
-	cp empty.html jpoker/poker.html
-	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/poker jpoker/markup jpoker/poker.html
+
+jpoker/%.html: gems/bin/tiddlywiki_cp empty.html jpoker/js/*
+	cp empty.html $@
+	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-en jpoker/index jpoker/markup $@
+
+cook:	jpoker/index.html jpoker/poker.html ${LANG_TW}
 
 # mimic when a new lang shows
 newlang:
@@ -65,7 +66,6 @@ newlang:
 
 clean: 
 	rm -fr tests
-	rm -fr fr
 	rm -f messages.pot empty.html
 #	rm -fr ${LANG_DIR}/jpoker-{${LANG_LIST}}.json
 	rm -fr {${LANG_LIST}}/LC_MESSAGES/
