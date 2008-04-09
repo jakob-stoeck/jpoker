@@ -19,6 +19,8 @@ all: tests
 
 LANG = fr jp
 LANG_LIST = $(shell echo ${LANG}|sed s/\ /,/)
+LANG_DIR = jpoker/l10n
+LANG_JSON = $(LANG:%=${LANG_DIR}/jpoker-%.json)
 
 messages.pot: jpoker/js/jquery.jpoker.js
 	xgettext --extract-all \
@@ -28,18 +30,18 @@ messages.pot: jpoker/js/jquery.jpoker.js
 		 --output=messages.pot \
 		 --sort-output \
 		 jpoker/js/jquery.jpoker.js
-jpoker/l10n/jpoker-%.po: messages.pot
+${LANG_DIR}/jpoker-%.po: messages.pot
 	msgmerge -s -U $@ messages.pot
 	touch $@
-jpoker/l10n/%.mo: jpoker/l10n/jpoker-%.po
+${LANG_DIR}/%.mo: ${LANG_DIR}/jpoker-%.po
 	msgfmt --check --output-file $@ $<
 	mkdir -p $*/LC_MESSAGES
 	cp $@ $*/LC_MESSAGES
-jpoker/l10n/jpoker-%.json: jpoker/l10n/%.mo
+${LANG_DIR}/jpoker-%.json: ${LANG_DIR}/%.mo
 	: now edit with kbabel $<
 	python mo2json.py $* > $@
 
-i18n: jpoker/l10n/jpoker-fr.json jpoker/l10n/jpoker-jp.json
+i18n: ${LANG_JSON}
 
 tests:
 	-rm -fr tests ; jscoverage jpoker tests
@@ -65,7 +67,7 @@ clean:
 	rm -fr tests
 	rm -fr fr
 	rm -f messages.pot empty.html
-#	rm -fr jpoker/l10n/jpoker-{${LANG_LIST}}.json
+#	rm -fr ${LANG_DIR}/jpoker-{${LANG_LIST}}.json
 	rm -fr {${LANG_LIST}}/LC_MESSAGES/
 	rm -fr gems
 
