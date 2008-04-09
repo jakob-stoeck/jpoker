@@ -794,11 +794,9 @@
     jpoker.table.prototype = $.extend({}, jpoker.watchable.prototype, {
             init: function() {
                 jpoker.watchable.prototype.init.call(this);
-                this.seats = [ null, null, null, null, null, 
-                               null, null, null, null, null ];
-                this.board = [ null, null, null, null, null ];
-                this.pots = [ null, null, null, null, null,
-                              null, null, null, null, null ];
+                this.seats = new Array(10);
+                this.board = new Array(5);
+                this.pots = new Array(9);
             },
 
             uninit: function() {
