@@ -18,7 +18,6 @@ jpoker.server.defaults.tableClick = function(server, game_id) {
     var title = server.url + " table " + table.id;
     config.shadowTiddlers[title] = "<<jpokerTable '" + server.url + "' " + game_id + ">>";
     story.displayTiddler(null, title, 1);
-    return story.getTiddlerElement(title);
 };
 
 config.macros.jpokerTable = {
