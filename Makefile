@@ -30,6 +30,12 @@ i18n:
 	: now edit with kbabel jpoker/l10n/jpoker-fr.po
 	python mo2json.py fr > jpoker/l10n/jpoker-fr.json
 
+	msgmerge -s -U jpoker/l10n/jpoker-jp.po messages.pot
+	mkdir -p jp/LC_MESSAGES
+	msgfmt --check --output-file jp/LC_MESSAGES/jp.mo jpoker/l10n/jpoker-jp.po
+	: now edit with kbabel jpoker/l10n/jpoker-jp.po
+	python mo2json.py jp > jpoker/l10n/jpoker-jp.json
+
 tests:
 	-rm -fr tests ; jscoverage jpoker tests
 
@@ -40,12 +46,15 @@ cook:
 	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-en jpoker/index jpoker/markup jpoker/index.html
 	cp empty.html jpoker/index-fr.html
 	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-fr jpoker/index jpoker/markup jpoker/index-fr.html
+	cp empty.html jpoker/index-jp.html
+	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-jp jpoker/index jpoker/markup jpoker/index-jp.html
 	cp empty.html jpoker/poker.html
 	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/poker jpoker/markup jpoker/poker.html
 
 # mimic when a new lang shows
 newlang:
 	msginit -l fr_FR -o fr.po -i messages.pot
+#	msginit -l ja_JP -o jp.po -i messages.pot
 
 clean: 
 	rm -fr tests
@@ -65,7 +74,7 @@ copyright:
 		echo ; \
 		cat $$license ; \
 	done >> debian/copyright
-	
+
 mtime:
 	for f in `hg manifest`; do touch --date="`hg log -l1 --template '{date|isodate}' $$f`" $$f; done
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
 <head>
 <script type="text/javascript">
 //<![CDATA[
@@ -962,417 +962,6 @@ var regexpCarriageReturn = new RegExp(&quot;\r&quot;,&quot;mg&quot;);
 <div title="Footer" modifier="Saq" modified="200804090031" created="200709022008" tags="SuperCookerTheme" changecount="5">
 <pre>[[PokerSource.eu|http://pokersource.eu/]] &amp;#169; 2008 [[Loic Dachary|mailto:loic@dachary.org]], [[Johan Euphrosine|mailto:proppy@aminche.com]], [[released under GNU GPLv3+|Copyright]]</pre>
 </div>
-<div title="FrenchTranslationPlugin" modifier="ocalTW" modified="200804090031" created="200712311200" tags="systemConfig">
-<pre>/***
-|''Name:''|FrenchTranslationPlugin|
-|''Description:''|Translation of TiddlyWiki into French|
-|''Author:''|ocalTW (ocalTW (at) gmail (dot) com)|
-|''Source:''|www.tiddlywiki.fr |
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/fr/locale.fr.js |
-|''Version:''|2.3.0 fr|
-|''Date:''|Jan 24, 2008|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
-***/
-//{{{
-//--
-//-- Translateable strings
-//--
-// Strings in &quot;double quotes&quot; should be translated; strings in 'single quotes' should be left alone
-config.locale = &quot;fr&quot;; // W3C language tag
-if (config.options.txtUserName == 'YourName') // do not translate this line, but do translate the next line
- merge(config.options,{txtUserName: &quot;VotreNom&quot;});
-merge(config.tasks,{
- save: {text: &quot;sauvegarder&quot;, tooltip: &quot;Sauvegarde vos modifications dans ce bloc-notes TiddlyWiki&quot;, action: saveChanges},
- sync: {text: &quot;synchroniser&quot;, tooltip: &quot;Synchronise les modifications avec d'autres fichiers ou d'autres serveurs TiddlyWiki&quot;, content: '&lt;&lt;sync&gt;&gt;'},
- importTask: {text: &quot;importer&quot;, tooltip: &quot;Importe des éléments et des extensions depuis d'autres fichiers ou d'autres serveurs TiddlyWiki&quot;, content: '&lt;&lt;importTiddlers&gt;&gt;'},
- tweak: {text: &quot;réglages&quot;, tooltip: &quot;Adapte l'apparence et le comportement de ce bloc-notes TiddlyWiki&quot;, content: '&lt;&lt;options&gt;&gt;'},
- plugins: {text: &quot;extensions&quot;, tooltip: &quot;Gère les extensions déjà installées&quot;, content: '&lt;&lt;plugins&gt;&gt;'}
-});
-// Options that can be set in the options panel and/or cookies
-merge(config.optionsDesc,{
- txtUserName: &quot;Nom d'utilisateur qui signe les modifications&quot;, 
- chkRegExpSearch: &quot;Activer les expressions régulières pour les recherches&quot;, 
- chkCaseSensitiveSearch: &quot;La recherche est sensible à la casse des mots&quot;, 
- chkAnimate: &quot;Activer les animations&quot;, 
- chkSaveBackups: &quot;Générer un fichier backup lors de l'enregistrement des modifications&quot;, 
- chkAutoSave: &quot;Enregistrer automatiquement les modifications&quot;, 
- chkGenerateAnRssFeed: &quot;Générer un flux RSS lors de l'enregistrement des modifications&quot;, 
- chkSaveEmptyTemplate: &quot;Générer un fichier de démarrage initial 'empty.html' lors de l'enregistrement des modifications&quot;, 
- chkOpenInNewWindow: &quot;Ouvrir un lien externe dans une nouvelle fenêtre&quot;, 
- chkToggleLinks: &quot;Fermer les éléments lorsque l'on clique sur des liens qu'ils contiennent&quot;, 
- chkHttpReadOnly: &quot;Masquer les caractéristiques d'édition lorsqu'il est accédé par HTTP&quot;, 
- chkForceMinorUpdate: &quot;Ne modifier ni le nom de l'utilisateur ni la date lors de l'édition des éléments&quot;, 
- chkConfirmDelete: &quot;Demander une confirmation lors d'une suppression d'un élément&quot;, 
- chkInsertTabs: &quot;Utiliser la touche 'tab' pour insérer une tabulation au lieu de changer de champs&quot;, 
- txtBackupFolder: &quot;Nom du dossier dans lequel seront conservés les backups&quot;, 
- txtMaxEditRows: &quot;Nombre maximum de lignes dans les zones d'édition&quot;, 
- txtFileSystemCharSet: &quot;Jeux de caractères à utiliser lors de l'enregistrement des modifications (uniquement pour Firefox/Mozilla)&quot;});
-merge(config.messages,{
- customConfigError: &quot;Problèmes rencontrés lors du chargement d'extensions. Consulter le 'PluginManager' (menu 'extensions') pour les détails&quot;, 
- pluginError: &quot;Erreur : %0&quot;, 
- pluginDisabled: &quot;L'extension a été désactivée par positionnement de l'index 'systemConfigDisable'&quot;, 
- pluginForced: &quot;L'exécution a été forcée à cause de l'index 'systemConfigForce'&quot;, 
- pluginVersionError: &quot;L'extension a été désactivée car elle nécessite une version plus récente de TiddlyWiki&quot;, 
- nothingSelected: &quot;Aucune sélection faite. Il vous faut d'abord sélectionner au moins un item&quot;, 
- savedSnapshotError: &quot;Ce bloc-notes TiddlyWiki ne semble pas conforme. Reportez-vous à http://www.tiddlywiki.com/#DownloadSoftware &quot;, 
- subtitleUnknown: &quot;(inconnu)&quot;, 
- undefinedTiddlerToolTip: &quot;L'élément '%0' n'est pas encore créé.&quot;,
- shadowedTiddlerToolTip: &quot;L'élément '%0' n'est pas encore créé, mais a un contenu par défaut.&quot;, 
- tiddlerLinkTooltip: &quot;%0 - %1, %2&quot;, 
- externalLinkTooltip: &quot;Lien externe vers %0&quot;, 
- noTags: &quot;Il n'y a pas d'éléments indexés.&quot;, 
- notFileUrlError: &quot;Vous devez sauvegarder ce bloc-notes TiddlyWiki dans un fichier avant de pouvoir enregistrer vos modifications&quot;, 
- cantSaveError: &quot;Sauvegarde impossible : \n- soit votre navigateur ne permet pas de sauvegarder les sauvegardes (FireFox, Internet Explorer, Safari et Opera fonctionnent s'ils sont configurés corectement),\n- soit le chemin d'accès à votre fichier contient des caractères invalides\n- soit le fichier de ce bloc-notes TiddlyWiki a été déplacé ou renommé&quot;, 
- invalidFileError: &quot;Le fichier '%0' choisi ne semble pas être un TiddlyWiki valide&quot;, 
- backupSaved: &quot;Sauvegarde effectuée&quot;, 
- backupFailed: &quot;Echec de l'enregistrement du fichier de backup&quot;, 
- rssSaved: &quot;Flux RSS sauvegardé&quot;, 
- rssFailed: &quot;Echec de l'enregistrement du fichier de flux RSS&quot;, 
- emptySaved: &quot;Fichier de démarrage initial 'empty.html' enregistré&quot;, 
- emptyFailed: &quot;Echec de l'enregistrement du fichier de démarrage initial 'empty.html'&quot;, 
- mainSaved: &quot;Fichier principal du bloc-notes TiddlyWiki enregistré&quot;, 
- mainFailed: &quot;Echec de l'enregistrement du fichier principal TiddlyWiki. Vos modifications n'ont pas été enregistrées&quot;,
- macroError: &quot;Erreur dans la macro &lt;&lt;\%0&gt;&gt;&quot;, 
- macroErrorDetails: &quot;Erreur d'exécution de la macro &lt;&lt;\%0&gt;&gt;:\n%1&quot;, 
- missingMacro: &quot;Macro non trouvée&quot;, 
- overwriteWarning: &quot;Il y a déjà un élément nommé '%0'. Confirmez pour le remplacer&quot;, 
- unsavedChangesWarning: &quot;ATTENTION! Les dernières modifications de ce bloc-notes TiddlyWiki n'ont pas été enregistrées.\n\nOK pour les enregistrer\nANNULER pour les abandonner&quot;, 
- confirmExit: &quot;--------------------------------\n\nCertaines modifications n'ont pas été enregistrées dans ce bloc-notes TiddlyWiki.\n\n Si vous quittez maintenant vous les perdrez définitievement.\n\n--------------------------------&quot;, 
- saveInstructions: &quot;Sauvegarder&quot;, 
- unsupportedTWFormat: &quot;Format de TiddlyWiki non supporté '%0'&quot;, 
- tiddlerSaveError: &quot;Erreur lors de l'enregistrement de l'élément '%0'&quot;, 
- tiddlerLoadError: &quot;Erreur lors du chargement de l'élément '%0'&quot;, 
- wrongSaveFormat: &quot;Impossible d'enregistrer avec le format '%0'. Le format standard est utilisé pour sauvegarder.&quot;, 
- invalidFieldName: &quot;Nom de champ invalide %0&quot;, 
- fieldCannotBeChanged: &quot;Le champ '%0' ne peut être changé&quot;, 
- loadingMissingTiddler: &quot;Tentative de récupération de l'élément '%0' à partir du serveur '%1' server à :\n\n'%2' dans l'espace de travail '%3'&quot;});
-merge(config.messages.messageClose,{
- text: &quot;fermer&quot;,
- tooltip: &quot;fermer cette zone de messages&quot;});
-config.messages.backstage = {
- open: {text: &quot;barre de services&quot;, tooltip: &quot;Ouvre la barre de services pour effectuer des tâches de rédaction et d'edition&quot;},
- close: {text: &quot;fermer&quot;, tooltip: &quot;Fermer la barre de services&quot;},
- prompt: &quot;services : &quot;,
- decal: {
-  edit: {text: &quot;éditer&quot;, tooltip: &quot;Editer l'élément '%0'&quot;}
- }
-};
-config.messages.listView = {
- tiddlerTooltip: &quot;Cliquer pour une vue complète de cet élément&quot;,
- previewUnavailable: &quot;(aperçu non disponible)&quot;
-};
-config.messages.dates.months = [&quot;janvier&quot;, &quot;février&quot;, &quot;mars&quot;, &quot;avril&quot;, &quot;mai&quot;, &quot;juin&quot;, &quot;juillet&quot;, &quot;août&quot;, &quot;septembre&quot;, &quot;octobre&quot;, &quot;novembre&quot;,&quot;décembre&quot;];
-config.messages.dates.days = [&quot;dimanche&quot;, &quot;lundi&quot;,&quot;mardi&quot;, &quot;mercredi&quot;, &quot;jeudi&quot;, &quot;vendredi&quot;, &quot;samedi&quot;]; 
-
-config.messages.dates.shortDays = [&quot;dim.&quot;, &quot;lun.&quot;, &quot;mar.&quot;, &quot;mer.&quot;, &quot;jeu.&quot;, &quot;ven.&quot;, &quot;sam.&quot;]; 
-// suffixes pour les dates, par exemple &quot;1er&quot;,  
-config.messages.dates.daySuffixes = [&quot;er&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;, 
-  &quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;, 
-  &quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;, 
-  &quot;&quot;];
-config.messages.dates.am = &quot;matin&quot;;
-config.messages.dates.pm = &quot;après-midi&quot;;
-merge(config.messages.tiddlerPopup,{
- });
-merge(config.views.wikified.tag,{
- labelNoTags: &quot;pas d'index&quot;,
- labelTags: &quot;Index : &quot;,
- openTag: &quot;Ouvrir l'index '%0'&quot;,
- tooltip: &quot;Afficher les éléments indexés avec '%0'&quot;,
- openAllText: &quot;Tout ouvrir&quot;,
- openAllTooltip: &quot;Ouvrir tous les éléments avec cet index&quot;,
- popupNone: &quot;Pas d'autres éléments indexés avec '%0'&quot;});
-merge(config.views.wikified,{
- defaultText: &quot;L'élément '%0' n'a pas encore été créé. Double-cliquer pour le créer.&quot;,
- defaultModifier: &quot;(manquant)&quot;,
- shadowModifier: &quot;(élément masqué installé par défaut)&quot;,
- dateFormat: &quot;DD MMM YYYY&quot;, // Utilisé pour changer le format de la date (ici : &quot;YYYY MMM DD&quot;), ne pas changer les lettres D (jour), M (mois) ou Y (année)
- createdPrompt: &quot;créé le&quot;}); 
-merge(config.views.editor,{
- tagPrompt: &quot;Mettre un espace entre chaque index, si nécessaire [[entre doubles crochets]], ou associer un index existant&quot;,
- defaultText: &quot;Entrer le texte de '%0'&quot;});
-merge(config.views.editor.tagChooser,{
- text: &quot;index&quot;,
- tooltip: &quot;Sélectionner les index existants à associer à cet élément&quot;,
- popupNone: &quot;Aucun d'index déjà été défini&quot;,
- tagTooltip: &quot;Associer l'index '%0'&quot;});
-merge(config.messages,{
- sizeTemplates:
- [
- {unit: 1024*1024*1024, template: &quot;%0\u00a0GB&quot;},
- {unit: 1024*1024, template: &quot;%0\u00a0MB&quot;},
- {unit: 1024, template: &quot;%0\u00a0KB&quot;},
- {unit: 1, template: &quot;%0\u00a0B&quot;}
- ]});
-merge(config.macros.search,{
- label: &quot;chercher&quot;,
- prompt: &quot;Rechercher dans ce bloc-notes TiddlyWiki&quot;,
- accessKey: &quot;F&quot;,
- successMsg: &quot;%0 éléments répondent au critère %1&quot;,
- failureMsg: &quot;Aucun élément ne répond au critère %0&quot;});
-merge(config.macros.tagging,{
- label: &quot;éléments indexés : &quot;,
- labelNotTag: &quot;pas d'index&quot;,
- tooltip: &quot;Afficher les éléments indexés avec '%0'&quot;});
-merge(config.macros.timeline,{
- dateFormat: &quot;DD MMM YYYY&quot;}); // Utilisé pour changer le format de la date (ici : &quot;YYYY MMM DD&quot;), ne pas changer les lettres D (jour), M (mois) ou Y (année)
-merge(config.macros.allTags,{
- tooltip: &quot;Afficher les éléments avec comme index '%0'&quot;,
- noTags: &quot;Aucun élément n'a d'index&quot;});
-config.macros.list.all.prompt = &quot;Tous les éléments classés par ordre alphabétique&quot;;
-config.macros.list.missing.prompt = &quot;Eléments référencés par un lien mais qui ne sont pas non créés&quot;;
-config.macros.list.orphans.prompt = &quot;Eléments orphelins qui ne pas référencés par un lien dans d'autres éléments&quot;;
-config.macros.list.shadowed.prompt = &quot;Eléments masqués avec toujours leur contenu initial du modèle de référence TiddlyWiki&quot;;
-config.macros.list.touched.prompt = &quot;Eléments ayant été modifiés localement&quot;;
-merge(config.macros.closeAll,{
- label: &quot;tout fermer&quot;,
- prompt: &quot;Fermer tous les éléments affichés (sauf ceux en cours d'édition)&quot;});
-merge(config.macros.permaview,{
- label: &quot;permalien&quot;,
- prompt: &quot;Lien vers l'URL qui référence la page avec tous les éléments actuellement affichés&quot;});
-merge(config.macros.saveChanges,{
- label: &quot;sauvegarde des modifications&quot;,
- prompt: &quot;Sauvegarde tous les éléments du bloc-notes TiddlyWiki&quot;,
- accessKey: &quot;S&quot;});
-merge(config.macros.newTiddler,{
- label: &quot;nouvel élément&quot;,
- prompt: &quot;Crée un nouvel élément&quot;,
- title: &quot;Nouvel Elément&quot;,
- accessKey: &quot;N&quot;});
-merge(config.macros.newJournal,{
- label: &quot;nouveau journal&quot;,
- prompt: &quot;Crée un nouvel élément avec la date courante&quot;,
- accessKey: &quot;J&quot;});
-merge(config.macros.options,{
- wizardTitle: &quot;Réglage des options avancées&quot;,
- step1Title: &quot;Ces options sont enregistrées dans des cookies de votre navigateur&quot;,
- step1Html: &quot;&lt;input type='hidden' name='markList'&gt;&lt;/input&gt;&lt;br&gt;&lt;input type='checkbox' checked='false' name='chkUnknown'&gt;Afficher les options inconnues&lt;/input&gt;&quot;,
- unknownDescription: &quot;//(inconnu)//&quot;,
- listViewTemplate: {
-  columns: [
-   {name: 'Option', field: 'option', title: &quot;Option&quot;, type: 'String'},
-   {name: 'Description', field: 'description', title: &quot;Description&quot;, type: 'WikiText'},
-   {name: 'Name', field: 'name', title: &quot;Nom&quot;, type: 'String'}
-   ],
-  rowClasses: [
-   {className: 'lowlight', field: 'lowlight'}
-   ]}
- });
-merge(config.macros.plugins,{
- wizardTitle: &quot;Gestionnaire des extensions&quot;,
- step1Title: &quot;Extensions actuellement chargées&quot;,
- step1Html: &quot;&lt;input type='hidden' name='markList'&gt;&lt;/input&gt;&quot;, // DO NOT TRANSLATE
- skippedText: &quot;(Cette extension n'a pas été éxecutée car elle a été ajoutée après le démarrage de ce bloc-notes TiddlyWiki)&quot;,
- noPluginText: &quot;Aucune extension n'est installée&quot;,
- confirmDeleteText: &quot;Etes vous sûr(e) de vouloir supprimer ces extensions :\n\n%0&quot;,
- removeLabel: &quot;Supprimer l'index 'systemConfig'&quot;,
- removePrompt: &quot;Supprime l'index 'systemConfig'&quot;,
- deleteLabel: &quot;supprimer&quot;,
- deletePrompt: &quot;Suppression définititve de ces éléments&quot;,
- listViewTemplate: {
-  columns: [
-   {name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
-   {name: 'Tiddler', field: 'tiddler', title: &quot;Elément&quot;, type: 'Tiddler'},
-   {name: 'Size', field: 'size', tiddlerLink: 'size', title: &quot;Taille&quot;, type: 'Size'},
-   {name: 'Forced', field: 'forced', title: &quot;Exécution forcée&quot;, tag: 'systemConfigForce', type: 'TagCheckbox'},
-   {name: 'Disabled', field: 'disabled', title: &quot;Désactivé&quot;, tag: 'systemConfigDisable', type: 'TagCheckbox'},
-   {name: 'Executed', field: 'executed', title: &quot;Chargé&quot;, type: 'Boolean', trueText: &quot;Yes&quot;, falseText: &quot;No&quot;},
-   {name: 'Startup Time', field: 'startupTime', title: &quot;Durée de lancement&quot;, type: 'String'},
-   {name: 'Error', field: 'error', title: &quot;Etat&quot;, type: 'Boolean', trueText: &quot;Error&quot;, falseText: &quot;OK&quot;},
-   {name: 'Log', field: 'log', title: &quot;Log&quot;, type: 'StringList'}
-   ],
-  rowClasses: [
-   {className: 'error', field: 'error'},
-   {className: 'warning', field: 'warning'}
-   ]}
- });
-merge(config.macros.toolbar,{
- moreLabel: &quot;(suite)&quot;,
- morePrompt: &quot;Affiche des commandes supplémentaires&quot;
- });
-merge(config.macros.refreshDisplay,{
- label: &quot;réafficher&quot;,
- prompt: &quot;Réaffiche le contenu complet du bloc-notes TiddlyWiki&quot;
- });
-merge(config.macros.importTiddlers,{
- readOnlyWarning: &quot;Il n'est pas possible d'importer dans un bloc-notes TiddlyWiki qui n'est qu'en lecture seule. Essayez de l'ouvrir en local à partir d'une URL 'file://'&quot;,
- wizardTitle: &quot;Importer des éléments depuis un autre fichier ou un serveur&quot;,
- step1Title: &quot;Etape 1 : localiser le serveur ou le ficher du bloc-notes TiddlyWiki à importer&quot;,
- step1Html: &quot;Spécifier le type du serveur : &lt;select name='selTypes'&gt;&lt;option value=''&gt;Choisir ...&lt;/option&gt;&lt;/select&gt;&lt;br&gt;Indiquer l'URL ou le chemin : &lt;input type='text' size=50 name='txtPath'&gt;&lt;br&gt;... ou rechercher un fichier en local : &lt;input type='file' size=50 name='txtBrowse'&gt;&lt;br&gt;&lt;hr&gt;... ou selectionner une source pré-définie : &lt;select name='selFeeds'&gt;&lt;option value=''&gt;Choisir ...&lt;/option&gt;&lt;/select&gt;&quot;,
- openLabel: &quot;ouvrir&quot;,
- openPrompt: &quot;Ouvre la connexion vers ce fichier ou ce serveur&quot;,
- openError: &quot;Il y a des erreurs lors de l'accès au fichier contenant le bloc-notes TiddlyWiki&quot;,
- statusOpenHost: &quot;Hôte en cours d'ouverture&quot;,
- statusGetWorkspaceList: &quot;Obtenir la liste des espaces de travail disponibles&quot;,
- step2Title: &quot;Etape 2 : choisir l'espace de travail&quot;,
- step2Html: &quot;Entrer le nom d'un espace de travail : &lt;input type='text' size=50 name='txtWorkspace'&gt;&lt;br&gt;... ou selectionner un espace de travail : &lt;select name='selWorkspace'&gt;&lt;option value=''&gt;Choisir ...&lt;/option&gt;&lt;/select&gt;&quot;,
- cancelLabel: &quot;annuler&quot;,
- cancelPrompt: &quot;Annule cette importation&quot;,
- statusOpenWorkspace: &quot;Ouverture de l'espace de travail&quot;,
- statusGetTiddlerList: &quot;Obtenir la liste des éléments disponibles&quot;,
- step3Title: &quot;Etape 3: Choisir les éléments à importer&quot;,
- step3Html: &quot;&lt;input type='hidden' name='markList'&gt;&lt;/input&gt;&lt;br&gt;&lt;input type='checkbox' checked='true' name='chkSync'&gt;Conserver ces éléments liés à ce serveur pour pouvoir synchroniser avec les changements ultérieurs&lt;/input&gt;&lt;br&gt;&lt;input type='checkbox' name='chkSave'&gt;Enregistrer les détails de ce serveur dans un élément 'systemServer' nommé :&lt;/input&gt; &lt;input type='text' size=25 name='txtSaveTiddler'&gt;&quot;,
- importLabel: &quot;importer&quot;,
- importPrompt: &quot;Importe ces éléments&quot;,
- confirmOverwriteText: &quot;Etes-vous sûr de vouloir écraser ces éléments :\n\n%0&quot;,
- step4Title: &quot;Etape 4 : Importe %0 élément(s)&quot;,
- step4Html: &quot;&lt;input type='hidden' name='markReport'&gt;&lt;/input&gt;&quot;, // DO NOT TRANSLATE
- doneLabel: &quot;fait&quot;,
- donePrompt: &quot;Ferme cet assistant&quot;,
- statusDoingImport: &quot;Importe ces éléments&quot;,
- statusDoneImport: &quot;Tous les éléments ont été importés&quot;,
- systemServerNamePattern: &quot;%2 sur %1&quot;,
- systemServerNamePatternNoWorkspace: &quot;%1&quot;,
- confirmOverwriteSaveTiddler: &quot;Cet élément '%0' existe déjà. Cliquer sur 'OK' pour l'écraser avec les caractéristiques de ce serveur ou 'Annule' pour les conserver en l'état&quot;,
- serverSaveTemplate: &quot;|''Type :''|%0|\n|''URL :''|%1|\n|''Espace de travail :''|%2|\n\nCet élément avait été automatiquement créé pour enregistrer les détails de ce serveur&quot;,
- serverSaveModifier: &quot;(Système)&quot;,
- listViewTemplate: {
-  columns: [
-   {name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
-   {name: 'Tiddler', field: 'tiddler', title: &quot;Elément&quot;, type: 'Tiddler'},
-   {name: 'Size', field: 'size', tiddlerLink: 'size', title: &quot;Taille&quot;, type: 'Size'},
-   {name: 'Tags', field: 'tags', title: &quot;Index&quot;, type: 'Tags'}
-   ],
-  rowClasses: [
-   ]}
- });
-merge(config.macros.sync,{
- listViewTemplate: {
-  columns: [
-   {name: 'Selected', field: 'selected', rowName: 'title', type: 'Selector'},
-   {name: 'Tiddler', field: 'tiddler', title: &quot;Elément&quot;, type: 'Tiddler'},
-   {name: 'Server Type', field: 'serverType', title: &quot;Type de serveur&quot;, type: 'String'},
-   {name: 'Server Host', field: 'serverHost', title: &quot;Hôte serveur&quot;, type: 'String'},
-   {name: 'Server Workspace', field: 'serverWorkspace', title: &quot;Espace de travail du serveur&quot;, type: 'String'},
-   {name: 'Status', field: 'status', title: &quot;Etat de la synchronisation&quot;, type: 'String'},
-   {name: 'Server URL', field: 'serverUrl', title: &quot;URL du serveur&quot;, text: &quot;View&quot;, type: 'Link'}
-   ],
-  rowClasses: [
-   ],
-  buttons: [
-   {caption: &quot;Synchronise ces éléments&quot;, name: 'sync'}
-   ]},
- wizardTitle: &quot;Synchronisation avec des serveurs externes et des fichiers&quot;,
- step1Title: &quot;Choisir les éléments à synchroniser&quot;,
- step1Html: &quot;&lt;input type='hidden' name='markList'&gt;&lt;/input&gt;&quot;, // DO NOT TRANSLATE
- syncLabel: &quot;synchroniser&quot;,
- syncPrompt: &quot;Synchronise ces éléments&quot;,
- hasChanged: &quot;Modifié pendant la déconnection&quot;,
- hasNotChanged: &quot;Non modifié pendant la déconnexion&quot;,
- syncStatusList: {
-  none: {text: &quot;...&quot;, color: &quot;transparent&quot;},
-  changedServer: {text: &quot;Modifié sur le serveur&quot;, color: '#80ff80'},
-  changedLocally: {text: &quot;Modifié pendant la déconnexion&quot;, color: '#80ff80'},
-  changedBoth: {text: &quot;Changé pendant la déconnexion et sur le serveur&quot;, color: '#ff8080'},
-  notFound: {text: &quot;Non trouvé sur le serveur&quot;, color: '#ffff80'},
-  putToServer: {text: &quot;Modifications enregistrées sur le serveur&quot;, color: '#ff80ff'},
-  gotFromServer: {text: &quot;Récupéré les modifications depuis le serveur&quot;, color: '#80ffff'}
-  }
- });
-merge(config.commands.closeTiddler,{
- text: &quot;fermer&quot;,
- tooltip: &quot;Ferme cet élément&quot;});
-merge(config.commands.closeOthers,{
- text: &quot;isoler&quot;,
- tooltip: &quot;Ferme tous les autres éléments&quot;});
-merge(config.commands.editTiddler,{
- text: &quot;éditer&quot;,
- tooltip: &quot;Editer cet élément&quot;,
- readOnlyText: &quot;voir&quot;,
- readOnlyTooltip: &quot;Affiche la source de cet élément&quot;});
-merge(config.commands.saveTiddler,{
- text: &quot;valider&quot;,
- tooltip: &quot;Valide les modifications effectuées sur cet élément&quot;});
-merge(config.commands.cancelTiddler,{
- text: &quot;annuler&quot;,
- tooltip: &quot;Abandon des modifications effectuées sur cet élément&quot;,
- warning: &quot;Confirmez-vous l'abandon de vos modifications de l'élément '%0'?&quot;,
- readOnlyText: &quot;retour&quot;,
- readOnlyTooltip: &quot;Revenir à l'affichage normal de cet élément&quot;});
-merge(config.commands.deleteTiddler,{
- text: &quot;supprimer&quot;,
- tooltip: &quot;Supprime cet élément&quot;,
- warning: &quot;Confirmez-vous la suppression de '%0'?&quot;});
-merge(config.commands.permalink,{
- text: &quot;permalien&quot;,
- tooltip: &quot;Permalien pour cet élément&quot;});
-merge(config.commands.references,{
- text: &quot;références&quot;,
- tooltip: &quot;Affiche les éléments qui font référence à l'élément courant&quot;,
- popupNone: &quot;Pas de référent(s)&quot;});
-merge(config.commands.jump,{
- text: &quot;aller vers&quot;,
- tooltip: &quot;Permet d'atteindre l'un des éléments déjà ouvert dans le bloc-notes TiddlyWiki courant&quot;});
-merge(config.commands.syncing,{
- text: &quot;synchronisation&quot;,
- tooltip: &quot;Contrôle la synchronisation de cet élément avec un serveur ou un fichier externe&quot;,
- currentlySyncing: &quot;&lt;div&gt;Actuellement en cours de synchronisation avec &lt;span class='popupHighlight'&gt;'%0'&lt;/span&gt; vers :&lt;/&quot;+&quot;div&gt;&lt;div&gt;host: &lt;span class='popupHighlight'&gt;%1&lt;/span&gt;&lt;/&quot;+&quot;div&gt;&lt;div&gt;workspace: &lt;span class='popupHighlight'&gt;%2&lt;/span&gt;&lt;/&quot;+&quot;div&gt;&quot;, // Note escaping of closing &lt;div&gt; tag
- notCurrentlySyncing: &quot;Pas de synchronisation en cours&quot;,
- captionUnSync: &quot;Arrête la synchronisation de cet élément&quot;,
- chooseServer: &quot;Synchronise cet élément avec un autre serveur :&quot;,
- currServerMarker: &quot;\u25cf &quot;,
- notCurrServerMarker: &quot;  &quot;});
-merge(config.commands.fields,{
- text: &quot;champs&quot;,
- tooltip: &quot;Affiche les champs supplémentaires de cet élément&quot;,
- emptyText: &quot;Il n'y a pas de champs supplémentaires pour cet élément&quot;,
- listViewTemplate: {
-  columns: [
-   {name: 'Field', field: 'field', title: &quot;Champ&quot;, type: 'String'},
-   {name: 'Value', field: 'value', title: &quot;Valeur&quot;, type: 'String'}
-   ],
-  rowClasses: [
-   ],
-  buttons: [
-   ]}});
-merge(config.shadowTiddlers,{
- DefaultTiddlers: &quot;GettingStarted&quot;,
- MainMenu: &quot;GettingStarted&quot;,
- TranslatedGettingStarted: &quot;Pour utiliser ce //bloc-notes// TiddlyWiki, commencez par modifier les //éléments// suivants (''//tiddlers//'' dans le jargon TiddlyWiki) :\n* __SiteTitle__ et __SiteSubtitle__ : Le titre et le sous-titre de ce //bloc-notes// TiddlyWiki. Après modification, ils apparaîtront aussi dans la barre de titre du navigateur)\n* __MainMenu__: Le menu principal (généralement à gauche)\n* __DefaultTiddlers__ : La liste les noms des //éléments// que vous voulez voir s'afficher à l'ouverture de ce //bloc-notes// TiddlyWiki. \n* Entrez également le ''nom d'utilisateur'' avec lequel seront signés vos ajouts ou vos modifications dans les //éléments// :\n** &lt;&lt;option txtUserName&gt;&gt;&quot;,
- SiteTitle: &quot;Mon TiddlyWiki&quot;,
- SiteSubtitle: &quot;organiseur personnel web interactif et autoporteur, voir http://www.tiddlywiki.com pour le site TiddlyWiki original en anglais&quot;,
- SiteUrl: &quot;http://www.tiddlywiki.com/&quot;,
- OptionsPanel: &quot;Les options de configuration de ce bloc-notes TiddlyWiki sont sauvegardées dans des cookies de votre navigateur.\n\nNom d'utilisateur avec lequel seront signés vos ajouts ou vos modifications dans les éléments (par exemple Jeremy_Ruston).\n\n&lt;&lt;option txtUserName&gt;&gt;\n&lt;&lt;option chkSaveBackups&gt;&gt; Backup de chaque version\n&lt;&lt;option chkAutoSave&gt;&gt; Backup à chaque modification\n&lt;&lt;option chkRegExpSearch&gt;&gt; Expression régulières dans les recherches\n&lt;&lt;option chkCaseSensitiveSearch&gt;&gt; Respecter la casse dans les recherches\n&lt;&lt;option chkAnimate&gt;&gt; Animations à l'ouverture des éléments\n&quot;,
- SideBarOptions: '&lt;&lt;search&gt;&gt;&lt;&lt;closeAll&gt;&gt;&lt;&lt;permaview&gt;&gt;&lt;&lt;newTiddler&gt;&gt;&lt;&lt;newJournal &quot;DD MMM YYYY&quot; &quot;journal&quot;&gt;&gt;&lt;&lt;saveChanges&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel OptionsPanel &quot;options  »&quot; &quot;Modifie les options supplémentaires de ce bloc-notes ~TiddlyWiki&quot;&gt;&gt;',
- SideBarTabs: '&lt;&lt;tabs txtMainTab &quot;Chrono&quot; &quot;Affichage chronologique&quot; TabTimeline &quot;Alpha&quot; &quot;Liste alphabétique des éléments&quot; TabAll &quot;Index&quot; &quot;Liste de tous les index&quot; TabTags &quot;Autres&quot; &quot;Autres listes&quot; TabMore&gt;&gt;',
- TabMore: '&lt;&lt;tabs txtMoreTab &quot;Manquants&quot; &quot;Eléments manquants&quot; TabMoreMissing &quot;Orphelins&quot; &quot;Eléments orphelins&quot; TabMoreOrphans &quot;Masqués&quot; &quot;Eléments masqués&quot; TabMoreShadowed&gt;&gt;'});
-merge(config.annotations,{
- AdvancedOptions: &quot;Cet élément masqué permet d'accéder à différentes options avancées&quot;,
- ColorPalette: &quot;Les valeurs de cet élément masqué détermine la palette des couleurs utilisées pour l'interface utilisateur de ~TiddlyWiki&quot;,
- DefaultTiddlers: &quot;Les éléments enumérés dans cet élément seront automatiquement affichés au démarrage de ~TiddlyWiki&quot;,
- EditTemplate: &quot;Le gabarit HTML dans cet élément masqué détermine la manière dont les éléments sont présentés lorsqu'ils sont édités&quot;,
- GettingStarted: &quot;Cet élément fournit quelques instructions basiques pour utiliser un bloc-notes ~TiddlyWiki&quot;,
- ImportTiddlers: &quot;Cet élément par défaut fournit l'accès à l'interface d'importation d'éléments&quot;,
- MainMenu: &quot;Le contenu de cet élément défini le menu de la colonne de gauche de cette feuille HTML&quot;,
- MarkupPreHead: &quot;Le contenu de cet élément est inséré au début de la section &lt;head&gt; du fichier HTML de ce bloc-notes ~TiddlyWiki&quot;,
- MarkupPostHead: &quot;Le contenu de cet élément est inséré à la fin de la section &lt;head&gt; du fichier HTML de ce bloc-notes ~TiddlyWiki&quot;,
- MarkupPreBody: &quot;Le contenu de cet élément est inséré au début de la section &lt;body&gt; du fichier HTML de ce bloc-notes ~TiddlyWiki&quot;,
- MarkupPostBody: &quot;Le contenu de cet élément est inséré à la fin de la section &lt;body&gt; du fichier HTML de ce bloc-notes ~TiddlyWiki, immédiatement avant le bloc 'script'&quot;,
- OptionsPanel: &quot;Le contenu de cet élément par défaut est utilisé par le panneau déroulant des options dans la colonne de droite de cette feuille HTML&quot;,
- PageTemplate: &quot;Le gabarit HTML de cet élément masqué détermine la mise en page générale de ce bloc-notes ~TiddlyWiki&quot;,
- PluginManager: &quot;Cet élément masqué permet d'accéder au gestionnaire d'extensions&quot;,
- SideBarOptions: &quot;Le contenu de cet élément par défaut est utilisé par le panneau des options dans la barre de droite de la feuille HTML&quot;,
- SideBarTabs: &quot;Le contenu de cet élément par défaut est utilisé par le panneau des onglets dans la barre de droite de la feuille HTML&quot;,
- SiteSubtitle: &quot;Cet élément est utilisé comme deuxième partie du titre de la page&quot;,
- SiteTitle: &quot;Cet élément est utilisé comme première partie du titre de la page&quot;,
- SiteUrl: &quot;Cet élément par défaut doit contenir l'URL complet du site utilisé pour la publication&quot;,
- StyleSheetColours: &quot;Cet élément par défaut contient des définitions CSS concernant les couleurs des composants de page&quot;,
- StyleSheet: &quot;Cet éléments par défaut contient des définitions CSS personnalisées&quot;,
- StyleSheetLayout: &quot;Cet éléments par défaut contient des définitions CSS concernant la mise en page de composants&quot;,
- StyleSheetLocale: &quot;Cet élément par défaut contient des définitions CSS concernant la traduction &quot;,
- StyleSheetPrint: &quot;Cet élément par défaut contient des définitions CSS pour l'impression&quot;,
- TabAll: &quot;Le contenu de cet élément par défaut est utilisé par le panneau de l'onglet 'Alpha' dans la colonne de droite de cette feuille HTML&quot;,
- TabMore: &quot;Cet élément par défaut contient le contenu de l'onglet 'Suite' dans la barre de droite de l'écran&quot;,
- TabMoreMissing: &quot;Cet élément par défaut contient le contenu de l'onglet 'Manquants' dans la colonne de droite de cette feuille HTML&quot;,
- TabMoreOrphans: &quot;Cet élément par défaut contient le contenu de l'onglet 'Orphelins' dans la colonne de droite de cette feuille HTML&quot;,
- TabMoreShadowed: &quot;Cet élément par défaut contient le contenu de l'onglet 'Défaut' dans la colonne de droite de cette feuille HTML&quot;,
- TabTags: &quot;Cet élément par défaut contient le contenu de l'onglet 'Index' dans la colonne de droite de cette feuille HTML&quot;,
- TabTimeline: &quot;Cet élément par défaut contient le contenu de l'onglet 'Chrono' dans la colonne de droite de cette feuille HTML&quot;,
- ViewTemplate: &quot;Le gabarit HTML dans cet élément par défaut determine comment sont présentés les éléments&quot;
- });
-//}}}</pre>
-</div>
 <div title="GenerateRssByTagPlugin" modifier="BidiX" modified="200804090031" created="200703052156" tags="admin NewsWiki systemConfig" server.host="http://TiddlyHome.bidix.info/systemServer/NewsWiki.html" server.page.revision="200705281308" server.type="file">
 <pre>/***
 |''Name:''|GenerateRssByTagPlugin|
@@ -1469,6 +1058,449 @@ Proin euismod rutrum lectus. Integer vulputate posuere dui. Donec posuere posuer
 </div>
 <div title="Introduction" modifier="YourName" modified="200804090031" created="200709032320" tags="toRSS" changecount="2">
 <pre>&lt;&lt;jpokerTableList&gt;&gt;</pre>
+</div>
+<div title="JapaneseTranslation" modifier="Zephyr" modified="200804090058" created="200701110228" tags="systemConfig">
+<pre>/***
+|''Name:''|JapaneseTranslation|
+|''Description:''|Translation of TiddlyWiki into Japanese|
+|''Author:''|FURUKAWA, Masashi(Zephyr)|
+|''Source:''|http://flow.dip.jp/mt/archives/u/twmemo.html#JapaneseTranslation|
+|''Version:''|0.3.0|
+|''Date:''|Mar. 26, 2007|
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.1 Japan License|http://creativecommons.org/licenses/by-sa/2.1/jp/]]|
+|''~CoreVersion:''|2.1.3|
+TiddlyWikiを日本語化するプラグインです。
+http://trac.tiddlywiki.org/tiddlywiki/wiki/Translations に書いてあるように、svn.tiddlywiki.orgからlocale.en.jsを持ってきて作り直しました。
+しかし、svn版は既に現行バージョンとは違うようで、エラーが出たり明らかに使われていない所はコメントや未訳のままにしてあります。
+以前の日本語化プラグインはOldJapaneseTranslationにあります。
+元のライセンスがCCのBY-SAなので、それに相当する日本語版のCCライセンスにしてあります。また、原著作者のクレジットもそのまま残してあります。
+***/
+
+/***
+|''Name:''|EnglishTranslationPlugin|
+|''Description:''|Translation of TiddlyWiki into English|
+|''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
+|''Source:''|www.???.com |
+|''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/en/locale.en.js |
+|''Version:''|0.3.0|
+|''Date:''|Mar 4, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/ ]]|
+|''~CoreVersion:''|2.1.3|
+***/
+
+/*{{{*/
+//--
+//-- Translateable strings
+//--
+
+// Strings in &quot;double quotes&quot; should be translated; strings in 'single quotes' should be left alone
+
+config.locale = &quot;ja&quot;; // W3C language tag
+
+if (config.options.txtUserName == &quot;YourName&quot;)
+	merge(config.options,{
+		txtUserName: &quot;お名前&quot;});
+
+config.tasks = {
+	save: {text: &quot;save&quot;, tooltip: &quot;Save your changes to this TiddlyWiki&quot;, action: saveChanges},
+	sync: {text: &quot;同期&quot;, tooltip: &quot;他のTiddlyWikiファイルやサーバと同期をとります&quot;, content: '&lt;&lt;sync&gt;&gt;'},
+	importTask: {text: &quot;取り込み&quot;, tooltip: &quot;他のTiddlyWikiファイルやサーバからtiddlerやプラグインを取り込みます&quot;, content: '&lt;&lt;importTiddlers&gt;&gt;'},
+	tweak: {text: &quot;tweak&quot;, tooltip: &quot;Tweak the appearance and behaviour of TiddlyWiki&quot;, content: '&lt;&lt;options&gt;&gt;'},
+	plugins: {text: &quot;プラグイン&quot;, tooltip: &quot;プラグインを管理します&quot;, content: '&lt;&lt;plugins&gt;&gt;'}
+};
+
+// Options that can be set in the options panel and/or cookies
+/*
+config.optionsDesc = {
+	txtUserName: &quot;Username for signing your edits&quot;,
+	chkRegExpSearch: &quot;Enable regular expressions for searches&quot;,
+	chkCaseSensitiveSearch: &quot;Case-sensitive searching&quot;,
+	chkAnimate: &quot;Enable animations&quot;,
+	chkSaveBackups: &quot;Keep backup file when saving changes&quot;,
+	chkAutoSave: &quot;Automatically save changes&quot;,
+	chkGenerateAnRssFeed: &quot;Generate an RSS feed when saving changes&quot;,
+	chkSaveEmptyTemplate: &quot;Generate an empty template when saving changes&quot;,
+	chkOpenInNewWindow: &quot;Open external links in a new window&quot;,
+	chkToggleLinks: &quot;Clicking on links to open tiddlers causes them to close&quot;,
+	chkHttpReadOnly: &quot;Hide editing features when viewed over HTTP&quot;,
+	chkForceMinorUpdate: &quot;Don't update modifier username and date when editing tiddlers&quot;,
+	chkConfirmDelete: &quot;Require confirmation before deleting tiddlers&quot;,
+	chkInsertTabs: &quot;Use the tab key to insert tab characters instead of moving between fields&quot;,
+	chkShowTiddlerDetails: &quot;Always show the tiddler details panel when displaying a tiddler&quot;,
+	txtBackupFolder: &quot;Name of folder to use for backups&quot;,
+	txtMaxEditRows: &quot;Maximum number of rows in edit boxes&quot;,
+	txtFileSystemCharSet: &quot;Default character set for saving changes&quot;
+	};
+*/
+
+merge(config.messages,{
+	customConfigError: &quot;プラグインの読み込みで問題が発生しました。詳細はPluginManager参照&quot;,
+	pluginError: &quot;エラー: %0&quot;,
+	pluginDisabled: &quot;'systemConfigDisable'タグにより実行が禁止されました&quot;,
+	pluginForced: &quot;'systemConfigForce'タグにより強制的に実行されました&quot;,
+	pluginVersionError: &quot;このプラグインの実行にはより新しいバージョンのTiddlyWikiが必要です&quot;,
+	nothingSelected: &quot;選択されていません。一つ以上選択してください&quot;,
+	savedSnapshotError: &quot;このTiddlyWikiは正常に保存されていません。詳細は http://www.tiddlywiki.com/#DownloadSoftware をご覧ください&quot;,
+	subtitleUnknown: &quot;&quot;,
+	undefinedTiddlerToolTip: &quot;'%0'tiddlerはまだ作成されていません&quot;,
+	shadowedTiddlerToolTip: &quot;'%0'tiddlerはまだ作成されていませんが、隠し既定値があります&quot;,
+	tiddlerLinkTooltip: &quot;%0 - %1, %2&quot;,
+	externalLinkTooltip: &quot;(外部リンク) %0&quot;,
+	noTags: &quot;タグの付いたtiddlerはありません&quot;,
+	notFileUrlError: &quot;変更を保存するには、このTiddlyWikiをファイルに保存(ダウンロード)する必要があります&quot;,
+	cantSaveError: &quot;変更を保存できません。以下の理由が考えられます:\n- ブラウザが保存に対応していない (Firefox, Internet Explorer, Safari そして Opera は正しく設定されていれば保存できます)\n- TiddlyWikiファイルのPath名に不正な文字が含まれている\n- TiddlyWikiファイルを移動または名前を変更された&quot;,
+	invalidFileError: &quot;元のファイル '%0' は妥当なTiddlyWikiのファイルではありません&quot;,
+	backupSaved: &quot;バックアップを保存しました&quot;,
+	backupFailed: &quot;バックアップの保存に失敗しました&quot;,
+	rssSaved: &quot;RSSフィードを保存しました&quot;,
+	rssFailed: &quot;RSSフィードの保存に失敗しました&quot;,
+	emptySaved: &quot;空テンプレートを保存しました&quot;,
+	emptyFailed: &quot;空テンプレートの保存に失敗しました&quot;,
+	mainSaved: &quot;TiddlyWikiファイルを保存しました&quot;,
+	mainFailed: &quot;TiddlyWikiファイルの保存に失敗しました。変更内容は保存されていません&quot;,
+	macroError: &quot;マクロ&lt;&lt;%0&gt;&gt;でエラー&quot;,
+	macroErrorDetails: &quot;マクロ&lt;&lt;%0&gt;&gt;実行中にエラー発生:\n%1&quot;,
+	missingMacro: &quot;マクロがありません&quot;,
+	overwriteWarning: &quot;'%0'tiddlerは既に存在します。OKで上書きします&quot;,
+	unsavedChangesWarning: &quot;WARNING! TiddlyWikiの変更が保存されていません\n\nOKで保存します\nCANCELで変更を破棄します&quot;,
+	confirmExit: &quot;--------------------------------\n\nTiddlyWikiの変更が保存されていません。このまま続けると変更が失われます\n\n--------------------------------&quot;,
+	saveInstructions: &quot;SaveChanges&quot;,
+	unsupportedTWFormat: &quot;TiddlyWiki書式 '%0' は未サポートです&quot;,
+	tiddlerSaveError: &quot;tiddler '%0' 保存時にエラー&quot;,
+	tiddlerLoadError: &quot;tiddler '%0' 読み込み時にエラー&quot;,
+	wrongSaveFormat: &quot;保存書式 '%0' で保存できません。標準書式で保存します&quot;,
+	invalidFieldName: &quot;%0 は不正なファイル名です&quot;,
+	fieldCannotBeChanged: &quot;領域 '%0' を変更できません&quot;});
+
+merge(config.messages.messageClose,{
+	text: &quot;確認&quot;,
+	tooltip: &quot;このメッセージを閉じます&quot;});
+
+/*
+config.messages.backstage = {
+	open: {text: &quot;backstage&quot;, icon: &quot;?&quot;, iconIE: &quot;←&quot;, tooltip: &quot;Open the backstage area to perform authoring and editing tasks&quot;},
+	close: {text: &quot;close&quot;, icon: &quot;?&quot;, iconIE: &quot;→&quot;, tooltip: &quot;Close the backstage area&quot;},
+	prompt: &quot;backstage: &quot;
+};
+
+config.messages.listView = {
+	tiddlerTooltip: &quot;Click for the full text of this tiddler&quot;,
+	previewUnavailable: &quot;(preview not available)&quot;
+};
+*/
+
+config.messages.dates.months = [&quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;, &quot;August&quot;, &quot;September&quot;, &quot;October&quot;, &quot;November&quot;,&quot;December&quot;];
+config.messages.dates.days = [&quot;Sunday&quot;, &quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;];
+config.messages.dates.shortMonths = [&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;, &quot;May&quot;, &quot;Jun&quot;, &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;, &quot;Oct&quot;, &quot;Nov&quot;, &quot;Dec&quot;];
+config.messages.dates.shortDays = [&quot;Sun&quot;, &quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;];
+// suffixes for dates, eg &quot;1st&quot;,&quot;2nd&quot;,&quot;3rd&quot;...&quot;30th&quot;,&quot;31st&quot;
+config.messages.dates.daySuffixes = [&quot;st&quot;,&quot;nd&quot;,&quot;rd&quot;,&quot;th&quot;,&quot;th&quot;,&quot;th&quot;,&quot;th&quot;,&quot;th&quot;,&quot;th&quot;,&quot;th&quot;,
+		&quot;th&quot;,&quot;th&quot;,&quot;th&quot;,&quot;th&quot;,&quot;th&quot;,&quot;th&quot;,&quot;th&quot;,&quot;th&quot;,&quot;th&quot;,&quot;th&quot;,
+		&quot;st&quot;,&quot;nd&quot;,&quot;rd&quot;,&quot;th&quot;,&quot;th&quot;,&quot;th&quot;,&quot;th&quot;,&quot;th&quot;,&quot;th&quot;,&quot;th&quot;,
+		&quot;st&quot;];
+config.messages.dates.am = &quot;am&quot;;
+config.messages.dates.pm = &quot;pm&quot;;
+
+merge(config.views.wikified.tag,{
+	labelNoTags: &quot;タグ無し&quot;,
+	labelTags: &quot;タグ: &quot;,
+	openTag: &quot;'%0'タグを開く&quot;,
+	tooltip: &quot;'%0'タグの付いたtiddlerを表示&quot;,
+	openAllText: &quot;すべて開く&quot;,
+	openAllTooltip: &quot;以下のtiddlerをすべて開く&quot;,
+	popupNone: &quot;'%0'タグの付いたtiddlerは他にありません&quot;});
+
+merge(config.views.wikified,{
+	defaultText: &quot;'%0'はまだ作成されていません。ダブルクリックで作成できます&quot;,
+	defaultModifier: &quot;(missing)&quot;,
+	shadowModifier: &quot;(built-in shadow tiddler)&quot;,
+	dateFormat: &quot;YYYY年MM月DD日&quot;,
+	createdPrompt: &quot;作成&quot;});
+
+merge(config.views.editor,{
+	tagPrompt: &quot;タグはスペース区切りで入力します。必要なら[[二重の 角カッコで 囲みます]]。既存の&quot;,
+	defaultText: &quot;'%0'の内容を入力してください&quot;});
+
+merge(config.views.editor.tagChooser,{
+	text: &quot;タグ&quot;,
+	tooltip: &quot;既存のタグを選択して追加します&quot;,
+	popupNone: &quot;タグが定義されていません&quot;,
+	tagTooltip: &quot;'%0'タグを追加&quot;});
+
+/*
+merge(config.messages,{
+	sizeTemplates:
+		[
+		{unit: 1024*1024*1024, template: &quot;%0\u00a0GB&quot;},
+		{unit: 1024*1024, template: &quot;%0\u00a0MB&quot;},
+		{unit: 1024, template: &quot;%0\u00a0KB&quot;},
+		{unit: 1, template: &quot;%0\u00a0B&quot;}
+		]});
+*/
+
+merge(config.macros.search,{
+	label: &quot;検索&quot;,
+	prompt: &quot;このTiddlyWiki内を検索します&quot;,
+	accessKey: &quot;F&quot;,
+	successMsg: &quot;%0件のtiddlerで%1が見つかりました&quot;,
+	failureMsg: &quot;%0は見つかりませんでした&quot;});
+
+merge(config.macros.tagging,{
+	label: &quot;タグ付け: &quot;,
+	labelNotTag: &quot;タグ付け無し&quot;,
+	tooltip: &quot;'%0'タグを付けたtiddler一覧&quot;});
+
+merge(config.macros.timeline,{
+	dateFormat: &quot;YYYY年MM月DD日&quot;});
+
+merge(config.macros.allTags,{
+	tooltip: &quot;'%0'タグの付いたtiddlerを表示&quot;,
+	noTags: &quot;タグの付いたtiddlerはありません&quot;});
+
+config.macros.list.all.prompt = &quot;アルファベット順のtiddler一覧&quot;;
+config.macros.list.missing.prompt = &quot;リンクされているが定義されていないtiddler一覧&quot;;
+config.macros.list.orphans.prompt = &quot;リンクされていないtiddler一覧&quot;;
+config.macros.list.shadowed.prompt = &quot;既定の隠しtiddler&quot;;
+// config.macros.list.touched.prompt = &quot;Tiddlers that have been modified locally&quot;;
+
+merge(config.macros.closeAll,{
+	label: &quot;すべて閉じる&quot;,
+	prompt: &quot;表示されているすべてのtiddler(編集中以外)を閉じます&quot;});
+
+merge(config.macros.permaview,{
+	label: &quot;現状URL&quot;,
+	prompt: &quot;表示されているすべてのtiddlerを取り出すURL(permaview)&quot;});
+
+merge(config.macros.saveChanges,{
+	label: &quot;保存&quot;,
+	prompt: &quot;すべてのtiddlerを保存します&quot;,
+	accessKey: &quot;S&quot;});
+
+merge(config.macros.newTiddler,{
+	label: &quot;新規作成&quot;,
+	prompt: &quot;新しいtiddlerを作成します&quot;,
+	title: &quot;New Tiddler&quot;,
+	accessKey: &quot;N&quot;});
+
+merge(config.macros.newJournal,{
+	label: &quot;新規日報&quot;,
+	prompt: &quot;日時がタイトルの新しいtiddlerを作成します&quot;,
+	accessKey: &quot;J&quot;});
+
+/*
+merge(config.macros.options,{
+	wizardTitle: &quot;Tweak advanced options&quot;,
+	step1Title: &quot;These options are saved in cookies in your browser&quot;,
+	step1Html: &quot;&lt;input type='hidden' name='markList'&gt;&lt;/input&gt;&lt;br&gt;&lt;input type='checkbox' checked='false' name='chkHidden'&gt;Show hidden options&lt;/input&gt;&quot;,
+	unknownDescription: &quot;//(hidden)//&quot;,
+	listViewTemplate: {
+		columns: [
+			{name: 'Option', field: 'option', title: &quot;Option&quot;, type: 'String'},
+			{name: 'Description', field: 'description', title: &quot;Description&quot;, type: 'WikiText'},
+			{name: 'Name', field: 'name', title: &quot;Name&quot;, type: 'String'}
+			],
+		rowClasses: [
+			{className: 'lowlight', field: 'lowlight'} 
+			]}
+	});
+*/
+
+merge(config.macros.plugins,{
+	skippedText: &quot;(このプラグインは起動後に追加されたので実行していません)&quot;,
+	noPluginText: &quot;プラグインがインストールされていません&quot;,
+	confirmDeleteText: &quot;これらのプラグインを削除してよろしいですか:\n\n%0&quot;,
+	listViewTemplate : {
+		columns: [
+			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
+			{name: 'Title', field: 'title', tiddlerLink: 'title', title: &quot;Title&quot;, type: 'TiddlerLink'},
+			{name: 'Forced', field: 'forced', title: &quot;Forced&quot;, tag: 'systemConfigForce', type: 'TagCheckbox'},
+			{name: 'Disabled', field: 'disabled', title: &quot;Disabled&quot;, tag: 'systemConfigDisable', type: 'TagCheckbox'},
+			{name: 'Executed', field: 'executed', title: &quot;Loaded&quot;, type: 'Boolean', trueText: &quot;Yes&quot;, falseText: &quot;No&quot;},
+			{name: 'Error', field: 'error', title: &quot;Status&quot;, type: 'Boolean', trueText: &quot;Error&quot;, falseText: &quot;OK&quot;},
+			{name: 'Log', field: 'log', title: &quot;Log&quot;, type: 'StringList'}
+			],
+		rowClasses: [
+			{className: 'error', field: 'error'},
+			{className: 'warning', field: 'warning'}
+			],
+		actions: [
+			{caption: &quot;次の動作...&quot;, name: ''},
+			{caption: &quot;systemConfigタグを外す&quot;, name: 'remove'},
+			{caption: &quot;これらのtiddlerを削除する&quot;, name: 'delete'}
+			]}
+	});
+
+merge(config.macros.toolbar,{
+	moreLabel: &quot;more&quot;,
+	morePrompt: &quot;Reveal further commands&quot;
+	});
+
+merge(config.macros.refreshDisplay,{
+	label: &quot;再表示&quot;,
+	prompt: &quot;TiddlyWikiを再表示します&quot;
+	});
+
+merge(config.macros.importTiddlers,{
+	readOnlyWarning: &quot;読み込み専用のTiddlyWikiには取り込めません。TiddlyWikiファイルをfile://のURLで開いてみてください&quot;,
+	defaultPath: &quot;http://www.tiddlywiki.com/index.html&quot;,
+	fetchLabel: &quot;取得&quot;,
+	fetchPrompt: &quot;TiddlyWikiファイルを取得します&quot;,
+	fetchError: &quot;TiddlyWikiファイルの取得に問題が発生しました&quot;,
+	confirmOverwriteText: &quot;これらのtiddlerを上書きしてよろしいですか:\n\n%0&quot;,
+	wizardTitle: &quot;他のTiddlyWikiファイルからtiddlerを取り込む&quot;,
+	step1: &quot;手順1: TiddlyWikiファイルの場所を指定&quot;,
+	step1prompt: &quot;URLまたはパス名を入力: &quot;,
+	step1promptFile: &quot;...またはファイルを選択: &quot;,
+	step1promptFeeds: &quot;...または既定のフィードを選択: &quot;,
+	step1feedPrompt: &quot;選択...&quot;,
+	step2: &quot;手順2: TiddlyWikiファイル読み込み&quot;,
+	step2Text: &quot;%0 からファイルを読み込むまでお待ちください&quot;,
+	step3: &quot;手順3: 取り込むtiddlerの選択&quot;,
+	step4: &quot;%0個のtiddlerを取り込みました&quot;,
+	step5: &quot;完了&quot;,
+	listViewTemplate: {
+		columns: [
+			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
+			{name: 'Title', field: 'title', title: &quot;Title&quot;, type: 'String'},
+			{name: 'Snippet', field: 'text', title: &quot;Snippet&quot;, type: 'String'},
+			{name: 'Tags', field: 'tags', title: &quot;Tags&quot;, type: 'Tags'}
+			],
+		rowClasses: [
+			],
+		actions: [
+			{caption: &quot;次の動作...&quot;, name: ''},
+			{caption: &quot;これらのtiddlerを取り込む&quot;, name: 'import'}
+			]}
+	});
+
+/*
+merge(config.macros.sync,{
+	listViewTemplate: {
+		columns: [
+			{name: 'Selected', field: 'selected', rowName: 'title', type: 'Selector'},
+			{name: 'Tiddler', field: 'tiddler', title: &quot;Tiddler&quot;, type: 'Tiddler'},
+			{name: 'Server Type', field: 'serverType', title: &quot;Server type&quot;, type: 'String'},
+			{name: 'Server Host', field: 'serverHost', title: &quot;Server host&quot;, type: 'String'},
+			{name: 'Server Workspace', field: 'serverWorkspace', title: &quot;Server workspace&quot;, type: 'String'},
+			{name: 'Status', field: 'status', title: &quot;Synchronisation status&quot;, type: 'String'},
+			{name: 'Server URL', field: 'serverUrl', title: &quot;Server URL&quot;, text: &quot;View&quot;, type: 'Link'}
+			],
+		rowClasses: [
+			],
+		buttons: [
+			{caption: &quot;Sync these tiddlers&quot;, name: 'sync'}
+			]},
+	wizardTitle: &quot;Synchronize with external servers and files&quot;,
+	step1Title: &quot;Choose the tiddlers you want to synchronize&quot;,
+	step1Html: &quot;&lt;input type='hidden' name='markList'&gt;&lt;/input&gt;&quot;, // DO NOT TRANSLATE
+	syncLabel: &quot;sync&quot;,
+	syncPrompt: &quot;Sync these tiddlers&quot;,
+	hasChanged: &quot;Changed while unplugged&quot;,
+	hasNotChanged: &quot;Unchanged while unplugged&quot;,
+	syncStatusList: {
+		none: {text: &quot;...&quot;, color: &quot;none&quot;},
+		changedServer: {text: &quot;Changed on server&quot;, color: &quot;#80ff80&quot;},
+		changedLocally: {text: &quot;Changed while unplugged&quot;, color: &quot;#80ff80&quot;},
+		changedBoth: {text: &quot;Changed while unplugged and on server&quot;, color: &quot;#ff8080&quot;},
+		notFound: {text: &quot;Not found on server&quot;, color: &quot;#ffff80&quot;},
+		putToServer: {text: &quot;Saved update on server&quot;, color: &quot;#ff80ff&quot;},
+		gotFromServer: {text: &quot;Retrieved update from server&quot;, color: &quot;#80ffff&quot;}
+		}
+	});
+
+merge(config.macros.viewDetails,{
+	label: &quot;...&quot;,
+	prompt: &quot;Show additional information about this tiddler&quot;,
+	hideLabel: &quot;(hide details)&quot;,
+	hidePrompt: &quot;Hide this panel of additional information&quot;,
+	emptyDetailsText: &quot;There are no extended fields for this tiddler&quot;,
+	listViewTemplate: {
+		columns: [
+			{name: 'Field', field: 'field', title: &quot;Field&quot;, type: 'String'},
+			{name: 'Value', field: 'value', title: &quot;Value&quot;, type: 'String'}
+			],
+		rowClasses: [
+			],
+		buttons: [
+			]}
+	});
+*/
+
+merge(config.commands.closeTiddler,{
+	text: &quot;閉じる&quot;,
+	tooltip: &quot;このtiddlerを閉じます&quot;});
+
+merge(config.commands.closeOthers,{
+	text: &quot;他を閉じる&quot;,
+	tooltip: &quot;他のtiddlerを全て閉じます&quot;});
+
+merge(config.commands.editTiddler,{
+	text: &quot;編集&quot;,
+	tooltip: &quot;このtiddlerを編集します&quot;,
+	readOnlyText: &quot;閲覧&quot;,
+	readOnlyTooltip: &quot;このtiddlerの内容を閲覧します&quot;});
+
+merge(config.commands.saveTiddler,{
+	text: &quot;確定&quot;,
+	tooltip: &quot;編集内容を確定します&quot;});
+
+merge(config.commands.cancelTiddler,{
+	text: &quot;編集中止&quot;,
+	tooltip: &quot;編集内容を破棄します&quot;,
+	warning: &quot;'%0'の変更を破棄してよろしいですか?&quot;,
+	readOnlyText: &quot;終了&quot;,
+	readOnlyTooltip: &quot;通常のtiddler表示にします&quot;});
+
+merge(config.commands.deleteTiddler,{
+	text: &quot;削除&quot;,
+	tooltip: &quot;このtiddlerを削除します&quot;,
+	warning: &quot;'%0'を削除してよろしいですか?&quot;});
+
+merge(config.commands.permalink,{
+	text: &quot;URL&quot;,
+	tooltip: &quot;このtiddlerのURL(permalink)&quot;});
+
+merge(config.commands.references,{
+	text: &quot;参照一覧&quot;,
+	tooltip: &quot;このtiddlerのリンク元一覧を表示します&quot;,
+	popupNone: &quot;参照されていません&quot;});
+
+merge(config.commands.jump,{
+	text: &quot;移動&quot;,
+	tooltip: &quot;開いている他のtiddlerに移動&quot;});
+
+/*
+merge(config.commands.syncing,{
+	text: &quot;syncing&quot;,
+	tooltip: &quot;Control synchronisation of this tiddler with a server or external file&quot;,
+	currentlySyncing: &quot;&lt;div&gt;Currently syncing via &lt;span class='popupHighlight'&gt;'%0'&lt;/span&gt; to:&lt;/div&gt;&lt;div&gt;host: &lt;span class='popupHighlight'&gt;%1&lt;/span&gt;&lt;/div&gt;&lt;div&gt;workspace: &lt;span class='popupHighlight'&gt;%2&lt;/span&gt;&lt;/div&gt;&quot;,
+	notCurrentlySyncing: &quot;Not currently syncing&quot;,
+	captionUnSync: &quot;Stop synchronising this tiddler&quot;,
+	chooseServer: &quot;Synchronise this tiddler with another server:&quot;,
+	currServerMarker: &quot;● &quot;,
+	notCurrServerMarker: &quot;  &quot;});
+*/
+
+merge(config.shadowTiddlers,{
+	DefaultTiddlers: &quot;[[TranslatedGettingStarted]]&quot;,
+	MainMenu: &quot;[[TranslatedGettingStarted]]&quot;,
+	SiteTitle: &quot;My TiddlyWiki&quot;,
+	SiteSubtitle: &quot;a reusable non-linear personal web notebook&quot;,
+	SiteUrl: &quot;http://www.tiddlywiki.com/&quot;,
+	SideBarOptions: '&lt;&lt;search&gt;&gt;&lt;&lt;closeAll&gt;&gt;&lt;&lt;permaview&gt;&gt;&lt;&lt;newTiddler&gt;&gt;&lt;&lt;newJournal &quot;YYYY年MM月DD日&quot;&gt;&gt;&lt;&lt;saveChanges&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel OptionsPanel &quot;設定 ≫&quot; &quot;TiddlyWikiの設定を変更します&quot;&gt;&gt;',
+	SideBarTabs: '&lt;&lt;tabs txtMainTab &quot;更新順&quot; &quot;更新順に表示する&quot; TabTimeline &quot;全部&quot; &quot;すべてのtiddler&quot; TabAll &quot;タグ&quot; &quot;タグ一覧&quot; TabTags &quot;詳細&quot; &quot;詳細&quot; TabMore&gt;&gt;',
+	TabTimeline: '&lt;&lt;timeline&gt;&gt;',
+	TabAll: '&lt;&lt;list all&gt;&gt;',
+	TabTags: '&lt;&lt;allTags excludeLists&gt;&gt;',
+	TabMore: '&lt;&lt;tabs txtMoreTab &quot;定義なし&quot; &quot;定義されていないtiddler&quot; TabMoreMissing &quot;リンク無し&quot; &quot;リンクされていないtiddler&quot; TabMoreOrphans &quot;隠し&quot; &quot;隠しtiddler&quot; TabMoreShadowed&gt;&gt;',
+	TabMoreMissing: '&lt;&lt;list missing&gt;&gt;',
+	TabMoreOrphans: '&lt;&lt;list orphans&gt;&gt;',
+	TabMoreShadowed: '&lt;&lt;list shadowed&gt;&gt;',
+	PluginManager: '&lt;&lt;plugins&gt;&gt;',
+	ImportTiddlers: '&lt;&lt;importTiddlers&gt;&gt;'});
+
+/*}}}*/</pre>
 </div>
 <div title="JpokerPlugin" modifier="loic" modified="200804090031" created="200804051018" tags="systemConfig">
 <pre>/***
@@ -2913,7 +2945,7 @@ window.saveChanges = function(onlyIfDirty,tiddlers)
 // %/</pre>
 </div>
 <div title="lang" modifier="loic" modified="200804090101" created="200804041627" changecount="2">
-<pre>[[en|index.html]] | fr | [[jp|index-jp.html]]&lt;&lt;tiddler SiteStats&gt;&gt;</pre>
+<pre>[[en|index.html]] | [[fr|index-fr.html]] | jp&lt;&lt;tiddler SiteStats&gt;&gt;</pre>
 </div>
 </div>
 <!--POST-STOREAREA-->
