@@ -581,15 +581,11 @@ test("jpoker.connection:queueIncoming", function(){
         self.queues = {};
     });
 
-test("closure", function(){
-        var f = function() { this.a = []; };
-        
-    });
 //
 // jpoker.table
 //
-test("jpoker.table", function(){
-        expect(5);
+test("jpoker.table.init", function(){
+        expect(4);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -601,7 +597,7 @@ test("jpoker.table", function(){
             outgoing: '[{"type": "PacketPokerTable", "id": ' + game_id + '}]',
 
             handle: function(packet) {
-                equals(packet.type, "PacketPokerTableJoin");
+                equals(packet, '{"type":"PacketPokerTableJoin","game_id":' + game_id + '}');
             }
         };
 
@@ -619,6 +615,22 @@ test("jpoker.table", function(){
         };
         server.registerUpdate(handler);
         server.tableJoin(game_id);
+    });
+
+
+test("jpoker.table.uninit", function(){
+        expect(1);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var game_id = 100;
+        var table = new jpoker.table(server, { type: "PacketPokerTableJoin",
+                                               game_id: game_id });
+        server.tables[game_id] = table;
+        var handler = function() {
+            equals(game_id in server.tables, false, 'table removed from server');
+        };
+        table.registerDestroy(handler);
+        table.handler(server, game_id, { type: 'PacketPokerTableDestroy', game_id: game_id });
     });
 
 //

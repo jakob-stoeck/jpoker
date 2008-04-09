@@ -14,7 +14,7 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <http:#www.gnu.org/licenses/>.
 #
-all: i18n cook tests
+all: i18n cook check
 
 i18n:
 	xgettext --extract-all \
@@ -29,9 +29,6 @@ i18n:
 	msgfmt --check --output-file fr/LC_MESSAGES/fr.mo jpoker/l10n/jpoker-fr.po
 	: now edit with kbabel jpoker/l10n/jpoker-fr.po
 	python mo2json.py fr > jpoker/l10n/jpoker-fr.json
-
-tests:
-	-rm -fr tests ; jscoverage jpoker tests
 
 cook:
 	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp
@@ -53,7 +50,8 @@ clean:
 	rm -f jpoker/index.200* jpoker/index-fr.200* jpoker/poker.200* 
 
 check:
-	cd jpoker ; x-www-browser test-jpoker.html # replace with jaxer when http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=474050 closed
+	-rm -fr tests ; jscoverage jpoker tests
+	-cd tests ; x-www-browser jscoverage.html?test-jpoker.html # replace with jaxer when http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=474050 closed
 
 copyright:
 	cp COPYRIGHT/copyright.DEBIAN debian/copyright

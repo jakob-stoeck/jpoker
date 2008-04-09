@@ -784,6 +784,7 @@
     //
     jpoker.table = function(server, packet) {
         $.extend(this, jpoker.table.defaults, packet);
+        this.init();
         server.registerHandler(packet.id, this.handler);
     };
 
@@ -792,6 +793,7 @@
 
     jpoker.table.prototype = $.extend({}, jpoker.watchable.prototype, {
             init: function() {
+                jpoker.watchable.prototype.init.call(this);
                 this.seats = [ null, null, null, null, null, 
                                null, null, null, null, null ];
                 this.board = [ null, null, null, null, null ];
@@ -800,10 +802,13 @@
             },
 
             uninit: function() {
+                jpoker.watchable.prototype.uninit.call(this);
                 $this = this;
                 $.each([ 'seats', 'board', 'pots' ], function(index, value) {
                         $.each($this[value], function(index, value) {
-                                value.uninit();
+                                if(value) {
+                                    value.uninit();
+                                }
                             });
                     });
             },
@@ -817,6 +822,7 @@
 
                 case 'PacketPokerTableDestroy':
                 delete server.tables[packet.game_id];
+                this.uninit();
                 break;
 
                 }
