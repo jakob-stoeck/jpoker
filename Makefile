@@ -14,9 +14,13 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <http:#www.gnu.org/licenses/>.
 #
+
 all: tests
 
-messages.pot:
+LANG = fr jp
+LANG_LIST = $(shell echo ${LANG}|sed s/\ /,/)
+
+messages.pot: jpoker/js/jquery.jpoker.js
 	xgettext --extract-all \
 		 --lang java \
 		 --from-code=UTF-8 \
@@ -24,30 +28,18 @@ messages.pot:
 		 --output=messages.pot \
 		 --sort-output \
 		 jpoker/js/jquery.jpoker.js
+jpoker/l10n/jpoker-%.po: messages.pot
+	msgmerge -s -U $@ messages.pot
+	touch $@
+jpoker/l10n/%.mo: jpoker/l10n/jpoker-%.po
+	msgfmt --check --output-file $@ $<
+	mkdir -p $*/LC_MESSAGES
+	cp $@ $*/LC_MESSAGES
+jpoker/l10n/jpoker-%.json: jpoker/l10n/%.mo
+	: now edit with kbabel $<
+	python mo2json.py $* > $@
 
-jpoker-fr.po:
-	msgmerge -s -U jpoker/l10n/jpoker-fr.po messages.pot
-
-jpoker-jp.po:
-	msgmerge -s -U jpoker/l10n/jpoker-jp.po messages.pot
-
-fr.mo:
-	mkdir -p fr/LC_MESSAGES
-	msgfmt --check --output-file fr/LC_MESSAGES/fr.mo jpoker/l10n/jpoker-fr.po
-
-jp.mo:
-	mkdir -p jp/LC_MESSAGES
-	msgfmt --check --output-file jp/LC_MESSAGES/jp.mo jpoker/l10n/jpoker-jp.po
-
-jpoker-fr.json:
-	: now edit with kbabel jpoker/l10n/jpoker-fr.po
-	python mo2json.py fr > jpoker/l10n/jpoker-fr.json
-
-jpoker-jp.json:
-	: now edit with kbabel jpoker/l10n/jpoker-jp.po
-	python mo2json.py jp > jpoker/l10n/jpoker-jp.json
-
-i18n:   messages.pot jpoker-fr.po jpoker-jp.po fr.mo jp.mo jpoker-fr.json jpoker-jp.json
+i18n: jpoker/l10n/jpoker-fr.json jpoker/l10n/jpoker-jp.json
 
 tests:
 	-rm -fr tests ; jscoverage jpoker tests
@@ -73,6 +65,8 @@ clean:
 	rm -fr tests
 	rm -fr fr
 	rm -f messages.pot empty.html
+#	rm -fr jpoker/l10n/jpoker-{${LANG_LIST}}.json
+	rm -fr {${LANG_LIST}}/LC_MESSAGES/
 	rm -fr gems
 
 check:
