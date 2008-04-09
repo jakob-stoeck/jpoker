@@ -802,9 +802,11 @@
     jpoker.table.prototype = $.extend({}, jpoker.watchable.prototype, {
             init: function() {
                 jpoker.watchable.prototype.init.call(this);
-                this.seats = new Array(10);
-                this.board = new Array(5);
-                this.pots = new Array(9);
+                this.seats = [ null, null, null, null, null, 
+                               null, null, null, null, null ];
+                this.board = [ null, null, null, null, null ];
+                this.pots = [ null, null, null, null, null,
+                              null, null, null, null ];
             },
 
             uninit: function() {
@@ -1166,27 +1168,86 @@
         }, jpoker.defaults);
 
     jpoker.plugins.table.create = function(element, id, server, table_packet) {
-        var t = this.templates;
-	var html = t.players.supplant({ id: id,
-                                        table: t.table.supplant({ id: id })
-            });
-        element.html(html);
+        element.html(this.templates.room.supplant({ id: id }));
         var table = server.tables[table_packet.id];
         table.registerUpdate(this.update, id);
         table.registerDestroy(this.destroy, id);
     };
 
     jpoker.plugins.table.update = function(table, packet, id) {
+        var element = document.getElementById(id);
+        if(element) {
+            switch(packet.type) {
+
+            case 'PacketPokerPlayerArrive':
+                $("#P" + ( packet.seat + 1 ) + id, element).show();
+                break;
+
+            case 'PacketPokerPlayerLeave':
+                $("#P" + ( packet.seat + 1 ) + id, element).hide();
+                break;
+
+            }
+            return true;
+        } else {
+            return false;
+        }
     };
 
     jpoker.plugins.table.destroy = function(id) {
-        
+        var element = document.getElementById(id);
+        if(element) {
+            $(element).remove();
+        }
+        return false;
     };
 
     jpoker.plugins.table.templates = {
-	table: '<div id=\'table{id}\'>\n<table border=1 width=\'100%\'>\n<tr>\n<td colspan=\'11\'>&nbsp</td>\n</tr>\n<tr>\n<td colspan=\'12\' class=\'board\'>CsCsCsCsCs</td>\n</tr>\n<tr>\n<td></td>\n<td id=\'p0{id}\'>P0</td>\n<td id=\'p1{id}\'>P1</td>\n<td id=\'p2{id}\'>P2</td>\n<td id=\'p3{id}\'>P3</td>\n<td id=\'p4{id}\'>P4</td>\n<td id=\'p5{id}\'>P5</td>\n<td id=\'p6{id}\'>P6</td>\n<td id=\'p7{id}\'>P7</td>\n<td id=\'p8{id}\'>P8</td>\n<td id=\'p9{id}\'>P9</td>\n<td></td>\n</tr>\n<tr>\n<td colspan=\'12\'>&nbsp</td>\n</tr>\n</table>\n</div>',
-        players: '<div id=\'players{id}\'>\n<table border=\'1\'>\n<tr>\n<td></td>\n<td id=\'P9{id}\' class=\'playerup seat\'>P09</td>\n<td id=\'P10{id}\' class=\'playerup seat\'>P10</td>\n<td id=\'P1{id}\' class=\'playerup seat\'>P01</td>\n<td id=\'P2{id}\' class=\'playerup seat\'>P02</td>\n<td></td>\n</tr>\n<tr>\n<td id=\'P8{id}\' class=\'playerleft seat\'>P08</td>\n<td colspan=\'4\' class=\'table\'>{table}</td>\n<td id=\'P3{id}\' class=\'playerright seat\'>P03</td>\n</tr>\n<tr>\n<td></td>\n<td id=\'P7{id}\' class=\'playerdown seat\'>P07</td>\n<td id=\'P6{id}\' class=\'playerdown seat\'>P06</td>\n<td id=\'P5{id}\' class=\'playerdown seat\'>P05</td>\n<td id=\'P4{id}\' class=\'playerdown seat\'>P04</td>\n<td></td>\n</tr>\n</table>\n</div>\n',
-        player: ''
+        room: (function(){
+                var player_templates = {
+                    hole: (function(){
+                            var html = [];
+                            for(var i = 0; i < 5; i++) {
+                                html.push('<div id=\'P{seat}H{n}{id}\' class=\'hole\'>HH</div>'.supplant({ n: i }));
+                            }
+                            return html.join('');
+                        })(),
+                    visible: (function(){
+                            var html = [];
+                            for(var i = 0; i < 7; i++) {
+                                html.push('<div id=\'P{seat}V{n}{id}\' class=\'visible\'>VV</div>'.supplant({ n: i }));
+                            }
+                            return html.join('');
+                        })(),
+                    money: '<div id=\'P{seat}M{id}\' class=\'money\'>M</div>',
+                    bet: '<div id=\'P{seat}B{id}\' class=\'bet\'>B</div>',
+                    dealer: '<div id=\'P{seat}D{id}\' class=\'dealer\'>D</div>',
+                    avatar: '<div id=\'P{seat}A{id}\' class=\'dealer\'>Axs</div>'
+                };
+
+                var seat_templates = {
+                    up: '<table border=1>\n<tr>\n<td colspan=\'3\' class=\'hole\'>{hole}</td>\n</tr>\n<tr>\n<td colspan=\'3\'>{avatar}</td>\n</tr>\n<tr>\n<td colspan=\'3\' class=\'visible\'>{visible}</td>\n</tr>\n<tr>\n<td>{bet}</td>\n<td>{money}</td>\n<td>{dealer}</td>\n</tr>\n</table>',
+                    down: '<table border=1>\n<tr>\n<td>{bet}</td>\n<td>{money}</td>\n<td>{dealer}</td>\n</tr>\n<tr>\n<td colspan=\'3\' class=\'visible\'>{visible}</td>\n</tr>\n<tr>\n<td colspan=\'3\'>{avatar}</td>\n</tr>\n<tr>\n<td colspan=\'3\' class=\'hole\'>{hole}</td>\n</tr>\n</table>',
+                    left: '<table border=1 height=\'100%\'>\n<tr>\n<td class=\'hole\'>{hole}</td>\n<td>{dealer}</td>\n</tr>\n<tr>\n<td>{avatar}</td>\n<td>{money}</td>\n</tr>\n<tr>\n<td class=\'visible\'>{visible}</td>\n<td>{bet}</td>\n</tr>\n</table>',
+                    right: '<table border=1 height=\'100%\'>\n<tr>\n<td>{bet}</td>\n<td class=\'hole\'>{hole}</td>\n</tr>\n<tr>\n<td>{money}</td>\n<td>{avatar}</td>\n</tr>\n<tr>\n<td>{dealer}</td>\n<td class=\'visible\'>{visible}</td>\n</tr>\n</table>'
+                };
+
+                var players = {};
+                var seats = { 
+                              9:   'up', 10:   'up', 1:   'up', 2:   'up',
+                    8: 'left',                                            3: 'right', 
+                              7: 'down', 6: 'down',  5: 'down', 4: 'down'
+                };
+                for(var seat = 1; seat <= 10; seat++) {
+                    players['P' + seat] = seat_templates[seats[seat]].supplant(player_templates).supplant({ seat: seat });
+                }
+
+                var table = '<div id=\'table{id}\'>\n<table border=1 width=\'100%\'>\n<tr>\n<td colspan=\'11\'>&nbsp</td>\n</tr>\n<tr>\n<td colspan=\'12\' class=\'board\'>CsCsCsCsCs</td>\n</tr>\n<tr>\n<td></td>\n<td id=\'p0{id}\'>P0</td>\n<td id=\'p1{id}\'>P1</td>\n<td id=\'p2{id}\'>P2</td>\n<td id=\'p3{id}\'>P3</td>\n<td id=\'p4{id}\'>P4</td>\n<td id=\'p5{id}\'>P5</td>\n<td id=\'p6{id}\'>P6</td>\n<td id=\'p7{id}\'>P7</td>\n<td id=\'p8{id}\'>P8</td>\n<td id=\'p9{id}\'>P9</td>\n<td></td>\n</tr>\n<tr>\n<td colspan=\'12\'>&nbsp</td>\n</tr>\n</table>\n</div>';
+
+                var room = '<div id=\'players{id}\'>\n<table border=\'1\'>\n<tr>\n<td></td>\n<td id=\'P9{id}\' class=\'playerup seat\'>{P9}</td>\n<td id=\'P10{id}\' class=\'playerup seat\'>{P10}</td>\n<td id=\'P1{id}\' class=\'playerup seat\'>{P1}</td>\n<td id=\'P2{id}\' class=\'playerup seat\'>{P2}</td>\n<td></td>\n</tr>\n<tr>\n<td id=\'P8{id}\' class=\'playerleft seat\'>{P8}</td>\n<td colspan=\'4\' class=\'table\'>{table}</td>\n<td id=\'P3{id}\' class=\'playerright seat\'>{P3}</td>\n</tr>\n<tr>\n<td></td>\n<td id=\'P7{id}\' class=\'playerdown seat\'>{P7}</td>\n<td id=\'P6{id}\' class=\'playerdown seat\'>{P6}</td>\n<td id=\'P5{id}\' class=\'playerdown seat\'>{P5}</td>\n<td id=\'P4{id}\' class=\'playerdown seat\'>{P4}</td>\n<td></td>\n</tr>\n</table>\n</div>\n'.supplant(players);
+
+                return room.supplant({ table: table });
+        })()
     };
 
 })(jQuery);

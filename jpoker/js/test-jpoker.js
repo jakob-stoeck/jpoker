@@ -815,7 +815,7 @@ test("jpoker.plugins.login", function(){
 // table
 //
 test("jpoker.plugins.table", function(){
-        expect(4);
+        expect(13);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -841,7 +841,9 @@ test("jpoker.plugins.table", function(){
             if(packet.type == 'PacketPokerTable') {
                 content = $("#" + id).text();
                 equals(content.indexOf("CsCsCs") >= 0, true, "board");
-                equals($("#P1" + id).text(), "P01");
+                for(var seat = 1; seat <= 10; seat++) {
+                    equals($("#P" + seat + "D" + id).size(), 1, "P" + seat);
+                }
                 start_and_cleanup();
                 return false;
             } else {
