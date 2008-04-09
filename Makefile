@@ -51,13 +51,21 @@ gems/bin/tiddlywiki_cp:
 	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp
 
 empty.html:
-	[ -f empty.html ] || wget http://tiddlywiki.com/empty.html
+	wget http://tiddlywiki.com/empty.html
 
-jpoker/%.html: gems/bin/tiddlywiki_cp empty.html jpoker/js/*
+jpoker/index-%.html: gems/bin/tiddlywiki_cp empty.html
+	cp empty.html $@
+	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-$* jpoker/index jpoker/markup $@
+
+jpoker/index.html:  gems/bin/tiddlywiki_cp empty.html
 	cp empty.html $@
 	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-en jpoker/index jpoker/markup $@
 
-cook:	jpoker/index.html jpoker/poker.html ${LANG_TW}
+jpoker/poker.html:  gems/bin/tiddlywiki_cp empty.html
+	cp empty.html $@
+	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/poker jpoker/markup $@
+
+cook:	jpoker/poker.html jpoker/index.html ${LANG_TW}
 
 # mimic when a new lang shows
 newlang:
