@@ -14,6 +14,18 @@
 // config.jpoker = { restURL : 'http://jspoker.pokersource.info/REST' };
 config.jpoker = { restURL : '/REST' };
 
+jpoker.server.defaults.tableClick = function(server, table) {
+    var title = server.url + " table " + table.id;
+    config.shadowTiddlers[title] = "<<jpokerTable '" + server.url + "' " + table.id + ">>";
+    story.displayTiddler(null, title, 1);
+};
+
+config.macros.jpokerTable = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        $(place).jpoker('table', params[0], params[1]);
+    }
+};
+
 config.macros.jpokerLogin = {
     handler: function(place, macroName, params, wikifier, paramString, tiddler) {
         $(place).jpoker('login', config.jpoker.restURL);

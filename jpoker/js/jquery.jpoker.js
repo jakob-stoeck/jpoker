@@ -1117,4 +1117,57 @@
 	logout: '<div id=\'logout\'>{logout}<div>'
     };
 
+    //
+    // table
+    //
+    jpoker.plugins.table = function(url, table, options) {
+
+        var opts = $.extend({}, jpoker.plugins.table.defaults, options);
+        var server = jpoker.url2server({ url: url });
+
+        return this.each(function() {
+                var $this = $(this);
+
+                var id = jpoker.uid();
+
+                $this.append('<span class=\'jpokerTable\' id=\'' + id + '\'>' + _("connecting to table {table}").supplant({ table: table.id }) + '</span>');
+                
+                server.tableJoin(table.id);
+
+                var updated = function(server) {
+                    var element = document.getElementById(id);
+                    if(element) {
+                        if(table.id in server.tables) {
+                            jpoker.plugins.table.create(element, id, server, table);
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    } else {
+                        return false;
+                    }
+                };
+
+                server.registerUpdate(updated);
+
+                return this;
+            });
+    };
+
+    jpoker.plugins.table.defaults = $.extend({
+        }, jpoker.defaults);
+
+    jpoker.plugins.table.create = function(element, id, server, table) {
+        var t = this.templates;
+	var html = t.players.supplant({ id: id,
+                                        table: t.table.supplant({ id: id })
+            });
+        $(element).html(html);
+    };
+
+    jpoker.plugins.table.templates = {
+	table: '<div id=\'table{id}\'>\n<table border=1 width=\'100%\'>\n<tr>\n<td colspan=\'11\'>&nbsp</td>\n</tr>\n<tr>\n<td colspan=\'12\' class=\'board\'>CsCsCsCsCs</td>\n</tr>\n<tr>\n<td></td>\n<td id=\'p0{id}\'>P0</td>\n<td id=\'p1{id}\'>P1</td>\n<td id=\'p2{id}\'>P2</td>\n<td id=\'p3{id}\'>P3</td>\n<td id=\'p4{id}\'>P4</td>\n<td id=\'p5{id}\'>P5</td>\n<td id=\'p6{id}\'>P6</td>\n<td id=\'p7{id}\'>P7</td>\n<td id=\'p8{id}\'>P8</td>\n<td id=\'p9{id}\'>P9</td>\n<td></td>\n</tr>\n<tr>\n<td colspan=\'12\'>&nbsp</td>\n</tr>\n</table>\n</div>',
+        players: '<div id=\'players{id}\'>\n<table border=\'1\'>\n<tr>\n<td></td>\n<td id=\'P09{id}\' class=\'playerup seat\'>P09</td>\n<td id=\'P10{id}\' class=\'playerup seat\'>P10</td>\n<td id=\'P01{id}\' class=\'playerup seat\'>P01</td>\n<td id=\'P02{id}\' class=\'playerup seat\'>P02</td>\n<td></td>\n</tr>\n<tr>\n<td id=\'P08{id}\' class=\'playerleft seat\'>P08</td>\n<td colspan=\'4\' class=\'table\'>{table}</td>\n<td id=\'P03{id}\' class=\'playerright seat\'>P03</td>\n</tr>\n<tr>\n<td></td>\n<td id=\'P07{id}\' class=\'playerdown seat\'>P07</td>\n<td id=\'P06{id}\' class=\'playerdown seat\'>P06</td>\n<td id=\'P05{id}\' class=\'playerdown seat\'>P05</td>\n<td id=\'P04{id}\' class=\'playerdown seat\'>P04</td>\n<td></td>\n</tr>\n</table>\n</div>\n'
+    };
+
 })(jQuery);

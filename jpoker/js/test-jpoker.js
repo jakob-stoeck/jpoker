@@ -638,7 +638,7 @@ test("jpoker.table.uninit", function(){
 //
 var TABLE_LIST_PACKET = {"players": 4, "type": "PacketPokerTableList", "packets": [{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 1535, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 4, "waiting": 0, "skin": "default", "id": 100, "type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Two", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 101,"type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Three", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-pot-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 102,"type": "PacketPokerTable", "player_timeout": 60}]};
 
-test("jpoker.tableList", function(){
+test("jpoker.plugins.tableList", function(){
         expect(7);
         stop();
 
@@ -694,7 +694,7 @@ test("jpoker.tableList", function(){
 //
 // serverStatus
 //
-test("jpoker.serverStatus", function(){
+test("jpoker.plugins.serverStatus", function(){
 	expect(6);
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -740,7 +740,7 @@ $.fn.triggerKeypress = function(keyCode) {
     return this.trigger("keypress", [$.event.fix({event:"keypress", keyCode: keyCode, target: this[0]})]);
 };
 
-test("jpoker.login", function(){
+test("jpoker.plugins.login", function(){
         expect(8);
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -782,8 +782,53 @@ test("jpoker.login", function(){
         $("#" + id).remove();
     });
 
+//
+// table
+//
+test("jpoker.plugins.table", function(){
+        expect(4);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+
+        var game_id = 100;
+
+        var PokerServer = function() {};
+
+        PokerServer.prototype = {
+            outgoing: '[{"type": "PacketPokerTable", "id": ' + game_id + '}]',
+
+            handle: function(packet) {
+                equals(packet, '{"type":"PacketPokerTableJoin","game_id":' + game_id + '}');
+            }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        place.jpoker('table', 'url', { id: game_id });
+        var handler = function(server, packet) {
+            if(packet.type == 'PacketPokerTable') {
+                content = $("#" + id).text();
+                equals(content.indexOf("CsCsCs") >= 0, true, "board");
+                equals($("#P01" + id).text(), "P01");
+                $("#" + id).remove();
+                delete ActiveXObject.prototype.server;
+                start();
+                return false;
+            } else {
+                return true;
+            }
+        };
+        server.registerUpdate(handler);
+	content = $("#" + id).text();
+	equals(content.indexOf("connecting to table " + game_id) >= 0, true, "connecting");
+    });
+
 test("profileEnd", function(){
         try {
             console.profileEnd();
         } catch(e) {}
     });
+
