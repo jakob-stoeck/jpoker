@@ -17,7 +17,7 @@
 
 all: tests
 
-LANG = fr jp
+LANG = fr ja
 LANG_LIST = $(shell echo ${LANG}|sed s/\ /,/)
 LANG_DIR = jpoker/l10n
 LANG_JSON = $(LANG:%=${LANG_DIR}/jpoker-%.json)
@@ -76,7 +76,7 @@ clean:
 	rm -fr tests
 	rm -f messages.pot empty.html
 #	rm -fr ${LANG_DIR}/jpoker-{${LANG_LIST}}.json
-	rm -fr {${LANG_LIST}}/LC_MESSAGES/
+	rm -fr {${LANG_LIST}}/
 	rm -fr gems
 
 check:
