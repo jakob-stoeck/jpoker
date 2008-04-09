@@ -53,15 +53,15 @@ gems/bin/tiddlywiki_cp:
 empty.html:
 	wget http://tiddlywiki.com/empty.html
 
-jpoker/index-%.html: gems/bin/tiddlywiki_cp empty.html
+jpoker/index-%.html: gems/bin/tiddlywiki_cp empty.html jpoker/JpokerPlugin/* jpoker/index-*/* jpoker/index/* jpoker/markup/*
 	cp empty.html $@
 	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-$* jpoker/index jpoker/markup $@
 
-jpoker/index.html:  gems/bin/tiddlywiki_cp empty.html
+jpoker/index.html:  gems/bin/tiddlywiki_cp empty.html jpoker/JpokerPlugin/* jpoker/index-en/* jpoker/index/* jpoker/markup/*
 	cp empty.html $@
 	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-en jpoker/index jpoker/markup $@
 
-jpoker/poker.html:  gems/bin/tiddlywiki_cp empty.html
+jpoker/poker.html:  gems/bin/tiddlywiki_cp empty.html jpoker/JpokerPlugin/* jpoker/poker/* jpoker/markup/*
 	cp empty.html $@
 	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/poker jpoker/markup $@
 
