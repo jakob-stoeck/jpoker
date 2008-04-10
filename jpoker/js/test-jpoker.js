@@ -627,6 +627,9 @@ test("jpoker.table.init", function(){
             outgoing: '[{"type": "PacketPokerTable", "id": ' + game_id + '}]',
 
             handle: function(packet) {
+                if(packet.indexOf("PacketPing") >= 0) {
+                    return;
+                }
                 equals(packet, '{"type":"PacketPokerTableJoin","game_id":' + game_id + '}');
             }
         };
@@ -830,13 +833,16 @@ test("jpoker.plugins.table", function(){
             outgoing: '[{"type": "PacketPokerTable", "id": ' + game_id + '}]',
 
             handle: function(packet) {
+                if(packet.indexOf("PacketPing") >= 0) {
+                    return;
+                }
                 equals(packet, '{"type":"PacketPokerTableJoin","game_id":' + game_id + '}');
             }
         };
 
         ActiveXObject.prototype.server = new PokerServer();
 
-        place.jpoker('table', 'url', { id: game_id });
+        place.jpoker('table', 'url', game_id);
         var handler = function(server, packet) {
             if(packet.type == 'PacketPokerTable') {
                 content = $("#" + id).text();
@@ -852,7 +858,7 @@ test("jpoker.plugins.table", function(){
         };
         server.registerUpdate(handler);
 	content = $("#" + id).text();
-	equals(content.indexOf("connecting to table " + game_id) >= 0, true, "connecting");
+	equals(content.indexOf("connecting") >= 0, true, "connecting");
     });
 
 test("profileEnd", function(){

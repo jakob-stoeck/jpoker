@@ -11,18 +11,21 @@
 ***/
 //{{{
 
-// config.jpoker = { restURL : 'http://jspoker.pokersource.info/REST' };
+//config.jpoker = { restURL : 'http://pokersource.eu/REST' };
+//config.jpoker = { restURL : 'http://jspoker.pokersource.info/REST' };
 config.jpoker = { restURL : '/REST' };
 
-jpoker.server.defaults.tableClick = function(server, table) {
-    var title = server.url + " table " + table.id;
-    config.shadowTiddlers[title] = "<<jpokerTable '" + server.url + "' " + table.id + ">>";
+$.jpoker.server.defaults.tableRowClick = function(server, packet) {
+    var title = " Table " + packet.name;
+    config.shadowTiddlers[title] = "<<jpokerTable '" + server.url + "' " + packet.game_id + " '" + packet.name + "'>>";
     story.displayTiddler(null, title, 1);
 };
 
+$.jpoker.verbose = 1;
+
 config.macros.jpokerTable = {
     handler: function(place, macroName, params, wikifier, paramString, tiddler) {
-        $(place).jpoker('table', params[0], params[1]);
+        $(place).jpoker('table', params[0], params[1], params[2]);
     }
 };
 

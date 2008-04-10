@@ -443,10 +443,12 @@
             },
 
             unregisterHandler: function(id, handler) {
-                this.handlers[id] = $.grep(this.handlers[id],
-                                           function(e, i) { return e != handler; });
-                if(this.handlers[id].length <= 0) {
-                    delete this.handlers[id];
+                if(id in this.handlers) {
+                    this.handlers[id] = $.grep(this.handlers[id],
+                                               function(e, i) { return e != handler; });
+                    if(this.handlers[id].length <= 0) {
+                        delete this.handlers[id];
+                    }
                 }
             },
 
@@ -485,9 +487,13 @@
 
             sendPacket: function(packet) {
                 var $this = this;
+                var json_data = JSON.stringify(packet);
+                if(jpoker.verbose > 0) {
+                    jpoker.message("sendPacket " + json_data);
+                }
                 var args = {
                     async: this.async,
-                    data: JSON.stringify(packet),
+                    data: json_data,
                     mode: this.mode,
                     timeout: this.timeout,
                     url: this.url + '?session=' + this.session,
@@ -554,6 +560,9 @@
                             queue = this.queues[id].low;
                         }
                         queue.packets.push(packet);
+                        if(jpoker.verbose > 1) {
+                            jpoker.message("queueIncoming " + JSON.stringify(packet));
+                        }
                     }
                     this.clearTimeout(this.incomingTimer);
                     var $this = this;
@@ -632,6 +641,7 @@
     jpoker.server.defaults = $.extend({
 	    playersCount: null,
 	    tablesCount: null,
+            tableRowClick: function(server, packet) {},
             setInterval: function(cb, delay) { return window.setInterval(cb, delay); },
             clearInterval: function(id) { return window.clearInterval(id); }
         }, jpoker.connection.defaults);
@@ -782,7 +792,10 @@
             },
 
             tableJoin: function(game_id) {
-                this.sendPacket({ type: 'PacketPokerTableJoin', game_id: game_id });
+                this.ensureSession();
+                this.sendPacket({ 'type': 'PacketPokerTableJoin',
+                                  'game_id': game_id });
+                this.ping();
             }
         });
 
@@ -834,6 +847,8 @@
                 break;
 
                 }
+
+                return true;
             }
         });
 
@@ -935,7 +950,16 @@
                     var element = document.getElementById(id);
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTableList') {
-                            $(element).html(tableList.getHTML(packet));
+                            $(element).html(tableList.getHTML(id, packet));
+                            for(var i = 0; i < packet.packets.length; i++) {
+                                (function(){
+                                    var subpacket = packet.packets[i];
+                                    $("#" + subpacket.id).click(function() {
+                                            var server = jpoker.url2server({ url: url });
+                                            server.tableRowClick(server, subpacket);
+                                        });
+                                })();
+                            }
                         }
                         return true;
                     } else {
@@ -955,11 +979,11 @@
         string: ''
         }, jpoker.refresh.defaults, jpoker.defaults);
 
-    jpoker.plugins.tableList.getHTML = function(packet) {
+    jpoker.plugins.tableList.getHTML = function(id, packet) {
         var t = this.templates;
         var html = [];
         html.push(t.header.supplant({
-                    'seats': _("Seats"),
+                        'seats': _("Seats"),
                         'average_pot': _("Average Pot"),
                         'hands_per_hour': _("Hands/Hour"),
                         'percent_flop': _("%Flop"),
@@ -975,6 +999,10 @@
                         }));
         for(var i = 0; i < packet.packets.length; i++) {
             var subpacket = packet.packets[i];
+            if(!('game_id' in subpacket)) {
+                subpacket.game_id = subpacket.id;
+                subpacket.id = subpacket.game_id + id;
+            }
             subpacket['class'] = i%2 ? 'evenRow' : 'oddRow';
             html.push(t.rows.supplant(subpacket));
         }
@@ -984,7 +1012,7 @@
 
     jpoker.plugins.tableList.templates = {
         header : '<thead><tr><td>{name}</td><td>{players}</td><td>{seats}</td><td>{betting_structure}</td><td>{average_pot}</td><td>{hands_per_hour}</td><td>{percent_flop}</td></tr></thead><tbody>',
-        rows : '<tr class=\'{class}\'><td>{name}</td><td>{players}</td><td>{seats}</td><td>{betting_structure}</td><td>{average_pot}</td><td>{hands_per_hour}</td><td>{percent_flop}</td></tr>',
+        rows : '<tr class=\'{class}\' id=\'{id}\' title=\'' + _("Click to join the table") + '\'><td>{name}</td><td>{players}</td><td>{seats}</td><td>{betting_structure}</td><td>{average_pot}</td><td>{hands_per_hour}</td><td>{percent_flop}</td></tr>',
         footer : '</tbody>'
     };
 
@@ -1130,25 +1158,27 @@
     //
     // table
     //
-    jpoker.plugins.table = function(url, table, options) {
+    jpoker.plugins.table = function(url, game_id, name, options) {
 
         var opts = $.extend({}, jpoker.plugins.table.defaults, options);
         var server = jpoker.url2server({ url: url });
+
+        game_id = parseInt(game_id);
 
         return this.each(function() {
                 var $this = $(this);
 
                 var id = jpoker.uid();
 
-                $this.append('<span class=\'jpokerTable\' id=\'' + id + '\'>' + _("connecting to table {table}").supplant({ table: table.id }) + '</span>');
+                $this.append('<span class=\'jpokerTable\' id=\'' + id + '\'>' + _("connecting to table {name}").supplant({ 'name': name }) + '</span>');
                 
-                server.tableJoin(table.id);
+                server.tableJoin(game_id);
 
                 var updated = function(server) {
                     var element = document.getElementById(id);
                     if(element) {
-                        if(table.id in server.tables) {
-                            jpoker.plugins.table.create($(element), id, server, table);
+                        if(game_id in server.tables) {
+                            jpoker.plugins.table.create($(element), id, server, game_id);
                             return false;
                         } else {
                             return true;
@@ -1167,9 +1197,9 @@
     jpoker.plugins.table.defaults = $.extend({
         }, jpoker.defaults);
 
-    jpoker.plugins.table.create = function(element, id, server, table_packet) {
+    jpoker.plugins.table.create = function(element, id, server, game_id) {
         element.html(this.templates.room.supplant({ id: id }));
-        var table = server.tables[table_packet.id];
+        var table = server.tables[game_id];
         table.registerUpdate(this.update, id);
         table.registerDestroy(this.destroy, id);
     };
