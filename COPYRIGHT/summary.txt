@@ -48,6 +48,12 @@ Copyright for:
         GPLv3+
 
 Copyright for:
+        jpoker/index/SinglePageModePlugin.js
+
+   (c) 2008 Eric Shulman http://www.TiddlyTools.com/
+	Creative Commons Attribution-ShareAlike 2.5
+
+Copyright for:
         jpoker/index/WebDavPlugin.js
 
    (c) 2007, 2008 Saq Imtiaz <lewcid@gmail.com>
