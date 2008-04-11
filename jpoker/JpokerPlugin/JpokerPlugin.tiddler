@@ -14,6 +14,7 @@
 //config.jpoker = { restURL : 'http://pokersource.eu/REST' };
 //config.jpoker = { restURL : 'http://jspoker.pokersource.info/REST' };
 config.jpoker = { restURL : '/REST' };
+config.options.chkSinglePagePermalink = false;
 
 $.jpoker.server.defaults.tableRowClick = function(server, packet) {
     var title = " Table " + packet.name;

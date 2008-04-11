@@ -209,7 +209,7 @@ test("jpoker.server.login: ok", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var logname = "name";
-        equals(server.session, 'clear', "does not have session");
+        equals(server.session.indexOf('session=clear'), 0, "does not have session");
         server.login(logname, "password");
         server.registerUpdate(function(server, packet) {
                 switch(packet.type) {
@@ -316,7 +316,7 @@ test("jpoker.server.logout", function(){
                 equals(server.loggedIn(), false);
                 equals(server.logname, null, "logname");
                 equals(packet.type, "PacketLogout");
-                equals(server.session, 'clear', "does not have session");
+                equals(server.session.indexOf('session=clear'), 0, "does not have session");
                 start_and_cleanup();
             });
         server.logout();

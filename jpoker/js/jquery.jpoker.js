@@ -374,13 +374,11 @@
             },
 
             clearSession: function() {
-                this.session = 'clear';
+                this.session = 'session=clear&name=' + jpoker.url2hash(this.url);
             },
 
             ensureSession: function() {
-                if(this.session == 'clear') {
-                    this.session = jpoker.url2hash(this.url);
-                }
+                this.session = 'session=yes&name=' + jpoker.url2hash(this.url);
             },
 
             reset: function() {
@@ -489,14 +487,14 @@
                 var $this = this;
                 var json_data = JSON.stringify(packet);
                 if(jpoker.verbose > 0) {
-                    jpoker.message("sendPacket " + json_data);
+                    jpoker.message('sendPacket ' + json_data);
                 }
                 var args = {
                     async: this.async,
                     data: json_data,
                     mode: this.mode,
                     timeout: this.timeout,
-                    url: this.url + '?session=' + this.session,
+                    url: this.url + '?' + this.session,
                     type: 'POST',
                     dataType: 'json',
                     global: false, // do not fire global events
@@ -561,7 +559,7 @@
                         }
                         queue.packets.push(packet);
                         if(jpoker.verbose > 1) {
-                            jpoker.message("queueIncoming " + JSON.stringify(packet));
+                            jpoker.message('queueIncoming ' + JSON.stringify(packet));
                         }
                     }
                     this.clearTimeout(this.incomingTimer);
@@ -673,7 +671,7 @@
 
             handler: function(server, id, packet) {
                 if(jpoker.verbose) {
-                    jpoker.message("server.handler " + JSON.stringify(packet));
+                    jpoker.message('server.handler ' + JSON.stringify(packet));
                 }
 
                 switch(packet.type) {
@@ -836,7 +834,7 @@
 
             handler: function(server, id, packet) {
                 if(jpoker.verbose) {
-                    jpoker.message("table.handler " + JSON.stringify(packet));
+                    jpoker.message('table.handler ' + JSON.stringify(packet));
                 }
 
                 switch(packet.type) {
@@ -891,7 +889,7 @@
                     waiting = true;
                     request(server);
                 } else if(jpoker.verbose > 0) {
-                    jpoker.message("refresh waiting");
+                    jpoker.message('refresh waiting');
                 } 
                 return true;
             } else {
@@ -954,7 +952,7 @@
                             for(var i = 0; i < packet.packets.length; i++) {
                                 (function(){
                                     var subpacket = packet.packets[i];
-                                    $("#" + subpacket.id).click(function() {
+                                    $('#' + subpacket.id).click(function() {
                                             var server = jpoker.url2server({ url: url });
                                             server.tableRowClick(server, subpacket);
                                         });
@@ -1198,10 +1196,15 @@
         }, jpoker.defaults);
 
     jpoker.plugins.table.create = function(element, id, server, game_id) {
-        element.html(this.templates.room.supplant({ id: id }));
-        var table = server.tables[game_id];
-        table.registerUpdate(this.update, id);
-        table.registerDestroy(this.destroy, id);
+        if(game_id in server.tables) {
+            var table = server.tables[game_id];
+            element.html(this.templates.room.supplant({ id: id }));
+            for(var seat = 1; seat <= 10; seat++) {
+                $('#P' + seat + id, element).hide();
+            }
+            table.registerUpdate(this.update, id);
+            table.registerDestroy(this.destroy, id);
+        }
     };
 
     jpoker.plugins.table.update = function(table, packet, id) {
@@ -1210,11 +1213,11 @@
             switch(packet.type) {
 
             case 'PacketPokerPlayerArrive':
-                $("#P" + ( packet.seat + 1 ) + id, element).show();
+                $('#P' + ( packet.seat + 1 ) + id, element).show();
                 break;
 
             case 'PacketPokerPlayerLeave':
-                $("#P" + ( packet.seat + 1 ) + id, element).hide();
+                $('#P' + ( packet.seat + 1 ) + id, element).hide();
                 break;
 
             }
