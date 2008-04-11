@@ -1,0 +1,126 @@
+# Japanese translations for PACKAGE package
+# PACKAGE パッケージに対する英訳.
+# Copyright (C) 2008 Loic Dachary <loic@dachary.org>
+# This file is distributed under the same license as the PACKAGE package.
+# root <proppy@aminche.com>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: jpoker\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-04-11 17:41+0200\n"
+"PO-Revision-Date: 2008-04-09 23:48+0100\n"
+"Last-Translator: Yoko Shamoto <yuby126youc@yahoo.co.jp>\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=EUC-JP\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: jpoker/js/jquery.jpoker.js:760
+#, fuzzy
+msgid " (login name is {name} )"
+msgstr "(ログインネームは％sです）"
+
+#: jpoker/js/jquery.jpoker.js:987
+msgid "%Flop"
+msgstr "%フロップ"
+
+#: jpoker/js/jquery.jpoker.js:985
+msgid "Average Pot"
+msgstr "アベレージ　ポット"
+
+#: jpoker/js/jquery.jpoker.js:995
+msgid "Betting Structure"
+msgstr "ベッティング　ストラクチャー"
+
+#: jpoker/js/jquery.jpoker.js:1013
+msgid "Click to join the table"
+msgstr ""
+
+#: jpoker/js/jquery.jpoker.js:992
+msgid "Currency"
+msgstr ""
+
+#: jpoker/js/jquery.jpoker.js:986
+msgid "Hands/Hour"
+msgstr "ハンド／時間"
+
+#: jpoker/js/jquery.jpoker.js:993
+msgid "Name"
+msgstr "ネーム"
+
+#: jpoker/js/jquery.jpoker.js:989
+msgid "Observers"
+msgstr ""
+
+#: jpoker/js/jquery.jpoker.js:988
+msgid "Players"
+msgstr "プレーヤー"
+
+#: jpoker/js/jquery.jpoker.js:984
+msgid "Seats"
+msgstr "シート"
+
+#: jpoker/js/jquery.jpoker.js:996
+msgid "Skin"
+msgstr ""
+
+#: jpoker/js/jquery.jpoker.js:991
+msgid "Timeout"
+msgstr ""
+
+#: jpoker/js/jquery.jpoker.js:994
+msgid "Variant"
+msgstr ""
+
+#: jpoker/js/jquery.jpoker.js:990
+msgid "Waiting"
+msgstr ""
+
+#: jpoker/js/jquery.jpoker.js:1171
+msgid "connecting to table {name}"
+msgstr ""
+
+#: jpoker/js/jquery.jpoker.js:1061
+msgid "disconnected"
+msgstr ""
+
+#: jpoker/js/jquery.jpoker.js:1113
+msgid "login in progress"
+msgstr ""
+
+#: jpoker/js/jquery.jpoker.js:1144
+msgid "login: "
+msgstr "ログイン"
+
+#: jpoker/js/jquery.jpoker.js:1145
+msgid "password: "
+msgstr "パスワード"
+
+#: jpoker/js/jquery.jpoker.js:1064
+msgid "players"
+msgstr "プレーヤー"
+
+#: jpoker/js/jquery.jpoker.js:1067
+msgid "tables"
+msgstr "テーブル"
+
+#: jpoker/js/jquery.jpoker.js:766
+msgid "user {name} is already logged in"
+msgstr ""
+
+#: jpoker/js/jquery.jpoker.js:598
+msgid "wait for {delay}s for queue {id}"
+msgstr ""
+
+#: jpoker/js/jquery.jpoker.js:1142
+msgid "{logname} logout"
+msgstr ""
+
+#: jpoker/js/jquery.jpoker.js:744
+msgid "{url} attempt to login {name} although serial is {serial} instead of 0"
+msgstr ""
+
+#~ msgid "%s logout"
+#~ msgstr "％sログアウト"

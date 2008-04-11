@@ -15,8 +15,15 @@
 #     along with this program.  If not, see <http:#www.gnu.org/licenses/>.
 #
 all: i18n cook check
+	-cd jpoker ; x-www-browser index.html
 
-i18n:
+LANG = fr ja
+LANG_LIST = $(shell echo ${LANG}|sed s/\ /,/)
+LANG_DIR = jpoker/l10n
+LANG_JSON = $(LANG:%=${LANG_DIR}/jpoker-%.json)
+LANG_TW = $(LANG:%=jpoker/index-%.html)
+
+messages.pot: jpoker/js/jquery.jpoker.js
 	xgettext --extract-all \
 		 --lang java \
 		 --from-code=UTF-8 \
@@ -24,29 +31,53 @@ i18n:
 		 --output=messages.pot \
 		 --sort-output \
 		 jpoker/js/jquery.jpoker.js
-	msgmerge -s -U jpoker/l10n/jpoker-fr.po messages.pot
-	mkdir -p fr/LC_MESSAGES
-	msgfmt --check --output-file fr/LC_MESSAGES/fr.mo jpoker/l10n/jpoker-fr.po
-	: now edit with kbabel jpoker/l10n/jpoker-fr.po
-	python mo2json.py fr > jpoker/l10n/jpoker-fr.json
 
-cook:
+${LANG_DIR}/jpoker-%.po: messages.pot
+	msgmerge -s -U $@ messages.pot
+	touch $@
+
+${LANG_DIR}/%.mo: ${LANG_DIR}/jpoker-%.po
+	msgfmt --check --output-file $@ $<
+	mkdir -p $*/LC_MESSAGES
+	cp $@ $*/LC_MESSAGES
+
+${LANG_DIR}/jpoker-%.json: ${LANG_DIR}/%.mo
+	: now edit with kbabel $<
+	python mo2json.py $* > $@
+
+i18n: ${LANG_JSON}
+
+gems/bin/tiddlywiki_cp: 
 	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp
-	cp tiddlywiki-2.3.html jpoker/index.html
-	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-en jpoker/index jpoker/markup jpoker/index.html
-	cp tiddlywiki-2.3.html jpoker/index-fr.html
-	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-fr jpoker/index jpoker/markup jpoker/index-fr.html
-	cp tiddlywiki-2.3.html jpoker/poker.html
-	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/poker jpoker/markup jpoker/poker.html
+
+empty.html:
+	wget http://tiddlywiki.com/empty.html
+
+jpoker/index-%.html: gems/bin/tiddlywiki_cp empty.html jpoker/JpokerPlugin/* jpoker/index-*/* jpoker/index/* jpoker/markup/*
+	cp empty.html $@
+	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-$* jpoker/index jpoker/markup $@
+
+jpoker/index.html:  gems/bin/tiddlywiki_cp empty.html jpoker/JpokerPlugin/* jpoker/index-en/* jpoker/index/* jpoker/markup/*
+	cp empty.html $@
+	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-en jpoker/index jpoker/markup $@
+
+jpoker/poker.html:  gems/bin/tiddlywiki_cp empty.html jpoker/JpokerPlugin/* jpoker/poker/* jpoker/markup/*
+	cp empty.html $@
+	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/poker jpoker/markup $@
+
+cook:	jpoker/poker.html jpoker/index.html ${LANG_TW}
 
 # mimic when a new lang shows
 newlang:
 	msginit -l fr_FR -o fr.po -i messages.pot
+#	msginit -l ja_JP -o jp.po -i messages.pot
 
 clean: 
-	rm -fr tests gems fr 
-	rm -f messages.pot 
-	rm -f jpoker/{index.html,index-fr.html,poker.html}
+	rm -fr tests gems
+	rm -f messages.pot empty.html
+	rm -f jpoker/{index.html,poker.html} ${LANG_TW}
+#	rm -fr ${LANG_DIR}/jpoker-{${LANG_LIST}}.json
+	rm -fr {${LANG_LIST}}/
 	rm -f jpoker/index.200* jpoker/index-fr.200* jpoker/poker.200* 
 
 check:
@@ -62,7 +93,7 @@ copyright:
 		echo ; \
 		cat $$license ; \
 	done >> debian/copyright
-	
+
 mtime:
 	for f in `hg manifest`; do touch --date="`hg log -l1 --template '{date|isodate}' $$f`" $$f; done
 
