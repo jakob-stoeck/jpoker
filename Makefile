@@ -101,7 +101,8 @@ copyright:
 mtime:
 	for f in `hg manifest`; do touch --date="`hg log -l1 --template '{date|isodate}' $$f`" $$f; done
 
-mockup: 
+mockup: jpoker/images/mockup.html
+jpoker/images/mockup.html: jpoker/images/mockup.svg
 	python svgflatten.py < jpoker/images/mockup.svg | python svg2html.py --html | tidy -indent 2>/dev/null > jpoker/images/mockup.html || true
 	perl -pi -e 's:</head>:<link href="mockup.css" rel="stylesheet" type="text/css" /></head>:' jpoker/images/mockup.html
 	python svgflatten.py < jpoker/images/mockup.svg | python svg2html.py --css > jpoker/images/mockup.css
