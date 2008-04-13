@@ -14,7 +14,7 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <http:#www.gnu.org/licenses/>.
 #
-all: i18n cook check
+all: i18n cook mockup check
 	-cd jpoker ; x-www-browser index.html
 
 LANG = fr ja
