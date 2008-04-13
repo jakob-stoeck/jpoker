@@ -33,11 +33,11 @@ from svg2html import SVG2CSS
 class SVG2Gtk(unittest.TestCase):
     def test_SVG2HTML(self):
         svg_string = '<svg xmlns:xlink="http://www.w3.org/1999/xlink" id="game_window" width="800" height="600"><g id="g1"><image id="test" x="0" y="1" width="2" height="3" xlink:href="test.png"/></g></svg>'
-        html_string = '<html><head></head><body><div id="game_window"><div id="g1"><div id="test" class="ptable_test"></div></div></div></body></html>'
+        html_string = '<html><head></head><body><div id="game_window"><div id="g1"><div id="test{id}" class="ptable_test"></div></div></div></body></html>'
         self.assertEquals(html_string, str(SVG2HTML(svg_string)))
     def test_SVG2CSS(self):
         svg_string = '<svg xmlns:xlink="http://www.w3.org/1999/xlink" id="game_window" width="800" height="600"><g><image id="test" x="0" y="1" width="2" height="3" xlink:href="test.png"/></g></svg>'
-        css_string = '.test { width:2px; height:3px; position:absolute; top:1px; left:0px; background-image:url("test.png"); }\n'
+        css_string = '.ptable_test { width:2px; height:3px; position:absolute; top:1px; left:0px; background-image:url("test.png"); }\n'
         self.assertEquals(css_string, str(SVG2CSS(svg_string)))
         
 if __name__ == '__main__':
