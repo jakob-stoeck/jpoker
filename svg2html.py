@@ -62,7 +62,7 @@ class SVGParse(ContentHandler):
 
 class SVG2HTML(SVGParse):
     def startElementSvg(self, attrs):
-        self.formats.append('<html><head></head><body><div id="%s">')
+        self.formats.append('<html><head></head><body><div id="%s" class="jpoker_ptable">')
         self.tuples.append((attrs['id'],))
     def startElementImage(self, attrs):
         self.formats.append('<div id="%s" class="jpoker_ptable_%s"></div>')
@@ -79,7 +79,7 @@ class SVG2HTML(SVGParse):
 
 class SVG2JSON(SVGParse):
     def startElementSvg(self, attrs):
-        self.formats.append("<div id=\\'%s{id}\\'>")
+        self.formats.append("<div id=\\'%s{id}\\' class=\\'jpoker_ptable\\'>")
         self.tuples.append((attrs["id"],))
     def startElementImage(self, attrs):
         self.formats.append("<div id=\\'%s{id}\\' class=\\'jpoker_ptable_%s\\'></div>")
@@ -97,8 +97,11 @@ class SVG2JSON(SVGParse):
 class SVG2CSS(SVGParse):
     def startElementSvg(self, attrs):
         self.root = attrs['id']
+        format = '.jpoker_ptable { width:800px; height:600px; position:relative; background-image:url("../images/table_background.png"); }\n'
+        self.formats.append(format)
+        self.tuples.append(())
     def startElementImage(self, attrs):
-        format = '.jpoker_ptable_%s { width:%spx; height:%spx; position:absolute; top:%spx; left:%spx; background-image:url("images/%s"); }\n'
+        format = '.jpoker_ptable_%s { width:%spx; height:%spx; position:absolute; top:%spx; left:%spx; background-image:url("../images/%s"); }\n'
         self.formats.append(format)
         self.tuples.append((attrs['id'], attrs['width'], attrs['height'], attrs['y'], attrs['x'], attrs['xlink:href']))
 
