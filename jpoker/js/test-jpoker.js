@@ -860,6 +860,32 @@ test("jpoker.plugins.table", function(){
 	equals(content.indexOf("connecting") >= 0, true, "connecting");
     });
 
+test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
+        expect(7);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        place.jpoker('table', 'url', game_id);
+        table_packet = { id: game_id };
+        var table = server.tables[game_id] = new jpoker.table(server, table_packet);
+        server.notifyUpdate(table_packet);
+        equals($("#seat0" + id).size(), 1, "seat0 DOM element");
+        equals($("#seat0" + id).css('display'), 'none', "seat0 hidden");
+        equals(table.seats[0], null, "seat0 empty");
+        var player_serial = 1;
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id });
+        equals($("#seat0" + id).css('display'), 'block', "arrive");
+        equals(table.seats[0].serial, player_serial, "player 1");
+        table.handler(server, game_id, { type: 'PacketPokerPlayerLeave', seat: 0, game_id: game_id });
+        equals($("#seat0" + id).css('display'), 'none', "leave");
+        equals(table.seats[0], null, "seat0 again");
+        start_and_cleanup();
+    });
+
 test("profileEnd", function(){
         try {
             console.profileEnd();

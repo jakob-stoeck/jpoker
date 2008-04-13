@@ -836,13 +836,26 @@
                 if(jpoker.verbose) {
                     jpoker.message('table.handler ' + JSON.stringify(packet));
                 }
+                
+                table = server.tables[packet.game_id]
 
                 switch(packet.type) {
 
                 case 'PacketPokerTableDestroy':
-                delete server.tables[packet.game_id];
-                this.uninit();
-                break;
+                    delete server.tables[packet.game_id];
+                    table.uninit();
+                    break;
+
+                case 'PacketPokerPlayerArrive':
+                    table.seats[packet.seat] = new jpoker.player(server, packet)
+                    table.notifyUpdate(packet);
+                    break;
+
+                case 'PacketPokerPlayerLeave':
+                    table.notifyUpdate(packet);
+                    table.seats[packet.seat].uninit();
+                    table.seats[packet.seat] = null;
+                    break;
 
                 }
 
@@ -854,8 +867,10 @@
     // player
     //
 
-    jpoker.player = function(options) {
-        $.extend(this, jpoker.player.defaults, options);
+    jpoker.player = function(server, packet) {
+        $.extend(this, jpoker.player.defaults, packet);
+        this.url = server.url;
+        this.init();
     };
 
     jpoker.player.defaults = {
@@ -863,10 +878,18 @@
     };
 
     jpoker.player.prototype = $.extend({}, jpoker.watchable.prototype, {
-        money: 0,
-        bet: 0,
-        cards: []
-        });
+            init: function() {
+                jpoker.watchable.prototype.init.call(this);
+                this.cards = [ null, null, null, null, null ];
+                this.money = 0;
+                this.pots = 0;
+            },
+
+            uninit: function() {
+                jpoker.watchable.prototype.uninit.call(this);
+                this.cards = [];
+            },
+        })
 
     //
     // Refresh data with the 'handler' function after sending
