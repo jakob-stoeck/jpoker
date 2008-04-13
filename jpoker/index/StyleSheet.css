@@ -19,7 +19,7 @@ body #contentWrapper {
 }
 
 #contentWrapper {
-	width: 800px;
+	width: 840px;
 	margin:0 auto;
 	background:[[ColorPalette::Background]];
 }
@@ -280,7 +280,7 @@ td.login_input input {
 	width:99%;
 }
 
-#contentWrapper .viewer table.jpokerTableList {
+#contentWrapper .viewer .jpoker_ptable table.jpokerTableList {
 	margin: 0.5em auto;
 }
 /*}}}*/

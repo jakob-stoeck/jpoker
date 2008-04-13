@@ -113,5 +113,4 @@ if __name__ == '__main__':
         elif sys.argv[1] == "--css":
             print SVG2CSS(sys.stdin.read())
         elif sys.argv[1] == "--json":
-            print SVG2JSON(sys.stdin.read())
-    sys.exit(0)
+            print "'" + str(SVG2JSON(sys.stdin.read())) + "';"

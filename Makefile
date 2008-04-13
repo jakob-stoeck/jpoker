@@ -79,7 +79,7 @@ clean:
 #	rm -fr ${LANG_DIR}/jpoker-{${LANG_LIST}}.json
 	rm -fr {${LANG_LIST}}/
 	rm -f jpoker/index.200* jpoker/index-fr.200* jpoker/poker.200* 
-	rm -f jpoker/mockup.{html,json} jpoker/js/mockup.css
+	rm -f jpoker/mockup.html
 	rm -f *.pyc
 
 check:
@@ -103,7 +103,11 @@ mtime:
 
 mockup: jpoker/mockup.html
 jpoker/mockup.html: jpoker/images/mockup.svg
-	python svgflatten.py < jpoker/images/mockup.svg | python svg2html.py --json > jpoker/mockup.json || true
+	( \
+		echo "// generated with make mockup, DO NOT EDIT" ; \
+		echo -n '$$.jpoker.plugins.table.templates.room = ' ; \
+		python svgflatten.py < jpoker/images/mockup.svg | python svg2html.py --json || true ; \
+	)  > jpoker/js/mockup.js
 	python svgflatten.py < jpoker/images/mockup.svg | python svg2html.py --html | tidy -indent 2>/dev/null > jpoker/mockup.html || true
 	perl -pi -e 's:</head>:<link href="js/mockup.css" rel="stylesheet" type="text/css" /></head>:' jpoker/mockup.html
 	python svgflatten.py < jpoker/images/mockup.svg | python svg2html.py --css > jpoker/js/mockup.css
