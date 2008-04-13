@@ -65,7 +65,7 @@ class SVG2HTML(SVGParse):
         self.formats.append('<html><head></head><body><div id="%s">')
         self.tuples.append((attrs['id'],))
     def startElementImage(self, attrs):
-        self.formats.append('<div id="%s" class="%s"></div>')
+        self.formats.append('<div id="%s{id}" class="ptable_%s"></div>')
         self.tuples.append((attrs['id'],attrs['id']))
     def startElementGroup(self, attrs):
         self.formats.append('<div id="%s">')
@@ -81,7 +81,7 @@ class SVG2CSS(SVGParse):
     def startElementSvg(self, attrs):
         self.root = attrs['id']
     def startElementImage(self, attrs):
-        format = '.%s { width:%spx; height:%spx; position:absolute; top:%spx; left:%spx; background-image:url("%s"); }\n'
+        format = '.ptable_%s { width:%spx; height:%spx; position:absolute; top:%spx; left:%spx; background-image:url("%s"); }\n'
         self.formats.append(format)
         self.tuples.append((attrs['id'], attrs['width'], attrs['height'], attrs['y'], attrs['x'], attrs['xlink:href']))
 
