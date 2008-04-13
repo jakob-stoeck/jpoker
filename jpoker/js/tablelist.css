@@ -11,5 +11,14 @@ table.jpokerTableList tr.evenRow{
 }
 
 table.jpokerTableList thead td,  table.jpokerTableList th  {
-	background: #73BF60;
+	background: #24B300;
+}
+
+table.jpokerTableList tr{
+	cursor:pointer;
+}
+
+table.jpokerTableList tr.evenRow.hover, table.jpokerTableList tr.hover {
+	background:#73BF60;
+	color:#fff;
 }
