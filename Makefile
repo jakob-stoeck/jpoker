@@ -79,7 +79,7 @@ clean:
 #	rm -fr ${LANG_DIR}/jpoker-{${LANG_LIST}}.json
 	rm -fr {${LANG_LIST}}/
 	rm -f jpoker/index.200* jpoker/index-fr.200* jpoker/poker.200* 
-	rm -f jpoker/images/mockup.{css,html}
+	rm -f jpoker/mockup.{css,html,json}
 	rm -f *.pyc
 
 check:
@@ -101,10 +101,11 @@ copyright:
 mtime:
 	for f in `hg manifest`; do touch --date="`hg log -l1 --template '{date|isodate}' $$f`" $$f; done
 
-mockup: jpoker/images/mockup.html
-jpoker/images/mockup.html: jpoker/images/mockup.svg
-	python svgflatten.py < jpoker/images/mockup.svg | python svg2html.py --html | tidy -indent 2>/dev/null > jpoker/images/mockup.html || true
-	perl -pi -e 's:</head>:<link href="mockup.css" rel="stylesheet" type="text/css" /></head>:' jpoker/images/mockup.html
-	python svgflatten.py < jpoker/images/mockup.svg | python svg2html.py --css > jpoker/images/mockup.css
+mockup: jpoker/mockup.html
+jpoker/mockup.html: jpoker/images/mockup.svg
+	python svgflatten.py < jpoker/images/mockup.svg | python svg2html.py --json > jpoker/mockup.json || true
+	python svgflatten.py < jpoker/images/mockup.svg | python svg2html.py --html | tidy -indent 2>/dev/null > jpoker/mockup.html || true
+	perl -pi -e 's:</head>:<link href="mockup.css" rel="stylesheet" type="text/css" /></head>:' jpoker/mockup.html
+	python svgflatten.py < jpoker/images/mockup.svg | python svg2html.py --css > jpoker/mockup.css
 
 .PHONY: tests

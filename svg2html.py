@@ -65,7 +65,7 @@ class SVG2HTML(SVGParse):
         self.formats.append('<html><head></head><body><div id="%s">')
         self.tuples.append((attrs['id'],))
     def startElementImage(self, attrs):
-        self.formats.append('<div id="%s{id}" class="ptable_%s"></div>')
+        self.formats.append('<div id="%s" class="jpoker_ptable_%s"></div>')
         self.tuples.append((attrs['id'],attrs['id']))
     def startElementGroup(self, attrs):
         self.formats.append('<div id="%s">')
@@ -77,11 +77,28 @@ class SVG2HTML(SVGParse):
         self.formats.append('</div>')
         self.tuples.append(())
 
+class SVG2JSON(SVGParse):
+    def startElementSvg(self, attrs):
+        self.formats.append("<div id=\\'%s{id}\\'>")
+        self.tuples.append((attrs["id"],))
+    def startElementImage(self, attrs):
+        self.formats.append("<div id=\\'%s{id}\\' class=\\'jpoker_ptable_%s\\'></div>")
+        self.tuples.append((attrs["id"],attrs["id"]))
+    def startElementGroup(self, attrs):
+        self.formats.append("<div id=\\'%s{id}\\'>")
+        self.tuples.append((attrs["id"],))
+    def endElementSvg(self, anem):
+        self.formats.append("</div>")
+        self.tuples.append(())
+    def endElementGroup(self, anem):
+        self.formats.append("</div>")
+        self.tuples.append(())
+
 class SVG2CSS(SVGParse):
     def startElementSvg(self, attrs):
         self.root = attrs['id']
     def startElementImage(self, attrs):
-        format = '.ptable_%s { width:%spx; height:%spx; position:absolute; top:%spx; left:%spx; background-image:url("%s"); }\n'
+        format = '.jpoker_ptable_%s { width:%spx; height:%spx; position:absolute; top:%spx; left:%spx; background-image:url("images/%s"); }\n'
         self.formats.append(format)
         self.tuples.append((attrs['id'], attrs['width'], attrs['height'], attrs['y'], attrs['x'], attrs['xlink:href']))
 
@@ -92,4 +109,6 @@ if __name__ == '__main__':
             print SVG2HTML(sys.stdin.read())
         elif sys.argv[1] == "--css":
             print SVG2CSS(sys.stdin.read())
+        elif sys.argv[1] == "--json":
+            print SVG2JSON(sys.stdin.read())
     sys.exit(0)
