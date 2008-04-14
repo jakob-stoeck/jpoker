@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jpoker\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-14 14:44+0200\n"
+"POT-Creation-Date: 2008-04-15 00:11+0200\n"
 "PO-Revision-Date: 2008-04-09 23:48+0100\n"
 "Last-Translator: Yoko Shamoto <yuby126youc@yahoo.co.jp>\n"
 "Language-Team: Japanese\n"
@@ -82,6 +82,14 @@ msgstr ""
 msgid "connecting to table {name}"
 msgstr ""
 
+#: jpoker/js/jquery.jpoker.js:1248
+msgid "destory"
+msgstr ""
+
+#: jpoker/js/jquery.jpoker.js:1306
+msgid "destroy"
+msgstr ""
+
 #: jpoker/js/jquery.jpoker.js:1100
 msgid "disconnected"
 msgstr ""
@@ -109,6 +117,10 @@ msgstr "プレーヤー"
 #: jpoker/js/jquery.jpoker.js:1106
 msgid "tables"
 msgstr "テーブル"
+
+#: jpoker/js/jquery.jpoker.js:1247 jpoker/js/jquery.jpoker.js:1305
+msgid "update"
+msgstr ""
 
 #: jpoker/js/jquery.jpoker.js:768
 msgid "user {name} is already logged in"
