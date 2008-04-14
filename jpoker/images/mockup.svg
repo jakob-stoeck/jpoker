@@ -64,35 +64,35 @@
        y="258.04669"
        width="37"
        height="52"
-       id="board1" />
+       id="board0" />
     <image
        xlink:href="card_back.png"
        x="330.13812"
        y="258.82489"
        width="37"
        height="52"
-       id="board2" />
+       id="board1" />
     <image
        xlink:href="card_back.png"
        x="368.27042"
        y="258.04669"
        width="37"
        height="52"
-       id="board3" />
+       id="board2" />
     <image
        xlink:href="card_back.png"
        x="407.95914"
        y="258.82492"
        width="37"
        height="52"
-       id="board4" />
+       id="board3" />
     <image
        xlink:href="card_back.png"
        x="446.86966"
        y="258.82489"
        width="37"
        height="52"
-       id="board5" />
+       id="board4" />
     <image
        xlink:href="pot.png"
        x="225.02335"

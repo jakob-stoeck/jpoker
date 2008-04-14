@@ -886,6 +886,32 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
         start_and_cleanup();
     });
 
+test("jpoker.plugins.table: PacketPokerBoardCards", function(){
+        expect(7);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        place.jpoker('table', 'url', game_id);
+        table_packet = { id: game_id };
+        var table = server.tables[game_id] = new jpoker.table(server, table_packet);
+        server.notifyUpdate(table_packet);
+        equals($("#board0" + id).size(), 1, "board0 DOM element");
+        equals($("#board0" + id).css('display'), 'none', "board0 hidden");
+        equals(table.board[0], null, "board0 empty");
+        var card = 1;
+        table.handler(server, game_id, { type: 'PacketPokerBoardCards', cards: [card], game_id: game_id });
+        equals($("#board0" + id).css('display'), 'block', "card 1 set");
+        var background = $("#board0" + id).css('background-image')
+	equals(background.indexOf("small-2d") >= 0, true, "background " + background);
+        equals($("#board1" + id).css('display'), 'none', "card 2 not set");
+        equals(table.board[0], card, "card in slot 0");
+        start_and_cleanup();
+    });
+
 test("profileEnd", function(){
         try {
             console.profileEnd();
