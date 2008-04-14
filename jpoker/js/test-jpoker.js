@@ -94,7 +94,7 @@ jpoker.verbose = 100; // activate the code parts that depends on verbosity
 // jpoker.watchable
 //
 test("jpoker.watchable", function(){
-        expect(10);
+        expect(14);
         var watchable = new jpoker.watchable({});
         var stone = 0;
         var callback_stone = 0;
@@ -130,6 +130,16 @@ test("jpoker.watchable", function(){
         watchable.registerDestroy(callback_autoremove);
         watchable.notifyDestroy();
         equals(watchable.callbacks.destroy.length, 0, 'empty destroy');
+
+        watchable.registerUpdate(callback_autoremove, 'callback_data', 'signature');
+        equals(watchable.callbacks.update[0].signature, 'signature', 'signature update');
+        watchable.unregisterUpdate('signature');
+        equals(watchable.callbacks.update.length, 0, 'empty update (2)');
+
+        watchable.registerDestroy(callback_autoremove, 'callback_data', 'signature');
+        equals(watchable.callbacks.destroy[0].signature, 'signature', 'signature destroy');
+        watchable.unregisterDestroy('signature');
+        equals(watchable.callbacks.destroy.length, 0, 'empty destroy (2)');
     });
 
 //

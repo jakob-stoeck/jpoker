@@ -301,22 +301,22 @@
         notifyUpdate: function(data) { this.notify('update', data); },
         notifyDestroy: function(data) { this.notify('destroy', data); },
 
-        register: function(what, callback, callback_data) {
+        register: function(what, callback, callback_data, signature) {
             if($.inArray(callback, this.callbacks[what]) < 0) {
                 var wrapper = function($this, data) {
                     return callback($this, data, callback_data);
                 };
-                wrapper.callback = callback;
+                wrapper.signature = signature || callback;
                 this.callbacks[what].push(wrapper);
             }
         },
 
-        registerUpdate: function(callback, callback_data) { this.register('update', callback, callback_data); },
-        registerDestroy: function(callback, callback_data) { this.register('destroy', callback, callback_data); },
+        registerUpdate: function(callback, callback_data, signature) { this.register('update', callback, callback_data, signature); },
+        registerDestroy: function(callback, callback_data, signature) { this.register('destroy', callback, callback_data, signature); },
 
-        unregister: function(what, callback) {
+        unregister: function(what, signature) {
             this.callbacks[what] = $.grep(this.callbacks[what],
-                                          function(e, i) { return e.callback != callback; });
+                                          function(e, i) { return e.signature != signature; });
         },
 
         unregisterUpdate: function(callback) { this.unregister('update', callback); },
@@ -1244,8 +1244,8 @@
             for(var board = 0; board < 5; board++) {
                 $('#board' + board + id, element).hide();
             }
-            table.registerUpdate(this.update, id);
-            table.registerDestroy(this.destroy, id);
+            table.registerUpdate(this.update, id, "update" + id);
+            table.registerDestroy(this.destroy, id, "destory" + id);
         }
     };
 
@@ -1255,11 +1255,7 @@
             switch(packet.type) {
 
             case 'PacketPokerPlayerArrive':
-                $('#seat' + packet.seat + id, element).show();
-                break;
-
-            case 'PacketPokerPlayerLeave':
-                $('#seat' + packet.seat + id, element).hide();
+                jpoker.plugins.player.create(table, packet, id);
                 break;
 
             case 'PacketPokerBoardCards':
@@ -1287,7 +1283,7 @@
         }
     };
 
-    jpoker.plugins.table.destroy = function(id) {
+    jpoker.plugins.table.destroy = function(table, dummy, id) {
         var element = document.getElementById(id);
         if(element) {
             $(element).remove();
@@ -1297,6 +1293,32 @@
 
     jpoker.plugins.table.templates = {
         room: 'expected to be overriden by mockup.js but was not'
+    };
+
+    //
+    // player (table plugin helper)
+    //
+    jpoker.plugins.player = {
+        create: function(table, packet, id) {
+            player = table.seats[packet.seat];
+            $('#seat' + player.seat + id).show();
+            player.registerUpdate(this.update, id, "update" + id);
+            player.registerDestroy(this.destroy, id, "destroy" + id);
+        },
+
+        update: function(player, packet, id) {
+            switch(packet.type) {
+
+            case 'PacketPokerPlayerCards':
+            break;
+
+            }
+            return true;
+        },
+        
+        destroy: function(player, dummy, id) {
+            $('#seat' + player.seat + id).hide();
+        }
     };
 
 })(jQuery);
