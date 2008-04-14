@@ -871,7 +871,7 @@ test("jpoker.plugins.table", function(){
     });
 
 test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
-        expect(7);
+        expect(8);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -890,8 +890,9 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
         var player_serial = 1;
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id });
         equals($("#seat0" + id).css('display'), 'block', "arrive");
-        equals(table.seats[0].serial, player_serial, "player 1");
-        table.handler(server, game_id, { type: 'PacketPokerPlayerLeave', seat: 0, game_id: game_id });
+        equals(table.seats[0], player_serial, "player 1");
+        equals(table.serial2player[player_serial].serial, player_serial, "player 1 in player2serial");
+        table.handler(server, game_id, { type: 'PacketPokerPlayerLeave', seat: 0, serial: player_serial, game_id: game_id });
         equals($("#seat0" + id).css('display'), 'none', "leave");
         equals(table.seats[0], null, "seat0 again");
         start_and_cleanup();
@@ -914,13 +915,46 @@ test("jpoker.plugins.table: PacketPokerBoardCards", function(){
         equals($("#board0" + id).size(), 1, "board0 DOM element");
         equals($("#board0" + id).css('display'), 'none', "board0 hidden");
         equals(table.board[0], null, "board0 empty");
-        var card = 1;
-        table.handler(server, game_id, { type: 'PacketPokerBoardCards', cards: [card], game_id: game_id });
+        var card_value = 1;
+        table.handler(server, game_id, { type: 'PacketPokerBoardCards', cards: [card_value], game_id: game_id });
         equals($("#board0" + id).css('display'), 'block', "card 1 set");
         var background = $("#board0" + id).css('background-image');
 	equals(background.indexOf("small-2d") >= 0, true, "background " + background);
         equals($("#board1" + id).css('display'), 'none', "card 2 not set");
-        equals(table.board[0], card, "card in slot 0");
+        equals(table.board[0], card_value, "card in slot 0");
+        start_and_cleanup();
+    });
+
+
+test("jpoker.plugins.table: PacketPokerPlayerCards", function(){
+        expect(6);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        place.jpoker('table', 'url', game_id);
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        server.notifyUpdate(table_packet);
+        var player_serial = 1;
+        var player_seat = 2;
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+        var player = server.tables[game_id].serial2player[player_serial];
+        equals(player.serial, player_serial, "player_serial");
+
+        var card = $("#card_seat" + player_seat + "0" + id);
+        var card_value = 1;
+        equals(card.size(), 1, "seat 2, card 0 DOM element");
+        equals(card.css('display'), 'none', "seat 2, card 0 hidden");
+        equals(player.cards[0], null, "player card empty");
+        table.handler(server, game_id, { type: 'PacketPokerPlayerCards', cards: [card_value], serial: player_serial, game_id: game_id });
+        var background = card.css('background-image');
+	equals(background.indexOf("small-2d") >= 0, true, "background " + background);
+        equals(player.cards[0], card_value, "card in slot 0");
+        
         start_and_cleanup();
     });
 
