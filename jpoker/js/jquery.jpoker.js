@@ -839,35 +839,35 @@
                     jpoker.message('table.handler ' + JSON.stringify(packet));
                 }
                 
-                table = server.tables[packet.game_id]
+                table = server.tables[packet.game_id];
 
                 switch(packet.type) {
 
                 case 'PacketPokerTableDestroy':
-                delete server.tables[packet.game_id];
-                table.uninit();
-                break;
+                    delete server.tables[packet.game_id];
+                    table.uninit();
+                    break;
 
                 case 'PacketPokerPlayerArrive':
-                table.seats[packet.seat] = new jpoker.player(server, packet)
-                table.notifyUpdate(packet);
-                break;
+                    table.seats[packet.seat] = new jpoker.player(server, packet);
+                    table.notifyUpdate(packet);
+                    break;
 
                 case 'PacketPokerPlayerLeave':
-                table.notifyUpdate(packet);
-                table.seats[packet.seat].uninit();
-                table.seats[packet.seat] = null;
-                break;
+                    table.notifyUpdate(packet);
+                    table.seats[packet.seat].uninit();
+                    table.seats[packet.seat] = null;
+                    break;
 
                 case 'PacketPokerBoardCards':
-                for(var i = 0; i < packet.cards.length; i++) {
-                    table.board[i] = packet.cards[i];
-                }
-                for(var i = packet.cards.length; i < table.board.length; i++) {
-                    table.board[i] = null;
-                }
-                table.notifyUpdate(packet)
-                break;
+                    for(var i = 0; i < packet.cards.length; i++) {
+                        table.board[i] = packet.cards[i];
+                    }
+                    for(var j = packet.cards.length; j < table.board.length; j++) {
+                        table.board[j] = null;
+                    }
+                    table.notifyUpdate(packet);
+                    break;
 
                 }
 
@@ -900,8 +900,8 @@
             uninit: function() {
                 jpoker.watchable.prototype.uninit.call(this);
                 this.cards = [];
-            },
-        })
+            }
+        });
 
     //
     // Refresh data with the 'handler' function after sending
@@ -1200,7 +1200,7 @@
         var opts = $.extend({}, jpoker.plugins.table.defaults, options);
         var server = jpoker.url2server({ url: url });
 
-        game_id = parseInt(game_id);
+        game_id = parseInt(game_id, 10);
 
         return this.each(function() {
                 var $this = $(this);
@@ -1267,7 +1267,7 @@
                     var card = table.board[i];
                     if(card) {
                         var card_image = 'card_back';
-                        if((card & 0x80) == 0) {
+                        if((card & 0x80) === 0) {
                             card_image = 'small-' + jpoker.card2string[card];
                         }
                         $('#board' + i + id, element).css({ 

@@ -122,7 +122,7 @@ test("jpoker.watchable", function(){
 
         var callback_autoremove = function() {
             return false;
-        }
+        };
         watchable.registerUpdate(callback_autoremove);
         watchable.notifyUpdate();
         equals(watchable.callbacks.update.length, 0, 'empty update');
@@ -640,7 +640,7 @@ test("jpoker.table.init", function(){
             if(packet.type == "PacketPokerTable") {
                 equals(packet.id, game_id);
                 equals(game_id in server.tables, true, game_id + " created");
-                equals(server.tables[game_id].id, game_id, "id")
+                equals(server.tables[game_id].id, game_id, "id");
                 start_and_cleanup();
             }
             return true;
@@ -871,7 +871,8 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
 
         place.jpoker('table', 'url', game_id);
         table_packet = { id: game_id };
-        var table = server.tables[game_id] = new jpoker.table(server, table_packet);
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
         server.notifyUpdate(table_packet);
         equals($("#seat0" + id).size(), 1, "seat0 DOM element");
         equals($("#seat0" + id).css('display'), 'none', "seat0 hidden");
@@ -897,7 +898,8 @@ test("jpoker.plugins.table: PacketPokerBoardCards", function(){
 
         place.jpoker('table', 'url', game_id);
         table_packet = { id: game_id };
-        var table = server.tables[game_id] = new jpoker.table(server, table_packet);
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
         server.notifyUpdate(table_packet);
         equals($("#board0" + id).size(), 1, "board0 DOM element");
         equals($("#board0" + id).css('display'), 'none', "board0 hidden");
@@ -905,7 +907,7 @@ test("jpoker.plugins.table: PacketPokerBoardCards", function(){
         var card = 1;
         table.handler(server, game_id, { type: 'PacketPokerBoardCards', cards: [card], game_id: game_id });
         equals($("#board0" + id).css('display'), 'block', "card 1 set");
-        var background = $("#board0" + id).css('background-image')
+        var background = $("#board0" + id).css('background-image');
 	equals(background.indexOf("small-2d") >= 0, true, "background " + background);
         equals($("#board1" + id).css('display'), 'none', "card 2 not set");
         equals(table.board[0], card, "card in slot 0");
