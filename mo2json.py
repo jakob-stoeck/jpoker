@@ -23,6 +23,8 @@ def gettext_json(domain, path, lang = [], indent = False):
         keys.sort()
         ret = {}
         for k in keys:
+            if k == '':
+                continue
             v = tr._catalog[k]
             if type(k) is tuple:
                 if k[0] not in ret:
