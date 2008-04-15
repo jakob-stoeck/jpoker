@@ -347,7 +347,7 @@
 
             blocked: false,
 
-            session: 'clear',
+            session: 'session=clear',
 
             state: 'disconnected',
 
@@ -378,7 +378,11 @@
             },
 
             ensureSession: function() {
-                this.session = 'session=yes&name=' + jpoker.url2hash(this.url);
+                if(this.session.indexOf('session=clear') === 0) {
+                    this.session = 'session=yes&name=' + jpoker.url2hash(this.url);
+                    this.sendPacket({ 'type': 'PacketPokerExplain',
+                                      'value': 0xFF });
+                }
             },
 
             reset: function() {
@@ -899,7 +903,7 @@
                 jpoker.watchable.prototype.init.call(this);
                 this.cards = [ null, null, null, null, null, null, null ];
                 this.money = 0;
-                this.pots = 0;
+                this.bet = 0;
             },
 
             uninit: function() {
@@ -921,6 +925,12 @@
                 for(var j = packet.cards.length; j < this.cards.length; j++) {
                     this.cards[j] = null;
                 }
+                this.notifyUpdate(packet);
+                break;
+
+                case 'PacketPokerPlayerChips':
+                this.money = packet.money;
+                this.bet = packet.bet;
                 this.notifyUpdate(packet);
                 break;
                 }
@@ -1316,6 +1326,8 @@
             for(var card = 0; card < player.cards.length; card++) {
                 $('#card_seat' + player.seat + card + id).hide();
             }
+            $('#bet_seat' + player.seat + id).hide();
+            $('#money_seat' + player.seat + id).hide();
             player.registerUpdate(this.update, id, "update" + id);
             player.registerDestroy(this.destroy, id, "destroy" + id);
         },
@@ -1325,6 +1337,11 @@
 
             case 'PacketPokerPlayerCards':
             jpoker.plugins.cards.update(player.cards, '#card_seat' + player.seat, id);
+            break;
+
+            case 'PacketPokerPlayerChips':
+            jpoker.plugins.chips.update(player.money, '#money_seat' + player.seat + id);
+            jpoker.plugins.chips.update(player.bet, '#bet_seat' + player.seat + id);
             break;
 
             }
@@ -1361,5 +1378,17 @@
             }
         }
     };
-
+    //
+    // chips (table plugin helper)
+    //
+    jpoker.plugins.chips = {
+        update: function(chips, id) {
+            $(id).html(chips);
+            if(chips > 0) {
+                $(id).show();
+            } else {
+                $(id).hide();
+            }
+        }
+    };
 })(jQuery);

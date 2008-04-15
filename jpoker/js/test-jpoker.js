@@ -637,7 +637,7 @@ test("jpoker.table.init", function(){
             outgoing: '[{"type": "PacketPokerTable", "id": ' + game_id + '}]',
 
             handle: function(packet) {
-                if(packet.indexOf("PacketPing") >= 0) {
+                if(packet.indexOf("PacketPing") >= 0 || packet.indexOf("PacketPokerExplain") >= 0) {
                     return;
                 }
                 equals(packet, '{"type":"PacketPokerTableJoin","game_id":' + game_id + '}');
@@ -843,7 +843,7 @@ test("jpoker.plugins.table", function(){
             outgoing: '[{"type": "PacketPokerTable", "id": ' + game_id + '}]',
 
             handle: function(packet) {
-                if(packet.indexOf("PacketPing") >= 0) {
+                if(packet.indexOf("PacketPing") >= 0 || packet.indexOf("PacketPokerExplain") >= 0) {
                     return;
                 }
                 equals(packet, '{"type":"PacketPokerTableJoin","game_id":' + game_id + '}');
@@ -954,6 +954,46 @@ test("jpoker.plugins.table: PacketPokerPlayerCards", function(){
         var background = card.css('background-image');
 	equals(background.indexOf("small-2d") >= 0, true, "background " + background);
         equals(player.cards[0], card_value, "card in slot 0");
+        
+        start_and_cleanup();
+    });
+
+test("jpoker.plugins.table: PacketPokerPlayerChips", function(){
+        expect(11);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        place.jpoker('table', 'url', game_id);
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        server.notifyUpdate(table_packet);
+        var player_serial = 1;
+        var player_seat = 2;
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+        var player = server.tables[game_id].serial2player[player_serial];
+        equals(player.serial, player_serial, "player_serial");
+
+        var slots = [ 'bet', 'money' ];
+        for(var i = 0; i < slots.length; i++) {
+            var chips = $("#" + slots[i] + "_seat" + player_seat + id);
+            equals(chips.size(), 1, slots[i] + " DOM element");
+            equals(chips.css('display'), 'none', slots[i] + " chips hidden");
+            equals(player[slots[i]], 0, slots[i] + " chips");
+            var packet = { type: 'PacketPokerPlayerChips',
+                           money: 0,
+                           bet: 0,
+                           serial: player_serial,
+                           game_id: game_id };
+            var amount = 101;
+            packet[slots[i]] = amount;
+            table.handler(server, game_id, packet);
+            equals(chips.css('display'), 'block', slots[i] + " chips visible");
+            equals(chips.html().indexOf(amount) >= 0, true, amount + " in html ");
+        }
         
         start_and_cleanup();
     });
