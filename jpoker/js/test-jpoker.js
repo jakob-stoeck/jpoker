@@ -925,6 +925,37 @@ test("jpoker.plugins.table: PacketPokerBoardCards", function(){
         start_and_cleanup();
     });
 
+test("jpoker.plugins.table: PacketPokerPotChips/Reset", function(){
+        expect(8);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        place.jpoker('table', 'url', game_id);
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+        server.notifyUpdate(table_packet);
+        equals($("#pot0" + id).size(), 1, "pot0 DOM element");
+        equals($("#pot0" + id).css('display'), 'none', "pot0 hidden");
+        equals(table.pots[0], 0, "pot0 empty");
+        var pot = [10, 3, 100, 8];
+        var pot_value = jpoker.chips.chips2value(pot);
+        equals(pot_value, 830, "pot_value");
+
+        table.handler(server, game_id, { type: 'PacketPokerPotChips', bet: pot, index: 0, game_id: game_id });
+        equals($("#pot0" + id).css('display'), 'block', "pot 0 set");
+        equals(table.pots[0], pot_value, "pot0 empty");
+
+        table.handler(server, game_id, { type: 'PacketPokerChipsPotReset', game_id: game_id });
+        equals($("#pot0" + id).css('display'), 'none', "pot0 hidden");
+        equals(table.pots[0], 0, "pot0 empty");
+        start_and_cleanup();
+        return;
+    });
 
 test("jpoker.plugins.table: PacketPokerPlayerCards", function(){
         expect(6);

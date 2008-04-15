@@ -254,6 +254,26 @@
             return Array(h0,h1,h2,h3,h4);
         };
 
+    //
+    // chips helpers
+    //
+    jpoker.chips = {
+        chips2value: function(chips) {
+            var value = 0;
+            for(var i = 0; i < chips.length; i += 2) {
+                value += chips[i] * chips[i + 1];
+            }
+            return value;
+        }
+    };
+
+    //
+    // cards helpers
+    //
+    jpoker.cards = {
+        // Ad replaced with Ax to escape adblock 
+        card2string: [ '2h', '2d', '2c', '2s', '3h', '3d', '3c', '3s', '4h', '4d', '4c', '4s', '5h', '5d', '5c', '5s', '6h', '6d', '6c', '6s', '7h', '7d', '7c', '7s', '8h', '8d', '8c', '8s', '9h', '9d', '9c', '9s', 'Th', 'Td', 'Tc', 'Ts', 'Jh', 'Jd', 'Jc', 'Js', 'Qh', 'Qd', 'Qc', 'Qs', 'Kh', 'Kd', 'Kc', 'Ks', 'Ah', 'Ax', 'Ac', 'As' ]
+    };
 
     //
     // Abstract prototype for all objects that
@@ -821,8 +841,7 @@
                 this.seats = [ null, null, null, null, null, 
                                null, null, null, null, null ];
                 this.board = [ null, null, null, null, null ];
-                this.pots = [ null, null, null, null, null,
-                              null, null, null, null ];
+                this.pots = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
             },
 
             uninit: function() {
@@ -874,6 +893,15 @@
                     table.notifyUpdate(packet);
                     break;
 
+                case 'PacketPokerPotChips':
+                    table.pots[packet.index] = jpoker.chips.chips2value(packet.bet);
+                    table.notifyUpdate(packet);
+                    break;
+
+                case 'PacketPokerChipsPotReset':
+                    table.pots = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+                    table.notifyUpdate(packet);
+                    break;
                 }
 
                 if(packet.serial in table.serial2player) {
@@ -1274,10 +1302,16 @@
             var table = server.tables[game_id];
             element.html(this.templates.room.supplant({ id: id }));
             for(var seat = 0; seat < table.seats.length; seat++) {
-                $('#seat' + seat + id, element).hide();
+                $('#seat' + seat + id).hide();
             }
             for(var board = 0; board < table.board.length; board++) {
-                $('#board' + board + id, element).hide();
+                $('#board' + board + id).hide();
+            }
+            for(var pot = 0; pot < table.pots.length; pot++) {
+                $('#pot' + pot + id).hide();
+            }
+            for(var winner = 0; winner < 2; winner++) {
+                $('#winner' + winner + id).hide();
             }
             table.registerUpdate(this.update, id, "update" + id);
             table.registerDestroy(this.destroy, id, "destory" + id);
@@ -1297,7 +1331,17 @@
                 jpoker.plugins.cards.update(table.board, '#board', id);
                 break;
 
+            case 'PacketPokerPotChips':
+                jpoker.plugins.chips.update(table.pots[packet.index], '#pot' + packet.index + id);
+                break;
+
+            case 'PacketPokerChipsPotReset':
+                for(var pot = 0; pot < table.pots.length; pot++) {
+                    $('#pot' + pot + id).hide();
+                }
+                break;
             }
+
             return true;
         } else {
             return false;
@@ -1357,16 +1401,13 @@
     // cards (table plugin helper)
     //
     jpoker.plugins.cards = {
-        // Ad replaced with Ax to escape adblock 
-        card2string: [ '2h', '2d', '2c', '2s', '3h', '3d', '3c', '3s', '4h', '4d', '4c', '4s', '5h', '5d', '5c', '5s', '6h', '6d', '6c', '6s', '7h', '7d', '7c', '7s', '8h', '8d', '8c', '8s', '9h', '9d', '9c', '9s', 'Th', 'Td', 'Tc', 'Ts', 'Jh', 'Jd', 'Jc', 'Js', 'Qh', 'Qd', 'Qc', 'Qs', 'Kh', 'Kd', 'Kc', 'Ks', 'Ah', 'Ax', 'Ac', 'As' ],
-
         update: function(cards, prefix, id) {
             for(var i = 0; i < cards.length; i++) {
                 var card = cards[i];
                 if(card) {
                     var card_image = 'small-back';
                     if((card & 0x80) === 0) {
-                        card_image = 'small-' + this.card2string[card];
+                        card_image = 'small-' + jpoker.cards.card2string[card];
                     }
                     $(prefix + i + id).css({ 
                             'background-image': 'url("images/cards/' + card_image + '.png")',
@@ -1390,5 +1431,6 @@
                 $(id).hide();
             }
         }
+
     };
 })(jQuery);
