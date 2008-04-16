@@ -233,6 +233,13 @@
        width="150"
        height="75"
        id="table_status" />
+      <image
+         id="sit_seat0"
+         height="101"
+         width="102"
+         y="128.44835"
+         x="25.861681"
+         xlink:href="get_seat.png" />
     <g
        id="seat0">
       <image
@@ -249,13 +256,6 @@
          y="243.70039"
          x="144.08949"
          xlink:href="bet.png" />
-      <image
-         id="sit_seat0"
-         height="101"
-         width="102"
-         y="128.44835"
-         x="25.861681"
-         xlink:href="get_seat.png" />
       <image
          id="name_seat0"
          height="25"
@@ -330,6 +330,13 @@
            inkscape:label="#card_seat01" />
       </g>
     </g>
+      <image
+         id="sit_seat1"
+         height="101"
+         width="102"
+         y="6.3218312"
+         x="213.8475"
+         xlink:href="get_seat.png" />
     <g
        id="seat1">
       <image
@@ -346,13 +353,6 @@
          y="176.77432"
          x="246.03502"
          xlink:href="bet.png" />
-      <image
-         id="sit_seat1"
-         height="101"
-         width="102"
-         y="6.3218312"
-         x="213.8475"
-         xlink:href="get_seat.png" />
       <image
          id="name_seat1"
          height="25"
@@ -376,6 +376,13 @@
          id="card_seat1"
          transform="translate(188.6978,-122.3587)" />
     </g>
+      <image
+         id="sit_seat2"
+         height="101"
+         width="102"
+         y="6.3218298"
+         x="352.53128"
+         xlink:href="get_seat.png" />
     <g
        id="seat2">
       <image
@@ -392,13 +399,6 @@
          y="175.99611"
          x="387.66928"
          xlink:href="bet.png" />
-      <image
-         id="sit_seat2"
-         height="101"
-         width="102"
-         y="6.3218298"
-         x="352.53128"
-         xlink:href="get_seat.png" />
       <image
          id="name_seat2"
          height="25"
@@ -422,6 +422,13 @@
          id="card_seat2"
          transform="translate(326.2211,-122.3587)" />
     </g>
+      <image
+         id="sit_seat3"
+         height="101"
+         width="102"
+         y="7.2849135"
+         x="487.36273"
+         xlink:href="get_seat.png" />
     <g
        id="seat3">
       <image
@@ -438,13 +445,6 @@
          y="174.43968"
          x="524.63428"
          xlink:href="bet.png" />
-      <image
-         id="sit_seat3"
-         height="101"
-         width="102"
-         y="7.2849135"
-         x="487.36273"
-         xlink:href="get_seat.png" />
       <image
          id="name_seat3"
          height="25"
@@ -468,6 +468,13 @@
          id="card_seat3"
          transform="translate(462.2703,-122.3587)" />
     </g>
+      <image
+         id="sit_seat4"
+         height="101"
+         width="102"
+         y="128.63322"
+         x="679.01605"
+         xlink:href="get_seat.png" />
     <g
        id="seat4">
       <image
@@ -484,13 +491,6 @@
          y="248.36964"
          x="611.01556"
          xlink:href="bet.png" />
-      <image
-         id="sit_seat4"
-         height="101"
-         width="102"
-         y="128.63322"
-         x="679.01605"
-         xlink:href="get_seat.png" />
       <image
          id="name_seat4"
          height="25"
@@ -514,6 +514,13 @@
          id="card_seat4"
          transform="translate(653.1744,0.948403)" />
     </g>
+      <image
+         id="sit_seat5"
+         height="101"
+         width="102"
+         y="398.29614"
+         x="679.01605"
+         xlink:href="get_seat.png" />
     <g
        id="seat5">
       <image
@@ -530,13 +537,6 @@
          y="335.52917"
          x="607.90271"
          xlink:href="bet.png" />
-      <image
-         id="sit_seat5"
-         height="101"
-         width="102"
-         y="398.29614"
-         x="679.01605"
-         xlink:href="get_seat.png" />
       <image
          id="name_seat5"
          height="25"
@@ -560,6 +560,13 @@
          id="card_seat5"
          transform="translate(653.5971,102.2457)" />
     </g>
+      <image
+         id="sit_seat6"
+         height="101"
+         width="102"
+         y="491.71509"
+         x="480.62119"
+         xlink:href="get_seat.png" />
     <g
        id="seat6">
       <image
@@ -576,13 +583,6 @@
          y="393.11673"
          x="509.84827"
          xlink:href="bet.png" />
-      <image
-         id="sit_seat6"
-         height="101"
-         width="102"
-         y="491.71509"
-         x="480.62119"
-         xlink:href="get_seat.png" />
       <image
          id="name_seat6"
          height="25"
@@ -606,6 +606,13 @@
          id="card_seat6"
          transform="translate(454.8993,195.6462)" />
     </g>
+      <image
+         id="sit_seat7"
+         height="101"
+         width="102"
+         y="491.53024"
+         x="347.79184"
+         xlink:href="get_seat.png" />
     <g
        id="seat7">
       <image
@@ -622,13 +629,6 @@
          y="394.67316"
          x="379.88715"
          xlink:href="bet.png" />
-      <image
-         id="sit_seat7"
-         height="101"
-         width="102"
-         y="491.53024"
-         x="347.79184"
-         xlink:href="get_seat.png" />
       <image
          id="name_seat7"
          height="25"
@@ -652,6 +652,13 @@
          id="card_seat7"
          transform="translate(320.7469,195.6462)" />
     </g>
+      <image
+         id="sit_seat8"
+         height="101"
+         width="102"
+         y="490.75201"
+         x="211.92136"
+         xlink:href="get_seat.png" />
     <g
        id="seat8">
       <image
@@ -668,13 +675,6 @@
          y="392.33853"
          x="246.81323"
          xlink:href="bet.png" />
-      <image
-         id="sit_seat8"
-         height="101"
-         width="102"
-         y="490.75201"
-         x="211.92136"
-         xlink:href="get_seat.png" />
       <image
          id="name_seat8"
          height="25"
@@ -698,6 +698,13 @@
          id="card_seat8"
          transform="translate(186.172,195.6462)" />
     </g>
+      <image
+         id="sit_seat9"
+         height="101"
+         width="102"
+         y="398.52722"
+         x="26.042801"
+         xlink:href="get_seat.png" />
     <g
        id="seat9">
       <image
@@ -714,13 +721,6 @@
          y="333.97275"
          x="147.20235"
          xlink:href="bet.png" />
-      <image
-         id="sit_seat9"
-         height="101"
-         width="102"
-         y="398.52722"
-         x="26.042801"
-         xlink:href="get_seat.png" />
       <image
          id="name_seat9"
          height="25"
