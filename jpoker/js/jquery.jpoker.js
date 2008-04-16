@@ -902,6 +902,10 @@
                     table.pots = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
                     table.notifyUpdate(packet);
                     break;
+
+                case 'PacketPokerDealer':
+                    table.notifyUpdate(packet);
+                    break;
                 }
 
                 if(packet.serial in table.serial2player) {
@@ -1303,6 +1307,7 @@
             element.html(this.templates.room.supplant({ id: id }));
             for(var seat = 0; seat < table.seats.length; seat++) {
                 $('#seat' + seat + id).hide();
+                $('#dealer' + seat + id).hide();
             }
             for(var board = 0; board < table.board.length; board++) {
                 $('#board' + board + id).hide();
@@ -1340,6 +1345,16 @@
                     $('#pot' + pot + id).hide();
                 }
                 break;
+
+            case 'PacketPokerDealer':
+                for(var seat = 0; seat < table.seats.length; seat++) {
+                    if(seat == packet.dealer) {
+                        $('#dealer' + seat + id).show();
+                    } else {
+                        $('#dealer' + seat + id).hide();
+                    }
+                }
+                break;
             }
 
             return true;
@@ -1370,8 +1385,14 @@
             for(var card = 0; card < player.cards.length; card++) {
                 $('#card_seat' + player.seat + card + id).hide();
             }
-            $('#bet_seat' + player.seat + id).hide();
-            $('#money_seat' + player.seat + id).hide();
+            var bet = $('#bet_seat' + player.seat + id);
+            bet.hide();
+            bet.css('text-align', 'center');
+            // bet.css('line-height', 34);
+            var money = $('#money_seat' + player.seat + id)
+            money.hide();
+            money.css('text-align', 'center');
+            // money.css('line-height', 34);
             player.registerUpdate(this.update, id, "update" + id);
             player.registerDestroy(this.destroy, id, "destroy" + id);
         },

@@ -925,6 +925,31 @@ test("jpoker.plugins.table: PacketPokerBoardCards", function(){
         start_and_cleanup();
     });
 
+test("jpoker.plugins.table: PacketPokerDealer", function(){
+        expect(6);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        place.jpoker('table', 'url', game_id);
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+        server.notifyUpdate(table_packet);
+        equals($("#dealer0" + id).size(), 1, "dealer0 DOM element");
+        equals($("#dealer0" + id).css('display'), 'none', "dealer0 hidden");
+        table.handler(server, game_id, { type: 'PacketPokerDealer', dealer: 0, game_id: game_id });
+        equals($("#dealer0" + id).css('display'), 'block', "dealer 0 set");
+        equals($("#dealer1" + id).css('display'), 'none', "dealer 1 not set");
+        table.handler(server, game_id, { type: 'PacketPokerDealer', dealer: 1, game_id: game_id });
+        equals($("#dealer0" + id).css('display'), 'none', "dealer 0 not set");
+        equals($("#dealer1" + id).css('display'), 'block', "dealer 1 set");
+        start_and_cleanup();
+    });
+
 test("jpoker.plugins.table: PacketPokerPotChips/Reset", function(){
         expect(8);
         stop();

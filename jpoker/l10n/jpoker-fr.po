@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jpoker-fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-16 00:59+0200\n"
+"POT-Creation-Date: 2008-04-16 11:24+0200\n"
 "PO-Revision-Date: 2008-04-11 15:19+0200\n"
 "Last-Translator: Loic Dachary <loic@dachary.org>\n"
 "Language-Team: french <fr@li.org>\n"
@@ -19,123 +19,123 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: jpoker/js/jquery.jpoker.js:764
+#: jpoker/js/jquery.jpoker.js:784
 msgid " (login name is {name} )"
 msgstr "(nom de login {name} )"
 
-#: jpoker/js/jquery.jpoker.js:1069
+#: jpoker/js/jquery.jpoker.js:1093
 msgid "%Flop"
 msgstr "%Flop"
 
-#: jpoker/js/jquery.jpoker.js:1067
+#: jpoker/js/jquery.jpoker.js:1091
 msgid "Average Pot"
 msgstr "Pot moyen"
 
-#: jpoker/js/jquery.jpoker.js:1077
+#: jpoker/js/jquery.jpoker.js:1101
 msgid "Betting Structure"
 msgstr "Structure de mise"
 
-#: jpoker/js/jquery.jpoker.js:1095
+#: jpoker/js/jquery.jpoker.js:1119
 msgid "Click to join the table"
 msgstr "Cliquer pour aller à la table"
 
-#: jpoker/js/jquery.jpoker.js:1074
+#: jpoker/js/jquery.jpoker.js:1098
 msgid "Currency"
 msgstr "Monnaie"
 
-#: jpoker/js/jquery.jpoker.js:1068
+#: jpoker/js/jquery.jpoker.js:1092
 msgid "Hands/Hour"
 msgstr "Mains/heure"
 
-#: jpoker/js/jquery.jpoker.js:1075
+#: jpoker/js/jquery.jpoker.js:1099
 msgid "Name"
 msgstr "Nom"
 
-#: jpoker/js/jquery.jpoker.js:1071
+#: jpoker/js/jquery.jpoker.js:1095
 msgid "Observers"
 msgstr "Observateurs"
 
-#: jpoker/js/jquery.jpoker.js:1070
+#: jpoker/js/jquery.jpoker.js:1094
 msgid "Players"
 msgstr "Joueurs"
 
-#: jpoker/js/jquery.jpoker.js:1066
+#: jpoker/js/jquery.jpoker.js:1090
 msgid "Seats"
 msgstr "Sièges"
 
-#: jpoker/js/jquery.jpoker.js:1078
+#: jpoker/js/jquery.jpoker.js:1102
 msgid "Skin"
 msgstr "Aspect"
 
-#: jpoker/js/jquery.jpoker.js:1073
+#: jpoker/js/jquery.jpoker.js:1097
 msgid "Timeout"
 msgstr "Temps maximum"
 
-#: jpoker/js/jquery.jpoker.js:1076
+#: jpoker/js/jquery.jpoker.js:1100
 msgid "Variant"
 msgstr "Variante"
 
-#: jpoker/js/jquery.jpoker.js:1072
+#: jpoker/js/jquery.jpoker.js:1096
 msgid "Waiting"
 msgstr "En attente"
 
-#: jpoker/js/jquery.jpoker.js:1253
+#: jpoker/js/jquery.jpoker.js:1277
 msgid "connecting to table {name}"
 msgstr "en cours de connection à la table {name}"
 
-#: jpoker/js/jquery.jpoker.js:1294
+#: jpoker/js/jquery.jpoker.js:1322
 msgid "destory"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:1353
+#: jpoker/js/jquery.jpoker.js:1391
 msgid "destroy"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:1143
+#: jpoker/js/jquery.jpoker.js:1167
 msgid "disconnected"
 msgstr "déconnecté"
 
-#: jpoker/js/jquery.jpoker.js:1037 jpoker/js/jquery.jpoker.js:1039
+#: jpoker/js/jquery.jpoker.js:1061 jpoker/js/jquery.jpoker.js:1063
 msgid "hover"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:1195
+#: jpoker/js/jquery.jpoker.js:1219
 msgid "login in progress"
 msgstr "authentification en cours"
 
-#: jpoker/js/jquery.jpoker.js:1226
+#: jpoker/js/jquery.jpoker.js:1250
 msgid "login: "
 msgstr "login:"
 
-#: jpoker/js/jquery.jpoker.js:1227
+#: jpoker/js/jquery.jpoker.js:1251
 msgid "password: "
 msgstr "mot de passe:"
 
-#: jpoker/js/jquery.jpoker.js:1146
+#: jpoker/js/jquery.jpoker.js:1170
 msgid "players"
 msgstr "joueurs"
 
-#: jpoker/js/jquery.jpoker.js:1149
+#: jpoker/js/jquery.jpoker.js:1173
 msgid "tables"
 msgstr "tables"
 
-#: jpoker/js/jquery.jpoker.js:1293 jpoker/js/jquery.jpoker.js:1352
+#: jpoker/js/jquery.jpoker.js:1321 jpoker/js/jquery.jpoker.js:1390
 msgid "update"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:770
+#: jpoker/js/jquery.jpoker.js:790
 msgid "user {name} is already logged in"
 msgstr "l'utilisateur {name} est déjà authentifié"
 
-#: jpoker/js/jquery.jpoker.js:602
+#: jpoker/js/jquery.jpoker.js:622
 msgid "wait for {delay}s for queue {id}"
 msgstr "en attente pour {delay}s dans la file {id}"
 
-#: jpoker/js/jquery.jpoker.js:1224
+#: jpoker/js/jquery.jpoker.js:1248
 msgid "{logname} logout"
 msgstr "déconnecter {logname}"
 
-#: jpoker/js/jquery.jpoker.js:748
+#: jpoker/js/jquery.jpoker.js:768
 msgid "{url} attempt to login {name} although serial is {serial} instead of 0"
 msgstr ""
 "{url} tentative d'authentification de {name} bien que le numéro de série "
