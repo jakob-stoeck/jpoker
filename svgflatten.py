@@ -18,6 +18,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301, USA.
 #
+
+# python2.5 hack https://launchpad.net/ubuntu/hardy/+source/python-xml/0.8.4-10ubuntu1
+import sys
+sys.path.append('/usr/lib/python%s/site-packages/oldxml' % sys.version[:3])
+
 import re
 from xml.dom import minidom
 from xml.xpath import Evaluate
