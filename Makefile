@@ -48,6 +48,9 @@ ${LANG_DIR}/jpoker-%.json: ${LANG_DIR}/%.mo
 i18n: ${LANG_JSON}
 
 gems/bin/tiddlywiki_cp: 
+	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp || \
+	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp || \
+	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp || \
 	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp
 
 empty.html:
