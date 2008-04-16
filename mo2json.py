@@ -13,7 +13,7 @@
 #
 import simplejson as enc
 import gettext
-def gettext_json(domain, path, lang = [], indent = False):
+def gettext_json(domain, path, lang = []):
     try:
         tr = gettext.translation(domain, path, lang)
         # for unknown reasons, instead of having plural entries like
@@ -32,7 +32,7 @@ def gettext_json(domain, path, lang = [], indent = False):
                 ret[k[0]].append(v)
             else:
                 ret[k] = v
-        return enc.dumps(ret, ensure_ascii = False, indent = indent)
+        return enc.dumps(ret, ensure_ascii = False)
     except IOError:
         return None
 
