@@ -1,6 +1,424 @@
-2008-04-07  root  <root@sd-11801.dedibox.fr>
+2008-04-16  loic  <loic@call.dachary.org>
 
 	* Release 1.0.11
+
+	* jpoker/js/mockup.css, jpoker/js/mockup.js, jpoker/l10n/jpoker-fr.po,
+	jpoker/l10n/jpoker-ja.po, svg2html.py, test-svg2html.py:
+	ignore some images that are placeholders and not graphic elements
+	[128fd6e3c24f] [tip]
+
+	* jpoker/js/test-jpoker.js:
+	implement chips tooltip + position packet + jslint fixes
+	[a4be169d1bbc]
+
+	* jpoker/js/jquery.jpoker.js:
+	implement chips tooltip + position packet + jslint fixes
+	[c1fa5fa7facc]
+
+	* jpoker/images/mockup.svg:
+	the invitation to sit image is not part of the seat group
+	[c3bb06988687]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js, jpoker/l10n
+	/jpoker-fr.po, jpoker/l10n/jpoker-ja.po:
+	display user name
+	[8b1dfd250101]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js, jpoker/l10n
+	/jpoker-fr.po, jpoker/l10n/jpoker-ja.po:
+	implement PacketDealer
+	[61fd0c01922b]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js, jpoker/l10n
+	/jpoker-fr.po, jpoker/l10n/jpoker-ja.po:
+	update pot chips
+	[7ea6d1d7b567]
+
+2008-04-15  loic  <loic@call.dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js, jpoker/l10n
+	/jpoker-fr.po, jpoker/l10n/jpoker-ja.po:
+	implement PokerExplain + PlayerChips
+	[ae5bbb2fbff7]
+
+	* jpoker/images/mockup.svg, jpoker/js/jquery.jpoker.js,
+	jpoker/js/mockup.css, jpoker/js/mockup.js, jpoker/js/test-jpoker.js,
+	jpoker/l10n/jpoker-fr.po, jpoker/l10n/jpoker-ja.po:
+	display player cards
+	[abf6a7a7d8f8]
+
+	* jpoker/images/cards/small-Ad.png, jpoker/images/cards/small-Ax.png:
+	Ad renamed Ax to escape adblock
+	[9c8aff727ee9]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	separate player object
+	[694773e2249d]
+
+	* jpoker/l10n/jpoker-fr.json, jpoker/l10n/jpoker-fr.po, jpoker/l10n
+	/jpoker-ja.json, jpoker/l10n/jpoker-ja.po:
+	get rid of id string
+	[43ad01dbd8f1]
+
+	* mo2json.py:
+	skip empty string entry because it causes constant changes because
+	of the date
+	[245180ee42cf]
+
+2008-04-14  loic  <loic@call.dachary.org>
+
+	* mockup.xcf:
+	old source file for 2d interface
+	[6cee05765fd4]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jslint compliance
+	[fafbf6b8f89e]
+
+	* jpoker/images/mockup.svg, jpoker/js/jquery.jpoker.js,
+	jpoker/js/mockup.css, jpoker/js/mockup.js, jpoker/js/test-jpoker.js,
+	jpoker/l10n/jpoker-fr.json, jpoker/l10n/jpoker-fr.po, jpoker/l10n
+	/jpoker-ja.json, jpoker/l10n/jpoker-ja.po:
+	implement board card display
+	[a8403ed8d83b]
+
+2008-04-14  saq  <saq@saq-laptop>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/tablelist.css:
+	added row hover color changes and pointing cursor to TableList
+	[12bb163a8cce]
+
+2008-04-13  loic  <loic@call.dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js, jpoker/l10n
+	/jpoker-ja.json, jpoker/l10n/jpoker-ja.po:
+	implement PacketPokerLeave/Arrive
+	[d618118e8b32]
+
+	* jpoker/test-jpoker.html:
+	add mockup.js load
+	[7c12e3268316]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler:
+	revert to /REST being the default
+	[4f69124926fa]
+
+	* Makefile, jpoker/images/banner.jpg, jpoker/index/StyleSheet.css,
+	jpoker/js/jpoker.css, jpoker/js/jquery.jpoker.js,
+	jpoker/js/mockup.css, jpoker/js/mockup.js, jpoker/l10n/jpoker-
+	ja.json, jpoker/l10n/jpoker-ja.po,
+	jpoker/markup/MarkupPostBody.tiddler,
+	jpoker/markup/MarkupPreHead.tiddler, svg2html.py:
+	separate mockup css and json string + fixed tw size and banner
+	[cc68e7b6675b]
+
+	* Makefile, jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/js/jpoker.css, jpoker/js/jquery.jpoker.js, jpoker/l10n
+	/jpoker-ja.json, jpoker/l10n/jpoker-ja.po, svg2html.py, test-
+	svg2html.py:
+	poker table relative to parent + get images from ../
+	[d1fe2233cd7d]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler:
+	revert to /REST being the default
+	[4d151ffe2fcc]
+
+	* Makefile, jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/js/jpoker.css, jpoker/js/jquery.jpoker.js, jpoker/js/test-
+	jpoker.js, jpoker/l10n/jpoker-ja.json, jpoker/l10n/jpoker-ja.po,
+	svg2html.py, test-svg2html.py:
+	bugous integration of graphical table display
+	[e0e7b8df922a]
+
+	* test-svg2html.py:
+	fix tests to match class changes
+	[b520e94d35f4]
+
+	* svg2html.py, test-svg2html.py:
+	ptable prefix to mockup classes
+	[050417cde357]
+
+	* debian/control:
+	build depends on tidy
+	[951ffa427253]
+
+	* test-svg2html.py:
+	fix tests to match class changes
+	[0105fd54c53b]
+
+	* Makefile, debian/control:
+	create table display mockup & depend on python-xml
+	[a19159bfd676]
+
+	* Makefile, svg2html.py:
+	use classes for css instead of id
+	[d3ac84124baa]
+
+	* Makefile, jpoker/images/mockup.svg, svg2html.py, svgflatten.py,
+	test-svg2html.py, test-svgflatten.py:
+	convert svg to html mockup
+	[06b62bec8f6c]
+
+2008-04-11  loic  <loic@call.dachary.org>
+
+	* jpoker/images/bet.png, jpoker/images/call.png,
+	jpoker/images/card_back.png, jpoker/images/cards/small-2c.png,
+	jpoker/images/cards/small-2d.png, jpoker/images/cards/small-2h.png,
+	jpoker/images/cards/small-2s.png, jpoker/images/cards/small-3c.png,
+	jpoker/images/cards/small-3d.png, jpoker/images/cards/small-3h.png,
+	jpoker/images/cards/small-3s.png, jpoker/images/cards/small-4c.png,
+	jpoker/images/cards/small-4d.png, jpoker/images/cards/small-4h.png,
+	jpoker/images/cards/small-4s.png, jpoker/images/cards/small-5c.png,
+	jpoker/images/cards/small-5d.png, jpoker/images/cards/small-5h.png,
+	jpoker/images/cards/small-5s.png, jpoker/images/cards/small-6c.png,
+	jpoker/images/cards/small-6d.png, jpoker/images/cards/small-6h.png,
+	jpoker/images/cards/small-6s.png, jpoker/images/cards/small-7c.png,
+	jpoker/images/cards/small-7d.png, jpoker/images/cards/small-7h.png,
+	jpoker/images/cards/small-7s.png, jpoker/images/cards/small-8c.png,
+	jpoker/images/cards/small-8d.png, jpoker/images/cards/small-8h.png,
+	jpoker/images/cards/small-8s.png, jpoker/images/cards/small-9c.png,
+	jpoker/images/cards/small-9d.png, jpoker/images/cards/small-9h.png,
+	jpoker/images/cards/small-9s.png, jpoker/images/cards/small-Ac.png,
+	jpoker/images/cards/small-Ad.png, jpoker/images/cards/small-Ah.png,
+	jpoker/images/cards/small-As.png, jpoker/images/cards/small-Jc.png,
+	jpoker/images/cards/small-Jd.png, jpoker/images/cards/small-Jh.png,
+	jpoker/images/cards/small-Js.png, jpoker/images/cards/small-Kc.png,
+	jpoker/images/cards/small-Kd.png, jpoker/images/cards/small-Kh.png,
+	jpoker/images/cards/small-Ks.png, jpoker/images/cards/small-Qc.png,
+	jpoker/images/cards/small-Qd.png, jpoker/images/cards/small-Qh.png,
+	jpoker/images/cards/small-Qs.png, jpoker/images/cards/small-Tc.png,
+	jpoker/images/cards/small-Td.png, jpoker/images/cards/small-Th.png,
+	jpoker/images/cards/small-Ts.png, jpoker/images/cards/small-
+	back.png, jpoker/images/check.png, jpoker/images/dealer.png,
+	jpoker/images/exit.png, jpoker/images/fold.png,
+	jpoker/images/get_seat.png, jpoker/images/gtkrc,
+	jpoker/images/mockup.svg, jpoker/images/money.png,
+	jpoker/images/name.png, jpoker/images/player.png,
+	jpoker/images/player_active.png, jpoker/images/pot.png,
+	jpoker/images/raise.png, jpoker/images/raise_slider.png,
+	jpoker/images/raise_slider_dock.png, jpoker/images/rebuy.png,
+	jpoker/images/status.png, jpoker/images/table.png,
+	jpoker/images/table1_active.png, jpoker/images/table1_normal.png,
+	jpoker/images/table2_active.png, jpoker/images/table2_normal.png,
+	jpoker/images/table3_active.png, jpoker/images/table3_normal.png,
+	jpoker/images/table4_active.png, jpoker/images/table4_normal.png,
+	jpoker/images/table5_active.png, jpoker/images/table5_normal.png,
+	jpoker/images/table_background.png, jpoker/images/tables_dock.png,
+	jpoker/images/winner.png:
+	import display graphics from svn://svn.gna.org/svn/pokersource/trunk
+	/poker-network/pokerclient2d/data/interface/table
+	[fcb9aea2d299]
+
+	* Makefile, jpoker/index-ja.html, jpoker/l10n/jpoker-fr.json,
+	jpoker/l10n/jpoker-fr.po, jpoker/l10n/jpoker-ja.json, jpoker/l10n
+	/jpoker-ja.po:
+	merge proppy japanese translation
+	[30b8f0818d12]
+
+2008-04-09  root  <root@sd-11801.dedibox.fr>
+
+	* Makefile, jpoker/index-en/lang.tiddler, jpoker/index-fr.html, jpoker
+	/index-fr/lang.tiddler, jpoker/index-ja.html, jpoker/index-
+	ja/JapaneseTranslation.js, jpoker/index-
+	ja/JapaneseTranslation.js.div, jpoker/index-ja/lang.tiddler, jpoker
+	/index-ja/lang.tiddler.div, jpoker/index-jp.html, jpoker/index-
+	jp/JapaneseTranslation.js, jpoker/index-
+	jp/JapaneseTranslation.js.div, jpoker/index-jp/lang.tiddler, jpoker
+	/index-jp/lang.tiddler.div, jpoker/index.html, jpoker/l10n/jpoker-
+	fr.json, jpoker/l10n/jpoker-fr.po, jpoker/l10n/jpoker-ja.json,
+	jpoker/l10n/jpoker-ja.po, jpoker/l10n/jpoker-jp.json, jpoker/l10n
+	/jpoker-jp.po, jpoker/markup/MarkupPreHead.tiddler,
+	jpoker/poker.html:
+	rename japanse locale to ja instead of jp
+	[567eb324947d]
+
+	* jpoker/l10n/jpoker-jp.po:
+	update jp translation
+	[b4afbb06c5b0]
+
+	* Makefile:
+	add tiddlywiki rules dependencies
+	[cf9d3d310b14]
+
+	* Makefile:
+	specific rules for cooking index.html and poker.html
+	[eb59dbb28fdc]
+
+	* Makefile:
+	add LANG_TW and update cook rule
+	[5db8aa573836]
+
+	* Makefile:
+	add LANG_DIR
+	[d9b407eefbbd]
+
+	* Makefile:
+	generalize i18n Makefile
+	[6689d0316554]
+
+	* Makefile, jpoker/l10n/jpoker-fr.json, jpoker/l10n/jpoker-fr.po:
+	add rules for all i18n files
+	[0cbdd635e00c]
+
+	* Makefile, jpoker/index-en/lang.tiddler, jpoker/index-fr.html, jpoker
+	/index-fr/lang.tiddler, jpoker/index-jp.html, jpoker/index-
+	jp/JapaneseTranslation.js, jpoker/index-
+	jp/JapaneseTranslation.js.div, jpoker/index-jp/lang.tiddler, jpoker
+	/index-jp/lang.tiddler.div, jpoker/index.html, jpoker/l10n/jpoker-
+	jp.json, jpoker/l10n/jpoker-jp.po, jpoker/poker.html:
+	jp i18n bootstrap
+	[9b265ff9a2a8]
+
+2008-04-11  loic  <loic@call.dachary.org>
+
+	* COPYRIGHT/summary.txt, jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js, jpoker/l10n
+	/jpoker-fr.json, jpoker/l10n/jpoker-fr.po:
+	use separate argument for session name + update french translation +
+	hide/show seats according to player arrive/leave
+	[fa0713b6e3d8]
+
+2008-04-10  loic  <loic@call.dachary.org>
+
+	* COPYRIGHT/summary.txt:
+	jpoker/index/SinglePageModePlugin.js
+	[b4ca0f8f072e]
+
+	* jpoker/index/SinglePageModePlugin.js,
+	jpoker/index/SinglePageModePlugin.js.div:
+	upgrade SinglePageModePlugin plugin
+	[e3ef19ffd8b4]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	establish connection with the table and display packet logs
+	[4f8832aad94b]
+
+2008-04-09  loic  <loic@call.dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	table templates
+	[86fdb2f2303f]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	allow callback data in watchable + revisit tests to kill timeout
+	that were not canceled properly
+	[db248fe920cb]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	table and players templates
+	[544e6951bbd6]
+
+	* jpoker/js/jquery.jpoker.js:
+	use new Array instead of literals
+	[ff3665b07a51]
+
+2008-04-09  root  <root@bayou.pokersource.info>
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler:
+	no return
+	[182bc73ae683]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler:
+	use a macro instead
+	[18cd767eb62a]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler:
+	pseudo code to create a tiddler
+	[de7382c62e70]
+
+2008-04-09  loic  <loic@call.dachary.org>
+
+	* Makefile, jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	table init/uninit
+	[f41bd7377b56]
+
+	* COPYRIGHT/summary.txt, jpoker/index/Copyright.tiddler,
+	jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	tentative code for jointable
+	[b7adb43525d2]
+
+2008-04-08  loic  <loic@call.dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	timers array is reset on uninit
+	[dbcb3acc38fb]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	the timeout function of jpoker.refresh is useless (killed)
+	[58ef15bd48cd]
+
+	* jpoker/test-jpoker.html:
+	sprintf not used
+	[4d463bb6dd69]
+
+	* Makefile:
+	get rid of tw backups
+	[25a3386bdb34]
+
+	* Makefile, jpoker/index-fr.html, jpoker/index.html,
+	jpoker/poker.html, tiddlywiki-2.3.html:
+	avoid dupliaction of tiddlywiki
+	[64f197d6a3f7]
+
+	* jpoker/l10n/jpoker-fr.json:
+	french translation update
+	[34ec9d4d6800]
+
+	* Makefile, jpoker/js/jquery.jpoker.js, jpoker/l10n/jpoker-fr.json,
+	jpoker/l10n/jpoker-fr.po:
+	french translation update
+	[ee3808487b03]
+
+	* ChangeLog:
+	log command archival
+	[f66c43b000d1]
+
+	* COPYRIGHT/cc-by-sa-2.5-notice.txt, COPYRIGHT/cc-by-sa-2.5.txt,
+	COPYRIGHT/cc-by-sa-3.0-notice.txt, COPYRIGHT/cc-by-sa-3.0.txt,
+	Makefile, debian/copyright, jpoker/index-fr.html, jpoker/index.html,
+	jpoker/index/Copyright.tiddler:
+	Get rid of cc-by-sa because it is not GPL compatible.
+	[e14c0040f85b]
+
+	* COPYRIGHT/saq-imtiaz-gplv3+.txt, COPYRIGHT/summary.txt:
+	Saq Imtiaz permission to license under the GPLv3+
+	[faff8abce64f]
+
+	* Makefile, jpoker/index-fr.html, jpoker/index.html,
+	jpoker/poker.html:
+	cook html pages
+	[625a26ad3a3c]
+
+	* debian/changelog:
+	bump to 1.0.11
+	[2c03926550a0]
+
+	* jpoker/markup/MarkupPostBody.tiddler:
+	sprintf no longer in service
+	[ee910d662984]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/jquery.sprintf.js, jpoker/js
+	/test-jpoker.js:
+	implement String.supplant instead of sprintf
+	[d1bebd2d9400]
+
+2008-04-07  loic  <loic@call.dachary.org>
+
+	* jpoker/index/TiddlyLightBoxPlugin.js:
+	reuse existing image
+	[34676684bd46]
+
+	* jpoker/index/TiddlyLightBoxPlugin.js:
+	indicator is in images directory
+	[3f491404fbea]
+
+	* ChangeLog:
+	ChangeLog generated from hg log --style=changelog
+	[65a69d1eb5f9]
+
+2008-04-07  root  <root@sd-11801.dedibox.fr>
 
 	* debian/jpoker.postinst:
 	a2enmod proxy_http on configure
