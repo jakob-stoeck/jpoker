@@ -879,7 +879,7 @@
                 case 'PacketPokerPlayerLeave':
                     table.notifyUpdate(packet);
                     table.serial2player[packet.serial].uninit();
-                    delete table.serial2player[packet.serial]
+                    delete table.serial2player[packet.serial];
                     table.seats[packet.seat] = null;
                     break;
 
@@ -904,8 +904,10 @@
                     break;
 
                 case 'PacketPokerDealer':
+                case 'PacketPokerPosition':
                     table.notifyUpdate(packet);
                     break;
+
                 }
 
                 if(packet.serial in table.serial2player) {
@@ -1307,17 +1309,18 @@
             element.html(this.templates.room.supplant({ id: id }));
             for(var seat = 0; seat < table.seats.length; seat++) {
                 $('#seat' + seat + id).hide();
+                $('#sit_seat' + seat + id).show();
                 $('#dealer' + seat + id).hide();
             }
             for(var board = 0; board < table.board.length; board++) {
                 $('#board' + board + id).hide();
             }
             for(var pot = 0; pot < table.pots.length; pot++) {
-                var pot = $('#pot' + pot + id)
-		pot.hide();
-		pot.css('text-align', 'center');
-		pot.css('line-height', '34px');
-		pot.css('font-weight', 'bold');
+                var pot_element = $('#pot' + pot + id);
+		pot_element.hide();
+		pot_element.css('text-align', 'center');
+		pot_element.css('line-height', '34px');
+		pot_element.css('font-weight', 'bold');
             }
             for(var winner = 0; winner < 2; winner++) {
                 $('#winner' + winner + id).hide();
@@ -1359,6 +1362,16 @@
                     }
                 }
                 break;
+
+            case 'PacketPokerPosition':
+                for(var seat1 = 0; seat1 < table.seats.length; seat1++) {
+                    if(packet.serial > 0 && table.serial2player[packet.serial].seat == seat1) {
+                        $('#name_seat' + seat1 + id).css('background-color', '#44FF44');
+                    } else {
+                        $('#name_seat' + seat1 + id).css('background-color', '');
+                    }
+                }
+                break;
             }
 
             return true;
@@ -1386,6 +1399,7 @@
         create: function(table, packet, id) {
             player = table.serial2player[packet.serial];
             $('#seat' + player.seat + id).show();
+            $('#sit_seat' + player.seat + id).hide();
             for(var card = 0; card < player.cards.length; card++) {
                 $('#card_seat' + player.seat + card + id).hide();
             }
@@ -1394,12 +1408,12 @@
             bet.css('text-align', 'center');
             bet.css('line-height', '34px');
             bet.css('font-weight', 'bold');
-            var money = $('#money_seat' + player.seat + id)
+            var money = $('#money_seat' + player.seat + id);
             money.hide();
             money.css('text-align', 'center');
             money.css('line-height', '25px');
             money.css('font-weight', 'bold');
-            var name = $('#name_seat' + player.seat + id)
+            var name = $('#name_seat' + player.seat + id);
             name.css('text-align', 'center');
             name.css('line-height', '25px');
             name.css('font-weight', 'bold');
@@ -1425,6 +1439,7 @@
         },
         
         destroy: function(player, dummy, id) {
+            $('#sid_seat' + player.seat + id).show();
             $('#seat' + player.seat + id).hide();
         }
     };
@@ -1456,11 +1471,13 @@
     //
     jpoker.plugins.chips = {
         update: function(chips, id) {
-            $(id).html(chips);
+            var element = $(id);
             if(chips > 0) {
-                $(id).show();
+                element.show();
+                element.html(chips);
+                element.attr('title', chips);
             } else {
-                $(id).hide();
+                element.hide();
             }
         }
 
