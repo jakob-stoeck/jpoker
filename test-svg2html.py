@@ -39,8 +39,8 @@ class SVG2Gtk(unittest.TestCase):
         html_string = "<div id=\\'game_window{id}\\' class=\\'jpoker_ptable\\'><div id=\\'g1{id}\\'><div id=\\'test{id}\\' class=\\'jpoker_ptable_test\\'></div></div></div>"
         self.assertEquals(html_string, str(SVG2JSON(svg_string)))
     def test_SVG2CSS(self):
-        svg_string = '<svg xmlns:xlink="http://www.w3.org/1999/xlink" id="game_window" width="800" height="600"><g><image id="test" x="0" y="1" width="2" height="3" xlink:href="test.png"/></g></svg>'
-        css_string = '.jpoker_ptable { width:800px; height:600px; position:relative; background-image:url("../images/table_background.png"); }\n.jpoker_ptable_test { width:2px; height:3px; position:absolute; top:1px; left:0px; background-image:url("../images/test.png"); }\n'
+        svg_string = '<svg xmlns:xlink="http://www.w3.org/1999/xlink" id="game_window" width="800" height="600"><g><image id="test" x="0" y="1" width="2" height="3" xlink:href="test.png"/><image id="test1" x="0" y="1" width="2" height="3" xlink:href="money.png"/></g></svg>'
+        css_string = '.jpoker_ptable { width:800px; height:600px; position:relative; background-image:url("../images/table_background.png"); }\n.jpoker_ptable_test { width:2px; height:3px; position:absolute; top:1px; left:0px; background-image:url("../images/test.png");}\n.jpoker_ptable_test1 { width:2px; height:3px; position:absolute; top:1px; left:0px; }\n'
         self.assertEquals(css_string, str(SVG2CSS(svg_string)))
         
 if __name__ == '__main__':

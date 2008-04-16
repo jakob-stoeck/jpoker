@@ -40,7 +40,7 @@ class SVGParse(ContentHandler):
         self.doc = minidom.parseString(string)
         parseString(string, self)
     def __str__(self):
-        return string.join(map(lambda format, tuple: format % tuple, self.formats, self.tuples), '')
+        return string.join(map(lambda format, values: format % tuple(values), self.formats, self.tuples), '')
     def startElement(self, name, attrs):
         if name == "svg":
             self.startElementSvg(attrs)
@@ -95,15 +95,22 @@ class SVG2JSON(SVGParse):
         self.tuples.append(())
 
 class SVG2CSS(SVGParse):
+    ignore = [ 'money.png', 'winner.png', 'name.png' ]
     def startElementSvg(self, attrs):
         self.root = attrs['id']
         format = '.jpoker_ptable { width:800px; height:600px; position:relative; background-image:url("../images/table_background.png"); }\n'
         self.formats.append(format)
         self.tuples.append(())
     def startElementImage(self, attrs):
-        format = '.jpoker_ptable_%s { width:%spx; height:%spx; position:absolute; top:%spx; left:%spx; background-image:url("../images/%s"); }\n'
+        values = [ attrs['id'], attrs['width'], attrs['height'], attrs['y'], attrs['x'] ]
+        if attrs['xlink:href'] not in SVG2CSS.ignore:
+            image_format = 'background-image:url("../images/%s");'
+            values.append(attrs['xlink:href'])
+        else:
+            image_format = ''
+        format = '.jpoker_ptable_%s { width:%spx; height:%spx; position:absolute; top:%spx; left:%spx; ' + image_format + '}\n'
         self.formats.append(format)
-        self.tuples.append((attrs['id'], attrs['width'], attrs['height'], attrs['y'], attrs['x'], attrs['xlink:href']))
+        self.tuples.append(values)
 
 if __name__ == '__main__':
     import sys

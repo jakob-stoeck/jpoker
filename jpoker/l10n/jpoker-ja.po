@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jpoker\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-16 13:06+0200\n"
+"POT-Creation-Date: 2008-04-16 17:28+0200\n"
 "PO-Revision-Date: 2008-04-09 23:48+0100\n"
 "Last-Translator: Yoko Shamoto <yuby126youc@yahoo.co.jp>\n"
 "Language-Team: Japanese\n"
@@ -22,103 +22,103 @@ msgstr ""
 msgid " (login name is {name} )"
 msgstr "(ログインネームは％sです）"
 
-#: jpoker/js/jquery.jpoker.js:1093
+#: jpoker/js/jquery.jpoker.js:1099
 msgid "%Flop"
 msgstr "%フロップ"
 
-#: jpoker/js/jquery.jpoker.js:1091
+#: jpoker/js/jquery.jpoker.js:1097
 msgid "Average Pot"
 msgstr "アベレージ　ポット"
 
-#: jpoker/js/jquery.jpoker.js:1101
+#: jpoker/js/jquery.jpoker.js:1107
 msgid "Betting Structure"
 msgstr "ベッティング　ストラクチャー"
 
-#: jpoker/js/jquery.jpoker.js:1119
+#: jpoker/js/jquery.jpoker.js:1125
 msgid "Click to join the table"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:1098
+#: jpoker/js/jquery.jpoker.js:1104
 msgid "Currency"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:1092
+#: jpoker/js/jquery.jpoker.js:1098
 msgid "Hands/Hour"
 msgstr "ハンド／時間"
 
-#: jpoker/js/jquery.jpoker.js:1099
+#: jpoker/js/jquery.jpoker.js:1105
 msgid "Name"
 msgstr "ネーム"
 
-#: jpoker/js/jquery.jpoker.js:1095
+#: jpoker/js/jquery.jpoker.js:1101
 msgid "Observers"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:1094
+#: jpoker/js/jquery.jpoker.js:1100
 msgid "Players"
 msgstr "プレーヤー"
 
-#: jpoker/js/jquery.jpoker.js:1090
+#: jpoker/js/jquery.jpoker.js:1096
 msgid "Seats"
 msgstr "シート"
 
-#: jpoker/js/jquery.jpoker.js:1102
+#: jpoker/js/jquery.jpoker.js:1108
 msgid "Skin"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:1097
+#: jpoker/js/jquery.jpoker.js:1103
 msgid "Timeout"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:1100
+#: jpoker/js/jquery.jpoker.js:1106
 msgid "Variant"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:1096
+#: jpoker/js/jquery.jpoker.js:1102
 msgid "Waiting"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:1277
+#: jpoker/js/jquery.jpoker.js:1283
 msgid "connecting to table {name}"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:1326
+#: jpoker/js/jquery.jpoker.js:1333
 msgid "destory"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:1408
+#: jpoker/js/jquery.jpoker.js:1426
 msgid "destroy"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:1167
+#: jpoker/js/jquery.jpoker.js:1173
 msgid "disconnected"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:1061 jpoker/js/jquery.jpoker.js:1063
+#: jpoker/js/jquery.jpoker.js:1067 jpoker/js/jquery.jpoker.js:1069
 msgid "hover"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:1219
+#: jpoker/js/jquery.jpoker.js:1225
 msgid "login in progress"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:1250
+#: jpoker/js/jquery.jpoker.js:1256
 msgid "login: "
 msgstr "ログイン"
 
-#: jpoker/js/jquery.jpoker.js:1251
+#: jpoker/js/jquery.jpoker.js:1257
 msgid "password: "
 msgstr "パスワード"
 
-#: jpoker/js/jquery.jpoker.js:1170
+#: jpoker/js/jquery.jpoker.js:1176
 msgid "players"
 msgstr "プレーヤー"
 
-#: jpoker/js/jquery.jpoker.js:1173
+#: jpoker/js/jquery.jpoker.js:1179
 msgid "tables"
 msgstr "テーブル"
 
-#: jpoker/js/jquery.jpoker.js:1325 jpoker/js/jquery.jpoker.js:1407
+#: jpoker/js/jquery.jpoker.js:1332 jpoker/js/jquery.jpoker.js:1425
 msgid "update"
 msgstr ""
 
@@ -130,7 +130,7 @@ msgstr ""
 msgid "wait for {delay}s for queue {id}"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:1248
+#: jpoker/js/jquery.jpoker.js:1254
 msgid "{logname} logout"
 msgstr ""
 
