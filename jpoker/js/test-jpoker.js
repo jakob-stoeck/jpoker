@@ -871,7 +871,7 @@ test("jpoker.plugins.table", function(){
     });
 
 test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
-        expect(8);
+        expect(9);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -888,8 +888,16 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
         equals($("#seat0" + id).css('display'), 'none', "seat0 hidden");
         equals(table.seats[0], null, "seat0 empty");
         var player_serial = 1;
-        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id });
+        table.handler(server, game_id,
+                      {
+                          type: 'PacketPokerPlayerArrive',
+                              seat: 0,
+                              serial: player_serial,
+                              game_id: game_id,
+                              name: 'username'
+                              });
         equals($("#seat0" + id).css('display'), 'block', "arrive");
+        equals($("#name_seat0" + id).html(), 'username', "username arrive");
         equals(table.seats[0], player_serial, "player 1");
         equals(table.serial2player[player_serial].serial, player_serial, "player 1 in player2serial");
         table.handler(server, game_id, { type: 'PacketPokerPlayerLeave', seat: 0, serial: player_serial, game_id: game_id });

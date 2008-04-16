@@ -1313,7 +1313,11 @@
                 $('#board' + board + id).hide();
             }
             for(var pot = 0; pot < table.pots.length; pot++) {
-                $('#pot' + pot + id).hide();
+                var pot = $('#pot' + pot + id)
+		pot.hide();
+		pot.css('text-align', 'center');
+		pot.css('line-height', '34px');
+		pot.css('font-weight', 'bold');
             }
             for(var winner = 0; winner < 2; winner++) {
                 $('#winner' + winner + id).hide();
@@ -1388,11 +1392,18 @@
             var bet = $('#bet_seat' + player.seat + id);
             bet.hide();
             bet.css('text-align', 'center');
-            // bet.css('line-height', 34);
+            bet.css('line-height', '34px');
+            bet.css('font-weight', 'bold');
             var money = $('#money_seat' + player.seat + id)
             money.hide();
             money.css('text-align', 'center');
-            // money.css('line-height', 34);
+            money.css('line-height', '25px');
+            money.css('font-weight', 'bold');
+            var name = $('#name_seat' + player.seat + id)
+            name.css('text-align', 'center');
+            name.css('line-height', '25px');
+            name.css('font-weight', 'bold');
+            name.html(packet.name);
             player.registerUpdate(this.update, id, "update" + id);
             player.registerDestroy(this.destroy, id, "destroy" + id);
         },
