@@ -1,3 +1,10 @@
 <Directory /usr/share/jpoker/>
     AllowOverride All
+    #
+    # The poker server does not honor KeepAlive and the
+    # proxy must be set accordingly, otherwise it will
+    # sometime return 502 errors.
+    #
+    SetEnv force-proxy-request-1.0 1
+    SetEnv proxy-nokeepalive 1
 </Directory>
