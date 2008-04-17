@@ -4,11 +4,11 @@ Uploaders: Ola Lundqvist <opal@debian.org>, Loic Dachary (OuoU) <loic@dachary.or
 Section: web
 Priority: optional
 Standards-Version: 3.7.3
-Build-Depends: debhelper (>= 5), cdbs, gettext, python, python-simplejson, python-xml, tidy, ruby, rubygems, wget
+Build-Depends: debhelper (>= 5), cdbs, gettext, python, python-simplejson, python-libxml2, tidy, ruby, rubygems, wget
 
 Package: jpoker
 Architecture: all
-Depends: apache2, libapache2-mod-php5
+Depends: apache2
 Suggests: python-poker-network
 Description: javascript online poker client
  http://jspoker.pokersource.info/jpoker/ is a javascript client for
