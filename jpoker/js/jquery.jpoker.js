@@ -272,7 +272,7 @@
     //
     jpoker.cards = {
         // Ad replaced with Ax to escape adblock 
-        card2string: [ '2h', '2d', '2c', '2s', '3h', '3d', '3c', '3s', '4h', '4d', '4c', '4s', '5h', '5d', '5c', '5s', '6h', '6d', '6c', '6s', '7h', '7d', '7c', '7s', '8h', '8d', '8c', '8s', '9h', '9d', '9c', '9s', 'Th', 'Td', 'Tc', 'Ts', 'Jh', 'Jd', 'Jc', 'Js', 'Qh', 'Qd', 'Qc', 'Qs', 'Kh', 'Kd', 'Kc', 'Ks', 'Ah', 'Ax', 'Ac', 'As' ]
+        card2string: [ '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h', 'Th', 'Jh', 'Qh', 'Kh', 'Ah', '2d', '3d', '4d', '5d', '6d', '7d', '8d', '9d', 'Td', 'Jd', 'Qd', 'Kd', 'Ad', '2c', '3c', '4c', '5c', '6c', '7c', '8c', '9c', 'Tc', 'Jc', 'Qc', 'Kc', 'Ac', '2s', '3s', '4s', '5s', '6s', '7s', '8s', '9s', 'Ts', 'Js', 'Qs', 'Ks', 'As' ]
     };
 
     //
