@@ -24,30 +24,38 @@ import sys
 sys.path.append('/usr/lib/python%s/site-packages/oldxml' % sys.version[:3])
 
 import re
-from xml.dom import minidom
-from xml.xpath import Evaluate
+import libxml2
+from StringIO import StringIO
 
 def flatten(string):
-    doc = minidom.parseString(string)
-    for orig in Evaluate('//use', doc):
-        xlink = orig.attributes['xlink:href'].nodeValue
-        id = orig.attributes['id'].nodeValue
+    doc = libxml2.parseDoc(string)
+    context = doc.xpathNewContext()
+    result = context.xpathEval("//use")
+    for orig in result:
+        xlink = orig.prop('href')
+        id = orig.prop('id')
         id_length = len(id)
-        nodes = Evaluate('//g[@id="'+xlink[1:]+'"]', doc)
+        nodes = context.xpathEval('//g[@id="'+xlink[1:]+'"]')
         node = nodes[0]
-        copy = node.cloneNode(True)
-        for copy_id in Evaluate('.//@id', copy):
-            copy_id.nodeValue = id + copy_id.nodeValue[id_length:]
-        
-        tx, ty = re.match('translate\((-?\d+\.?\d*),(-?\d+\.?\d*)\)', orig.attributes['transform'].nodeValue).groups()
+        copy = node.copyNode(extended=True)
+        copy.removeNsDef(None)
+        copy_context = doc.xpathNewContext()
+        copy_context.setContextNode(copy)
+        for copy_id in copy_context.xpathEval('.//@id'):
+            copy_id.setContent(id + copy_id.content[id_length:])
+        tx, ty = re.match('translate\((-?\d+\.?\d*),(-?\d+\.?\d*)\)', orig.prop('transform')).groups()
         transform = { 'x': float(tx), 'y': float(ty) }
         for c in [ 'x', 'y' ]:
-            for coord in Evaluate('.//@' + c, copy):
-                coord.nodeValue = str(int(float(coord.nodeValue) + transform[c]))
-        orig.parentNode.replaceChild(copy, orig)
-    return doc
+            for coord in copy_context.xpathEval('.//@' + c):
+                coord.setContent(str(int(float(coord.content) + transform[c])))
+        orig.replaceNode(copy)
+
+    f = StringIO()
+    buf = libxml2.createOutputBuffer(f, None)
+    doc.saveFileTo(buf, None)
+    return f.getvalue()
     
 if __name__ == '__main__':
     import sys
-    print flatten(sys.stdin.read()).toxml()
+    print flatten(sys.stdin.read())
     sys.exit(0)

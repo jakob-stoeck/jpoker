@@ -83,6 +83,7 @@ clean:
 	rm -fr {${LANG_LIST}}/
 	rm -f jpoker/index.200* jpoker/index-fr.200* jpoker/poker.200* 
 	rm -f jpoker/mockup.html
+	rm -f jpoker/images/mockup_plain.svg
 	rm -f *.pyc
 
 check:
@@ -105,14 +106,17 @@ mtime:
 	for f in `hg manifest`; do touch --date="`hg log -l1 --template '{date|isodate}' $$f`" $$f; done
 
 mockup: jpoker/mockup.html
-jpoker/mockup.html: jpoker/images/mockup.svg
+jpoker/mockup.html: jpoker/images/mockup_plain.svg
 	( \
 		echo "// generated with make mockup, DO NOT EDIT" ; \
 		echo -n '$$.jpoker.plugins.table.templates.room = ' ; \
-		python svgflatten.py < jpoker/images/mockup.svg | python svg2html.py --json || true ; \
+		python svgflatten.py < jpoker/images/mockup_plain.svg | python svg2html.py --json || true ; \
 	)  > jpoker/js/mockup.js
-	python svgflatten.py < jpoker/images/mockup.svg | python svg2html.py --html | tidy -indent 2>/dev/null > jpoker/mockup.html || true
+	python svgflatten.py < jpoker/images/mockup_plain.svg | python svg2html.py --html | tidy -indent 2>/dev/null > jpoker/mockup.html || true
 	perl -pi -e 's:</head>:<link href="js/mockup.css" rel="stylesheet" type="text/css" /></head>:' jpoker/mockup.html
-	python svgflatten.py < jpoker/images/mockup.svg | python svg2html.py --css > jpoker/js/mockup.css
+	python svgflatten.py < jpoker/images/mockup_plain.svg | python svg2html.py --css > jpoker/js/mockup.css
+jpoker/images/mockup_plain.svg: jpoker/images/mockup.svg
+	inkscape --without-gui --vacuum-defs --export-plain-svg=jpoker/images/mockup_plain.svg jpoker/images/mockup.svg
+	perl -pi -e 's/xmlns="http:\/\/www.w3.org\/2000\/svg"//' jpoker/images/mockup_plain.svg
 
 .PHONY: tests

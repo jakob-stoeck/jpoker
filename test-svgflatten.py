@@ -27,9 +27,11 @@ from svgflatten import flatten
 
 class flattentest(unittest.TestCase):
     def test_flatten(self):
+#<svg xmlns:xlink="http://www.w3.org/1999/xlink" height="600" id="game_window" width="800">       
         svg_string = """\
-<?xml version="1.0" ?>
-<svg height="600" id="game_window" width="800" xmlns:xlink="http://www.w3.org/1999/xlink">
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="800" height="600" id="game_window">
 	<g id="group0">
 		<image height="3" id="group0_image0" width="2" x="0" xlink:href="test.png" y="1"/>
 	</g>
@@ -37,16 +39,18 @@ class flattentest(unittest.TestCase):
 </svg>
 """
         html_string = """\
-<?xml version="1.0" ?>
-<svg height="600" id="game_window" width="800" xmlns:xlink="http://www.w3.org/1999/xlink">
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="800" height="600" id="game_window">
 	<g id="group0">
 		<image height="3" id="group0_image0" width="2" x="0" xlink:href="test.png" y="1"/>
 	</g>
 	<g id="group1">
 		<image height="3" id="group1_image0" width="2" x="10" xlink:href="test.png" y="-9"/>
 	</g>
-</svg>"""
-        out = flatten(svg_string).toxml()
+</svg>
+"""
+        out = flatten(svg_string)
         #print difflib.HtmlDiff().make_file(out.split("\n"), html_string.split("\n"))
         sys.stderr.writelines(difflib.unified_diff(out.split("\n"), html_string.split("\n")))
         self.assertEquals(html_string, out)
