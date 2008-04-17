@@ -31,7 +31,6 @@ sys.path.append('/usr/lib/python%s/site-packages/oldxml' % sys.version[:3])
 from xml.sax import parseString
 from xml.sax.handler import ContentHandler
 from xml.dom import minidom
-from xml.xpath import Evaluate
 import string
 import re
 
