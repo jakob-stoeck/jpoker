@@ -947,6 +947,28 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
         equals(table.seats[0], null, "seat0 again");
     });
 
+test("jpoker.plugins.table: PokerPlayerSerial/Logout", function(){
+        expect(4);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        place.jpoker('table', 'url', game_id);
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+        server.notifyUpdate(table_packet);
+        equals($("#seat0" + id).css('display'), 'none', "seat0 hidden");
+        equals($("#sit_seat0" + id).css('display'), 'none', "sit_seat0 hidden");
+        var player_serial = 43;
+        server.handler(server, 0, { type: 'PacketSerial', serial: player_serial});
+        equals($("#sit_seat0" + id).css('display'), 'block', "sit_seat0 visible");
+        server.logout();
+        equals($("#sit_seat0" + id).css('display'), 'none', "sit_seat0 hidden");
+    });
+
 test("jpoker.plugins.table: PacketPokerBoardCards", function(){
         expect(7);
         stop();

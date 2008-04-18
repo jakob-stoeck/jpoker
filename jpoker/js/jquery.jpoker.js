@@ -745,6 +745,13 @@
                 server.notifyUpdate(packet);
                 break;
 
+                case 'PacketSerial':
+                server.serial = packet.serial;
+                for(var game_id in server.tables) {
+                    server.tables[game_id].notifyUpdate(packet);
+                }
+                break;
+
                 }
 
                 return true;
@@ -831,7 +838,6 @@
                     break;
 
                     case 'PacketSerial':
-                    server.serial = packet.serial;
                     server.notifyUpdate(packet);
                     return false;
 
@@ -844,11 +850,22 @@
 
             logout: function() {
                 if(this.serial !== 0) {
+                    //
+                    // redundant with PacketLogout handler in server to ensure all
+                    // notify functions will see serial == 0 regardless of the 
+                    // order in which they are called.
+                    //
                     this.serial = 0;
                     this.logname = null;
-                    this.clearSession();
                     var packet = { type: 'PacketLogout' };
                     this.sendPacket(packet);
+                    this.clearSession();
+                    //
+                    // LOGOUT IMPLIES ALL TABLES ARE DESTROYED INSTEAD
+                    //
+                    for(var game_id in this.tables) {
+                        this.tables[game_id].notifyUpdate(packet);
+                    }
                     this.notifyUpdate(packet);
                 }
             },
@@ -1347,8 +1364,8 @@
         if(game_id in server.tables) {
             var table = server.tables[game_id];
             element.html(this.templates.room.supplant({ id: id }));
+            jpoker.plugins.table.seats(id, server, table);
             for(var seat = 0; seat < table.seats.length; seat++) {
-                jpoker.plugins.player.seat(seat, id, server, table);
                 $('#dealer' + seat + id).hide();
             }
             for(var board = 0; board < table.board.length; board++) {
@@ -1369,10 +1386,24 @@
         }
     };
 
+    jpoker.plugins.table.seats = function(id, server, table) {
+        for(var seat = 0; seat < table.seats.length; seat++) {
+            jpoker.plugins.player.seat(seat, id, server, table);
+        }
+    };
+
     jpoker.plugins.table.update = function(table, packet, id) {
         var element = document.getElementById(id);
         if(element) {
             switch(packet.type) {
+
+            case 'PacketSerial':
+            case 'PacketLogout':
+                jpoker.plugins.table.seats(id, jpoker.servers[table.url], table);
+                break;
+
+            case 'PacketLogout':
+                break;
 
             case 'PacketPokerPlayerArrive':
                 jpoker.plugins.player.create(table, packet, id);
