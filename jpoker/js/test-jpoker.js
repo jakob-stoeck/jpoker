@@ -143,6 +143,46 @@ test("jpoker.watchable", function(){
     });
 
 //
+// jpoker.chips
+//
+test("jpoker.chips: long", function() {
+        expect(5);
+        equals(jpoker.chips.long(10.101), '10.1');
+        equals(jpoker.chips.long(10.111), '10.11');
+        equals(jpoker.chips.long(10.001), '10');
+        equals(jpoker.chips.long(0.101), '0.1');
+        equals(jpoker.chips.long(0.011), '0.01');
+    });
+
+test("jpoker.chips: short", function() {
+        expect(16);
+        equals(jpoker.chips.short(123456789012.34), '123G');
+        equals(jpoker.chips.short(12345678901.23), '12G');
+        equals(jpoker.chips.short(1234567890.12), '1.2G');
+        equals(jpoker.chips.short(123456789.01), '123M');
+        equals(jpoker.chips.short(12345678.90), '12M');
+        equals(jpoker.chips.short(1234567.89), '1.2M');
+        equals(jpoker.chips.short(123456.78), '123K');
+        equals(jpoker.chips.short(12345.67), '12K');
+        equals(jpoker.chips.short(1234.56), '1.2K');
+        equals(jpoker.chips.short(123.45), '123');
+        equals(jpoker.chips.short(10.10), '10');
+        equals(jpoker.chips.short(10.11), '10');
+        equals(jpoker.chips.short(10.00), '10');
+        equals(jpoker.chips.short(1.11), '1.11');
+        equals(jpoker.chips.short(.11), '0.11');
+        equals(jpoker.chips.short(.01), '0.01');
+    });
+
+test("jpoker.chips: chips2value", function() {
+        expect(4);
+        equals(jpoker.chips.chips2value([ 1, 2 ] ) - 0.02 < jpoker.chips.epsilon, true, "0.02");
+        equals(jpoker.chips.chips2value([ 1, 2, 10, 3 ] ) - 0.32 < jpoker.chips.epsilon, true, "0.32");
+        equals(jpoker.chips.chips2value([ 1, 2, 10, 3, 100, 5 ] ) - 5.32 < jpoker.chips.epsilon, true, "5.32");
+        equals(jpoker.chips.chips2value([ 10000, 5 ] ) - 500 < jpoker.chips.epsilon, true, "500");
+    });
+
+//
 // jpoker
 //
 test("jpoker: unique id generation test", function() {
@@ -872,9 +912,9 @@ test("jpoker.plugins.table", function(){
 
 test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
         expect(11);
-        stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
+        server.serial = 1; // pretend logged in
         var place = $("#main");
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
@@ -886,7 +926,7 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
         server.notifyUpdate(table_packet);
         equals($("#seat0" + id).size(), 1, "seat0 DOM element");
         equals($("#seat0" + id).css('display'), 'none', "seat0 hidden");
-        equals($("#sit_seat0" + id).css('display'), 'block', "seat0 hidden");
+        equals($("#sit_seat0" + id).css('display'), 'block', "sit_seat0 hidden");
         equals(table.seats[0], null, "seat0 empty");
         var player_serial = 1;
         table.handler(server, game_id,
@@ -905,7 +945,6 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
         table.handler(server, game_id, { type: 'PacketPokerPlayerLeave', seat: 0, serial: player_serial, game_id: game_id });
         equals($("#seat0" + id).css('display'), 'none', "leave");
         equals(table.seats[0], null, "seat0 again");
-        start_and_cleanup();
     });
 
 test("jpoker.plugins.table: PacketPokerBoardCards", function(){
@@ -929,7 +968,7 @@ test("jpoker.plugins.table: PacketPokerBoardCards", function(){
         table.handler(server, game_id, { type: 'PacketPokerBoardCards', cards: [card_value], game_id: game_id });
         equals($("#board0" + id).css('display'), 'block', "card 1 set");
         var background = $("#board0" + id).css('background-image');
-	equals(background.indexOf("small-2d") >= 0, true, "background " + background);
+	equals(background.indexOf("small-3h") >= 0, true, "background " + background);
         equals($("#board1" + id).css('display'), 'none', "card 2 not set");
         equals(table.board[0], card_value, "card in slot 0");
         start_and_cleanup();
@@ -1003,7 +1042,7 @@ test("jpoker.plugins.table: PacketPokerPotChips/Reset", function(){
         equals(table.pots[0], 0, "pot0 empty");
         var pot = [10, 3, 100, 8];
         var pot_value = jpoker.chips.chips2value(pot);
-        equals(pot_value, 830, "pot_value");
+        equals(pot_value - 8.30 < jpoker.chips.epsilon, true, "pot_value");
 
         table.handler(server, game_id, { type: 'PacketPokerPotChips', bet: pot, index: 0, game_id: game_id });
         equals($("#pot0" + id).css('display'), 'block', "pot 0 set");
@@ -1043,7 +1082,7 @@ test("jpoker.plugins.table: PacketPokerPlayerCards", function(){
         equals(player.cards[0], null, "player card empty");
         table.handler(server, game_id, { type: 'PacketPokerPlayerCards', cards: [card_value], serial: player_serial, game_id: game_id });
         var background = card.css('background-image');
-	equals(background.indexOf("small-2d") >= 0, true, "background " + background);
+	equals(background.indexOf("small-3h") >= 0, true, "background " + background);
         equals(player.cards[0], card_value, "card in slot 0");
         
         start_and_cleanup();
@@ -1083,7 +1122,7 @@ test("jpoker.plugins.table: PacketPokerPlayerChips", function(){
             packet[slots[i]] = amount;
             table.handler(server, game_id, packet);
             equals(chips.css('display'), 'block', slots[i] + " chips visible");
-            equals(chips.html().indexOf(amount) >= 0, true, amount + " in html ");
+            equals(chips.html().indexOf(amount / 100) >= 0, true, amount / 100 + " in html ");
         }
         
         start_and_cleanup();
