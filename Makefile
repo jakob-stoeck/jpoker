@@ -22,6 +22,13 @@ LANG_LIST = $(shell echo ${LANG}|sed s/\ /,/)
 LANG_DIR = jpoker/l10n
 LANG_JSON = $(LANG:%=${LANG_DIR}/jpoker-%.json)
 LANG_TW = $(LANG:%=jpoker/index-%.html)
+IMAGES = jpoker/images/avatar.png \
+	 jpoker/images/background.png \
+	 jpoker/images/bet.png \
+	 jpoker/images/dealer.png \
+	 jpoker/images/pot.png \
+	 jpoker/images/seat.png \
+	 jpoker/images/table.png
 
 messages.pot: jpoker/js/jquery.jpoker.js
 	xgettext --extract-all \
@@ -85,6 +92,7 @@ clean:
 	rm -f jpoker/mockup.html
 	rm -f jpoker/images/mockup_plain.svg
 	rm -f *.pyc
+	rm -f ${IMAGES}
 
 check:
 	python test-svg2html.py
@@ -115,8 +123,14 @@ jpoker/mockup.html: jpoker/images/mockup_plain.svg
 	python svgflatten.py < jpoker/images/mockup_plain.svg | python svg2html.py --html | tidy -indent 2>/dev/null > jpoker/mockup.html || true
 	perl -pi -e 's:</head>:<link href="js/mockup.css" rel="stylesheet" type="text/css" /></head>:' jpoker/mockup.html
 	python svgflatten.py < jpoker/images/mockup_plain.svg | python svg2html.py --css > jpoker/js/mockup.css
+
 jpoker/images/mockup_plain.svg: jpoker/images/mockup.svg
 	inkscape --without-gui --vacuum-defs --export-plain-svg=jpoker/images/mockup_plain.svg jpoker/images/mockup.svg
 	perl -pi -e 's/xmlns="http:\/\/www.w3.org\/2000\/svg"//' jpoker/images/mockup_plain.svg
+
+jpoker/images/mockup.svg: jpoker/images/avatar.png jpoker/images/background.png jpoker/images/bet.png jpoker/images/dealer.png jpoker/images/pot.png jpoker/images/seat.png jpoker/images/table.png
+
+jpoker/images/%.png: jpoker/images/%.svg
+	inkscape --without-gui --export-png=$@ $<
 
 .PHONY: tests
