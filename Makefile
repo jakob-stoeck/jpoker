@@ -92,7 +92,6 @@ clean:
 	rm -f jpoker/mockup.html
 	rm -f jpoker/images/mockup_plain.svg
 	rm -f *.pyc
-	rm -f ${IMAGES}
 
 check:
 	python test-svg2html.py
