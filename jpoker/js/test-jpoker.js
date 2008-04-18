@@ -1150,6 +1150,37 @@ test("jpoker.plugins.table: PacketPokerPlayerChips", function(){
         start_and_cleanup();
     });
 
+//
+// player
+//
+test("jpoker.plugins.player: PokerPlayerSeat", function(){
+        expect(6);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        place.jpoker('table', 'url', game_id);
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+        server.notifyUpdate(table_packet);
+        var player_serial = 43;
+        server.handler(server, 0, { type: 'PacketSerial', serial: player_serial});
+        equals($("#sit_seat0" + id).css('display'), 'block', "sit_seat0 visible");
+        var sent = false;
+        server.sendPacket = function(packet) {
+            equals(packet.type, 'PacketPokerSeat');
+            equals(packet.serial, player_serial);
+            equals(packet.game_id, game_id);
+            equals(packet.seat, 0);
+            sent = true;
+        };
+        $("#sit_seat0" + id).click();
+        equals(sent, true, "packet sent");
+    });
+
 test("profileEnd", function(){
         try {
             console.profileEnd();

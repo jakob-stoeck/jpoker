@@ -1515,7 +1515,18 @@
             } else {            
                 $('#seat' + seat + id).hide();
                 if(server.loggedIn()) {
-                    $('#sit_seat' + seat + id).show();
+                    var sit = $('#sit_seat' + seat + id);
+                    sit.show();
+                    sit.click(function() {
+                            var server = jpoker.servers[table.url];
+                            if(server && server.loggedIn()) {
+                                server.sendPacket({ 'type': 'PacketPokerSeat',
+                                            'serial': server.serial,
+                                            'game_id': table.id,
+                                            'seat': seat
+                                            });
+                            }
+                        });
                 } else {
                     $('#sit_seat' + seat + id).hide();
                 }
