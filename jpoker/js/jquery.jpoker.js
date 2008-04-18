@@ -258,13 +258,50 @@
     // chips helpers
     //
     jpoker.chips = {
+        epsilon: 0.001,
+
         chips2value: function(chips) {
             var value = 0;
             for(var i = 0; i < chips.length; i += 2) {
-                value += chips[i] * chips[i + 1];
+                value += ( chips[i] / 100 ) * chips[i + 1];
             }
             return value;
+        },
+
+        short: function(chips) {
+            if(chips < 10) {
+                return this.long(chips);
+            } 
+            var unit = [ 'G', 'M', 'K', '' ];
+            for(var magnitude = 1000000000; magnitude > 0; magnitude /= 1000) {
+                if(chips >= magnitude) {
+                    if(chips / magnitude < 10) {
+                        chips = chips / ( magnitude / 10 );
+                        return parseInt(chips / 10) + '.' + parseInt(chips % 10) + unit[0];
+                    } else {
+                        return parseInt(chips / magnitude) + unit[0];
+                    }
+                }
+                unit.shift();
+            }
+        },
+
+        long: function(chips) {
+            var chips_int = parseInt(chips);
+            var chips_fraction = parseInt(chips * 100) % 100;
+            if(chips_fraction === 0) {
+                return chips_int;
+            } else if(chips_fraction % 10) {
+                if(chips_fraction < 10) {
+                    return chips_int + '.0' + chips_fraction;
+                } else {
+                    return chips_int + '.' + chips_fraction;
+                }
+            } else {
+                return chips_int + '.' + parseInt(chips_fraction / 10);
+            }
         }
+
     };
 
     //
@@ -963,8 +1000,8 @@
                 break;
 
                 case 'PacketPokerPlayerChips':
-                this.money = packet.money;
-                this.bet = packet.bet;
+                this.money = packet.money / 100;
+                this.bet = packet.bet / 100;
                 this.notifyUpdate(packet);
                 break;
                 }
@@ -1474,12 +1511,12 @@
             var element = $(id);
             if(chips > 0) {
                 element.show();
-                element.html(chips);
-                element.attr('title', chips);
+                element.html(jpoker.chips.short(chips));
+                element.attr('title', jpoker.chips.long(chips));
             } else {
                 element.hide();
             }
-        }
+        },
 
     };
 })(jQuery);
