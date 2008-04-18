@@ -33,9 +33,9 @@ class flattentest(unittest.TestCase):
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="800" height="600" id="game_window">
 	<g id="group0">
-		<image height="3" id="group0_image0" width="2" x="0" xlink:href="test.png" y="1"/>
+		<image height="3" id="group0_image0" width="2" x="1" xlink:href="test.png" y="1"/>
 	</g>
-	<use id="group1" transform="translate(10,-10.0)" xlink:href="#group0"/>
+	<use id="group1" transform="translate(-10.0e-6,-10)" xlink:href="#group0"/>
 </svg>
 """
         html_string = """\
@@ -43,10 +43,10 @@ class flattentest(unittest.TestCase):
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="800" height="600" id="game_window">
 	<g id="group0">
-		<image height="3" id="group0_image0" width="2" x="0" xlink:href="test.png" y="1"/>
+		<image height="3" id="group0_image0" width="2" x="1" xlink:href="test.png" y="1"/>
 	</g>
 	<g id="group1">
-		<image height="3" id="group1_image0" width="2" x="10" xlink:href="test.png" y="-9"/>
+		<image height="3" id="group1_image0" width="2" x="1" xlink:href="test.png" y="-9"/>
 	</g>
 </svg>
 """

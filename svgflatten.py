@@ -39,11 +39,11 @@ def flatten(string):
         copy_context.setContextNode(copy)
         for copy_id in copy_context.xpathEval('.//@id'):
             copy_id.setContent(id + copy_id.content[id_length:])
-        tx, ty = re.match('translate\((-?\d+\.?\d*),(-?\d+\.?\d*)\)', orig.prop('transform')).groups()
+        tx, ty = re.match('translate\((-?\d+\.?\d*.*),(-?\d+\.?\d*.*)\)', orig.prop('transform')).groups()
         transform = { 'x': float(tx), 'y': float(ty) }
         for c in [ 'x', 'y' ]:
             for coord in copy_context.xpathEval('.//@' + c):
-                coord.setContent(str(int(float(coord.content) + transform[c])))
+                coord.setContent(str(int(round(float(coord.content) + transform[c]))))
         orig.replaceNode(copy)
 
     f = StringIO()
