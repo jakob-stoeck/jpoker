@@ -67,8 +67,16 @@
             if(window.console) { window.console.log(str); }
         },
 
-        dialog: function(element) {
-            humanMsg.displayMsg(element);
+        dialog: function(html) {
+            var message = $("#jpokerDialog");
+            if(message.size() != 1) {
+                message = $("body").append("<div id='jpokerDialog' />");
+                message = $("#jpokerDialog");
+            }
+            message.html(html).dialog({
+                    modal: true,
+                    title: "jpoker message"
+                });
         },
 
         error: function(reason) {
@@ -899,6 +907,7 @@
                                null, null, null, null, null ];
                 this.board = [ null, null, null, null, null ];
                 this.pots = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+                this.buyIn = { min: 1000000000, max: 1000000000, best: 1000000000 };
             },
 
             uninit: function() {
@@ -963,6 +972,10 @@
                 case 'PacketPokerDealer':
                 case 'PacketPokerPosition':
                     table.notifyUpdate(packet);
+                    break;
+
+                case 'PacketPokerBuyInLimits':
+                    table.buyIn = packet;
                     break;
 
                 }
@@ -1510,9 +1523,7 @@
             name.css('text-align', 'center');
             name.css('line-height', '25px');
             name.css('font-weight', 'bold');
-            if(server.serial == serial) {
-                $('#rebuy' + id).show();
-            } else {
+            if(server.serial != serial) {
                 name.html(packet.name);
             }
             jpoker.plugins.player.sitOut(player, id);
