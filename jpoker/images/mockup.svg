@@ -17,7 +17,7 @@
    inkscape:version="0.45.1"
    sodipodi:docname="mockup.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   sodipodi:docbase="/home/proppy/jpoker-data-merge/jpoker/images">
+   sodipodi:docbase="/home/proppy/jpoker-bet-size/jpoker/images">
   <metadata
      id="metadata99">
     <rdf:RDF>
@@ -46,7 +46,7 @@
      inkscape:cy="300"
      inkscape:window-x="0"
      inkscape:window-y="0"
-     inkscape:current-layer="game_fixed" />
+     inkscape:current-layer="seat0" />
   <defs
      id="defs4" />
   <g
@@ -251,20 +251,20 @@
        id="sit_seat0" />
     <g
        id="seat0"
-       inkscape:label="#g2245">
+       inkscape:label="#g2730">
       <image
          id="dealer0"
          height="32"
          width="32"
-         y="213.36116"
-         x="162.31781"
+         y="200.22247"
+         x="165.60248"
          xlink:href="dealer.png" />
       <image
          id="bet_seat0"
-         height="32"
-         width="32"
-         y="243.70039"
-         x="144.08949"
+         height="48"
+         width="48"
+         y="241.93398"
+         x="140.80481"
          xlink:href="bet.png" />
       <g
          id="card_seat0">
@@ -374,7 +374,16 @@
        id="sit_seat1" />
     <g
        id="seat1"
-       inkscape:label="#g2262">
+       inkscape:label="#g2654">
+      <use
+         x="0"
+         y="0"
+         xlink:href="#bet_seat0"
+         id="bet_seat1"
+         transform="translate(91.970803,-67.883211)"
+         width="800"
+         height="600"
+         inkscape:label="#use2572" />
       <image
          id="dealer1"
          height="32"
@@ -382,13 +391,6 @@
          y="176.80573"
          x="283.66611"
          xlink:href="dealer.png" />
-      <image
-         id="bet_seat1"
-         height="32"
-         width="32"
-         y="176.80573"
-         x="246.77373"
-         xlink:href="bet.png" />
       <use
          xlink:href="#card_seat0"
          height="600"
@@ -414,9 +416,58 @@
        width="102"
        height="101"
        id="sit_seat2" />
+    <image
+       xlink:href="get_seat.png"
+       x="487.36273"
+       y="7.2849135"
+       width="102"
+       height="101"
+       id="sit_seat3" />
+    <image
+       xlink:href="get_seat.png"
+       x="679.01605"
+       y="128.63322"
+       width="102"
+       height="101"
+       id="sit_seat4" />
+    <image
+       xlink:href="get_seat.png"
+       x="679.01605"
+       y="398.29614"
+       width="102"
+       height="101"
+       id="sit_seat5" />
+    <image
+       xlink:href="get_seat.png"
+       x="480.62119"
+       y="491.71509"
+       width="102"
+       height="101"
+       id="sit_seat6" />
+    <image
+       xlink:href="get_seat.png"
+       x="347.79184"
+       y="491.53024"
+       width="102"
+       height="101"
+       id="sit_seat7" />
+    <image
+       xlink:href="get_seat.png"
+       x="211.92136"
+       y="490.75201"
+       width="102"
+       height="101"
+       id="sit_seat8" />
+    <image
+       xlink:href="get_seat.png"
+       x="26.042801"
+       y="398.52722"
+       width="102"
+       height="101"
+       id="sit_seat9" />
     <g
        id="seat2"
-       inkscape:label="#g2268">
+       inkscape:label="#g2660">
       <image
          id="dealer2"
          height="32"
@@ -424,13 +475,6 @@
          y="176.80573"
          x="427.16534"
          xlink:href="dealer.png" />
-      <image
-         id="bet_seat2"
-         height="32"
-         width="32"
-         y="176.80573"
-         x="387.66928"
-         xlink:href="bet.png" />
       <use
          xlink:href="#card_seat0"
          height="600"
@@ -448,17 +492,65 @@
          xlink:href="#player_seat0"
          y="0"
          x="0" />
+      <use
+         height="600"
+         width="800"
+         transform="translate(234.30657,-71.167883)"
+         id="bet_seat2"
+         xlink:href="#bet_seat0"
+         y="0"
+         x="0"
+         inkscape:label="#use2590" />
     </g>
-    <image
-       xlink:href="get_seat.png"
-       x="487.36273"
-       y="7.2849135"
-       width="102"
-       height="101"
-       id="sit_seat3" />
+    <g
+       id="seat4"
+       inkscape:label="#g2672">
+      <image
+         id="dealer4"
+         height="32"
+         width="32"
+         y="278.85074"
+         x="634.22791"
+         xlink:href="dealer.png" />
+      <use
+         xlink:href="#card_seat0"
+         height="600"
+         width="800"
+         y="0"
+         x="0"
+         id="card_seat4"
+         transform="translate(653.1744,0.948403)" />
+      <use
+         inkscape:label="#use4271"
+         height="600"
+         width="800"
+         transform="translate(654.74453,-1.2408759e-7)"
+         id="player_seat4"
+         xlink:href="#player_seat0"
+         y="0"
+         x="0" />
+      <use
+         height="600"
+         width="800"
+         transform="translate(462.0438,-15.328467)"
+         id="bet_seat4"
+         xlink:href="#bet_seat0"
+         y="0"
+         x="0"
+         inkscape:label="#use2592" />
+    </g>
     <g
        id="seat3"
-       inkscape:label="#g2274">
+       inkscape:label="#g2750">
+      <use
+         x="0"
+         y="0"
+         xlink:href="#bet_seat0"
+         id="bet_seat3"
+         transform="translate(361.31387,-68.978102)"
+         width="800"
+         height="600"
+         inkscape:label="#use2712" />
       <image
          id="dealer3"
          height="32"
@@ -466,13 +558,6 @@
          y="176.80573"
          x="560.07062"
          xlink:href="dealer.png" />
-      <image
-         id="bet_seat3"
-         height="32"
-         width="32"
-         y="176.80573"
-         x="518.854"
-         xlink:href="bet.png" />
       <use
          xlink:href="#card_seat0"
          height="600"
@@ -491,58 +576,9 @@
          y="0"
          x="0" />
     </g>
-    <image
-       xlink:href="get_seat.png"
-       x="679.01605"
-       y="128.63322"
-       width="102"
-       height="101"
-       id="sit_seat4" />
-    <g
-       id="seat4"
-       inkscape:label="#g2280">
-      <image
-         id="dealer4"
-         height="32"
-         width="32"
-         y="278.85074"
-         x="634.22791"
-         xlink:href="dealer.png" />
-      <image
-         id="bet_seat4"
-         height="32"
-         width="32"
-         y="248.36964"
-         x="611.01556"
-         xlink:href="bet.png" />
-      <use
-         xlink:href="#card_seat0"
-         height="600"
-         width="800"
-         y="0"
-         x="0"
-         id="card_seat4"
-         transform="translate(653.1744,0.948403)" />
-      <use
-         inkscape:label="#use4271"
-         height="600"
-         width="800"
-         transform="translate(654.74453,-1.2408759e-7)"
-         id="player_seat4"
-         xlink:href="#player_seat0"
-         y="0"
-         x="0" />
-    </g>
-    <image
-       xlink:href="get_seat.png"
-       x="679.01605"
-       y="398.29614"
-       width="102"
-       height="101"
-       id="sit_seat5" />
     <g
        id="seat5"
-       inkscape:label="#g2286">
+       inkscape:label="#g2678">
       <image
          id="dealer5"
          height="32"
@@ -550,13 +586,6 @@
          y="371.30655"
          x="600.52008"
          xlink:href="dealer.png" />
-      <image
-         id="bet_seat5"
-         height="32"
-         width="32"
-         y="335.52917"
-         x="607.90271"
-         xlink:href="bet.png" />
       <use
          xlink:href="#card_seat0"
          height="600"
@@ -574,17 +603,18 @@
          xlink:href="#player_seat0"
          y="0"
          x="0" />
+      <use
+         height="600"
+         width="800"
+         transform="translate(460.94891,78.832117)"
+         id="use2596"
+         xlink:href="#bet_seat0"
+         y="0"
+         x="0" />
     </g>
-    <image
-       xlink:href="get_seat.png"
-       x="480.62119"
-       y="491.71509"
-       width="102"
-       height="101"
-       id="sit_seat6" />
     <g
        id="seat6"
-       inkscape:label="#g2292">
+       inkscape:label="#g2687">
       <image
          id="dealer6"
          height="32"
@@ -592,13 +622,6 @@
          y="387.78723"
          x="483.09793"
          xlink:href="dealer.png" />
-      <image
-         id="bet_seat6"
-         height="32"
-         width="32"
-         y="387.78723"
-         x="518.854"
-         xlink:href="bet.png" />
       <use
          xlink:href="#card_seat0"
          height="600"
@@ -616,17 +639,19 @@
          xlink:href="#player_seat0"
          y="0"
          x="0" />
+      <use
+         height="600"
+         width="800"
+         transform="translate(382.11679,135.76642)"
+         id="bet_seat6"
+         xlink:href="#bet_seat0"
+         y="0"
+         x="0"
+         inkscape:label="#use2598" />
     </g>
-    <image
-       xlink:href="get_seat.png"
-       x="347.79184"
-       y="491.53024"
-       width="102"
-       height="101"
-       id="sit_seat7" />
     <g
        id="seat7"
-       inkscape:label="#g2298">
+       inkscape:label="#g2693">
       <image
          id="dealer7"
          height="32"
@@ -634,13 +659,6 @@
          y="387.78723"
          x="342.19263"
          xlink:href="dealer.png" />
-      <image
-         id="bet_seat7"
-         height="32"
-         width="32"
-         y="387.78723"
-         x="381.88715"
-         xlink:href="bet.png" />
       <use
          xlink:href="#card_seat0"
          height="600"
@@ -658,17 +676,19 @@
          xlink:href="#player_seat0"
          y="0"
          x="0" />
+      <use
+         height="600"
+         width="800"
+         transform="translate(246.35036,135.76642)"
+         id="bet_seat7"
+         xlink:href="#bet_seat0"
+         y="0"
+         x="0"
+         inkscape:label="#use2600" />
     </g>
-    <image
-       xlink:href="get_seat.png"
-       x="211.92136"
-       y="490.75201"
-       width="102"
-       height="101"
-       id="sit_seat8" />
     <g
        id="seat8"
-       inkscape:label="#g2304">
+       inkscape:label="#g2699">
       <image
          id="dealer8"
          height="32"
@@ -676,13 +696,6 @@
          y="387.78723"
          x="207.435"
          xlink:href="dealer.png" />
-      <image
-         id="bet_seat8"
-         height="32"
-         width="32"
-         y="387.78723"
-         x="246.77373"
-         xlink:href="bet.png" />
       <use
          xlink:href="#card_seat0"
          height="600"
@@ -700,17 +713,19 @@
          xlink:href="#player_seat0"
          y="0"
          x="0" />
+      <use
+         height="600"
+         width="800"
+         transform="translate(107.29927,134.67153)"
+         id="bet_seat8"
+         xlink:href="#bet_seat0"
+         y="0"
+         x="0"
+         inkscape:label="#use2602" />
     </g>
-    <image
-       xlink:href="get_seat.png"
-       x="26.042801"
-       y="398.52722"
-       width="102"
-       height="101"
-       id="sit_seat9" />
     <g
        id="seat9"
-       inkscape:label="#g2310">
+       inkscape:label="#g2705">
       <image
          id="dealer9"
          height="32"
@@ -718,13 +733,6 @@
          y="307.74316"
          x="135.35153"
          xlink:href="dealer.png" />
-      <image
-         id="bet_seat9"
-         height="32"
-         width="32"
-         y="340.54208"
-         x="151.58191"
-         xlink:href="bet.png" />
       <use
          xlink:href="#card_seat0"
          height="600"
@@ -742,6 +750,15 @@
          xlink:href="#player_seat0"
          y="0"
          x="0" />
+      <use
+         height="600"
+         width="800"
+         transform="translate(7.6642336,100.72993)"
+         id="bet_seat9"
+         xlink:href="#bet_seat0"
+         y="0"
+         x="0"
+         inkscape:label="#use2604" />
     </g>
   </g>
 </svg>

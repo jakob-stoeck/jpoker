@@ -32,6 +32,8 @@ def flatten(string):
         id = orig.prop('id')
         id_length = len(id)
         nodes = context.xpathEval('//g[@id="'+xlink[1:]+'"]')
+        if len(nodes) == 0:
+            nodes = context.xpathEval('//image[@id="'+xlink[1:]+'"]')
         node = nodes[0]
         copy = node.copyNode(extended=True)
         copy.removeNsDef(None)
