@@ -6,25 +6,51 @@ Copyright for all files not mentionned below:
         Licensed under GPLv3+
 
 Copyright for:
-        mo2json.py jpoker/jquery.gettext.js jpoker/jquery.printf.js 
+        mo2json.py jpoker/js/jquery.gettext.js 
 
    (c) 2008 Sabin Iacob (m0n5t3r) <iacobs@m0n5t3r.info>
         Licensed under GPLv3+
 
 Copyright for:
-	jpoker/jquery.js jpoker/jquery.ajaxQueue.js
+	jpoker/js/jquery.js jpoker/js/jquery.ajaxQueue.js
 
    (c) 2007 John Resig (jquery.com)
 	Licensed under MIT
 
 Copyright for:
-	jpoker/jquery.tablesorter.js
+	jpoker/js/ui.{base,draggable,droppable,resizable}.js
+	jpoker/js/ui.{slider,sortable}.js
+
+   (c) 2007, 2008  Paul Bakaus  (ui.jquery.com)
+        Richard D. Worth (rdworth.org), Klaus Hartl (stilbuero.de)
+	Licensed under MIT
+
+Copyright for:
+	jpoker/js/ui.{dialog,selectable}.js
+
+   (c) 2008  Richard D. Worth (rdworth.org)
+	Licensed under MIT
+
+Copyright for:
+	jpoker/js/ui.tabs.js
+
+   (c) 2008  Klaus Hartl (stilbuero.de)
+	Licensed under MIT
+
+Copyright for:
+	jpoker/js/ui.accordion.js
+
+   (c) 2007  Jorn Zaefferer
+	Licensed under MIT
+
+Copyright for:
+	jpoker/js/jquery.tablesorter.js
 
    (c) 2007 Christian Bach
 	Licensed under MIT
 
 Copyright for:
-	tiddlywiki as found in jpoker/poker.html
+	tiddlywiki as found in tiddlywiki-2.3.html
 
    (c) UnaMesa Association 2004-2007
 	Modified BSD
