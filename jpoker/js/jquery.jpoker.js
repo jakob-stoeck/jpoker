@@ -70,13 +70,11 @@
         dialog: function(html) {
             var message = $("#jpokerDialog");
             if(message.size() != 1) {
-                message = $("body").append("<div id='jpokerDialog' />");
+                message = $("body").append("<div id='jpokerDialog' class='flora' title='jpoker message' />");
                 message = $("#jpokerDialog");
-            }
-            message.html(html).dialog({
-                    modal: true,
-                    title: "jpoker message"
-                });
+                message.dialog({ autoOpen: false });
+            } 
+            message.html(html).dialog('open');
         },
 
         error: function(reason) {
