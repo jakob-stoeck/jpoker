@@ -1405,9 +1405,9 @@
             case 'PacketPokerPosition':
                 for(var seat1 = 0; seat1 < table.seats.length; seat1++) {
                     if(packet.serial > 0 && table.serial2player[packet.serial].seat == seat1) {
-                        $('#name_seat' + seat1 + id).css('background-color', '#44FF44');
+                        $('#player_seat' + seat1 + '_name' + id).css('background-color', '#44FF44');
                     } else {
-                        $('#name_seat' + seat1 + id).css('background-color', '');
+                        $('#player_seat' + seat1 + '_name' + id).css('background-color', '');
                     }
                 }
                 break;
@@ -1447,15 +1447,19 @@
             bet.css('text-align', 'center');
             bet.css('line-height', '34px');
             bet.css('font-weight', 'bold');
-            var money = $('#money_seat' + player.seat + id);
+            var money = $('#player_seat' + player.seat  + '_money' + id);
             money.hide();
             money.css('text-align', 'center');
-            money.css('line-height', '25px');
+            money.css('line-height', '10px');
+            money.css('font-size', 'small');
             money.css('font-weight', 'bold');
-            var name = $('#name_seat' + player.seat + id);
+	    money.css('color', '#e5b408');
+            var name = $('#player_seat' + player.seat + '_name' + id);
             name.css('text-align', 'center');
-            name.css('line-height', '25px');
+            name.css('line-height', '10px');
+            name.css('font-size', 'small');
             name.css('font-weight', 'bold');
+            name.css('color', '#ffffff');
             name.html(packet.name);
             player.registerUpdate(this.update, id, "update" + id);
             player.registerDestroy(this.destroy, id, "destroy" + id);
@@ -1469,7 +1473,7 @@
             break;
 
             case 'PacketPokerPlayerChips':
-            jpoker.plugins.chips.update(player.money, '#money_seat' + player.seat + id);
+            jpoker.plugins.chips.update(player.money, '#player_seat' + player.seat + '_money' + id);
             jpoker.plugins.chips.update(player.bet, '#bet_seat' + player.seat + id);
             break;
 
