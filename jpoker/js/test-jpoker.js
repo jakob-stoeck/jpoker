@@ -145,33 +145,33 @@ test("jpoker.watchable", function(){
 //
 // jpoker.chips
 //
-test("jpoker.chips: long", function() {
+test("jpoker.chips: LONG", function() {
         expect(5);
-        equals(jpoker.chips.long(10.101), '10.1');
-        equals(jpoker.chips.long(10.111), '10.11');
-        equals(jpoker.chips.long(10.001), '10');
-        equals(jpoker.chips.long(0.101), '0.1');
-        equals(jpoker.chips.long(0.011), '0.01');
+        equals(jpoker.chips.LONG(10.101), '10.1');
+        equals(jpoker.chips.LONG(10.111), '10.11');
+        equals(jpoker.chips.LONG(10.001), '10');
+        equals(jpoker.chips.LONG(0.101), '0.1');
+        equals(jpoker.chips.LONG(0.011), '0.01');
     });
 
-test("jpoker.chips: short", function() {
+test("jpoker.chips: SHORT", function() {
         expect(16);
-        equals(jpoker.chips.short(123456789012.34), '123G');
-        equals(jpoker.chips.short(12345678901.23), '12G');
-        equals(jpoker.chips.short(1234567890.12), '1.2G');
-        equals(jpoker.chips.short(123456789.01), '123M');
-        equals(jpoker.chips.short(12345678.90), '12M');
-        equals(jpoker.chips.short(1234567.89), '1.2M');
-        equals(jpoker.chips.short(123456.78), '123K');
-        equals(jpoker.chips.short(12345.67), '12K');
-        equals(jpoker.chips.short(1234.56), '1.2K');
-        equals(jpoker.chips.short(123.45), '123');
-        equals(jpoker.chips.short(10.10), '10');
-        equals(jpoker.chips.short(10.11), '10');
-        equals(jpoker.chips.short(10.00), '10');
-        equals(jpoker.chips.short(1.11), '1.11');
-        equals(jpoker.chips.short(.11), '0.11');
-        equals(jpoker.chips.short(.01), '0.01');
+        equals(jpoker.chips.SHORT(123456789012.34), '123G');
+        equals(jpoker.chips.SHORT(12345678901.23), '12G');
+        equals(jpoker.chips.SHORT(1234567890.12), '1.2G');
+        equals(jpoker.chips.SHORT(123456789.01), '123M');
+        equals(jpoker.chips.SHORT(12345678.90), '12M');
+        equals(jpoker.chips.SHORT(1234567.89), '1.2M');
+        equals(jpoker.chips.SHORT(123456.78), '123K');
+        equals(jpoker.chips.SHORT(12345.67), '12K');
+        equals(jpoker.chips.SHORT(1234.56), '1.2K');
+        equals(jpoker.chips.SHORT(123.45), '123');
+        equals(jpoker.chips.SHORT(10.10), '10');
+        equals(jpoker.chips.SHORT(10.11), '10');
+        equals(jpoker.chips.SHORT(10.00), '10');
+        equals(jpoker.chips.SHORT(1.11), '1.11');
+        equals(jpoker.chips.SHORT(0.11), '0.11');
+        equals(jpoker.chips.SHORT(0.01), '0.01');
     });
 
 test("jpoker.chips: chips2value", function() {
@@ -868,7 +868,7 @@ test("jpoker.plugins.login", function(){
 // table
 //
 test("jpoker.plugins.table", function(){
-        expect(12);
+        expect(18);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -898,6 +898,10 @@ test("jpoker.plugins.table", function(){
                 content = $("#" + id).text();
                 for(var seat = 0; seat < 10; seat++) {
                     equals($("#seat" + seat + id).size(), 1, "seat " + seat);
+                }
+                var names = jpoker.plugins.player.selfNames;
+                for(var name = 0; name < names.length; name++) {
+                    equals($("#" + names[name] + id).css('display'), 'none', names[name]);
                 }
                 start_and_cleanup();
                 return false;
@@ -939,12 +943,13 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
                               });
         equals($("#seat0" + id).css('display'), 'block', "arrive");
         equals($("#sit_seat0" + id).css('display'), 'none', "seat0 hidden");
-        equals($("#name_seat0" + id).html(), 'username', "username arrive");
+        equals($("#name_seat0" + id).html(), 'click to sit', "username arrive");
         equals(table.seats[0], player_serial, "player 1");
         equals(table.serial2player[player_serial].serial, player_serial, "player 1 in player2serial");
         table.handler(server, game_id, { type: 'PacketPokerPlayerLeave', seat: 0, serial: player_serial, game_id: game_id });
         equals($("#seat0" + id).css('display'), 'none', "leave");
         equals(table.seats[0], null, "seat0 again");
+        cleanup(id);
     });
 
 test("jpoker.plugins.table: PokerPlayerSerial/Logout", function(){
@@ -967,6 +972,7 @@ test("jpoker.plugins.table: PokerPlayerSerial/Logout", function(){
         equals($("#sit_seat0" + id).css('display'), 'block', "sit_seat0 visible");
         server.logout();
         equals($("#sit_seat0" + id).css('display'), 'none', "sit_seat0 hidden");
+        cleanup(id);
     });
 
 test("jpoker.plugins.table: PacketPokerBoardCards", function(){
@@ -1022,7 +1028,7 @@ test("jpoker.plugins.table: PacketPokerDealer", function(){
     });
 
 test("jpoker.plugins.table: PacketPokerPosition", function(){
-        expect(4);
+        expect(7);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -1034,14 +1040,22 @@ test("jpoker.plugins.table: PacketPokerPosition", function(){
         table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
-        table.serial2player = { 10: { seat: 0, handler: function() {} },
-                                11: { seat: 1, handler: function() {} } };
+        table.serial2player = { 10: { seat: 0, sit: true,  handler: function() {} },
+                                11: { seat: 1, sit: true,  handler: function() {} },
+                                12: { seat: 2, sit: false, handler: function() {} },
+        };
         server.notifyUpdate(table_packet);
-        equals($("#name_seat0" + id).css('background-color'), 'transparent', "seat 0 bg color");
-        equals($("#name_seat1" + id).css('background-color'), 'transparent', "seat 1 bg color");
+        var seat;
+        for(seat = 0; seat < 3; seat++) {
+            equals($("#name_seat" + seat + id).hasClass('jpokerPosition'), false, "seat " + seat);
+        }
         table.handler(server, game_id, { type: 'PacketPokerPosition', serial: 10, game_id: game_id });
-        equals($("#name_seat0" + id).css('background-color').indexOf('rgb') >= 0, true, "seat 0 bg color set");
-        equals($("#name_seat1" + id).css('background-color'), 'transparent', "seat 1 bg color not set");
+        equals($("#name_seat0" + id).hasClass('jpokerPosition'), true, "seat 0 in position");
+        equals($("#name_seat0" + id).hasClass('jpokerSitOut'), false, "seat 0 sit");
+
+        equals($("#name_seat1" + id).hasClass('jpokerPosition'), false, "seat 1 not in position");
+        equals($("#name_seat1" + id).hasClass('jpokerSitOut'), false, "seat 1 sit");
+
         start_and_cleanup();
     });
 
@@ -1078,7 +1092,10 @@ test("jpoker.plugins.table: PacketPokerPotChips/Reset", function(){
         return;
     });
 
-test("jpoker.plugins.table: PacketPokerPlayerCards", function(){
+//
+// player
+//
+test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
         expect(6);
         stop();
 
@@ -1110,7 +1127,7 @@ test("jpoker.plugins.table: PacketPokerPlayerCards", function(){
         start_and_cleanup();
     });
 
-test("jpoker.plugins.table: PacketPokerPlayerChips", function(){
+test("jpoker.plugins.player: PacketPokerPlayerChips", function(){
         expect(11);
         stop();
 
@@ -1150,9 +1167,6 @@ test("jpoker.plugins.table: PacketPokerPlayerChips", function(){
         start_and_cleanup();
     });
 
-//
-// player
-//
 test("jpoker.plugins.player: PokerPlayerSeat", function(){
         expect(6);
 
@@ -1179,6 +1193,57 @@ test("jpoker.plugins.player: PokerPlayerSeat", function(){
         };
         $("#sit_seat0" + id).click();
         equals(sent, true, "packet sent");
+        cleanup(id);
+    });
+
+test("jpoker.plugins.player: PokerSit/SitOut", function(){
+        expect(12);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        place.jpoker('table', 'url', game_id);
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+        server.notifyUpdate(table_packet);
+        var player_serial = 43;
+        server.handler(server, 0, { type: 'PacketSerial', serial: player_serial});
+        var player_seat = 2;
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+        var player = server.tables[game_id].serial2player[player_serial];
+        var sit = $("#name_seat2" + id);
+        equals(sit.html(), 'click to sit');
+        var sent = false;
+        server.sendPacket = function(packet) {
+            equals(packet.type, 'PacketPokerSit');
+            equals(packet.game_id, game_id);
+            equals(packet.serial, player_serial);
+            sent = true;
+        };
+        sit.click();
+        equals(sent, true, "packet sent");
+
+        table.handler(server, game_id, { type: 'PacketPokerSit', serial: player_serial, game_id: game_id });
+        equals(sit.hasClass('jpokerSitOut'), false, 'no class sitout');
+        equals(sit.html(), 'click to sit out');
+
+        sent = false;
+        server.sendPacket = function(packet) {
+            equals(packet.type, 'PacketPokerSitOut');
+            equals(packet.game_id, game_id);
+            equals(packet.serial, player_serial);
+            sent = true;
+        };
+        sit.click();
+
+        table.handler(server, game_id, { type: 'PacketPokerSitOut', serial: player_serial, game_id: game_id });
+        equals(sit.hasClass('jpokerSitOut'), true, 'class sitout');
+        equals(sit.html(), 'click to sit');
+
+        cleanup(id);
     });
 
 test("profileEnd", function(){
