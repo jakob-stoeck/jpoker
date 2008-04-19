@@ -1592,10 +1592,15 @@
                 name.click(function() {
                         var server = jpoker.servers[url];
                         if(server) {
-                            server.sendPacket({ 'type': 'PacketPokerSit',
-                                        'serial': serial,
-                                        'game_id': game_id
-                                        });
+                            var player = server.tables[game_id].serial2player[serial];
+                            if(player.money > jpoker.chips.epsilon) {
+                                server.sendPacket({ 'type': 'PacketPokerSit',
+                                            'serial': serial,
+                                            'game_id': game_id
+                                            });
+                            } else {
+                                jpoker.dialog(_("not enough money"));
+                            }
                         }
                     });
             }

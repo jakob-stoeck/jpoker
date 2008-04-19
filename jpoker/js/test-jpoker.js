@@ -1197,7 +1197,7 @@ test("jpoker.plugins.player: PokerPlayerSeat", function(){
     });
 
 test("jpoker.plugins.player: PokerSit/SitOut", function(){
-        expect(12);
+        expect(14);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
@@ -1214,6 +1214,10 @@ test("jpoker.plugins.player: PokerSit/SitOut", function(){
         var player_seat = 2;
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
         var player = server.tables[game_id].serial2player[player_serial];
+        player.money = 100;
+        //
+        // sit
+        //
         var sit = $("#name_seat2" + id);
         equals(sit.html(), 'click to sit');
         var sent = false;
@@ -1230,6 +1234,9 @@ test("jpoker.plugins.player: PokerSit/SitOut", function(){
         equals(sit.hasClass('jpokerSitOut'), false, 'no class sitout');
         equals(sit.html(), 'click to sit out');
 
+        //
+        // sit out
+        //
         sent = false;
         server.sendPacket = function(packet) {
             equals(packet.type, 'PacketPokerSitOut');
@@ -1242,6 +1249,21 @@ test("jpoker.plugins.player: PokerSit/SitOut", function(){
         table.handler(server, game_id, { type: 'PacketPokerSitOut', serial: player_serial, game_id: game_id });
         equals(sit.hasClass('jpokerSitOut'), true, 'class sitout');
         equals(sit.html(), 'click to sit');
+
+        //
+        // sit when broke
+        //
+        player.money = 0;
+        var called = false;
+        dialog = jpoker.dialog;
+        jpoker.dialog = function(message) {
+            equals(message.indexOf('not enough') >= 0, true, message);
+            called = true;
+        };
+        server.sendPacket = function() {};
+        sit.click();
+        jpoker.dialog = dialog;
+        equals(called, true, "alert because broke");
 
         cleanup(id);
     });
