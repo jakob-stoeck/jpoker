@@ -1445,7 +1445,7 @@
             var bet = $('#bet_seat' + player.seat + id);
             bet.hide();
             bet.css('text-align', 'center');
-            bet.css('line-height', '34px');
+            bet.css('line-height', '48px');
             bet.css('font-weight', 'bold');
             var money = $('#player_seat' + player.seat  + '_money' + id);
             money.hide();
