@@ -2,3 +2,11 @@ span.jpokerServerStatus {
     padding:2px 5px;
     margin-left: 1.5em;
 }
+
+.jpokerPosition {
+    background-color: #44FF44
+}
+
+.jpokerSitOut {
+    background-color: #AAAAAA
+}
