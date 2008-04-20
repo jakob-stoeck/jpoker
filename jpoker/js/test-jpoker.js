@@ -943,7 +943,7 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
                               });
         equals($("#seat0" + id).css('display'), 'block', "arrive");
         equals($("#sit_seat0" + id).css('display'), 'none', "seat0 hidden");
-        equals($("#name_seat0" + id).html(), 'click to sit', "username arrive");
+        equals($("#player_seat0_name" + id).html(), 'click to sit', "username arrive");
         equals(table.seats[0], player_serial, "player 1");
         equals(table.serial2player[player_serial].serial, player_serial, "player 1 in player2serial");
         table.handler(server, game_id, { type: 'PacketPokerPlayerLeave', seat: 0, serial: player_serial, game_id: game_id });
@@ -1047,14 +1047,14 @@ test("jpoker.plugins.table: PacketPokerPosition", function(){
         server.notifyUpdate(table_packet);
         var seat;
         for(seat = 0; seat < 3; seat++) {
-            equals($("#name_seat" + seat + id).hasClass('jpokerPosition'), false, "seat " + seat);
+            equals($("#player_seat" + seat + "_name" + id).hasClass('jpokerPosition'), false, "seat " + seat);
         }
         table.handler(server, game_id, { type: 'PacketPokerPosition', serial: 10, game_id: game_id });
-        equals($("#name_seat0" + id).hasClass('jpokerPosition'), true, "seat 0 in position");
-        equals($("#name_seat0" + id).hasClass('jpokerSitOut'), false, "seat 0 sit");
+        equals($("#player_seat0_name" + id).hasClass('jpokerPosition'), true, "seat 0 in position");
+        equals($("#player_seat0_name" + id).hasClass('jpokerSitOut'), false, "seat 0 sit");
 
-        equals($("#name_seat1" + id).hasClass('jpokerPosition'), false, "seat 1 not in position");
-        equals($("#name_seat1" + id).hasClass('jpokerSitOut'), false, "seat 1 sit");
+        equals($("#player_seat1_name" + id).hasClass('jpokerPosition'), false, "seat 1 not in position");
+        equals($("#player_seat1_name" + id).hasClass('jpokerSitOut'), false, "seat 1 sit");
 
         start_and_cleanup();
     });
@@ -1148,7 +1148,7 @@ test("jpoker.plugins.player: PacketPokerPlayerChips", function(){
 
         var slots = [ 'bet', 'money' ];
         for(var i = 0; i < slots.length; i++) {
-            var chips = $("#" + slots[i] + "_seat" + player_seat + id);
+            var chips = $("#player_seat" + player_seat + "_" + slots[i] + id);
             equals(chips.size(), 1, slots[i] + " DOM element");
             equals(chips.css('display'), 'none', slots[i] + " chips hidden");
             equals(player[slots[i]], 0, slots[i] + " chips");
@@ -1218,7 +1218,7 @@ test("jpoker.plugins.player: PokerSit/SitOut", function(){
         //
         // sit
         //
-        var sit = $("#name_seat2" + id);
+        var sit = $("#player_seat2_name" + id);
         equals(sit.html(), 'click to sit');
         var sent = false;
         server.sendPacket = function(packet) {

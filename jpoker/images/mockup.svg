@@ -260,7 +260,7 @@
          x="165.60248"
          xlink:href="dealer.png" />
       <image
-         id="bet_seat0"
+         id="player_seat0_bet"
          height="48"
          width="48"
          y="241.93398"
@@ -378,8 +378,8 @@
       <use
          x="0"
          y="0"
-         xlink:href="#bet_seat0"
-         id="bet_seat1"
+         xlink:href="#player_seat0_bet"
+         id="player_seat1_bet"
          transform="translate(91.970803,-67.883211)"
          width="800"
          height="600"
@@ -496,8 +496,8 @@
          height="600"
          width="800"
          transform="translate(234.30657,-71.167883)"
-         id="bet_seat2"
-         xlink:href="#bet_seat0"
+         id="player_seat2_bet"
+         xlink:href="#player_seat0_bet"
          y="0"
          x="0"
          inkscape:label="#use2590" />
@@ -533,8 +533,8 @@
          height="600"
          width="800"
          transform="translate(462.0438,-15.328467)"
-         id="bet_seat4"
-         xlink:href="#bet_seat0"
+         id="player_seat4_bet"
+         xlink:href="#player_seat0_bet"
          y="0"
          x="0"
          inkscape:label="#use2592" />
@@ -545,8 +545,8 @@
       <use
          x="0"
          y="0"
-         xlink:href="#bet_seat0"
-         id="bet_seat3"
+         xlink:href="#player_seat0_bet"
+         id="player_seat3_bet"
          transform="translate(361.31387,-68.978102)"
          width="800"
          height="600"
@@ -608,7 +608,7 @@
          width="800"
          transform="translate(460.94891,78.832117)"
          id="use2596"
-         xlink:href="#bet_seat0"
+         xlink:href="#player_seat0_bet"
          y="0"
          x="0" />
     </g>
@@ -643,8 +643,8 @@
          height="600"
          width="800"
          transform="translate(382.11679,135.76642)"
-         id="bet_seat6"
-         xlink:href="#bet_seat0"
+         id="player_seat6_bet"
+         xlink:href="#player_seat0_bet"
          y="0"
          x="0"
          inkscape:label="#use2598" />
@@ -680,8 +680,8 @@
          height="600"
          width="800"
          transform="translate(246.35036,135.76642)"
-         id="bet_seat7"
-         xlink:href="#bet_seat0"
+         id="player_seat7_bet"
+         xlink:href="#player_seat0_bet"
          y="0"
          x="0"
          inkscape:label="#use2600" />
@@ -717,8 +717,8 @@
          height="600"
          width="800"
          transform="translate(107.29927,134.67153)"
-         id="bet_seat8"
-         xlink:href="#bet_seat0"
+         id="player_seat8_bet"
+         xlink:href="#player_seat0_bet"
          y="0"
          x="0"
          inkscape:label="#use2602" />
@@ -754,8 +754,8 @@
          height="600"
          width="800"
          transform="translate(7.6642336,100.72993)"
-         id="bet_seat9"
-         xlink:href="#bet_seat0"
+         id="player_seat9_bet"
+         xlink:href="#player_seat0_bet"
          y="0"
          x="0"
          inkscape:label="#use2604" />

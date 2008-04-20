@@ -1507,7 +1507,7 @@
             for(var card = 0; card < player.cards.length; card++) {
                 $('#card_seat' + seat + card + id).hide();
             }
-            var bet = $('#bet_seat' + seat + id);
+            var bet = $('#player_seat' + seat + '_bet' + id);
             bet.hide();
             bet.css('text-align', 'center');
             bet.css('line-height', '48px');
@@ -1550,7 +1550,7 @@
 
             case 'PacketPokerPlayerChips':
             jpoker.plugins.chips.update(player.money, '#player_seat' + player.seat + '_money' + id);
-            jpoker.plugins.chips.update(player.bet, '#bet_seat' + player.seat + id);
+            jpoker.plugins.chips.update(player.bet, '#player_seat' + player.seat + '_bet' + id);
             break;
 
             }
