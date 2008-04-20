@@ -718,7 +718,7 @@
                 this.tableLists = {};
                 this.timers = {};
                 this.serial = 0;
-                this.logname = null;
+                this.userInfo = {};
                 this.registerHandler(0, this.handler);
             },
 
@@ -818,7 +818,7 @@
                     throw _("{url} attempt to login {name} although serial is {serial} instead of 0").supplant({ 'url': this.url, 'name': name, 'serial': this.serial});
                 }
                 this.ensureSession();
-                this.logname = name;
+                this.userInfo.name = name;
                 this.sendPacket({
                         type: 'PacketLogin',
                         name: name,
@@ -844,6 +844,9 @@
                     break;
 
                     case 'PacketSerial':
+                    server.sendPacket({
+                            type: 'PacketPokerGetUserInfo',
+                                serial: packet.serial });
                     server.notifyUpdate(packet);
                     return false;
 
@@ -862,7 +865,7 @@
                     // order in which they are called.
                     //
                     this.serial = 0;
-                    this.logname = null;
+                    this.userInfo = {};
                     var packet = { type: 'PacketLogout' };
                     this.sendPacket(packet);
                     this.clearSession();
@@ -1327,7 +1330,7 @@
         var t = this.templates;
 	var html = [];
 	if(server.loggedIn()) {
-	    html.push(t.logout.supplant({ 'logout': _("{logname} logout").supplant({ 'logname': server.logname }) }));
+	    html.push(t.logout.supplant({ 'logout': _("{logname} logout").supplant({ 'logname': server.userInfo.name }) }));
 	} else {
 	    html.push(t.login.supplant({ 'login': _("login: "),
                                          'password': _("password: ")
@@ -1591,6 +1594,7 @@
                 name.addClass('jpokerSitOut');
             }
             if(server.serial == serial) {
+                $("#rebuy" + id).show();
                 name.unbind('click');
                 name.html(_("click to sit"));
                 name.click(function() {

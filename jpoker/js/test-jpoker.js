@@ -240,20 +240,21 @@ test("jpoker.refresh requireSession", function(){
 //
 // jpoker.server
 //
-test("jpoker.server.login: ok", function(){
-        expect(9);
+test("jpoker.server.login", function(){
+        expect(10);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
         equals(server.loggedIn(), false);
         equals(server.pinging(), false);
 
+        var packets = [];
         var PokerServer = function() {};
 
         PokerServer.prototype = {
             outgoing: '[{"type": "PacketAuthOk"}, {"type": "PacketSerial", "serial": 1}]',
 
-            handle: function(packet) { }
+            handle: function(packet) { packets.push(packet); }
         };
 
         ActiveXObject.prototype.server = new PokerServer();
@@ -265,10 +266,11 @@ test("jpoker.server.login: ok", function(){
                 switch(packet.type) {
                 case "PacketSerial":
                     equals(server.loggedIn(), true, "loggedIn");
-                    equals(server.logname, logname, "logname");
+                    equals(server.userInfo.name, logname, "logname");
                     equals(server.pinging(), true, "pinging");
                     equals(server.session != 'clear', true, "has session");
                     equals(server.connected(), true, "connected");
+                    equals(packets.pop().indexOf('PacketPokerGetUserInfo') >= 0, true, 'PacketPokerGetUserInfo');
                     start_and_cleanup();
                     return false;
 
@@ -364,7 +366,7 @@ test("jpoker.server.logout", function(){
         equals(server.loggedIn(), true);
         server.registerUpdate(function(server, packet) {
                 equals(server.loggedIn(), false);
-                equals(server.logname, null, "logname");
+                equals(server.userInfo.name, null, "logname");
                 equals(packet.type, "PacketLogout");
                 equals(server.session.indexOf('session=clear'), 0, "does not have session");
                 start_and_cleanup();
@@ -850,7 +852,7 @@ test("jpoker.plugins.login", function(){
         equals(result.password, expected.password, "login password");
 
         server.serial = 1;
-        server.logname = 'logname';
+        server.userInfo.name = 'logname';
         server.notifyUpdate();
 	content = $("#" + id).text();
 	equals(content.indexOf("logname logout") >= 0, true, "logout");
@@ -1197,7 +1199,7 @@ test("jpoker.plugins.player: PokerPlayerSeat", function(){
     });
 
 test("jpoker.plugins.player: PokerSit/SitOut", function(){
-        expect(14);
+        expect(16);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
@@ -1210,6 +1212,7 @@ test("jpoker.plugins.player: PokerSit/SitOut", function(){
         var table = server.tables[game_id];
         server.notifyUpdate(table_packet);
         var player_serial = 43;
+        equals($("#rebuy" + id).css('display'), 'none', "rebuy is not visible");
         server.handler(server, 0, { type: 'PacketSerial', serial: player_serial});
         var player_seat = 2;
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
@@ -1219,6 +1222,7 @@ test("jpoker.plugins.player: PokerSit/SitOut", function(){
         // sit
         //
         var sit = $("#player_seat2_name" + id);
+        equals($("#rebuy" + id).css('display'), 'block', "rebuy is visible");
         equals(sit.html(), 'click to sit');
         var sent = false;
         server.sendPacket = function(packet) {
