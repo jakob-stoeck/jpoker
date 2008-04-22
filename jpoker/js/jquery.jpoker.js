@@ -1398,7 +1398,7 @@
                 var pot_element = $('#pot' + pot + id);
 		pot_element.hide();
 		pot_element.css('text-align', 'center');
-		pot_element.css('line-height', '34px');
+		pot_element.css('line-height', '48px');
 		pot_element.css('font-weight', 'bold');
             }
             for(var winner = 0; winner < 2; winner++) {
