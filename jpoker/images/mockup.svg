@@ -17,7 +17,7 @@
    inkscape:version="0.45.1"
    sodipodi:docname="mockup.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   sodipodi:docbase="/home/proppy/jpoker-bet-size/jpoker/images">
+   sodipodi:docbase="/home/proppy/Desktop/jpoker-pot-size/jpoker/images">
   <metadata
      id="metadata99">
     <rdf:RDF>
@@ -70,112 +70,112 @@
     <image
        xlink:href="card_back.png"
        x="290.4494"
-       y="258.04669"
+       y="250.04669"
        width="37"
        height="52"
        id="board0" />
     <image
        xlink:href="card_back.png"
        x="330.13812"
-       y="258.82489"
+       y="250.82489"
        width="37"
        height="52"
        id="board1" />
     <image
        xlink:href="card_back.png"
        x="368.27042"
-       y="258.04669"
+       y="250.04669"
        width="37"
        height="52"
        id="board2" />
     <image
        xlink:href="card_back.png"
        x="407.95914"
-       y="258.82492"
+       y="250.82492"
        width="37"
        height="52"
        id="board3" />
     <image
        xlink:href="card_back.png"
        x="446.86966"
-       y="258.82489"
+       y="250.82489"
        width="37"
        height="52"
        id="board4" />
     <image
        xlink:href="pot.png"
-       x="225.02335"
-       y="343.52139"
-       width="32"
-       height="32"
+       x="181.27243"
+       y="305.52139"
+       width="48"
+       height="48"
        id="pot7" />
     <image
        xlink:href="pot.png"
-       x="263.93384"
-       y="343.52139"
-       width="32"
-       height="32"
+       x="229.27243"
+       y="305.52139"
+       width="48"
+       height="48"
        id="pot5" />
     <image
        xlink:href="pot.png"
-       x="302.06613"
-       y="343.52139"
-       width="32"
-       height="32"
+       x="277.27243"
+       y="305.52139"
+       width="48"
+       height="48"
        id="pot3" />
     <image
        xlink:href="pot.png"
-       x="337.86383"
-       y="343.52139"
-       width="32"
-       height="32"
+       x="325.27243"
+       y="305.52139"
+       width="48"
+       height="48"
        id="pot1" />
     <image
        xlink:href="pot.png"
-       x="374.43967"
-       y="343.52139"
-       width="32"
-       height="32"
+       x="373.27243"
+       y="305.52139"
+       width="48"
+       height="48"
        id="pot0" />
     <image
        xlink:href="pot.png"
-       x="411.01556"
-       y="343.52139"
-       width="32"
-       height="32"
+       x="421.27243"
+       y="305.52139"
+       width="48"
+       height="48"
        id="pot2" />
     <image
        xlink:href="pot.png"
-       x="446.81323"
-       y="343.52139"
-       width="32"
-       height="32"
+       x="469.27243"
+       y="305.52139"
+       width="48"
+       height="48"
        id="pot4" />
     <image
        xlink:href="pot.png"
-       x="484.94553"
-       y="343.52139"
-       width="32"
-       height="32"
+       x="517.27246"
+       y="305.52139"
+       width="48"
+       height="48"
        id="pot6" />
     <image
        xlink:href="pot.png"
-       x="521.52142"
-       y="343.52139"
-       width="32"
-       height="32"
+       x="565.27246"
+       y="305.52139"
+       width="48"
+       height="48"
        id="pot8" />
     <image
        xlink:href="winner.png"
        x="298.94455"
-       y="228.20183"
+       y="220.20183"
        width="180"
        height="25"
        id="winner0" />
     <image
        xlink:href="winner.png"
        x="298.94455"
-       y="314.45282"
+       y="306.45282"
        width="180"
        height="25"
        id="winner1" />
@@ -263,8 +263,8 @@
          id="player_seat0_bet"
          height="48"
          width="48"
-         y="241.93398"
-         x="140.80481"
+         y="235.93398"
+         x="138.80481"
          xlink:href="bet.png" />
       <g
          id="card_seat0">
@@ -380,7 +380,7 @@
          y="0"
          xlink:href="#player_seat0_bet"
          id="player_seat1_bet"
-         transform="translate(91.970803,-67.883211)"
+         transform="translate(93.970803,-61.883211)"
          width="800"
          height="600"
          inkscape:label="#use2572" />
@@ -495,7 +495,7 @@
       <use
          height="600"
          width="800"
-         transform="translate(234.30657,-71.167883)"
+         transform="translate(236.30657,-65.167883)"
          id="player_seat2_bet"
          xlink:href="#player_seat0_bet"
          y="0"
@@ -532,7 +532,7 @@
       <use
          height="600"
          width="800"
-         transform="translate(462.0438,-15.328467)"
+         transform="translate(478.0438,-9.328467)"
          id="player_seat4_bet"
          xlink:href="#player_seat0_bet"
          y="0"
@@ -547,7 +547,7 @@
          y="0"
          xlink:href="#player_seat0_bet"
          id="player_seat3_bet"
-         transform="translate(361.31387,-68.978102)"
+         transform="translate(363.31387,-62.978102)"
          width="800"
          height="600"
          inkscape:label="#use2712" />
@@ -606,7 +606,7 @@
       <use
          height="600"
          width="800"
-         transform="translate(460.94891,78.832117)"
+         transform="translate(476.94891,82.832117)"
          id="use2596"
          xlink:href="#player_seat0_bet"
          y="0"
@@ -642,7 +642,7 @@
       <use
          height="600"
          width="800"
-         transform="translate(382.11679,135.76642)"
+         transform="translate(384.11679,141.76642)"
          id="player_seat6_bet"
          xlink:href="#player_seat0_bet"
          y="0"
@@ -679,7 +679,7 @@
       <use
          height="600"
          width="800"
-         transform="translate(246.35036,135.76642)"
+         transform="translate(248.35036,141.76642)"
          id="player_seat7_bet"
          xlink:href="#player_seat0_bet"
          y="0"
@@ -716,7 +716,7 @@
       <use
          height="600"
          width="800"
-         transform="translate(107.29927,134.67153)"
+         transform="translate(109.29927,140.67153)"
          id="player_seat8_bet"
          xlink:href="#player_seat0_bet"
          y="0"
@@ -753,7 +753,7 @@
       <use
          height="600"
          width="800"
-         transform="translate(7.6642336,100.72993)"
+         transform="translate(3.6642336,106.72993)"
          id="player_seat9_bet"
          xlink:href="#player_seat0_bet"
          y="0"
