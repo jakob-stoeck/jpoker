@@ -91,6 +91,22 @@ var jpoker = $.jpoker;
 jpoker.verbose = 100; // activate the code parts that depends on verbosity
 
 //
+// jpoker
+//
+
+test("jpoker: get{Server,Table,Player}", function() {
+        expect(5);
+        equals(jpoker.getServer('url'), undefined, 'get non existent server');
+        jpoker.servers['url'] = 'yes';
+        equals(jpoker.getServer('url'), 'yes', 'get  existing server');
+        jpoker.servers['url'] = { tables: {} };
+        equals(jpoker.getTable('no url', 'game_id'), undefined, 'getTable non existing server');
+        equals(jpoker.getTable('url', 'game_id'), undefined, 'getTable non existing table');
+        jpoker.servers['url'] = { tables: { 'game_id': 'yes' } };
+        equals(jpoker.getTable('url', 'game_id'), 'yes', 'getTable existing table');
+    });
+
+//
 // jpoker.watchable
 //
 test("jpoker.watchable", function(){
@@ -373,6 +389,27 @@ test("jpoker.server.logout", function(){
             });
         server.logout();
     });
+
+test("jpoker.server.bankroll", function(){
+        expect(4);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var money = 43;
+        var in_game = 44;
+        var points = 45;
+        var currency_serial = 1;
+        var packet = { type: 'PacketPokerUserInfo', 'money': { } }
+        var currency_key = 'X' + currency_serial;
+        packet.money[currency_key] = [ money * 100, in_game * 100, points ];
+        server.handler(server, 0, packet);
+        equals(server.userInfo.money[currency_key][0], money * 100, 'money');
+        equals(server.bankroll(currency_serial), 0, 'bankroll');
+        var player_serial = 3;
+        server.serial = player_serial;
+        equals(server.bankroll(33333), 0, 'no bankroll for currency');
+        equals(server.bankroll(currency_serial), money, 'bankroll');
+    });
+
 
 //
 // jpoker.connection
@@ -1005,6 +1042,32 @@ test("jpoker.plugins.table: PacketPokerBoardCards", function(){
     });
 
 test("jpoker.plugins.table: PacketPokerDealer", function(){
+        expect(6);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        place.jpoker('table', 'url', game_id);
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+        server.notifyUpdate(table_packet);
+        equals($("#dealer0" + id).size(), 1, "dealer0 DOM element");
+        equals($("#dealer0" + id).css('display'), 'none', "dealer0 hidden");
+        table.handler(server, game_id, { type: 'PacketPokerDealer', dealer: 0, game_id: game_id });
+        equals($("#dealer0" + id).css('display'), 'block', "dealer 0 set");
+        equals($("#dealer1" + id).css('display'), 'none', "dealer 1 not set");
+        table.handler(server, game_id, { type: 'PacketPokerDealer', dealer: 1, game_id: game_id });
+        equals($("#dealer0" + id).css('display'), 'none', "dealer 0 not set");
+        equals($("#dealer1" + id).css('display'), 'block', "dealer 1 set");
+        start_and_cleanup();
+    });
+
+test("jpoker.plugins.table: PacketPokerBuyInLimits", function(){
+        return;
         expect(6);
         stop();
 
