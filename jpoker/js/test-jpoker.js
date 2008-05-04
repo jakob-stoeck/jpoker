@@ -95,15 +95,22 @@ jpoker.verbose = 100; // activate the code parts that depends on verbosity
 //
 
 test("jpoker: get{Server,Table,Player}", function() {
-        expect(5);
+        expect(7);
+        // getServer
         equals(jpoker.getServer('url'), undefined, 'get non existent server');
         jpoker.servers['url'] = 'yes';
         equals(jpoker.getServer('url'), 'yes', 'get  existing server');
+        // getTable
         jpoker.servers['url'] = { tables: {} };
         equals(jpoker.getTable('no url', 'game_id'), undefined, 'getTable non existing server');
         equals(jpoker.getTable('url', 'game_id'), undefined, 'getTable non existing table');
         jpoker.servers['url'] = { tables: { 'game_id': 'yes' } };
         equals(jpoker.getTable('url', 'game_id'), 'yes', 'getTable existing table');
+        // getPlayer
+        jpoker.servers['url'] = { tables: { 'game_id': { 'serial2player': { } } } };
+        equals(jpoker.getPlayer('url', 'game_id', 'player_id'), undefined, 'getPlayer non existing player');
+        jpoker.servers['url'] = { tables: { 'game_id': { 'serial2player': { 'player_id': 'player' } } } };
+        equals(jpoker.getPlayer('url', 'game_id', 'player_id'), 'player', 'getPlayer non existing player');
     });
 
 //
