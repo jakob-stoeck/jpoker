@@ -95,7 +95,7 @@ jpoker.verbose = 100; // activate the code parts that depends on verbosity
 //
 
 test("jpoker: get{Server,Table,Player}", function() {
-        expect(7);
+        expect(9);
         // getServer
         equals(jpoker.getServer('url'), undefined, 'get non existent server');
         jpoker.servers['url'] = 'yes';
@@ -107,6 +107,8 @@ test("jpoker: get{Server,Table,Player}", function() {
         jpoker.servers['url'] = { tables: { 'game_id': 'yes' } };
         equals(jpoker.getTable('url', 'game_id'), 'yes', 'getTable existing table');
         // getPlayer
+        equals(jpoker.getPlayer('no url', 'game_id'), undefined, 'getPlayer non existing server');
+        equals(jpoker.getPlayer('url', 'no game_id'), undefined, 'getPlayer non existing table');
         jpoker.servers['url'] = { tables: { 'game_id': { 'serial2player': { } } } };
         equals(jpoker.getPlayer('url', 'game_id', 'player_id'), undefined, 'getPlayer non existing player');
         jpoker.servers['url'] = { tables: { 'game_id': { 'serial2player': { 'player_id': 'player' } } } };
@@ -761,6 +763,48 @@ test("jpoker.table.uninit", function(){
         table.handler(server, game_id, { type: 'PacketPokerTableDestroy', game_id: game_id });
     });
 
+test("jpoker.table.handler: PacketPokerBuyInLimits", function(){
+        expect(5);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var game_id = 100;
+
+        // define user & money
+        var player_serial = 22;
+        server.serial = player_serial;
+        var money = 43;
+        var in_game = 44;
+        var points = 45;
+        var currency_serial = 440;
+        var currency_key = 'X' + currency_serial;
+        server.userInfo = { money: {} };
+        server.userInfo.money[currency_key] = [ money * 100, in_game * 100, points ];
+
+        // define table
+        table_packet = { id: game_id, currency_serial: currency_serial };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        var min = 1;
+        var max = 2;
+        var best = 3;
+        var rebuy_min = 4;
+        var packet = { type: 'PacketPokerBuyInLimits',
+                       game_id: game_id,
+                       min: min,
+                       max: max,
+                       best: best,
+                       rebuy_min: rebuy_min
+        };
+        table.handler(server, game_id, packet);
+
+        var keys = [ 'min', 'max', 'best', 'rebuy_min' ];
+        for(var i = 0; i < keys.length; i++) {
+            equals(table.buyIn[keys[i]], packet[keys[i]], keys[i]);
+        }
+        equals(table.buyIn.bankroll, money, 'money');
+    });
+
 //
 // tableList
 //
@@ -1073,20 +1117,33 @@ test("jpoker.plugins.table: PacketPokerDealer", function(){
         start_and_cleanup();
     });
 
-test("jpoker.plugins.table: PacketPokerBuyInLimits", function(){
-        return;
+test("jpoker.plugins.table: rebuy ?", function(){
+        return; 
+
         expect(6);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
         var id = 'jpoker' + jpoker.serial;
-        var game_id = 100;
 
+        // define user & money
+        var player_serial = 22;
+        server.serial = player_serial;
+        var money = 43;
+        var in_game = 44;
+        var points = 45;
+        var currency_serial = 440;
+        var currency_key = 'X' + currency_serial;
+        server.userInfo = {};
+        server.userInfo[currency_key] = [ money, in_game, points ];
+
+        var game_id = 100;
         place.jpoker('table', 'url', game_id);
-        table_packet = { id: game_id };
+        table_packet = { id: game_id, currency_serial: currency_serial };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
+
         server.notifyUpdate(table_packet);
         equals($("#dealer0" + id).size(), 1, "dealer0 DOM element");
         equals($("#dealer0" + id).css('display'), 'none', "dealer0 hidden");
