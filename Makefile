@@ -54,26 +54,33 @@ ${LANG_DIR}/jpoker-%.json: ${LANG_DIR}/%.mo
 
 i18n: ${LANG_JSON}
 
+ifeq ($(OFFLINE),)
 gems/bin/tiddlywiki_cp: 
 	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp || \
 	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp || \
 	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp || \
 	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp
 
-empty.html:
-	wget http://tiddlywiki.com/empty.html
+export GEM_HOME=gems
+GEMSPATH=gems/bin/
 
-jpoker/index-%.html: gems/bin/tiddlywiki_cp empty.html jpoker/JpokerPlugin/* jpoker/index-*/* jpoker/index/* jpoker/markup/*
-	cp empty.html $@
-	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-$* jpoker/index jpoker/markup $@
+jpoker/index-%.html jpoker/index.html jpoker/poker.html: gems/bin/tiddlywiki_cp 
 
-jpoker/index.html:  gems/bin/tiddlywiki_cp empty.html jpoker/JpokerPlugin/* jpoker/index-en/* jpoker/index/* jpoker/markup/*
-	cp empty.html $@
-	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-en jpoker/index jpoker/markup $@
+endif
 
-jpoker/poker.html:  gems/bin/tiddlywiki_cp empty.html jpoker/JpokerPlugin/* jpoker/poker/* jpoker/markup/*
-	cp empty.html $@
-	GEM_HOME=gems gems/bin/tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/poker jpoker/markup $@
+EMPTY=tiddlywiki-2.3.html
+
+jpoker/index-%.html: jpoker/JpokerPlugin/* jpoker/index-*/* jpoker/index/* jpoker/markup/*
+	cp ${EMPTY} $@
+	${GEMSPATH}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-$* jpoker/index jpoker/markup $@
+
+jpoker/index.html: jpoker/JpokerPlugin/* jpoker/index-en/* jpoker/index/* jpoker/markup/*
+	cp ${EMPTY} $@
+	${GEMSPATH}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-en jpoker/index jpoker/markup $@
+
+jpoker/poker.html: jpoker/JpokerPlugin/* jpoker/poker/* jpoker/markup/*
+	cp ${EMPTY} $@
+	${GEMSPATH}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/poker jpoker/markup $@
 
 cook:	jpoker/poker.html jpoker/index.html ${LANG_TW}
 
@@ -84,7 +91,7 @@ newlang:
 
 clean: 
 	rm -fr tests gems
-	rm -f messages.pot empty.html
+	rm -f messages.pot 
 	rm -f jpoker/{index.html,poker.html} ${LANG_TW}
 #	rm -fr ${LANG_DIR}/jpoker-{${LANG_LIST}}.json
 	rm -fr {${LANG_LIST}}/
