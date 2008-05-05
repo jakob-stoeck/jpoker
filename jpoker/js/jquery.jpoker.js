@@ -67,14 +67,14 @@
             if(window.console) { window.console.log(str); }
         },
 
-        dialog: function(html) {
-            var message = $("#jpokerDialog");
+        dialog: function(content) {
+            var message = $("#jpokerDialog").children();
             if(message.size() != 1) {
-                message = $("body").append("<div id='jpokerDialog' class='flora' title='jpoker message' />");
-                message = $("#jpokerDialog");
+                $("body").append("<div id='jpokerDialog' class='flora' title='jpoker message' />");
+                message = $("#jpokerDialog").children();
                 message.dialog({ autoOpen: false });
-            } 
-            message.html(html).dialog('open');
+            }
+            message.replaceWith(content).dialog('open');
         },
 
         error: function(reason) {
@@ -103,6 +103,31 @@
 	    }
 	    return this.servers[options.url];
 	},
+
+        getServer: function(url) {
+            return this.servers[url];
+        },
+
+        getTable: function(url, game_id) {
+            var server = jpoker.servers[url];
+            if(!server) {
+                return undefined;
+            } else {
+                return server.tables[game_id];
+            }
+        },
+
+        getPlayer: function(url, game_id, serial) {
+            var server = jpoker.servers[url];
+            if(!server) {
+                return undefined;
+            }
+            var table = server.tables[game_id];
+            if(!table) {
+                return undefined;
+            }
+            return table.serial2player[serial];
+        },
 
         url2hash: function(url) {
             if(!(url in this.url2hashCache)) {
@@ -758,6 +783,9 @@
                 }
                 break;
 
+                case 'PacketPokerUserInfo':
+                server.userInfo = packet;
+                break;
                 }
 
                 return true;
@@ -884,6 +912,14 @@
                 this.sendPacket({ 'type': 'PacketPokerTableJoin',
                                   'game_id': game_id });
                 this.ping();
+            },
+
+            bankroll: function(currency_serial) {
+                var key = 'X' + currency_serial;
+                if(this.loggedIn() && key in this.userInfo.money) {
+                    return this.userInfo.money[key][0] / 100; // PacketPokerUserInfo for documentation
+                }
+                return 0;
             }
         });
 
@@ -908,7 +944,7 @@
                                null, null, null, null, null ];
                 this.board = [ null, null, null, null, null ];
                 this.pots = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
-                this.buyIn = { min: 1000000000, max: 1000000000, best: 1000000000 };
+                this.buyIn = { min: 1000000000, max: 1000000000, best: 1000000000, bankroll: 0 };
             },
 
             uninit: function() {
@@ -921,6 +957,13 @@
                                 }
                             });
                     });
+            },
+
+            buyInLimits: function() {
+                var max = Math.min(this.buyIn.max, this.buyIn.bankroll);
+                var min = Math.min(this.buyIn.min, this.buyIn.bankroll);
+                var best = Math.min(this.buyIn.best, this.buyIn.bankroll);
+                return [ min, best, max ];
             },
 
             handler: function(server, id, packet) {
@@ -977,6 +1020,7 @@
 
                 case 'PacketPokerBuyInLimits':
                     table.buyIn = packet;
+                    table.buyIn.bankroll = server.bankroll(table.currency_serial);
                     break;
 
                 }
@@ -1532,6 +1576,9 @@
                 name.html(packet.name);
             }
             jpoker.plugins.player.sitOut(player, id);
+            $('#rebuy' + id).click(function() {
+                    jpoker.plugins.player.rebuy(url, game_id, serial);
+                });
             player.registerUpdate(this.update, id, "update" + id);
             player.registerDestroy(this.destroy, id, "destroy" + id);
         },
@@ -1560,6 +1607,28 @@
             return true;
         },
         
+        rebuy: function(url, game_id, serial) {
+            var player = jpoker.getPlayer(url, game_id, serial);
+            if(!player) {
+                return false;
+            }
+            var limits = table.buyInLimits();
+            var rebuy = $('#jpokerRebuy');
+            if(rebuy.size() == 0) {
+                $('body').append('<div id=\'jpokerRebuy\' class=\'flora\' title=\'rebuy\' />');
+                rebuy = $('#jpokerRebuy');
+            }
+            rebuy.empty();
+            rebuy.append('<div class=\'ui-slider-1\' style=\'margin:10px;\'><div class=\'ui-slider-handle\'></div></div>');
+            $('.ui-slider-1', rebuy).slider({
+                    min: limits.min,
+                        max: limits.max,
+                        startValue: limits.best
+                });
+            rebuy.dialog();
+            return true;
+        },
+
         sit: function(player, id) {
             var name = $('#player_seat' + player.seat + '_name' + id);
             var url = player.url;
