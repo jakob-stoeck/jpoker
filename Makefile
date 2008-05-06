@@ -61,10 +61,11 @@ gems/bin/tiddlywiki_cp:
 	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp || \
 	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp
 
-export GEM_HOME=gems
-GEMSPATH=gems/bin/
+GEMSCONTEXT=GEM_HOME=gems gems/bin/
 
-jpoker/index-%.html jpoker/index.html jpoker/poker.html: gems/bin/tiddlywiki_cp 
+jpoker/index-%.html: gems/bin/tiddlywiki_cp 
+jpoker/index.html: gems/bin/tiddlywiki_cp 
+jpoker/poker.html: gems/bin/tiddlywiki_cp 
 
 endif
 
@@ -72,15 +73,15 @@ EMPTY=tiddlywiki-2.3.html
 
 jpoker/index-%.html: jpoker/JpokerPlugin/* jpoker/index-*/* jpoker/index/* jpoker/markup/*
 	cp ${EMPTY} $@
-	${GEMSPATH}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-$* jpoker/index jpoker/markup $@
+	${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-$* jpoker/index jpoker/markup $@
 
 jpoker/index.html: jpoker/JpokerPlugin/* jpoker/index-en/* jpoker/index/* jpoker/markup/*
 	cp ${EMPTY} $@
-	${GEMSPATH}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-en jpoker/index jpoker/markup $@
+	${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-en jpoker/index jpoker/markup $@
 
 jpoker/poker.html: jpoker/JpokerPlugin/* jpoker/poker/* jpoker/markup/*
 	cp ${EMPTY} $@
-	${GEMSPATH}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/poker jpoker/markup $@
+	${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/poker jpoker/markup $@
 
 cook:	jpoker/poker.html jpoker/index.html ${LANG_TW}
 
