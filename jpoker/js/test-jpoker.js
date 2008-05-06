@@ -1361,7 +1361,7 @@ test("jpoker.plugins.player: PokerSit/SitOut", function(){
     });
 
 test("jpoker.plugins.player: rebuy", function(){
-        expect(3);
+        expect(5);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
