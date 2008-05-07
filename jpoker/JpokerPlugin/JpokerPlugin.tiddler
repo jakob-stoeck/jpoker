@@ -13,6 +13,7 @@
 
 //config.jpoker = { restURL : 'http://pokersource.eu/REST' };
 //config.jpoker = { restURL : 'http://jspoker.pokersource.info/REST' };
+//config.jpoker = { restURL : 'http://127.0.0.1/REST' };
 config.jpoker = { restURL : '/REST' };
 config.options.chkSinglePagePermalink = false;
 
