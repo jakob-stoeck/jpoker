@@ -601,6 +601,7 @@ test("jpoker.connection:dequeueIncoming handle", function(){
         var handled;
         var handler = function(com, id, packet) {
             handled = [ com, id, packet ];
+            return true;
         };
         self.registerHandler(0, handler);
         self.dequeueIncoming();
@@ -615,6 +616,20 @@ test("jpoker.connection:dequeueIncoming handle", function(){
         equals(self.handlers[0], undefined);
 
         equals(("time__" in packet), false);
+    });
+
+test("jpoker.connection:dequeueIncoming no handler", function(){
+        expect(1);
+        var self = new jpoker.connection();
+
+        var packet = { type: 'type1', time__: 1 };
+        self.queues[0] = { 'high': {'packets': [],
+                                    'delay':  0 },
+                           'low': {'packets': [packet],
+                                   'delay': 0 } };
+        self.dequeueIncoming();
+
+        equals(self.queues[0] !== undefined, true, 'packet still in queue because no handler');
     });
 
 test("jpoker.connection:dequeueIncoming handle error", function(){
@@ -689,6 +704,7 @@ test("jpoker.connection:dequeueIncoming lagmax", function(){
         var handled;
         var handler = function(com, id, packet) {
             handled = [ com, id, packet ];
+            return true;
         };
         self.registerHandler(0, handler);
         self.dequeueIncoming();

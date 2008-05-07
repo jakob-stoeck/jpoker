@@ -543,7 +543,11 @@
             },
 
             handle: function(id, packet) {
+                if(jpoker.verbose > 1) {
+                    jpoker.message('connection handle ' + id + ': ' + JSON.stringify(packet));
+                }
                 if(id in this.handlers) {
+                    delete packet.time__;
                     var $this = this;
                     this.handlers[id] = $.grep(this.handlers[id], function(element, index) {
                             try {
@@ -553,7 +557,9 @@
                                 return false; // error will throw anyways
                             }
                         });
+                    return true;
                 }
+                return false;
             },
 
             delayQueue: function(id, time) {
@@ -666,19 +672,8 @@
                 if(!this.blocked) {
                     now = jpoker.now();
                     this.lag = 0;
-                    //
-                    // The ids must be sorted because TABLE packet must always be handled
-                    // before the BUY_IN_LIMITS of the same table.
-                    //
-                    var queue_ids = [];
-                    for(var id in this.queues) {
-                        queue_ids.push(id);
-                    }
-                    queue_ids.sort();
                     
-                    for(var i = 0; i < queue_ids.length; i++) {
-                        var id = queue_ids[i];
-                        jpoker.message('dequeue ' + id);
+                    for(var id in this.queues) {
                         for(var priority in this.queues[id]) {
                             queue = this.queues[id][priority];
                             if(queue.packets.length <= 0) {
@@ -692,9 +687,9 @@
                             if(queue.delay <= now) {
                                 delay = this.handleDelay(id);
                                 if(lag > this.lagmax || delay === null || delay <= now) {
-                                    packet = queue.packets.shift();
-                                    delete packet.time__;
-                                    this.handle(id, packet);
+                                    if(this.handle(id, queue.packets[0])) {
+                                        queue.packets.shift();
+                                    }
                                 } else {
                                     queue.delay = delay;
                                 }
@@ -800,6 +795,7 @@
                 server.userInfo = packet;
                 for(id in server.tables) {
                     packet.game_id = id;
+                    server.tables[id].handler(server, game_id, packet);
                     server.tables[id].notifyUpdate(packet);
                 }
                 delete packet.game_id;
@@ -1045,6 +1041,7 @@
 
                 case 'PacketPokerBuyInLimits':
                     table.buyIn = packet;
+                case 'PacketPokerUserInfo':
                     table.buyIn.bankroll = server.bankroll(table.currency_serial);
                     break;
 
