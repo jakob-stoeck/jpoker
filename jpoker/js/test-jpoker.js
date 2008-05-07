@@ -1016,7 +1016,7 @@ test("jpoker.plugins.table", function(){
                 for(var seat = 0; seat < 10; seat++) {
                     equals($("#seat" + seat + id).size(), 1, "seat " + seat);
                 }
-                var names = jpoker.plugins.player.selfNames;
+                var names = jpoker.plugins.playerSelf.names;
                 for(var name = 0; name < names.length; name++) {
                     equals($("#" + names[name] + id).css('display'), 'none', names[name]);
                 }
@@ -1425,7 +1425,7 @@ test("jpoker.plugins.player: rebuy", function(){
         table.handler(server, game_id, { type: 'PacketPokerBuyInLimits', game_id: game_id, min: min, max: max, best: best, rebuy_min: rebuy_min });
         equals(table.buyInLimits()[0], min, 'buy in min 2');
 
-        equals(jpoker.plugins.player.rebuy('url', game_id, 33333), false, 'rebuy for player that is not sit');
+        equals(jpoker.plugins.playerSelf.rebuy('url', game_id, 33333), false, 'rebuy for player that is not sit');
         $("#rebuy" + id).click();
         equals($("#jpokerRebuy").size(), 1, "rebuy dialog DOM element");
 
