@@ -666,7 +666,19 @@
                 if(!this.blocked) {
                     now = jpoker.now();
                     this.lag = 0;
+                    //
+                    // The ids must be sorted because TABLE packet must always be handled
+                    // before the BUY_IN_LIMITS of the same table.
+                    //
+                    var queue_ids = [];
                     for(var id in this.queues) {
+                        queue_ids.push(id);
+                    }
+                    queue_ids.sort();
+                    
+                    for(var i = 0; i < queue_ids.length; i++) {
+                        var id = queue_ids[i];
+                        jpoker.message('dequeue ' + id);
                         for(var priority in this.queues[id]) {
                             queue = this.queues[id][priority];
                             if(queue.packets.length <= 0) {
