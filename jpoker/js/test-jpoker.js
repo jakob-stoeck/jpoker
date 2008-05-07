@@ -98,20 +98,20 @@ test("jpoker: get{Server,Table,Player}", function() {
         expect(9);
         // getServer
         equals(jpoker.getServer('url'), undefined, 'get non existent server');
-        jpoker.servers['url'] = 'yes';
+        jpoker.servers.url = 'yes';
         equals(jpoker.getServer('url'), 'yes', 'get  existing server');
         // getTable
-        jpoker.servers['url'] = { tables: {} };
+        jpoker.servers.url = { tables: {} };
         equals(jpoker.getTable('no url', 'game_id'), undefined, 'getTable non existing server');
         equals(jpoker.getTable('url', 'game_id'), undefined, 'getTable non existing table');
-        jpoker.servers['url'] = { tables: { 'game_id': 'yes' } };
+        jpoker.servers.url = { tables: { 'game_id': 'yes' } };
         equals(jpoker.getTable('url', 'game_id'), 'yes', 'getTable existing table');
         // getPlayer
         equals(jpoker.getPlayer('no url', 'game_id'), undefined, 'getPlayer non existing server');
         equals(jpoker.getPlayer('url', 'no game_id'), undefined, 'getPlayer non existing table');
-        jpoker.servers['url'] = { tables: { 'game_id': { 'serial2player': { } } } };
+        jpoker.servers.url = { tables: { 'game_id': { 'serial2player': { } } } };
         equals(jpoker.getPlayer('url', 'game_id', 'player_id'), undefined, 'getPlayer non existing player');
-        jpoker.servers['url'] = { tables: { 'game_id': { 'serial2player': { 'player_id': 'player' } } } };
+        jpoker.servers.url = { tables: { 'game_id': { 'serial2player': { 'player_id': 'player' } } } };
         equals(jpoker.getPlayer('url', 'game_id', 'player_id'), 'player', 'getPlayer non existing player');
     });
 
@@ -418,7 +418,7 @@ test("jpoker.server.bankroll", function(){
         var in_game = 44;
         var points = 45;
         var currency_serial = 1;
-        var packet = { type: 'PacketPokerUserInfo', 'money': { } }
+        var packet = { type: 'PacketPokerUserInfo', 'money': { } };
         var currency_key = 'X' + currency_serial;
         packet.money[currency_key] = [ money * 100, in_game * 100, points ];
         server.handler(server, 0, packet);
@@ -1143,7 +1143,7 @@ test("jpoker.plugins.table: PacketPokerPosition", function(){
         var table = server.tables[game_id];
         table.serial2player = { 10: { seat: 0, sit: true,  handler: function() {} },
                                 11: { seat: 1, sit: true,  handler: function() {} },
-                                12: { seat: 2, sit: false, handler: function() {} },
+                                12: { seat: 2, sit: false, handler: function() {} }
         };
         server.notifyUpdate(table_packet);
         var seat;

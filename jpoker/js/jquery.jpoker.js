@@ -778,16 +778,17 @@
 
                 case 'PacketSerial':
                 server.serial = packet.serial;
-                for(var game_id in server.tables) {
-                    server.tables[game_id].notifyUpdate(packet);
+                var id;
+                for(id in server.tables) {
+                    server.tables[id].notifyUpdate(packet);
                 }
                 break;
 
                 case 'PacketPokerUserInfo':
                 server.userInfo = packet;
-                for(var game_id in server.tables) {
-                    packet.game_id = game_id;
-                    server.tables[game_id].notifyUpdate(packet);
+                for(id in server.tables) {
+                    packet.game_id = id;
+                    server.tables[id].notifyUpdate(packet);
                 }
                 delete packet.game_id;
                 break;
@@ -1546,15 +1547,15 @@
 
             case 'PacketPokerPosition':
                 for(var seat1 = 0; seat1 < table.seats.length; seat1++) {
-                    var element = $('#player_seat' + seat1 + '_name' + id);
+                    var seat_element = $('#player_seat' + seat1 + '_name' + id);
                     var player = table.serial2player[packet.serial];
                     if(packet.serial > 0 && player.sit === true && player.seat == seat1) {
-                        if(!element.hasClass('jpokerPosition')) {
-                            element.addClass('jpokerPosition');
+                        if(!seat_element.hasClass('jpokerPosition')) {
+                            seat_element.addClass('jpokerPosition');
                         }
                     } else {
-                        if(element.hasClass('jpokerPosition')) {
-                            element.removeClass('jpokerPosition');
+                        if(seat_element.hasClass('jpokerPosition')) {
+                            seat_element.removeClass('jpokerPosition');
                         }
                     }
                 }
@@ -1652,7 +1653,7 @@
             var table = jpoker.getTable(url, game_id);
             var limits = table.buyInLimits();
             var rebuy = $('#jpokerRebuy');
-            if(rebuy.size() == 0) {
+            if(rebuy.size() === 0) {
                 $('body').append('<div id=\'jpokerRebuy\' class=\'flora\' title=\'rebuy\' />');
                 rebuy = $('#jpokerRebuy');
                 rebuy.dialog({ autoOpen: false });
