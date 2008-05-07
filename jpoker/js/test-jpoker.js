@@ -266,7 +266,7 @@ test("jpoker.refresh requireSession", function(){
 // jpoker.server
 //
 test("jpoker.server.login", function(){
-        expect(10);
+        expect(9);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -295,7 +295,6 @@ test("jpoker.server.login", function(){
                     equals(server.pinging(), true, "pinging");
                     equals(server.session != 'clear', true, "has session");
                     equals(server.connected(), true, "connected");
-                    equals(packets.pop().indexOf('PacketPokerGetUserInfo') >= 0, true, 'PacketPokerGetUserInfo');
                     start_and_cleanup();
                     return false;
 
@@ -397,6 +396,18 @@ test("jpoker.server.logout", function(){
                 start_and_cleanup();
             });
         server.logout();
+    });
+
+test("jpoker.server.getUserInfo", function(){
+        expect(2);
+        var server = jpoker.serverCreate({ url: 'url' });
+        var serial = 43;
+        server.serial = serial;
+        server.sendPacket = function(packet) {
+            equals(packet.type, 'PacketPokerGetUserInfo');
+            equals(packet.serial, serial, 'player serial');
+        };
+        server.getUserInfo();
     });
 
 test("jpoker.server.bankroll", function(){
