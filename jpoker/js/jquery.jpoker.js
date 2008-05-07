@@ -1661,12 +1661,12 @@
             rebuy.empty();
             rebuy.append('<div class=\'jpokerRebuyBound\'>' + limits[0] + '</div>');
             rebuy.append('<div class=\'ui-slider-1\' style=\'margin:10px;\'><div class=\'ui-slider-handle\'></div></div>');
-            rebuy.append('<div class=\'jpokerRebuyBound\'>' + limits[1] + '</div>');
-            rebuy.append('<div class=\'jpokerRebuyCurrent\'>' + limits[2] + '</div>');
+            rebuy.append('<div class=\'jpokerRebuyCurrent\'>' + limits[1] + '</div>');
+            rebuy.append('<div class=\'jpokerRebuyBound\'>' + limits[2] + '</div>');
             $('.ui-slider-1', rebuy).slider({
                     min: limits[0],
-                        max: limits[1],
-                        startValue: limits[2],
+                        startValue: limits[1],
+                        max: limits[2],
                         change: function(event, ui) {
                         $('.jpokerRebuyCurrent', ui.element).html(ui.value);
                     }
