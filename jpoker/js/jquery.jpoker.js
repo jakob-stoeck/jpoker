@@ -1064,6 +1064,17 @@
                     table.notifyUpdate(packet);
                     break;
 
+                case 'PacketPokerBetLimit':
+                    table.betLimit = {
+                        min: packet.min / 100,
+                        max: packet.max / 100,
+                        step: packet.step / 100,
+                        call: packet.call / 100,
+                        allin: packet.allin / 100,
+                        pot: packet.pot / 100
+                    }
+                    break;
+
                 case 'PacketPokerBuyInLimits':
                     table.buyIn = {
                         min: packet.min / 100,
@@ -1183,6 +1194,11 @@
                 }
 
                 switch(packet.type) {
+                case 'PacketPokerPlayerChips':
+                if(packet.money > 0 && this.state == 'buyin') {
+                    this.state = 'playing';
+                }
+                break;
 
                 }
             }    
@@ -1705,8 +1721,7 @@
             break;
 
             case 'PacketPokerPlayerChips':
-            jpoker.plugins.chips.update(player.money, '#player_seat' + player.seat + '_money' + id);
-            jpoker.plugins.chips.update(player.bet, '#player_seat' + player.seat + '_bet' + id);
+            jpoker.plugins.player.chips(player, packet, id);
             break;
 
             }
@@ -1730,6 +1745,14 @@
             }
             if(jpoker.getServer(player.url).serial == player.serial) {
                 jpoker.plugins.playerSelf.sitOut(player, id);
+            }
+        },
+
+        chips: function(player, packet, id) {
+            jpoker.plugins.chips.update(player.money, '#player_seat' + player.seat + '_money' + id);
+            jpoker.plugins.chips.update(player.bet, '#player_seat' + player.seat + '_bet' + id);
+            if(jpoker.getServer(player.url).serial == player.serial) {
+                jpoker.plugins.playerSelf.chips(player, packet, id);
             }
         },
 
@@ -1900,6 +1923,18 @@
                         }
                     }
                 });
+        },
+
+        chips: function(player, packet, id) {
+            var table = jpoker.getTable(player.url, player.game_id);
+            if(table.state == 'end') {
+                var limits = table.buyInLimits();
+                if(packet.money < limits[2]) {
+                    $('#rebuy' + id).show();
+                } else {
+                    $('#rebuy' + id).hide();
+                }
+            }
         },
 
         names: [ 'fold', 'call', 'check', 'raise', 'raise_range', 'rebuy' ],

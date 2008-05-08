@@ -800,6 +800,38 @@ test("jpoker.table.uninit", function(){
         table.handler(server, game_id, { type: 'PacketPokerTableDestroy', game_id: game_id });
     });
 
+test("jpoker.table.handler: PacketPokerBetLimit", function(){
+        expect(6);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var game_id = 100;
+
+        // define user & money
+        var player_serial = 22;
+        server.serial = player_serial;
+
+        // define table
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        var packet = { type: 'PacketPokerBetLimit',
+                       game_id: game_id,
+                       min:   500,
+                       max: 20000,
+                       step:  100,
+                       call: 1000,
+                       allin:4000,
+                       pot:  2000
+        };
+        table.handler(server, game_id, packet);
+
+        var keys = [ 'min', 'max', 'step', 'call', 'allin', 'pot' ];
+        for(var i = 0; i < keys.length; i++) {
+            equals(table.betLimit[keys[i]] * 100, packet[keys[i]], keys[i]);
+        }
+    });
+
 test("jpoker.table.handler: PacketPokerBuyInLimits", function(){
         expect(5);
 
@@ -1258,7 +1290,7 @@ test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
     });
 
 test("jpoker.plugins.player: PacketPokerPlayerChips", function(){
-        expect(11);
+        expect(15);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -1271,6 +1303,7 @@ test("jpoker.plugins.player: PacketPokerPlayerChips", function(){
         server.tables[game_id] = new jpoker.table(server, table_packet);
         server.notifyUpdate(table_packet);
         var player_serial = 1;
+        server.serial = player_serial;
         var player_seat = 2;
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
         var player = server.tables[game_id].serial2player[player_serial];
@@ -1282,6 +1315,7 @@ test("jpoker.plugins.player: PacketPokerPlayerChips", function(){
             equals(chips.size(), 1, slots[i] + " DOM element");
             equals(chips.css('display'), 'none', slots[i] + " chips hidden");
             equals(player[slots[i]], 0, slots[i] + " chips");
+            equals(player.state, 'buyin');
             var packet = { type: 'PacketPokerPlayerChips',
                            money: 0,
                            bet: 0,
@@ -1290,6 +1324,11 @@ test("jpoker.plugins.player: PacketPokerPlayerChips", function(){
             var amount = 101;
             packet[slots[i]] = amount;
             table.handler(server, game_id, packet);
+            if(slots[i] == 'bet') {
+                equals(player.state, 'buyin');
+            } else {
+                equals(player.state, 'playing');
+            }
             equals(chips.css('display'), 'block', slots[i] + " chips visible");
             equals(chips.html().indexOf(amount / 100) >= 0, true, amount / 100 + " in html ");
         }
