@@ -1035,7 +1035,8 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
         expect(11);
 
         var server = jpoker.serverCreate({ url: 'url' });
-        server.serial = 1; // pretend logged in
+        var player_serial = 1;
+        server.serial = player_serial; // pretend logged in
         var place = $("#main");
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
@@ -1049,7 +1050,6 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
         equals($("#seat0" + id).css('display'), 'none', "seat0 hidden");
         equals($("#sit_seat0" + id).css('display'), 'block', "sit_seat0 hidden");
         equals(table.seats[0], null, "seat0 empty");
-        var player_serial = 1;
         table.handler(server, game_id,
                       {
                           type: 'PacketPokerPlayerArrive',

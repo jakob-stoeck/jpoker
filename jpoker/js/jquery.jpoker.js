@@ -1547,26 +1547,10 @@
 
             case 'PacketPokerPlayerArrive':
                 jpoker.plugins.player.create(table, packet, id);
-                if(server.loggedIn() && server.serial == serial) {
-                    var rebuy = $('#rebuy' + id);
-                    rebuy.click(function() {
-                            var server = jpoker.getServer(url);
-                            if(server && server.loggedIn()) {
-                                var element = jpoker.plugins.playerSelf.rebuy(url, game_id, serial);
-                                if(element) {
-                                    element.dialog('open');
-                                    server.getUserInfo();
-                                }
-                            }
-                        });
-                    rebuy.show();
-                }
                 break;
 
             case 'PacketPokerPlayerLeave':
-                if(server.loggedIn() && server.serial == serial) {
-                    $('#rebuy' + id).hide();
-                }
+                jpoker.plugins.player.leave(table, packet, id);
                 break;
 
             case 'PacketPokerUserInfo':
@@ -1642,7 +1626,7 @@
             var serial = packet.serial;
             var player = table.serial2player[serial];
             var seat = player.seat;
-            var server = jpoker.url2server(url);
+            var server = jpoker.getServer(url);
             jpoker.plugins.player.seat(seat, id, server, table);
             for(var card = 0; card < player.cards.length; card++) {
                 $('#card_seat' + seat + card + id).hide();
@@ -1666,11 +1650,18 @@
             name.css('font-weight', 'bold');
             name.css('color', '#ffffff');
             name.html(packet.name);
+            if(server.serial == serial) {
+                jpoker.plugins.playerSelf.create(table, packet, id);
+            }
             jpoker.plugins.player.sitOut(player, id);
             player.registerUpdate(this.update, id, "update" + id);
             player.registerDestroy(this.destroy, id, "destroy" + id);
-            if(server.serial == serial) {
-                jpoker.plugins.playerSelf.create(player, id);
+        },
+
+        leave: function(player, packet, id) {
+            var server = jpoker.getServer(player.url);
+            if(server.serial == packet.serial) {
+                jpoker.plugins.playerSelf.leave(player, packet, id);
             }
         },
 
@@ -1758,10 +1749,30 @@
     //
     jpoker.plugins.playerSelf = {
         create: function(table, packet, id) {
-            var name = $('#player_seat' + seat + '_name' + id);
+            var name = $('#player_seat' + packet.seat + '_name' + id);
             name.css('color', '#ffffff');
             name.html(packet.name);
             table.registerUpdate(this.updateTable, id, "update" + id);
+
+            var url = table.url;
+            var game_id = packet.game_id;
+            var serial = packet.serial;
+            var rebuy = $('#rebuy' + id);
+            rebuy.click(function() {
+                    var server = jpoker.getServer(url);
+                    if(server && server.loggedIn()) {
+                        var element = jpoker.plugins.playerSelf.rebuy(url, game_id, serial);
+                        if(element) {
+                            element.dialog('open');
+                            server.getUserInfo();
+                        }
+                    }
+                });
+            rebuy.show();
+        },
+
+        leave: function(player, packet, id) {
+            $('#rebuy' + id).hide();
         },
 
         updateTable: function(table, packet, id) {
