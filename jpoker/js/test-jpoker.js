@@ -88,14 +88,14 @@ test("String.supplant", function() {
 
 var jpoker = $.jpoker;
 
-jpoker.verbose = 100; // activate the code parts that depends on verbosity
+jpoker.verbose = 1; // activate the code parts that depends on verbosity
 
 //
 // jpoker
 //
 
 test("jpoker: get{Server,Table,Player}", function() {
-        expect(9);
+        expect(15);
         // getServer
         equals(jpoker.getServer('url'), undefined, 'get non existent server');
         jpoker.servers.url = 'yes';
@@ -113,6 +113,16 @@ test("jpoker: get{Server,Table,Player}", function() {
         equals(jpoker.getPlayer('url', 'game_id', 'player_id'), undefined, 'getPlayer non existing player');
         jpoker.servers.url = { tables: { 'game_id': { 'serial2player': { 'player_id': 'player' } } } };
         equals(jpoker.getPlayer('url', 'game_id', 'player_id'), 'player', 'getPlayer non existing player');
+        // getServerTablePlayer
+        equals(jpoker.getServerTablePlayer('no url', 'game_id'), undefined, 'getServerTablePlayer non existing server');
+        equals(jpoker.getServerTablePlayer('url', 'no game_id'), undefined, 'getServerTablePlayer existing table');
+        jpoker.servers.url = { tables: { 'game_id': { 'serial2player': { } } } };
+        equals(jpoker.getServerTablePlayer('url', 'game_id', 'player_id'), undefined, 'getServerTablePlayer non existing player');
+        jpoker.servers.url = { tables: { 'game_id': { 'serial2player': { 'player_id': 'player' } } } };
+        var result = jpoker.getServerTablePlayer('url', 'game_id', 'player_id');
+        equals('tables' in result.server, true, 'server has table');
+        equals('serial2player' in result.table, true, 'table has players');
+        equals(result.player, 'player', 'player is known');
     });
 
 //
@@ -812,10 +822,10 @@ test("jpoker.table.handler: PacketPokerBuyInLimits", function(){
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
-        var min = 1;
-        var max = 2;
-        var best = 3;
-        var rebuy_min = 4;
+        var min = 100;
+        var max = 200;
+        var best = 300;
+        var rebuy_min = 400;
         var packet = { type: 'PacketPokerBuyInLimits',
                        game_id: game_id,
                        min: min,
@@ -827,7 +837,7 @@ test("jpoker.table.handler: PacketPokerBuyInLimits", function(){
 
         var keys = [ 'min', 'max', 'best', 'rebuy_min' ];
         for(var i = 0; i < keys.length; i++) {
-            equals(table.buyIn[keys[i]], packet[keys[i]], keys[i]);
+            equals(table.buyIn[keys[i]] * 100, packet[keys[i]], keys[i]);
         }
         equals(table.buyIn.bankroll, money, 'money');
     });
@@ -937,6 +947,9 @@ test("jpoker.plugins.serverStatus", function(){
 //
 $.fn.triggerKeypress = function(keyCode) {
     return this.trigger("keypress", [$.event.fix({event:"keypress", keyCode: keyCode, target: this[0]})]);
+};
+$.fn.triggerKeydown = function(keyCode) {
+    return this.trigger("keydown", [$.event.fix({event:"keydown", keyCode: keyCode, target: this[0]})]);
 };
 
 test("jpoker.plugins.login", function(){
@@ -1330,7 +1343,8 @@ test("jpoker.plugins.player: PokerSit/SitOut", function(){
         equals($("#rebuy" + id).css('display'), 'none', "rebuy is not visible");
         server.handler(server, 0, { type: 'PacketSerial', serial: player_serial});
         var player_seat = 2;
-        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+        var player_name = 'username';
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', name: player_name, seat: player_seat, serial: player_serial, game_id: game_id });
         var player = server.tables[game_id].serial2player[player_serial];
         player.money = 100;
         //
@@ -1351,7 +1365,7 @@ test("jpoker.plugins.player: PokerSit/SitOut", function(){
 
         table.handler(server, game_id, { type: 'PacketPokerSit', serial: player_serial, game_id: game_id });
         equals(sit.hasClass('jpokerSitOut'), false, 'no class sitout');
-        equals(sit.html(), 'click to sit out');
+        equals(sit.html(), player_name);
 
         //
         // sit out
@@ -1388,7 +1402,7 @@ test("jpoker.plugins.player: PokerSit/SitOut", function(){
     });
 
 test("jpoker.plugins.player: rebuy", function(){
-        expect(5);
+        expect(17);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -1411,23 +1425,67 @@ test("jpoker.plugins.player: rebuy", function(){
         equals(player.serial, player_serial, "player_serial");
         equals($("#rebuy" + id).css('display'), 'block', "rebuy is visible");
         // player money
-        var money = 43;
+        var money = 500;
         var in_game = 44;
         var points = 45;
         var currency_key = 'X' + currency_serial;
         server.userInfo = { money: {} };
         server.userInfo.money[currency_key] = [ money * 100, in_game * 100, points ];
         // buy in
-        var min = 1;
-        var max = 2;
-        var best = 3;
+        var min = 10;
+        var best = 50;
+        var max = 100;
         var rebuy_min = 4;
-        table.handler(server, game_id, { type: 'PacketPokerBuyInLimits', game_id: game_id, min: min, max: max, best: best, rebuy_min: rebuy_min });
+        table.handler(server, game_id, { type: 'PacketPokerBuyInLimits', game_id: game_id, min: min * 100, max: max * 100, best: best * 100, rebuy_min: rebuy_min });
         equals(table.buyInLimits()[0], min, 'buy in min 2');
 
+        // rebuy error
         equals(jpoker.plugins.playerSelf.rebuy('url', game_id, 33333), false, 'rebuy for player that is not sit');
+
+        // buyin
         $("#rebuy" + id).click();
-        equals($("#jpokerRebuy").size(), 1, "rebuy dialog DOM element");
+        var rebuy = $("#jpokerRebuy");
+        equals(rebuy.size(), 1, "rebuy dialog DOM element");
+        equals(rebuy.parents().is(':visible'), true, 'dialog visible');
+        equals($(".jpokerRebuyMin", rebuy).html(), min, 'min');
+        equals($(".jpokerRebuyCurrent", rebuy).html(), best, 'best');
+        equals($(".jpokerRebuyMax", rebuy).html(), max, 'max');
+        
+        var sent;
+        sent = false;
+        sendPacket = server.sendPacket;
+        server.sendPacket = function(packet) {
+            equals(packet.type, 'PacketPokerBuyIn');
+            sent = true;
+        }
+        $("button", rebuy).click();
+        server.sendPacket = sendPacket;
+        equals(sent, true, 'BuyIn packet sent');
+        equals(rebuy.parents().is(':hidden'), true, 'dialog hidden');
+
+
+        // rebuy
+        player.state = 'playing';
+        $("#rebuy" + id).click();
+        equals(rebuy.parents().is(':visible'), true, 'dialog visible');
+
+        // value change
+        var slider = $('.ui-slider-1', rebuy);
+        $('.ui-slider-handle', slider).parent().triggerKeydown("37");
+        equals($(".jpokerRebuyCurrent", rebuy).html(), min, 'value changed');
+
+        // click
+        var sent;
+        sent = false;
+        sendPacket = server.sendPacket;
+        server.sendPacket = function(packet) {
+            equals(packet.type, 'PacketPokerRebuy');
+            sent = true;
+        }
+        $("button", rebuy).click();
+        server.sendPacket = sendPacket;
+        equals(sent, true, 'Rebuy packet sent');
+        equals(rebuy.parents().is(':hidden'), true, 'dialog hidden');
 
         start_and_cleanup(id);
     });

@@ -68,10 +68,10 @@
         },
 
         dialog: function(content) {
-            var message = $("#jpokerDialog");
+            var message = $('#jpokerDialog');
             if(message.size() != 1) {
-                $("body").append("<div id='jpokerDialog' class='flora' title='jpoker message' />");
-                message = $("#jpokerDialog");
+                $('body').append('<div id=\'jpokerDialog\' class=\'flora\' title=\'jpoker message\' />');
+                message = $('#jpokerDialog');
                 message.dialog({
                         autoOpen: false,
                             dialog: true
@@ -130,6 +130,24 @@
                 return undefined;
             }
             return table.serial2player[serial];
+        },
+
+        getServerTablePlayer: function(url, game_id, serial) {
+            var server = jpoker.servers[url];
+            if(!server) {
+                return undefined;
+            }
+            var table = server.tables[game_id];
+            if(!table) {
+                return undefined;
+            }
+            if(!table.serial2player[serial]) {
+                return undefined;
+            }
+            return { server: server,
+                     table: table,
+                     player: table.serial2player[serial]
+                    };
         },
 
         url2hash: function(url) {
@@ -1047,7 +1065,12 @@
                     break;
 
                 case 'PacketPokerBuyInLimits':
-                    table.buyIn = packet;
+                    table.buyIn = {
+                        min: packet.min / 100,
+                        max: packet.max / 100,
+                        best: packet.best / 100,
+                        rebuy_min: packet.rebuy_min / 100
+                    };
                 case 'PacketPokerUserInfo':
                     table.buyIn.bankroll = server.bankroll(table.currency_serial);
                     break;
@@ -1797,10 +1820,34 @@
                 rebuy.dialog({ autoOpen: false });
             }
             rebuy.empty();
-            rebuy.append('<div class=\'jpokerRebuyBound\'>' + limits[0] + '</div>');
+            rebuy.append('<div class=\'jpokerRebuyBound jpokerRebuyMin\'>' + limits[0] + '</div>');
             rebuy.append('<div class=\'ui-slider-1\' style=\'margin:10px;\'><div class=\'ui-slider-handle\'></div></div>');
             rebuy.append('<div class=\'jpokerRebuyCurrent\'>' + limits[1] + '</div>');
-            rebuy.append('<div class=\'jpokerRebuyBound\'>' + limits[2] + '</div>');
+            rebuy.append('<div class=\'jpokerRebuyBound jpokerRebuyMax\'>' + limits[2] + '</div>');
+            var packet_type;
+            var label;
+            if(player.state == 'buyin') {
+                packet_type = 'PacketPokerBuyIn';
+                label = _("Buy In");
+            } else {
+                packet_type = 'PacketPokerRebuy';
+                label = _("Rebuy");
+            }
+            var button = $('<div class=\'ui-dialog-buttonpane\'/>').appendTo(rebuy);
+            $(document.createElement('button'))
+            .text(label)
+            .click(function() {
+                    var server = jpoker.getServer(url);
+                    if(server) {
+                        server.sendPacket({ 'type': packet_type,
+                                    'serial': server.serial,
+                                    'game_id': table.id,
+                                    'amount': parseInt($('.jpokerRebuyCurrent', rebuy).html())
+                                    });
+                    }
+                    rebuy.dialog('close');
+                })
+            .appendTo(button);
             $('.ui-slider-1', rebuy).slider({
                     min: limits[0],
                         startValue: limits[1],
