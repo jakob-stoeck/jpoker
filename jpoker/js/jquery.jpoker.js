@@ -68,16 +68,16 @@
         },
 
         dialog: function(content) {
-            var message = $("#jpokerDialog").children();
+            var message = $("#jpokerDialog");
             if(message.size() != 1) {
                 $("body").append("<div id='jpokerDialog' class='flora' title='jpoker message' />");
-                message = $("#jpokerDialog").children();
+                message = $("#jpokerDialog");
                 message.dialog({
                         autoOpen: false,
                             dialog: true
                             });
             }
-            message.replaceWith(content).dialog('open');
+            message.html(content).dialog('open');
         },
 
         error: function(reason) {
@@ -1145,6 +1145,7 @@
     jpoker.playerSelf.prototype = $.extend({}, jpoker.player.prototype, {
             init: function() {
                 jpoker.player.prototype.init.call(this);
+                this.state = 'buyin';
             },
 
             uninit: function() {
@@ -1517,8 +1518,8 @@
                 $('#winner' + winner + id).hide();
             }
             jpoker.plugins.playerSelf.hide(id);
-            table.registerUpdate(this.update, id, "update" + id);
-            table.registerDestroy(this.destroy, id, "destory" + id);
+            table.registerUpdate(this.update, id, 'update' + id);
+            table.registerDestroy(this.destroy, id, 'destory' + id);
         }
     };
 
@@ -1654,8 +1655,8 @@
                 jpoker.plugins.playerSelf.create(table, packet, id);
             }
             jpoker.plugins.player.sitOut(player, id);
-            player.registerUpdate(this.update, id, "update" + id);
-            player.registerDestroy(this.destroy, id, "destroy" + id);
+            player.registerUpdate(this.update, id, 'update' + id);
+            player.registerDestroy(this.destroy, id, 'destroy' + id);
         },
 
         leave: function(player, packet, id) {
@@ -1752,7 +1753,7 @@
             var name = $('#player_seat' + packet.seat + '_name' + id);
             name.css('color', '#ffffff');
             name.html(packet.name);
-            table.registerUpdate(this.updateTable, id, "update" + id);
+            table.registerUpdate(this.updateTable, id, 'update' + id);
 
             var url = table.url;
             var game_id = packet.game_id;
@@ -1818,7 +1819,7 @@
             var serial = player.serial;
             var game_id = player.game_id;
             name.unbind('click');
-            name.html(_("click to sit out"));
+            name.html(player.name);
             name.click(function() {
                     var server = jpoker.servers[url];
                     if(server) {
