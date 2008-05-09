@@ -1391,9 +1391,12 @@ test("jpoker.plugins.player: PokerSit/SitOut", function(){
         //
         var sit = $("#player_seat2_name" + id);
         equals($("#rebuy" + id).css('display'), 'block', "rebuy is visible");
-        equals(sit.html(), 'click to sit');
+        equals(sit.html(), 'click to sit', 'click to sit (A)');
         var sent = false;
         server.sendPacket = function(packet) {
+            if(packet.type == 'PacketPokerAutoBlindAnte') {
+                return;
+            }
             equals(packet.type, 'PacketPokerSit');
             equals(packet.game_id, game_id);
             equals(packet.serial, player_serial);
@@ -1496,7 +1499,7 @@ test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function()
             for(var i = 0; i < ids.length; i++) {
                 equals($('#' + ids[i] + id).is(selector), true, ids[i] + ' ' + selector + ' ' + comment);
             }
-        }
+        };
 
         var interactors = function(active, passive, comment) {
             var i;
@@ -1514,24 +1517,24 @@ test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function()
                     equals(packet.game_id, game_id, 'game_id for ' + suffix + ' ' + comment);
                     equals(packet.serial, player_serial, 'serial for ' + suffix + ' ' + comment);
                     sent = true;
-                }
+                };
                 $(id).click();
                 Z.server.sendPacket = sendPacket;
                 equals(sent, true, suffix + ' packet sent ' + comment);
-            }
+            };
             var keys = {
                 'fold': 'Fold',
                 'call': 'Call', 
                 'raise': 'Raise',
                 'check': 'Check'
             };
-            for(var i = 0; i < active.length; i++) {
+            for(i = 0; i < active.length; i++) {
                 click('#' + active[i] + id, keys[active[i]]);
             }
 
             Z.table.handler(Z.server, game_id, { type: 'PacketPokerSelfLostPosition', serial: 333, game_id: game_id });
             visibility(':hidden', all, '(4) ' + comment);
-        }
+        };
 
         Z.table.betLimit = {
             min:   5,
@@ -1592,7 +1595,7 @@ test("jpoker.plugins.player: rebuy", function(){
         server.sendPacket = function(packet) {
             equals(packet.type, 'PacketPokerBuyIn');
             sent = true;
-        }
+        };
         $("button", rebuy).click();
         server.sendPacket = sendPacket;
         equals(sent, true, 'BuyIn packet sent');
@@ -1610,13 +1613,12 @@ test("jpoker.plugins.player: rebuy", function(){
         equals($(".jpokerRebuyCurrent", rebuy).html(), min, 'value changed');
 
         // click
-        var sent;
         sent = false;
         sendPacket = server.sendPacket;
         server.sendPacket = function(packet) {
             equals(packet.type, 'PacketPokerRebuy');
             sent = true;
-        }
+        };
         $("button", rebuy).click();
         server.sendPacket = sendPacket;
         equals(sent, true, 'Rebuy packet sent');

@@ -1089,6 +1089,9 @@
                         best: packet.best / 100,
                         rebuy_min: packet.rebuy_min / 100
                     };
+                    table.buyIn.bankroll = server.bankroll(table.currency_serial);
+                    break;
+
                 case 'PacketPokerUserInfo':
                     table.buyIn.bankroll = server.bankroll(table.currency_serial);
                     break;
@@ -1877,20 +1880,20 @@
                 label = _("Rebuy");
             }
             var button = $('<div class=\'ui-dialog-buttonpane\'/>').appendTo(rebuy);
-            $(document.createElement('button'))
-            .text(label)
-            .click(function() {
+            $(document.createElement('button')).
+            text(label).
+            click(function() {
                     var server = jpoker.getServer(url);
                     if(server) {
                         server.sendPacket({ 'type': packet_type,
                                     'serial': server.serial,
                                     'game_id': table.id,
-                                    'amount': parseInt($('.jpokerRebuyCurrent', rebuy).html())
+                                    'amount': parseInt($('.jpokerRebuyCurrent', rebuy).html(), 10)
                                     });
                     }
                     rebuy.dialog('close');
-                })
-            .appendTo(button);
+                }).
+            appendTo(button);
             $('.ui-slider-1', rebuy).slider({
                     min: limits[0],
                         startValue: limits[1],
