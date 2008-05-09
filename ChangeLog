@@ -1,7 +1,901 @@
-2008-04-17  loic  <loic@call.dachary.org>
+2008-05-09  loic  <loic@call.dachary.org>
 
 	* Release 1.0.12
 	
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	implement and test SelfInPosition + SelfLostPosition
+	[f4d6d7d7cca9] [tip]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	update the player state when the chips packet comes in. create a
+	chips method for the player widget. handle the BetLimit packet
+	[d10439a219fe]
+
+2008-05-08  loic  <loic@call.dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	implement the buyin and rebuy widget. implement an accessor for
+	table/server/player values
+	[ae46014f9867]
+
+	* jpoker/js/jquery.jpoker.js:
+	fix dialog to upgrade to new version of jquery.ui
+	[785e5725dc87]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	move actions specific to the player logged in to playerSelf
+	[aa55d2ab38ef]
+
+2008-05-07  loic  <loic@call.dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	create a separate class for the player that matches the logged in
+	user: playerSelf
+	[276cda7ed0f3]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	do not dequeue a packet for which there is no handler, wait for a
+	handler to be registered.
+	[bd483a451a59]
+
+	* jpoker/js/jquery.jpoker.js:
+	sort queue ids when dequeuing so that queue 0 is always first
+	[bb5c4b1c60f4]
+
+	* jpoker/js/jquery.jpoker.js:
+	fix inverted max and best bet
+	[56d34eb36f0e]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler:
+	add http://127.0.0.1/REST testing with server running on localhost
+	[f92db1ad7715]
+
+	* jpoker/test-jpoker.html:
+	upgrade to jquery.ui-all-1.5b4
+	[a6bff3a1677d]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	comply with jslint requests
+	[80e623e1c8eb]
+
+	* jpoker/jquery/datepicker/compatibility/index-2.7.html,
+	jpoker/jquery/datepicker/compatibility/index-3.2.html,
+	jpoker/jquery/datepicker/compatibility/index-3.3.html,
+	jpoker/jquery/datepicker/compatibility/jquery-calendar-
+	compatibility.js, jpoker/jquery/datepicker/compatibility/jquery-
+	calendar-demo.css, jpoker/jquery/datepicker/compatibility/jquery-
+	calendar-demo.js, jpoker/jquery/datepicker/compatibility/ui.datepick
+	er.compatibility-3.2.js, jpoker/jquery/datepicker/compatibility/ui.d
+	atepicker.compatibility-3.3.js,
+	jpoker/jquery/datepicker/compatibility/ui.datepicker.demo-3.2.js,
+	jpoker/jquery/datepicker/compatibility/ui.datepicker.demo-3.3.js,
+	jpoker/jquery/datepicker/core/core.ui.datepicker.zip,
+	jpoker/jquery/datepicker/core/index.html,
+	jpoker/jquery/datepicker/core/jquery.js,
+	jpoker/jquery/datepicker/core/ui.datepicker.css,
+	jpoker/jquery/datepicker/core/ui.datepicker.js,
+	jpoker/jquery/datepicker/demo/jquery.localisation.js,
+	jpoker/jquery/datepicker/demo/ui.datepicker.alt.css,
+	jpoker/jquery/datepicker/demo/ui.datepicker.demo.css,
+	jpoker/jquery/datepicker/demo/ui.datepicker.demo.js,
+	jpoker/jquery/datepicker/extras/stylepack.zip,
+	jpoker/jquery/datepicker/extras/thickbox-datepicker/index.html,
+	jpoker/jquery/datepicker/extras/thickbox-
+	datepicker/loadingAnimation.gif, jpoker/jquery/datepicker/extras
+	/thickbox-datepicker/thickbox.css, jpoker/jquery/datepicker/extras
+	/thickbox-datepicker/thickbox.js,
+	jpoker/jquery/datepicker/extras/ui.datepicker.ent,
+	jpoker/jquery/datepicker/extras/ui.datepicker.extras.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-am.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-ar.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-bg.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-ca.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-cs.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-da.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-de.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-es.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-fi.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-fr.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-he.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-hu.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-id.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-is.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-it.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-ja.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-ko.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-lt.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-lv.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-nl.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-no.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-pl.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-pt-BR.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-ro.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-ru.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-sk.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-sv.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-th.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-tr.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-ua.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-zh-CN.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-zh-TW.js,
+	jpoker/jquery/datepicker/img/Thumbs.db, jpoker/jquery/datepicker/img
+	/active-bg.gif, jpoker/jquery/datepicker/img/ar.gif,
+	jpoker/jquery/datepicker/img/au.gif,
+	jpoker/jquery/datepicker/img/br.gif,
+	jpoker/jquery/datepicker/img/calendar.gif,
+	jpoker/jquery/datepicker/img/calendar2.gif,
+	jpoker/jquery/datepicker/img/cn.gif, jpoker/jquery/datepicker/img
+	/dark-bg.gif, jpoker/jquery/datepicker/img/hover-bg.gif,
+	jpoker/jquery/datepicker/img/id.gif,
+	jpoker/jquery/datepicker/img/ie.gif,
+	jpoker/jquery/datepicker/img/ke.gif,
+	jpoker/jquery/datepicker/img/lb.gif,
+	jpoker/jquery/datepicker/img/next.gif, jpoker/jquery/datepicker/img
+	/normal-bg.gif, jpoker/jquery/datepicker/img/nz.gif,
+	jpoker/jquery/datepicker/img/prev.gif,
+	jpoker/jquery/datepicker/img/se.gif,
+	jpoker/jquery/datepicker/img/tab.png,
+	jpoker/jquery/datepicker/img/us.gif,
+	jpoker/jquery/datepicker/img/za.gif,
+	jpoker/jquery/datepicker/index.html,
+	jpoker/jquery/datepicker/test/jsUnitCore.js,
+	jpoker/jquery/datepicker/test/ui.datepicker.jsunit.tests.html,
+	jpoker/jquery/datepicker/test/ui.datepicker.tests.html:
+	datepicker removed because it does not comply with jscoverage
+	requirements and is not used
+	[16b153253953]
+
+	* jpoker/js/flora/flora.accordion.css, jpoker/js/flora/flora.all.css,
+	jpoker/js/flora/flora.calendar.css, jpoker/js/flora/flora.css,
+	jpoker/js/flora/flora.datepicker.css,
+	jpoker/js/flora/flora.dialog.css, jpoker/js/flora/flora.menu.css,
+	jpoker/js/flora/flora.resizable.css,
+	jpoker/js/flora/flora.slider.css,
+	jpoker/js/flora/flora.tablesorter.css,
+	jpoker/js/flora/flora.tabs.css,
+	jpoker/js/flora/flora.toasterLite.css,
+	jpoker/js/flora/flora.toolbar.css, jpoker/js/flora/i/accordion-left-
+	act.png, jpoker/js/flora/i/accordion-left-over.png,
+	jpoker/js/flora/i/accordion-left.png, jpoker/js/flora/i/accordion-
+	middle-act.png, jpoker/js/flora/i/accordion-middle-over.png,
+	jpoker/js/flora/i/accordion-middle.png, jpoker/js/flora/i/accordion-
+	right-act.png, jpoker/js/flora/i/accordion-right-over.png,
+	jpoker/js/flora/i/accordion-right.png, jpoker/js/flora/i/asc.gif,
+	jpoker/js/flora/i/bg.gif, jpoker/js/flora/i/desc.gif,
+	jpoker/js/flora/i/dialog-e.gif, jpoker/js/flora/i/dialog-n.gif,
+	jpoker/js/flora/i/dialog-ne.gif, jpoker/js/flora/i/dialog-nw.gif,
+	jpoker/js/flora/i/dialog-s.gif, jpoker/js/flora/i/dialog-se.gif,
+	jpoker/js/flora/i/dialog-sw.gif, jpoker/js/flora/i/dialog-title.gif,
+	jpoker/js/flora/i/dialog-titlebar-close-hover.png, jpoker/js/flora/i
+	/dialog-titlebar-close.png, jpoker/js/flora/i/dialog-w.gif,
+	jpoker/js/flora/i/menu-submenu.gif,
+	jpoker/js/flora/i/resizable-e.gif,
+	jpoker/js/flora/i/resizable-n.gif, jpoker/js/flora/i/resizable-
+	ne.gif, jpoker/js/flora/i/resizable-nw.gif,
+	jpoker/js/flora/i/resizable-s.gif, jpoker/js/flora/i/resizable-
+	se.gif, jpoker/js/flora/i/resizable-sw.gif,
+	jpoker/js/flora/i/resizable-w.gif, jpoker/js/flora/i/shadow.png,
+	jpoker/js/flora/i/slider-bg-1.png, jpoker/js/flora/i/slider-
+	bg-2.png, jpoker/js/flora/i/slider-handle.gif,
+	jpoker/js/flora/i/tabs.png, jpoker/js/flora/i/toaster-e.gif,
+	jpoker/js/flora/i/toaster-n.gif, jpoker/js/flora/i/toaster-ne.gif,
+	jpoker/js/flora/i/toaster-nw.gif, jpoker/js/flora/i/toaster-s.gif,
+	jpoker/js/flora/i/toaster-se.gif, jpoker/js/flora/i/toaster-sw.gif,
+	jpoker/js/flora/i/toaster-w.gif, jpoker/js/flora/i/toolbars-bot-
+	bg.gif, jpoker/js/jquery.dimensions.js, jpoker/js/jquery.easing.js,
+	jpoker/js/jquery.js, jpoker/js/ui.accordion.js,
+	jpoker/js/ui.dialog.js, jpoker/js/ui.draggable.ext.js,
+	jpoker/js/ui.draggable.js, jpoker/js/ui.droppable.ext.js,
+	jpoker/js/ui.droppable.js, jpoker/js/ui.mouse.js,
+	jpoker/js/ui.resizable.js, jpoker/js/ui.selectable.js,
+	jpoker/js/ui.slider.js, jpoker/js/ui.sortable.ext.js,
+	jpoker/js/ui.sortable.js, jpoker/js/ui.tabs.ext.js,
+	jpoker/js/ui.tabs.js:
+	upgrade jquery.ui which implies using jquery 1.2.4 beta at this
+	point
+	[e28f11d0c2a7]
+
+	* jpoker/js/test-jpoker.js:
+	getUserInfo test
+	[f96b64f8e181]
+
+	* jpoker/js/jquery.jpoker.js:
+	fill rebuy dialog with values from getUserInfo
+	[1f302a0c7436]
+
+	* jpoker/markup/MarkupPostBody.tiddler,
+	jpoker/markup/MarkupPreHead.tiddler:
+	reference jpoker/jquery for jquery core and plugins
+	[7cba213b8fa1]
+
+	* jpoker/jquery.ui-1.5b4.zip, jpoker/jquery/GPL-LICENSE.txt,
+	jpoker/jquery/MIT-LICENSE.txt,
+	jpoker/jquery/datepicker/compatibility/index-2.7.html,
+	jpoker/jquery/datepicker/compatibility/index-3.2.html,
+	jpoker/jquery/datepicker/compatibility/index-3.3.html,
+	jpoker/jquery/datepicker/compatibility/jquery-calendar-
+	compatibility.js, jpoker/jquery/datepicker/compatibility/jquery-
+	calendar-demo.css, jpoker/jquery/datepicker/compatibility/jquery-
+	calendar-demo.js, jpoker/jquery/datepicker/compatibility/ui.datepick
+	er.compatibility-3.2.js, jpoker/jquery/datepicker/compatibility/ui.d
+	atepicker.compatibility-3.3.js,
+	jpoker/jquery/datepicker/compatibility/ui.datepicker.demo-3.2.js,
+	jpoker/jquery/datepicker/compatibility/ui.datepicker.demo-3.3.js,
+	jpoker/jquery/datepicker/core/core.ui.datepicker.zip,
+	jpoker/jquery/datepicker/core/index.html,
+	jpoker/jquery/datepicker/core/jquery.js,
+	jpoker/jquery/datepicker/core/ui.datepicker.css,
+	jpoker/jquery/datepicker/core/ui.datepicker.js,
+	jpoker/jquery/datepicker/demo/jquery.localisation.js,
+	jpoker/jquery/datepicker/demo/ui.datepicker.alt.css,
+	jpoker/jquery/datepicker/demo/ui.datepicker.demo.css,
+	jpoker/jquery/datepicker/demo/ui.datepicker.demo.js,
+	jpoker/jquery/datepicker/extras/stylepack.zip,
+	jpoker/jquery/datepicker/extras/thickbox-datepicker/index.html,
+	jpoker/jquery/datepicker/extras/thickbox-
+	datepicker/loadingAnimation.gif, jpoker/jquery/datepicker/extras
+	/thickbox-datepicker/thickbox.css, jpoker/jquery/datepicker/extras
+	/thickbox-datepicker/thickbox.js,
+	jpoker/jquery/datepicker/extras/ui.datepicker.ent,
+	jpoker/jquery/datepicker/extras/ui.datepicker.extras.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-am.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-ar.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-bg.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-ca.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-cs.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-da.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-de.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-es.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-fi.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-fr.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-he.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-hu.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-id.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-is.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-it.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-ja.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-ko.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-lt.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-lv.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-nl.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-no.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-pl.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-pt-BR.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-ro.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-ru.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-sk.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-sv.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-th.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-tr.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-ua.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-zh-CN.js,
+	jpoker/jquery/datepicker/i18n/ui.datepicker-zh-TW.js,
+	jpoker/jquery/datepicker/img/Thumbs.db, jpoker/jquery/datepicker/img
+	/active-bg.gif, jpoker/jquery/datepicker/img/ar.gif,
+	jpoker/jquery/datepicker/img/au.gif,
+	jpoker/jquery/datepicker/img/br.gif,
+	jpoker/jquery/datepicker/img/calendar.gif,
+	jpoker/jquery/datepicker/img/calendar2.gif,
+	jpoker/jquery/datepicker/img/cn.gif, jpoker/jquery/datepicker/img
+	/dark-bg.gif, jpoker/jquery/datepicker/img/hover-bg.gif,
+	jpoker/jquery/datepicker/img/id.gif,
+	jpoker/jquery/datepicker/img/ie.gif,
+	jpoker/jquery/datepicker/img/ke.gif,
+	jpoker/jquery/datepicker/img/lb.gif,
+	jpoker/jquery/datepicker/img/next.gif, jpoker/jquery/datepicker/img
+	/normal-bg.gif, jpoker/jquery/datepicker/img/nz.gif,
+	jpoker/jquery/datepicker/img/prev.gif,
+	jpoker/jquery/datepicker/img/se.gif,
+	jpoker/jquery/datepicker/img/tab.png,
+	jpoker/jquery/datepicker/img/us.gif,
+	jpoker/jquery/datepicker/img/za.gif,
+	jpoker/jquery/datepicker/index.html,
+	jpoker/jquery/datepicker/test/jsUnitCore.js,
+	jpoker/jquery/datepicker/test/ui.datepicker.jsunit.tests.html,
+	jpoker/jquery/datepicker/test/ui.datepicker.tests.html,
+	jpoker/jquery/demos/css/real-world.css,
+	jpoker/jquery/demos/css/style.css,
+	jpoker/jquery/demos/functional/css/demo.css,
+	jpoker/jquery/demos/functional/img/bgcode.gif,
+	jpoker/jquery/demos/functional/img/loading.gif,
+	jpoker/jquery/demos/functional/img/puppy.jpg,
+	jpoker/jquery/demos/functional/index.html,
+	jpoker/jquery/demos/functional/js/demo.js,
+	jpoker/jquery/demos/functional/ui.accordion.data.html,
+	jpoker/jquery/demos/functional/ui.accordion.html,
+	jpoker/jquery/demos/functional/ui.dialog.html,
+	jpoker/jquery/demos/functional/ui.draggable.html,
+	jpoker/jquery/demos/functional/ui.droppable.html,
+	jpoker/jquery/demos/functional/ui.droppable.photos.html,
+	jpoker/jquery/demos/functional/ui.resizable.html,
+	jpoker/jquery/demos/functional/ui.selectable.data.html,
+	jpoker/jquery/demos/functional/ui.selectable.html,
+	jpoker/jquery/demos/functional/ui.sortable.ex1.html,
+	jpoker/jquery/demos/functional/ui.sortable.ex2.html,
+	jpoker/jquery/demos/functional/ui.sortable.ex3.html,
+	jpoker/jquery/demos/functional/ui.sortable.html,
+	jpoker/jquery/demos/functional/ui.tabs.ex1.html,
+	jpoker/jquery/demos/functional/ui.tabs.html,
+	jpoker/jquery/demos/functional/ui.tabs.php,
+	jpoker/jquery/demos/images/resizable.jpg, jpoker/jquery/demos/real-
+	world/accordion-drawers/images/caps.gif, jpoker/jquery/demos/real-
+	world/accordion-drawers/images/sideboxlight_bg.gif,
+	jpoker/jquery/demos/real-world/accordion-
+	drawers/images/slider_handlebg.png, jpoker/jquery/demos/real-world
+	/accordion-drawers/index.html, jpoker/jquery/demos/real-world/image-
+	cropper/img/img01.jpg, jpoker/jquery/demos/real-world/image-
+	cropper/img/img02.jpg, jpoker/jquery/demos/real-world/image-
+	cropper/img/img03.jpg, jpoker/jquery/demos/real-world/image-
+	cropper/img/img04.jpg, jpoker/jquery/demos/real-world/image-
+	cropper/img/img05.jpg, jpoker/jquery/demos/real-world/image-
+	cropper/index.html, jpoker/jquery/demos/real-world/layout/demo.css,
+	jpoker/jquery/demos/real-world/layout/demo.js, jpoker/jquery/demos
+	/real-world/layout/index.html, jpoker/jquery/demos/real-
+	world/layout/loader.gif, jpoker/jquery/demos/real-
+	world/layout/loader_bg.gif, jpoker/jquery/demos/real-world/photo-
+	manager/img/P1010020.JPG, jpoker/jquery/demos/real-world/photo-
+	manager/img/P1010036.JPG, jpoker/jquery/demos/real-world/photo-
+	manager/img/P1010039.JPG, jpoker/jquery/demos/real-world/photo-
+	manager/img/P1010044.JPG, jpoker/jquery/demos/real-world/photo-
+	manager/img/P1010050.JPG, jpoker/jquery/demos/real-world/photo-
+	manager/img/P1010055.JPG, jpoker/jquery/demos/real-world/photo-
+	manager/img/P1010058.JPG, jpoker/jquery/demos/real-world/photo-
+	manager/img/P1010059.JPG, jpoker/jquery/demos/real-world/photo-
+	manager/img/P1010061.JPG, jpoker/jquery/demos/real-world/photo-
+	manager/img/P1010063.JPG, jpoker/jquery/demos/real-world/photo-
+	manager/img/thumbs/P1010020.JPG, jpoker/jquery/demos/real-world
+	/photo-manager/img/thumbs/P1010036.JPG, jpoker/jquery/demos/real-
+	world/photo-manager/img/thumbs/P1010039.JPG, jpoker/jquery/demos
+	/real-world/photo-manager/img/thumbs/P1010044.JPG,
+	jpoker/jquery/demos/real-world/photo-
+	manager/img/thumbs/P1010050.JPG, jpoker/jquery/demos/real-world
+	/photo-manager/img/thumbs/P1010055.JPG, jpoker/jquery/demos/real-
+	world/photo-manager/img/thumbs/P1010058.JPG, jpoker/jquery/demos
+	/real-world/photo-manager/img/thumbs/P1010059.JPG,
+	jpoker/jquery/demos/real-world/photo-
+	manager/img/thumbs/P1010061.JPG, jpoker/jquery/demos/real-world
+	/photo-manager/img/thumbs/P1010063.JPG, jpoker/jquery/demos/real-
+	world/photo-manager/index.html, jpoker/jquery/demos/real-world
+	/photo-manager/js/demo.js, jpoker/jquery/demos/real-world/photo-
+	manager/theme/css/screen.css, jpoker/jquery/demos/real-world/photo-
+	manager/theme/img/body_wrap_bg.gif, jpoker/jquery/demos/real-world
+	/photo-manager/theme/img/header_bg.png, jpoker/jquery/demos/real-
+	world/photo-manager/theme/img/photos_gold_32.gif,
+	jpoker/jquery/demos/real-world/photo-
+	manager/theme/img/search_16.gif, jpoker/jquery/demos/real-world
+	/photo-manager/theme/img/side_top.jpg, jpoker/jquery/demos/real-
+	world/photo-manager/theme/img/trash_16.gif, jpoker/jquery/demos
+	/real-world/product-slider/images/pb_airport_express.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_airport_extreme.jpg, jpoker/jquery/demos/real-world
+	/product-slider/images/pb_aperture20080212.jpg, jpoker/jquery/demos
+	/real-world/product-
+	slider/images/pb_apple_remote_desktop_20080115.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_cinema_display20071026.jpg, jpoker/jquery/demos
+	/real-world/product-slider/images/pb_dot_mac_20080115.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_final_cut_express_20080115.jpg, jpoker/jquery/demos
+	/real-world/product-slider/images/pb_final_cut_studio2_20080115.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_ilife_20080115.jpg, jpoker/jquery/demos/real-world
+	/product-slider/images/pb_imac20071026.jpg, jpoker/jquery/demos
+	/real-world/product-slider/images/pb_iwork_20080115.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_keyboards20070807.jpg, jpoker/jquery/demos/real-
+	world/product-slider/images/pb_logic_express_20080115.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_logic_studio_20080115.jpg, jpoker/jquery/demos
+	/real-world/product-slider/images/pb_mac_mini.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_mac_pro_20070622.jpg, jpoker/jquery/demos/real-
+	world/product-slider/images/pb_macbook20071026.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_macbook_pro20071026.jpg, jpoker/jquery/demos/real-
+	world/product-slider/images/pb_macbookair_20080115.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_macosx_20080115.jpg, jpoker/jquery/demos/real-world
+	/product-slider/images/pb_macosx_server20071016.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_mighty_mouse.jpg, jpoker/jquery/demos/real-world
+	/product-slider/images/pb_quicktime.jpg, jpoker/jquery/demos/real-
+	world/product-slider/images/pb_shake_20080115.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_timecapsule_20080115.jpg, jpoker/jquery/demos/real-
+	world/product-slider/images/pb_xsan_20080115.jpg,
+	jpoker/jquery/demos/real-world/product-slider/images/pb_xserve.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_xserve_raid.jpg, jpoker/jquery/demos/real-world
+	/product-slider/images/productbrowser_background_20070622.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/productbrowser_scrollbar_20070622.png,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/productbrowser_scroller_20080115.png,
+	jpoker/jquery/demos/real-world/product-slider/index.html,
+	jpoker/jquery/demos/real-world/splitpane/css/demo.css,
+	jpoker/jquery/demos/real-world/splitpane/images/bg_gradient.gif,
+	jpoker/jquery/demos/real-world/splitpane/images/icons_2.png,
+	jpoker/jquery/demos/real-world/splitpane/images/splitpane_handle-
+	ew.gif, jpoker/jquery/demos/real-world/splitpane/images
+	/splitpane_handle-sn.gif, jpoker/jquery/demos/real-
+	world/splitpane/index.html, jpoker/jquery/demos/real-
+	world/template.html, jpoker/jquery/demos/ui.accordion.html,
+	jpoker/jquery/demos/ui.datepicker.html,
+	jpoker/jquery/demos/ui.dialog.html,
+	jpoker/jquery/demos/ui.draggable.html,
+	jpoker/jquery/demos/ui.droppable.html,
+	jpoker/jquery/demos/ui.resizable.html,
+	jpoker/jquery/demos/ui.selectable.html,
+	jpoker/jquery/demos/ui.slider.html,
+	jpoker/jquery/demos/ui.sortable.boxes.html,
+	jpoker/jquery/demos/ui.sortable.html,
+	jpoker/jquery/demos/ui.tabs.ahah.html,
+	jpoker/jquery/demos/ui.tabs.html, jpoker/jquery/effects.blind.js,
+	jpoker/jquery/effects.bounce.js, jpoker/jquery/effects.clip.js,
+	jpoker/jquery/effects.core.js, jpoker/jquery/effects.drop.js,
+	jpoker/jquery/effects.explode.js, jpoker/jquery/effects.fade.js,
+	jpoker/jquery/effects.fold.js, jpoker/jquery/effects.highlight.js,
+	jpoker/jquery/effects.pulsate.js, jpoker/jquery/effects.scale.js,
+	jpoker/jquery/effects.shake.js, jpoker/jquery/effects.slide.js,
+	jpoker/jquery/effects.transfer.js, jpoker/jquery/jquery-1.2.4b.js,
+	jpoker/jquery/jquery.ui-all-1.5b4.js, jpoker/jquery/minified-
+	javascript/effects.blind.min.js, jpoker/jquery/minified-
+	javascript/effects.bounce.min.js, jpoker/jquery/minified-
+	javascript/effects.clip.min.js, jpoker/jquery/minified-
+	javascript/effects.core.min.js, jpoker/jquery/minified-
+	javascript/effects.drop.min.js, jpoker/jquery/minified-
+	javascript/effects.explode.min.js, jpoker/jquery/minified-
+	javascript/effects.fade.min.js, jpoker/jquery/minified-
+	javascript/effects.fold.min.js, jpoker/jquery/minified-
+	javascript/effects.highlight.min.js, jpoker/jquery/minified-
+	javascript/effects.pulsate.min.js, jpoker/jquery/minified-
+	javascript/effects.scale.min.js, jpoker/jquery/minified-
+	javascript/effects.shake.min.js, jpoker/jquery/minified-
+	javascript/effects.slide.min.js, jpoker/jquery/minified-
+	javascript/effects.transfer.min.js, jpoker/jquery/minified-
+	javascript/jquery-1.2.4b.min.js, jpoker/jquery/minified-
+	javascript/jquery.ui-all-1.5b4.min.js, jpoker/jquery/minified-
+	javascript/ui.accordion.min.js, jpoker/jquery/minified-
+	javascript/ui.core.min.js, jpoker/jquery/minified-
+	javascript/ui.datepicker.min.js, jpoker/jquery/minified-
+	javascript/ui.dialog.min.js, jpoker/jquery/minified-
+	javascript/ui.draggable.min.js, jpoker/jquery/minified-
+	javascript/ui.droppable.min.js, jpoker/jquery/minified-
+	javascript/ui.resizable.min.js, jpoker/jquery/minified-
+	javascript/ui.selectable.min.js, jpoker/jquery/minified-
+	javascript/ui.slider.min.js, jpoker/jquery/minified-
+	javascript/ui.sortable.min.js, jpoker/jquery/minified-
+	javascript/ui.tabs.min.js, jpoker/jquery/packed-
+	javascript/effects.blind.packed.js, jpoker/jquery/packed-
+	javascript/effects.bounce.packed.js, jpoker/jquery/packed-
+	javascript/effects.clip.packed.js, jpoker/jquery/packed-
+	javascript/effects.core.packed.js, jpoker/jquery/packed-
+	javascript/effects.drop.packed.js, jpoker/jquery/packed-
+	javascript/effects.explode.packed.js, jpoker/jquery/packed-
+	javascript/effects.fade.packed.js, jpoker/jquery/packed-
+	javascript/effects.fold.packed.js, jpoker/jquery/packed-
+	javascript/effects.highlight.packed.js, jpoker/jquery/packed-
+	javascript/effects.pulsate.packed.js, jpoker/jquery/packed-
+	javascript/effects.scale.packed.js, jpoker/jquery/packed-
+	javascript/effects.shake.packed.js, jpoker/jquery/packed-
+	javascript/effects.slide.packed.js, jpoker/jquery/packed-
+	javascript/effects.transfer.packed.js, jpoker/jquery/packed-
+	javascript/jquery-1.2.4b.packed.js, jpoker/jquery/packed-
+	javascript/jquery.ui-all-1.5b4.packed.js, jpoker/jquery/packed-
+	javascript/ui.accordion.packed.js, jpoker/jquery/packed-
+	javascript/ui.core.packed.js, jpoker/jquery/packed-
+	javascript/ui.datepicker.packed.js, jpoker/jquery/packed-
+	javascript/ui.dialog.packed.js, jpoker/jquery/packed-
+	javascript/ui.draggable.packed.js, jpoker/jquery/packed-
+	javascript/ui.droppable.packed.js, jpoker/jquery/packed-
+	javascript/ui.resizable.packed.js, jpoker/jquery/packed-
+	javascript/ui.selectable.packed.js, jpoker/jquery/packed-
+	javascript/ui.slider.packed.js, jpoker/jquery/packed-
+	javascript/ui.sortable.packed.js, jpoker/jquery/packed-
+	javascript/ui.tabs.packed.js, jpoker/jquery/tests/accordion.html,
+	jpoker/jquery/tests/accordion.js, jpoker/jquery/tests/blind.html,
+	jpoker/jquery/tests/bounce.html, jpoker/jquery/tests/clip.html,
+	jpoker/jquery/tests/dimensions.html,
+	jpoker/jquery/tests/draggable.html, jpoker/jquery/tests/drop.html,
+	jpoker/jquery/tests/droppable.html,
+	jpoker/jquery/tests/droppable_trigger.html,
+	jpoker/jquery/tests/explode.html, jpoker/jquery/tests/fade.html,
+	jpoker/jquery/tests/fold.html, jpoker/jquery/tests/highlight.html,
+	jpoker/jquery/tests/images/16x16/folder-drag-accept.png,
+	jpoker/jquery/tests/images/16x16/folder-open.png,
+	jpoker/jquery/tests/images/16x16/folder-visiting.png,
+	jpoker/jquery/tests/images/16x16/folder.png,
+	jpoker/jquery/tests/images/16x16/stock_new.png,
+	jpoker/jquery/tests/images/16x16/text-x-preview.png,
+	jpoker/jquery/tests/images/arrow_right.png,
+	jpoker/jquery/tests/images/bamboo.jpg,
+	jpoker/jquery/tests/images/bg.gif,
+	jpoker/jquery/tests/images/blank.cur,
+	jpoker/jquery/tests/images/click.png,
+	jpoker/jquery/tests/images/clock.png,
+	jpoker/jquery/tests/images/cursor.png, jpoker/jquery/tests/images
+	/custom-bar.gif, jpoker/jquery/tests/images/dot.jpg,
+	jpoker/jquery/tests/images/houses.jpg,
+	jpoker/jquery/tests/images/printer.png, jpoker/jquery/tests/images
+	/progress-bg.gif, jpoker/jquery/tests/images/se-resize.png,
+	jpoker/jquery/tests/images/select-1.jpg,
+	jpoker/jquery/tests/images/select-2.jpg,
+	jpoker/jquery/tests/images/select-3.jpg,
+	jpoker/jquery/tests/images/select-4.jpg,
+	jpoker/jquery/tests/images/select-5.jpg,
+	jpoker/jquery/tests/images/select-6.jpg,
+	jpoker/jquery/tests/images/select-7.jpg,
+	jpoker/jquery/tests/images/select-8.jpg,
+	jpoker/jquery/tests/images/select-9.jpg, jpoker/jquery/tests/images
+	/very-cute-puppy.jpg, jpoker/jquery/tests/images/zoom_bar.png,
+	jpoker/jquery/tests/images/zoom_minus.png,
+	jpoker/jquery/tests/images/zoom_plus.png,
+	jpoker/jquery/tests/pulsate.html,
+	jpoker/jquery/tests/resizable.html,
+	jpoker/jquery/tests/resizable_2581.html,
+	jpoker/jquery/tests/resizable_layout.html,
+	jpoker/jquery/tests/scale.html, jpoker/jquery/tests/selectable.html,
+	jpoker/jquery/tests/selectable_256.html,
+	jpoker/jquery/tests/shake.html, jpoker/jquery/tests/slide.html,
+	jpoker/jquery/tests/slider.html,
+	jpoker/jquery/tests/slider_test.html,
+	jpoker/jquery/tests/slider_test.js,
+	jpoker/jquery/tests/sortable.html,
+	jpoker/jquery/tests/sortable_containment.html,
+	jpoker/jquery/tests/sortable_draggable.html,
+	jpoker/jquery/tests/sortable_droponempty_events.html,
+	jpoker/jquery/tests/sortable_droppable.html,
+	jpoker/jquery/tests/spinner.html, jpoker/jquery/tests/tabs.html,
+	jpoker/jquery/tests/tabs_ahah_1.html,
+	jpoker/jquery/tests/tabs_ahah_2.html,
+	jpoker/jquery/tests/tabs_ahah_3.html,
+	jpoker/jquery/tests/tabs_ext.html,
+	jpoker/jquery/tests/tabs_sleep.php,
+	jpoker/jquery/tests/transfer.html,
+	jpoker/jquery/tests/uiTest.accordion.html,
+	jpoker/jquery/tests/uiTest.accordion.js,
+	jpoker/jquery/tests/uiTest.css,
+	jpoker/jquery/tests/uiTest.dialog.html,
+	jpoker/jquery/tests/uiTest.dialog.js,
+	jpoker/jquery/tests/uiTest.draggable.html,
+	jpoker/jquery/tests/uiTest.draggable.js,
+	jpoker/jquery/tests/uiTest.js,
+	jpoker/jquery/tests/uiTest.resizables.html,
+	jpoker/jquery/tests/uiTest.resizables.js,
+	jpoker/jquery/tests/uiTest.selectable.html,
+	jpoker/jquery/tests/uiTest.selectable.js,
+	jpoker/jquery/tests/uiTest.slider.html,
+	jpoker/jquery/tests/uiTest.slider.js,
+	jpoker/jquery/themes/flora/flora.accordion.css,
+	jpoker/jquery/themes/flora/flora.all.css,
+	jpoker/jquery/themes/flora/flora.calendar.css,
+	jpoker/jquery/themes/flora/flora.css,
+	jpoker/jquery/themes/flora/flora.datepicker.css,
+	jpoker/jquery/themes/flora/flora.dialog.css,
+	jpoker/jquery/themes/flora/flora.menu.css,
+	jpoker/jquery/themes/flora/flora.resizable.css,
+	jpoker/jquery/themes/flora/flora.slider.css,
+	jpoker/jquery/themes/flora/flora.tablesorter.css,
+	jpoker/jquery/themes/flora/flora.tabs.css,
+	jpoker/jquery/themes/flora/flora.toasterLite.css,
+	jpoker/jquery/themes/flora/flora.toolbar.css,
+	jpoker/jquery/themes/flora/i/accordion-left-act.png,
+	jpoker/jquery/themes/flora/i/accordion-left-over.png,
+	jpoker/jquery/themes/flora/i/accordion-left.png,
+	jpoker/jquery/themes/flora/i/accordion-middle-act.png,
+	jpoker/jquery/themes/flora/i/accordion-middle-over.png,
+	jpoker/jquery/themes/flora/i/accordion-middle.png,
+	jpoker/jquery/themes/flora/i/accordion-right-act.png,
+	jpoker/jquery/themes/flora/i/accordion-right-over.png,
+	jpoker/jquery/themes/flora/i/accordion-right.png,
+	jpoker/jquery/themes/flora/i/asc.gif,
+	jpoker/jquery/themes/flora/i/bg.gif,
+	jpoker/jquery/themes/flora/i/desc.gif,
+	jpoker/jquery/themes/flora/i/dialog-e.gif,
+	jpoker/jquery/themes/flora/i/dialog-n.gif,
+	jpoker/jquery/themes/flora/i/dialog-ne.gif,
+	jpoker/jquery/themes/flora/i/dialog-nw.gif,
+	jpoker/jquery/themes/flora/i/dialog-s.gif,
+	jpoker/jquery/themes/flora/i/dialog-se.gif,
+	jpoker/jquery/themes/flora/i/dialog-sw.gif,
+	jpoker/jquery/themes/flora/i/dialog-title.gif,
+	jpoker/jquery/themes/flora/i/dialog-titlebar-close-hover.png,
+	jpoker/jquery/themes/flora/i/dialog-titlebar-close.png,
+	jpoker/jquery/themes/flora/i/dialog-w.gif,
+	jpoker/jquery/themes/flora/i/menu-submenu.gif,
+	jpoker/jquery/themes/flora/i/resizable-e.gif,
+	jpoker/jquery/themes/flora/i/resizable-n.gif,
+	jpoker/jquery/themes/flora/i/resizable-ne.gif,
+	jpoker/jquery/themes/flora/i/resizable-nw.gif,
+	jpoker/jquery/themes/flora/i/resizable-s.gif,
+	jpoker/jquery/themes/flora/i/resizable-se.gif,
+	jpoker/jquery/themes/flora/i/resizable-sw.gif,
+	jpoker/jquery/themes/flora/i/resizable-w.gif,
+	jpoker/jquery/themes/flora/i/shadow.png,
+	jpoker/jquery/themes/flora/i/slider-bg-1.png,
+	jpoker/jquery/themes/flora/i/slider-bg-2.png,
+	jpoker/jquery/themes/flora/i/slider-handle.gif,
+	jpoker/jquery/themes/flora/i/tabs.png,
+	jpoker/jquery/themes/flora/i/toaster-e.gif,
+	jpoker/jquery/themes/flora/i/toaster-n.gif,
+	jpoker/jquery/themes/flora/i/toaster-ne.gif,
+	jpoker/jquery/themes/flora/i/toaster-nw.gif,
+	jpoker/jquery/themes/flora/i/toaster-s.gif,
+	jpoker/jquery/themes/flora/i/toaster-se.gif,
+	jpoker/jquery/themes/flora/i/toaster-sw.gif,
+	jpoker/jquery/themes/flora/i/toaster-w.gif,
+	jpoker/jquery/themes/flora/i/toolbars-bot-bg.gif,
+	jpoker/jquery/ui.accordion.js, jpoker/jquery/ui.core.js,
+	jpoker/jquery/ui.datepicker.js, jpoker/jquery/ui.dialog.js,
+	jpoker/jquery/ui.draggable.js, jpoker/jquery/ui.droppable.js,
+	jpoker/jquery/ui.resizable.js, jpoker/jquery/ui.selectable.js,
+	jpoker/jquery/ui.slider.js, jpoker/jquery/ui.sortable.js,
+	jpoker/jquery/ui.tabs.js:
+	update to jquery.ui-1.5b4
+	[31b9c5389869]
+
+2008-05-06  loic  <loic@call.dachary.org>
+
+	* Makefile:
+	fix offline strategy
+	[0812d3ff30df]
+
+	* jpoker/js/test-jpoker.js:
+	5 tests for rebuy
+	[e4c32d10e407]
+
+	* jpoker/markup/MarkupPostBody.tiddler, jpoker/test-jpoker.html:
+	add slider jquery.ui files
+	[ebc806679d85]
+
+	* jpoker/js/test-jpoker.js:
+	player.rebuy test case
+	[f333c48f8050]
+
+	* jpoker/js/jquery.jpoker.js:
+	implement rebuy widget stub. helper functions for plugins that need
+	to get a server/table/player.
+	[b52d07b1934b]
+
+	* Makefile:
+	OFFLINE=yes to work offline by removing hard dependencies to online
+	resources
+	[f5c275378558]
+
+2008-05-04  loic  <loic@call.dachary.org>
+
+	* jpoker/js/test-jpoker.js:
+	test table class handling PacketPokerBuyInLimits
+	[eadee5f63471]
+
+	* jpoker/js/test-jpoker.js:
+	test server.getPlayer
+	[695cfe29bf6b]
+
+	* jpoker/js/test-jpoker.js:
+	server.bankroll test
+	[05e8ddc580b4]
+
+2008-04-20  loic  <loic@call.dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	send getUserInfo to server after login and update a userInfo per
+	server structure
+	[28dbd3abc4d6]
+
+	* jpoker/images/mockup.svg, jpoker/js/jquery.jpoker.js,
+	jpoker/js/mockup.css, jpoker/js/mockup.js, jpoker/js/test-jpoker.js:
+	fix tests + rename bet element to match the new naming conventions
+	[cf2cd9971478]
+
+	* jpoker/images/gtkrc:
+	gtk left over removed
+	[9b2e6680745b]
+
+	* jpoker/images/player.png, jpoker/images/player_active.png,
+	jpoker/images/table_background.png, mockup.xcf:
+	remove obsolete graphics
+	[c753b5fbe8d8]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/l10n/jpoker-fr.json, jpoker/l10n
+	/jpoker-fr.po, jpoker/l10n/jpoker-ja.json, jpoker/l10n/jpoker-ja.po:
+	pure svg based display
+	[f136969c36ed]
+
+2008-04-19  root  <root@sd-11801.dedibox.fr>
+
+	* jpoker/js/jquery.jpoker.js:
+	bet line-height = 48px
+	[68c2b07201d0]
+
+2008-04-19  proppy  <proppy@oy.lan.free.tld>
+
+	* jpoker/images/bet.png, jpoker/images/bet.svg,
+	jpoker/images/mockup.svg, jpoker/js/mockup.css, jpoker/js/mockup.js,
+	svgflatten.py:
+	bet size x 1.5
+	[df44a16c5fa1]
+
+2008-04-19  root  <root@sd-11801.dedibox.fr>
+
+	* jpoker/js/jquery.jpoker.js:
+	player and money id changed
+	[801863a25d97]
+
+2008-04-18  root  <root@sd-11801.dedibox.fr>
+
+	* Makefile:
+	don't clean generate images
+	[c0f280d6dbf6]
+
+2008-04-18  proppy  <proppy@oy.lan.free.tld>
+
+	* Makefile, jpoker/images/avatar.png, jpoker/images/avatar.svg,
+	jpoker/images/background.png, jpoker/images/background.svg,
+	jpoker/images/bet.png, jpoker/images/bet.svg,
+	jpoker/images/dealer.png, jpoker/images/dealer.svg,
+	jpoker/images/mockup.svg, jpoker/images/pot.png,
+	jpoker/images/pot.svg, jpoker/images/seat.png,
+	jpoker/images/seat.svg, jpoker/images/table.png,
+	jpoker/images/table.svg, jpoker/js/mockup.css, jpoker/js/mockup.js:
+	add data generation from source
+	[0ae8e28d3a6f]
+
+	* svgflatten.py, test-svgflatten.py:
+	svgflatten exp notation fix
+	[38436c0a3fcd]
+
+2008-04-19  loic  <loic@call.dachary.org>
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	do not sit if broke
+	[26bd07549bdf]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/js/flora/flora.accordion.css, jpoker/js/flora/flora.all.css,
+	jpoker/js/flora/flora.calendar.css, jpoker/js/flora/flora.css,
+	jpoker/js/flora/flora.datepicker.css,
+	jpoker/js/flora/flora.dialog.css, jpoker/js/flora/flora.menu.css,
+	jpoker/js/flora/flora.resizable.css,
+	jpoker/js/flora/flora.slider.css,
+	jpoker/js/flora/flora.tablesorter.css,
+	jpoker/js/flora/flora.tabs.css,
+	jpoker/js/flora/flora.toasterLite.css,
+	jpoker/js/flora/flora.toolbar.css, jpoker/js/flora/i/accordion-left-
+	act.png, jpoker/js/flora/i/accordion-left-over.png,
+	jpoker/js/flora/i/accordion-left.png, jpoker/js/flora/i/accordion-
+	middle-act.png, jpoker/js/flora/i/accordion-middle-over.png,
+	jpoker/js/flora/i/accordion-middle.png, jpoker/js/flora/i/accordion-
+	right-act.png, jpoker/js/flora/i/accordion-right-over.png,
+	jpoker/js/flora/i/accordion-right.png, jpoker/js/flora/i/asc.gif,
+	jpoker/js/flora/i/bg.gif, jpoker/js/flora/i/desc.gif,
+	jpoker/js/flora/i/dialog-e.gif, jpoker/js/flora/i/dialog-n.gif,
+	jpoker/js/flora/i/dialog-ne.gif, jpoker/js/flora/i/dialog-nw.gif,
+	jpoker/js/flora/i/dialog-s.gif, jpoker/js/flora/i/dialog-se.gif,
+	jpoker/js/flora/i/dialog-sw.gif, jpoker/js/flora/i/dialog-title.gif,
+	jpoker/js/flora/i/dialog-titlebar-close-hover.png, jpoker/js/flora/i
+	/dialog-titlebar-close.png, jpoker/js/flora/i/dialog-w.gif,
+	jpoker/js/flora/i/menu-submenu.gif,
+	jpoker/js/flora/i/resizable-e.gif,
+	jpoker/js/flora/i/resizable-n.gif, jpoker/js/flora/i/resizable-
+	ne.gif, jpoker/js/flora/i/resizable-nw.gif,
+	jpoker/js/flora/i/resizable-s.gif, jpoker/js/flora/i/resizable-
+	se.gif, jpoker/js/flora/i/resizable-sw.gif,
+	jpoker/js/flora/i/resizable-w.gif, jpoker/js/flora/i/shadow.png,
+	jpoker/js/flora/i/slider-bg-1.png, jpoker/js/flora/i/slider-
+	bg-2.png, jpoker/js/flora/i/slider-handle.gif,
+	jpoker/js/flora/i/tabs.png, jpoker/js/flora/i/toaster-e.gif,
+	jpoker/js/flora/i/toaster-n.gif, jpoker/js/flora/i/toaster-ne.gif,
+	jpoker/js/flora/i/toaster-nw.gif, jpoker/js/flora/i/toaster-s.gif,
+	jpoker/js/flora/i/toaster-se.gif, jpoker/js/flora/i/toaster-sw.gif,
+	jpoker/js/flora/i/toaster-w.gif, jpoker/js/flora/i/toolbars-bot-
+	bg.gif, jpoker/js/humanmsg.css, jpoker/js/humanmsg.js,
+	jpoker/js/jquery.dimensions.js, jpoker/js/jquery.jpoker.js,
+	jpoker/js/ui.accordion.js, jpoker/js/ui.base.js,
+	jpoker/js/ui.dialog.js, jpoker/js/ui.draggable.ext.js,
+	jpoker/js/ui.draggable.js, jpoker/js/ui.droppable.ext.js,
+	jpoker/js/ui.droppable.js, jpoker/js/ui.mouse.js,
+	jpoker/js/ui.resizable.js, jpoker/js/ui.selectable.js,
+	jpoker/js/ui.slider.js, jpoker/js/ui.sortable.ext.js,
+	jpoker/js/ui.sortable.js, jpoker/js/ui.tabs.ext.js,
+	jpoker/js/ui.tabs.js, jpoker/markup/MarkupPostBody.tiddler,
+	jpoker/markup/MarkupPreHead.tiddler:
+	remplace humanmsg with jquery.ui
+	[808eef2e321a]
+
+	* jpoker/js/jquery.jpoker.js:
+	implement BuyInLimits
+	[78ab52db3286]
+
+	* COPYRIGHT/summary.txt, jpoker/js/ui.accordion.js,
+	jpoker/js/ui.base.js, jpoker/js/ui.dialog.js,
+	jpoker/js/ui.draggable.js, jpoker/js/ui.droppable.js,
+	jpoker/js/ui.resizable.js, jpoker/js/ui.selectable.js,
+	jpoker/js/ui.slider.js, jpoker/js/ui.sortable.js,
+	jpoker/js/ui.tabs.js:
+	import ui.jquery.com
+	[9f2a3e5922ed]
+
+	* jpoker/js/jquery.js:
+	upgrade to jquery-1.2.3
+	[f622cb18c169]
+
+	* jpoker/js/jpoker.css, jpoker/js/jquery.jpoker.js, jpoker/js/test-
+	jpoker.js:
+	implement Sit/SitOut + jslint
+	[d3727ae4e4d4]
+
+2008-04-18  loic  <loic@call.dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	implement PacketPokerSeat
+	[05ff879121f2]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	only show seat invitations if the user is logged in
+	[1a10c18c6796]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	display seats invitations only when the user is logged in
+	[1acdc602ee82]
+
+	* jpoker/js/jquery.jpoker.js:
+	chips value formated to fit the display
+	[3fcaf4d083e7]
+
+	* debian/apache2/conf.d/jpoker:
+	proxy and http/1.0 requests
+	[9e15b054800c]
+
+2008-04-17  loic  <loic@call.dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	Ad replaced with Ax
+	[5d1c94740229]
+
+	* jpoker/js/jquery.jpoker.js:
+	card2string was horribly wrong
+	[f9f90a2eb13d]
+
+	* debian/control, svg2html.py, svgflatten.py:
+	use libxml2 instead of python-xml
+	[39f927a5b5ed]
+
+	* svg2html.py:
+	Evaluate not used anymore
+	[bb2c7f4e0fc5]
+
+	* Makefile, svgflatten.py, test-svgflatten.py:
+	use libxml2
+	[53c810e8de43]
+
+	* ChangeLog, debian/changelog:
+	bump version 1.0.12
+	[965ae1e7aada]
+
+2008-04-16  root  <root@jspoker.pokersource.info>
+
+	* debian/control:
+	ruby build dep
+	[dabac4ee9ca1]
+
+	* svg2html.py, svgflatten.py:
+	python2.5 compat hack
+	[1dc0f3783075]
+
+	* debian/control:
+	depend on wget because not in hardy by default
+	[c34f4a073111]
+
+	* Makefile:
+	rubygems may have trouble finding the package the first time
+	[954f85fc7416]
+
+	* mo2json.py:
+	do not use indent because not supported by older simplejson
+	[c29d116441cf]
+
 2008-04-16  loic  <loic@call.dachary.org>
 
 	* Release 1.0.11
