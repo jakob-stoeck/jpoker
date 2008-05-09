@@ -1305,9 +1305,9 @@
                                             var server = jpoker.url2server({ url: url });
                                             server.tableRowClick(server, subpacket);
                                         }).hover(function(){
-  						$(this).addClass("hover");
+  						$(this).addClass('hover');
 						},function(){
-  						$(this).removeClass("hover");
+  						$(this).removeClass('hover');
 					});
                                 })();
                             }
