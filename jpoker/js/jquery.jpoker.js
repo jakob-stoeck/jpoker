@@ -1075,14 +1075,6 @@
                     };
                     break;
 
-                case 'PacketPokerBuyInLimits':
-                    table.buyIn = {
-                        min: packet.min / 100,
-                        max: packet.max / 100,
-                        best: packet.best / 100,
-                        rebuy_min: packet.rebuy_min / 100
-                    };
-
                 case 'PacketPokerSelfLostPosition': 
                     // use serial for dispatching because the serial of the 
                     // player in position is not used
@@ -1090,6 +1082,13 @@
                     packet.serial = serial;
                     break;
 
+                case 'PacketPokerBuyInLimits':
+                    table.buyIn = {
+                        min: packet.min / 100,
+                        max: packet.max / 100,
+                        best: packet.best / 100,
+                        rebuy_min: packet.rebuy_min / 100
+                    };
                 case 'PacketPokerUserInfo':
                     table.buyIn.bankroll = server.bankroll(table.currency_serial);
                     break;
