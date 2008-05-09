@@ -1072,7 +1072,7 @@
                         call: packet.call / 100,
                         allin: packet.allin / 100,
                         pot: packet.pot / 100
-                    }
+                    };
                     break;
 
                 case 'PacketPokerBuyInLimits':
@@ -1082,6 +1082,14 @@
                         best: packet.best / 100,
                         rebuy_min: packet.rebuy_min / 100
                     };
+
+                case 'PacketPokerSelfLostPosition': 
+                    // use serial for dispatching because the serial of the 
+                    // player in position is not used
+                    serial = server.serial;
+                    packet.serial = serial;
+                    break;
+
                 case 'PacketPokerUserInfo':
                     table.buyIn.bankroll = server.bankroll(table.currency_serial);
                     break;
@@ -1198,6 +1206,11 @@
                 if(packet.money > 0 && this.state == 'buyin') {
                     this.state = 'playing';
                 }
+                break;
+
+                case 'PacketPokerSelfLostPosition':
+                case 'PacketPokerSelfInPosition':
+                this.notifyUpdate(packet);
                 break;
 
                 }
@@ -1724,6 +1737,14 @@
             jpoker.plugins.player.chips(player, packet, id);
             break;
 
+            case 'PacketPokerSelfInPosition':
+            jpoker.plugins.playerSelf.inPosition(player, packet, id);
+            break;
+
+            case 'PacketPokerSelfLostPosition':
+            jpoker.plugins.playerSelf.lostPosition(player, packet, id);
+            break;
+
             }
             return true;
         },
@@ -1914,6 +1935,10 @@
                     if(server) {
                         var player = server.tables[game_id].serial2player[serial];
                         if(player.money > jpoker.chips.epsilon) {
+                            server.sendPacket({ 'type': 'PacketPokerAutoBlindAnte',
+                                        'serial': serial,
+                                        'game_id': game_id
+                                        });
                             server.sendPacket({ 'type': 'PacketPokerSit',
                                         'serial': serial,
                                         'game_id': game_id
@@ -1937,11 +1962,50 @@
             }
         },
 
+        inPosition: function(player, packet, id) {
+            var game_id = player.game_id;
+            var serial = player.serial;
+            var url = player.url;
+            var table = jpoker.getTable(url, game_id);
+            var betLimit = table.betLimit;
+            var send = function(what) {
+                var server = jpoker.getServer(url);
+                if(server) {
+                    server.sendPacket({ 'type': 'PacketPoker' + what,
+                                'serial': serial,
+                                'game_id': game_id
+                                });
+                }
+            };
+            $('#fold' + id).unbind('click').click(function() { send('Fold'); }).show();
+            if(betLimit.call > 0) {
+                $('#call' + id).unbind('click').click(function() { send('Call'); }).show();
+            } else {
+                $('#check' + id).unbind('click').click(function() { send('Check'); }).show();
+            }
+            if(betLimit.allin > betLimit.call) {
+                $('#raise' + id).unbind('click').click(function() {
+                        var server = jpoker.getServer(url);
+                        if(server) {
+                            server.sendPacket({ 'type': 'PacketPokerRaise',
+                                        'serial': serial,
+                                        'game_id': game_id,
+                                        'amount': 0
+                                        });
+                        }
+                    }).show();
+            }
+        },
+
+        lostPosition: function(player, packet, id) {
+            jpoker.plugins.playerSelf.hide(id);
+        },
+
         names: [ 'fold', 'call', 'check', 'raise', 'raise_range', 'rebuy' ],
 
         hide: function(id) {
             for(var i = 0; i < this.names.length; i++) {
-                $("#" + this.names[i] + id).hide();
+                $('#' + this.names[i] + id).hide();
             }
         },
 
@@ -1959,8 +2023,8 @@
                 var card = cards[i];
                 if(card) {
                     var card_image = 'small-back';
-                    if((card & 0x80) === 0) {
-                        card_image = 'small-' + jpoker.cards.card2string[card];
+                    if(card != 255) {
+                        card_image = 'small-' + jpoker.cards.card2string[card & 0x3F];
                     }
                     $(prefix + i + id).css({ 
                             'background-image': 'url("images/cards/' + card_image + '.png")',
