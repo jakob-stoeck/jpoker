@@ -25,6 +25,8 @@ $.jpoker.server.defaults.tableRowClick = function(server, packet) {
 
 $.jpoker.verbose = 1;
 
+$.jpoker.copyright();
+
 config.macros.jpokerTable = {
     handler: function(place, macroName, params, wikifier, paramString, tiddler) {
         $(place).jpoker('table', params[0], params[1], params[2]);
@@ -46,6 +48,12 @@ config.macros.jpokerServerStatus = {
 config.macros.jpokerTableList = {
     handler: function(place, macroName, params, wikifier, paramString, tiddler) {
         $(place).jpoker('tableList', config.jpoker.restURL);
+    }
+};
+
+config.macros.jpokerFeaturedTable = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        $(place).jpoker('featuredTable', config.jpoker.restURL);
     }
 };
 

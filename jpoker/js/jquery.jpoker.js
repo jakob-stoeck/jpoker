@@ -836,13 +836,15 @@
             },
 
             refresh: function(tag, request, handler, options) {
-                if(tag in this.timers) {
-                    this.clearInterval(this.timers[tag].timer);
-                } else {
-                    this.timers[tag] = {};
-                }
                 var timer = jpoker.refresh(this, request, handler, options);
-                this.timers[tag].timer = timer;
+                if(timer) {
+                    if(tag in this.timers) {
+                        this.clearInterval(this.timers[tag].timer);
+                    } else {
+                        this.timers[tag] = {};
+                    }
+                    this.timers[tag].timer = timer;
+                }
                 return timer;
             },
 
@@ -1260,7 +1262,9 @@
 
         if(callback()) {
 
-            timer = opts.setInterval(callback, opts.delay);
+            if(opts.delay) {
+                timer = opts.setInterval(callback, opts.delay);
+            }
 
             var cb = function(server, game_id, packet) {
                 waiting = false;
@@ -1523,6 +1527,48 @@
     jpoker.plugins.login.templates = {
 	login: '<table id=\'login\' cellspacing=\'0\' cellpadding=\'10\' class=\'login\'>\n<tbody><tr>\n<td class=\'login_text\'><b>{login}</b></td>\n<td class=\'login_input\'><input type=\'text\' id=\'name\' size=\'10\'/></td>\n</tr>\n<tr>\n<td class=\'login_text\'><b>{password}</b></td>\n<td class=\'login_input\'><input type=\'password\' id=\'password\' size=\'10\'/></td>\n</tr>\n<tr>\n<td class=\'jpokerLoginSubmit\'><input type=\'submit\' value=\'{go}\' /></td>\n<td class=\'jpokerLoginSignin\'><input type=\'submit\' value=\'{signin}\' /></td>\n</tr>\n</tbody></table>',
 	logout: '<div id=\'logout\'>{logout}<div>'
+    };
+
+    //
+    // featured table
+    //
+    jpoker.plugins.featuredTable = function(url, options) {
+
+        var opts = $.extend({}, jpoker.plugins.featuredTable.defaults, options);
+        var server = jpoker.url2server({ url: url });
+
+        var updated = function(server, packet) {
+            if(packet && packet.type == 'PacketPokerTableList') {
+                var server = jpoker.getServer(url);
+                if(server) {
+                    var found = null;
+                    for(var i = packet.packets.length - 1; i >= 0 ; i--) {
+                        var subpacket = packet.packets[i];
+                        if(opts.compare(found, subpacket) >= 0) {
+                            found = subpacket;
+                        }
+                    }
+                    if(found) {
+                        found.game_id = found.id;
+                        server.tableRowClick(server, found);
+                    }
+                }
+                return false;
+            } else {
+                return true;
+            }
+        };
+
+        server.registerUpdate(updated);
+
+        server.refreshTables(opts.string, { delay: null });
+
+        return this;
+    };
+
+    jpoker.plugins.featuredTable.defaults = {
+        string: '',
+        compare: function(a, b) { return a && b && b.players - a.players; }
     };
 
     //

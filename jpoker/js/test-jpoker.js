@@ -938,6 +938,44 @@ test("jpoker.plugins.tableList", function(){
     });
 
 //
+// featuredTable
+//
+test("jpoker.plugins.featuredTable", function(){
+        expect(4);
+        stop();
+
+        //
+        // Mockup server that will always return TABLE_LIST_PACKET,
+        // whatever is sent to it.
+        //
+        var PokerServer = function() {};
+
+        var TABLE_LIST_PACKET = {"players": 4, "type": "PacketPokerTableList", "packets": [{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 1535, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 2, "waiting": 0, "skin": "default", "id": 100, "type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Two", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 101,"type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Three", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-pot-limit", "currency_serial": 1, "muck_timeout": 5, "players": 2, "waiting": 0, "skin": "default", "id": 102,"type": "PacketPokerTable", "player_timeout": 60}]};
+
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TABLE_LIST_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.state = 'connected';
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $("#main");
+        server.tableRowClick = function(server, packet) {
+            equals(packet.players, 2, 'nplayers');
+            equals(packet.name, 'One', 'nplayers');
+            equals(packet.game_id, packet.id, 'game_id field');
+            start_and_cleanup();
+        };
+        place.jpoker('featuredTable', 'url');
+        equals('tableList' in server.timers, false, 'timer not active');
+    });
+
+//
 // serverStatus
 //
 test("jpoker.plugins.serverStatus", function(){
@@ -992,7 +1030,7 @@ $.fn.triggerKeydown = function(keyCode) {
 };
 
 test("jpoker.plugins.login", function(){
-        expect(11);
+        expect(10);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
@@ -1016,8 +1054,7 @@ test("jpoker.plugins.login", function(){
         $(".jpokerLoginSignin", place).click();
 
         equals(dialog.text().indexOf('password must not be empty') >= 0, true, 'empty password');
-        dialog.empty();
-        equals(dialog.text().indexOf('empty') >= 0, false, 'empty password (2)');
+        dialog.dialog('destroy');
 
         $("#password", place).attr('value', expected.password);
 

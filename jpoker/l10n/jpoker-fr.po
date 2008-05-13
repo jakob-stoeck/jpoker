@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jpoker-fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-09 08:42+0200\n"
+"POT-Creation-Date: 2008-05-13 23:07+0200\n"
 "PO-Revision-Date: 2008-05-09 08:42+0200\n"
 "Last-Translator: Loic Dachary <loic@dachary.org>\n"
 "Language-Team: french <fr@li.org>\n"
@@ -19,123 +19,140 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: jpoker/js/jquery.jpoker.js:898
+#: jpoker/js/jquery.jpoker.js:908
 msgid " (login name is {name} )"
 msgstr "(nom de login {name} )"
 
-#: jpoker/js/jquery.jpoker.js:1340
+#: jpoker/js/jquery.jpoker.js:1354
 msgid "%Flop"
 msgstr "%Flop"
 
-#: jpoker/js/jquery.jpoker.js:1338
+#: jpoker/js/jquery.jpoker.js:1352
 msgid "Average Pot"
 msgstr "Pot moyen"
 
-#: jpoker/js/jquery.jpoker.js:1348
+#: jpoker/js/jquery.jpoker.js:1362
 msgid "Betting Structure"
 msgstr "Structure de mise"
 
-#: jpoker/js/jquery.jpoker.js:1875
+#: jpoker/js/jquery.jpoker.js:1940
 msgid "Buy In"
 msgstr "Jetons"
 
-#: jpoker/js/jquery.jpoker.js:1366
+#: jpoker/js/jquery.jpoker.js:1380
 msgid "Click to join the table"
 msgstr "Cliquer pour aller à la table"
 
-#: jpoker/js/jquery.jpoker.js:1345
+#: jpoker/js/jquery.jpoker.js:1359
 msgid "Currency"
 msgstr "Monnaie"
 
-#: jpoker/js/jquery.jpoker.js:1339
+#: jpoker/js/jquery.jpoker.js:1353
 msgid "Hands/Hour"
 msgstr "Mains/heure"
 
-#: jpoker/js/jquery.jpoker.js:1346
+#: jpoker/js/jquery.jpoker.js:1521
+#, fuzzy
+msgid "Login"
+msgstr "login:"
+
+#: jpoker/js/jquery.jpoker.js:1360
 msgid "Name"
 msgstr "Nom"
 
-#: jpoker/js/jquery.jpoker.js:1342
+#: jpoker/js/jquery.jpoker.js:1356
 msgid "Observers"
 msgstr "Observateurs"
 
-#: jpoker/js/jquery.jpoker.js:1341
+#: jpoker/js/jquery.jpoker.js:1355
 msgid "Players"
 msgstr "Joueurs"
 
-#: jpoker/js/jquery.jpoker.js:1878
+#: jpoker/js/jquery.jpoker.js:1943
 msgid "Rebuy"
 msgstr "Jetons"
 
-#: jpoker/js/jquery.jpoker.js:1337
+#: jpoker/js/jquery.jpoker.js:1351
 msgid "Seats"
 msgstr "Sièges"
 
-#: jpoker/js/jquery.jpoker.js:1349
+#: jpoker/js/jquery.jpoker.js:1520
+msgid "Sign In"
+msgstr ""
+
+#: jpoker/js/jquery.jpoker.js:1363
 msgid "Skin"
 msgstr "Aspect"
 
-#: jpoker/js/jquery.jpoker.js:1344
+#: jpoker/js/jquery.jpoker.js:1358
 msgid "Timeout"
 msgstr "Temps maximum"
 
-#: jpoker/js/jquery.jpoker.js:1347
+#: jpoker/js/jquery.jpoker.js:1361
 msgid "Variant"
 msgstr "Variante"
 
-#: jpoker/js/jquery.jpoker.js:1343
+#: jpoker/js/jquery.jpoker.js:1357
 msgid "Waiting"
 msgstr "En attente"
 
-#: jpoker/js/jquery.jpoker.js:1932
+#: jpoker/js/jquery.jpoker.js:1997
 msgid "click to sit"
 msgstr "cliquer pour participer"
 
-#: jpoker/js/jquery.jpoker.js:1524
+#: jpoker/js/jquery.jpoker.js:1589
 msgid "connecting to table {name}"
 msgstr "en cours de connection à la table {name}"
 
-#: jpoker/js/jquery.jpoker.js:1414
+#: jpoker/js/jquery.jpoker.js:1428
 msgid "disconnected"
 msgstr "déconnecté"
 
-#: jpoker/js/jquery.jpoker.js:1466
+#: jpoker/js/jquery.jpoker.js:1485
 msgid "login in progress"
 msgstr "authentification en cours"
 
-#: jpoker/js/jquery.jpoker.js:1497
-msgid "login: "
-msgstr "login:"
-
-#: jpoker/js/jquery.jpoker.js:1947
+#: jpoker/js/jquery.jpoker.js:2012
 msgid "not enough money"
 msgstr "quantité de jetons insuffisante"
 
-#: jpoker/js/jquery.jpoker.js:1498
+#: jpoker/js/jquery.jpoker.js:1519
 msgid "password: "
 msgstr "mot de passe:"
 
-#: jpoker/js/jquery.jpoker.js:1417
+#: jpoker/js/jquery.jpoker.js:1431
 msgid "players"
 msgstr "joueurs"
 
-#: jpoker/js/jquery.jpoker.js:1420
+#: jpoker/js/jquery.jpoker.js:1434
 msgid "tables"
 msgstr "tables"
 
-#: jpoker/js/jquery.jpoker.js:904
+#: jpoker/js/jquery.jpoker.js:1482
+msgid "the password must not be empty"
+msgstr ""
+
+#: jpoker/js/jquery.jpoker.js:1480
+msgid "the user name must not be empty"
+msgstr ""
+
+#: jpoker/js/jquery.jpoker.js:914
 msgid "user {name} is already logged in"
 msgstr "l'utilisateur {name} est déjà authentifié"
 
-#: jpoker/js/jquery.jpoker.js:718
+#: jpoker/js/jquery.jpoker.js:1518
+msgid "user: "
+msgstr ""
+
+#: jpoker/js/jquery.jpoker.js:726
 msgid "wait for {delay}s for queue {id}"
 msgstr "en attente pour {delay}s dans la file {id}"
 
-#: jpoker/js/jquery.jpoker.js:1495
+#: jpoker/js/jquery.jpoker.js:1516
 msgid "{logname} logout"
 msgstr "déconnecter {logname}"
 
-#: jpoker/js/jquery.jpoker.js:882
+#: jpoker/js/jquery.jpoker.js:892
 msgid "{url} attempt to login {name} although serial is {serial} instead of 0"
 msgstr ""
 "{url} tentative d'authentification de {name} bien que le numéro de série "
