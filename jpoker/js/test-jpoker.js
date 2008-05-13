@@ -232,6 +232,13 @@ test("jpoker.url2hash", function(){
         equals(jpoker.url2hash('url'), jpoker.url2hash('url'), "url2hash");
     });
 
+test("jpoker.copyright", function(){
+        expect(1);
+        var copyright = jpoker.copyright();
+        equals(copyright.text().indexOf('GNU') >= 0, true, 'GNU');
+        copyright.dialog('destroy');
+    });
+
 test("jpoker.refresh", function(){
         expect(2);
         stop();
@@ -985,7 +992,7 @@ $.fn.triggerKeydown = function(keyCode) {
 };
 
 test("jpoker.plugins.login", function(){
-        expect(8);
+        expect(11);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
@@ -995,11 +1002,25 @@ test("jpoker.plugins.login", function(){
         var content = null;
         
 	content = $("#" + id).text();
-	equals(content.indexOf("login:") >= 0, true, "login:");
+	equals(content.indexOf("user:") >= 0, true, "user:");
+
+        var dialog;
 
         var expected = { name: 'logname', password: 'password' };
+
+        $(".jpokerLoginSubmit", place).click();
+        dialog = $("#jpokerDialog");
+        equals(dialog.text().indexOf('user name must not be empty') >= 0, true, 'empty user name');
+
         $("#name", place).attr('value', expected.name);
+        $(".jpokerLoginSignin", place).click();
+
+        equals(dialog.text().indexOf('password must not be empty') >= 0, true, 'empty password');
+        dialog.empty();
+        equals(dialog.text().indexOf('empty') >= 0, false, 'empty password (2)');
+
         $("#password", place).attr('value', expected.password);
+
         var result = { name: null, password: null };
         server.login = function(name, password) {
             result.name = name;
@@ -1021,7 +1042,7 @@ test("jpoker.plugins.login", function(){
         $("#logout", place).click();
         equals(server.loggedIn(), false, "logged out");
 	content = $("#" + id).text();
-	equals(content.indexOf("login:") >= 0, true, "login:");
+	equals(content.indexOf("user:") >= 0, true, "user:");
 
         cleanup(id);
     });

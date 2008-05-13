@@ -4,9 +4,51 @@ span.jpokerServerStatus {
 }
 
 .jpokerPosition {
-    background-color: #44FF44
+    background-color: #44FF44;
 }
 
 .jpokerSitOut {
-    background-color: #AAAAAA
+    background-color: #AAAAAA;
 }
+
+#jpokerCopyright {
+    background-color: #73BF60;
+    padding: 2em;
+}
+
+#jpokerCopyright a:visited { color: #FFF; }
+#jpokerCopyright a:link { color: #FFF; }
+
+#jpokerCopyright .jpokerAuthors {
+    font-weight: bolder;
+    text-align: center;
+}
+
+#jpokerCopyright .jpokerLicense {
+    margin: 1em;
+    text-align: justify;
+}
+
+#jpokerCopyright .jpokerDownload {
+    font-weight: bolder;
+    text-align: center;
+    margin: 1em;
+}
+
+#jpokerCopyright .jpokerExplain {
+    margin: 1em;
+    text-align: justify;
+}
+
+#jpokerCopyright .jpokerFullCopyright {
+    margin: 1em;
+    text-align: justify;
+}
+
+#jpokerCopyright .jpokerDismiss {
+    color: #FFF;
+    border: 2px solid #24B300;
+    font-weight: bolder;
+    text-align: center;
+}
+
