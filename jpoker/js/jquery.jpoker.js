@@ -2056,7 +2056,39 @@
                 $('#check' + id).unbind('click').click(function() { send('Check'); }).show();
             }
             if(betLimit.allin > betLimit.call) {
-                $('#raise' + id).unbind('click').click(function() {
+                var click;
+                if(betLimit.max > betLimit.min) {
+                    var raise = $('#raise_range' + id);
+                    raise.empty();
+                    raise.append('<span class=\'jpokerRaiseBound jpokerRaiseMin\'>' + jpoker.chips.SHORT(betLimit.min) + '</span> ');
+                    raise.append('<span class=\'jpokerRaiseCurrent\' title=\'' + betLimit.min + '\'>' + jpoker.chips.SHORT(betLimit.min) + '</span> ');
+                    raise.append('<span class=\'jpokerRaiseBound jpokerRaiseMax\'>' + jpoker.chips.SHORT(betLimit.max) + '</span> ');
+                    raise.append('<div class=\'ui-slider-1\' style=\'margin:10px; width:70px; \'><div class=\'ui-slider-handle\'></div></div>');
+                    raise.show(); // must be visible otherwise outerWeight/outerWidth returns 0
+                    $('.ui-slider-1', raise).slider({
+                            min: betLimit.min,
+                                startValue: betLimit.min,
+                                max: betLimit.max,
+                                axis: 'horizontal',
+                                stepping: betLimit.step,
+                                change: function(event, ui) {
+                                var current = $('.jpokerRaiseCurrent', ui.element);
+                                current.html(jpoker.chips.SHORT(ui.value));
+                                current.attr('title', ui.value);
+                            }
+                        });
+                    click = function() {
+                        var server = jpoker.getServer(url);
+                        if(server) {
+                            server.sendPacket({ 'type': 'PacketPokerRaise',
+                                        'serial': serial,
+                                        'game_id': game_id,
+                                        'amount': parseInt($('.jpokerRaiseCurrent', raise).attr('title'), 10) * 100
+                                        });
+                        }
+                    };
+                } else {
+                    click = function() {
                         var server = jpoker.getServer(url);
                         if(server) {
                             server.sendPacket({ 'type': 'PacketPokerRaise',
@@ -2065,7 +2097,9 @@
                                         'amount': 0
                                         });
                         }
-                    }).show();
+                    };
+                }
+                $('#raise' + id).unbind('click').click(click).show();
             }
         },
 
