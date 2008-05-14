@@ -2075,7 +2075,6 @@
         names: [ 'fold', 'call', 'check', 'raise', 'raise_range', 'rebuy' ],
 
         hide: function(id) {
-            return;
             for(var i = 0; i < this.names.length; i++) {
                 $('#' + this.names[i] + id).hide();
             }
