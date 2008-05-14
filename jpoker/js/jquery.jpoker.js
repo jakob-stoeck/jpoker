@@ -1369,6 +1369,7 @@
                 subpacket.id = subpacket.game_id + id;
             }
             subpacket['class'] = i%2 ? 'evenRow' : 'oddRow';
+            subpacket.average_pot /= 100;
             html.push(t.rows.supplant(subpacket));
         }
         html.push(t.footer);
