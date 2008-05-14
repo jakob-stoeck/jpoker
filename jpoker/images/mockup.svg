@@ -17,7 +17,7 @@
    inkscape:version="0.45.1"
    sodipodi:docname="mockup.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   sodipodi:docbase="/home/proppy/Desktop/jpoker-pot-size/jpoker/images">
+   sodipodi:docbase="/home/loic/tmp/upstream/jpoker/images">
   <metadata
      id="metadata99">
     <rdf:RDF>
@@ -44,9 +44,9 @@
      inkscape:zoom="0.91333333"
      inkscape:cx="400"
      inkscape:cy="300"
-     inkscape:window-x="0"
+     inkscape:window-x="796"
      inkscape:window-y="0"
-     inkscape:current-layer="seat0" />
+     inkscape:current-layer="seat5" />
   <defs
      id="defs4" />
   <g
@@ -607,10 +607,11 @@
          height="600"
          width="800"
          transform="translate(476.94891,82.832117)"
-         id="use2596"
+         id="player_seat5_bet"
          xlink:href="#player_seat0_bet"
          y="0"
-         x="0" />
+         x="0"
+         inkscape:label="#use2596" />
     </g>
     <g
        id="seat6"
