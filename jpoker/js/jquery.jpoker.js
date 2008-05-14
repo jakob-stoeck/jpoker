@@ -1925,7 +1925,7 @@
             var limits = table.buyInLimits();
             var rebuy = $('#jpokerRebuy');
             if(rebuy.size() === 0) {
-                $('body').append('<div id=\'jpokerRebuy\' class=\'flora\' title=\'rebuy\' />');
+                $('body').append('<div id=\'jpokerRebuy\' class=\'flora\' title=\'' + _("Add chips") + '\' />');
                 rebuy = $('#jpokerRebuy');
                 rebuy.dialog({ autoOpen: false });
             }
@@ -1952,7 +1952,7 @@
                         server.sendPacket({ 'type': packet_type,
                                     'serial': server.serial,
                                     'game_id': table.id,
-                                    'amount': parseInt($('.jpokerRebuyCurrent', rebuy).html(), 10)
+                                    'amount': parseInt($('.jpokerRebuyCurrent', rebuy).html(), 10) * 100
                                     });
                     }
                     rebuy.dialog('close');
