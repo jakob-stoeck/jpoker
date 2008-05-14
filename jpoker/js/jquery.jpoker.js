@@ -1902,6 +1902,7 @@
                     }
                 });
             rebuy.show();
+            rebuy.click();
         },
 
         leave: function(player, packet, id) {
