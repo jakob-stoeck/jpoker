@@ -1890,6 +1890,11 @@
             var url = table.url;
             var game_id = packet.game_id;
             var serial = packet.serial;
+            var names = [ 'check', 'call', 'raise', 'fold' ];
+            var labels = [ _("check"), _("call"), _("raise"), _("fold") ];
+            for(var i = 0; i < names.length; i++) {
+                $('#' + names[i] + id).html('<div class=\'jpokerButton\'>' + labels[i] + '</div>');
+            }
             var rebuy = $('#rebuy' + id);
             rebuy.click(function() {
                     var server = jpoker.getServer(url);
@@ -2070,6 +2075,7 @@
         names: [ 'fold', 'call', 'check', 'raise', 'raise_range', 'rebuy' ],
 
         hide: function(id) {
+            return;
             for(var i = 0; i < this.names.length; i++) {
                 $('#' + this.names[i] + id).hide();
             }

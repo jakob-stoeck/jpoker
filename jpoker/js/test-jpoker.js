@@ -1135,7 +1135,7 @@ test("jpoker.plugins.table", function(){
     });
 
 test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
-        expect(12);
+        expect(16);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var player_serial = 1;
@@ -1168,6 +1168,10 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
         equals($("#jpokerRebuy").size(), 1, 'rebuy dialog launched for self');
         equals(table.seats[0], player_serial, "player 1");
         equals(table.serial2player[player_serial].serial, player_serial, "player 1 in player2serial");
+        var names = [ 'check', 'call', 'raise', 'fold' ];
+        for(var i = 0; i < names.length; i++) {
+            equals($("#" + names[i] + id).text(), names[i]);
+        }
         table.handler(server, game_id, { type: 'PacketPokerPlayerLeave', seat: 0, serial: player_serial, game_id: game_id });
         equals($("#seat0" + id).css('display'), 'none', "leave");
         equals(table.seats[0], null, "seat0 again");
