@@ -1731,6 +1731,7 @@
                 if(packet.serial in table.serial2player) {
                     prefix = table.serial2player[packet.serial].name + ' :';
                 }
+                packet.message.replace(/\n$/, '');
                 var lines = packet.message.split('\n');
                 var chat = $('#chat_history' + id);
                 for(var line = 0; line < lines.length; line++) {
