@@ -97,7 +97,7 @@ class SVG2CSS(SVGParse):
     ignore = [ 'money.png', 'winner.png', 'name.png' ]
     def startElementSvg(self, attrs):
         self.root = attrs['id']
-        format = '.jpoker_ptable { width:800px; height:600px; position:relative; background-image:url("../images/table_background.png"); }\n'
+        format = '.jpoker_ptable { width:800px; height:800px; position:relative; background-image:url("../images/table_background.png"); }\n'
         self.formats.append(format)
         self.tuples.append(())
     def startElementImage(self, attrs):

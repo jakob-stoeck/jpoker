@@ -812,6 +812,11 @@
                 server.notifyUpdate(packet);
                 break;
 
+                case 'PacketPokerMessage':
+                case 'PacketPokerGameMessage':
+                jpoker.dialog(packet.string);
+                break;
+
                 case 'PacketSerial':
                 server.serial = packet.serial;
                 var id;
@@ -1106,6 +1111,9 @@
                     table.buyIn.bankroll = server.bankroll(table.currency_serial);
                     break;
 
+                case 'PacketPokerChat':
+                    table.notifyUpdate(packet);
+                    break;
                 }
 
                 if(serial in table.serial2player) {
@@ -1635,6 +1643,8 @@
             for(var winner = 0; winner < 2; winner++) {
                 $('#winner' + winner + id).hide();
             }
+            $('#rebuy' + id).hide();
+            $('#chat' + id).html('<input value=\'chat here\' type=\'text\' width=\'100%\' />').hide();
             jpoker.plugins.playerSelf.hide(id);
             table.registerUpdate(this.update, id, 'update' + id);
             table.registerDestroy(this.destroy, id, 'destory' + id);
@@ -1714,6 +1724,14 @@
                         }
                     }
                 }
+                break;
+
+            case 'PacketPokerChat':
+                var prefix = '';
+                if(packet.serial in table.serial2player) {
+                    prefix = table.serial2player[packet.serial].name + ' :';
+                }
+                $('#chat_history' + id).prepend('<div class=\'jpokerChatLine\'><span class=\'jpokerChatPrefix\'>' + prefix + '</span><span class=\'jpokerChatMessage\'>' + packet.message + '</span></div>');
                 break;
             }
 
@@ -1909,10 +1927,29 @@
                 });
             rebuy.show();
             rebuy.click();
+            var chat = function() {
+                var server = jpoker.getServer(url);
+                if(server) {
+                    var input = $('#chat' + id + ' input');
+                    var message = input.attr('value').replace(/[\'\"]/g, '');
+                    server.sendPacket({ 'type': 'PacketPokerChat',
+                                'serial': server.serial,
+                                'game_id': table.id,
+                                'message': message
+                                });
+                    input.attr('value', ' ');
+                }
+            };
+            $('#chat' + id).keypress(function(e) {
+                    if(e.which == 13) {
+                        chat();
+                    }
+                }).show();
         },
 
         leave: function(player, packet, id) {
             $('#rebuy' + id).hide();
+            $('#chat' + id).hide();
         },
 
         updateTable: function(table, packet, id) {
@@ -2023,6 +2060,7 @@
         },
 
         chips: function(player, packet, id) {
+            return; // no test yet
             var table = jpoker.getTable(player.url, player.game_id);
             if(table.state == 'end') {
                 var limits = table.buyInLimits();

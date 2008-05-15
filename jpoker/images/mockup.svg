@@ -11,7 +11,7 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
    width="800"
-   height="600"
+   height="800"
    id="game_window"
    sodipodi:version="0.32"
    inkscape:version="0.45.1"
@@ -30,7 +30,7 @@
     </rdf:RDF>
   </metadata>
   <sodipodi:namedview
-     inkscape:window-height="768"
+     inkscape:window-height="1119"
      inkscape:window-width="1024"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
@@ -44,9 +44,11 @@
      inkscape:zoom="0.91333333"
      inkscape:cx="400"
      inkscape:cy="300"
-     inkscape:window-x="796"
+     inkscape:window-x="0"
      inkscape:window-y="0"
-     inkscape:current-layer="seat5" />
+     inkscape:current-layer="game_fixed"
+     height="800px"
+     width="800px" />
   <defs
      id="defs4" />
   <g
@@ -56,7 +58,7 @@
        x="0.98279238"
        y="-0.73710114"
        width="800"
-       height="600"
+       height="800"
        id="game_background" />
     <image
        y="152"
@@ -761,5 +763,25 @@
          x="0"
          inkscape:label="#use2604" />
     </g>
+    <image
+       xlink:href="status.png"
+       id="chat_history"
+       inkscape:transform-center-y="137.9562"
+       inkscape:transform-center-x="-51.459854"
+       height="150"
+       width="500"
+       inkscape:label="#image2255"
+       x="160"
+       y="645" />
+    <image
+       xlink:href="status.png"
+       x="160"
+       id="chat"
+       inkscape:transform-center-y="137.9562"
+       inkscape:transform-center-x="-51.459854"
+       width="500"
+       inkscape:label="#image2255"
+       height="40"
+       y="600" />
   </g>
 </svg>

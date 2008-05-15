@@ -27,11 +27,11 @@ from svgflatten import flatten
 
 class flattentest(unittest.TestCase):
     def test_flatten(self):
-#<svg xmlns:xlink="http://www.w3.org/1999/xlink" height="600" id="game_window" width="800">       
+#<svg xmlns:xlink="http://www.w3.org/1999/xlink" height="800" id="game_window" width="800">       
         svg_string = """\
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
-<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="800" height="600" id="game_window">
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="800" height="800" id="game_window">
 	<g id="group0">
 		<image height="3" id="group0_image0" width="2" x="1" xlink:href="test.png" y="1"/>
 	</g>
@@ -41,7 +41,7 @@ class flattentest(unittest.TestCase):
         html_string = """\
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
-<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="800" height="600" id="game_window">
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="800" height="800" id="game_window">
 	<g id="group0">
 		<image height="3" id="group0_image0" width="2" x="1" xlink:href="test.png" y="1"/>
 	</g>
