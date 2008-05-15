@@ -1731,7 +1731,11 @@
                 if(packet.serial in table.serial2player) {
                     prefix = table.serial2player[packet.serial].name + ' :';
                 }
-                $('#chat_history' + id).prepend('<div class=\'jpokerChatLine\'><span class=\'jpokerChatPrefix\'>' + prefix + '</span><span class=\'jpokerChatMessage\'>' + packet.message + '</span></div>');
+                var lines = packet.message.split('\n');
+                var chat = $('#chat_history' + id);
+                for(var line = 0; line < lines.length; line++) {
+                    chat.prepend('<div class=\'jpokerChatLine\'><span class=\'jpokerChatPrefix\'>' + prefix + '</span><span class=\'jpokerChatMessage\'>' + lines[line] + '</span></div>');
+                }
                 break;
             }
 

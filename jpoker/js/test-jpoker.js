@@ -1316,7 +1316,7 @@ test("jpoker.plugins.table: PacketPokerDealer", function(){
     });
 
 test("jpoker.plugins.table: PacketPokerChat", function(){
-        expect(3);
+        expect(4);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
@@ -1333,10 +1333,11 @@ test("jpoker.plugins.table: PacketPokerChat", function(){
         var player_name = 'username';
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id, name: player_name });
         equals($("#chat_history" + id).size(), 1, "chat history DOM element");
-        var message = 'voila';
+        var message = 'voila\ntout';
         table.handler(server, game_id, { type: 'PacketPokerChat', message: message, game_id: game_id, serial: player_serial });
         var content = $("#chat_history" + id).text();
-        equals(content.indexOf(message) >= 0, true, "message displayed");
+        equals(content.indexOf(message) >= 0, false, "message is split");
+        equals(content.indexOf('tout') >= 0, true, "message part is displayed");
         equals(content.indexOf(player_name) >= 0, true, "player_name displayed");
         cleanup();
     });
