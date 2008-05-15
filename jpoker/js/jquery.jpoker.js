@@ -1935,7 +1935,7 @@
                 var server = jpoker.getServer(url);
                 if(server) {
                     var input = $('#chat' + id + ' input');
-                    var message = input.attr('value').replace(/[\'\"]/g, '');
+                    var message = input.attr('value').replace(/[\'\"\n]/g, '');
                     server.sendPacket({ 'type': 'PacketPokerChat',
                                 'serial': server.serial,
                                 'game_id': table.id,

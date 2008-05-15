@@ -1187,7 +1187,7 @@ test("jpoker.plugins.table.chat", function(){
             equals(packet.message, 'ABC');
             sent = true;
         };
-        $('input', chat).attr('value', 'A\'B"C');
+        $('input', chat).attr('value', 'A\'B"C\n');
         chat.triggerKeypress("13");
         equals(sent, true, "packet sent");
         equals($('input', chat).attr('value'), ' ', 'input is reset');
