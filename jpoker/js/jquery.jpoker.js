@@ -1027,6 +1027,10 @@
                 }
                 
                 table = server.tables[packet.game_id];
+                if(!table) {
+                    jpoker.message('unknown table ' + packet.game_id);
+                    return true;
+                }
                 var url = server.url;
                 var serial = packet.serial;
 
@@ -1552,19 +1556,16 @@
 
         var updated = function(server, packet) {
             if(packet && packet.type == 'PacketPokerTableList') {
-                var server = jpoker.getServer(url);
-                if(server) {
-                    var found = null;
-                    for(var i = packet.packets.length - 1; i >= 0 ; i--) {
-                        var subpacket = packet.packets[i];
-                        if(opts.compare(found, subpacket) >= 0) {
-                            found = subpacket;
-                        }
+                var found = null;
+                for(var i = packet.packets.length - 1; i >= 0 ; i--) {
+                    var subpacket = packet.packets[i];
+                    if(opts.compare(found, subpacket) >= 0) {
+                        found = subpacket;
                     }
-                    if(found) {
-                        found.game_id = found.id;
-                        server.tableRowClick(server, found);
-                    }
+                }
+                if(found) {
+                    found.game_id = found.id;
+                    server.tableRowClick(server, found);
                 }
                 return false;
             } else {
@@ -2077,7 +2078,6 @@
         },
 
         chips: function(player, packet, id) {
-            return; // no test yet
             var table = jpoker.getTable(player.url, player.game_id);
             if(table.state == 'end') {
                 var limits = table.buyInLimits();

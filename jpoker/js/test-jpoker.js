@@ -295,7 +295,7 @@ test("jpoker.server.handler PacketPokerMessage/GameMessage ", function(){
         equals(dialog.text().indexOf(message) >= 0, true, 'found (2)');
         dialog.dialog('destroy');
         cleanup();
-    })
+    });
 
 test("jpoker.server.login", function(){
         expect(9);
