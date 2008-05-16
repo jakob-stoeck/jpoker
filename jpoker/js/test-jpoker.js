@@ -808,18 +808,21 @@ test("jpoker.table.init", function(){
 
 
 test("jpoker.table.uninit", function(){
-        expect(1);
+        expect(2);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var game_id = 100;
         var table = new jpoker.table(server, { type: "PacketPokerTableJoin",
                                                game_id: game_id });
         server.tables[game_id] = table;
+        var notified = false;
         var handler = function() {
-            equals(game_id in server.tables, false, 'table removed from server');
+            notified = true;
         };
         table.registerDestroy(handler);
         table.handler(server, game_id, { type: 'PacketPokerTableDestroy', game_id: game_id });
+        equals(notified, true, 'destroy callback called');
+        equals(game_id in server.tables, false, 'table removed from server');
     });
 
 test("jpoker.table.handler: PacketPokerBetLimit", function(){
@@ -852,6 +855,36 @@ test("jpoker.table.handler: PacketPokerBetLimit", function(){
         for(var i = 0; i < keys.length; i++) {
             equals(table.betLimit[keys[i]] * 100, packet[keys[i]], keys[i]);
         }
+    });
+
+test("jpoker.table.handler: PacketPokerTableDestroy", function(){
+        expect(5);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        place.jpoker('table', 'url', game_id);
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+        server.notifyUpdate(table_packet);
+        var player_serial = 43;
+        server.handler(server, 0, { type: 'PacketSerial', serial: player_serial});
+        var player_seat = 2;
+        var player_name = 'username';
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', name: player_name, seat: player_seat, serial: player_serial, game_id: game_id });
+        var player = server.tables[game_id].serial2player[player_serial];
+
+        equals($("#game_window" + id).size(), 1, 'game element exists');
+        equals($("#seat" + player_seat + id).is(':visible'), true, 'seat visible');
+
+        table.handler(server, game_id, { type: 'PacketPokerTableDestroy', game_id: game_id });
+
+        equals(game_id in server.tables, false, 'table removed from server');
+        equals(player_serial in table.serial2player, false, 'player removed from table');
+        equals($("#game_window" + id).size(), 0, 'game element destroyed');
     });
 
 test("jpoker.table.handler: PacketPokerBuyInLimits", function(){
@@ -1288,6 +1321,34 @@ test("jpoker.plugins.table: PacketPokerBoardCards", function(){
         equals($("#board1" + id).css('display'), 'none', "card 2 not set");
         equals(table.board[0], card_value, "card in slot 0");
         start_and_cleanup();
+    });
+
+test("jpoker.plugins.table: PacketPokerTableQuit", function(){
+        expect(6);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        place.jpoker('table', 'url', game_id);
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+        server.notifyUpdate(table_packet);
+        equals($("#quit" + id).size(), 1, "quit DOM element");
+        var sent = false;
+        server.sendPacket = function(packet) {
+            equals(packet.type, 'PacketPokerTableQuit');
+            equals(packet.game_id, game_id);
+            sent = true;
+        };
+        server.setTimeout = function(callback, delay) { callback(); };
+        equals($("#game_window" + id).size(), 1, 'game element exists');
+        $("#quit" + id).click();
+        equals(sent, true, "packet sent");
+        equals($("#game_window" + id).size(), 0, 'game element destroyed');
+        cleanup(id);
     });
 
 test("jpoker.plugins.table: PacketPokerDealer", function(){

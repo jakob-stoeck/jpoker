@@ -994,24 +994,24 @@
     jpoker.table.prototype = $.extend({}, jpoker.watchable.prototype, {
             init: function() {
                 jpoker.watchable.prototype.init.call(this);
+                this.reset();
+            },
+
+            uninit: function() {
+                jpoker.watchable.prototype.uninit.call(this);
+                for(var serial in this.serial2player) {
+                    this.serial2player[serial].uninit();
+                }
+                this.reset();
+            },
+
+            reset: function() {
                 this.serial2player = {};
                 this.seats = [ null, null, null, null, null, 
                                null, null, null, null, null ];
                 this.board = [ null, null, null, null, null ];
                 this.pots = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
                 this.buyIn = { min: 1000000000, max: 1000000000, best: 1000000000, bankroll: 0 };
-            },
-
-            uninit: function() {
-                jpoker.watchable.prototype.uninit.call(this);
-                $this = this;
-                $.each([ 'seats', 'board', 'pots' ], function(index, value) {
-                        $.each($this[value], function(index, value) {
-                                if(value) {
-                                    value.uninit();
-                                }
-                            });
-                    });
             },
 
             buyInLimits: function() {
@@ -1033,8 +1033,8 @@
                 switch(packet.type) {
 
                 case 'PacketPokerTableDestroy':
-                    delete server.tables[game_id];
                     table.uninit();
+                    delete server.tables[game_id];
                     break;
 
                 case 'PacketPokerPlayerArrive':
@@ -1141,17 +1141,21 @@
     jpoker.player.prototype = $.extend({}, jpoker.watchable.prototype, {
             init: function() {
                 jpoker.watchable.prototype.init.call(this);
+                this.reset();
+            },
+
+            uninit: function() {
+                jpoker.watchable.prototype.uninit.call(this);
+                this.reset();
+            },
+            
+            reset: function() {
                 this.cards = [ null, null, null, null, null, null, null ];
                 this.money = 0;
                 this.bet = 0;
                 this.sit = false;
             },
 
-            uninit: function() {
-                jpoker.watchable.prototype.uninit.call(this);
-                this.cards = [];
-            },
-            
             handler: function(server, game_id, packet) {
                 if(jpoker.verbose) {
                     jpoker.message('player.handler ' + JSON.stringify(packet));
@@ -1624,6 +1628,7 @@
 
     jpoker.plugins.table.create = function(element, id, server, game_id) {
         if(game_id in server.tables) {
+            var url = server.url;
             var table = server.tables[game_id];
             element.html(this.templates.room.supplant({ id: id }));
             jpoker.plugins.table.seats(id, server, table);
@@ -1644,10 +1649,21 @@
                 $('#winner' + winner + id).hide();
             }
             $('#rebuy' + id).hide();
+            $('#quit' + id).click(function() {
+                    var server = jpoker.getServer(url);
+                    var table = jpoker.getTable(url, game_id);
+                    if(server) {
+                        server.sendPacket({ type: 'PacketPokerTableQuit', game_id: game_id });
+                        server.setTimeout(function() {
+                                table.handler(server, game_id, { type: 'PacketPokerTableDestroy',
+                                            game_id: game_id });
+                            }, 1);
+                    }
+                });
             $('#chat' + id).html('<input value=\'chat here\' type=\'text\' width=\'100%\' />').hide();
             jpoker.plugins.playerSelf.hide(id);
             table.registerUpdate(this.update, id, 'update' + id);
-            table.registerDestroy(this.destroy, id, 'destory' + id);
+            table.registerDestroy(this.destroy, id, 'destroy' + id);
         }
     };
 
@@ -1746,10 +1762,7 @@
     };
 
     jpoker.plugins.table.destroy = function(table, dummy, id) {
-        var element = document.getElementById(id);
-        if(element) {
-            $(element).remove();
-        }
+        $('#game_window' + id).remove();
         return false;
     };
 
