@@ -1654,7 +1654,6 @@
             element.html(this.templates.room.supplant({ id: id }));
             jpoker.plugins.table.seats(id, server, table);
             jpoker.plugins.table.dealer(id, table, table.dealer);
-            jpoker.plugins.table.position(id, table, table.position);
             jpoker.plugins.cards.update(table.board, '#board', id);
             for(var pot = 0; pot < table.pots.length; pot++) {
                 $('#pot' + pot + id).addClass('jpokerPot');
@@ -1680,6 +1679,7 @@
             for(var serial in table.serial2player) {
                 jpoker.plugins.player.create(table, table.serial2player[serial], id);
             }
+            jpoker.plugins.table.position(id, table, table.position);
             // it does not matter to register twice as long as the same key is used
             // because the second registration will override the first
             table.registerUpdate(this.update, id, 'table update' + id);
@@ -1836,7 +1836,11 @@
             if(server.serial == serial) {
                 jpoker.plugins.playerSelf.create(table, packet, id);
             }
-            jpoker.plugins.player.sitOut(player, id);
+            if(player.sit) {
+                jpoker.plugins.player.sit(player, id);
+            } else {
+                jpoker.plugins.player.sitOut(player, id);
+            }
             player.registerUpdate(this.update, id, 'update' + id);
             player.registerDestroy(this.destroy, id, 'destroy' + id);
         },
