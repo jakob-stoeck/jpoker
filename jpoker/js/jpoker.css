@@ -57,3 +57,25 @@ span.jpokerServerStatus {
     margin: 0 5px;
     line-height: 30px;
 }
+
+.jpokerPot, .jpokerBet {
+    text-align: center;
+    line-height: 48px;
+    font-weight: bold;
+}
+
+.jpokerMoney {
+    text-align: center;
+    line-height: 10px;
+    font-size: small;
+    font-weight: bold;
+    color: #e5b408;
+}
+
+.jpokerName {
+    text-align: center;
+    line-height: 10px;
+    font-size: small;
+    font-weight: bold;
+    color: #FFFFFF;
+}
