@@ -360,12 +360,12 @@ test("jpoker.server.login", function(){
                     start_and_cleanup();
                     return false;
 
-                case "PacketState":
+                case "PacketConnectionState":
                     equals(server.connected(), true, "connected");
                     return true;
 
                 default:
-                    fail("unexpected packet type " + packet.type);
+                    throw "unexpected packet type " + packet.type;
                     return false;
                 }
             });
@@ -447,7 +447,7 @@ test("jpoker.server.logout", function(){
         var server = jpoker.serverCreate({ url: 'url' });
         server.serial = 1;
         server.serial = "logname";
-        server.state = "connected";
+        server.connectionState = "connected";
         server.session = 42;
         equals(server.loggedIn(), true);
         server.registerUpdate(function(server, packet) {
@@ -502,16 +502,16 @@ test("jpoker.connection:ping", function(){
         var self = new jpoker.connection({
                 pingFrequency: 30 // be carefull not to launch faster than jQuery internal timer
             });
-        equals(self.state, 'disconnected');
+        equals(self.connectionState, 'disconnected');
         self.ping();
         var ping_count = 0;
         self.registerUpdate(function(server, data) {
-                equals(server.state, 'connected');
+                equals(server.connectionState, 'connected');
                 if(++ping_count >= 2) {
                     server.reset();
                     start();
                 } else {
-                    server.state = 'disconnected';
+                    server.connectionState = 'disconnected';
                 }
                 return true;
             });
@@ -557,10 +557,10 @@ test("jpoker.connection:sendPacket timeout", function(){
             });
         
         self.reset = function() {
-            equals(this.state, 'disconnected');
+            equals(this.connectionState, 'disconnected');
             start();
         };
-        self.state = 'connected';
+        self.connectionState = 'connected';
         ActiveXObject.defaults.timeout = true;
         self.sendPacket({type: 'type'});
         ActiveXObject.defaults.timeout = false;
@@ -986,7 +986,7 @@ test("jpoker.plugins.tableList", function(){
         var server = jpoker.serverCreate({ url: 'url' });
         jpoker.serverDestroy('url');
         server = jpoker.serverCreate({ url: 'url' });
-        server.state = 'connected';
+        server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
         var place = $("#main");
@@ -1041,7 +1041,7 @@ test("jpoker.plugins.featuredTable", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        server.state = 'connected';
+        server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
         var place = $("#main");
@@ -1081,7 +1081,7 @@ test("jpoker.plugins.serverStatus", function(){
         }
         server.playersCount = 12;
         server.tablesCount = 23;
-        server.state = 'connected';
+        server.connectionState = 'connected';
         server.notifyUpdate();
         content = $("#" + id).text();
 
@@ -1316,12 +1316,12 @@ test("jpoker.plugins.table: PacketSerial/PacketLogout", function(){
         var table = server.tables[game_id];
         server.notifyUpdate(table_packet);
         equals($("#seat0" + id).css('display'), 'none', "seat0 hidden");
-        equals($("#sit_seat0" + id).css('display'), 'none', "sit_seat0 hidden");
+        equals($("#sit_seat0" + id).is(':hidden'), true, "sit_seat0 hidden");
         var player_serial = 43;
         server.handler(server, 0, { type: 'PacketSerial', serial: player_serial});
-        equals($("#sit_seat0" + id).css('display'), 'block', "sit_seat0 visible");
+        equals($("#sit_seat0" + id).is(':visible'), true, "sit_seat0 visible");
         server.logout();
-        equals($("#sit_seat0" + id).css('display'), 'none', "sit_seat0 hidden");
+        equals($("#sit_seat0" + id).is(':hidden'), true, "sit_seat0 hidden");
         cleanup(id);
     });
 
@@ -1499,7 +1499,7 @@ test("jpoker.plugins.table: PacketPokerPotChips/Reset", function(){
     });
 
 test("jpoker.plugins.table: PacketSerial ", function(){
-        expect(3);
+        expect(6);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
@@ -1518,11 +1518,15 @@ test("jpoker.plugins.table: PacketSerial ", function(){
         var player = server.tables[game_id].serial2player[player_serial];
         table.handler(server, game_id, { type: 'PacketPokerSit', serial: player_serial, game_id: game_id });
         equals($("#player_seat" + player_seat + "_name" + id).hasClass('jpokerSitOut'), false, 'no class sitout');
+        equals($("#fold" + id).is(':hidden'), false, 'fold interactor visible');
+        table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
+        equals($("#fold" + id).is(':visible'), false, 'fold interactor visible');
 
+        // table is destroyed and rebuilt from cached state
         server.handler(server, 0, { type: 'PacketSerial', serial: player_serial});
         equals(server.tables[game_id].id, table_packet.id);
-        // sit preserved
         equals($("#player_seat" + player_seat + "_name" + id).hasClass('jpokerSitOut'), false, 'no class sitout');
+        equals($("#fold" + id).is(':visible'), false, 'fold interactor visible');
 
         cleanup();
     });

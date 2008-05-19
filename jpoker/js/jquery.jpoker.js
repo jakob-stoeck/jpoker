@@ -481,8 +481,6 @@
 
             session: 'session=clear',
 
-            state: 'disconnected',
-
             lag: 0,
 
             high: ['PacketPokerChat', 'PacketPokerMessage', 'PacketPokerGameMessage'],
@@ -527,25 +525,30 @@
                 // empty the incoming queue
                 this.queues = {};
                 this.delays = {};
+                this.connectionState = 'disconnected';
                 this.clearSession();
             },
 
             error: function(reason) {
                 this.reset();
                 this.handlers = {};
-                this.setState('disconnected');
+                this.setConnectionState('disconnected');
                 jpoker.error(reason);
             },
 
-            setState: function(state) {
-                if(this.state != state) {
-                    this.state = state;
-                    this.notifyUpdate({type: 'PacketState', state: state});
+            setConnectionState: function(state) {
+                if(this.connectionState != state) {
+                    this.connectionState = state;
+                    this.notifyUpdate({type: 'PacketConnectionState', state: state});
                 }
             },
 
+            getConnectionState: function() {
+                return this.connectionState;
+            },
+
             connected: function() {
-                return this.state == 'connected';
+                return this.getConnectionState() == 'connected';
             },
 
             //
@@ -641,14 +644,14 @@
                     dataType: 'json',
                     global: false, // do not fire global events
                     success: function(data, status) {
-                        if($this.state != 'connected') {
-                            $this.setState('connected');
+                        if($this.getConnectionState() != 'connected') {
+                            $this.setConnectionState('connected');
                         }
                         $this.queueIncoming(data);
                     },
                     error: function(xhr, status, error) {
                         if(status == 'timeout') {
-                            $this.setState('disconnected');
+                            $this.setConnectionState('disconnected');
                             $this.reset();
                         } else {
                             $this.error({ xhr: xhr,
@@ -804,6 +807,22 @@
                 jpoker.connection.prototype.uninit.call(this);
             },
 
+            reset: function() {
+                jpoker.connection.prototype.reset.call(this);
+                this.setState('idle');
+            },
+
+            setState: function(state) {
+                if(this.state != state) {
+                    this.state = state;
+                    this.notifyUpdate({type: 'PacketState', state: state});
+                }
+            },
+
+            getState: function() {
+                return this.state;
+            },
+
             clearTimers: function() {
                 var $this = this;
                 $.each(this.timers, function(key, value) {
@@ -886,7 +905,7 @@
 
                 var handler = function(server, packet) {
                     var info = server.tableLists && server.tableLists[string];
-                    if(packet.type == 'PacketPokerTableList') {
+                    if(server.getState() == 'idle' && packet.type == 'PacketPokerTableList') {
                         info.packet = packet;
                         // although the tables/players count is sent with each
                         // table list, it is global to the server
@@ -940,6 +959,7 @@
                     case 'PacketSerial':
                     server.notifyUpdate(packet);
                     server.getUserInfo();
+                    //server.rejoin();
                     return false;
 
                     }
@@ -977,6 +997,22 @@
                         serial: this.serial });
             },
 
+            rejoin: function() {
+                server.setState('my');
+                var updated = function(server, packet) {
+                    if(packet.type == 'PacketPokerTableList') {
+                        for(var i = 0; i < packet.packets.length; i++) {
+                            var subpacket = packet.packets[i];
+                            server.tableJoin(subpacket.id);
+                        }
+                        server.setState('idle');
+                    }
+                };
+                server.registerUpdate(updated, null, 'rejoin');
+                server.sendPacket({ type: 'PacketPokerTableSelect', string: 'my' });
+                // ... destroy all tables with serial ...
+            },
+            
             tableJoin: function(game_id) {
                 this.ensureSession();
                 this.sendPacket({ 'type': 'PacketPokerTableJoin',
@@ -1101,7 +1137,7 @@
                     break;
 
                 case 'PacketPokerPosition':
-                    table.position = packet.serial;
+                    table.serial_in_position = packet.serial;
                     table.notifyUpdate(packet);
                     break;
 
@@ -1280,8 +1316,8 @@
         var url = server.url;
 
         var callback = function() {
-            var server = jpoker.url2server({ url: url }); // check if server still exists when the callback runs
-            if(opts.requireSession === false || server.connected()) {
+            var server = jpoker.getServer(url);
+            if(server && opts.requireSession === false || server.connected()) {
                 if(!waiting) {
                     waiting = true;
                     request(server);
@@ -1352,8 +1388,10 @@
                                 (function(){
                                     var subpacket = packet.packets[i];
                                     $('#' + subpacket.id).click(function() {
-                                            var server = jpoker.url2server({ url: url });
-                                            server.tableRowClick(server, subpacket);
+                                            var server = jpoker.getServer(url);
+                                            if(server) {
+                                                server.tableRowClick(server, subpacket);
+                                            }
                                         }).hover(function(){
   						$(this).addClass('hover');
 						},function(){
@@ -1503,8 +1541,8 @@
                         e.html(login.getHTML(server));
                         if(server.loggedIn()) {
                             $('#logout', element).click(function() {
-                                    var server = jpoker.url2server({ url: url });
-                                    if(server.loggedIn()) {
+                                    var server = jpoker.getServer(url);
+                                    if(server && server.loggedIn()) {
                                         server.logout();
                                     }
                                 });
@@ -1518,8 +1556,11 @@
                                 } else if(!password) {
                                     jpoker.dialog(_("the password must not be empty"));
                                 } else {
-                                    jpoker.url2server({ url: url }).login(name, password);
-                                    $('#' + id + ' > #login').html(_("login in progress"));
+                                    var server = jpoker.getServer(url);
+                                    if(server) {
+                                        server.login(name, password);
+                                        $('#' + id + ' > #login').html(_("login in progress"));
+                                    }
                                 }
                             };
                             $('.jpokerLoginSubmit, .jpokerLoginSignin', login_element).click(action);
@@ -1679,7 +1720,7 @@
             for(var serial in table.serial2player) {
                 jpoker.plugins.player.create(table, table.serial2player[serial], id);
             }
-            jpoker.plugins.table.position(id, table, table.position);
+            jpoker.plugins.table.position(id, table, table.serial_in_position);
             // it does not matter to register twice as long as the same key is used
             // because the second registration will override the first
             table.registerUpdate(this.update, id, 'table update' + id);
@@ -1872,7 +1913,7 @@
             break;
 
             case 'PacketPokerSelfInPosition':
-            jpoker.plugins.playerSelf.inPosition(player, packet, id);
+            jpoker.plugins.playerSelf.inPosition(player, id);
             break;
 
             case 'PacketPokerSelfLostPosition':
@@ -1995,6 +2036,9 @@
                         chat();
                     }
                 }).show();
+            if(serial == table.serial_in_position) {
+                jpoker.plugins.playerSelf.inPosition(player, id);
+            }
         },
 
         leave: function(player, packet, id) {
@@ -2121,7 +2165,7 @@
             }
         },
 
-        inPosition: function(player, packet, id) {
+        inPosition: function(player, id) {
             var game_id = player.game_id;
             var serial = player.serial;
             var url = player.url;
