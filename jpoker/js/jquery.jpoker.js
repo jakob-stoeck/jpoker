@@ -472,7 +472,8 @@
             timeout: 30000,
             clearTimeout: function(id) { return window.clearTimeout(id); },
             setTimeout: function(cb, delay) { return window.setTimeout(cb, delay); },
-            ajax: function(o) { return jQuery.ajax(o); }
+            ajax: function(o) { return jQuery.ajax(o); },
+            cookie: function() { return document.cookie; }
         }, jpoker.watchable.defaults);
 
     jpoker.connection.prototype = $.extend({}, jpoker.watchable.prototype, {
@@ -503,13 +504,22 @@
                 this.reset();
             },
 
+            sessionExists: function() {
+                var name = 'TWISTED_' + jpoker.url2hash(this.url);
+                return this.cookie().indexOf(name) >= 0;
+            },
+
             clearSession: function() {
                 this.session = 'session=clear&name=' + jpoker.url2hash(this.url);
             },
 
+            setSession: function() {
+                this.session = 'session=yes&name=' + jpoker.url2hash(this.url);
+            },
+
             ensureSession: function() {
                 if(this.session.indexOf('session=clear') === 0) {
-                    this.session = 'session=yes&name=' + jpoker.url2hash(this.url);
+                    this.setSession();
                     this.sendPacket({ 'type': 'PacketPokerExplain',
                                       'value': 0xFF });
                 }
@@ -799,6 +809,9 @@
                 this.serial = 0;
                 this.userInfo = {};
                 this.registerHandler(0, this.handler);
+                if(this.sessionExists()) {
+                    this.reconnect();
+                }
             },
 
             uninit: function() {
@@ -809,7 +822,7 @@
 
             reset: function() {
                 jpoker.connection.prototype.reset.call(this);
-                this.setState('idle');
+                this.setState('running');
             },
 
             setState: function(state) {
@@ -852,11 +865,7 @@
                 break;
 
                 case 'PacketSerial':
-                server.serial = packet.serial;
-                var id;
-                for(id in server.tables) {
-                    server.tables[id].notifyUpdate(packet);
-                }
+                server.setSerial(packet);
                 break;
 
                 case 'PacketPokerUserInfo':
@@ -872,6 +881,41 @@
                 }
 
                 return true;
+            },
+
+            setSerial: function(packet) {
+                this.serial = packet.serial;
+                var id;
+                for(id in this.tables) {
+                    this.tables[id].notifyUpdate(packet);
+                }
+            },
+
+            reconnect: function() {
+                this.setState('trying to reconnect');
+                this.setSession();
+                //
+                // the answer to PacketPokerGetPlayerInfo gives back the serial, if and
+                // only if the session is still valid. Otherwise it returns an error 
+                // packet and the session must be re-initialized.
+                //
+                this.sendPacket({ type: 'PacketPokerGetPlayerInfo' });
+                var updated = function(server, packet) {
+                    if(packet.type == 'PacketPokerPlayerInfo') {
+                        server.setSerial({ type: 'PacketSerial', serial: packet.serial });
+                        server.ping();
+                        server.rejoin();
+                    } else if(packet.type == 'PacketError') {
+                        server.clearSession();
+                        if(packet.code == packetName2Type.POKER_GET_PLAYER_INFO) {
+                            jpoker.error('unexpected error while reconnecting ' + JSON.stringify(packet));
+                        }
+                        server.setState('running');
+                        return false;
+                    }
+                    return true;
+                };
+                server.registerUpdate(updated, null, 'reconnect');
             },
 
             refresh: function(tag, request, handler, options) {
@@ -905,7 +949,7 @@
 
                 var handler = function(server, packet) {
                     var info = server.tableLists && server.tableLists[string];
-                    if(server.getState() == 'idle' && packet.type == 'PacketPokerTableList') {
+                    if(server.getState() == 'running' && packet.type == 'PacketPokerTableList') {
                         info.packet = packet;
                         // although the tables/players count is sent with each
                         // table list, it is global to the server
@@ -959,7 +1003,6 @@
                     case 'PacketSerial':
                     server.notifyUpdate(packet);
                     server.getUserInfo();
-                    //server.rejoin();
                     return false;
 
                     }
@@ -998,19 +1041,27 @@
             },
 
             rejoin: function() {
-                server.setState('my');
+                this.setState('searching my tables');
+                this.getUserInfo();
                 var updated = function(server, packet) {
                     if(packet.type == 'PacketPokerTableList') {
                         for(var i = 0; i < packet.packets.length; i++) {
                             var subpacket = packet.packets[i];
                             server.tableJoin(subpacket.id);
                         }
-                        server.setState('idle');
+                        server.setState('running');
+                        return false;
                     }
+                    return true;
                 };
-                server.registerUpdate(updated, null, 'rejoin');
-                server.sendPacket({ type: 'PacketPokerTableSelect', string: 'my' });
-                // ... destroy all tables with serial ...
+                this.registerUpdate(updated, null, 'rejoin');
+                this.sendPacket({ type: 'PacketPokerTableSelect', string: 'my' });
+                for(var game_id in this.tables) {
+                    var table = this.tables[game_id];
+                    if(this.serial in table.serial2player) {
+                        table.notifyUpdate({ type: 'PacketPokerTableDestroy' });
+                    }
+                }
             },
             
             tableJoin: function(game_id) {
