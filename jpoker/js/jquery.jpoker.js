@@ -504,9 +504,12 @@
                 this.reset();
             },
 
+            sessionName: function() {
+                return 'TWISTED_' + jpoker.url2hash(this.url);
+            },
+
             sessionExists: function() {
-                var name = 'TWISTED_' + jpoker.url2hash(this.url);
-                return this.cookie().indexOf(name) >= 0;
+                return this.cookie().indexOf(this.sessionName()) >= 0;
             },
 
             clearSession: function() {
@@ -899,15 +902,15 @@
                 // only if the session is still valid. Otherwise it returns an error 
                 // packet and the session must be re-initialized.
                 //
-                this.sendPacket({ type: 'PacketPokerGetPlayerInfo' });
-                var updated = function(server, packet) {
+                var handler = function(server, game_id, packet) {
                     if(packet.type == 'PacketPokerPlayerInfo') {
                         server.setSerial({ type: 'PacketSerial', serial: packet.serial });
                         server.ping();
                         server.rejoin();
+                        return false;
                     } else if(packet.type == 'PacketError') {
                         server.clearSession();
-                        if(packet.code == packetName2Type.POKER_GET_PLAYER_INFO) {
+                        if(packet.code != jpoker.packetName2Type.POKER_GET_PLAYER_INFO) {
                             jpoker.error('unexpected error while reconnecting ' + JSON.stringify(packet));
                         }
                         server.setState('running');
@@ -915,7 +918,8 @@
                     }
                     return true;
                 };
-                server.registerUpdate(updated, null, 'reconnect');
+                this.registerHandler(0, handler);
+                this.sendPacket({ type: 'PacketPokerGetPlayerInfo' });
             },
 
             refresh: function(tag, request, handler, options) {
@@ -1043,7 +1047,7 @@
             rejoin: function() {
                 this.setState('searching my tables');
                 this.getUserInfo();
-                var updated = function(server, packet) {
+                var handler = function(server, game_id, packet) {
                     if(packet.type == 'PacketPokerTableList') {
                         for(var i = 0; i < packet.packets.length; i++) {
                             var subpacket = packet.packets[i];
@@ -1054,7 +1058,7 @@
                     }
                     return true;
                 };
-                this.registerUpdate(updated, null, 'rejoin');
+                this.registerHandler(0, handler);
                 this.sendPacket({ type: 'PacketPokerTableSelect', string: 'my' });
                 for(var game_id in this.tables) {
                     var table = this.tables[game_id];
@@ -2309,7 +2313,7 @@
         update: function(cards, prefix, id) {
             for(var i = 0; i < cards.length; i++) {
                 var card = cards[i];
-                if(card) {
+                if(card !== null) {
                     var card_image = 'small-back';
                     if(card != 255) {
                         card_image = 'small-' + jpoker.cards.card2string[card & 0x3F];
