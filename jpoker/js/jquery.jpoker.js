@@ -397,14 +397,15 @@
 
         setCallbacks: function() {
             this.callbacks = { };
+            this.protect = { };
         },
 
         notify: function(what, data) {
             if(what in this.callbacks) {
-                if('protect' in this) {
-                    throw 'notify recursion';
+                if(what in this.protect) {
+                    throw 'notify recursion for ' + what;
                 }
-                this.protect = [];
+                this.protect[what] = [];
                 var result = [];
                 var l = this.callbacks[what];
                 for(var i = 0; i < l.length; i++) {
@@ -413,8 +414,8 @@
                     }
                 }
                 this.callbacks[what] = result;
-                var backlog = this.protect;
-                delete this.protect;
+                var backlog = this.protect[what];
+                delete this.protect[what];
                 for(var i = 0; i < backlog.length; i++) {
                     backlog[i]();
                 }
@@ -425,9 +426,9 @@
         notifyDestroy: function(data) { this.notify('destroy', data); },
 
         register: function(what, callback, callback_data, signature) {
-            if('protect' in this) {
+            if(what in this.protect) {
                 var self = this;
-                this.protect.push(function() {
+                this.protect[what].push(function() {
                         self.register(what, callback, callback_data, signature);
                     });
             } else {
@@ -507,7 +508,6 @@
 
             init: function() {
                 jpoker.watchable.prototype.init.call(this);
-                this.handlers = {};
                 this.queues = {};
                 this.delays = {};
                 this.reset();
@@ -559,7 +559,6 @@
 
             error: function(reason) {
                 this.reset();
-                this.handlers = {};
                 this.setConnectionState('disconnected');
                 jpoker.error(reason);
             },
@@ -600,41 +599,30 @@
             // If the handler throws an exception, the server will be killed and
             // all communications interrupted. The handler must *not* call server.error.
             //
-            registerHandler: function(id, handler) {
-                if(!(id in this.handlers)) {
-                    this.handlers[id] = [];
-                }
-                this.handlers[id].push(handler);
+            registerHandler: function(id, handler, handler_data, signature) {
+                this.register(id, handler, handler_data, signature);
             },
 
             unregisterHandler: function(id, handler) {
-                if(id in this.handlers) {
-                    this.handlers[id] = $.grep(this.handlers[id],
-                                               function(e, i) { return e != handler; });
-                    if(this.handlers[id].length <= 0) {
-                        delete this.handlers[id];
-                    }
-                }
+                this.unregister(id, handler);
             },
 
             handle: function(id, packet) {
                 if(jpoker.verbose > 1) {
                     jpoker.message('connection handle ' + id + ': ' + JSON.stringify(packet));
                 }
-                if(id in this.handlers) {
+                if(id in this.callbacks) {
                     delete packet.time__;
-                    var $this = this;
-                    this.handlers[id] = $.grep(this.handlers[id], function(element, index) {
-                            try {
-                                return element($this, id, packet);
-                            } catch(e) {
-                                $this.error(e);
-                                return false; // error will throw anyways
-                            }
-                        });
+                    try { 
+                        this.notify(id, packet);
+                    } catch(e) {
+                        this.error(e);
+                        return false; // error will throw and this statement will never be reached
+                    }
                     return true;
+                } else {
+                    return false;
                 }
-                return false;
             },
 
             delayQueue: function(id, time) {

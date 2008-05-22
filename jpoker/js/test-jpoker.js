@@ -72,7 +72,9 @@ var cleanup = function(id) {
     if(id) {
         $("#" + id).remove();
     }
-    delete ActiveXObject.prototype.server;
+    if('server' in ActiveXObject.prototype) {
+        delete ActiveXObject.prototype.server;
+    }
     jpoker.uninit();
 };
 
@@ -125,6 +127,7 @@ test("jpoker: get{Server,Table,Player}", function() {
         equals('tables' in result.server, true, 'server has table');
         equals('serial2player' in result.table, true, 'table has players');
         equals(result.player, 'player', 'player is known');
+        jpoker.servers = {};
     });
 
 //
@@ -297,7 +300,6 @@ test("jpoker.refresh", function(){
             return false;
         };
         timer = jpoker.refresh(server, request, handler);
-
     });
 
 test("jpoker.refresh requireSession", function(){
@@ -307,6 +309,7 @@ test("jpoker.refresh requireSession", function(){
 
         equals(jpoker.refresh(server, null, null, { requireSession: true }), 0, 'requireSession');
 
+        cleanup();
     });
 
 //
@@ -616,6 +619,8 @@ test("jpoker.server.login: serial is set", function(){
         equals(caught, true, "caught is true");
 
         server.serial = 0;
+
+        cleanup();
     });
 
 test("jpoker.server.logout", function(){
@@ -648,6 +653,7 @@ test("jpoker.server.getUserInfo", function(){
             equals(packet.serial, serial, 'player serial');
         };
         server.getUserInfo();
+        cleanup();
     });
 
 test("jpoker.server.bankroll", function(){
@@ -668,6 +674,8 @@ test("jpoker.server.bankroll", function(){
         server.serial = player_serial;
         equals(server.bankroll(33333), 0, 'no bankroll for currency');
         equals(server.bankroll(currency_serial), money, 'bankroll');
+
+        cleanup();
     });
 
 
@@ -853,7 +861,7 @@ test("jpoker.connection:dequeueIncoming handle", function(){
         equals(handled[1], 0);
         equals(handled[2], packet);
 
-        equals(self.handlers[0], undefined);
+        equals(0 in self.callbacks, false, 'not handlers for queue 0');
 
         equals(("time__" in packet), false);
     });
@@ -878,6 +886,7 @@ test("jpoker.connection:dequeueIncoming handle error", function(){
         var self = new jpoker.connection();
 
         var packet = { type: 'type1', time__: 1 };
+        self.url = "jpoker.connection:dequeueIncoming handle error";
         self.queues[0] = { 'high': {'packets': [],
                                     'delay':  0 },
                            'low': {'packets': [packet],
@@ -887,6 +896,7 @@ test("jpoker.connection:dequeueIncoming handle error", function(){
         };
         self.error = function(reason) {
             equals(reason, "the error");
+            self.queues = {}; // prevent firing the incomingTimer
             start();
         };
         self.registerHandler(0, handler);
@@ -953,7 +963,7 @@ test("jpoker.connection:dequeueIncoming lagmax", function(){
         equals(handled[1], 0);
         equals(handled[2], packet);
 
-        equals(self.handlers[0], undefined);
+        equals(0 in self.callbacks, false, 'not handlers for queue 0');
     });
 
 test("jpoker.connection:queueIncoming", function(){
@@ -974,6 +984,7 @@ test("jpoker.connection:queueIncoming", function(){
         equals(self.queues[1].high.packets[0].type, high_type);
 
         self.queues = {};
+        cleanup();
     });
 
 //
