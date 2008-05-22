@@ -408,7 +408,7 @@
                 var result = [];
                 var l = this.callbacks[what];
                 for(var i = 0; i < l.length; i++) {
-                    if(l[i](this, data)) {
+                    if(l[i](this, what, data)) {
                         result.push(l[i]);
                     }
                 }
@@ -435,8 +435,8 @@
                 if(!(what in this.callbacks)) {
                     this.callbacks[what] = [];
                 }
-                var wrapper = function($this, data) {
-                    return callback($this, data, callback_data);
+                var wrapper = function($this, what, data) {
+                    return callback($this, what, data, callback_data);
                 };
                 wrapper.signature = signature || callback;
                 this.callbacks[what].push(wrapper);
@@ -1481,7 +1481,7 @@
 
                 $this.append('<table class=\'jpokerTableList\' id=\'' + id + '\'></table>');
 
-                var updated = function(server, packet) {
+                var updated = function(server, what, packet) {
                     var element = document.getElementById(id);
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTableList') {
@@ -1716,7 +1716,7 @@
         var opts = $.extend({}, jpoker.plugins.featuredTable.defaults, options);
         var server = jpoker.url2server({ url: url });
 
-        var updated = function(server, packet) {
+        var updated = function(server, what, packet) {
             if(packet && packet.type == 'PacketPokerTableList') {
                 var found = null;
                 for(var i = packet.packets.length - 1; i >= 0 ; i--) {
@@ -1876,7 +1876,7 @@
         }
     };
 
-    jpoker.plugins.table.update = function(table, packet, id) {
+    jpoker.plugins.table.update = function(table, what, packet, id) {
         var element = document.getElementById(id);
         var server = jpoker.getServer(table.url);
         var url = table.url;
@@ -1946,7 +1946,7 @@
         }
     };
 
-    jpoker.plugins.table.destroy = function(table, dummy, id) {
+    jpoker.plugins.table.destroy = function(table, what, dummy, id) {
         // it is enough to destroy the DOM elements, even for players
         $('#game_window' + id).remove();
         return false;
@@ -1994,7 +1994,7 @@
             }
         },
 
-        update: function(player, packet, id) {
+        update: function(player, what, packet, id) {
             switch(packet.type) {
 
             case 'PacketPokerSit':
@@ -2078,7 +2078,7 @@
             }
         },
 
-        destroy: function(player, dummy, id) {
+        destroy: function(player, what, dummy, id) {
             var server = jpoker.servers[player.url];
             var table = server.tables[player.game_id];
             jpoker.plugins.player.seat(player.seat, id, server, table);
@@ -2147,7 +2147,7 @@
             $('#chat' + id).hide();
         },
 
-        updateTable: function(table, packet, id) {
+        updateTable: function(table, what, packet, id) {
             switch(packet.type) {
 
             }

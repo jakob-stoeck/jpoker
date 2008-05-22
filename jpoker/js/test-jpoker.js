@@ -135,7 +135,7 @@ test("jpoker.watchable", function(){
         var watchable = new jpoker.watchable({});
         var stone = 0;
         var callback_stone = 0;
-        var callback = function(what, data, callback_data) {
+        var callback = function(o, what, data, callback_data) {
             stone += data;
             callback_stone += callback_data;
             return true;
@@ -374,7 +374,7 @@ test("jpoker.server.reconnect success", function(){
         var server = jpoker.serverCreate({ url: 'url' });
 
         var expected = server.RECONNECT;
-        server.registerUpdate(function(server, packet) {
+        server.registerUpdate(function(server, what, packet) {
                 if(packet.type == 'PacketState') {
                     equals(server.state, expected);
                     if(expected == server.RECONNECT) {
@@ -408,7 +408,7 @@ test("jpoker.server.reconnect failure", function(){
         var server = jpoker.serverCreate({ url: 'url' });
 
         var expected = server.RECONNECT;
-        server.registerUpdate(function(server, packet) {
+        server.registerUpdate(function(server, what, packet) {
                 if(packet.type == 'PacketState') {
                     equals(server.state, expected);
                     if(expected == server.RECONNECT) {
@@ -478,7 +478,7 @@ test("jpoker.server.rejoin", function(){
         server.handler(server, 0, { type: 'PacketSerial', serial: player_serial});
 
         var destroyed = false;
-        table.registerUpdate(function(table, packet) {
+        table.registerUpdate(function(table, what, packet) {
                 if(packet.type == 'PacketPokerTableDestroy') {
                     destroyed = true;
                     return false;
@@ -486,7 +486,7 @@ test("jpoker.server.rejoin", function(){
                 return true;
             });
         var expected = server.MY;
-        server.registerUpdate(function(server, packet) {
+        server.registerUpdate(function(server, what, packet) {
                 if(packet.type == 'PacketState') {
                     equals(server.state, expected);
                     if(expected == server.MY) {
@@ -528,7 +528,7 @@ test("jpoker.server.login", function(){
         var logname = "name";
         equals(server.session.indexOf('session=clear'), 0, "does not have session");
         server.login(logname, "password");
-        server.registerUpdate(function(server, packet) {
+        server.registerUpdate(function(server, what, packet) {
                 switch(packet.type) {
                 case "PacketSerial":
                     equals(server.loggedIn(), true, "loggedIn");
@@ -628,7 +628,7 @@ test("jpoker.server.logout", function(){
         server.connectionState = "connected";
         server.session = 42;
         equals(server.loggedIn(), true);
-        server.registerUpdate(function(server, packet) {
+        server.registerUpdate(function(server, what, packet) {
                 equals(server.loggedIn(), false);
                 equals(server.userInfo.name, null, "logname");
                 equals(packet.type, "PacketLogout");
@@ -683,7 +683,7 @@ test("jpoker.connection:ping", function(){
         equals(self.connectionState, 'disconnected');
         self.ping();
         var ping_count = 0;
-        self.registerUpdate(function(server, data) {
+        self.registerUpdate(function(server, what, data) {
                 equals(server.connectionState, 'connected');
                 if(++ping_count >= 2) {
                     server.reset();
@@ -1001,7 +1001,7 @@ test("jpoker.table.init", function(){
 
         ActiveXObject.prototype.server = new PokerServer();
 
-        var handler = function(server, packet) {
+        var handler = function(server, what, packet) {
             if(packet.type == "PacketPokerTable") {
                 equals(packet.id, game_id);
                 equals(game_id in server.tables, true, game_id + " created");
@@ -1171,7 +1171,7 @@ test("jpoker.plugins.tableList", function(){
         equals('update' in server.callbacks, false, 'no update registered');
         place.jpoker('tableList', 'url', { delay: 30 });
         equals(server.callbacks.update.length, 1, 'tableList update registered');
-        server.registerUpdate(function(server, data) {
+        server.registerUpdate(function(server, what, data) {
                 var element = $("#" + id);
                 if(element.length > 0) {
                     var tr = $("#" + id + " tr", place);
@@ -1371,7 +1371,7 @@ test("jpoker.plugins.table", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         place.jpoker('table', 'url', game_id);
-        var handler = function(server, packet) {
+        var handler = function(server, what, packet) {
             if(packet.type == 'PacketPokerTable') {
                 content = $("#" + id).text();
                 for(var seat = 0; seat < 10; seat++) {
