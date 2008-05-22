@@ -396,29 +396,28 @@
         },
 
         setCallbacks: function() {
-            this.callbacks = {
-                destroy: [],
-                update: []
-            };
+            this.callbacks = { };
         },
 
         notify: function(what, data) {
-            if('protect' in this) {
-                throw 'notify recursion';
-            }
-            this.protect = [];
-            var result = [];
-            var l = this.callbacks[what];
-            for(var i = 0; i < l.length; i++) {
-                if(l[i](this, data)) {
-                    result.push(l[i]);
+            if(what in this.callbacks) {
+                if('protect' in this) {
+                    throw 'notify recursion';
                 }
-            }
-            this.callbacks[what] = result;
-            var backlog = this.protect;
-            delete this.protect;
-            for(var i = 0; i < backlog.length; i++) {
-                backlog[i]();
+                this.protect = [];
+                var result = [];
+                var l = this.callbacks[what];
+                for(var i = 0; i < l.length; i++) {
+                    if(l[i](this, data)) {
+                        result.push(l[i]);
+                    }
+                }
+                this.callbacks[what] = result;
+                var backlog = this.protect;
+                delete this.protect;
+                for(var i = 0; i < backlog.length; i++) {
+                    backlog[i]();
+                }
             }
         },
 
@@ -433,6 +432,9 @@
                     });
             } else {
                 this.unregister(what, signature || callback);
+                if(!(what in this.callbacks)) {
+                    this.callbacks[what] = [];
+                }
                 var wrapper = function($this, data) {
                     return callback($this, data, callback_data);
                 };
@@ -445,8 +447,13 @@
         registerDestroy: function(callback, callback_data, signature) { this.register('destroy', callback, callback_data, signature); },
 
         unregister: function(what, signature) {
-            this.callbacks[what] = $.grep(this.callbacks[what],
-                                          function(e, i) { return e.signature != signature; });
+            if(what in this.callbacks) {
+                this.callbacks[what] = $.grep(this.callbacks[what],
+                                              function(e, i) { return e.signature != signature; });
+                if(this.callbacks[what].length <= 0) {
+                    delete this.callbacks[what];
+                }
+            }
         },
 
         unregisterUpdate: function(callback) { this.unregister('update', callback); },
@@ -484,6 +491,7 @@
             RECONNECT: 'trying to reconnect',
             MY: 'searching my tables',
             TABLE_LIST: 'searching tables',
+            TABLE_JOIN: 'joining table',
 
             blocked: false,
 
@@ -832,13 +840,31 @@
 
             reset: function() {
                 jpoker.connection.prototype.reset.call(this);
+                this.stateQueue = [];
                 this.setState(this.RUNNING);
+            },
+
+            queueRunning: function(callback) {
+                this.stateQueue.push(callback);
+                this.dequeueRunning();
+            },
+
+            dequeueRunning: function() {
+                while(this.stateQueue.length > 0 && this.state == this.RUNNING) {
+                    var callback = this.stateQueue.shift();
+                    callback(this);
+                }
             },
 
             setState: function(state) {
                 if(this.state != state) {
                     this.state = state;
+                    if(!state) {
+                        jpoker.error('undefined state');
+                    }
+                    jpoker.message('setSate ' + state);
                     this.notifyUpdate({type: 'PacketState', state: state});
+                    this.dequeueRunning();
                 }
             },
 
@@ -867,6 +893,7 @@
                 }
                 server.tables[packet.id] = new jpoker.table(server, packet);
                 server.notifyUpdate(packet);
+                server.setState(server.RUNNING);
                 break;
 
                 case 'PacketPokerMessage':
@@ -886,7 +913,7 @@
                     server.tables[id].notifyUpdate(packet);
                 }
                 delete packet.game_id;
-                this.setState(this.RUNNING);
+                server.setState(server.RUNNING);
                 break;
 
                 }
@@ -918,10 +945,10 @@
                         return false;
                     } else if(packet.type == 'PacketError') {
                         server.clearSession();
-                        if(packet.code != jpoker.packetName2Type.POKER_GET_PLAYER_INFO) {
+                        if(packet.other_type != jpoker.packetName2Type.POKER_GET_PLAYER_INFO) {
                             jpoker.error('unexpected error while reconnecting ' + JSON.stringify(packet));
                         }
-                        server.setState(this.RUNNING);
+                        server.setState(server.RUNNING);
                         return false;
                     }
                     return true;
@@ -953,10 +980,12 @@
                 }
 
                 var request = function(server) {
-                    server.setState(server.TABLE_LIST);
-                    server.sendPacket({
-                            type: 'PacketPokerTableSelect',
-                            string: string
+                    server.queueRunning(function(server) {
+                            server.setState(server.TABLE_LIST);
+                            server.sendPacket({
+                                    type: 'PacketPokerTableSelect',
+                                        string: string
+                                        });
                         });
                 };
 
@@ -1007,7 +1036,7 @@
                     case 'PacketAuthRefused':
                     jpoker.dialog(_(packet.message) + _(" (login name is {name} )").supplant({ 'name': name }));
                     server.notifyUpdate(packet);
-                    server.setState(this.RUNNING);
+                    server.setState(server.RUNNING);
                     return false;
 
                     case 'PacketError':
@@ -1015,7 +1044,7 @@
                         jpoker.dialog(_("user {name} is already logged in".supplant({ 'name': name })));
                         server.notifyUpdate(packet);
                     }
-                    server.setState(this.RUNNING);
+                    server.setState(server.RUNNING);
                     return false;
                     break;
 
@@ -1084,10 +1113,13 @@
             },
             
             tableJoin: function(game_id) {
-                this.ensureSession();
-                this.sendPacket({ 'type': 'PacketPokerTableJoin',
-                                  'game_id': game_id });
-                this.ping();
+                this.queueRunning(function(server) {
+                        server.setState(server.TABLE_JOIN);
+                        server.ensureSession();
+                        server.sendPacket({ 'type': 'PacketPokerTableJoin',
+                                    'game_id': game_id });
+                        server.ping();
+                    });
             },
 
             bankroll: function(currency_serial) {
@@ -1463,10 +1495,10 @@
                                                 server.tableRowClick(server, subpacket);
                                             }
                                         }).hover(function(){
-  						$(this).addClass('hover');
-						},function(){
-  						$(this).removeClass('hover');
-					});
+                                                $(this).addClass('hover');
+                                            },function(){
+                                                $(this).removeClass('hover');
+                                            });
                                 })();
                             }
                         }
@@ -1479,7 +1511,6 @@
                 server.registerUpdate(updated, null, 'tableList' + id);
 
                 server.refreshTables(opts.string, options);
-
                 return this;
             });
     };
@@ -1545,7 +1576,7 @@
                 var updated = function(server) {
                     var element = document.getElementById(id);
                     if(element) {
-			$(element).html(serverStatus.getHTML(server));
+                        $(element).html(serverStatus.getHTML(server));
                         return true;
                     } else {
                         return false;
@@ -1607,7 +1638,7 @@
                 var updated = function(server) {
                     var element = document.getElementById(id);
                     if(element) {
-			var e = $(element);
+                        var e = $(element);
                         e.html(login.getHTML(server));
                         if(server.loggedIn()) {
                             $('#logout', element).click(function() {

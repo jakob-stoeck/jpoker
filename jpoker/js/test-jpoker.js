@@ -171,12 +171,12 @@ test("jpoker.watchable", function(){
         watchable.registerUpdate(callback_autoremove, 'callback_data', 'signature');
         equals(watchable.callbacks.update[0].signature, 'signature', 'signature update');
         watchable.unregisterUpdate('signature');
-        equals(watchable.callbacks.update.length, 0, 'empty update (2)');
+        equals('update' in watchable.callbacks, false, 'empty update (2)');
 
         watchable.registerDestroy(callback_autoremove, 'callback_data', 'signature');
         equals(watchable.callbacks.destroy[0].signature, 'signature', 'signature destroy');
         watchable.unregisterDestroy('signature');
-        equals(watchable.callbacks.destroy.length, 0, 'empty destroy (2)');
+        equals('destroy' in watchable.callbacks, false, 'empty destroy (2)');
 
         watchable = new jpoker.watchable({});
         var recurse = function() {
@@ -324,6 +324,26 @@ test("jpoker.server.handler PacketPokerMessage/GameMessage ", function(){
         server.handler(server, 0, { type: 'PacketPokerGameMessage', string: message });
         equals(dialog.text().indexOf(message) >= 0, true, 'found (2)');
         dialog.dialog('destroy');
+        cleanup();
+    });
+
+test("jpoker.server.{de,}queueRunning", function(){
+        expect(5);
+        var server = jpoker.serverCreate({ url: 'url'});
+        var called = 2;
+        var callback = function(server) {
+            called--;
+        };
+        server.setState('dummy');
+        server.queueRunning(function(server) { callback(); server.setState('dummy'); });
+        server.queueRunning(callback);
+        server.setState(server.RUNNING);
+        equals(called, 1, 'callback called');
+        equals(server.stateQueue.length, 1, 'one callback to go');
+        equals(server.state, 'dummy', 'callback changed state');
+        server.setState(server.RUNNING);
+        equals(called, 0, 'callback called twice');
+        equals(server.stateQueue.length, 0, 'no more callbacks');
         cleanup();
     });
 
@@ -1148,7 +1168,7 @@ test("jpoker.plugins.tableList", function(){
 
         var id = 'jpoker' + jpoker.serial;
         var place = $("#main");
-        equals(server.callbacks.update.length, 0, 'no update registered');
+        equals('update' in server.callbacks, false, 'no update registered');
         place.jpoker('tableList', 'url', { delay: 30 });
         equals(server.callbacks.update.length, 1, 'tableList update registered');
         server.registerUpdate(function(server, data) {
