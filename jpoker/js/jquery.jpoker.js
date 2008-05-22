@@ -478,6 +478,13 @@
 
     jpoker.connection.prototype = $.extend({}, jpoker.watchable.prototype, {
 
+            LOGIN: 'loging',
+            RUNNING: 'running',
+            USER_INFO: 'retreiving user info',
+            RECONNECT: 'trying to reconnect',
+            MY: 'searching my tables',
+            TABLE_LIST: 'searching tables',
+
             blocked: false,
 
             session: 'session=clear',
@@ -505,7 +512,7 @@
             },
 
             sessionName: function() {
-                return 'TWISTED_' + jpoker.url2hash(this.url);
+                return 'TWISTED_SESSION_' + jpoker.url2hash(this.url);
             },
 
             sessionExists: function() {
@@ -825,7 +832,7 @@
 
             reset: function() {
                 jpoker.connection.prototype.reset.call(this);
-                this.setState('running');
+                this.setState(this.RUNNING);
             },
 
             setState: function(state) {
@@ -879,6 +886,7 @@
                     server.tables[id].notifyUpdate(packet);
                 }
                 delete packet.game_id;
+                this.setState(this.RUNNING);
                 break;
 
                 }
@@ -895,7 +903,7 @@
             },
 
             reconnect: function() {
-                this.setState('trying to reconnect');
+                this.setState(this.RECONNECT);
                 this.setSession();
                 //
                 // the answer to PacketPokerGetPlayerInfo gives back the serial, if and
@@ -913,7 +921,7 @@
                         if(packet.code != jpoker.packetName2Type.POKER_GET_PLAYER_INFO) {
                             jpoker.error('unexpected error while reconnecting ' + JSON.stringify(packet));
                         }
-                        server.setState('running');
+                        server.setState(this.RUNNING);
                         return false;
                     }
                     return true;
@@ -945,6 +953,7 @@
                 }
 
                 var request = function(server) {
+                    server.setState(server.TABLE_LIST);
                     server.sendPacket({
                             type: 'PacketPokerTableSelect',
                             string: string
@@ -952,14 +961,17 @@
                 };
 
                 var handler = function(server, packet) {
-                    var info = server.tableLists && server.tableLists[string];
-                    if(server.getState() == 'running' && packet.type == 'PacketPokerTableList') {
-                        info.packet = packet;
-                        // although the tables/players count is sent with each
-                        // table list, it is global to the server
-			server.playersCount = packet.players;
-			server.tablesCount = packet.tables;
-                        server.notifyUpdate(packet);
+                    if(server.getState() == server.TABLE_LIST) {
+                        var info = server.tableLists && server.tableLists[string];
+                        if(packet.type == 'PacketPokerTableList') {
+                            info.packet = packet;
+                            // although the tables/players count is sent with each
+                            // table list, it is global to the server
+                            server.playersCount = packet.players;
+                            server.tablesCount = packet.tables;
+                            server.notifyUpdate(packet);
+                            server.setState(server.RUNNING);
+                        }
                     }
                     return true;
                 };
@@ -978,6 +990,7 @@
                 if(this.serial !== 0) {
                     throw _("{url} attempt to login {name} although serial is {serial} instead of 0").supplant({ 'url': this.url, 'name': name, 'serial': this.serial});
                 }
+                this.setState(this.LOGIN);
                 this.ensureSession();
                 this.userInfo.name = name;
                 this.sendPacket({
@@ -994,14 +1007,16 @@
                     case 'PacketAuthRefused':
                     jpoker.dialog(_(packet.message) + _(" (login name is {name} )").supplant({ 'name': name }));
                     server.notifyUpdate(packet);
+                    server.setState(this.RUNNING);
                     return false;
 
                     case 'PacketError':
                     if(packet.other_type == jpoker.packetName2Type.LOGIN) {
                         jpoker.dialog(_("user {name} is already logged in".supplant({ 'name': name })));
                         server.notifyUpdate(packet);
-                        return false;
                     }
+                    server.setState(this.RUNNING);
+                    return false;
                     break;
 
                     case 'PacketSerial':
@@ -1039,21 +1054,21 @@
             },
 
             getUserInfo: function() {
+                this.setState(this.USER_INFO);
                 this.sendPacket({
                         type: 'PacketPokerGetUserInfo',
                         serial: this.serial });
             },
 
             rejoin: function() {
-                this.setState('searching my tables');
-                this.getUserInfo();
+                this.setState(this.MY);
                 var handler = function(server, game_id, packet) {
                     if(packet.type == 'PacketPokerTableList') {
                         for(var i = 0; i < packet.packets.length; i++) {
                             var subpacket = packet.packets[i];
                             server.tableJoin(subpacket.id);
                         }
-                        server.setState('running');
+                        server.getUserInfo();
                         return false;
                     }
                     return true;

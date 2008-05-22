@@ -327,6 +327,165 @@ test("jpoker.server.handler PacketPokerMessage/GameMessage ", function(){
         cleanup();
     });
 
+test("jpoker.server.init reconnect", function(){
+        expect(2);
+        var server = jpoker.serverCreate({ url: 'url',
+                                           cookie: function() { return this.sessionName(); } });
+
+        equals(server.state, server.RECONNECT);
+        equals(server.session.indexOf('clear') >= 0, false, 'session set');
+        cleanup();
+    });
+
+test("jpoker.server.reconnect success", function(){
+        expect(5);
+        stop();
+
+        var player_serial = 43;
+        var PokerServer = function() {};
+        PokerServer.prototype = {
+            outgoing: '[{"type": "PacketPokerPlayerInfo", "serial": ' + player_serial + '}]',
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        var expected = server.RECONNECT;
+        server.registerUpdate(function(server, packet) {
+                if(packet.type == 'PacketState') {
+                    equals(server.state, expected);
+                    if(expected == server.RECONNECT) {
+                        expected = server.MY;
+                    } else if(expected == server.MY) {
+                        equals(server.serial, player_serial, 'player_serial');
+                        equals(server.session.indexOf('clear') >= 0, false, 'session is set');
+                        start_and_cleanup();
+                    }
+                }
+                return true;
+            });
+
+        server.reconnect();
+        equals(server.session.indexOf('clear') >= 0, false, 'session is set');
+    });
+
+test("jpoker.server.reconnect failure", function(){
+        expect(3);
+        stop();
+
+        var PokerServer = function() {};
+        PokerServer.prototype = {
+            outgoing: '[{"type": "PacketError", "code": ' + jpoker.packetName2Type.POKER_GET_PLAYER_INFO + '}]',
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        var expected = server.RECONNECT;
+        server.registerUpdate(function(server, packet) {
+                if(packet.type == 'PacketState') {
+                    equals(server.state, expected);
+                    if(expected == server.RECONNECT) {
+                        expected = server.RUNNING;
+                        equals(server.session.indexOf('clear') >= 0, true, 'session is not set');
+                        start_and_cleanup();
+                    }
+                }
+                return true;
+            });
+
+        server.reconnect();
+        equals(server.session.indexOf('clear') >= 0, false, 'session is set');
+    });
+
+test("jpoker.server.reconnect invalid error", function(){
+        expect(1);
+        stop();
+
+        var code = 444;
+        var PokerServer = function() {};
+        PokerServer.prototype = {
+            outgoing: '[{"type": "PacketError", "code": ' + code + '}]',
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        var error = jpoker.error;
+        jpoker.error = function(message) {
+            equals(message.indexOf(code) >= 0, true, 'invalid error code');
+            jpoker.error = error;
+            start_and_cleanup();
+        };
+        server.reconnect();
+    });
+
+test("jpoker.server.rejoin", function(){
+        expect(5);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var PokerServer = function() {};
+        PokerServer.prototype = {
+            outgoing: '[{"type": "PacketPokerTableList", "packets": [{"id": ' + game_id + '}]}]',
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+        server.notifyUpdate(table_packet);
+        var player_serial = 43;
+        var player_seat = 2;
+        var player_name = 'username';
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', name: player_name, seat: player_seat, serial: player_serial, game_id: game_id });
+        var player = server.tables[game_id].serial2player[player_serial];
+
+        server.handler(server, 0, { type: 'PacketSerial', serial: player_serial});
+
+        var destroyed = false;
+        table.registerUpdate(function(table, packet) {
+                if(packet.type == 'PacketPokerTableDestroy') {
+                    destroyed = true;
+                    return false;
+                }
+                return true;
+            });
+        var expected = server.MY;
+        server.registerUpdate(function(server, packet) {
+                if(packet.type == 'PacketState') {
+                    equals(server.state, expected);
+                    if(expected == server.MY) {
+                        expected = server.USER_INFO;
+                    } else if(expected == server.USER_INFO) {
+                        equals(destroyed, true, 'table must be destroyed before joining new ones');
+                        equals(server.session.indexOf('clear') >= 0, true, 'session is not set');
+                        start_and_cleanup();
+                    }
+                }
+                return true;
+            });
+        server.tableJoin = function(other_game_id) {
+            equals(other_game_id, game_id, 'rejoin same table');
+        };
+
+        server.rejoin();
+    });
+
 test("jpoker.server.login", function(){
         expect(9);
         stop();
@@ -366,7 +525,6 @@ test("jpoker.server.login", function(){
 
                 default:
                     throw "unexpected packet type " + packet.type;
-                    return false;
                 }
             });
     });
