@@ -378,6 +378,9 @@
     //
     jpoker.watchable = function(options) {
         $.extend(this, jpoker.watchable.defaults, options);
+        if(jpoker.verbose > 0) {
+            this.uid = jpoker.uid(); // helps track the packets
+        }
         this.init();
     };
 
@@ -613,6 +616,7 @@
                 }
                 if(id in this.callbacks) {
                     delete packet.time__;
+                    packet.uid__ = jpoker.uid();
                     try { 
                         this.notify(id, packet);
                     } catch(e) {
@@ -879,11 +883,10 @@
 
                 case 'PacketPokerTable':
                 if(packet.id in server.tables) {
-                    throw 'table id ' + packet.id + ' matches an existing table';
+                    table.notifyUpdate({ type: 'PacketPokerTableDestroy' });
                 }
                 server.tables[packet.id] = new jpoker.table(server, packet);
                 server.notifyUpdate(packet);
-                server.setState(server.RUNNING, 'PacketPokerTable');
                 break;
 
                 case 'PacketPokerMessage':
@@ -1068,10 +1071,12 @@
             },
 
             getUserInfo: function() {
-                this.setState(this.USER_INFO);
-                this.sendPacket({
-                        type: 'PacketPokerGetUserInfo',
-                        serial: this.serial });
+                this.queueRunning(function(server) {
+                        server.setState(server.USER_INFO);
+                        server.sendPacket({
+                                type: 'PacketPokerGetUserInfo',
+                                    serial: server.serial });
+                    });
             },
 
             rejoin: function() {
@@ -1083,18 +1088,13 @@
                             server.tableJoin(subpacket.id);
                         }
                         server.getUserInfo();
+                        server.setState(server.RUNNING, 'rejoin');
                         return false;
                     }
                     return true;
                 };
                 this.registerHandler(0, handler);
                 this.sendPacket({ type: 'PacketPokerTableSelect', string: 'my' });
-                for(var game_id in this.tables) {
-                    var table = this.tables[game_id];
-                    if(this.serial in table.serial2player) {
-                        table.notifyUpdate({ type: 'PacketPokerTableDestroy' });
-                    }
-                }
             },
             
             tableJoin: function(game_id) {
@@ -1175,6 +1175,16 @@
                 var serial = packet.serial;
 
                 switch(packet.type) {
+
+                case 'PacketPokerBatchMode':
+                    break;
+
+                case 'PacketPokerStreamMode':
+                    if(server.getState() != server.TABLE_JOIN) {
+                        jpoker.error('PacketPokerStreamMode but state is \'' + server.getState() + '\' instead of the expected \'' + server.TABLE_JOIN + '\'');
+                    }
+                    server.setState(server.RUNNING, 'PacketPokerStreamMode');
+                    break;
 
                 case 'PacketPokerTableDestroy':
                     table.uninit();

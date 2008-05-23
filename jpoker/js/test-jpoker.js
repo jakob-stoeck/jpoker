@@ -493,9 +493,8 @@ test("jpoker.server.rejoin", function(){
                 if(packet.type == 'PacketState') {
                     equals(server.state, expected);
                     if(expected == server.MY) {
-                        expected = server.USER_INFO;
-                    } else if(expected == server.USER_INFO) {
-                        equals(destroyed, true, 'table must be destroyed before joining new ones');
+                        expected = server.RUNNING;
+                    } else if(expected == server.RUNNING) {
                         equals(server.session.indexOf('clear') >= 0, true, 'session is not set');
                         start_and_cleanup();
                     }
@@ -504,6 +503,10 @@ test("jpoker.server.rejoin", function(){
             });
         server.tableJoin = function(other_game_id) {
             equals(other_game_id, game_id, 'rejoin same table');
+        };
+
+        server.getUserInfo = function() {
+            equals(true, true, 'getUserInfo called');
         };
 
         server.rejoin();
