@@ -299,7 +299,7 @@ test("jpoker.refresh", function(){
             start_and_cleanup();
             return false;
         };
-        timer = jpoker.refresh(server, request, handler);
+        timer = jpoker.refresh(server, request, handler, 'state');
     });
 
 test("jpoker.refresh requireSession", function(){
@@ -307,7 +307,7 @@ test("jpoker.refresh requireSession", function(){
 
         var server = jpoker.serverCreate({ url: 'url' });
 
-        equals(jpoker.refresh(server, null, null, { requireSession: true }), 0, 'requireSession');
+        equals(jpoker.refresh(server, null, null, 'state', { requireSession: true }), 0, 'requireSession');
 
         cleanup();
     });

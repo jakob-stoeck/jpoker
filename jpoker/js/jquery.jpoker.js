@@ -947,8 +947,8 @@
                 this.sendPacket({ type: 'PacketPokerGetPlayerInfo' });
             },
 
-            refresh: function(tag, request, handler, options) {
-                var timer = jpoker.refresh(this, request, handler, options);
+            refresh: function(tag, request, handler, state, options) {
+                var timer = jpoker.refresh(this, request, handler, state, options);
                 if(timer) {
                     if(tag in this.timers) {
                         this.clearInterval(this.timers[tag].timer);
@@ -970,32 +970,27 @@
                 }
 
                 var request = function(server) {
-                    server.queueRunning(function(server) {
-                            server.setState(server.TABLE_LIST);
-                            server.sendPacket({
-                                    type: 'PacketPokerTableSelect',
-                                        string: string
-                                        });
+                    server.sendPacket({
+                            type: 'PacketPokerTableSelect',
+                            string: string
                         });
                 };
 
                 var handler = function(server, packet) {
-                    if(server.getState() == server.TABLE_LIST) {
-                        var info = server.tableLists && server.tableLists[string];
-                        if(packet.type == 'PacketPokerTableList') {
-                            info.packet = packet;
-                            // although the tables/players count is sent with each
-                            // table list, it is global to the server
-                            server.playersCount = packet.players;
-                            server.tablesCount = packet.tables;
-                            server.notifyUpdate(packet);
-                            server.setState(server.RUNNING, 'refreshTable');
-                        }
+                    var info = server.tableLists && server.tableLists[string];
+                    if(packet.type == 'PacketPokerTableList') {
+                        info.packet = packet;
+                        // although the tables/players count is sent with each
+                        // table list, it is global to the server
+                        server.playersCount = packet.players;
+                        server.tablesCount = packet.tables;
+                        server.notifyUpdate(packet);
+                        return false;
                     }
                     return true;
                 };
 
-                return this.refresh('tableList', request, handler, options);
+                return this.refresh('tableList', request, handler, this.TABLE_LIST, options);
             },
 
             //
@@ -1397,22 +1392,35 @@
     // Refresh data with the 'handler' function after sending
     // a packet to the 'url' poker server with the 'request' function.
     //
-    jpoker.refresh = function(server, request, handler, options) {
+    jpoker.refresh = function(server, request, handler, state, options) {
 
         var opts = $.extend({}, this.refresh.defaults, options);
 
-        var waiting = false;
+        var waiting = false; // is there a refresh being served
 
         var timer = 0;
 
         var url = server.url;
+
+        var callHandler = function(server, game_id, packet) {
+            var status = handler(server, packet);
+            if(status == false) {
+                waiting = false;
+                server.setState(server.RUNNING, 'refresh ' + state)
+            }
+            return status;
+        };
 
         var sendRequest = function() {
             var server = jpoker.getServer(url);
             if(server && opts.requireSession === false || server.connected()) {
                 if(!waiting) {
                     waiting = true;
-                    request(server);
+                    server.queueRunning(function(server) {
+                            server.setState(state, 'refresh');
+                            request(server);
+                            server.registerHandler(opts.game_id, callHandler, opts);
+                        });
                 } else if(jpoker.verbose > 0) {
                     jpoker.message('refresh waiting');
                 } 
@@ -1424,18 +1432,8 @@
             }
         };
 
-        if(sendRequest()) {
-
-            if(opts.delay) {
-                timer = opts.setInterval(sendRequest, opts.delay);
-            }
-
-            var cb = function(server, game_id, packet) {
-                waiting = false;
-                return handler(server, packet);
-            };
-
-            server.registerHandler(opts.game_id, cb, opts);
+        if(sendRequest() && opts.delay > 0) {
+            timer = opts.setInterval(sendRequest, opts.delay);
         }
 
         return timer;
