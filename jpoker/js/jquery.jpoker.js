@@ -829,7 +829,7 @@
             reset: function() {
                 jpoker.connection.prototype.reset.call(this);
                 this.stateQueue = [];
-                this.setState(this.RUNNING);
+                this.setState(this.RUNNING, 'reset');
             },
 
             queueRunning: function(callback) {
@@ -844,13 +844,15 @@
                 }
             },
 
-            setState: function(state) {
+            setState: function(state, comment) {
                 if(this.state != state) {
                     this.state = state;
                     if(!state) {
                         jpoker.error('undefined state');
                     }
-                    jpoker.message('setSate ' + state);
+                    if(jpoker.verbose > 0) {
+                        jpoker.message('setSate ' + state + ' ' + comment);
+                    }
                     this.notifyUpdate({type: 'PacketState', state: state});
                     this.dequeueRunning();
                 }
@@ -869,7 +871,7 @@
             },
 
             handler: function(server, game_id, packet) {
-                if(jpoker.verbose) {
+                if(jpoker.verbose > 0) {
                     jpoker.message('server.handler ' + JSON.stringify(packet));
                 }
 
@@ -881,7 +883,7 @@
                 }
                 server.tables[packet.id] = new jpoker.table(server, packet);
                 server.notifyUpdate(packet);
-                server.setState(server.RUNNING);
+                server.setState(server.RUNNING, 'PacketPokerTable');
                 break;
 
                 case 'PacketPokerMessage':
@@ -901,7 +903,7 @@
                     server.tables[id].notifyUpdate(packet);
                 }
                 delete packet.game_id;
-                server.setState(server.RUNNING);
+                server.setState(server.RUNNING, 'PacketPokerUserInfo');
                 break;
 
                 }
@@ -936,7 +938,7 @@
                         if(packet.other_type != jpoker.packetName2Type.POKER_GET_PLAYER_INFO) {
                             jpoker.error('unexpected error while reconnecting ' + JSON.stringify(packet));
                         }
-                        server.setState(server.RUNNING);
+                        server.setState(server.RUNNING, 'PacketError reconnect');
                         return false;
                     }
                     return true;
@@ -987,7 +989,7 @@
                             server.playersCount = packet.players;
                             server.tablesCount = packet.tables;
                             server.notifyUpdate(packet);
-                            server.setState(server.RUNNING);
+                            server.setState(server.RUNNING, 'refreshTable');
                         }
                     }
                     return true;
@@ -1024,7 +1026,7 @@
                     case 'PacketAuthRefused':
                     jpoker.dialog(_(packet.message) + _(" (login name is {name} )").supplant({ 'name': name }));
                     server.notifyUpdate(packet);
-                    server.setState(server.RUNNING);
+                    server.setState(server.RUNNING, 'PacketAuthRefused');
                     return false;
 
                     case 'PacketError':
@@ -1032,7 +1034,7 @@
                         jpoker.dialog(_("user {name} is already logged in".supplant({ 'name': name })));
                         server.notifyUpdate(packet);
                     }
-                    server.setState(server.RUNNING);
+                    server.setState(server.RUNNING, 'login PacketError');
                     return false;
                     break;
 
@@ -1165,7 +1167,7 @@
             },
 
             handler: function(server, game_id, packet) {
-                if(jpoker.verbose) {
+                if(jpoker.verbose > 0) {
                     jpoker.message('table.handler ' + JSON.stringify(packet));
                 }
                 
@@ -1308,7 +1310,7 @@
             },
 
             handler: function(server, game_id, packet) {
-                if(jpoker.verbose) {
+                if(jpoker.verbose > 0) {
                     jpoker.message('player.handler ' + JSON.stringify(packet));
                 }
 
@@ -1371,7 +1373,7 @@
             handler: function(server, game_id, packet) {
                 jpoker.player.prototype.handler.call(this, server, game_id, packet);
 
-                if(jpoker.verbose) {
+                if(jpoker.verbose > 0) {
                     jpoker.message('playerSelf.handler ' + JSON.stringify(packet));
                 }
 
@@ -1405,7 +1407,7 @@
 
         var url = server.url;
 
-        var callback = function() {
+        var sendRequest = function() {
             var server = jpoker.getServer(url);
             if(server && opts.requireSession === false || server.connected()) {
                 if(!waiting) {
@@ -1417,15 +1419,15 @@
                 return true;
             } else {
                 opts.clearInterval(timer);
-                timer = 0;
+                timer = 0; // relevant for the first call (see below)
                 return false;
             }
         };
 
-        if(callback()) {
+        if(sendRequest()) {
 
             if(opts.delay) {
-                timer = opts.setInterval(callback, opts.delay);
+                timer = opts.setInterval(sendRequest, opts.delay);
             }
 
             var cb = function(server, game_id, packet) {
