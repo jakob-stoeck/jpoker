@@ -48,7 +48,7 @@
         copyright: function() {
             var copyright = $('<div id=\'jpokerCopyright\'><div class=\'jpokerAuthors\'><div><span>Copyright 2008 </span><a href=\'mailto:loic@dachary.org\'>Loic Dachary</a></div><div><span class=\'jpokerClick\'>Copyright 2008 </span><a href=\'mailto:proppy@aminche.com\'>Johan Euphrosine</a></div></div><div class=\'jpokerExplain\'>jpoker runs on this web browser and is Free Software. You may use jpoker to run a business without asking the authors permissions. You may give a copy to your friends. However, the authors do not want jpoker to be used with proprietary software.</div><div class=\'jpokerLicense\'>This program is free software: you can redistribute it and/or modify it under the terms of the <a href=\'http://www.fsf.org/licensing/licenses/gpl.txt\'>GNU General Public License</a> as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</div> <div class=\'jpokerFullCopyright\'>Read the full <a href=\'http://jspoker.pokersource.info/jpoker/#Copyright\'>copyright information page.</a></div><div class=\'jpokerDownload\'>Download <a href=\'http://upstream.jspoker.pokersource.info/file/tip/jpoker/js/jquery.jpoker.js\'>jpoker sources.</a></div><div class=\'jpokerDismiss\'>Dismiss</div></div>').dialog({ width: 400, height: 400, resizable: false });
             var close = function() { copyright.dialog('destroy'); };
-            window.setTimeout(close, 10000);
+            window.setTimeout(close, 5000);
             copyright.click(close);
             return copyright;
         },
@@ -427,6 +427,7 @@
 
         notifyUpdate: function(data) { this.notify('update', data); },
         notifyDestroy: function(data) { this.notify('destroy', data); },
+        notifyReinit: function(data) { this.notify('reinit', data); },
 
         register: function(what, callback, callback_data, signature) {
             if(what in this.protect) {
@@ -449,6 +450,7 @@
 
         registerUpdate: function(callback, callback_data, signature) { this.register('update', callback, callback_data, signature); },
         registerDestroy: function(callback, callback_data, signature) { this.register('destroy', callback, callback_data, signature); },
+        registerReinit: function(callback, callback_data, signature) { this.register('reinit', callback, callback_data, signature); },
 
         unregister: function(what, signature) {
             if(what in this.callbacks) {
@@ -461,7 +463,8 @@
         },
 
         unregisterUpdate: function(callback) { this.unregister('update', callback); },
-        unregisterDestroy: function(callback) { this.unregister('destroy', callback); }
+        unregisterDestroy: function(callback) { this.unregister('destroy', callback); },
+        unregisterReinit: function(callback) { this.unregister('reinit', callback); }
 
     };
 
@@ -883,10 +886,11 @@
 
                 case 'PacketPokerTable':
                 if(packet.id in server.tables) {
-                    table.notifyUpdate({ type: 'PacketPokerTableDestroy' });
+                    server.tables[packet.id].reinit(packet);
+                } else {
+                    server.tables[packet.id] = new jpoker.table(server, packet);
+                    server.notifyUpdate(packet);
                 }
-                server.tables[packet.id] = new jpoker.table(server, packet);
-                server.notifyUpdate(packet);
                 break;
 
                 case 'PacketPokerMessage':
@@ -1109,7 +1113,7 @@
 
             bankroll: function(currency_serial) {
                 var key = 'X' + currency_serial;
-                if(this.loggedIn() && key in this.userInfo.money) {
+                if(this.loggedIn() && 'money' in this.userInfo && key in this.userInfo.money) {
                     return this.userInfo.money[key][0] / 100; // PacketPokerUserInfo for documentation
                 }
                 return 0;
@@ -1141,6 +1145,17 @@
                     this.serial2player[serial].uninit();
                 }
                 this.reset();
+            },
+
+            reinit: function(table) {
+                if(table) {
+                    $.extend(this, jpoker.table.defaults, table);
+                }
+                for(var serial in this.serial2player) {
+                    this.serial2player[serial].uninit();
+                }
+                this.reset();
+                this.notifyReinit(table);
             },
 
             reset: function() {
@@ -1305,6 +1320,14 @@
             uninit: function() {
                 jpoker.watchable.prototype.uninit.call(this);
                 this.reset();
+            },
+            
+            reinit: function(player) {
+                if(player) {
+                    $.extend(this, jpoker.player.defaults, player);
+                }
+                this.reset();
+                this.notifyReinit(player);
             },
             
             reset: function() {
@@ -1788,6 +1811,9 @@
         }, jpoker.defaults);
 
     jpoker.plugins.table.create = function(element, id, server, game_id) {
+        if(jpoker.verbose > 0) {
+            jpoker.message('plugins.table.create ' + id + ' game: ' + game_id);
+        }
         if(game_id in server.tables) {
             var url = server.url;
             var table = server.tables[game_id];
@@ -1824,6 +1850,7 @@
             // because the second registration will override the first
             table.registerUpdate(this.update, id, 'table update' + id);
             table.registerDestroy(this.destroy, id, 'table destroy' + id);
+            table.registerReinit(this.reinit, id, 'table reinit' + id);
         }
     };
 
@@ -1946,8 +1973,21 @@
 
     jpoker.plugins.table.destroy = function(table, what, dummy, id) {
         // it is enough to destroy the DOM elements, even for players
+        jpoker.message('plugins.table.destroy ' + id + ' game: ' + table.game_id);
         $('#game_window' + id).remove();
         return false;
+    };
+
+    jpoker.plugins.table.reinit = function(table, what, packet, id) {
+        jpoker.plugins.table.destroy(table, 'destroy', null, id);
+        var element = document.getElementById(id);
+        var server = jpoker.getServer(table.url);
+        if(element && server) {
+            jpoker.plugins.table.create($(element), id, server, table.id);
+            return true;
+        } else {
+            return false;
+        }
     };
 
     jpoker.plugins.table.templates = {
