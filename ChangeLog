@@ -1,21 +1,228 @@
-2008-05-09  Loic Dachary  <loic@call.dachary.org>
+2008-05-27  Loic Dachary <loic@dachary.org>
 
 	* Release 1.0.13
 
-2008-05-09  loic  <loic@call.dachary.org>
+	* debian/apache2/conf.d/jpoker:
+	remove useless override
+	[48504b37f1c4]
+
+2008-05-25  Loic Dachary <loic@dachary.org>
+
+	* jpoker/test-jpoker.html:
+	cookie plugin and remove obsolete jquery.ui
+	[f4491b946922]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	implement reinit methods to support transparent reloading
+	[3ca792950837]
+
+2008-05-23  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	joinTable complete when receiving StreamMode
+	[3ab5534574bd]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	the refresh function uses states to prevent overlapping requests
+	[ec4313828dcb]
+
+	* jpoker/js/jquery.jpoker.js:
+	comments and debug information
+	[738f77008369]
+
+2008-05-22  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	reimplement {un,}registerHandler + handle with watchable class
+	[3e06d788d8d9]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	watchable callback take an additional argument after the object :
+	update or destroy
+	[356dc971e0db]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	implement {de,}queueRunning. generalize watchables. fix setState
+	bugous calls
+	[cc39b1fd6423]
+
+	* jpoker/js/jquery.cookie.js, jpoker/js/jquery.jpoker.js, jpoker/js
+	/test-jpoker.js:
+	reconnect and rejoin tests
+	[58872e3c389d]
+
+2008-05-21  Loic Dachary <loic@dachary.org>
+
+	* debian/apache2/conf.d/jpoker:
+	disable keepalive on /REST, not on the jpoker directory
+	[775afeb44dbd]
+
+2008-05-21  loic  <loic@pokerdev.call.tld>
+
+	* jpoker/js/jquery.jpoker.js:
+	use handler instead of notify
+	[6021b33707c5]
+
+2008-05-20  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	first attempt at transparent reload implementation
+	[aa2e24590a6e]
+
+2008-05-19  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	separate server state from connection state
+	[bbb916a5792f]
+
+2008-05-17  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	restore the position status after reload
+	[c3ffad8bca5f]
+
+	* jpoker/js/jpoker.css, jpoker/js/jquery.jpoker.js, jpoker/js/test-
+	jpoker.js:
+	externalize CSS for the player elements. safeguard for watchable
+	recursion + keep and replay backlog. restructure the create
+	functions for table or player to use initialized data instead of
+	assuming an uninitialized player or table. fix name clash between
+	table and playerSelf callbacks both registered in the table object.
+	[a285b4418b94]
+
+2008-05-16  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jslint fixes
+	[88b91069b8e4]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	implement TableQuit and TableDestroy
+	[2e490172548f]
+
+2008-05-15  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	newline removed from chat input
+	[836efae0194e]
+
+	* jpoker/js/jquery.jpoker.js:
+	newline removed from chat input
+	[8629bd05100b]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	newline removed from chat input
+	[fe22c2710917]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	chat lines must be split
+	[fb94ce759f73]
+
+	* jpoker/images/background.png, jpoker/images/mockup.svg,
+	jpoker/js/jquery.jpoker.js, jpoker/js/mockup.css,
+	jpoker/js/mockup.js, jpoker/js/test-jpoker.js, svg2html.py, test-
+	svg2html.py, test-svgflatten.py:
+	implement chat system based on PacketPokerChat
+	[c0645e4a7895]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	divide the average pot size in the table list only once
+	[0b8b8bf18241]
+
+2008-05-14  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	bet slider implementation
+	[0acccb686969]
+
+	* jpoker/js/jquery.jpoker.js:
+	average pot divided by 100
+	[05641f62c5cc]
+
+	* jpoker/js/jquery.jpoker.js:
+	hide interactors when not used
+	[e204d53a6652]
+
+	* jpoker/js/jpoker.css, jpoker/js/jquery.jpoker.js,
+	jpoker/js/mockup.css, jpoker/js/mockup.js, jpoker/js/test-jpoker.js:
+	fix seat5 bet. add labels to interactor buttons.
+	[f448135c2be4]
+
+	* jpoker/images/mockup.svg:
+	add misggin seat5_bet
+	[e71b1987bf84]
+
+	* jpoker/js/jquery.jpoker.js:
+	rebuy/buyin value must be muliplied by 100
+	[8b35c4d49d86]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	run buy-in dialog as soon as the self player gets a seat
+	[dcbd2eecc101]
+
+2008-05-13  Loic Dachary <loic@dachary.org>
+
+	* jpoker/index/FeaturedTable.tiddler,
+	jpoker/index/FeaturedTable.tiddler.div:
+	featuredTable tiddler
+	[8456ea73cb5e]
+
+	* COPYRIGHT/copyright.DEBIAN,
+	jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/index/DefaultTiddlers.tiddler, jpoker/js/jquery.jpoker.js,
+	jpoker/js/test-jpoker.js, jpoker/l10n/jpoker-fr.json, jpoker/l10n
+	/jpoker-fr.po, jpoker/l10n/jpoker-ja.json, jpoker/l10n/jpoker-ja.po:
+	implement featuredTable
+	[3ef01410b4c9]
+
+	* jpoker/index/Introduction.tiddler,
+	jpoker/index/Introduction.tiddler.div,
+	jpoker/index/TiddlyLightBoxPlugin.js,
+	jpoker/index/TiddlyLightBoxPlugin.js.div,
+	jpoker/js/jquery.jpoker.js:
+	merge pot size and user interface improvements
+	[fae1cf24e358]
+
+	* jpoker/js/jpoker.css, jpoker/js/jquery.jpoker.js, jpoker/js/test-
+	jpoker.js:
+	copyright function. add the login and signin buttons to the login
+	box
+	[19c7b765be8e]
+
+	* ChangeLog, NEWS, debian/changelog:
+	bump version 1.0.13
+	[11100f958e3b]
+
+	* jpoker/index/DefaultTiddlers.tiddler,
+	jpoker/index/Introduction.tiddler,
+	jpoker/index/Introduction.tiddler.div,
+	jpoker/index/MainMenu.tiddler, jpoker/index/Tables.tiddler,
+	jpoker/index/Tables.tiddler.div,
+	jpoker/index/TiddlyLightBoxPlugin.js,
+	jpoker/index/TiddlyLightBoxPlugin.js.div:
+	rename Introduction to Tables and remove lightbox
+	[ec933793298b]
+
+2008-05-13  Loic Dachary <loic@dachary.org>
+
+	* debian/control:
+	add inkscape to build-depends
+	[eebb2ebcf902]
+
+2008-05-09  Loic Dachary <loic@dachary.org>
 
 	* Release 1.0.12
 	
 	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
 	implement and test SelfInPosition + SelfLostPosition
-	[f4d6d7d7cca9] [tip]
+	[f4d6d7d7cca9]
 
 	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
 	update the player state when the chips packet comes in. create a
 	chips method for the player widget. handle the BetLimit packet
 	[d10439a219fe]
 
-2008-05-08  loic  <loic@call.dachary.org>
+2008-05-08  Loic Dachary <loic@dachary.org>
 
 	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
 	implement the buyin and rebuy widget. implement an accessor for
@@ -30,7 +237,7 @@
 	move actions specific to the player logged in to playerSelf
 	[aa55d2ab38ef]
 
-2008-05-07  loic  <loic@call.dachary.org>
+2008-05-07  Loic Dachary <loic@dachary.org>
 
 	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
 	create a separate class for the player that matches the logged in
@@ -638,7 +845,7 @@
 	update to jquery.ui-1.5b4
 	[31b9c5389869]
 
-2008-05-06  loic  <loic@call.dachary.org>
+2008-05-06  Loic Dachary <loic@dachary.org>
 
 	* Makefile:
 	fix offline strategy
@@ -666,7 +873,7 @@
 	resources
 	[f5c275378558]
 
-2008-05-04  loic  <loic@call.dachary.org>
+2008-05-04  Loic Dachary <loic@dachary.org>
 
 	* jpoker/js/test-jpoker.js:
 	test table class handling PacketPokerBuyInLimits
@@ -680,7 +887,7 @@
 	server.bankroll test
 	[05e8ddc580b4]
 
-2008-04-20  loic  <loic@call.dachary.org>
+2008-04-20  Loic Dachary <loic@dachary.org>
 
 	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
 	send getUserInfo to server after login and update a userInfo per
@@ -706,13 +913,13 @@
 	pure svg based display
 	[f136969c36ed]
 
-2008-04-19  root  <root@sd-11801.dedibox.fr>
+2008-04-19  Johan Euphrosine <proppy@aminche.com>
 
 	* jpoker/js/jquery.jpoker.js:
 	bet line-height = 48px
 	[68c2b07201d0]
 
-2008-04-19  proppy  <proppy@oy.lan.free.tld>
+2008-04-19  Johan Euphrosine <proppy@aminche.com>
 
 	* jpoker/images/bet.png, jpoker/images/bet.svg,
 	jpoker/images/mockup.svg, jpoker/js/mockup.css, jpoker/js/mockup.js,
@@ -720,19 +927,19 @@
 	bet size x 1.5
 	[df44a16c5fa1]
 
-2008-04-19  root  <root@sd-11801.dedibox.fr>
+2008-04-19  Johan Euphrosine <proppy@aminche.com>
 
 	* jpoker/js/jquery.jpoker.js:
 	player and money id changed
 	[801863a25d97]
 
-2008-04-18  root  <root@sd-11801.dedibox.fr>
+2008-04-18  Johan Euphrosine <proppy@aminche.com>
 
 	* Makefile:
 	don't clean generate images
 	[c0f280d6dbf6]
 
-2008-04-18  proppy  <proppy@oy.lan.free.tld>
+2008-04-18  Johan Euphrosine <proppy@aminche.com>
 
 	* Makefile, jpoker/images/avatar.png, jpoker/images/avatar.svg,
 	jpoker/images/background.png, jpoker/images/background.svg,
@@ -749,7 +956,7 @@
 	svgflatten exp notation fix
 	[38436c0a3fcd]
 
-2008-04-19  loic  <loic@call.dachary.org>
+2008-04-19  Loic Dachary <loic@dachary.org>
 
 	* jpoker/JpokerPlugin/JpokerPlugin.tiddler,
 	jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
@@ -830,7 +1037,7 @@
 	implement Sit/SitOut + jslint
 	[d3727ae4e4d4]
 
-2008-04-18  loic  <loic@call.dachary.org>
+2008-04-18  Loic Dachary <loic@dachary.org>
 
 	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
 	implement PacketPokerSeat
@@ -852,7 +1059,7 @@
 	proxy and http/1.0 requests
 	[9e15b054800c]
 
-2008-04-17  loic  <loic@call.dachary.org>
+2008-04-17  Loic Dachary <loic@dachary.org>
 
 	* jpoker/js/jquery.jpoker.js:
 	Ad replaced with Ax
@@ -878,7 +1085,7 @@
 	bump version 1.0.12
 	[965ae1e7aada]
 
-2008-04-16  root  <root@jspoker.pokersource.info>
+2008-04-16  Loic Dachary <loic@dachary.org>
 
 	* debian/control:
 	ruby build dep
@@ -900,14 +1107,14 @@
 	do not use indent because not supported by older simplejson
 	[c29d116441cf]
 
-2008-04-16  loic  <loic@call.dachary.org>
+2008-04-16  Loic Dachary <loic@dachary.org>
 
 	* Release 1.0.11
 
 	* jpoker/js/mockup.css, jpoker/js/mockup.js, jpoker/l10n/jpoker-fr.po,
 	jpoker/l10n/jpoker-ja.po, svg2html.py, test-svg2html.py:
 	ignore some images that are placeholders and not graphic elements
-	[128fd6e3c24f] [tip]
+	[128fd6e3c24f]
 
 	* jpoker/js/test-jpoker.js:
 	implement chips tooltip + position packet + jslint fixes
@@ -936,7 +1143,7 @@
 	update pot chips
 	[7ea6d1d7b567]
 
-2008-04-15  loic  <loic@call.dachary.org>
+2008-04-15  Loic Dachary <loic@dachary.org>
 
 	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js, jpoker/l10n
 	/jpoker-fr.po, jpoker/l10n/jpoker-ja.po:
@@ -967,7 +1174,7 @@
 	of the date
 	[245180ee42cf]
 
-2008-04-14  loic  <loic@call.dachary.org>
+2008-04-14  Loic Dachary <loic@dachary.org>
 
 	* mockup.xcf:
 	old source file for 2d interface
@@ -990,7 +1197,7 @@
 	added row hover color changes and pointing cursor to TableList
 	[12bb163a8cce]
 
-2008-04-13  loic  <loic@call.dachary.org>
+2008-04-13  Loic Dachary <loic@dachary.org>
 
 	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js, jpoker/l10n
 	/jpoker-ja.json, jpoker/l10n/jpoker-ja.po:
@@ -1061,7 +1268,7 @@
 	convert svg to html mockup
 	[06b62bec8f6c]
 
-2008-04-11  loic  <loic@call.dachary.org>
+2008-04-11  Loic Dachary <loic@dachary.org>
 
 	* jpoker/images/bet.png, jpoker/images/call.png,
 	jpoker/images/card_back.png, jpoker/images/cards/small-2c.png,
@@ -1117,7 +1324,7 @@
 	merge proppy japanese translation
 	[30b8f0818d12]
 
-2008-04-09  root  <root@sd-11801.dedibox.fr>
+2008-04-09  Johan Euphrosine <proppy@aminche.com>
 
 	* Makefile, jpoker/index-en/lang.tiddler, jpoker/index-fr.html, jpoker
 	/index-fr/lang.tiddler, jpoker/index-ja.html, jpoker/index-
@@ -1171,7 +1378,7 @@
 	jp i18n bootstrap
 	[9b265ff9a2a8]
 
-2008-04-11  loic  <loic@call.dachary.org>
+2008-04-11  Loic Dachary <loic@dachary.org>
 
 	* COPYRIGHT/summary.txt, jpoker/JpokerPlugin/JpokerPlugin.tiddler,
 	jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js, jpoker/l10n
@@ -1180,7 +1387,7 @@
 	hide/show seats according to player arrive/leave
 	[fa0713b6e3d8]
 
-2008-04-10  loic  <loic@call.dachary.org>
+2008-04-10  Loic Dachary <loic@dachary.org>
 
 	* COPYRIGHT/summary.txt:
 	jpoker/index/SinglePageModePlugin.js
@@ -1196,7 +1403,7 @@
 	establish connection with the table and display packet logs
 	[4f8832aad94b]
 
-2008-04-09  loic  <loic@call.dachary.org>
+2008-04-09  Loic Dachary <loic@dachary.org>
 
 	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
 	table templates
@@ -1216,7 +1423,7 @@
 	use new Array instead of literals
 	[ff3665b07a51]
 
-2008-04-09  root  <root@bayou.pokersource.info>
+2008-04-09  Loic Dachary <loic@dachary.org>
 
 	* jpoker/JpokerPlugin/JpokerPlugin.tiddler:
 	no return
@@ -1230,7 +1437,7 @@
 	pseudo code to create a tiddler
 	[de7382c62e70]
 
-2008-04-09  loic  <loic@call.dachary.org>
+2008-04-09  Loic Dachary <loic@dachary.org>
 
 	* Makefile, jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
 	table init/uninit
@@ -1241,7 +1448,7 @@
 	tentative code for jointable
 	[b7adb43525d2]
 
-2008-04-08  loic  <loic@call.dachary.org>
+2008-04-08  Loic Dachary <loic@dachary.org>
 
 	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
 	timers array is reset on uninit
@@ -1306,7 +1513,7 @@
 	implement String.supplant instead of sprintf
 	[d1bebd2d9400]
 
-2008-04-07  loic  <loic@call.dachary.org>
+2008-04-07  Loic Dachary <loic@dachary.org>
 
 	* jpoker/index/TiddlyLightBoxPlugin.js:
 	reuse existing image
@@ -1320,13 +1527,13 @@
 	ChangeLog generated from hg log --style=changelog
 	[65a69d1eb5f9]
 
-2008-04-07  root  <root@sd-11801.dedibox.fr>
+2008-04-07  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/jpoker.postinst:
 	a2enmod proxy_http on configure
-	[76a3ddcfb45c] [tip]
+	[76a3ddcfb45c]
 
-2008-04-06  loic  <loic@call.dachary.org>
+2008-04-06  Loic Dachary <loic@dachary.org>
 
 	* Release 1.0.10
 	
@@ -1375,7 +1582,7 @@
 	improve layout of the pokersource.eu page
 	[34902fd85353]
 
-2008-04-05  loic  <loic@call.dachary.org>
+2008-04-05  Loic Dachary <loic@dachary.org>
 
 	* jpoker/index-fr.html, jpoker/index.html, jpoker/index/Login.tiddler:
 	remove line break
@@ -1471,14 +1678,14 @@
 	reorganize files
 	[5e1720f55944]
 
-2008-04-04  root  <root@bayou.pokersource.info>
+2008-04-04  Loic Dachary <loic@dachary.org>
 
 	* Makefile, jpoker/jpoker-fr.json, jpoker/jpoker-fr.po:
 	dont run i18n by default because it breaks on etch and may be not
 	very useful
 	[a1ca1ea75cc8]
 
-2008-04-04  loic  <loic@call.dachary.org>
+2008-04-04  Loic Dachary <loic@dachary.org>
 
 	* Makefile, debian/control, jpoker/index-en/lang.tiddler, jpoker
 	/index-en/lang.tiddler.div, jpoker/index-fr.html, jpoker/index-
@@ -1491,13 +1698,13 @@
 	page
 	[49d589c57e01]
 
-2008-04-03  loic  <loic@call.dachary.org>
+2008-04-03  Loic Dachary <loic@dachary.org>
 
 	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
 	jslint patches
 	[ead7c2eb196b]
 
-2008-04-02  loic  <loic@call.dachary.org>
+2008-04-02  Loic Dachary <loic@dachary.org>
 
 	* jpoker/test-jpoker.js:
 	enable profiling
@@ -1569,19 +1776,19 @@
 	* merge proppy changes
 	[54e74a85e47c]
 
-2008-03-30  root  <root@sd-11801.dedibox.fr>
+2008-03-30  Johan Euphrosine <proppy@aminche.com>
 
 	* merge dachary changes
 	[e2d6643058f6]
 
-2008-03-18  root  <root@sd-11801.dedibox.fr>
+2008-03-18  Johan Euphrosine <proppy@aminche.com>
 
 	* jpoker/asc.gif, jpoker/bg.gif, jpoker/desc.gif, jpoker/jpoker.js,
 	jpoker/jquery.tablesorter.js:
 	merge dachary changes
 	[1d47280a56ad]
 
-2008-03-17  root  <root@sd-11801.dedibox.fr>
+2008-03-17  Johan Euphrosine <proppy@aminche.com>
 
 	* merge dachary
 	[aa3cb56205f6]
@@ -1592,7 +1799,7 @@
 	update tags
 	[54933c7ea8aa]
 
-2008-03-14  root  <root@sd-11801.dedibox.fr>
+2008-03-14  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/README.Debian, debian/apache2/sites-available/jpoker,
 	debian/changelog, debian/jpoker.conf, debian/jpoker.install,
@@ -1608,7 +1815,7 @@
 	update tags
 	[0db21cedd606]
 
-2008-04-02  loic  <loic@call.dachary.org>
+2008-04-02  Loic Dachary <loic@dachary.org>
 
 	* jpoker/humanmsg.css, jpoker/humanmsg.js:
 	remove -x flag
@@ -1634,7 +1841,7 @@
 	i18n using gettext
 	[35a0d721d110]
 
-2008-03-31  root  <root@bayou.pokersource.info>
+2008-03-31  Loic Dachary <loic@dachary.org>
 
 	* NEWS, debian/changelog, jpoker/index.html, jpoker/index.html~,
 	jpoker/index/404Plugin.js, jpoker/index/404Plugin.js.div,
@@ -1701,7 +1908,7 @@
 	Added tag jpoker_1_0_9_1 for changeset 69c865491d90
 	[34ab1adc62af] [jpoker-1.0.9-1]
 
-2008-03-30  loic  <loic@call.dachary.org>
+2008-03-30  Loic Dachary <loic@dachary.org>
 
 	* jpoker/index.html:
 	index.html copy
@@ -1750,7 +1957,7 @@
 	login and logout tests
 	[35501a968180]
 
-2008-03-29  loic  <loic@call.dachary.org>
+2008-03-29  Loic Dachary <loic@dachary.org>
 
 	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
 	mockup ActiveXObject instead of XMLHttpRequest for IE compatibility.
@@ -1766,13 +1973,13 @@
 	preliminary login implementation
 	[90ed2ae8a259]
 
-2008-03-27  root  <root@bayou.pokersource.info>
+2008-03-27  Loic Dachary <loic@dachary.org>
 
 	* jpoker/jquery.jpoker.js:
 	id must be local to avoid overlapping
 	[ebc44197698b]
 
-2008-03-27  loic  <loic@call.dachary.org>
+2008-03-27  Loic Dachary <loic@dachary.org>
 
 	* jpoker/index.html, jpoker/jpokerServerStatus.js,
 	jpoker/jpokerServerStatusPlugin.js, jpoker/poker.html:
@@ -1791,7 +1998,7 @@
 	rename players to playersCount
 	[993fa800c191]
 
-2008-03-26  root  <root@bayou.pokersource.info>
+2008-03-26  Loic Dachary <loic@dachary.org>
 
 	* jpoker/jquery.jpoker.js, jpoker/test-jpoker.js:
 	serverStatus stub
@@ -1805,7 +2012,7 @@
 	upstream 1.0.9
 	[88127ee6ede1]
 
-2008-03-26  loic  <loic@call.dachary.org>
+2008-03-26  Loic Dachary <loic@dachary.org>
 
 	* jpoker/jpokerTableListPlugin.js, jpoker/jquery.jpoker.js, jpoker
 	/test-jpoker.js:
@@ -1813,13 +2020,13 @@
 	communications
 	[a155e78214a3]
 
-2008-03-26  root  <root@bayou.pokersource.info>
+2008-03-26  Loic Dachary <loic@dachary.org>
 
 	* jpoker/jpokerTableListPlugin.js, jpoker/jquery.jpoker.js:
 	tw API attempt
 	[7e9ae8b238d3]
 
-2008-03-25  loic  <loic@call.dachary.org>
+2008-03-25  Loic Dachary <loic@dachary.org>
 
 	* Release 1.0.9
 
@@ -1871,7 +2078,7 @@
 	connections tests for handlers and queues
 	[d5b887bdb8e2]
 
-2008-03-24  loic  <loic@call.dachary.org>
+2008-03-24  Loic Dachary <loic@dachary.org>
 
 	* jpoker/jquery.jpoker.js:
 	timeout handling in connections
@@ -1887,7 +2094,7 @@
 	update tags
 	[ee0e1df8de10]
 
-2008-03-17  root  <root@bayou.pokersource.info>
+2008-03-17  Loic Dachary <loic@dachary.org>
 
 	* debian/changelog:
 	johan is uploader
@@ -1923,7 +2130,7 @@
 	* restructure namespace
 	[6e2c767afb39]
 
-2008-03-13  root  <root@bayou.pokersource.info>
+2008-03-13  Loic Dachary <loic@dachary.org>
 
 	* debian/control:
 	rhino and jscoverage are suggests only
@@ -1981,7 +2188,7 @@
 	update copyrights and add jpoker implementation to package
 	[92bf5ca99976]
 
-2008-02-02  root  <root@sd-11801.dedibox.fr>
+2008-02-02  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/README.Debian, debian/apache2/conf.d/jpoker, debian/apache2
 	/sites-available/jpoker, debian/changelog, debian/control,
@@ -1990,18 +2197,18 @@
 	merge ola packaging fix
 	[44d660a63ed2]
 
-2008-01-23  root  <root@sd-11801.dedibox.fr>
+2008-01-23  Johan Euphrosine <proppy@aminche.com>
 
 	* merge 1.0.7
 	[c9120170e97c]
 
-2008-01-22  root  <root@sd-11801.dedibox.fr>
+2008-01-22  Johan Euphrosine <proppy@aminche.com>
 
 	* test.html:
 	pull and merge upstream changes
 	[aad22805eae5]
 
-2008-01-21  root  <root@sd-11801.dedibox.fr>
+2008-01-21  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/apache2/sites-available/jpoker, debian/jpoker.install:
 	move apache2 to debian directory
@@ -2013,7 +2220,7 @@
 	restore debian packaging
 	[23b1ed39d8ea]
 
-2008-01-23  root  <root@sd-11801.dedibox.fr>
+2008-01-23  Johan Euphrosine <proppy@aminche.com>
 
 	* ChangeLog:
 	update Changelog
@@ -2023,7 +2230,7 @@
 	rename test_jpoker.html to test.html
 	[bfd49aa6e8ac]
 
-2008-01-22  root  <root@sd-11801.dedibox.fr>
+2008-01-22  Johan Euphrosine <proppy@aminche.com>
 
 	* test.html, testrunner.js:
 	remove tests directory
@@ -2033,7 +2240,7 @@
 	rewrite post PacketPing with jquery
 	[122ddc3f0991]
 
-2008-01-21  root  <root@sd-11801.dedibox.fr>
+2008-01-21  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/changelog, debian/compat, debian/control, debian/copyright,
 	debian/jpoker.install, debian/jpoker.postinst, debian/jpoker.postrm,
@@ -2041,14 +2248,14 @@
 	remove debian packaging
 	[b2672eb98664]
 
-2007-11-27  root  <root@sd-11801.dedibox.fr>
+2007-11-27  Johan Euphrosine <proppy@aminche.com>
 
 	* ChangeLog, GPL-LICENSE.txt, MIT-LICENSE.txt, debian/changelog,
 	debian/control:
 	Add jquery GPL and MIT licenses
 	[e7fd9c44842e]
 
-2007-11-23  root  <root@sd-11801.dedibox.fr>
+2007-11-23  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/changelog:
 	bump debian/changelog
@@ -2062,7 +2269,7 @@
 	exclude test from release
 	[be13efb3a56c]
 
-2007-11-12  root  <root@sd-11801.dedibox.fr>
+2007-11-12  Johan Euphrosine <proppy@aminche.com>
 
 	* ChangeLog:
 	ChangeLog
@@ -2084,7 +2291,7 @@
 	link to debian ITP
 	[2703bbbf2104]
 
-2007-11-10  root  <root@sd-11801.dedibox.fr>
+2007-11-10  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/changelog:
 	fixed changelog
@@ -2094,7 +2301,7 @@
 	update debian packaging
 	[6cd82b79d98b]
 
-2007-11-09  root  <root@sd-11801.dedibox.fr>
+2007-11-09  Johan Euphrosine <proppy@aminche.com>
 
 	* ChangeLog:
 	update ChangeLog
@@ -2164,7 +2371,7 @@
 	apt-get source poker-network
 	[ddb1d65ea63a]
 
-2007-11-06  root  <root@sd-11801.dedibox.fr>
+2007-11-06  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/changelog:
 	update debian changelog
@@ -2174,7 +2381,7 @@
 	add tablesorter and css style to debian package
 	[254293c4f7d8]
 
-2007-11-03  root  <root@sd-11801.dedibox.fr>
+2007-11-03  Johan Euphrosine <proppy@aminche.com>
 
 	* ChangeLog:
 	jpoker-1.0.3
@@ -2204,7 +2411,7 @@
 	ChangeLog
 	[d9d30a7e985f]
 
-2007-11-02  root  <root@sd-11801.dedibox.fr>
+2007-11-02  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/jpoker.install:
 	s/jpoker.js/jpoker.jquery.js
@@ -2248,7 +2455,7 @@
 	update ChangeLog
 	[5881376808da]
 
-2007-10-31  root  <root@sd-11801.dedibox.fr>
+2007-10-31  Johan Euphrosine <proppy@aminche.com>
 
 	* proxy.php:
 	pass postdata to proxy
@@ -2262,13 +2469,13 @@
 	fix curl_setpot
 	[6de742696b58]
 
-2007-10-27  root  <root@sd-11801.dedibox.fr>
+2007-10-27  Johan Euphrosine <proppy@aminche.com>
 
 	* proxy.php:
 	test post and php based proxy
 	[342ac2c401a9]
 
-2007-10-26  root  <root@sd-11801.dedibox.fr>
+2007-10-26  Johan Euphrosine <proppy@aminche.com>
 
 	* proxy.php:
 	fix downcase url in proxy
@@ -2294,7 +2501,7 @@
 	test skeleton
 	[ff2101737fb5]
 
-2007-10-25  root  <root@sd-11801.dedibox.fr>
+2007-10-25  Johan Euphrosine <proppy@aminche.com>
 
 	* ChangeLog:
 	added ChangeLog
@@ -2316,18 +2523,18 @@
 	import jpoker package
 	[5a117b392a61]
 
-2008-03-17  root  <root@bayou.pokersource.info>
+2008-03-17  Loic Dachary <loic@dachary.org>
 
 	* debian/jpoker.conf:
 	merge packaging patches from proppy
 	[8ded58e41a3f]
 
-2008-03-17  root  <root@sd-11801.dedibox.fr>
+2008-03-17  Johan Euphrosine <proppy@aminche.com>
 
 	* merge dachary
 	[c73a34328f3c]
 
-2008-03-17  root  <root@bayou.pokersource.info>
+2008-03-17  Loic Dachary <loic@dachary.org>
 
 	* jpoker/index.html, jpoker/jpokerTableListPlugin.js,
 	jpoker/jquery.jpoker.js, jpoker/poker.html, jpoker/tablelist.css:
@@ -2341,7 +2548,7 @@
 	* restructure namespace
 	[0848f3d9363f]
 
-2008-03-17  loic  <loic@call.dachary.org>
+2008-03-17  Loic Dachary <loic@dachary.org>
 
 	* jpoker/jpokerTableListPlugin.js:
 	use new jpoker API for tw plugin
@@ -2355,26 +2562,26 @@
 	run tests on syncElement
 	[fc3c4cf55df1]
 
-2008-03-16  loic  <loic@call.dachary.org>
+2008-03-16  Loic Dachary <loic@dachary.org>
 
 	* jpoker/jquery.jpoker.js:
 	rework and move to $.jpoker
 	[49a975284f19]
 
-2008-03-15  loic  <loic@call.dachary.org>
+2008-03-15  Loic Dachary <loic@dachary.org>
 
 	* jpoker/jpoker.js, jpoker/jquery.jpoker.js, jpoker/test-jpoker.html,
 	jpoker/test-jpoker.js:
 	rewrite jpoker.js as a jquery plugin
 	[985d6dcc94a4]
 
-2008-03-14  loic  <loic@call.dachary.org>
+2008-03-14  Loic Dachary <loic@dachary.org>
 
 	* ChangeLog, debian/copyright:
 	no need to copy the GPLv2
 	[d033bcb4dced]
 
-2008-03-13  root  <root@bayou.pokersource.info>
+2008-03-13  Loic Dachary <loic@dachary.org>
 
 	* debian/control:
 	rhino and jscoverage are suggests only
@@ -2414,7 +2621,7 @@
 	update copyrights and add jpoker implementation to package
 	[845decdbf6ac]
 
-2008-02-02  root  <root@sd-11801.dedibox.fr>
+2008-02-02  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/apache2/sites-available/jpoker, debian/changelog,
 	debian/control, debian/copyright, debian/jpoker.install,
@@ -2422,12 +2629,12 @@
 	merge ola packaging fix
 	[9db990a70c69]
 
-2008-01-23  root  <root@sd-11801.dedibox.fr>
+2008-01-23  Johan Euphrosine <proppy@aminche.com>
 
 	* merge 1.0.7
 	[00bdb9f55cf5]
 
-2008-01-21  root  <root@sd-11801.dedibox.fr>
+2008-01-21  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/apache2/sites-available/jpoker, debian/jpoker.install:
 	move apache2 to debian directory
@@ -2439,7 +2646,7 @@
 	restore debian packaging
 	[c48bca7ce929]
 
-2008-01-23  root  <root@sd-11801.dedibox.fr>
+2008-01-23  Johan Euphrosine <proppy@aminche.com>
 
 	* ChangeLog:
 	update Changelog
@@ -2449,7 +2656,7 @@
 	rename test_jpoker.html to test.html
 	[72f1a3c0b4c8]
 
-2008-01-21  root  <root@sd-11801.dedibox.fr>
+2008-01-21  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/changelog, debian/compat, debian/control, debian/copyright,
 	debian/jpoker.install, debian/jpoker.postinst, debian/jpoker.postrm,
@@ -2457,13 +2664,13 @@
 	remove debian packaging
 	[78f2604dbf81]
 
-2007-11-27  root  <root@sd-11801.dedibox.fr>
+2007-11-27  Johan Euphrosine <proppy@aminche.com>
 
 	* ChangeLog, debian/changelog, debian/control:
 	Add jquery GPL and MIT licenses
 	[b8e2be01693a]
 
-2007-11-23  root  <root@sd-11801.dedibox.fr>
+2007-11-23  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/changelog:
 	bump debian/changelog
@@ -2477,7 +2684,7 @@
 	exclude test from release
 	[8cbadf14de81]
 
-2007-11-12  root  <root@sd-11801.dedibox.fr>
+2007-11-12  Johan Euphrosine <proppy@aminche.com>
 
 	* ChangeLog:
 	ChangeLog
@@ -2495,7 +2702,7 @@
 	link to debian ITP
 	[96fee9796d82]
 
-2007-11-10  root  <root@sd-11801.dedibox.fr>
+2007-11-10  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/changelog:
 	fixed changelog
@@ -2505,13 +2712,13 @@
 	update debian packaging
 	[cc09d6b5faf8]
 
-2007-11-09  root  <root@sd-11801.dedibox.fr>
+2007-11-09  Johan Euphrosine <proppy@aminche.com>
 
 	* ChangeLog:
 	update ChangeLog
 	[644ebfe8dda9]
 
-2007-11-06  root  <root@sd-11801.dedibox.fr>
+2007-11-06  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/changelog:
 	update debian changelog
@@ -2521,7 +2728,7 @@
 	add tablesorter and css style to debian package
 	[41e64113f5a1]
 
-2007-11-03  root  <root@sd-11801.dedibox.fr>
+2007-11-03  Johan Euphrosine <proppy@aminche.com>
 
 	* ChangeLog:
 	jpoker-1.0.3
@@ -2531,7 +2738,7 @@
 	ChangeLog
 	[29e4aef5fb58]
 
-2007-11-02  root  <root@sd-11801.dedibox.fr>
+2007-11-02  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/jpoker.install:
 	s/jpoker.js/jpoker.jquery.js
@@ -2557,13 +2764,13 @@
 	update ChangeLog
 	[31c553356b6f]
 
-2007-10-26  root  <root@sd-11801.dedibox.fr>
+2007-10-26  Johan Euphrosine <proppy@aminche.com>
 
 	* ChangeLog:
 	update ChangeLog
 	[de32910d3bec]
 
-2007-10-25  root  <root@sd-11801.dedibox.fr>
+2007-10-25  Johan Euphrosine <proppy@aminche.com>
 
 	* ChangeLog:
 	added ChangeLog
@@ -2573,7 +2780,7 @@
 	apt-get install build-essential
 	[8e0d9524d5c7]
 
-2008-03-17  loic  <loic@call.dachary.org>
+2008-03-17  Loic Dachary <loic@dachary.org>
 
 	* jpoker/jpokerTableListPlugin.js:
 	use new jpoker API for tw plugin
@@ -2587,26 +2794,26 @@
 	run tests on syncElement
 	[492ca279f4f4]
 
-2008-03-16  loic  <loic@call.dachary.org>
+2008-03-16  Loic Dachary <loic@dachary.org>
 
 	* jpoker/jquery.jpoker.js:
 	rework and move to $.jpoker
 	[a41c67754c23]
 
-2008-03-15  loic  <loic@call.dachary.org>
+2008-03-15  Loic Dachary <loic@dachary.org>
 
 	* jpoker/jpoker.js, jpoker/jquery.jpoker.js, jpoker/test-jpoker.html,
 	jpoker/test-jpoker.js:
 	rewrite jpoker.js as a jquery plugin
 	[157b4b3cea1f]
 
-2008-03-14  loic  <loic@call.dachary.org>
+2008-03-14  Loic Dachary <loic@dachary.org>
 
 	* ChangeLog, debian/copyright:
 	no need to copy the GPLv2
 	[0f71adbff2be]
 
-2008-03-13  root  <root@bayou.pokersource.info>
+2008-03-13  Loic Dachary <loic@dachary.org>
 
 	* debian/control:
 	rhino and jscoverage are suggests only
@@ -2661,7 +2868,7 @@
 	update copyrights and add jpoker implementation to package
 	[75eb41951b58]
 
-2008-03-14  root  <root@sd-11801.dedibox.fr>
+2008-03-14  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/README.Debian, debian/apache2/sites-available/jpoker,
 	debian/changelog, debian/jpoker.conf, debian/jpoker.install,
@@ -2669,7 +2876,7 @@
 	Add apache proxy to packaging
 	[70701df2f8b7]
 
-2008-03-13  root  <root@bayou.pokersource.info>
+2008-03-13  Loic Dachary <loic@dachary.org>
 
 	* debian/control:
 	rhino and jscoverage are suggests only
@@ -2724,7 +2931,7 @@
 	update copyrights and add jpoker implementation to package
 	[ff45559c45be]
 
-2008-02-02  root  <root@sd-11801.dedibox.fr>
+2008-02-02  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/README.Debian, debian/apache2/conf.d/jpoker, debian/apache2
 	/sites-available/jpoker, debian/changelog, debian/control,
@@ -2733,12 +2940,12 @@
 	merge ola packaging fix
 	[a41ca7c9e3b6]
 
-2008-01-23  root  <root@sd-11801.dedibox.fr>
+2008-01-23  Johan Euphrosine <proppy@aminche.com>
 
 	* merge 1.0.7
 	[246d51ed2cdd]
 
-2008-01-21  root  <root@sd-11801.dedibox.fr>
+2008-01-21  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/apache2/sites-available/jpoker, debian/jpoker.install:
 	move apache2 to debian directory
@@ -2750,7 +2957,7 @@
 	restore debian packaging
 	[e6949f7fc5b7]
 
-2008-01-23  root  <root@sd-11801.dedibox.fr>
+2008-01-23  Johan Euphrosine <proppy@aminche.com>
 
 	* ChangeLog:
 	update Changelog
@@ -2760,7 +2967,7 @@
 	rename test_jpoker.html to test.html
 	[89494d6499a2]
 
-2008-01-21  root  <root@sd-11801.dedibox.fr>
+2008-01-21  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/changelog, debian/compat, debian/control, debian/copyright,
 	debian/jpoker.install, debian/jpoker.postinst, debian/jpoker.postrm,
@@ -2768,13 +2975,13 @@
 	remove debian packaging
 	[076833e0c7fe]
 
-2007-11-27  root  <root@sd-11801.dedibox.fr>
+2007-11-27  Johan Euphrosine <proppy@aminche.com>
 
 	* ChangeLog, MIT-LICENSE.txt, debian/changelog, debian/control:
 	Add jquery GPL and MIT licenses
 	[f78ad880526b]
 
-2007-11-23  root  <root@sd-11801.dedibox.fr>
+2007-11-23  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/changelog:
 	bump debian/changelog
@@ -2788,7 +2995,7 @@
 	exclude test from release
 	[c81cdb8bc76c]
 
-2007-11-12  root  <root@sd-11801.dedibox.fr>
+2007-11-12  Johan Euphrosine <proppy@aminche.com>
 
 	* ChangeLog:
 	ChangeLog
@@ -2806,7 +3013,7 @@
 	link to debian ITP
 	[0339f28ac227]
 
-2007-11-10  root  <root@sd-11801.dedibox.fr>
+2007-11-10  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/changelog:
 	fixed changelog
@@ -2816,13 +3023,13 @@
 	update debian packaging
 	[02b9b9d208bf]
 
-2007-11-09  root  <root@sd-11801.dedibox.fr>
+2007-11-09  Johan Euphrosine <proppy@aminche.com>
 
 	* ChangeLog:
 	update ChangeLog
 	[a5eb902f8990]
 
-2007-11-06  root  <root@sd-11801.dedibox.fr>
+2007-11-06  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/changelog:
 	update debian changelog
@@ -2832,7 +3039,7 @@
 	add tablesorter and css style to debian package
 	[b1abff1a1eec]
 
-2007-11-03  root  <root@sd-11801.dedibox.fr>
+2007-11-03  Johan Euphrosine <proppy@aminche.com>
 
 	* ChangeLog:
 	jpoker-1.0.3
@@ -2842,7 +3049,7 @@
 	ChangeLog
 	[806410906a20]
 
-2007-11-02  root  <root@sd-11801.dedibox.fr>
+2007-11-02  Johan Euphrosine <proppy@aminche.com>
 
 	* debian/jpoker.install:
 	s/jpoker.js/jpoker.jquery.js
@@ -2874,13 +3081,13 @@
 	update ChangeLog
 	[b8fb91dfec21]
 
-2007-10-26  root  <root@sd-11801.dedibox.fr>
+2007-10-26  Johan Euphrosine <proppy@aminche.com>
 
 	* ChangeLog:
 	update ChangeLog
 	[bec25c2310df]
 
-2007-10-25  root  <root@sd-11801.dedibox.fr>
+2007-10-25  Johan Euphrosine <proppy@aminche.com>
 
 	* ChangeLog:
 	added ChangeLog
