@@ -17,11 +17,16 @@
 all: i18n cook mockup check
 	-cd jpoker ; x-www-browser index.html
 
-LANG = fr ja
+LANG = en fr ja
 LANG_LIST = $(shell echo ${LANG}|sed s/\ /,/)
 LANG_DIR = jpoker/l10n
-LANG_JSON = $(LANG:%=${LANG_DIR}/jpoker-%.json)
+# 
+# because english is the default language, it has no
+# associated .json file
+#
+LANG_JSON = $($(patsubst en,,${LANG}):%=${LANG_DIR}/jpoker-%.json)
 LANG_TW = $(LANG:%=jpoker/index-%.html)
+LANG_SKIN = $(LANG:%=jpoker/skin-%.html)
 IMAGES = jpoker/images/avatar.png \
 	 jpoker/images/background.png \
 	 jpoker/images/bet.png \
@@ -63,6 +68,7 @@ gems/bin/tiddlywiki_cp:
 
 GEMSCONTEXT=GEM_HOME=gems gems/bin/
 
+jpoker/skin-%.html: gems/bin/tiddlywiki_cp 
 jpoker/index-%.html: gems/bin/tiddlywiki_cp 
 jpoker/index.html: gems/bin/tiddlywiki_cp 
 jpoker/poker.html: gems/bin/tiddlywiki_cp 
@@ -71,19 +77,25 @@ endif
 
 EMPTY=tiddlywiki-2.3.html
 
-jpoker/index-%.html: jpoker/JpokerPlugin/* jpoker/index-*/* jpoker/index/* jpoker/markup/*
+jpoker/skin-%.html: jpoker/index-*/* jpoker/skin/* jpoker/tiddlers/* jpoker/markup/*
 	cp ${EMPTY} $@
-	${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-$* jpoker/index jpoker/markup $@
+	${GEMSCONTEXT}tiddlywiki_cp -a jpoker/skin jpoker/index-$* jpoker/tiddlers jpoker/markup $@
 
-jpoker/index.html: jpoker/JpokerPlugin/* jpoker/index-en/* jpoker/index/* jpoker/markup/*
+jpoker/skin.html: jpoker/skin-en.html
+	cp jpoker/skin-en.html jpoker/skin.html
+
+jpoker/index-%.html: jpoker/JpokerPlugin/* jpoker/index-*/* jpoker/index/* jpoker/tiddlers/* jpoker/markup/*
 	cp ${EMPTY} $@
-	${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-en jpoker/index jpoker/markup $@
+	${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-$* jpoker/index jpoker/tiddlers jpoker/markup $@
+
+jpoker/index.html: jpoker/index-en.html
+	cp jpoker/index-en.html jpoker/index.html
 
 jpoker/poker.html: jpoker/JpokerPlugin/* jpoker/poker/* jpoker/markup/*
 	cp ${EMPTY} $@
 	${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/poker jpoker/markup $@
 
-cook:	jpoker/poker.html jpoker/index.html ${LANG_TW}
+cook:	jpoker/poker.html ${LANG_TW} jpoker/index.html ${LANG_SKIN} jpoker/skin.html
 
 # mimic when a new lang shows
 newlang:
@@ -93,7 +105,7 @@ newlang:
 clean: 
 	rm -fr tests gems
 	rm -f messages.pot 
-	rm -f jpoker/{index.html,poker.html} ${LANG_TW}
+	rm -f jpoker/{index,poker,skin}.html ${LANG_TW} ${LANG_SKIN}
 #	rm -fr ${LANG_DIR}/jpoker-{${LANG_LIST}}.json
 	rm -fr {${LANG_LIST}}/
 	rm -f jpoker/index.200* jpoker/index-fr.200* jpoker/poker.200* 
