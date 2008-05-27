@@ -1,5 +1,4 @@
 <Location /REST>
-    AllowOverride All
     #
     # The poker server does not honor KeepAlive and the
     # proxy must be set accordingly, otherwise it will
