@@ -75,6 +75,14 @@ jpoker/poker.html: gems/bin/tiddlywiki_cp
 
 endif
 
+skin_tests:
+	> jpoker/skin/MainMenu.tiddler
+	for t in $$(perl -n -e 'print if(s/config.macros.(jpoker_\d+_.*) =.*/\1/)' jpoker/skin/skin.js) ; do \
+		echo "<<$$t>>" > jpoker/skin/$$t.tiddler ; \
+		echo 'title="'$$t'" modifier="loic" created="200805032321" changecount="1"' > jpoker/skin/$$t.tiddler.div ; \
+		echo "[[$$t]]" >> jpoker/skin/MainMenu.tiddler ; \
+	done
+
 EMPTY=tiddlywiki-2.3.html
 
 jpoker/skin-%.html: jpoker/index-*/* jpoker/skin/* jpoker/tiddlers/* jpoker/markup/*
@@ -105,6 +113,7 @@ newlang:
 clean: 
 	rm -fr tests gems
 	rm -f messages.pot 
+	rm -f jpoker/skin/jpoker_[0-9][0-9]_*
 	rm -f jpoker/{index,poker,skin}.html ${LANG_TW} ${LANG_SKIN}
 #	rm -fr ${LANG_DIR}/jpoker-{${LANG_LIST}}.json
 	rm -fr {${LANG_LIST}}/
