@@ -20,6 +20,11 @@ span.jpokerServerStatus {
 #jpokerCopyright a:visited { color: #FFF; }
 #jpokerCopyright a:link { color: #FFF; }
 
+#jpokerCopyright .jpokerSoftware {
+    font-weight: bolder;
+    text-align: center;
+}
+
 #jpokerCopyright .jpokerAuthors {
     font-weight: bolder;
     text-align: center;
