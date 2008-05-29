@@ -1,3 +1,9 @@
+jpoker (1.0.14-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Loic Dachary (OuoU) <loic@debian.org>  Thu, 29 May 2008 14:16:16 +0200
+
 jpoker (1.0.13-1) unstable; urgency=low
 
   * New upstream version.
