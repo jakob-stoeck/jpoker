@@ -17,7 +17,7 @@
 VERSION=1.0.14
 
 install: jpoker-binary-${VERSION}
-	mkdir -p ${DESTDIR}usr/share/jpoker
+	mkdir -p ${DESTDIR}usr/share
 	cp -a jpoker-binary-${VERSION} ${DESTDIR}usr/share/jpoker
 
 all:
