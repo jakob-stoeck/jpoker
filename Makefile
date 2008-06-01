@@ -12,13 +12,87 @@
 #     GNU General Public License for more details.
 #
 #     You should have received a copy of the GNU General Public License
-#     along with this program.  If not, see <http:#www.gnu.org/licenses/>.
+#     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-all: i18n cook mockup check
+VERSION=1.0.14
+
+install: jpoker-binary-${VERSION}
+	mkdir -p ${DESTDIR}usr/share/jpoker
+	cp -a jpoker-binary-${VERSION} ${DESTDIR}usr/share/jpoker
+
+all:
+
+dist: jpoker-binary-${VERSION} 
+	tar -cvf jpoker-binary-${VERSION}.tar jpoker-binary-${VERSION}
+
+clean: 
+	rm -fr jpoker-binary-${VERSION}.tar
+
+#
+# all targets below this mark are used to maintain the development environment
+# and tools
+#
+reinstall: 
+	rm -fr jpoker-binary-${VERSION}
+	${MAKE} install
+
+jpoker-binary-${VERSION}:
+	mkdir jpoker-binary-${VERSION}
+	cp -a jpoker/index.html jpoker/index-*.html jpoker-binary-${VERSION}
+	mkdir jpoker-binary-${VERSION}/jquery
+	cp -a jpoker/jquery/themes jpoker-binary-${VERSION}/jquery
+	cp -a jpoker/jquery/jquery-1.2.4b.js jpoker-binary-${VERSION}/jquery
+	cp -a jpoker/jquery/ui.*.js jpoker-binary-${VERSION}/jquery
+	cp -a jpoker/js jpoker-binary-${VERSION}
+	mkdir jpoker-binary-${VERSION}/l10n
+	cp -a jpoker/l10n/*.json jpoker-binary-${VERSION}/l10n
+	cp -a jpoker/images jpoker-binary-${VERSION}
+	cp -a jpoker/*.swf jpoker-binary-${VERSION}
+
+build: i18n cook mockup check
+	cd sound ; make $@
 	-cd jpoker ; x-www-browser index.html
 
+maintainer-dist: build
+	rm -fr jpoker-binary-${VERSION}
+	${MAKE} jpoker-binary-${VERSION}
+	${MAKE} maintainer-clean
+	dir=$$(basename $$(pwd)) ; cd .. ; rm -f jpoker-${VERSION} ; ln -s $$dir jpoker-${VERSION} ; tar --exclude=jpoker-${VERSION}/debian -zcvf jpoker_${VERSION}.orig.tar.gz jpoker-${VERSION}/*
+
+#
+# clean all except the "binary" release (i.e. the set of files that 
+# are needed to run the application but not the tools used to develop it)
+# that is the basis of make all/clean/install. Numerous tools may be 
+# needed to rebuild what is removed by this target and maintaining the
+# dependencies to these tools may require a significant amount of work
+# depending on the GNU/Linux distribution.
+#
+maintainer-clean: 
+	cd sound ; ${MAKE} clean
+	rm -fr tests
+	rm -f messages.pot 
+	rm -f jpoker/skin/jpoker_[0-9][0-9]_*
+	rm -f jpoker/{index,poker,skin}.html ${LANG_TW} ${LANG_SKIN}
+	rm -fr ${LANG:%=%/} jpoker/l10n/*.mo
+	rm -f jpoker/index.200* jpoker/index-fr.200* jpoker/poker.200* 
+	rm -f jpoker/mockup.html
+	rm -f jpoker/images/mockup_plain.svg
+	rm -f *.pyc
+
+#
+# remove all that cannot be re-generated This is different from the
+# maintainer-clean target in one important aspect: it is difficult or
+# impractical to re-generate the files within a compile farm. For
+# instance, installing the tiddlywiki_cp gem with gem install is
+# frowned upon in Debian GNU/Linux, partly because "gem install"
+# randomly fails with no good reason (i.e. it will sometime succeed if
+# the command is run a second time).
+#
+clobber: maintainer-clean
+	rm -fr jpoker-binary-${VERSION}
+	rm -fr gems
+
 LANG = en fr ja
-LANG_LIST = $(shell echo ${LANG}|sed s/\ /,/)
 LANG_DIR = jpoker/l10n
 # 
 # because english is the default language, it has no
@@ -59,21 +133,20 @@ ${LANG_DIR}/jpoker-%.json: ${LANG_DIR}/%.mo
 
 i18n: ${LANG_JSON}
 
-ifeq ($(OFFLINE),)
-gems/bin/tiddlywiki_cp: 
-	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp || \
-	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp || \
-	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp || \
-	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp
+update_gems: 
+	rm -fr gems
+	${MAKE} gems/bin/tiddlywiki_cp
 
-GEMSCONTEXT=GEM_HOME=gems gems/bin/
+# retry at most 4 times if there is an error because gem randomly fails
+gems/bin/tiddlywiki_cp: 
+	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp
 
 jpoker/skin-%.html: gems/bin/tiddlywiki_cp 
 jpoker/index-%.html: gems/bin/tiddlywiki_cp 
 jpoker/index.html: gems/bin/tiddlywiki_cp 
 jpoker/poker.html: gems/bin/tiddlywiki_cp 
 
-endif
+GEMSCONTEXT=GEM_HOME=gems gems/bin/
 
 skin_tests:
 	> jpoker/skin/MainMenu.tiddler
@@ -109,18 +182,6 @@ cook:	jpoker/poker.html ${LANG_TW} jpoker/index.html ${LANG_SKIN} jpoker/skin.ht
 newlang:
 	msginit -l fr_FR -o fr.po -i messages.pot
 #	msginit -l ja_JP -o jp.po -i messages.pot
-
-clean: 
-	rm -fr tests gems
-	rm -f messages.pot 
-	rm -f jpoker/skin/jpoker_[0-9][0-9]_*
-	rm -f jpoker/{index,poker,skin}.html ${LANG_TW} ${LANG_SKIN}
-#	rm -fr ${LANG_DIR}/jpoker-{${LANG_LIST}}.json
-	rm -fr {${LANG_LIST}}/
-	rm -f jpoker/index.200* jpoker/index-fr.200* jpoker/poker.200* 
-	rm -f jpoker/mockup.html
-	rm -f jpoker/images/mockup_plain.svg
-	rm -f *.pyc
 
 check:
 	python test-svg2html.py
