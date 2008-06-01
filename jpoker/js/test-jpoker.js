@@ -93,6 +93,7 @@ test("String.supplant", function() {
 var jpoker = $.jpoker;
 
 jpoker.verbose = 1; // activate the code parts that depends on verbosity
+jpoker.sound = 'span'; // using embed for test purposes triggers too many problems
 
 //
 // jpoker
@@ -1467,7 +1468,7 @@ test("jpoker.plugins.login", function(){
 // table
 //
 test("jpoker.plugins.table", function(){
-        expect(18);
+        expect(19);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -1502,6 +1503,7 @@ test("jpoker.plugins.table", function(){
                 for(var name = 0; name < names.length; name++) {
                     equals($("#" + names[name] + id).css('display'), 'none', names[name]);
                 }
+                equals($('#jpokerSound').size(), 1, 'jpokerSound');
                 start_and_cleanup();
                 return false;
             } else {
@@ -1605,7 +1607,7 @@ test("jpoker.plugins.table.chat", function(){
     });
 
 test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
-        expect(16);
+        expect(17);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var player_serial = 1;
@@ -1632,6 +1634,7 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
                               game_id: game_id,
                               name: 'username'
                               });
+        equals($("#jpokerSound " + jpoker.sound).attr("src").indexOf('arrive') >= 0, true, 'sound arrive');
         equals($("#seat0" + id).css('display'), 'block', "arrive");
         equals($("#sit_seat0" + id).css('display'), 'none', "seat0 hidden");
         equals($("#player_seat0_name" + id).html(), 'click to sit', "username arrive");
@@ -1845,7 +1848,7 @@ test("jpoker.plugins.table: PacketPokerPotChips/Reset", function(){
     });
 
 test("jpoker.plugins.table: PacketSerial ", function(){
-        expect(6);
+        expect(7);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
@@ -1855,24 +1858,38 @@ test("jpoker.plugins.table: PacketSerial ", function(){
         place.jpoker('table', 'url', game_id);
         table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
+        server.notifyUpdate(table_packet);
         var table = server.tables[game_id];
         var player_serial = 43;
         server.handler(server, 0, { type: 'PacketSerial', serial: player_serial});
+        var packet = { type: 'PacketPokerBetLimit',
+                       game_id: game_id,
+                       min:   500,
+                       max: 20000,
+                       step:  100,
+                       call: 1000,
+                       allin:4000,
+                       pot:  2000
+        };
+        table.handler(server, game_id, packet);
         var player_seat = 2;
         var player_name = 'username';
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', name: player_name, seat: player_seat, serial: player_serial, game_id: game_id });
         var player = server.tables[game_id].serial2player[player_serial];
         table.handler(server, game_id, { type: 'PacketPokerSit', serial: player_serial, game_id: game_id });
         equals($("#player_seat" + player_seat + "_name" + id).hasClass('jpokerSitOut'), false, 'no class sitout');
-        equals($("#fold" + id).is(':hidden'), false, 'fold interactor visible');
+        equals($("#fold" + id).is(':hidden'), true, 'fold interactor not visible');
         table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
-        equals($("#fold" + id).is(':visible'), false, 'fold interactor visible');
+        equals($("#fold" + id).is(':visible'), true, 'fold interactor visible');
+        equals($("#jpokerSound " + jpoker.sound).attr("src").indexOf('hand') >= 0, true, 'sound in position');
 
         // table is destroyed and rebuilt from cached state
         server.handler(server, 0, { type: 'PacketSerial', serial: player_serial});
         equals(server.tables[game_id].id, table_packet.id);
         equals($("#player_seat" + player_seat + "_name" + id).hasClass('jpokerSitOut'), false, 'no class sitout');
         equals($("#fold" + id).is(':visible'), false, 'fold interactor visible');
+
+        jpoker.plugins.playerSelf.hide(id);
 
         cleanup();
     });
