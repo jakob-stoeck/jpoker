@@ -50,8 +50,10 @@ jpoker-binary-${VERSION}:
 	cp -a jpoker/*.swf jpoker-binary-${VERSION}
 
 build: i18n cook mockup check
-	cd sound ; make $@
 	-cd jpoker ; x-www-browser index.html
+
+sound:
+	cd sound ; make $@
 
 maintainer-dist: build
 	rm -fr jpoker-binary-${VERSION}
