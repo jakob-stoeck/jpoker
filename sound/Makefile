@@ -26,7 +26,7 @@ build : $(SWFS) $(WAVS)
 
 clean:
 	rm -f $(SWFS) $(WAVS) soundswiff
-	rm -f ../jpoker/*.swf
+#	rm -f ../jpoker/*.swf
 
 soundswiff: soundswiff.c
 	gcc -Wall -o $@ $< -lming

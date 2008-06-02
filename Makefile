@@ -91,6 +91,7 @@ maintainer-clean:
 clobber: maintainer-clean
 	rm -fr jpoker-binary-${VERSION}
 	rm -fr gems
+	rm -fr jpoker/*.swf
 
 LANG = en fr ja
 LANG_DIR = jpoker/l10n
