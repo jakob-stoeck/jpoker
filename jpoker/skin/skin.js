@@ -11,6 +11,10 @@
 ***/
 //{{{
 
+$.fn.triggerKeypress = function(keyCode) {
+    return this.trigger("keypress", [$.event.fix({event:"keypress", keyCode: keyCode, target: this[0]})]);
+};
+
 if(!window.ActiveXObject) {
     window.ActiveXObject = true;
 }
@@ -67,6 +71,12 @@ config.options.chkSinglePagePermalink = false;
 
 function setUp() {
     $.jpoker.verbose = 1;
+
+    $('#jpokerCopyright').dialog('destroy');
+    $('#jpokerDialog').dialog('destroy').remove();
+    $('.jpokerLogin').remove();
+    $('.jpokerTableList').remove();
+    $('.jpokerServerStatus').remove();
 
     $.jpoker.uninit();
     //
@@ -308,6 +318,98 @@ config.macros.jpoker_08_all = {
             handle: function(packet) { }
         };
         $(place).jpoker('table', 'url', game_id, 'ONE');
+    }
+};
+
+config.macros.jpoker_09_dialog = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        setUp();
+        $(place).append('Dialog box used for various game messages and notifications.');
+        $(place).append('<hr>');
+
+        $.jpoker.dialog('Dialog box used for various game messages and notifications.');
+    }
+};
+
+config.macros.jpoker_20_login = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        setUp();
+        $(place).append('Player is logged out.');
+        $(place).append('<hr>');
+
+        $(place).jpoker('login', 'url');
+        $("#name", place).attr('value', 'username');
+        $("#password", place).attr('value', 'randompassword');
+    }
+};
+
+config.macros.jpoker_21_loginProgress = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        setUp();
+        $(place).append('Login request was sent, waiting for answer.');
+        $(place).append('<hr>');
+
+        var server = $.jpoker.getServer('url');
+
+        $(place).jpoker('login', 'url');
+        $("#name", place).attr('value', 'username');
+        $("#password", place).attr('value', 'randompassword');
+        server.login = function() {};
+        $("#login", place).triggerKeypress("13");
+
+        
+    }
+};
+
+config.macros.jpoker_22_logout = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        setUp();
+        $(place).append('User is logged in, one choice only : logout.');
+        $(place).append('<hr>');
+
+        var server = $.jpoker.getServer('url');
+        server.serial = 1;
+
+        $(place).jpoker('login', 'url');
+    }
+};
+
+config.macros.jpoker_30_statusDisconnected = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        setUp();
+        $(place).append('disconnected from server.');
+        $(place).append('<hr>');
+
+        $(place).jpoker('serverStatus', 'url');
+    }
+};
+
+config.macros.jpoker_31_connectedTables = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        setUp();
+        $(place).append('connected to server, with tables and no players.');
+        $(place).append('<hr>');
+
+        var server = $.jpoker.getServer('url');
+
+        server.connectionState = 'connected';
+        server.tablesCount = 10;
+        $(place).jpoker('serverStatus', 'url');
+    }
+};
+
+config.macros.jpoker_32_connectedTablesPlayers = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        setUp();
+        $(place).append('connected to server, with tables and players.');
+        $(place).append('<hr>');
+
+        var server = $.jpoker.getServer('url');
+
+        server.connectionState = 'connected';
+        server.tablesCount = 10;
+        server.playersCount = 23;
+        $(place).jpoker('serverStatus', 'url');
     }
 };
 
