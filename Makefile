@@ -156,7 +156,7 @@ skin_tests:
 	for t in $$(perl -n -e 'print if(s/config.macros.(jpoker_\d+_.*) =.*/\1/)' jpoker/skin/skin.js) ; do \
 		echo "<<$$t>>" > jpoker/skin/$$t.tiddler ; \
 		echo 'title="'$$t'" modifier="loic" created="200805032321" changecount="1"' > jpoker/skin/$$t.tiddler.div ; \
-		echo "[[$$t]]" >> jpoker/skin/MainMenu.tiddler ; \
+		echo " [[$$t]]" >> jpoker/skin/MainMenu.tiddler ; \
 	done
 
 EMPTY=tiddlywiki-2.3.html
