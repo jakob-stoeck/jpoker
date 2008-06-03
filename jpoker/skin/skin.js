@@ -104,6 +104,7 @@ config.macros.jpoker_02_join = {
         setUp();
         $(place).append('A player just arrived at the table, he is sit out and has no money in front of him.');
         $(place).append('The player name can be 50 characters at most.');
+        $(place).append('<hr>');
 
         var game_id = 100;
         var player_serial = 200;
@@ -123,6 +124,7 @@ config.macros.jpoker_03_joinBuyIn = {
     handler: function(place, macroName, params, wikifier, paramString, tiddler) {
         setUp();
         $(place).append('A player arrived at the table, he is sit out he brings money at the table.');
+        $(place).append('<hr>');
 
         var game_id = 100;
         var player_serial = 200;
@@ -148,6 +150,7 @@ config.macros.jpoker_03_playerBet = {
     handler: function(place, macroName, params, wikifier, paramString, tiddler) {
         setUp();
         $(place).append('A player is sit, with money at the table and a bet.');
+        $(place).append('<hr>');
 
         var game_id = 100;
         var player_serial = 200;
@@ -176,6 +179,7 @@ config.macros.jpoker_04_playerInPosition = {
     handler: function(place, macroName, params, wikifier, paramString, tiddler) {
         setUp();
         $(place).append('The player username0 is to act / is in position.');
+        $(place).append('<hr>');
 
         var game_id = 100;
         var player_serial = 200;
@@ -200,6 +204,7 @@ config.macros.jpoker_05_selfPlayer = {
     handler: function(place, macroName, params, wikifier, paramString, tiddler) {
         setUp();
         $(place).append('The logged in player is sit at the table, buy in dialog shows.');
+        $(place).append('<hr>');
 
         var game_id = 100;
         var player_serial = 200;
@@ -220,6 +225,7 @@ config.macros.jpoker_06_selfInPosition = {
     handler: function(place, macroName, params, wikifier, paramString, tiddler) {
         setUp();
         $(place).append('The logged in player is in position.');
+        $(place).append('<hr>');
 
         var game_id = 100;
         var player_serial = 200;
@@ -259,6 +265,49 @@ config.macros.jpoker_06_selfInPosition = {
                 return true;
             });
         
+    }
+};
+
+config.macros.jpoker_07_joining = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        setUp();
+        $(place).append('A request to join the table was sent to the poker server and the HTML element where the table is going to be displayed has been created, with a message showing the table description is expected to arrive from the server.');
+        $(place).append('<hr>');
+
+        var game_id = 100;
+        $(place).jpoker('table', 'url', game_id, 'ONE');
+    }
+};
+
+config.macros.jpoker_08_all = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        setUp();
+        $(place).append('All community cards and all pots are displayed.');
+        $(place).append('<hr>');
+
+        var game_id = 100;
+        var player_serial = 200;
+        var packets = [
+{ type: 'PacketPokerTable', id: game_id }
+                       ];
+        var money = 2;
+        var bet = 8;
+        for(var i = 0; i < 10; i++) {
+            packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
+            packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money, bet: bet });
+            packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money, bet: bet });
+            packets.push({ type: 'PacketPokerPlayerCards', serial: player_serial + i, game_id: game_id, cards: [ 13, 14, 15, 16, 17, 18, 19 ] });
+            packets.push({ type: 'PacketPokerPotChips', game_id: game_id, index: i, bet: [ 1, bet ] });
+            bet *= 10;
+            money *= 10;
+        }
+        packets.push({ type: 'PacketPokerBoardCards', game_id: game_id, cards: [1, 2, 3, 4, 5] });
+
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+        $(place).jpoker('table', 'url', game_id, 'ONE');
     }
 };
 
