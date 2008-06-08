@@ -94,7 +94,9 @@ class SVG2JSON(SVGParse):
         self.tuples.append(())
 
 class SVG2CSS(SVGParse):
-    ignore = [ 'money.png', 'winner.png', 'name.png' ]
+    ignore = [ '../css/images/jpoker_table/money.png',
+               '../css/images/jpoker_table/winner.png',
+               '../css/images/jpoker_table/name.png' ]
     def startElementSvg(self, attrs):
         self.root = attrs['id']
         format = '.jpoker_table .jpoker_ptable { width:800px; height:800px; position:relative; background-image:url("images/jpoker_table/table_background.png"); }\n'
@@ -103,8 +105,8 @@ class SVG2CSS(SVGParse):
     def startElementImage(self, attrs):
         values = [ attrs['id'], attrs['width'], attrs['height'], attrs['y'], attrs['x'] ]
         if attrs['xlink:href'] not in SVG2CSS.ignore:
-            image_format = 'background-image:url("images/jpoker_table/%s");'
-            values.append(attrs['xlink:href'])
+            image_format = 'background-image:url("%s");'
+            values.append(str(attrs['xlink:href']).replace('../css/', ''))
         else:
             image_format = ''
         format = '.jpoker_table .jpoker_ptable_%s { width:%spx; height:%spx; position:absolute; top:%spx; left:%spx; ' + image_format + '}\n'
