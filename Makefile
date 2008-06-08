@@ -44,6 +44,7 @@ jpoker-binary-${VERSION}:
 	cp -a jpoker/jquery/jquery-1.2.4b.js jpoker-binary-${VERSION}/jquery
 	cp -a jpoker/jquery/ui.*.js jpoker-binary-${VERSION}/jquery
 	cp -a jpoker/js jpoker-binary-${VERSION}
+	cp -a jpoker/css jpoker-binary-${VERSION}
 	mkdir jpoker-binary-${VERSION}/l10n
 	cp -a jpoker/l10n/*.json jpoker-binary-${VERSION}/l10n
 	cp -a jpoker/images jpoker-binary-${VERSION}
