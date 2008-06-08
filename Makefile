@@ -213,8 +213,8 @@ jpoker/mockup.html: jpoker/images/mockup_plain.svg
 		python svgflatten.py < jpoker/images/mockup_plain.svg | python svg2html.py --json || true ; \
 	)  > jpoker/js/mockup.js
 	python svgflatten.py < jpoker/images/mockup_plain.svg | python svg2html.py --html | tidy -indent 2>/dev/null > jpoker/mockup.html || true
-	perl -pi -e 's:</head>:<link href="js/mockup.css" rel="stylesheet" type="text/css" /></head>:' jpoker/mockup.html
-	python svgflatten.py < jpoker/images/mockup_plain.svg | python svg2html.py --css > jpoker/js/mockup.css
+	perl -pi -e 's:</head>:<link href="css/mockup.css" rel="stylesheet" type="text/css" /></head>:' jpoker/mockup.html
+	python svgflatten.py < jpoker/images/mockup_plain.svg | python svg2html.py --css > jpoker/css/mockup.css
 
 jpoker/images/mockup_plain.svg: jpoker/images/mockup.svg
 	inkscape --without-gui --vacuum-defs --export-plain-svg=jpoker/images/mockup_plain.svg jpoker/images/mockup.svg
