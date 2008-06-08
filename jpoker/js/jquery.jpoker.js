@@ -50,7 +50,7 @@
         verbose: 0,
 
         copyright: function() {
-            var copyright = $('<div id=\'jpokerCopyright\'><div class=\'jpokerSoftware\'>jpoker-' + this.VERSION + '</div><div class=\'jpokerAuthors\'><div><span>Copyright 2008 </span><a href=\'mailto:loic@dachary.org\'>Loic Dachary</a></div><div><span class=\'jpokerClick\'>Copyright 2008 </span><a href=\'mailto:proppy@aminche.com\'>Johan Euphrosine</a></div></div><div class=\'jpokerExplain\'>jpoker runs on this web browser and is Free Software. You may use jpoker to run a business without asking the authors permissions. You may give a copy to your friends. However, the authors do not want jpoker to be used with proprietary software.</div><div class=\'jpokerLicense\'>This program is free software: you can redistribute it and/or modify it under the terms of the <a href=\'http://www.fsf.org/licensing/licenses/gpl.txt\'>GNU General Public License</a> as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</div> <div class=\'jpokerFullCopyright\'>Read the full <a href=\'http://jspoker.pokersource.info/jpoker/#Copyright\'>copyright information page.</a></div><div class=\'jpokerDownload\'>Download <a href=\'http://upstream.jspoker.pokersource.info/file/tip/jpoker/js/jquery.jpoker.js\'>jpoker sources.</a></div><div class=\'jpokerDismiss\'>Dismiss</div></div>').dialog({ width: 400, height: 400, resizable: false });
+            var copyright = $('<div id=\'jpoker_copyright\'><div class=\'jpoker_software\'>jpoker-' + this.VERSION + '</div><div class=\'jpoker_authors\'><div><span>Copyright 2008 </span><a href=\'mailto:loic@dachary.org\'>Loic Dachary</a></div><div><span class=\'jpoker_click\'>Copyright 2008 </span><a href=\'mailto:proppy@aminche.com\'>Johan Euphrosine</a></div></div><div class=\'jpoker_explain\'>jpoker runs on this web browser and is Free Software. You may use jpoker to run a business without asking the authors permissions. You may give a copy to your friends. However, the authors do not want jpoker to be used with proprietary software.</div><div class=\'jpoker_license\'>This program is free software: you can redistribute it and/or modify it under the terms of the <a href=\'http://www.fsf.org/licensing/licenses/gpl.txt\'>GNU General Public License</a> as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</div> <div class=\'jpoker_full_copyright\'>Read the full <a href=\'http://jspoker.pokersource.info/jpoker/#Copyright\'>copyright information page.</a></div><div class=\'jpoker_download\'>Download <a href=\'http://upstream.jspoker.pokersource.info/file/tip/jpoker/js/jquery.jpoker.js\'>jpoker sources.</a></div><div class=\'jpoker_dismiss\'>Dismiss</div></div>').dialog({ width: 400, height: 400, resizable: false });
             var close = function() { copyright.dialog('destroy'); };
             window.setTimeout(close, 5000);
             copyright.click(close);
@@ -1504,7 +1504,7 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<table class=\'jpokerTableList\' id=\'' + id + '\'></table>');
+                $this.append('<table class=\'jpoker_table_list\' id=\'' + id + '\'></table>');
 
                 var updated = function(server, what, packet) {
                     var element = document.getElementById(id);
@@ -1596,7 +1596,7 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<span class=\'jpokerServerStatus\' id=\'' + id + '\'></span>');
+                $this.append('<span class=\'jpoker_server_status\' id=\'' + id + '\'></span>');
 
                 var updated = function(server) {
                     var element = document.getElementById(id);
@@ -1658,7 +1658,7 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<div class=\'jpokerLogin\' id=\'' + id + '\'></div>');
+                $this.append('<div class=\'jpoker_login\' id=\'' + id + '\'></div>');
 
                 var updated = function(server) {
                     var element = document.getElementById(id);
@@ -1729,7 +1729,7 @@
     };
 
     jpoker.plugins.login.templates = {
-	login: '<table id=\'login\' cellspacing=\'0\' cellpadding=\'10\' class=\'login\'>\n<tbody><tr>\n<td class=\'login_text\'><b>{login}</b></td>\n<td class=\'login_input\'><input type=\'text\' id=\'name\' size=\'10\'/></td>\n</tr>\n<tr>\n<td class=\'login_text\'><b>{password}</b></td>\n<td class=\'login_input\'><input type=\'password\' id=\'password\' size=\'10\'/></td>\n</tr>\n<tr>\n<td class=\'jpokerLoginSubmit\'><input type=\'submit\' value=\'{go}\' /></td>\n<td class=\'jpokerLoginSignin\'><input type=\'submit\' value=\'{signin}\' /></td>\n</tr>\n</tbody></table>',
+	login: '<table id=\'login\' cellspacing=\'0\' cellpadding=\'10\' >\n<tbody><tr>\n<td><b>{login}</b></td>\n<td><input type=\'text\' id=\'name\' size=\'10\'/></td>\n</tr>\n<tr>\n<td><b>{password}</b></td>\n<td><input type=\'password\' id=\'password\' size=\'10\'/></td>\n</tr>\n<tr>\n<td><input type=\'submit\' value=\'{go}\' /></td>\n<td><input type=\'submit\' value=\'{signin}\' /></td>\n</tr>\n</tbody></table>',
 	logout: '<div id=\'logout\'>{logout}<div>'
     };
 
@@ -1787,7 +1787,7 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<span class=\'jpokerTable\' id=\'' + id + '\'>' + _("connecting to table {name}").supplant({ 'name': name }) + '</span>');
+                $this.append('<span class=\'jpoker_table\' id=\'' + id + '\'>' + _("connecting to table {name}").supplant({ 'name': name }) + '</span>');
                 
                 server.tableJoin(game_id);
 
@@ -1826,7 +1826,7 @@
             jpoker.plugins.table.dealer(id, table, table.dealer);
             jpoker.plugins.cards.update(table.board, '#board', id);
             for(var pot = 0; pot < table.pots.length; pot++) {
-                $('#pot' + pot + id).addClass('jpokerPot');
+                $('#pot' + pot + id).addClass('jpoker_pot');
                 jpoker.plugins.chips.update(table.pots[pot], '#pot' + pot + id);
             }
             for(var winner = 0; winner < 2; winner++) {
@@ -1882,12 +1882,12 @@
         for(var seat = 0; seat < table.seats.length; seat++) {
             var seat_element = $('#player_seat' + seat + '_name' + id);
             if(in_position && in_position.sit === true && in_position.seat == seat) {
-                if(!seat_element.hasClass('jpokerPosition')) {
-                    seat_element.addClass('jpokerPosition');
+                if(!seat_element.hasClass('jpoker_position')) {
+                    seat_element.addClass('jpoker_position');
                 }
             } else {
-                if(seat_element.hasClass('jpokerPosition')) {
-                    seat_element.removeClass('jpokerPosition');
+                if(seat_element.hasClass('jpoker_position')) {
+                    seat_element.removeClass('jpoker_position');
                 }
             }
         }
@@ -1967,7 +1967,7 @@
                 var lines = packet.message.replace(/\n$/, '').split('\n');
                 var chat = $('#chat_history' + id);
                 for(var line = 0; line < lines.length; line++) {
-                    chat.prepend('<div class=\'jpokerChatLine\'><span class=\'jpokerChatPrefix\'>' + prefix + '</span><span class=\'jpokerChatMessage\'>' + lines[line] + '</span></div>');
+                    chat.prepend('<div class=\'jpoker_chat_line\'><span class=\'jpoker_chat_prefix\'>' + prefix + '</span><span class=\'jpoker_chat_message\'>' + lines[line] + '</span></div>');
                 }
                 break;
             }
@@ -2014,11 +2014,11 @@
             var server = jpoker.getServer(url);
             jpoker.plugins.player.seat(seat, id, server, table);
             jpoker.plugins.cards.update(player.cards, '#card_seat' + player.seat, id);
-            $('#player_seat' + seat + '_bet' + id).addClass('jpokerBet');
-            $('#player_seat' + seat  + '_money' + id).addClass('jpokerMoney');
+            $('#player_seat' + seat + '_bet' + id).addClass('jpoker_bet');
+            $('#player_seat' + seat  + '_money' + id).addClass('jpoker_money');
             jpoker.plugins.player.chips(player, id);
             var name = $('#player_seat' + seat + '_name' + id);
-            name.addClass('jpokerName');
+            name.addClass('jpoker_name');
             name.html(player.name);
             if(server.serial == serial) {
                 jpoker.plugins.playerSelf.create(table, packet, id);
@@ -2073,8 +2073,8 @@
         
         sit: function(player, id) {
             var name = $('#player_seat' + player.seat + '_name' + id);
-            if(name.hasClass('jpokerSitOut')) {
-                name.removeClass('jpokerSitOut');
+            if(name.hasClass('jpoker_sit_out')) {
+                name.removeClass('jpoker_sit_out');
             }
             if(jpoker.getServer(player.url).serial == player.serial) {
                 jpoker.plugins.playerSelf.sit(player, id);
@@ -2083,8 +2083,8 @@
 
         sitOut: function(player, id) {
             var name = $('#player_seat' + player.seat + '_name' + id);
-            if(!name.hasClass('jpokerSitOut')) {
-                name.addClass('jpokerSitOut');
+            if(!name.hasClass('jpoker_sit_out')) {
+                name.addClass('jpoker_sit_out');
             }
             if(jpoker.getServer(player.url).serial == player.serial) {
                 jpoker.plugins.playerSelf.sitOut(player, id);
@@ -2148,7 +2148,7 @@
             var names = [ 'check', 'call', 'raise', 'fold' ];
             var labels = [ _("check"), _("call"), _("raise"), _("fold") ];
             for(var i = 0; i < names.length; i++) {
-                $('#' + names[i] + id).html('<div class=\'jpokerButton\'>' + labels[i] + '</div>');
+                $('#' + names[i] + id).html('<div class=\'jpoker_button\'>' + labels[i] + '</div>');
             }
             var rebuy = $('#rebuy' + id);
             rebuy.click(function() {
@@ -2214,10 +2214,10 @@
                 rebuy.dialog({ autoOpen: false });
             }
             rebuy.empty();
-            rebuy.append('<div class=\'jpokerRebuyBound jpokerRebuyMin\'>' + limits[0] + '</div>');
+            rebuy.append('<div class=\'jpoker_rebuy_bound jpoker_rebuy_min\'>' + limits[0] + '</div>');
             rebuy.append('<div class=\'ui-slider-1\' style=\'margin:10px;\'><div class=\'ui-slider-handle\'></div></div>');
-            rebuy.append('<div class=\'jpokerRebuyCurrent\'>' + limits[1] + '</div>');
-            rebuy.append('<div class=\'jpokerRebuyBound jpokerRebuyMax\'>' + limits[2] + '</div>');
+            rebuy.append('<div class=\'jpoker_rebuy_current\'>' + limits[1] + '</div>');
+            rebuy.append('<div class=\'jpoker_rebuy_bound jpoker_rebuy_max\'>' + limits[2] + '</div>');
             var packet_type;
             var label;
             if(player.state == 'buyin') {
@@ -2338,9 +2338,9 @@
                 if(betLimit.max > betLimit.min) {
                     var raise = $('#raise_range' + id);
                     raise.empty();
-                    raise.append('<span class=\'jpokerRaiseBound jpokerRaiseMin\'>' + jpoker.chips.SHORT(betLimit.min) + '</span> ');
-                    raise.append('<span class=\'jpokerRaiseCurrent\' title=\'' + betLimit.min + '\'>' + jpoker.chips.SHORT(betLimit.min) + '</span> ');
-                    raise.append('<span class=\'jpokerRaiseBound jpokerRaiseMax\'>' + jpoker.chips.SHORT(betLimit.max) + '</span> ');
+                    raise.append('<span class=\'jpoker_raise_bound jpoker_raise_min\'>' + jpoker.chips.SHORT(betLimit.min) + '</span> ');
+                    raise.append('<span class=\'jpoker_raise_current\' title=\'' + betLimit.min + '\'>' + jpoker.chips.SHORT(betLimit.min) + '</span> ');
+                    raise.append('<span class=\'jpoker_raise_bound jpoker_raise_max\'>' + jpoker.chips.SHORT(betLimit.max) + '</span> ');
                     raise.append('<div class=\'ui-slider-1\' style=\'margin:10px; width:70px; \'><div class=\'ui-slider-handle\'></div></div>');
                     raise.show(); // must be visible otherwise outerWeight/outerWidth returns 0
                     $('.ui-slider-1', raise).slider({

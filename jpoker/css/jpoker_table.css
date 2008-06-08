@@ -1,0 +1,35 @@
+.jpoker_table .jpoker_position {
+    background-color: #44FF44;
+}
+
+.jpoker_table .jpoker_sit_out {
+    background-color: #AAAAAA;
+}
+
+.jpoker_table .jpoker_button {
+    color: #FFF;
+    margin: 0 5px;
+    line-height: 30px;
+}
+
+.jpoker_table .jpoker_pot, .jpoker_table .jpoker_bet {
+    text-align: center;
+    line-height: 48px;
+    font-weight: bold;
+}
+
+.jpoker_table .jpoker_money {
+    text-align: center;
+    line-height: 10px;
+    font-size: small;
+    font-weight: bold;
+    color: #e5b408;
+}
+
+.jpoker_table .jpoker_name {
+    text-align: center;
+    line-height: 10px;
+    font-size: small;
+    font-weight: bold;
+    color: #FFFFFF;
+}

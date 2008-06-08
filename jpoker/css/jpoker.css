@@ -1,87 +1,53 @@
-.jpokerServerStatus {
-    padding:2px 5px;
-    margin-left: 1.5em;
-}
-
-.jpokerTable .jpokerPosition {
-    background-color: #44FF44;
-}
-
-.jpokerTable .jpokerSitOut {
-    background-color: #AAAAAA;
-}
+@import "jpoker_table.css";
+@import "jpoker_table_layout.css";
+@import "jpoker_table_list.css";
+@import "jpoker_login.css";
+@import "jpoker_server_status.css";
 
 /* copyright notice dialog box */
-#jpokerCopyright {
+#jpoker_copyright {
     background-color: #73BF60;
     padding: 2em;
 }
 
-#jpokerCopyright a:visited { color: #FFF; }
-#jpokerCopyright a:link { color: #FFF; }
+#jpoker_copyright a:visited { color: #FFF; }
+#jpoker_copyright a:link { color: #FFF; }
 
-#jpokerCopyright .jpokerSoftware {
+#jpoker_copyright .jpoker_software {
     font-weight: bolder;
     text-align: center;
 }
 
-#jpokerCopyright .jpokerAuthors {
+#jpoker_copyright .jpoker_authors {
     font-weight: bolder;
     text-align: center;
 }
 
-#jpokerCopyright .jpokerLicense {
+#jpoker_copyright .jpoker_license {
     margin: 1em;
     text-align: justify;
 }
 
-#jpokerCopyright .jpokerDownload {
+#jpoker_copyright .jpoker_download {
     font-weight: bolder;
     text-align: center;
     margin: 1em;
 }
 
-#jpokerCopyright .jpokerExplain {
+#jpoker_copyright .jpoker_explain {
     margin: 1em;
     text-align: justify;
 }
 
-#jpokerCopyright .jpokerFullCopyright {
+#jpoker_copyright .jpoker_full_copyright {
     margin: 1em;
     text-align: justify;
 }
 
-#jpokerCopyright .jpokerDismiss {
+#jpoker_copyright .jpoker_dismiss {
     color: #FFF;
     border: 2px solid #24B300;
     font-weight: bolder;
     text-align: center;
 }
 
-.jpokerTable .jpokerButton {
-    color: #FFF;
-    margin: 0 5px;
-    line-height: 30px;
-}
-
-.jpokerTable .jpokerPot, .jpokerTable .jpokerBet {
-    text-align: center;
-    line-height: 48px;
-    font-weight: bold;
-}
-
-.jpokerTable .jpokerMoney {
-    text-align: center;
-    line-height: 10px;
-    font-size: small;
-    font-weight: bold;
-    color: #e5b408;
-}
-
-.jpokerTable .jpokerName {
-    text-align: center;
-    line-height: 10px;
-    font-size: small;
-    font-weight: bold;
-    color: #FFFFFF;
-}
