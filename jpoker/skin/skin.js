@@ -431,6 +431,69 @@ config.macros.jpoker_40_tableList = {
     }
 };
 
+config.macros.jpoker_50_sitOut = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        setUp();
+        $(place).append('A player is sit out, meaning he occupies a site but does not participate in the game.');
+        $(place).append('<hr>');
+
+        var game_id = 100;
+        var player_serial = 200;
+        var packets = [
+{ type: 'PacketPokerTable', id: game_id },
+{ type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'USER' }
+                       ];
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+        $(place).jpoker('table', 'url', game_id, 'ONE');
+    }
+};
+
+config.macros.jpoker_51_sit = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        setUp();
+        $(place).append('A player is sit, meaning he participates in the game.');
+        $(place).append('<hr>');
+
+        var game_id = 100;
+        var player_serial = 200;
+        var packets = [
+{ type: 'PacketPokerTable', id: game_id },
+{ type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'USER' },
+{ type: 'PacketPokerSit', serial: player_serial, game_id: game_id }
+                       ];
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+        $(place).jpoker('table', 'url', game_id, 'ONE');
+    }
+};
+
+config.macros.jpoker_52_inPosition = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        setUp();
+        $(place).append('A player is in position, meaning he participates in the game and must act. This is associated with a sound notification.');
+        $(place).append('<hr>');
+
+        var game_id = 100;
+        var player_serial = 200;
+        var packets = [
+{ type: 'PacketPokerTable', id: game_id },
+{ type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'USER' },
+{ type: 'PacketPokerSit', serial: player_serial, game_id: game_id },
+{ type: 'PacketPokerPosition', serial: player_serial, game_id: game_id }
+                       ];
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+        $(place).jpoker('table', 'url', game_id, 'ONE');
+    }
+};
+
 //Local Variables:
 //compile-command: " ( cd ../.. ; OFFLINE=yes make skin_tests cook ) ; ( cd .. ; x-www-browser skin.html )"
 //End:
