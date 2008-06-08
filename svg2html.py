@@ -97,13 +97,13 @@ class SVG2CSS(SVGParse):
     ignore = [ 'money.png', 'winner.png', 'name.png' ]
     def startElementSvg(self, attrs):
         self.root = attrs['id']
-        format = '.jpoker_table .jpoker_ptable { width:800px; height:800px; position:relative; background-image:url("jpoker_table/table_background.png"); }\n'
+        format = '.jpoker_table .jpoker_ptable { width:800px; height:800px; position:relative; background-image:url("images/jpoker_table/table_background.png"); }\n'
         self.formats.append(format)
         self.tuples.append(())
     def startElementImage(self, attrs):
         values = [ attrs['id'], attrs['width'], attrs['height'], attrs['y'], attrs['x'] ]
         if attrs['xlink:href'] not in SVG2CSS.ignore:
-            image_format = 'background-image:url("jpoker_table/%s");'
+            image_format = 'background-image:url("images/jpoker_table/%s");'
             values.append(attrs['xlink:href'])
         else:
             image_format = ''
