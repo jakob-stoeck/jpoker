@@ -1,13 +1,13 @@
-span.jpokerServerStatus {
+.jpokerServerStatus {
     padding:2px 5px;
     margin-left: 1.5em;
 }
 
-.jpokerPosition {
+.jpokerTable .jpokerPosition {
     background-color: #44FF44;
 }
 
-.jpokerSitOut {
+.jpokerTable .jpokerSitOut {
     background-color: #AAAAAA;
 }
 
@@ -58,19 +58,19 @@ span.jpokerServerStatus {
     text-align: center;
 }
 
-.jpokerButton {
+.jpokerTable .jpokerButton {
     color: #FFF;
     margin: 0 5px;
     line-height: 30px;
 }
 
-.jpokerPot, .jpokerBet {
+.jpokerTable .jpokerPot, .jpokerTable .jpokerBet {
     text-align: center;
     line-height: 48px;
     font-weight: bold;
 }
 
-.jpokerMoney {
+.jpokerTable .jpokerMoney {
     text-align: center;
     line-height: 10px;
     font-size: small;
@@ -78,7 +78,7 @@ span.jpokerServerStatus {
     color: #e5b408;
 }
 
-.jpokerName {
+.jpokerTable .jpokerName {
     text-align: center;
     line-height: 10px;
     font-size: small;
