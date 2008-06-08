@@ -82,7 +82,7 @@
         dialog: function(content) {
             var message = $('#jpokerDialog');
             if(message.size() != 1) {
-                $('body').append('<div id=\'jpokerDialog\' class=\'flora\' title=\'jpoker message\' />');
+                $('body').append('<div id=\'jpokerDialog\' class=\'jpoker_jquery_ui\' title=\'jpoker message\' />');
                 message = $('#jpokerDialog');
                 message.dialog({
                         autoOpen: false,
@@ -2209,7 +2209,7 @@
             var limits = table.buyInLimits();
             var rebuy = $('#jpokerRebuy');
             if(rebuy.size() === 0) {
-                $('body').append('<div id=\'jpokerRebuy\' class=\'flora\' title=\'' + _("Add chips") + '\' />');
+                $('body').append('<div id=\'jpokerRebuy\' class=\'jpoker_jquery_ui\' title=\'' + _("Add chips") + '\' />');
                 rebuy = $('#jpokerRebuy');
                 rebuy.dialog({ autoOpen: false });
             }

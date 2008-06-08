@@ -3,4 +3,5 @@
 @import "jpoker_table_list.css";
 @import "jpoker_login.css";
 @import "jpoker_server_status.css";
-@import "jpoker_copyright";
+@import "jpoker_copyright.css";
+@import "jpoker_jquery_ui/all.css";

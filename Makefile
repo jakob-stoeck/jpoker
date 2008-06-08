@@ -81,6 +81,7 @@ maintainer-clean:
 	rm -f jpoker/mockup.html
 	rm -f jpoker/images/mockup_plain.svg
 	rm -f *.pyc
+	rm -f ${IMAGES}
 
 #
 # remove all that cannot be re-generated This is different from the
@@ -105,13 +106,13 @@ LANG_DIR = jpoker/l10n
 LANG_JSON = $($(patsubst en,,${LANG}):%=${LANG_DIR}/jpoker-%.json)
 LANG_TW = $(LANG:%=jpoker/index-%.html)
 LANG_SKIN = $(LANG:%=jpoker/skin-%.html)
-IMAGES = jpoker/images/avatar.png \
-	 jpoker/images/background.png \
-	 jpoker/images/bet.png \
-	 jpoker/images/dealer.png \
-	 jpoker/images/pot.png \
-	 jpoker/images/seat.png \
-	 jpoker/images/table.png
+IMAGES = jpoker/css/images/jpoker_table/avatar.png \
+	 jpoker/css/images/jpoker_table/background.png \
+	 jpoker/css/images/jpoker_table/bet.png \
+	 jpoker/css/images/jpoker_table/dealer.png \
+	 jpoker/css/images/jpoker_table/pot.png \
+	 jpoker/css/images/jpoker_table/seat.png \
+	 jpoker/css/images/jpoker_table/table.png
 
 messages.pot: jpoker/js/jquery.jpoker.js
 	xgettext --extract-all \
@@ -221,9 +222,9 @@ jpoker/images/mockup_plain.svg: jpoker/images/mockup.svg
 	inkscape --without-gui --vacuum-defs --export-plain-svg=jpoker/images/mockup_plain.svg jpoker/images/mockup.svg
 	perl -pi -e 's/xmlns="http:\/\/www.w3.org\/2000\/svg"//' jpoker/images/mockup_plain.svg
 
-jpoker/images/mockup.svg: jpoker/images/avatar.png jpoker/images/background.png jpoker/images/bet.png jpoker/images/dealer.png jpoker/images/pot.png jpoker/images/seat.png jpoker/images/table.png
+jpoker/images/mockup.svg: ${IMAGES}
 
-jpoker/images/%.png: jpoker/images/%.svg
+jpoker/css/images/jpoker_table/%.png: jpoker/images/%.svg
 	inkscape --without-gui --export-png=$@ $<
 
 .PHONY: tests sound
