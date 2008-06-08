@@ -53,7 +53,7 @@ build: i18n cook mockup check
 	-cd jpoker ; x-www-browser index.html
 
 sound:
-	cd sound ; make $@
+	cd sound ; make build
 
 maintainer-dist: build
 	rm -fr jpoker-binary-${VERSION}
@@ -225,4 +225,4 @@ jpoker/images/mockup.svg: jpoker/images/avatar.png jpoker/images/background.png 
 jpoker/images/%.png: jpoker/images/%.svg
 	inkscape --without-gui --export-png=$@ $<
 
-.PHONY: tests
+.PHONY: tests sound
