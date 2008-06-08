@@ -225,6 +225,7 @@ jpoker/images/mockup_plain.svg: jpoker/images/mockup.svg
 jpoker/images/mockup.svg: ${IMAGES}
 
 jpoker/css/images/jpoker_table/%.png: jpoker/images/%.svg
+	mkdir -p `dirname $@`
 	inkscape --without-gui --export-png=$@ $<
 
 .PHONY: tests sound
