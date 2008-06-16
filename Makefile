@@ -38,6 +38,7 @@ reinstall:
 
 jpoker-binary-${VERSION}:
 	mkdir jpoker-binary-${VERSION}
+	cp README.binary jpoker-binary-${VERSION}
 	cp -a jpoker/index.html jpoker/index-*.html jpoker-binary-${VERSION}
 	mkdir jpoker-binary-${VERSION}/jquery
 	cp -a jpoker/jquery/themes jpoker-binary-${VERSION}/jquery

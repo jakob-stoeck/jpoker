@@ -1,0 +1,41 @@
+jpoker : javascript online poker client
+
+What is it ?
+
+http://jspoker.pokersource.info/jpoker/ is a javascript client for
+playing online poker. It displays the list of poker tables and when
+the user choses one, it is displayed in the browser. The user can
+join the game and play hands. It supports multi table
+tournaments. The poker server to which jpoker connects must implement
+a protocol compatible with
+http://pokersource.info/poker-network/. jpoker user interface is
+based on http://tiddlywiki.com/. However the underlying
+http://jquery.com/ based library is independent and can be used to
+implement alternate look and feel.
+
+License
+
+jpoker runs on this web browser and is Free Software. You may use
+jpoker to run a business without asking the authors permissions. You
+may give a copy to your friends. However, the authors do not want
+jpoker to be used with proprietary software
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or (at
+your option) any later version
+
+Install
+
+1) unpack the archive 
+2) edit the index.html page, look for config.jpoker and make sure only
+   config.jpoker = { restURL : 'http://pokersource.eu/REST' };
+   is uncommented
+4) if you have firebug installed, go to the Net tab, then Options and
+   disable network monitoring
+3) open file:///index.html with iceweasel or firefox (version 2 or 3)
+   do not open it from a locally installed web server otherwise you will
+   be forbiden to access the http://pokersource.eu/REST server because of
+   cross browser restrictions
+
+Loic Dachary <loic@dachary.org>
