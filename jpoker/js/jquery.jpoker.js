@@ -1666,17 +1666,16 @@
                         var e = $(element);
                         e.html(login.getHTML(server));
                         if(server.loggedIn()) {
-                            $('#logout', element).click(function() {
+                            e.click(function() {
                                     var server = jpoker.getServer(url);
                                     if(server && server.loggedIn()) {
                                         server.logout();
                                     }
                                 });
                         } else {
-                            var login_element = $('#login', element);
                             var action = function() {
-                                var name = $('#name', login_element).attr('value');
-                                var password = $('#password', login_element).attr('value');
+                                var name = $('.jpoker_login_name', e).attr('value');
+                                var password = $('.jpoker_login_password', e).attr('value');
                                 if(!name) {
                                     jpoker.dialog(_("the user name must not be empty"));
                                 } else if(!password) {
@@ -1685,13 +1684,13 @@
                                     var server = jpoker.getServer(url);
                                     if(server) {
                                         server.login(name, password);
-                                        $('#' + id + ' > #login').html(_("login in progress"));
+                                        $('#' + id).html(_("login in progress"));
                                     }
                                 }
                             };
-                            $('.jpokerLoginSubmit, .jpokerLoginSignin', login_element).click(action);
-                            login_element.keypress(function(e) {
-                                    if(e.which == 13) {
+                            $('.jpoker_login_submit, .jpoker_login_signin', e).click(action);
+                            e.keypress(function(event) {
+                                    if(event.which == 13) {
                                         action.call(this);
                                     }
                                 });
@@ -1729,8 +1728,8 @@
     };
 
     jpoker.plugins.login.templates = {
-	login: '<table id=\'login\' cellspacing=\'0\' cellpadding=\'10\' >\n<tbody><tr>\n<td><b>{login}</b></td>\n<td><input type=\'text\' id=\'name\' size=\'10\'/></td>\n</tr>\n<tr>\n<td><b>{password}</b></td>\n<td><input type=\'password\' id=\'password\' size=\'10\'/></td>\n</tr>\n<tr>\n<td><input type=\'submit\' value=\'{go}\' /></td>\n<td><input type=\'submit\' value=\'{signin}\' /></td>\n</tr>\n</tbody></table>',
-	logout: '<div id=\'logout\'>{logout}<div>'
+	login: '<table cellspacing=\'0\' cellpadding=\'10\' >\n<tbody><tr>\n<td><b>{login}</b></td>\n<td><input type=\'text\' class=\'jpoker_login_name\' size=\'10\'/></td>\n</tr>\n<tr>\n<td><b>{password}</b></td>\n<td><input type=\'password\' class=\'jpoker_login_password\' size=\'10\'/></td>\n</tr>\n<tr>\n<td><input type=\'submit\' class=\'jpoker_login_submit\' value=\'{go}\' /></td>\n<td><input type=\'submit\' class=\'jpoker_login_signin\' value=\'{signin}\' /></td>\n</tr>\n</tbody></table>',
+	logout: '<div>{logout}<div>'
     };
 
     //

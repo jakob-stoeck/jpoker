@@ -1426,26 +1426,26 @@ test("jpoker.plugins.login", function(){
 
         var expected = { name: 'logname', password: 'password' };
 
-        $(".jpokerLoginSubmit", place).click();
+        $(".jpoker_login_submit", place).click();
         dialog = $("#jpokerDialog");
         equals(dialog.text().indexOf('user name must not be empty') >= 0, true, 'empty user name');
 
-        $("#name", place).attr('value', expected.name);
-        $(".jpokerLoginSignin", place).click();
+        $(".jpoker_login_name", place).attr('value', expected.name);
+        $(".jpoker_login_signin", place).click();
 
         equals(dialog.text().indexOf('password must not be empty') >= 0, true, 'empty password');
         dialog.dialog('destroy');
 
-        $("#password", place).attr('value', expected.password);
+        $(".jpoker_login_password", place).attr('value', expected.password);
 
         var result = { name: null, password: null };
         server.login = function(name, password) {
             result.name = name;
             result.password = password;
         };
-        $("#login", place).triggerKeypress("13");
+        $("#" + id).triggerKeypress("13");
 	content = $("#" + id).text();
-        equals(content.indexOf("login in progress") >=0, true, "login keypress");
+        equals(content.indexOf("login in progress") >=0, true, "login in progress keypress");
         equals(result.name, expected.name, "login name");
         equals(result.password, expected.password, "login password");
 
@@ -1456,7 +1456,7 @@ test("jpoker.plugins.login", function(){
 	equals(content.indexOf("logname logout") >= 0, true, "logout");
         equals(server.loggedIn(), true, "loggedIn");
 
-        $("#logout", place).click();
+        $("#" + id).click();
         equals(server.loggedIn(), false, "logged out");
 	content = $("#" + id).text();
 	equals(content.indexOf("user:") >= 0, true, "user:");
