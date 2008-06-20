@@ -1879,7 +1879,7 @@ test("jpoker.plugins.table: PacketSerial ", function(){
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', name: player_name, seat: player_seat, serial: player_serial, game_id: game_id });
         var player = server.tables[game_id].serial2player[player_serial];
         table.handler(server, game_id, { type: 'PacketPokerSit', serial: player_serial, game_id: game_id });
-        equals($("#player_seat" + player_seat + "_name" + id).hasClass('jpokerSitOut'), false, 'no class sitout');
+        equals($("#player_seat" + player_seat + "_name" + id).hasClass('jpoker_sit_out'), false, 'no class sitout');
         equals($("#fold" + id).is(':hidden'), true, 'fold interactor not visible');
         table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
         equals($("#fold" + id).is(':visible'), true, 'fold interactor visible');
@@ -1888,7 +1888,7 @@ test("jpoker.plugins.table: PacketSerial ", function(){
         // table is destroyed and rebuilt from cached state
         server.handler(server, 0, { type: 'PacketSerial', serial: player_serial});
         equals(server.tables[game_id].id, table_packet.id);
-        equals($("#player_seat" + player_seat + "_name" + id).hasClass('jpokerSitOut'), false, 'no class sitout');
+        equals($("#player_seat" + player_seat + "_name" + id).hasClass('jpoker_sit_out'), false, 'no class sitout');
         equals($("#fold" + id).is(':visible'), false, 'fold interactor visible');
 
         jpoker.plugins.playerSelf.hide(id);
@@ -2048,7 +2048,7 @@ test("jpoker.plugins.player: PokerSit/SitOut", function(){
         equals(sent, true, "packet sent");
 
         table.handler(server, game_id, { type: 'PacketPokerSit', serial: player_serial, game_id: game_id });
-        equals(sit.hasClass('jpokerSitOut'), false, 'no class sitout');
+        equals(sit.hasClass('jpoker_sit_out'), false, 'no class sitout');
         equals(sit.html(), player_name);
 
         //
@@ -2064,7 +2064,7 @@ test("jpoker.plugins.player: PokerSit/SitOut", function(){
         sit.click();
 
         table.handler(server, game_id, { type: 'PacketPokerSitOut', serial: player_serial, game_id: game_id });
-        equals(sit.hasClass('jpokerSitOut'), true, 'class sitout');
+        equals(sit.hasClass('jpoker_sit_out'), true, 'class sitout');
         equals(sit.html(), 'click to sit');
 
         //
@@ -2200,9 +2200,9 @@ test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function()
 
         Z.table.handler(Z.server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
         var raise = $('#raise_range' + id);
-        equals($(".jpokerRaiseMin", raise).html(), Z.table.betLimit.min, 'min');
-        equals($(".jpokerRaiseCurrent", raise).html(), Z.table.betLimit.min, 'current');
-        equals($(".jpokerRaiseMax", raise).html(), Z.table.betLimit.max, 'max');
+        equals($(".jpoker_raise_min", raise).html(), Z.table.betLimit.min, 'min');
+        equals($(".jpoker_raise_current", raise).html(), Z.table.betLimit.min, 'current');
+        equals($(".jpoker_raise_max", raise).html(), Z.table.betLimit.max, 'max');
         equals(raise.is(':visible'), true, 'raise range visible');
         var slider = $('.ui-slider-1', raise);
         //        $('.ui-slider-handle', raise).parent().triggerKeydown("38");
@@ -2238,9 +2238,9 @@ test("jpoker.plugins.player: rebuy", function(){
         var rebuy = $("#jpokerRebuy");
         equals(rebuy.size(), 1, "rebuy dialog DOM element");
         equals(rebuy.parents().is(':visible'), true, 'dialog visible');
-        equals($(".jpokerRebuyMin", rebuy).html(), min, 'min');
-        equals($(".jpokerRebuyCurrent", rebuy).html(), best, 'best');
-        equals($(".jpokerRebuyMax", rebuy).html(), max, 'max');
+        equals($(".jpoker_rebuy_min", rebuy).html(), min, 'min');
+        equals($(".jpoker_rebuy_current", rebuy).html(), best, 'best');
+        equals($(".jpoker_rebuy_max", rebuy).html(), max, 'max');
         
         var sent;
         sent = false;
@@ -2263,7 +2263,7 @@ test("jpoker.plugins.player: rebuy", function(){
         // value change
         var slider = $('.ui-slider-1', rebuy);
         $('.ui-slider-handle', slider).parent().triggerKeydown("37");
-        equals($(".jpokerRebuyCurrent", rebuy).html(), min, 'value changed');
+        equals($(".jpoker_rebuy_current", rebuy).html(), min, 'value changed');
 
         // click
         sent = false;

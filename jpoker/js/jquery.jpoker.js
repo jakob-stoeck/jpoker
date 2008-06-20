@@ -2235,7 +2235,7 @@
                         server.sendPacket({ 'type': packet_type,
                                     'serial': server.serial,
                                     'game_id': table.id,
-                                    'amount': parseInt($('.jpokerRebuyCurrent', rebuy).html(), 10) * 100
+                                    'amount': parseInt($('.jpoker_rebuy_current', rebuy).html(), 10) * 100
                                     });
                     }
                     rebuy.dialog('close');
@@ -2245,8 +2245,9 @@
                     min: limits[0],
                         startValue: limits[1],
                         max: limits[2],
+                        stepping: 1,
                         change: function(event, ui) {
-                        $('.jpokerRebuyCurrent', ui.element).html(ui.value);
+                        $('.jpoker_rebuy_current', ui.element).html(ui.value);
                     }
                 });
             return rebuy;
@@ -2349,7 +2350,7 @@
                                 axis: 'horizontal',
                                 stepping: betLimit.step,
                                 change: function(event, ui) {
-                                var current = $('.jpokerRaiseCurrent', ui.element);
+                                var current = $('.jpoker_raise_current', ui.element);
                                 current.html(jpoker.chips.SHORT(ui.value));
                                 current.attr('title', ui.value);
                             }
@@ -2360,7 +2361,7 @@
                             server.sendPacket({ 'type': 'PacketPokerRaise',
                                         'serial': serial,
                                         'game_id': game_id,
-                                        'amount': parseInt($('.jpokerRaiseCurrent', raise).attr('title'), 10) * 100
+                                        'amount': parseInt($('.jpoker_raise_current', raise).attr('title'), 10) * 100
                                         });
                         }
                     };
