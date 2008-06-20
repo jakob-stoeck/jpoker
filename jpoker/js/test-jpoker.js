@@ -1782,7 +1782,7 @@ test("jpoker.plugins.table: PacketPokerChat", function(){
     });
 
 test("jpoker.plugins.table: PacketPokerPosition", function(){
-        expect(7);
+        expect(10);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -1802,14 +1802,16 @@ test("jpoker.plugins.table: PacketPokerPosition", function(){
         server.notifyUpdate(table_packet);
         var seat;
         for(seat = 1; seat <= 3; seat++) {
-            equals($("#player_seat" + seat + "_name" + id).hasClass('jpokerPosition'), false, "seat " + seat);
+            var c = ".jpoker_ptable_player_seat" + seat + "_name";
+            equals($(c).size(), 1, "seat length " + seat);
+            equals($(c).hasClass('jpokerPosition'), false, "seat " + seat);
         }
         table.handler(server, game_id, { type: 'PacketPokerPosition', serial: 10, game_id: game_id });
-        equals($("#player_seat1_name" + id).hasClass('jpokerPosition'), true, "seat 1 in position");
-        equals($("#player_seat1_name" + id).hasClass('jpokerSit'), false, "seat 1 sit");
+        equals($(".jpoker_ptable_player_seat1_name").hasClass('jpoker_position'), true, "seat 1 in position");
+        equals($(".jpoker_ptable_player_seat1_name").hasClass('jpoker_sit_out'), false, "seat 1 sit");
 
-        equals($("#player_seat2_name" + id).hasClass('jpokerPosition'), false, "seat 2 not in position");
-        equals($("#player_seat2_name" + id).hasClass('jpokerSit'), false, "seat 2 sit");
+        equals($(".jpoker_ptable_player_seat2_name").hasClass('jpoker_position'), false, "seat 2 not in position");
+        equals($(".jpoker_ptable_player_seat2_name").hasClass('jpoker_sit_out'), false, "seat 2 sit");
 
         start_and_cleanup();
     });
