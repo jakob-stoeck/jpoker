@@ -10,5 +10,5 @@
 <script src="js/jquery.ajaxQueue.js" type="text/javascript"></script>
 <script src="js/jquery.jpoker.js" type="text/javascript"></script>
 <script src="js/mockup.js" type="text/javascript"></script>
-<script src="js/skin.js" type="text/javascript"></script>
+<script src="js/skin-jpoker.js" type="text/javascript"></script>
 <!--}}}-->
