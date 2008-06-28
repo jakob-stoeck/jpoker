@@ -1879,7 +1879,7 @@
     jpoker.plugins.table.position = function(id, table, serial_in_position) {
         var in_position = table.serial2player[serial_in_position];
         for(var seat = 0; seat < table.seats.length; seat++) {
-            var seat_element = $('#player_seat' + seat + '_name' + id);
+            var seat_element = $('#player_seat' + seat + id);
             if(in_position && in_position.sit === true && in_position.seat == seat) {
                 if(!seat_element.hasClass('jpoker_position')) {
                     seat_element.addClass('jpoker_position');
@@ -2071,7 +2071,7 @@
         },
         
         sit: function(player, id) {
-            var name = $('#player_seat' + player.seat + '_name' + id);
+            var name = $('#player_seat' + player.seat + id);
             if(name.hasClass('jpoker_sit_out')) {
                 name.removeClass('jpoker_sit_out');
             }
@@ -2081,7 +2081,7 @@
         },
 
         sitOut: function(player, id) {
-            var name = $('#player_seat' + player.seat + '_name' + id);
+            var name = $('#player_seat' + player.seat + id);
             if(!name.hasClass('jpoker_sit_out')) {
                 name.addClass('jpoker_sit_out');
             }
