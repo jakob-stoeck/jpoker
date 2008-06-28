@@ -2147,7 +2147,7 @@
             var names = [ 'check', 'call', 'raise', 'fold' ];
             var labels = [ _("check"), _("call"), _("raise"), _("fold") ];
             for(var i = 0; i < names.length; i++) {
-                $('#' + names[i] + id).html('<div class=\'jpoker_button\'>' + labels[i] + '</div>');
+                $('#' + names[i] + id).html('<div class=\'jpoker_button\'><a href=\'#\'>' + labels[i] + '</a></div>');
             }
             var rebuy = $('#rebuy' + id);
             rebuy.click(function() {
