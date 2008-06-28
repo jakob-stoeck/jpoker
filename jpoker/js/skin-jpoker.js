@@ -444,7 +444,8 @@ function jpoker_50_sitOut(place) {
         var player_serial = 200;
         var packets = [
 { type: 'PacketPokerTable', id: game_id },
-{ type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'USER' }
+{ type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'USER' },
+{ type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, money: 200, bet: 0 }
                        ];
         ActiveXObject.prototype.server = {
             outgoing: JSON.stringify(packets),
@@ -465,7 +466,8 @@ function jpoker_51_sit(place) {
         var packets = [
 { type: 'PacketPokerTable', id: game_id },
 { type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'USER' },
-{ type: 'PacketPokerSit', serial: player_serial, game_id: game_id }
+{ type: 'PacketPokerSit', serial: player_serial, game_id: game_id },
+{ type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, money: 200, bet: 0 }
                        ];
         ActiveXObject.prototype.server = {
             outgoing: JSON.stringify(packets),
@@ -487,6 +489,7 @@ function jpoker_52_inPosition(place) {
 { type: 'PacketPokerTable', id: game_id },
 { type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'USER' },
 { type: 'PacketPokerSit', serial: player_serial, game_id: game_id },
+{ type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, money: 200, bet: 0 },
 { type: 'PacketPokerPosition', serial: player_serial, game_id: game_id }
                        ];
         ActiveXObject.prototype.server = {
