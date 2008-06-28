@@ -70,8 +70,13 @@ ActiveXObject.prototype = {
     }
 };
 
+explain = true;
+
 function setUp() {
     $.jpoker.verbose = 1;
+
+    $('#table').empty();
+    $('#place').empty();
 
     $('#jpokerCopyright').dialog('destroy');
     $('#jpokerDialog').dialog('destroy').remove();
@@ -87,7 +92,8 @@ function setUp() {
 };
 
 function jpoker_01_copyright(place) {
-        $.jpoker.copyright();
+    setUp();
+    $.jpoker.copyright();
 };
 
 function jpokerLogin(place) {
@@ -104,9 +110,11 @@ function jpokerTableList(place) {
 
 function jpoker_02_join(place) {
         setUp();
-        $(place).append('A player just arrived at the table, he is sit out and has no money in front of him.');
-        $(place).append('The player name can be 50 characters at most.');
-        $(place).append('<hr>');
+        if(explain) {
+            $(place).append('A player just arrived at the table, he is sit out and has no money in front of him.');
+            $(place).append('The player name can be 50 characters at most.');
+            $(place).append('<hr>');
+        }
 
         var game_id = 100;
         var player_serial = 200;
@@ -123,8 +131,10 @@ function jpoker_02_join(place) {
 
 function jpoker_03_joinBuyIn(place) {
         setUp();
-        $(place).append('A player arrived at the table, he is sit out he brings money at the table.');
-        $(place).append('<hr>');
+        if(explain) {
+            $(place).append('A player arrived at the table, he is sit out he brings money at the table.');
+            $(place).append('<hr>');
+        }
 
         var game_id = 100;
         var player_serial = 200;
@@ -147,8 +157,10 @@ function jpoker_03_joinBuyIn(place) {
 
 function jpoker_03_playerBet(place) {
         setUp();
-        $(place).append('A player is sit, with money at the table and a bet.');
-        $(place).append('<hr>');
+        if(explain) {
+            $(place).append('A player is sit, with money at the table and a bet.');
+            $(place).append('<hr>');
+        }
 
         var game_id = 100;
         var player_serial = 200;
@@ -174,8 +186,10 @@ function jpoker_03_playerBet(place) {
 
 function jpoker_04_playerInPosition(place) {
         setUp();
-        $(place).append('The player username0 is to act / is in position.');
-        $(place).append('<hr>');
+        if(explain) {
+            $(place).append('The player username0 is to act / is in position.');
+            $(place).append('<hr>');
+        }
 
         var game_id = 100;
         var player_serial = 200;
@@ -197,8 +211,10 @@ function jpoker_04_playerInPosition(place) {
 
 function jpoker_05_selfPlayer(place) {
         setUp();
-        $(place).append('The logged in player is sit at the table, buy in dialog shows.');
-        $(place).append('<hr>');
+        if(explain) {
+            $(place).append('The logged in player is sit at the table, buy in dialog shows.');
+            $(place).append('<hr>');
+        }
 
         var game_id = 100;
         var player_serial = 200;
@@ -216,8 +232,10 @@ function jpoker_05_selfPlayer(place) {
 
 function jpoker_06_selfInPosition(place) {
         setUp();
-        $(place).append('The logged in player is in position.');
-        $(place).append('<hr>');
+        if(explain) {
+            $(place).append('The logged in player is in position.');
+            $(place).append('<hr>');
+        }
 
         var game_id = 100;
         var player_serial = 200;
@@ -261,8 +279,10 @@ function jpoker_06_selfInPosition(place) {
 
 function jpoker_07_joining(place) {
         setUp();
-        $(place).append('A request to join the table was sent to the poker server and the HTML element where the table is going to be displayed has been created, with a message showing the table description is expected to arrive from the server.');
-        $(place).append('<hr>');
+        if(explain) {
+            $(place).append('A request to join the table was sent to the poker server and the HTML element where the table is going to be displayed has been created, with a message showing the table description is expected to arrive from the server.');
+            $(place).append('<hr>');
+        }
 
         var game_id = 100;
         $(place).jpoker('table', 'url', game_id, 'ONE');
@@ -270,8 +290,10 @@ function jpoker_07_joining(place) {
 
 function jpoker_08_all(place) {
         setUp();
-        $(place).append('All community cards and all pots are displayed.');
-        $(place).append('<hr>');
+        if(explain) {
+            $(place).append('All community cards and all pots are displayed.');
+            $(place).append('<hr>');
+        }
 
         var game_id = 100;
         var player_serial = 200;
@@ -300,16 +322,20 @@ function jpoker_08_all(place) {
 
 function jpoker_09_dialog(place) {
         setUp();
-        $(place).append('Dialog box used for various game messages and notifications.');
-        $(place).append('<hr>');
+        if(explain) {
+            $(place).append('Dialog box used for various game messages and notifications.');
+            $(place).append('<hr>');
+        }
 
         $.jpoker.dialog('Dialog box used for various game messages and notifications.');
 };
 
 function jpoker_20_login(place) {
         setUp();
-        $(place).append('Player is logged out.');
-        $(place).append('<hr>');
+        if(explain) {
+            $(place).append('Player is logged out.');
+            $(place).append('<hr>');
+        }
 
         $(place).jpoker('login', 'url');
         $("#name", place).attr('value', 'username');
@@ -318,24 +344,28 @@ function jpoker_20_login(place) {
 
 function jpoker_21_loginProgress(place) {
         setUp();
-        $(place).append('Login request was sent, waiting for answer.');
-        $(place).append('<hr>');
+        if(explain) {
+            $(place).append('Login request was sent, waiting for answer.');
+            $(place).append('<hr>');
+        }
 
         var server = $.jpoker.getServer('url');
 
         $(place).jpoker('login', 'url');
-        $("#name", place).attr('value', 'username');
-        $("#password", place).attr('value', 'randompassword');
+        $(".jpoker_login_name", place).attr('value', 'username');
+        $(".jpoker_login_password", place).attr('value', 'randompassword');
         server.login = function() {};
-        $("#login", place).triggerKeypress("13");
+        $(".jpoker_login", place).triggerKeypress("13");
 
         
 };
 
 function jpoker_22_logout(place) {
         setUp();
-        $(place).append('User is logged in, one choice only : logout.');
-        $(place).append('<hr>');
+        if(explain) {
+            $(place).append('User is logged in, one choice only : logout.');
+            $(place).append('<hr>');
+        }
 
         var server = $.jpoker.getServer('url');
         server.serial = 1;
@@ -345,16 +375,20 @@ function jpoker_22_logout(place) {
 
 function jpoker_30_statusDisconnected(place) {
         setUp();
-        $(place).append('disconnected from server.');
-        $(place).append('<hr>');
+        if(explain) {
+            $(place).append('disconnected from server.');
+            $(place).append('<hr>');
+        }
 
         $(place).jpoker('serverStatus', 'url');
 };
 
 function jpoker_31_connectedTables(place) {
         setUp();
-        $(place).append('connected to server, with tables and no players.');
-        $(place).append('<hr>');
+        if(explain) {
+            $(place).append('connected to server, with tables and no players.');
+            $(place).append('<hr>');
+        }
 
         var server = $.jpoker.getServer('url');
 
@@ -365,8 +399,10 @@ function jpoker_31_connectedTables(place) {
 
 function jpoker_32_connectedTablesPlayers(place) {
         setUp();
-        $(place).append('connected to server, with tables and players.');
-        $(place).append('<hr>');
+        if(explain) {
+            $(place).append('connected to server, with tables and players.');
+            $(place).append('<hr>');
+        }
 
         var server = $.jpoker.getServer('url');
 
@@ -378,8 +414,10 @@ function jpoker_32_connectedTablesPlayers(place) {
 
 function jpoker_40_tableList(place) {
         setUp();
-        $(place).append('List of poker tables available on the server.');
-        $(place).append('<hr>');
+        if(explain) {
+            $(place).append('List of poker tables available on the server.');
+            $(place).append('<hr>');
+        }
 
         var packets = [ {"players": 4, "type": "PacketPokerTableList", "packets": [{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 100, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 4, "waiting": 0, "skin": "default", "id": 100, "type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Two", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 101,"type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Three", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-pot-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 102,"type": "PacketPokerTable", "player_timeout": 60}]} ];
 
@@ -394,8 +432,10 @@ function jpoker_40_tableList(place) {
 
 function jpoker_50_sitOut(place) {
         setUp();
-        $(place).append('A player is sit out, meaning he occupies a site but does not participate in the game.');
-        $(place).append('<hr>');
+        if(explain) {
+            $(place).append('A player is sit out, meaning he occupies a site but does not participate in the game.');
+            $(place).append('<hr>');
+        }
 
         var game_id = 100;
         var player_serial = 200;
@@ -412,8 +452,10 @@ function jpoker_50_sitOut(place) {
 
 function jpoker_51_sit(place) {
         setUp();
-        $(place).append('A player is sit, meaning he participates in the game.');
-        $(place).append('<hr>');
+        if(explain) {
+            $(place).append('A player is sit, meaning he participates in the game.');
+            $(place).append('<hr>');
+        }
 
         var game_id = 100;
         var player_serial = 200;
@@ -431,8 +473,10 @@ function jpoker_51_sit(place) {
 
 function jpoker_52_inPosition(place) {
         setUp();
-        $(place).append('A player is in position, meaning he participates in the game and must act. This is associated with a sound notification.');
-        $(place).append('<hr>');
+        if(explain) {
+            $(place).append('A player is in position, meaning he participates in the game and must act. This is associated with a sound notification.');
+            $(place).append('<hr>');
+        }
 
         var game_id = 100;
         var player_serial = 200;
