@@ -2,6 +2,8 @@
 /* copyright notice dialog box */
 #jpoker_copyright {
     background-color: #73BF60;
+    font-family: "trebuchet MS",arial,helvetica,sans-serif;
+    font-size: 0.75em;
     padding: 2em;
 }
 

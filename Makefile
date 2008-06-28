@@ -75,8 +75,7 @@ maintainer-clean:
 	cd sound ; ${MAKE} clean
 	rm -fr tests
 	rm -f messages.pot 
-	rm -f jpoker/skin/jpoker_[0-9][0-9]_*
-	rm -f jpoker/{index,poker,skin}.html ${LANG_TW} ${LANG_SKIN}
+	rm -f jpoker/{index,poker}.html ${LANG_TW}
 	rm -fr ${LANG:%=%/} jpoker/l10n/*.mo
 	rm -f jpoker/index.200* jpoker/index-fr.200* jpoker/poker.200* 
 	rm -f jpoker/mockup.html
@@ -106,7 +105,6 @@ LANG_DIR = jpoker/l10n
 #
 LANG_JSON = $($(patsubst en,,${LANG}):%=${LANG_DIR}/jpoker-%.json)
 LANG_TW = $(LANG:%=jpoker/index-%.html)
-LANG_SKIN = $(LANG:%=jpoker/skin-%.html)
 IMAGES = jpoker/css/images/jpoker_table/avatar.png \
 	 jpoker/css/images/jpoker_table/background.png \
 	 jpoker/css/images/jpoker_table/bet.png \
@@ -147,29 +145,13 @@ update_gems:
 gems/bin/tiddlywiki_cp: 
 	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp
 
-jpoker/skin-%.html: gems/bin/tiddlywiki_cp 
 jpoker/index-%.html: gems/bin/tiddlywiki_cp 
 jpoker/index.html: gems/bin/tiddlywiki_cp 
 jpoker/poker.html: gems/bin/tiddlywiki_cp 
 
 GEMSCONTEXT=GEM_HOME=gems gems/bin/
 
-skin_tests:
-	> jpoker/skin/MainMenu.tiddler
-	for t in $$(perl -n -e 'print if(s/config.macros.(jpoker_\d+_.*) =.*/\1/)' jpoker/skin/skin.js) ; do \
-		echo "<<$$t>>" > jpoker/skin/$$t.tiddler ; \
-		echo 'title="'$$t'" modifier="loic" created="200805032321" changecount="1"' > jpoker/skin/$$t.tiddler.div ; \
-		echo " [[$$t]]" >> jpoker/skin/MainMenu.tiddler ; \
-	done
-
 EMPTY=tiddlywiki-2.3.html
-
-jpoker/skin-%.html: jpoker/index-*/* jpoker/skin/* jpoker/tiddlers/* jpoker/markup/*
-	cp ${EMPTY} $@
-	${GEMSCONTEXT}tiddlywiki_cp -a jpoker/skin jpoker/index-$* jpoker/tiddlers jpoker/markup $@
-
-jpoker/skin.html: jpoker/skin-en.html
-	cp jpoker/skin-en.html jpoker/skin.html
 
 jpoker/index-%.html: jpoker/JpokerPlugin/* jpoker/index-*/* jpoker/index/* jpoker/tiddlers/* jpoker/markup/*
 	cp ${EMPTY} $@
@@ -182,7 +164,7 @@ jpoker/poker.html: jpoker/JpokerPlugin/* jpoker/poker/* jpoker/markup/*
 	cp ${EMPTY} $@
 	${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/poker jpoker/markup $@
 
-cook:	jpoker/poker.html ${LANG_TW} jpoker/index.html ${LANG_SKIN} jpoker/skin.html
+cook:	jpoker/poker.html ${LANG_TW} jpoker/index.html
 
 # mimic when a new lang shows
 newlang:

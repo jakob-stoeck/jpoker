@@ -16,6 +16,8 @@
     text-align: center;
     line-height: 48px;
     font-weight: bold;
+    font-size: 14px;
+    font-family: "trebuchet MS",arial,helvetica,sans-serif;
 }
 
 .jpoker_table .jpoker_money {
@@ -23,6 +25,7 @@
     line-height: 10px;
     font-size: small;
     font-weight: bold;
+    font-family: "trebuchet MS",arial,helvetica,sans-serif;
     color: #e5b408;
 }
 
@@ -31,5 +34,6 @@
     line-height: 10px;
     font-size: small;
     font-weight: bold;
+    font-family: "trebuchet MS",arial,helvetica,sans-serif;
     color: #FFFFFF;
 }
