@@ -23,7 +23,7 @@ $.jpoker.server.defaults.tableRowClick = function(server, packet) {
     story.displayTiddler(null, title, 1);
 };
 
-$.jpoker.verbose = 1;
+$.jpoker.verbose = 6;
 
 $.jpoker.copyright();
 

@@ -1,8 +1,28 @@
-.jpoker_table .jpoker_position {
+.jpoker_table .jpoker_position .jpoker_ptable_player_seat0_name,
+.jpoker_table .jpoker_position .jpoker_ptable_player_seat1_name,
+.jpoker_table .jpoker_position .jpoker_ptable_player_seat2_name,
+.jpoker_table .jpoker_position .jpoker_ptable_player_seat3_name,
+.jpoker_table .jpoker_position .jpoker_ptable_player_seat4_name,
+.jpoker_table .jpoker_position .jpoker_ptable_player_seat5_name,
+.jpoker_table .jpoker_position .jpoker_ptable_player_seat6_name,
+.jpoker_table .jpoker_position .jpoker_ptable_player_seat7_name,
+.jpoker_table .jpoker_position .jpoker_ptable_player_seat8_name,
+.jpoker_table .jpoker_position .jpoker_ptable_player_seat9_name
+{
     background-color: #44FF44;
 }
 
-.jpoker_table .jpoker_sit_out {
+.jpoker_table .jpoker_sit_out .jpoker_ptable_player_seat0_name,
+.jpoker_table .jpoker_sit_out .jpoker_ptable_player_seat1_name,
+.jpoker_table .jpoker_sit_out .jpoker_ptable_player_seat2_name,
+.jpoker_table .jpoker_sit_out .jpoker_ptable_player_seat3_name,
+.jpoker_table .jpoker_sit_out .jpoker_ptable_player_seat4_name,
+.jpoker_table .jpoker_sit_out .jpoker_ptable_player_seat5_name,
+.jpoker_table .jpoker_sit_out .jpoker_ptable_player_seat6_name,
+.jpoker_table .jpoker_sit_out .jpoker_ptable_player_seat7_name,
+.jpoker_table .jpoker_sit_out .jpoker_ptable_player_seat8_name,
+.jpoker_table .jpoker_sit_out .jpoker_ptable_player_seat9_name
+{
     background-color: #AAAAAA;
 }
 

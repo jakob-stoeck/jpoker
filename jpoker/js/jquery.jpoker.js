@@ -2015,6 +2015,11 @@
             jpoker.plugins.cards.update(player.cards, '#card_seat' + player.seat, id);
             $('#player_seat' + seat + '_bet' + id).addClass('jpoker_bet');
             $('#player_seat' + seat  + '_money' + id).addClass('jpoker_money');
+            $('#player_seat' + seat  + '_avatar' + id).css({ 
+                            'background-image': 'url("images/jpoker_table/avatar' + seat + '.png")',
+                                'display': 'block'
+                                });
+
             jpoker.plugins.player.chips(player, id);
             var name = $('#player_seat' + seat + '_name' + id);
             name.addClass('jpoker_name');
