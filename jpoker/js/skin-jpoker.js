@@ -77,6 +77,7 @@ function setUp() {
 
     $('#table').empty();
     $('#place').empty();
+    $('#text').hide();
 
     $('#jpokerCopyright').dialog('destroy');
     $('#jpokerDialog').dialog('destroy').remove();
@@ -499,3 +500,7 @@ function jpoker_52_inPosition(place) {
         $(place).jpoker('table', 'url', game_id, 'ONE');
 };
 
+function jpoker_60_text(place) {
+        setUp();
+        $('#text').show();
+}
