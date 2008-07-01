@@ -2253,7 +2253,7 @@
                         max: limits[2],
                         stepping: 1,
                         change: function(event, ui) {
-                        $('.jpoker_rebuy_current', ui.element).html(ui.value);
+                        $('.jpoker_rebuy_current').html(ui.value);
                     }
                 });
             return rebuy;
@@ -2418,7 +2418,7 @@
                         card_image = 'small-' + jpoker.cards.card2string[card & 0x3F];
                     }
                     $(prefix + i + id).css({ 
-                            'background-image': 'url("images/cards/' + card_image + '.png")',
+                            'background-image': 'url("css/images/jpoker_table/cards/' + card_image + '.png")',
                                 'display': 'block'
                                 });
                 } else {
