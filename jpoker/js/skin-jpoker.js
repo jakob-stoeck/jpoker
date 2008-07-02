@@ -79,11 +79,11 @@ function setUp() {
     $('#place').empty();
     $('#text').hide();
 
-    $('#jpokerCopyright').dialog('destroy');
-    $('#jpokerDialog').dialog('destroy').remove();
-    $('.jpokerLogin').remove();
-    $('.jpokerTableList').remove();
-    $('.jpokerServerStatus').remove();
+    $('#jpoker_copyright').dialog('destroy');
+    $('#jpoker_dialog').dialog('destroy').remove();
+    $('.jpoker_login').remove();
+    $('.jpoker_table_list').remove();
+    $('.jpoker_server_status').remove();
 
     $.jpoker.uninit();
     //
