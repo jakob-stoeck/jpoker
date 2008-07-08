@@ -1812,7 +1812,7 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<span class=\'jpoker_table\' id=\'' + id + '\'>' + _("connecting to table {name}").supplant({ 'name': name }) + '</span>');
+                $this.append('<span class=\'jpoker_table\' id=\'' + id + '\'><div class=\'jpoker_connecting\'><div class=\'jpoker_connecting_message\'>' + _("connecting to table {name}").supplant({ 'name': name }) + '</div><div class=\'jpoker_connecting_image\'></div></div></span>');
                 
                 server.tableJoin(game_id);
 
