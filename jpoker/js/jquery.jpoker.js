@@ -1688,7 +1688,7 @@
                                     var server = jpoker.getServer(url);
                                     if(server) {
                                         server.login(name, password);
-                                        $('#' + id).html(_("login in progress"));
+                                        $('#' + id).html('<div class=\'jpoker_login_progress\'>' + _("login in progress") + '</a>');
                                     }
                                 }
                             };
@@ -1732,8 +1732,8 @@
     };
 
     jpoker.plugins.login.templates = {
-	login: '<table cellspacing=\'0\' cellpadding=\'10\' >\n<tbody><tr>\n<td><b>{login}</b></td>\n<td><input type=\'text\' class=\'jpoker_login_name\' size=\'10\'/></td>\n</tr>\n<tr>\n<td><b>{password}</b></td>\n<td><input type=\'password\' class=\'jpoker_login_password\' size=\'10\'/></td>\n</tr>\n<tr>\n<td><input type=\'submit\' class=\'jpoker_login_submit\' value=\'{go}\' /></td>\n<td><input type=\'submit\' class=\'jpoker_login_signin\' value=\'{signin}\' /></td>\n</tr>\n</tbody></table>',
-	logout: '<div>{logout}<div>'
+	login: '<table>\n<tbody><tr>\n<td class=\'jpoker_login_name_label\'><b>{login}</b></td>\n<td><input type=\'text\' class=\'jpoker_login_name\' size=\'10\'/></td>\n<td><input type=\'submit\' class=\'jpoker_login_submit\' value=\'{go}\' /></td>\n</tr>\n<tr>\n<td class=\'jpoker_login_name_label\'><b>{password}</b></td>\n<td><input type=\'password\' class=\'jpoker_login_password\' size=\'10\'/></td>\n<td><input type=\'submit\' class=\'jpoker_login_signin\' value=\'{signin}\' /></td>\n</tr>\n</tbody></table>',
+	logout: '<div class=\'jpoker_logout\'>{logout}<div>'
     };
 
     //
