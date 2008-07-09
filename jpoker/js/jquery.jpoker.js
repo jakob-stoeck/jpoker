@@ -1600,7 +1600,7 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<span class=\'jpoker_server_status\' id=\'' + id + '\'></span>');
+                $this.append('<div class=\'jpoker_server_status\' id=\'' + id + '\'></div>');
 
                 var updated = function(server) {
                     var element = document.getElementById(id);
@@ -1642,10 +1642,10 @@
     };
 
     jpoker.plugins.serverStatus.templates = {
-	disconnected: ' {label} ',
-	connected: '',
-        players: ' {count} {players} ',
-        tables: ' {count} {tables} '
+	disconnected: '<div class=\'jpoker_server_status_disconnected\'> {label} </div>',
+	connected: '<div class=\'jpoker_server_status_connected\'></div>',
+        players: '<div class=\'jpoker_server_status_players\'> <div class=\'jpoker_server_status_players_count\'>{count}</div> <div class=\'jpoker_server_status_players_label\'>{players}</div> </div>',
+        tables: '<div class=\'jpoker_server_status_tables\'> <div class=\'jpoker_server_status_tables_count\'>{count}</div> <div class=\'jpoker_server_status_tables_label\'>{tables}</div> </div>'
     };
 
     //
@@ -1688,7 +1688,7 @@
                                     var server = jpoker.getServer(url);
                                     if(server) {
                                         server.login(name, password);
-                                        $('#' + id).html('<div class=\'jpoker_login_progress\'>' + _("login in progress") + '</a>');
+                                        $('#' + id).html('<div class=\'jpoker_login_progress\'>' + _("signlogin in progress") + '</a>');
                                     }
                                 }
                             };
