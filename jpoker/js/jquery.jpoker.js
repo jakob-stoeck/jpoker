@@ -500,6 +500,7 @@
 
     jpoker.connection.prototype = $.extend({}, jpoker.watchable.prototype, {
 
+            ROLE: 'role',
             LOGIN: 'loging',
             RUNNING: 'running',
             USER_INFO: 'retreiving user info',
@@ -1023,13 +1024,22 @@
                 this.ensureSession();
                 this.userInfo.name = name;
                 this.sendPacket({
+                        type: 'PacketPokerSetRole',
+                        roles: 'PLAY'
+                            });
+                this.sendPacket({
                         type: 'PacketLogin',
                         name: name,
                         password: password
                     });
                 this.ping();
+                var role_is_set = false;
                 var answer = function(server, game_id, packet) {
                     switch(packet.type) {
+                    case 'PacketPokerRoles':
+                    role_is_set = true;
+                    return true;
+
                     case 'PacketAuthOk':
                     return true;
 
@@ -1040,7 +1050,9 @@
                     return false;
 
                     case 'PacketError':
-                    if(packet.other_type == jpoker.packetName2Type.LOGIN) {
+                    if(packet.other_type == jpoker.packetName2Type.POKER_SET_ROLE) {
+                        jpoker.dialog(packet.message);
+                    } else if(packet.other_type == jpoker.packetName2Type.LOGIN) {
                         jpoker.dialog(_("user {name} is already logged in".supplant({ 'name': name })));
                         server.notifyUpdate(packet);
                     }
@@ -1049,6 +1061,10 @@
                     break;
 
                     case 'PacketSerial':
+                    if(role_is_set == false) {
+                        jpoker.error('expected PacketPokerRoles before ' + JSON.stringify(packet));
+                        return false;
+                    }
                     server.notifyUpdate(packet);
                     server.getUserInfo();
                     return false;

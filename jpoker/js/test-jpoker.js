@@ -529,7 +529,7 @@ test("jpoker.server.rejoin", function(){
     });
 
 test("jpoker.server.login", function(){
-        expect(9);
+        expect(12);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -540,7 +540,7 @@ test("jpoker.server.login", function(){
         var PokerServer = function() {};
 
         PokerServer.prototype = {
-            outgoing: '[{"type": "PacketAuthOk"}, {"type": "PacketSerial", "serial": 1}]',
+            outgoing: '[{"type": "PacketAuthOk"}, {"type": "PacketPokerRoles"}, {"type": "PacketSerial", "serial": 1}]',
 
             handle: function(packet) { packets.push(packet); }
         };
@@ -553,6 +553,9 @@ test("jpoker.server.login", function(){
         server.registerUpdate(function(server, what, packet) {
                 switch(packet.type) {
                 case "PacketSerial":
+                    equals(packets[0].indexOf('PacketPokerExplain') >= 0, true, 'Explain');
+                    equals(packets[1].indexOf('PacketPokerSetRole') >= 0, true, 'SetRole');
+                    equals(packets[2].indexOf('PacketLogin') >= 0, true, 'Login');
                     equals(server.loggedIn(), true, "loggedIn");
                     equals(server.userInfo.name, logname, "logname");
                     equals(server.pinging(), true, "pinging");
@@ -1376,16 +1379,13 @@ test("jpoker.plugins.serverStatus", function(){
         //
         // connected
         //
-        if(jpoker.plugins.serverStatus.templates.connected === '') {
-            jpoker.plugins.serverStatus.templates.connected = 'connected';
-        }
         server.playersCount = 12;
         server.tablesCount = 23;
         server.connectionState = 'connected';
         server.notifyUpdate();
-        content = $("#" + id).text();
+	equals($("#" + id + " .jpoker_server_status_connected").size(), 1, "connected");
 
-	equals(content.indexOf("connected") >= 0, true, "connected");
+        content = $("#" + id).text();
 	equals(content.indexOf("12") >= 0, true, "12 players");
 	equals(content.indexOf("23") >= 0, true, "23 players");
         //
