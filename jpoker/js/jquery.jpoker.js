@@ -427,8 +427,8 @@
                 this.callbacks[what] = result;
                 var backlog = this.protect[what];
                 delete this.protect[what];
-                for(var i = 0; i < backlog.length; i++) {
-                    backlog[i]();
+                for(var j = 0; i < backlog.length; i++) {
+                    backlog[j]();
                 }
             }
         },
@@ -1058,10 +1058,9 @@
                     }
                     server.setState(server.RUNNING, 'login PacketError');
                     return false;
-                    break;
 
                     case 'PacketSerial':
-                    if(role_is_set == false) {
+                    if(role_is_set === false) {
                         jpoker.error('expected PacketPokerRoles before ' + JSON.stringify(packet));
                         return false;
                     }
@@ -1461,9 +1460,9 @@
 
         var callHandler = function(server, game_id, packet) {
             var status = handler(server, packet);
-            if(status == false) {
+            if(status === false) {
                 waiting = false;
-                server.setState(server.RUNNING, 'refresh ' + state)
+                server.setState(server.RUNNING, 'refresh ' + state);
             }
             return status;
         };
@@ -1892,7 +1891,7 @@
                 jpoker.plugins.player.create(table, table.serial2player[serial], id);
             }
             jpoker.plugins.table.position(id, table, table.serial_in_position);
-            if($('#jpokerSound').size() == 0) {
+            if($('#jpokerSound').size() === 0) {
                 $('body').prepend('<div id=\'jpokerSound\' />');
             }
             // it does not matter to register twice as long as the same key is used
