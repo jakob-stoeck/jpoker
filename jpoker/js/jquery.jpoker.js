@@ -427,7 +427,7 @@
                 this.callbacks[what] = result;
                 var backlog = this.protect[what];
                 delete this.protect[what];
-                for(var j = 0; i < backlog.length; i++) {
+                for(var j = 0; j < backlog.length; j++) {
                     backlog[j]();
                 }
             }
