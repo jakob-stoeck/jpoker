@@ -1324,7 +1324,7 @@ test("jpoker.plugins.tableList", function(){
 // regularTourneyList
 //
 test("jpoker.plugins.regularTourneyList", function(){
-        expect(8);
+        expect(9);
         stop();
 
         //
@@ -1360,6 +1360,7 @@ test("jpoker.plugins.regularTourneyList", function(){
                     var tr = $("#" + id + " tr", place);
                     equals(tr.length, 4+1);
                     equals($('td:nth-child(5)', tr[1]).text(), start_time, 'start_time');
+		    equals($('.headerSortDown', tr[0]).text(), 'Start Time', "headerSortDown");
                     $("#" + id).remove();
                     return true;
                 } else {
@@ -1382,7 +1383,7 @@ test("jpoker.plugins.regularTourneyList", function(){
 // sitngoTourneyList
 //
 test("jpoker.plugins.sitngoTourneyList", function(){
-        expect(8);
+        expect(9);
         stop();
 
         //
@@ -1417,7 +1418,8 @@ test("jpoker.plugins.sitngoTourneyList", function(){
                 if(element.length > 0) {
                     var tr = $("#" + id + " tr", place);
                     equals(tr.length, 1+1);
-                    equals($('td:nth-child(5)', tr[1]).text(), buy_in, 'buy in');
+                    equals($('td:nth-child(4)', tr[1]).text(), buy_in, 'buy in');
+		    equals($('.headerSortDown', tr[0]).text(), 'Buy In', "headerSortDown");
                     $("#" + id).remove();
                     return true;
                 } else {

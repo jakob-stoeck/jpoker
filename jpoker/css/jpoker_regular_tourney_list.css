@@ -11,6 +11,9 @@ table.jpoker_regular_tourney_list th {
 	background: #24B300;
 	cursor:pointer;
 }
+table.jpoker_regular_tourney_list .even {
+	background:#CCFFBF;
+}
 table.jpoker_regular_tourney_list .headerSortUp {
         background:#73BF60;
 }

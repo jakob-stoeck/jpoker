@@ -1652,7 +1652,7 @@
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTourneyList') {
                             $(element).html(regularTourneyList.getHTML(id, packet));
-			    $(element).tablesorter();
+			    $(element).tablesorter({widgets: ['zebra'], sortList: [[4, 0]]});
                         }
                         return true;
                     } else {
@@ -1728,7 +1728,7 @@
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTourneyList') {
                             $(element).html(sitngoTourneyList.getHTML(id, packet));
-			    $(element).tablesorter();
+			    $(element).tablesorter({widgets: ['zebra'], sortList: [[3, 0]]});
                         }
                         return true;
                     } else {
