@@ -1,0 +1,24 @@
+table.jpoker_tourney_list {
+	border:1px solid #24B300;
+}
+
+table.jpoker_tourney_list td {
+	padding: 0.5em 1em;
+}
+
+table.jpoker_tourney_list tr.evenRow {
+	background:#CCFFBF;
+}
+
+table.jpoker_tourney_list thead td,  table.jpoker_tourney_list th  {
+	background: #24B300;
+}
+
+table.jpoker_tourney_list tr{
+	cursor:pointer;
+}
+
+table.jpoker_tourney_list tr.evenRow.hover, table.jpoker_tourney_list tr.hover {
+	background:#73BF60;
+	color:#fff;
+}
