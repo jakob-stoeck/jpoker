@@ -51,6 +51,12 @@ config.macros.jpokerTableList = {
     }
 };
 
+config.macros.jpokerTourneyList = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        $(place).jpoker('tourneyList', config.jpoker.restURL);
+    }
+};
+
 config.macros.jpokerFeaturedTable = {
     handler: function(place, macroName, params, wikifier, paramString, tiddler) {
         $(place).jpoker('featuredTable', config.jpoker.restURL);

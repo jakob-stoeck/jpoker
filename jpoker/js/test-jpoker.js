@@ -1419,7 +1419,7 @@ test("jpoker.plugins.featuredTable", function(){
 // serverStatus
 //
 test("jpoker.plugins.serverStatus", function(){
-	expect(6);
+	expect(8);
 
         var server = jpoker.serverCreate({ url: 'url' });
 
@@ -1438,13 +1438,17 @@ test("jpoker.plugins.serverStatus", function(){
         //
         server.playersCount = 12;
         server.tablesCount = 23;
+	server.playersTourneysCount = 11;
+	server.tourneysCount = 22;
         server.connectionState = 'connected';
         server.notifyUpdate();
 	equals($("#" + id + " .jpoker_server_status_connected").size(), 1, "connected");
 
         content = $("#" + id).text();
 	equals(content.indexOf("12") >= 0, true, "12 players");
-	equals(content.indexOf("23") >= 0, true, "23 players");
+	equals(content.indexOf("23") >= 0, true, "23 tables");
+	equals(content.indexOf("11") >= 0, true, "11 players tourneys");
+	equals(content.indexOf("22") >= 0, true, "22 tourneys");
         //
         // element destroyed
         //
