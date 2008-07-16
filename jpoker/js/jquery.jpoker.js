@@ -818,6 +818,8 @@
     jpoker.server.defaults = $.extend({
 	    playersCount: null,
 	    tablesCount: null,
+	    playersTourneysCount: null,
+	    tourneysCount: null,
             tableRowClick: function(server, packet) {},
             setInterval: function(cb, delay) { return window.setInterval(cb, delay); },
             clearInterval: function(id) { return window.clearInterval(id); }
@@ -828,7 +830,6 @@
                 jpoker.connection.prototype.init.call(this);
                 this.tables = {};
                 this.tableLists = {};
-                this.tourneyLists = {};
                 this.timers = {};
                 this.serial = 0;
                 this.userInfo = {};
@@ -1016,10 +1017,6 @@
             //
             refreshTourneys: function(string, options) {
 
-                if(!(string in this.tables)) {
-                    this.tourneyLists[string] = {};
-                }
-
                 var request = function(server) {
                     server.sendPacket({
                             type: 'PacketPokerTourneySelect',
@@ -1028,12 +1025,10 @@
                 };
 
                 var handler = function(server, packet) {
-                    var info = server.tourneyLists && server.tourneyLists[string];
                     if(packet.type == 'PacketPokerTourneyList') {
-                        info.packet = packet;
                         // although the tourneys/players count is sent with each
                         // tourney list, it is global to the server
-                        server.playersCount = packet.players;
+                        server.playersTourneysCount = packet.players;
                         server.tourneysCount = packet.tourneys;
                         server.notifyUpdate(packet);
                         return false;
@@ -1657,21 +1652,6 @@
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTourneyList') {
                             $(element).html(tourneyList.getHTML(id, packet));
-                            for(var i = 0; i < packet.packets.length; i++) {
-                                (function(){
-                                    var subpacket = packet.packets[i];
-                                    $('#' + subpacket.id).click(function() {
-                                            var server = jpoker.getServer(url);
-                                            if(server) {
-                                                server.tourneyRowClick(server, subpacket);
-                                            }
-                                        }).hover(function(){
-                                                $(this).addClass('hover');
-                                            },function(){
-                                                $(this).removeClass('hover');
-                                            });
-                                })();
-                            }
                         }
                         return true;
                     } else {
@@ -1711,8 +1691,6 @@
         for(var i = 0; i < packet.packets.length; i++) {
             var subpacket = packet.packets[i];
             if(!('game_id' in subpacket)) {
-                //subpacket.game_id = subpacket.id;
-                //subpacket.id = subpacket.game_id + id;
                 subpacket.buy_in /= 100;
 	    }
             subpacket['class'] = i%2 ? 'evenRow' : 'oddRow';
@@ -1780,6 +1758,12 @@
 	if(server.tablesCount) {
 	    html.push(t.tables.supplant({ 'count': server.tablesCount, 'tables': _("tables") }));
 	}
+	if(server.playersTourneysCount) {
+	    html.push(t.players_tourneys.supplant({ 'count': server.playersTourneysCount, 'players_tourneys': _("tournaments players") }));
+	}
+	if(server.tourneysCount) {
+	    html.push(t.tourneys.supplant({ 'count': server.tourneysCount, 'tourneys': _("tourneys") }));
+	}
         return html.join(' ');
     };
 
@@ -1787,7 +1771,11 @@
 	disconnected: '<div class=\'jpoker_server_status_disconnected\'> {label} </div>',
 	connected: '<div class=\'jpoker_server_status_connected\'></div>',
         players: '<div class=\'jpoker_server_status_players\'> <div class=\'jpoker_server_status_players_count\'>{count}</div> <div class=\'jpoker_server_status_players_label\'>{players}</div> </div>',
-        tables: '<div class=\'jpoker_server_status_tables\'> <div class=\'jpoker_server_status_tables_count\'>{count}</div> <div class=\'jpoker_server_status_tables_label\'>{tables}</div> </div>'
+        tables: '<div class=\'jpoker_server_status_tables\'> <div class=\'jpoker_server_status_tables_count\'>{count}</div> <div class=\'jpoker_server_status_tables_label\'>{tables}</div> </div>',
+
+        players_tourneys: '<div class=\'jpoker_server_status_players_tourneys\'> <div class=\'jpoker_server_status_players_tourneys_count\'>{count}</div> <div class=\'jpoker_server_status_players_tourneys_label\'>{players_tourneys}</div> </div>',
+
+        tourneys: '<div class=\'jpoker_server_status_tourneys\'> <div class=\'jpoker_server_status_tourneys_count\'>{count}</div> <div class=\'jpoker_server_status_tourneys_label\'>{tourneys}</div> </div>'
     };
 
     //
