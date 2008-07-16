@@ -1644,7 +1644,7 @@
                 var $this = $(this);
 
                 var id = jpoker.uid();
-
+		
                 $this.append('<table class=\'jpoker_regular_tourney_list\' id=\'' + id + '\'></table>');
 
                 var updated = function(server, what, packet) {
@@ -1652,6 +1652,7 @@
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTourneyList') {
                             $(element).html(regularTourneyList.getHTML(id, packet));
+			    $(element).tablesorter();
                         }
                         return true;
                     } else {
@@ -1702,7 +1703,7 @@
     };
 
     jpoker.plugins.regularTourneyList.templates = {
-        header : '<thead><tr><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{start_time}</td></tr></thead><tbody>',
+        header : '<thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th><th>{start_time}</th></tr></thead><tbody>',
         rows : '<tr class=\'{class}\' id=\'{id}\' title=\'' + _("Click to join the table") + '\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{start_time}</td></tr>',
         footer : '</tbody>'
     };
@@ -1728,6 +1729,7 @@
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTourneyList') {
                             $(element).html(sitngoTourneyList.getHTML(id, packet));
+			    $(element).tablesorter();
                         }
                         return true;
                     } else {
@@ -1778,7 +1780,7 @@
     };
 
     jpoker.plugins.sitngoTourneyList.templates = {
-        header : '<thead><tr><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td></tr></thead><tbody>',
+        header : '<thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th></tr></thead><tbody>',
         rows : '<tr class=\'{class}\' id=\'{id}\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td></tr>',
         footer : '</tbody>'
     };
