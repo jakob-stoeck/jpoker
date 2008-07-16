@@ -1702,8 +1702,84 @@
     };
 
     jpoker.plugins.regularTourneyList.templates = {
-        header : '<thead><tr><td>{name}</td><td>{registered}</td><td>{players_quota}</td><td>{description_short}</td><td>{buy_in}</td><td>{start_time}</td></tr></thead><tbody>',
-        rows : '<tr class=\'{class}\' id=\'{id}\' title=\'' + _("Click to join the table") + '\'><td>{name}</td><td>{registered}</td><td>{players_quota}</td><td>{description_short}</td><td>{buy_in}</td><td>{start_time}</td></tr>',
+        header : '<thead><tr><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{start_time}</td></tr></thead><tbody>',
+        rows : '<tr class=\'{class}\' id=\'{id}\' title=\'' + _("Click to join the table") + '\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{start_time}</td></tr>',
+        footer : '</tbody>'
+    };
+
+    //
+    // sitngoTourneyList
+    //
+    jpoker.plugins.sitngoTourneyList = function(url, options) {
+
+        var sitngoTourneyList = jpoker.plugins.sitngoTourneyList;
+        var opts = $.extend({}, sitngoTourneyList.defaults, options);
+        var server = jpoker.url2server({ url: url });
+
+        return this.each(function() {
+                var $this = $(this);
+
+                var id = jpoker.uid();
+
+                $this.append('<table class=\'jpoker_sitngo_tourney_list\' id=\'' + id + '\'></table>');
+
+                var updated = function(server, what, packet) {
+                    var element = document.getElementById(id);
+                    if(element) {
+                        if(packet && packet.type == 'PacketPokerTourneyList') {
+                            $(element).html(sitngoTourneyList.getHTML(id, packet));
+                        }
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+
+                server.registerUpdate(updated, null, 'sitngoTourneyList' + id);
+
+                server.refreshTourneys(opts.string, options);
+                return this;
+            });
+    };
+
+    jpoker.plugins.sitngoTourneyList.defaults = $.extend({
+        string: ''
+        }, jpoker.refresh.defaults, jpoker.defaults);
+
+    jpoker.plugins.sitngoTourneyList.getHTML = function(id, packet) {
+        var t = this.templates;
+        var html = [];
+        html.push(t.header.supplant({
+                        'players_quota': _("Players Quota"),
+                        'breaks_first': _("Breaks First"),
+                        'name': _("Name"),
+                        'description_short': _("Description"),
+                        'start_time': _("Start Time"),
+                        'breaks_interval': _("Breaks Interval"),
+                        'variant': _("Holdem"),
+                        'currency_serial': _("Currency"),
+                        'state': _("State"),
+                        'buy_in': _("Buy In"),
+                        'breaks_duration': _("Breaks Duration"),
+                        'sit_n_go': _("Sit'n'Go"),
+                        'registered': _("Registered")
+                        }));
+	var sitngoPackets = $.grep(packet.packets, function(p, i) {return p.sit_n_go == "y";});
+        for(var i = 0; i < sitngoPackets.length; i++) {
+            var subpacket = sitngoPackets[i];
+            if(!('game_id' in subpacket)) {
+                subpacket.buy_in /= 100;
+	    }
+            subpacket['class'] = i%2 ? 'evenRow' : 'oddRow';
+            html.push(t.rows.supplant(subpacket));
+        }
+        html.push(t.footer);
+        return html.join('\n');
+    };
+
+    jpoker.plugins.sitngoTourneyList.templates = {
+        header : '<thead><tr><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td></tr></thead><tbody>',
+        rows : '<tr class=\'{class}\' id=\'{id}\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td></tr>',
         footer : '</tbody>'
     };
 
