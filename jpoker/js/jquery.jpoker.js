@@ -507,6 +507,7 @@
             RECONNECT: 'trying to reconnect',
             MY: 'searching my tables',
             TABLE_LIST: 'searching tables',
+            TOURNEY_LIST: 'searching tourneys',
             TABLE_JOIN: 'joining table',
 
             blocked: false,
@@ -827,6 +828,7 @@
                 jpoker.connection.prototype.init.call(this);
                 this.tables = {};
                 this.tableLists = {};
+                this.tourneyLists = {};
                 this.timers = {};
                 this.serial = 0;
                 this.userInfo = {};
@@ -1007,6 +1009,39 @@
                 };
 
                 return this.refresh('tableList', request, handler, this.TABLE_LIST, options);
+            },
+
+            //
+            // tourneys lists
+            //
+            refreshTourneys: function(string, options) {
+
+                if(!(string in this.tables)) {
+                    this.tourneyLists[string] = {};
+                }
+
+                var request = function(server) {
+                    server.sendPacket({
+                            type: 'PacketPokerTourneySelect',
+                            string: string
+                        });
+                };
+
+                var handler = function(server, packet) {
+                    var info = server.tourneyLists && server.tourneyLists[string];
+                    if(packet.type == 'PacketPokerTourneyList') {
+                        info.packet = packet;
+                        // although the tourneys/players count is sent with each
+                        // tourney list, it is global to the server
+                        server.playersCount = packet.players;
+                        server.tourneysCount = packet.tourneys;
+                        server.notifyUpdate(packet);
+                        return false;
+                    }
+                    return true;
+                };
+
+                return this.refresh('tourneyList', request, handler, this.TOURNEY_LIST, options);
             },
 
             //
@@ -1598,6 +1633,98 @@
     jpoker.plugins.tableList.templates = {
         header : '<thead><tr><td>{name}</td><td>{players}</td><td>{seats}</td><td>{betting_structure}</td><td>{average_pot}</td><td>{hands_per_hour}</td><td>{percent_flop}</td></tr></thead><tbody>',
         rows : '<tr class=\'{class}\' id=\'{id}\' title=\'' + _("Click to join the table") + '\'><td>{name}</td><td>{players}</td><td>{seats}</td><td>{betting_structure}</td><td>{average_pot}</td><td>{hands_per_hour}</td><td>{percent_flop}</td></tr>',
+        footer : '</tbody>'
+    };
+
+    //
+    // tourneyList
+    //
+    jpoker.plugins.tourneyList = function(url, options) {
+
+        var tourneyList = jpoker.plugins.tourneyList;
+        var opts = $.extend({}, tourneyList.defaults, options);
+        var server = jpoker.url2server({ url: url });
+
+        return this.each(function() {
+                var $this = $(this);
+
+                var id = jpoker.uid();
+
+                $this.append('<table class=\'jpoker_tourney_list\' id=\'' + id + '\'></table>');
+
+                var updated = function(server, what, packet) {
+                    var element = document.getElementById(id);
+                    if(element) {
+                        if(packet && packet.type == 'PacketPokerTourneyList') {
+                            $(element).html(tourneyList.getHTML(id, packet));
+                            for(var i = 0; i < packet.packets.length; i++) {
+                                (function(){
+                                    var subpacket = packet.packets[i];
+                                    $('#' + subpacket.id).click(function() {
+                                            var server = jpoker.getServer(url);
+                                            if(server) {
+                                                server.tourneyRowClick(server, subpacket);
+                                            }
+                                        }).hover(function(){
+                                                $(this).addClass('hover');
+                                            },function(){
+                                                $(this).removeClass('hover');
+                                            });
+                                })();
+                            }
+                        }
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+
+                server.registerUpdate(updated, null, 'tourneyList' + id);
+
+                server.refreshTourneys(opts.string, options);
+                return this;
+            });
+    };
+
+    jpoker.plugins.tourneyList.defaults = $.extend({
+        string: ''
+        }, jpoker.refresh.defaults, jpoker.defaults);
+
+    jpoker.plugins.tourneyList.getHTML = function(id, packet) {
+        var t = this.templates;
+        var html = [];
+        html.push(t.header.supplant({
+                        'players_quota': _("Players Quota"),
+                        'breaks_first': _("Breaks First"),
+                        'name': _("Name"),
+                        'description_short': _("Description"),
+                        'start_time': _("Start Time"),
+                        'breaks_interval': _("Breaks Interval"),
+                        'variant': _("Holdem"),
+                        'currency_serial': _("Currency"),
+                        'state': _("State"),
+                        'buy_in': _("Buy In"),
+                        'breaks_duration': _("Breaks Duration"),
+                        'sit_n_go': _("Sit'n'Go"),
+                        'registered': _("Registered")
+                        }));
+        for(var i = 0; i < packet.packets.length; i++) {
+            var subpacket = packet.packets[i];
+            if(!('game_id' in subpacket)) {
+                //subpacket.game_id = subpacket.id;
+                //subpacket.id = subpacket.game_id + id;
+                subpacket.buy_in /= 100;
+	    }
+            subpacket['class'] = i%2 ? 'evenRow' : 'oddRow';
+            html.push(t.rows.supplant(subpacket));
+        }
+        html.push(t.footer);
+        return html.join('\n');
+    };
+
+    jpoker.plugins.tourneyList.templates = {
+        header : '<thead><tr><td>{name}</td><td>{registered}</td><td>{players_quota}</td><td>{description_short}</td><td>{buy_in}</td><td>{start_time}</td></tr></thead><tbody>',
+        rows : '<tr class=\'{class}\' id=\'{id}\' title=\'' + _("Click to join the table") + '\'><td>{name}</td><td>{registered}</td><td>{players_quota}</td><td>{description_short}</td><td>{buy_in}</td><td>{start_time}</td></tr>',
         footer : '</tbody>'
     };
 
