@@ -1695,7 +1695,6 @@
             if(!('game_id' in subpacket)) {
                 subpacket.buy_in /= 100;
 	    }
-            subpacket['class'] = i%2 ? 'evenRow' : 'oddRow';
             html.push(t.rows.supplant(subpacket));
         }
         html.push(t.footer);
@@ -1704,7 +1703,7 @@
 
     jpoker.plugins.regularTourneyList.templates = {
         header : '<thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th><th>{start_time}</th></tr></thead><tbody>',
-        rows : '<tr class=\'{class}\' id=\'{id}\' title=\'' + _("Click to join the table") + '\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{start_time}</td></tr>',
+        rows : '<tr title=\'' + _("Click to join the table") + '\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{start_time}</td></tr>',
         footer : '</tbody>'
     };
 
@@ -1772,7 +1771,6 @@
             if(!('game_id' in subpacket)) {
                 subpacket.buy_in /= 100;
 	    }
-            subpacket['class'] = i%2 ? 'evenRow' : 'oddRow';
             html.push(t.rows.supplant(subpacket));
         }
         html.push(t.footer);
@@ -1781,7 +1779,7 @@
 
     jpoker.plugins.sitngoTourneyList.templates = {
         header : '<thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th></tr></thead><tbody>',
-        rows : '<tr class=\'{class}\' id=\'{id}\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td></tr>',
+        rows : '<tr><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td></tr>',
         footer : '</tbody>'
     };
 
