@@ -1321,9 +1321,9 @@ test("jpoker.plugins.tableList", function(){
     });
 
 //
-// tournamentList
+// regularTourneyList
 //
-test("jpoker.plugins.tourneyList", function(){
+test("jpoker.plugins.regularTourneyList", function(){
         expect(8);
         stop();
 
@@ -1333,7 +1333,6 @@ test("jpoker.plugins.tourneyList", function(){
         //
         var PokerServer = function() {};
 
-        var buy_in = 300000/100;
 	var TOURNEY_LIST_PACKET = {"players": 0, "packets": [{"players_quota": 2, "breaks_first": 7200, "name": "sitngo2", "description_short" : "Sit and Go 2 players, Holdem", "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 1, "sit_n_go": "y", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval" : 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 39, "sit_n_go": "n", "registered": 0}, {"players_quota": 1000, "breaks_first" : 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 40, "sit_n_go": "n", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial" : 41, "sit_n_go": "n", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 42, "sit_n_go": "n", "registered": 0}], "tourneys": 5, "type": "PacketPokerTourneyList"};
         PokerServer.prototype = {
             outgoing: "[ " + JSON.stringify(TOURNEY_LIST_PACKET) + " ]",
@@ -1351,18 +1350,18 @@ test("jpoker.plugins.tourneyList", function(){
         var id = 'jpoker' + jpoker.serial;
         var place = $("#main");
         equals('update' in server.callbacks, false, 'no update registered');
-        place.jpoker('tourneyList', 'url', { delay: 30 });
-        equals(server.callbacks.update.length, 1, 'tourneyList update registered');
+        place.jpoker('regularTourneyList', 'url', { delay: 30 });
+        equals(server.callbacks.update.length, 1, 'regularTourneyList update registered');
         server.registerUpdate(function(server, what, data) {
                 var element = $("#" + id);
                 if(element.length > 0) {
                     var tr = $("#" + id + " tr", place);
-                    equals(tr.length, 6);
-                    equals($('td:nth-child(5)', tr[1]).text(), buy_in, 'buy in');
+                    equals(tr.length, 4+1);
+                    equals($('td:nth-child(5)', tr[1]).text(), 0, 'buy in');
                     $("#" + id).remove();
                     return true;
                 } else {
-                    equals(server.callbacks.update.length, 2, 'tourneyList and test update registered');
+                    equals(server.callbacks.update.length, 2, 'regularTourneyList and test update registered');
                     equals('tourneyList' in server.timers, true, 'timer active');
                     server.setTimeout = function(fun, delay) { };
                     window.setTimeout(function() {
