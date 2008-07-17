@@ -1704,7 +1704,7 @@
 
                 server.registerUpdate(updated, null, 'regularTourneyList' + id);
 
-                server.refreshTourneys(opts.string, options);
+                server.refreshTourneys(opts.string, opts);
                 return this;
             });
     };
@@ -1796,7 +1796,7 @@
 
                 server.registerUpdate(updated, null, 'sitngoTourneyList' + id);
 
-                server.refreshTourneys(opts.string, options);
+                server.refreshTourneys(opts.string, opts);
                 return this;
             });
     };
@@ -1846,11 +1846,13 @@
     //
     // tourneyDetails
     //
-    jpoker.plugins.tourneyDetails = function(url, options) {
+    jpoker.plugins.tourneyDetails = function(url, game_id, options) {
 
+	game_id = parseInt(game_id, 10);
         var tourneyDetails = jpoker.plugins.tourneyDetails;
-        var opts = $.extend({}, tourneyDetails.defaults, options);
+        var opts = $.extend({}, tourneyDetails.defaults, options, {'game_id': game_id});
         var server = jpoker.url2server({ url: url });
+	console.log(opts);
 
         return this.each(function() {
                 var $this = $(this);
@@ -1873,14 +1875,14 @@
 				    input.val("Register").click(function() {
                                             var server = jpoker.getServer(url);
                                             if(server) {
-						server.sendPacket({'type': 'PacketPokerTourneyRegister', 'serial': server.serial, 'game_id' : options.game_id});
+						server.sendPacket({'type': 'PacketPokerTourneyRegister', 'serial': server.serial, 'game_id' : game_id});
 					    }
 					});
 				} else {
 				    input.val("Unregister").click(function() {
                                             var server = jpoker.getServer(url);
                                             if(server) {
-						server.sendPacket({'type': 'PacketPokerTourneyUnregister', 'serial': server.serial, 'game_id' : options.game_id});
+						server.sendPacket({'type': 'PacketPokerTourneyUnregister', 'serial': server.serial, 'game_id' : game_id});
 					    }
 					});;
 				}
@@ -1893,8 +1895,7 @@
                 };
 
                 server.registerUpdate(updated, null, 'tourneyDetails' + id);
-
-                server.refreshTourneyDetails(options.game_id, options);
+                server.refreshTourneyDetails(game_id, opts);
                 return this;
             });
     };

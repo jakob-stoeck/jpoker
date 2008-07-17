@@ -1475,7 +1475,7 @@ test("jpoker.plugins.tourneyDetails", function(){
         var id = 'jpoker' + jpoker.serial;
         var place = $("#main");
         equals('update' in server.callbacks, false, 'no update registered');
-        place.jpoker('tourneyDetails', 'url', { game_id: tourney_serial, delay: 30 });
+        place.jpoker('tourneyDetails', 'url', tourney_serial.toString());
         equals(server.callbacks.update.length, 1, 'tourneyDetails update registered');
         server.registerUpdate(function(server, what, data) {
                 var element = $("#" + id);
@@ -1536,7 +1536,7 @@ test("jpoker.plugins.tourneyDetails.register", function(){
         var place = $("#main");
 	server.userInfo.name = "player10";
 	server.serial = 42;
-        place.jpoker('tourneyDetails', 'url', { game_id: tourney_serial, delay: 30 });
+        place.jpoker('tourneyDetails', 'url', tourney_serial.toString());
         server.registerUpdate(function(server, what, data) {
                 var element = $("#" + id);
                 if(element.length > 0) {
@@ -1590,7 +1590,7 @@ test("jpoker.plugins.tourneyDetails.unregister", function(){
         var place = $("#main");
 	server.userInfo.name = "player0";
 	server.serial = 42;
-        place.jpoker('tourneyDetails', 'url', { game_id: tourney_serial, delay: 30 });
+        place.jpoker('tourneyDetails', 'url', tourney_serial.toString());
         server.registerUpdate(function(server, what, data) {
                 var element = $("#" + id);
                 if(element.length > 0) {
