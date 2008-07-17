@@ -1350,6 +1350,7 @@ test("jpoker.plugins.regularTourneyList", function(){
         server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
+        var row_id = TOURNEY_LIST_PACKET.packets[1].serial + id;
         var place = $("#main");
         equals('update' in server.callbacks, false, 'no update registered');
         place.jpoker('regularTourneyList', 'url', { delay: 30 });
@@ -1358,8 +1359,9 @@ test("jpoker.plugins.regularTourneyList", function(){
                 var element = $("#" + id);
                 if(element.length > 0) {
                     var tr = $("#" + id + " tr", place);
+                    var row = $("#" + row_id, place);
                     equals(tr.length, 4+1);
-                    equals($('td:nth-child(5)', tr[1]).text(), start_time, 'start_time');
+                    equals($('td:nth-child(5)', row).text(), start_time, 'start_time');
 		    equals($('.headerSortDown', tr[0]).text(), 'Start Time', "headerSortDown");
                     $("#" + id).remove();
                     return true;
@@ -1409,6 +1411,7 @@ test("jpoker.plugins.sitngoTourneyList", function(){
         server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
+        var row_id = TOURNEY_LIST_PACKET.packets[0].serial + id;
         var place = $("#main");
         equals('update' in server.callbacks, false, 'no update registered');
         place.jpoker('sitngoTourneyList', 'url', { delay: 30 });
@@ -1417,8 +1420,9 @@ test("jpoker.plugins.sitngoTourneyList", function(){
                 var element = $("#" + id);
                 if(element.length > 0) {
                     var tr = $("#" + id + " tr", place);
+                    var row = $("#" + row_id, place);
                     equals(tr.length, 1+1);
-                    equals($('td:nth-child(4)', tr[1]).text(), buy_in, 'buy in');
+                    equals($('td:nth-child(4)', row).text(), buy_in, 'buy in');
 		    equals($('.headerSortDown', tr[0]).text(), 'Buy In', "headerSortDown");
                     $("#" + id).remove();
                     return true;

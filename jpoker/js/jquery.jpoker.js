@@ -1693,7 +1693,8 @@
         for(var i = 0; i < regularPackets.length; i++) {
             var subpacket = regularPackets[i];
             if(!('game_id' in subpacket)) {
-                subpacket.buy_in /= 100;
+                subpacket.game_id = subpacket.serial;
+                subpacket.id = subpacket.game_id + id;
 	    }
             html.push(t.rows.supplant(subpacket));
         }
@@ -1703,7 +1704,7 @@
 
     jpoker.plugins.regularTourneyList.templates = {
         header : '<thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th><th>{start_time}</th></tr></thead><tbody>',
-        rows : '<tr title=\'' + _("Click to join the table") + '\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{start_time}</td></tr>',
+        rows : '<tr id=\'{id}\' title=\'' + _("Click to show tourney details") + '\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{start_time}</td></tr>',
         footer : '</tbody>'
     };
 
@@ -1769,6 +1770,8 @@
         for(var i = 0; i < sitngoPackets.length; i++) {
             var subpacket = sitngoPackets[i];
             if(!('game_id' in subpacket)) {
+                subpacket.game_id = subpacket.serial;
+                subpacket.id = subpacket.game_id + id;
                 subpacket.buy_in /= 100;
 	    }
             html.push(t.rows.supplant(subpacket));
@@ -1779,7 +1782,7 @@
 
     jpoker.plugins.sitngoTourneyList.templates = {
         header : '<thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th></tr></thead><tbody>',
-        rows : '<tr><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td></tr>',
+        rows : '<tr id=\'{id}\' title=\'' + _("Click to show tourney details") + '\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td></tr>',
         footer : '</tbody>'
     };
 
