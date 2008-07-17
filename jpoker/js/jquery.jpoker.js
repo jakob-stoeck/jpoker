@@ -1846,11 +1846,12 @@
     //
     // tourneyDetails
     //
-    jpoker.plugins.tourneyDetails = function(url, game_id, options) {
+    jpoker.plugins.tourneyDetails = function(url, game_id, name, options) {
 
 	game_id = parseInt(game_id, 10);
+	
         var tourneyDetails = jpoker.plugins.tourneyDetails;
-        var opts = $.extend({}, tourneyDetails.defaults, options, {'game_id': game_id});
+        var opts = $.extend({}, tourneyDetails.defaults, options, {game_id:game_id});
         var server = jpoker.url2server({ url: url });
 	console.log(opts);
 

@@ -24,6 +24,12 @@ $.jpoker.server.defaults.tableRowClick = function(server, packet) {
     story.displayTiddler(null, title, 1);
 };
 
+$.jpoker.server.defaults.tourneyRowClick = function(server, packet) {
+    var title = " TourneyDetails " + packet.name;
+    config.shadowTiddlers[title] = "<<jpokerTourneyDetails '" + server.url + "' " + packet.game_id + " '" + packet.name + "'>>";
+    story.displayTiddler(null, title, 1);
+};
+
 $.jpoker.verbose = 6;
 
 $.jpoker.copyright();
@@ -61,6 +67,12 @@ config.macros.jpokerRegularTourneyList = {
 config.macros.jpokerSitngoTourneyList = {
     handler: function(place, macroName, params, wikifier, paramString, tiddler) {
         $(place).jpoker('sitngoTourneyList', config.jpoker.restURL);
+    }
+};
+
+config.macros.jpokerTourneyDetails = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        $(place).jpoker('tourneyDetails', params[0], params[1], params[2]);
     }
 };
 
