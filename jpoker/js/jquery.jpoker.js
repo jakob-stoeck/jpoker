@@ -1840,11 +1840,17 @@
 				    });
 				if ($.inArray(server.userInfo.name, registerPlayers) == -1) {
 				    input.val("Register").click(function() {
-					    server.sendPacket({'type': 'PacketPokerTourneyRegister', 'serial': server.serial, 'game_id' : options.game_id});
+                                            var server = jpoker.getServer(url);
+                                            if(server) {
+						server.sendPacket({'type': 'PacketPokerTourneyRegister', 'serial': server.serial, 'game_id' : options.game_id});
+					    }
 					});
 				} else {
 				    input.val("Unregister").click(function() {
-					    server.sendPacket({'type': 'PacketPokerTourneyUnregister', 'serial': server.serial, 'game_id' : options.game_id});
+                                            var server = jpoker.getServer(url);
+                                            if(server) {
+						server.sendPacket({'type': 'PacketPokerTourneyUnregister', 'serial': server.serial, 'game_id' : options.game_id});
+					    }
 					});;
 				}
 			    }
