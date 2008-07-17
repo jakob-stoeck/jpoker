@@ -503,11 +503,12 @@
             ROLE: 'role',
             LOGIN: 'loging',
             RUNNING: 'running',
-            USER_INFO: 'retreiving user info',
+            USER_INFO: 'retrieving user info',
             RECONNECT: 'trying to reconnect',
             MY: 'searching my tables',
             TABLE_LIST: 'searching tables',
             TOURNEY_LIST: 'searching tourneys',
+            TOURNEY_DETAILS: 'retrieving tourney details',
             TABLE_JOIN: 'joining table',
 
             blocked: false,
@@ -1037,6 +1038,31 @@
                 };
 
                 return this.refresh('tourneyList', request, handler, this.TOURNEY_LIST, options);
+            },
+
+            //
+            // tourney details
+            //
+            refreshTourneyDetails: function(game_id, options) {
+
+                var request = function(server) {
+                    server.sendPacket({
+                            type: 'PacketPokerTourneyRequestPlayersList',
+                            game_id: game_id
+                        });
+                };
+
+                var handler = function(server, packet) {
+                    if(packet.type == 'PacketPokerTourneyPlayersList') {
+                        // although the tourneys/players count is sent with each
+                        // tourney list, it is global to the server
+			server.notifyUpdate(packet);
+                        return false;
+                    }
+                    return true;
+                };
+
+                return this.refresh('tourneyDetails', request, handler, this.TOURNEY_DETAILS, options);
             },
 
             //
@@ -1783,6 +1809,65 @@
     jpoker.plugins.sitngoTourneyList.templates = {
         header : '<thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th></tr></thead><tbody>',
         rows : '<tr id=\'{id}\' title=\'' + _("Click to show tourney details") + '\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td></tr>',
+        footer : '</tbody>'
+    };
+
+    //
+    // tourneyDetails
+    //
+    jpoker.plugins.tourneyDetails = function(url, options) {
+
+        var tourneyDetails = jpoker.plugins.tourneyDetails;
+        var opts = $.extend({}, tourneyDetails.defaults, options);
+        var server = jpoker.url2server({ url: url });
+
+        return this.each(function() {
+                var $this = $(this);
+
+                var id = jpoker.uid();
+
+                $this.append('<table class=\'jpoker_tourney_details\' id=\'' + id + '\'></table>');
+
+                var updated = function(server, what, packet) {
+                    var element = document.getElementById(id);
+                    if(element) {
+                        if(packet && packet.type == 'PacketPokerTourneyPlayersList') {
+                            $(element).html(tourneyDetails.getHTML(id, packet));
+                        }
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+
+                server.registerUpdate(updated, null, 'tourneyDetails' + id);
+
+                server.refreshTourneyDetails(options.game_id, options);
+                return this;
+            });
+    };
+
+    jpoker.plugins.tourneyDetails.defaults = $.extend({
+	}, jpoker.refresh.defaults, jpoker.defaults);
+
+    jpoker.plugins.tourneyDetails.getHTML = function(id, packet) {
+        var t = this.templates;
+        var html = [];
+        html.push(t.header.supplant({
+                        'player_name': _("Player Name"),
+                        }));
+        for(var i = 0; i < packet.players.length; i++) {
+            var subpacket = packet.players[i];
+	    var player = {player_name: subpacket[0]};
+            html.push(t.rows.supplant(player));
+        }
+        html.push(t.footer);
+        return html.join('\n');
+    };
+
+    jpoker.plugins.tourneyDetails.templates = {
+        header : '<thead><tr><th>{player_name}</th></tr></thead><tbody>',
+        rows : '<tr><td>{player_name}</td></tr>',
         footer : '</tbody>'
     };
 

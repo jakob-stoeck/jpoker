@@ -1443,6 +1443,64 @@ test("jpoker.plugins.sitngoTourneyList", function(){
     });
 
 //
+// tourneyDetails
+//
+test("jpoker.plugins.tourneyDetails", function(){
+        expect(7);
+        stop();
+
+        //
+        // Mockup server that will always return TOURNEY_LIST_PACKET,
+        // whatever is sent to it.
+        //
+        var PokerServer = function() {};
+
+	var TOURNEY_PLAYERS_LIST_PACKET = {"game_id": 1, "serial": 1, "cookie": "", "type": "PacketPokerTourneyPlayersList", "players": [["player0", -1, 0], ["player1", -1, 0], ["player2", -1, 0], ["player3", -1, 0], ["player4", -1, 0], ["player5", -1, 0], ["player6", -1, 0], ["player7", -1, 0], ["player8", -1, 0], ["player9", -1, 0]]};
+	var tourney_serial = TOURNEY_PLAYERS_LIST_PACKET.serial;
+	var players_count = TOURNEY_PLAYERS_LIST_PACKET.players.length;
+
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TOURNEY_PLAYERS_LIST_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        jpoker.serverDestroy('url');
+        server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $("#main");
+        equals('update' in server.callbacks, false, 'no update registered');
+        place.jpoker('tourneyDetails', 'url', { game_id: tourney_serial, delay: 30 });
+        equals(server.callbacks.update.length, 1, 'tourneyDetails update registered');
+        server.registerUpdate(function(server, what, data) {
+                var element = $("#" + id);
+                if(element.length > 0) {
+                    var tr = $("#" + id + " tr", place);
+                    equals(tr.length, players_count+1);
+                    $("#" + id).remove();
+                    return true;
+                } else {
+                    equals(server.callbacks.update.length, 2, 'tourneyDetails and test update registered');
+                    equals('tourneyDetails' in server.timers, true, 'timer active');
+                    server.setTimeout = function(fun, delay) { };
+                    window.setTimeout(function() {
+                            start_and_cleanup();
+                        }, 30);
+                    return false;
+                }
+            });
+        server.registerDestroy(function(server) {
+                equals('tourneyDetails' in server.timers, false, 'timer killed');
+                equals(server.callbacks.update.length, 0, 'update & destroy unregistered');
+            });
+    });
+
+//
 // featuredTable
 //
 test("jpoker.plugins.featuredTable", function(){
