@@ -1895,11 +1895,11 @@
                                     var server = jpoker.getServer(url);
                                     if(server) {
                                         server.login(name, password);
-                                        $('#' + id).html('<div class=\'jpoker_login_progress\'>' + _("signlogin in progress") + '</a>');
+                                        $('#' + id).html('<div class=\'jpoker_login_progress\'>' + _("login in progress") + '</a>');
                                     }
                                 }
                             };
-                            $('.jpoker_login_submit, .jpoker_login_signin', e).click(action);
+                            $('.jpoker_login_submit, .jpoker_login_signup', e).click(action);
                             e.keypress(function(event) {
                                     if(event.which == 13) {
                                         action.call(this);
@@ -1931,7 +1931,7 @@
 	} else {
 	    html.push(t.login.supplant({ 'login': _("user: "),
                                          'password': _("password: "),
-                                         'signin': _("Sign In"),
+                                         'signup': _("Sign Up"),
                                          'go': _("Login")
                     }));
 	}
@@ -1939,7 +1939,7 @@
     };
 
     jpoker.plugins.login.templates = {
-	login: '<table>\n<tbody><tr>\n<td class=\'jpoker_login_name_label\'><b>{login}</b></td>\n<td><input type=\'text\' class=\'jpoker_login_name\' size=\'10\'/></td>\n<td><input type=\'submit\' class=\'jpoker_login_submit\' value=\'{go}\' /></td>\n</tr>\n<tr>\n<td class=\'jpoker_login_name_label\'><b>{password}</b></td>\n<td><input type=\'password\' class=\'jpoker_login_password\' size=\'10\'/></td>\n<td><input type=\'submit\' class=\'jpoker_login_signin\' value=\'{signin}\' /></td>\n</tr>\n</tbody></table>',
+	login: '<table>\n<tbody><tr>\n<td class=\'jpoker_login_name_label\'><b>{login}</b></td>\n<td><input type=\'text\' class=\'jpoker_login_name\' size=\'10\'/></td>\n<td><input type=\'submit\' class=\'jpoker_login_submit\' value=\'{go}\' /></td>\n</tr>\n<tr>\n<td class=\'jpoker_login_name_label\'><b>{password}</b></td>\n<td><input type=\'password\' class=\'jpoker_login_password\' size=\'10\'/></td>\n<td><input type=\'submit\' class=\'jpoker_login_signup\' value=\'{signup}\' /></td>\n</tr>\n</tbody></table>',
 	logout: '<div class=\'jpoker_logout\'>{logout}<div>'
     };
 

@@ -1553,7 +1553,7 @@ test("jpoker.plugins.login", function(){
         equals(dialog.text().indexOf('user name must not be empty') >= 0, true, 'empty user name');
 
         $(".jpoker_login_name", place).attr('value', expected.name);
-        $(".jpoker_login_signin", place).click();
+        $(".jpoker_login_signup", place).click();
 
         equals(dialog.text().indexOf('password must not be empty') >= 0, true, 'empty password');
         dialog.dialog('destroy');
