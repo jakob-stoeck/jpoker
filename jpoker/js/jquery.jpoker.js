@@ -1833,15 +1833,19 @@
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTourneyPlayersList') {
                             $(element).html(tourneyDetails.getHTML(id, packet));
-			    if (server.userInfo.name != undefined) {
+			    if(server.loggedIn()) {
 				var input = $("<input type='submit'>").appendTo(element);
 				var registerPlayers = $.map(packet.players, function(n, i) {
 					return n[0];
 				    });
 				if ($.inArray(server.userInfo.name, registerPlayers) == -1) {
-				    input.val("Register");
+				    input.val("Register").click(function() {
+					    server.sendPacket({'type': 'PacketPokerTourneyRegister', 'serial': server.serial, 'game_id' : options.game_id});
+					});
 				} else {
-				    input.val("Unregister");
+				    input.val("Unregister").click(function() {
+					    server.sendPacket({'type': 'PacketPokerTourneyUnregister', 'serial': server.serial, 'game_id' : options.game_id});
+					});;
 				}
 			    }
                         }

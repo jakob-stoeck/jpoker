@@ -1506,7 +1506,7 @@ test("jpoker.plugins.tourneyDetails", function(){
 // tourneyDetails.register
 //
 test("jpoker.plugins.tourneyDetails.register", function(){
-        expect(1);
+        expect(4);
         stop();
 
         //
@@ -1535,18 +1535,24 @@ test("jpoker.plugins.tourneyDetails.register", function(){
         var id = 'jpoker' + jpoker.serial;
         var place = $("#main");
 	server.userInfo.name = "player10";
+	server.serial = 42;
         place.jpoker('tourneyDetails', 'url', { game_id: tourney_serial, delay: 30 });
         server.registerUpdate(function(server, what, data) {
                 var element = $("#" + id);
                 if(element.length > 0) {
 		    var input = $("#" + id + " input");
 		    equals(input.val(), "Register");
+		    server.sendPacket = function(packet) {
+			equals(packet.type, 'PacketPokerTourneyRegister');
+			equals(packet.serial, server.serial, 'player serial');
+			equals(packet.game_id, tourney_serial, 'tourney_serial');
+			server.sendPacket = function() {}
+		    };
+		    input.click();
                     $("#" + id).remove();
-                    return true;
-                } else {
 		    start_and_cleanup();
                     return false;
-                }
+		}
             });
     });
 
@@ -1554,7 +1560,7 @@ test("jpoker.plugins.tourneyDetails.register", function(){
 // tourneyDetails.unregister
 //
 test("jpoker.plugins.tourneyDetails.unregister", function(){
-        expect(1);
+        expect(4);
         stop();
 
         //
@@ -1583,15 +1589,21 @@ test("jpoker.plugins.tourneyDetails.unregister", function(){
         var id = 'jpoker' + jpoker.serial;
         var place = $("#main");
 	server.userInfo.name = "player0";
+	server.serial = 42;
         place.jpoker('tourneyDetails', 'url', { game_id: tourney_serial, delay: 30 });
         server.registerUpdate(function(server, what, data) {
                 var element = $("#" + id);
                 if(element.length > 0) {
 		    var input = $("#" + id + " input");
 		    equals(input.val(), "Unregister");
+		    server.sendPacket = function(packet) {
+			equals(packet.type, 'PacketPokerTourneyUnregister');
+			equals(packet.serial, server.serial, 'player serial');
+			equals(packet.game_id, tourney_serial, 'tourney_serial');
+			server.sendPacket = function() {}
+		    };
+		    input.click();
                     $("#" + id).remove();
-                    return true;
-                } else {
 		    start_and_cleanup();
                     return false;
                 }
