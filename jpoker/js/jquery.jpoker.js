@@ -1833,6 +1833,7 @@
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTourneyPlayersList') {
                             $(element).html(tourneyDetails.getHTML(id, packet));
+			    var input = $("<input type='submit'>").appendTo(element);
                         }
                         return true;
                     } else {

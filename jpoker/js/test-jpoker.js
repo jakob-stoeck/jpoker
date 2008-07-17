@@ -1446,7 +1446,7 @@ test("jpoker.plugins.sitngoTourneyList", function(){
 // tourneyDetails
 //
 test("jpoker.plugins.tourneyDetails", function(){
-        expect(7);
+        expect(8);
         stop();
 
         //
@@ -1481,7 +1481,9 @@ test("jpoker.plugins.tourneyDetails", function(){
                 var element = $("#" + id);
                 if(element.length > 0) {
                     var tr = $("#" + id + " tr", place);
-                    equals(tr.length, players_count+1);
+                    equals(tr.length, players_count+1, 'tourneyDetails players_count');
+		    var input = $("#" + id + " input");
+		    equals(input.length, 1, 'tourneyDetails register button');
                     $("#" + id).remove();
                     return true;
                 } else {
