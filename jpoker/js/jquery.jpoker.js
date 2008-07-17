@@ -822,6 +822,7 @@
 	    playersTourneysCount: null,
 	    tourneysCount: null,
             tableRowClick: function(server, packet) {},
+            tourneyRowClick: function(server, packet) {},
             setInterval: function(cb, delay) { return window.setInterval(cb, delay); },
             clearInterval: function(id) { return window.clearInterval(id); }
         }, jpoker.connection.defaults);
@@ -1679,6 +1680,21 @@
                         if(packet && packet.type == 'PacketPokerTourneyList') {
                             $(element).html(regularTourneyList.getHTML(id, packet));
 			    $(element).tablesorter({widgets: ['zebra'], sortList: [[4, 0]]});
+                            for(var i = 0; i < packet.packets.length; i++) {
+                                (function(){
+                                    var subpacket = packet.packets[i];
+                                    $('#' + subpacket.id).click(function() {
+                                            var server = jpoker.getServer(url);
+                                            if(server) {
+                                                server.tourneyRowClick(server, subpacket);
+                                            }
+                                        }).hover(function(){
+                                                $(this).addClass('hover');
+                                            },function(){
+                                                $(this).removeClass('hover');
+                                            });
+                                })();
+			    }
                         }
                         return true;
                     } else {
@@ -1756,6 +1772,21 @@
                         if(packet && packet.type == 'PacketPokerTourneyList') {
                             $(element).html(sitngoTourneyList.getHTML(id, packet));
 			    $(element).tablesorter({widgets: ['zebra'], sortList: [[3, 0]]});
+                            for(var i = 0; i < packet.packets.length; i++) {
+                                (function(){
+                                    var subpacket = packet.packets[i];
+                                    $('#' + subpacket.id).click(function() {
+                                            var server = jpoker.getServer(url);
+                                            if(server) {
+                                                server.tourneyRowClick(server, subpacket);
+                                            }
+                                        }).hover(function(){
+                                                $(this).addClass('hover');
+                                            },function(){
+                                                $(this).removeClass('hover');
+                                            });
+                                })();
+			    }
                         }
                         return true;
                     } else {
