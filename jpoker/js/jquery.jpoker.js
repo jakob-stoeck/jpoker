@@ -1833,7 +1833,17 @@
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTourneyPlayersList') {
                             $(element).html(tourneyDetails.getHTML(id, packet));
-			    var input = $("<input type='submit'>").appendTo(element);
+			    if (server.userInfo.name != undefined) {
+				var input = $("<input type='submit'>").appendTo(element);
+				var registerPlayers = $.map(packet.players, function(n, i) {
+					return n[0];
+				    });
+				if ($.inArray(server.userInfo.name, registerPlayers) == -1) {
+				    input.val("Register");
+				} else {
+				    input.val("Unregister");
+				}
+			    }
                         }
                         return true;
                     } else {
