@@ -1506,7 +1506,7 @@ test("jpoker.plugins.tourneyDetails", function(){
 // tourneyDetails.register
 //
 test("jpoker.plugins.tourneyDetails.register", function(){
-        expect(9);
+        expect(1);
         stop();
 
         //
@@ -1534,33 +1534,19 @@ test("jpoker.plugins.tourneyDetails.register", function(){
 
         var id = 'jpoker' + jpoker.serial;
         var place = $("#main");
-        equals('update' in server.callbacks, false, 'no update registered');
 	server.userInfo.name = "player10";
         place.jpoker('tourneyDetails', 'url', { game_id: tourney_serial, delay: 30 });
-        equals(server.callbacks.update.length, 1, 'tourneyDetails update registered');
         server.registerUpdate(function(server, what, data) {
                 var element = $("#" + id);
                 if(element.length > 0) {
-                    var tr = $("#" + id + " tr", place);
-                    equals(tr.length, players_count+1, 'tourneyDetails players_count');
 		    var input = $("#" + id + " input");
-		    equals(input.length, 1, 'tourneyDetails register button');
 		    equals(input.val(), "Register");
                     $("#" + id).remove();
                     return true;
                 } else {
-                    equals(server.callbacks.update.length, 2, 'tourneyDetails and test update registered');
-                    equals('tourneyDetails' in server.timers, true, 'timer active');
-                    server.setTimeout = function(fun, delay) { };
-                    window.setTimeout(function() {
-                            start_and_cleanup();
-                        }, 30);
+		    start_and_cleanup();
                     return false;
                 }
-            });
-        server.registerDestroy(function(server) {
-                equals('tourneyDetails' in server.timers, false, 'timer killed');
-                equals(server.callbacks.update.length, 0, 'update & destroy unregistered');
             });
     });
 
@@ -1568,7 +1554,7 @@ test("jpoker.plugins.tourneyDetails.register", function(){
 // tourneyDetails.unregister
 //
 test("jpoker.plugins.tourneyDetails.unregister", function(){
-        expect(9);
+        expect(1);
         stop();
 
         //
@@ -1596,33 +1582,19 @@ test("jpoker.plugins.tourneyDetails.unregister", function(){
 
         var id = 'jpoker' + jpoker.serial;
         var place = $("#main");
-        equals('update' in server.callbacks, false, 'no update registered');
 	server.userInfo.name = "player0";
         place.jpoker('tourneyDetails', 'url', { game_id: tourney_serial, delay: 30 });
-        equals(server.callbacks.update.length, 1, 'tourneyDetails update registered');
         server.registerUpdate(function(server, what, data) {
                 var element = $("#" + id);
                 if(element.length > 0) {
-                    var tr = $("#" + id + " tr", place);
-                    equals(tr.length, players_count+1, 'tourneyDetails players_count');
 		    var input = $("#" + id + " input");
-		    equals(input.length, 1, 'tourneyDetails register button');
 		    equals(input.val(), "Unregister");
                     $("#" + id).remove();
                     return true;
                 } else {
-                    equals(server.callbacks.update.length, 2, 'tourneyDetails and test update registered');
-                    equals('tourneyDetails' in server.timers, true, 'timer active');
-                    server.setTimeout = function(fun, delay) { };
-                    window.setTimeout(function() {
-                            start_and_cleanup();
-                        }, 30);
+		    start_and_cleanup();
                     return false;
                 }
-            });
-        server.registerDestroy(function(server) {
-                equals('tourneyDetails' in server.timers, false, 'timer killed');
-                equals(server.callbacks.update.length, 0, 'update & destroy unregistered');
             });
     });
 
