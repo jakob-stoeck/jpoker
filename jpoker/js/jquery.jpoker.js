@@ -52,7 +52,7 @@
         copyrightTimeout: 5000,
 
         copyright: function() {
-            var copyright = $('<div><div id=\'jpoker_copyright\'><div class=\'jpoker_copyright_image\'></div><div class=\'jpoker_software\'>jpoker-' + this.VERSION + '</div><div class=\'jpoker_authors\'><div><span>Copyright 2008 </span><a href=\'mailto:loic@dachary.org\'>Loic Dachary</a></div><div><span class=\'jpoker_click\'>Copyright 2008 </span><a href=\'mailto:proppy@aminche.com\'>Johan Euphrosine</a></div></div><div class=\'jpoker_explain\'>jpoker runs on this web browser and is Free Software. You may use jpoker to run a business without asking the authors permissions. You may give a copy to your friends. However, the authors do not want jpoker to be used with proprietary software.</div><div class=\'jpoker_license\'>This program is free software: you can redistribute it and/or modify it under the terms of the <a href=\'http://www.fsf.org/licensing/licenses/gpl.txt\'>GNU General Public License</a> as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</div> <div class=\'jpoker_full_copyright\'>Read the full <a href=\'http://jspoker.pokersource.info/jpoker/#Copyright\'>copyright information page.</a></div><div class=\'jpoker_download\'>Download <a href=\'http://upstream.jspoker.pokersource.info/file/tip/jpoker/js/jquery.jpoker.js\'>jpoker sources.</a></div><div class=\'jpoker_dismiss\'><a href=\'#\'>Dismiss</a></div></div></div>').dialog({ width: 'none', height: 'none' });
+            var copyright = $('<div><div id=\'jpoker_copyright\'><div class=\'jpoker_copyright_image\'></div><div class=\'jpoker_software\'>jpoker-' + this.VERSION + '</div><div class=\'jpoker_authors\'><div><span>Copyright 2008 </span><a href=\'mailto:loic@dachary.org\'>Loic Dachary</a></div><div><span class=\'jpoker_click\'>Copyright 2008 </span><a href=\'mailto:proppy@aminche.com\'>Johan Euphrosine</a></div></div><div class=\'jpoker_explain\'>jpoker runs on this web browser and is Free Software. You may use jpoker to run a business without asking the authors permissions. You may give a copy to your friends. However, the authors do not want jpoker to be used with proprietary software.</div><div class=\'jpoker_license\'>This program is free software: you can redistribute it and/or modify it under the terms of the <a href=\'http://www.fsf.org/licensing/licenses/gpl.txt\'>GNU General Public License</a> as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</div> <div class=\'jpoker_full_copyright\'>Read the full <a href=\'http://jspoker.pokersource.info/jpoker/#Copyright\'>copyright information page.</a></div><div class=\'jpoker_download\'>Download <a href=\'http://upstream.jspoker.pokersource.info/file/tip/jpoker/js/jquery.jpoker.js\'>jpoker sources.</a></div><div class=\'jpoker_dismiss\'><a href=\'#\'>Dismiss</a></div></div></div>').dialog(); // { width: 'none', height: 'none' } IE bug
             $('.jpoker_download', copyright).frame('box1');
             $('.ui-dialog-titlebar', copyright.parents('.ui-dialog-container')).hide();
             var close = function() { copyright.dialog('destroy'); };
@@ -2483,7 +2483,7 @@
             appendTo(button);
             $('.ui-slider-1', rebuy).slider({
                     min: limits[0],
-                        startValue: limits[1],
+                        //                        startValue: limits[1], IE bug
                         max: limits[2],
                         stepping: 1,
                         change: function(event, ui) {
@@ -2585,7 +2585,7 @@
                     raise.show(); // must be visible otherwise outerWeight/outerWidth returns 0
                     $('.ui-slider-1', raise).slider({
                             min: betLimit.min,
-                                startValue: betLimit.min,
+                                // startValue: betLimit.min, IE bug
                                 max: betLimit.max,
                                 axis: 'horizontal',
                                 stepping: betLimit.step,
