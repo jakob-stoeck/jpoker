@@ -729,7 +729,7 @@ test("jpoker.server.tourneyRegister", function(){
     });
 
 test("jpoker.server.tourneyRegister error", function(){
-        expect(5);
+        expect(1);
 	stop();
 
         var serial = 43;
@@ -740,10 +740,6 @@ test("jpoker.server.tourneyRegister error", function(){
 
         server.serial = serial;
         server.sendPacket = function(packet) {
-            equals(packet.type, 'PacketPokerTourneyRegister');
-            equals(packet.serial, serial, 'player serial');
-            equals(packet.game_id, game_id, 'tournament id');
-	    equals(server.getState(), server.TOURNEY_REGISTER);
 	    server.queueIncoming([ERROR_PACKET]);
         };
 	jpoker.dialog = function(message) {
@@ -779,6 +775,32 @@ test("jpoker.server.tourneyUnregister", function(){
         };
         server.registerUpdate(function(server, what, packet) {
 		if (packet.type == 'PacketPokerTourneyUnregister')
+		    server.queueRunning(start_and_cleanup);
+		return true;
+            });
+        server.tourneyUnregister(game_id);
+    });
+
+test("jpoker.server.tourneyUnregister error", function(){
+
+        expect(1);
+	stop();
+
+        var serial = 43;
+        var game_id = 2;
+	var ERROR_PACKET = {"message":"It is too late to unregister player 6 from tournament 1179 ","code":3,"type":"PacketError","other_type":117}
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        server.serial = serial;
+        server.sendPacket = function(packet) {
+	    server.queueIncoming([ERROR_PACKET]);
+        };
+	jpoker.dialog = function(message) {
+	    equals(message, ERROR_PACKET.message);
+	};
+        server.registerUpdate(function(server, what, packet) {
+		if (packet.type == 'PacketError')
 		    server.queueRunning(start_and_cleanup);
 		return true;
             });

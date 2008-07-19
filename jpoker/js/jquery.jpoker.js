@@ -1209,14 +1209,18 @@
 				    server.notifyUpdate(packet);
 				    server.setState(server.RUNNING, 'PacketPokerTourneyRegister');
 				    return false;
-				}});
+				}
+				return true;
+			    });
 			server.registerHandler(0, function(server, game_id, packet) {
 				if (packet.type == 'PacketError') {
 				    jpoker.dialog(_(packet.message));
 				    server.notifyUpdate(packet);
 				    server.setState(server.RUNNING, 'PacketError');
 				    return false;
-				}});
+				}
+				return true;
+			    });
 		    });
 	    },
 
@@ -1225,9 +1229,21 @@
 			server.setState(server.TOURNEY_REGISTER);
 			server.sendPacket({'type': 'PacketPokerTourneyUnregister', 'serial': server.serial, 'game_id' : game_id});
 			server.registerHandler(game_id, function(server, game_id, packet) {
-				server.notifyUpdate(packet);
-				server.setState(server.RUNNING, 'PacketPokerTourneyUnregister');
-				return false;
+				if (packet.type == 'PacketPokerTourneyUnregister') {
+				    server.notifyUpdate(packet);
+				    server.setState(server.RUNNING, 'PacketPokerTourneyUnregister');
+				    return false;
+				}
+				return true;
+			    });
+			server.registerHandler(0, function(server, game_id, packet) {
+				if (packet.type == 'PacketError') {
+				    jpoker.dialog(_(packet.message));
+				    server.notifyUpdate(packet);
+				    server.setState(server.RUNNING, 'PacketError');
+				    return false;
+				}
+				return true;
 			    });
 		    });
 	    },
