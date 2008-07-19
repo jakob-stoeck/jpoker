@@ -1090,6 +1090,7 @@
                         password: password
                     });
                 this.ping();
+                this.getUserInfo(); // will fire when login is complete
                 var role_is_set = false;
                 var answer = function(server, game_id, packet) {
                     switch(packet.type) {
@@ -1122,9 +1123,8 @@
                         return false;
                     }
                     server.notifyUpdate(packet);
-                    server.getUserInfo();
+                    server.setState(server.RUNNING, 'login serial received');
                     return false;
-
                     }
 
                     return true;
