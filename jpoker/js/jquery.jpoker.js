@@ -1573,11 +1573,11 @@
 
         var waiting = false; // is there a refresh being served
 
-        var timer = 0;
-
         var url = server.url;
 
-        var callHandler = function(server, game_id, packet) {
+	var tick = {}	
+
+        tick.callHandler = function(server, game_id, packet) {
             var status = handler(server, packet);
             if(status === false) {
                 waiting = false;
@@ -1586,7 +1586,7 @@
             return status;
         };
 
-        var sendRequest = function() {
+        tick.sendRequest = function() {
             var server = jpoker.getServer(url);
             if(server && opts.requireSession === false || server.connected()) {
                 if(!waiting) {
@@ -1594,24 +1594,24 @@
                     server.queueRunning(function(server) {
                             server.setState(state, 'refresh');
                             request(server);
-                            server.registerHandler(opts.game_id, callHandler, opts);
+                            server.registerHandler(opts.game_id, tick.callHandler, opts);
                         });
                 } else if(jpoker.verbose > 0) {
                     jpoker.message('refresh waiting');
                 } 
                 return true;
             } else {
-                opts.clearInterval(timer);
-                timer = 0; // relevant for the first call (see below)
+                opts.clearInterval(tick.timer);
+                tick.timer = 0; // relevant for the first call (see below)
                 return false;
             }
         };
 
-        if(sendRequest() && opts.delay > 0) {
-            timer = opts.setInterval(sendRequest, opts.delay);
+        if(tick.sendRequest() && opts.delay > 0) {
+            tick.timer = opts.setInterval(tick.sendRequest, opts.delay);
         }
 
-        return timer;
+        return tick.timer;
     };
 
     jpoker.refresh.defaults = {
