@@ -701,7 +701,7 @@ test("jpoker.server.bankroll", function(){
     });
 
 test("jpoker.server.tourneyRegister", function(){
-        expect(4);
+        expect(6);
 	stop();
 
         var serial = 43;
@@ -718,6 +718,10 @@ test("jpoker.server.tourneyRegister", function(){
             equals(packet.serial, serial, 'player serial');
             equals(packet.game_id, game_id, 'tournament id');
 	    equals(server.getState(), server.TOURNEY_REGISTER);
+	    server.sendPacket = function(packet) {
+		equals(packet.type, 'PacketPokerTourneyRequestPlayersList');
+		equals(packet.game_id, game_id, 'tournament id');
+	    };
 	    server.queueIncoming([TOURNEY_REGISTER_PACKET]);
         };
         server.registerUpdate(function(server, what, packet) {
@@ -754,7 +758,7 @@ test("jpoker.server.tourneyRegister error", function(){
     });
 
 test("jpoker.server.tourneyUnregister", function(){
-        expect(4);
+        expect(6);
 	stop();
 
         var serial = 43;
@@ -771,6 +775,10 @@ test("jpoker.server.tourneyUnregister", function(){
             equals(packet.serial, serial, 'player serial');
             equals(packet.game_id, game_id, 'tournament id');
 	    equals(server.getState(), server.TOURNEY_REGISTER);
+	    server.sendPacket = function(packet) {
+		equals(packet.type, 'PacketPokerTourneyRequestPlayersList');
+		equals(packet.game_id, game_id, 'tournament id');
+	    };
 	    server.queueIncoming([TOURNEY_REGISTER_PACKET]);
         };
         server.registerUpdate(function(server, what, packet) {
