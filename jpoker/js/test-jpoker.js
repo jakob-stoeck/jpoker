@@ -1506,7 +1506,7 @@ test("jpoker.plugins.tourneyDetails", function(){
 // tourneyDetails.register
 //
 test("jpoker.plugins.tourneyDetails.register", function(){
-        expect(4);
+        expect(2);
         stop();
 
         //
@@ -1542,15 +1542,12 @@ test("jpoker.plugins.tourneyDetails.register", function(){
                 if(element.length > 0) {
 		    var input = $("#" + id + " input");
 		    equals(input.val(), "Register");
-		    server.sendPacket = function(packet) {
-			equals(packet.type, 'PacketPokerTourneyRegister');
-			equals(packet.serial, server.serial, 'player serial');
-			equals(packet.game_id, tourney_serial, 'tourney_serial');
-			server.sendPacket = function() {}
+		    jpoker.tourneyRegister = function(game_id) {
+			equals(tourney_serial, game_id);
+			start_and_cleanup();
 		    };
-		    input.click();
+		    input.click();	    
                     $("#" + id).remove();
-		    start_and_cleanup();
                     return false;
 		}
             });
@@ -1560,7 +1557,7 @@ test("jpoker.plugins.tourneyDetails.register", function(){
 // tourneyDetails.unregister
 //
 test("jpoker.plugins.tourneyDetails.unregister", function(){
-        expect(4);
+        expect(2);
         stop();
 
         //
@@ -1596,15 +1593,12 @@ test("jpoker.plugins.tourneyDetails.unregister", function(){
                 if(element.length > 0) {
 		    var input = $("#" + id + " input");
 		    equals(input.val(), "Unregister");
-		    server.sendPacket = function(packet) {
-			equals(packet.type, 'PacketPokerTourneyUnregister');
-			equals(packet.serial, server.serial, 'player serial');
-			equals(packet.game_id, tourney_serial, 'tourney_serial');
-			server.sendPacket = function() {}
+		    jpoker.tourneyUnregister = function(game_id) {
+			equals(tourney_serial, game_id);
+			start_and_cleanup();
 		    };
 		    input.click();
                     $("#" + id).remove();
-		    start_and_cleanup();
                     return false;
                 }
             });

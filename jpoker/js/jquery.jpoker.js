@@ -1197,7 +1197,21 @@
                     return this.userInfo.money[key][0] / 100; // PacketPokerUserInfo for documentation
                 }
                 return 0;
-            }
+            },
+
+	    tourneyRegister: function(game_id) {
+		var server = jpoker.getServer(url);
+		if(server) {
+		    server.sendPacket({'type': 'PacketPokerTourneyRegister', 'serial': server.serial, 'game_id' : game_id});
+		}
+	    },
+
+	    tourneyUnregister: function(game_id) {
+		var server = jpoker.getServer(url);
+		if(server) {
+		    server.sendPacket({'type': 'PacketPokerTourneyUnregister', 'serial': server.serial, 'game_id' : game_id});
+		}
+	    },
         });
 
     //
@@ -1873,17 +1887,11 @@
 				    });
 				if ($.inArray(server.userInfo.name, registerPlayers) == -1) {
 				    input.val("Register").click(function() {
-                                            var server = jpoker.getServer(url);
-                                            if(server) {
-						server.sendPacket({'type': 'PacketPokerTourneyRegister', 'serial': server.serial, 'game_id' : game_id});
-					    }
+					    jpoker.tourneyRegister(game_id);
 					});
 				} else {
 				    input.val("Unregister").click(function() {
-                                            var server = jpoker.getServer(url);
-                                            if(server) {
-						server.sendPacket({'type': 'PacketPokerTourneyUnregister', 'serial': server.serial, 'game_id' : game_id});
-					    }
+					    jpoker.tourneyUnregister(game_id);
 					});;
 				}
 			    }
