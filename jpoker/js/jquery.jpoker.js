@@ -1204,10 +1204,9 @@
 		this.queueRunning(function(server) {
 			server.setState(server.TOURNEY_REGISTER);
 			server.sendPacket({'type': 'PacketPokerTourneyRegister', 'serial': server.serial, 'game_id' : game_id});
-			server.registerHandler(game_id, function(server, unused_game_id, packet) {
+			server.registerHandler(game_id, function(server, game_id, packet) {
 				if (packet.type == 'PacketPokerTourneyRegister') {
 				    server.notifyUpdate(packet);
-				    server.queueRunning(function(server) {server.sendPacket({type: 'PacketPokerTourneyRequestPlayersList', game_id: game_id});});
 				    server.setState(server.RUNNING, 'PacketPokerTourneyRegister');
 				    return false;
 				}
@@ -1224,7 +1223,6 @@
 					packet.message = code2message[packet.code].supplant({game_id: game_id, serial: server.serial});
 				    jpoker.dialog(packet.message);
 				    server.notifyUpdate(packet);
-				    server.queueRunning(function(server) {server.sendPacket({type: 'PacketPokerTourneyRequestPlayersList', game_id: game_id});});
 				    server.setState(server.RUNNING, 'PacketError');
 				    return false;
 				}
@@ -1237,9 +1235,8 @@
 		this.queueRunning(function(server) {
 			server.setState(server.TOURNEY_REGISTER);
 			server.sendPacket({'type': 'PacketPokerTourneyUnregister', 'serial': server.serial, 'game_id' : game_id});
-			server.registerHandler(game_id, function(server, unused_game_id, packet) {
+			server.registerHandler(game_id, function(server, game_id, packet) {
 				if (packet.type == 'PacketPokerTourneyUnregister') {
-				    server.sendPacket({type: 'PacketPokerTourneyRequestPlayersList', game_id: game_id});
 				    server.notifyUpdate(packet);
 				    server.setState(server.RUNNING, 'PacketPokerTourneyUnregister');
 				    return false;
