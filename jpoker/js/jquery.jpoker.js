@@ -1851,7 +1851,7 @@
 	game_id = parseInt(game_id, 10);
 	
         var tourneyDetails = jpoker.plugins.tourneyDetails;
-        var opts = $.extend({}, tourneyDetails.defaults, options, {game_id:game_id});
+        var opts = $.extend({}, tourneyDetails.defaults, options);
         var server = jpoker.url2server({ url: url });
 	console.log(opts);
 

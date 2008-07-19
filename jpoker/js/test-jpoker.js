@@ -1455,7 +1455,7 @@ test("jpoker.plugins.tourneyDetails", function(){
         //
         var PokerServer = function() {};
 
-	var TOURNEY_PLAYERS_LIST_PACKET = {"game_id": 1, "serial": 1, "cookie": "", "type": "PacketPokerTourneyPlayersList", "players": [["player0", -1, 0], ["player1", -1, 0], ["player2", -1, 0], ["player3", -1, 0], ["player4", -1, 0], ["player5", -1, 0], ["player6", -1, 0], ["player7", -1, 0], ["player8", -1, 0], ["player9", -1, 0]]};
+	var TOURNEY_PLAYERS_LIST_PACKET = {"game_id": 0, "serial": 1, "cookie": "", "type": "PacketPokerTourneyPlayersList", "players": [["player0", -1, 0], ["player1", -1, 0], ["player2", -1, 0], ["player3", -1, 0], ["player4", -1, 0], ["player5", -1, 0], ["player6", -1, 0], ["player7", -1, 0], ["player8", -1, 0], ["player9", -1, 0]]};
 	var tourney_serial = TOURNEY_PLAYERS_LIST_PACKET.serial;
 	var players_count = TOURNEY_PLAYERS_LIST_PACKET.players.length;
 
@@ -1515,7 +1515,7 @@ test("jpoker.plugins.tourneyDetails.register", function(){
         //
         var PokerServer = function() {};
 
-	var TOURNEY_PLAYERS_LIST_PACKET = {"game_id": 1, "serial": 1, "cookie": "", "type": "PacketPokerTourneyPlayersList", "players": [["player0", -1, 0], ["player1", -1, 0], ["player2", -1, 0], ["player3", -1, 0], ["player4", -1, 0], ["player5", -1, 0], ["player6", -1, 0], ["player7", -1, 0], ["player8", -1, 0], ["player9", -1, 0]]};
+	var TOURNEY_PLAYERS_LIST_PACKET = {"game_id": 0, "serial": 1, "cookie": "", "type": "PacketPokerTourneyPlayersList", "players": [["player0", -1, 0], ["player1", -1, 0], ["player2", -1, 0], ["player3", -1, 0], ["player4", -1, 0], ["player5", -1, 0], ["player6", -1, 0], ["player7", -1, 0], ["player8", -1, 0], ["player9", -1, 0]]};
 	var tourney_serial = TOURNEY_PLAYERS_LIST_PACKET.serial;
 	var players_count = TOURNEY_PLAYERS_LIST_PACKET.players.length;
 
@@ -1569,7 +1569,7 @@ test("jpoker.plugins.tourneyDetails.unregister", function(){
         //
         var PokerServer = function() {};
 
-	var TOURNEY_PLAYERS_LIST_PACKET = {"game_id": 1, "serial": 1, "cookie": "", "type": "PacketPokerTourneyPlayersList", "players": [["player0", -1, 0], ["player1", -1, 0], ["player2", -1, 0], ["player3", -1, 0], ["player4", -1, 0], ["player5", -1, 0], ["player6", -1, 0], ["player7", -1, 0], ["player8", -1, 0], ["player9", -1, 0]]};
+	var TOURNEY_PLAYERS_LIST_PACKET = {"game_id": 0, "serial": 1, "cookie": "", "type": "PacketPokerTourneyPlayersList", "players": [["player0", -1, 0], ["player1", -1, 0], ["player2", -1, 0], ["player3", -1, 0], ["player4", -1, 0], ["player5", -1, 0], ["player6", -1, 0], ["player7", -1, 0], ["player8", -1, 0], ["player9", -1, 0]]};
 	var tourney_serial = TOURNEY_PLAYERS_LIST_PACKET.serial;
 	var players_count = TOURNEY_PLAYERS_LIST_PACKET.players.length;
 
