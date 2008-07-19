@@ -713,6 +713,7 @@ test("jpoker.server.tourneyRegister", function(){
         var server = jpoker.serverCreate({ url: 'url' });
 
         server.serial = serial;
+	
         server.sendPacket = function(packet) {
             equals(packet.type, 'PacketPokerTourneyRegister');
             equals(packet.serial, serial, 'player serial');
@@ -721,8 +722,13 @@ test("jpoker.server.tourneyRegister", function(){
 	    server.queueIncoming([TOURNEY_REGISTER_PACKET]);
         };
         server.registerUpdate(function(server, what, packet) {
-		if (packet.type == 'PacketPokerTourneyRegister')
-		    server.queueRunning(start_and_cleanup);
+		if (packet.type == 'PacketPokerTourneyRegister') {
+		    server.timers = {'tourneyDetails': 
+				     { timer: 0, 
+				       request: start_and_cleanup }
+		    };
+		    return false;
+		}
 		return true;
             });
         server.tourneyRegister(game_id);
@@ -776,8 +782,13 @@ test("jpoker.server.tourneyUnregister", function(){
 	    server.queueIncoming([TOURNEY_REGISTER_PACKET]);
         };
         server.registerUpdate(function(server, what, packet) {
-		if (packet.type == 'PacketPokerTourneyUnregister')
-		    server.queueRunning(start_and_cleanup);
+		if (packet.type == 'PacketPokerTourneyUnregister') {
+		    server.timers = {'tourneyDetails': 
+				     { timer: 0, 
+				       request: start_and_cleanup }
+		    };
+		    return false;
+		}
 		return true;
             });
         server.tourneyUnregister(game_id);

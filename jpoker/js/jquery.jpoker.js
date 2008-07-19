@@ -1205,8 +1205,11 @@
 			server.registerHandler(game_id, function(server, game_id, packet) {
 				if (packet.type == 'PacketPokerTourneyRegister') {
 				    server.notifyUpdate(packet);
+				    server.queueRunning(function() {
+					    if (server.timers['tourneyDetails'] !== undefined)
+						server.timers['tourneyDetails'].request();
+					});
 				    server.setState(server.RUNNING, 'PacketPokerTourneyRegister');
-				    
 				    return false;
 				}
 				return true;
@@ -1237,6 +1240,10 @@
 			server.registerHandler(game_id, function(server, game_id, packet) {
 				if (packet.type == 'PacketPokerTourneyUnregister') {
 				    server.notifyUpdate(packet);
+				    server.queueRunning(function() {
+					    if (server.timers['tourneyDetails'] !== undefined)
+						server.timers['tourneyDetails'].request();
+					});
 				    server.setState(server.RUNNING, 'PacketPokerTourneyUnregister');
 				    return false;
 				}
