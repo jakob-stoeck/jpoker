@@ -1853,7 +1853,6 @@
         var tourneyDetails = jpoker.plugins.tourneyDetails;
         var opts = $.extend({}, tourneyDetails.defaults, options);
         var server = jpoker.url2server({ url: url });
-	console.log(opts);
 
         return this.each(function() {
                 var $this = $(this);
