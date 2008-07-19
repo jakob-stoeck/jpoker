@@ -2042,6 +2042,7 @@
                                 }
                             };
                             $('.jpoker_login_submit, .jpoker_login_signup', e).click(action);
+                            e.unbind('keypress'); // prevent accumulation of handlers 
                             e.keypress(function(event) {
                                     if(event.which == 13) {
                                         action.call(this);
