@@ -510,6 +510,7 @@
             TOURNEY_LIST: 'searching tourneys',
             TOURNEY_DETAILS: 'retrieving tourney details',
             TABLE_JOIN: 'joining table',
+	    TOURNEY_REGISTER: 'updating tourney registration',
 
             blocked: false,
 
@@ -872,7 +873,7 @@
                         jpoker.error('undefined state');
                     }
                     if(jpoker.verbose > 0) {
-                        jpoker.message('setSate ' + state + ' ' + comment);
+                        jpoker.message('setState ' + state + ' ' + comment);
                     }
                     this.notifyUpdate({type: 'PacketState', state: state});
                     this.dequeueRunning();
@@ -1200,17 +1201,25 @@
             },
 
 	    tourneyRegister: function(game_id) {
-		var server = jpoker.getServer(url);
-		if(server) {
-		    server.sendPacket({'type': 'PacketPokerTourneyRegister', 'serial': server.serial, 'game_id' : game_id});
-		}
+		this.queueRunning(function(server) {
+			server.setState(server.TOURNEY_REGISTER);
+			server.sendPacket({'type': 'PacketPokerTourneyRegister', 'serial': server.serial, 'game_id' : game_id});
+			server.registerHandler(game_id, function(server, game_id, packet) {
+				server.notifyUpdate(packet);
+				return false;
+			    });
+		    });
 	    },
 
 	    tourneyUnregister: function(game_id) {
-		var server = jpoker.getServer(url);
-		if(server) {
-		    server.sendPacket({'type': 'PacketPokerTourneyUnregister', 'serial': server.serial, 'game_id' : game_id});
-		}
+		this.queueRunning(function(server) {
+			server.setState(server.TOURNEY_REGISTER);
+			server.sendPacket({'type': 'PacketPokerTourneyUnregister', 'serial': server.serial, 'game_id' : game_id});
+			server.registerHandler(game_id, function(server, game_id, packet) {
+				server.notifyUpdate(packet);
+				return false;
+			    });
+		    });
 	    },
         });
 

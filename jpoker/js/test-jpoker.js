@@ -700,6 +700,61 @@ test("jpoker.server.bankroll", function(){
         cleanup();
     });
 
+test("jpoker.server.tourneyRegister", function(){
+        expect(4);
+	stop();
+
+        var serial = 43;
+        var game_id = 2;
+	var TOURNEY_REGISTER_PACKET = {"type": 'PacketPokerTourneyRegister',
+				       "serial": serial,
+				       "game_id": game_id};
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        server.serial = serial;
+        server.sendPacket = function(packet) {
+            equals(packet.type, 'PacketPokerTourneyRegister');
+            equals(packet.serial, serial, 'player serial');
+            equals(packet.game_id, game_id, 'tournament id');
+	    equals(server.getState(), server.TOURNEY_REGISTER);
+	    server.queueIncoming([TOURNEY_REGISTER_PACKET]);
+        };
+        server.registerUpdate(function(server, what, packet) {
+		if (packet.type == 'PacketPokerTourneyRegister')
+		    start_and_cleanup();
+		return true;
+            });
+        server.tourneyRegister(game_id);
+    });
+
+test("jpoker.server.tourneyUnregister", function(){
+        expect(4);
+	stop();
+
+        var serial = 43;
+        var game_id = 2;
+	var TOURNEY_REGISTER_PACKET = {"type": 'PacketPokerTourneyUnregister',
+				       "serial": serial,
+				       "game_id": game_id};
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        server.serial = serial;
+        server.sendPacket = function(packet) {
+            equals(packet.type, 'PacketPokerTourneyUnregister');
+            equals(packet.serial, serial, 'player serial');
+            equals(packet.game_id, game_id, 'tournament id');
+	    equals(server.getState(), server.TOURNEY_REGISTER);
+	    server.queueIncoming([TOURNEY_REGISTER_PACKET]);
+        };
+        server.registerUpdate(function(server, what, packet) {
+		if (packet.type == 'PacketPokerTourneyUnregister')
+		    start_and_cleanup();
+		return true;
+            });
+        server.tourneyUnregister(game_id);
+    });
 
 //
 // jpoker.connection
