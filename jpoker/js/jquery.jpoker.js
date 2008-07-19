@@ -52,7 +52,7 @@
         copyrightTimeout: 5000,
 
         copyright: function() {
-            var copyright = $('<div><div id=\'jpoker_copyright\'><div class=\'jpoker_copyright_image\'></div><div class=\'jpoker_software\'>jpoker-' + this.VERSION + '</div><div class=\'jpoker_authors\'><div><span>Copyright 2008 </span><a href=\'mailto:loic@dachary.org\'>Loic Dachary</a></div><div><span class=\'jpoker_click\'>Copyright 2008 </span><a href=\'mailto:proppy@aminche.com\'>Johan Euphrosine</a></div></div><div class=\'jpoker_explain\'>jpoker runs on this web browser and is Free Software. You may use jpoker to run a business without asking the authors permissions. You may give a copy to your friends. However, the authors do not want jpoker to be used with proprietary software.</div><div class=\'jpoker_license\'>This program is free software: you can redistribute it and/or modify it under the terms of the <a href=\'http://www.fsf.org/licensing/licenses/gpl.txt\'>GNU General Public License</a> as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</div> <div class=\'jpoker_full_copyright\'>Read the full <a href=\'http://jspoker.pokersource.info/jpoker/#Copyright\'>copyright information page.</a></div><div class=\'jpoker_download\'>Download <a href=\'http://upstream.jspoker.pokersource.info/file/tip/jpoker/js/jquery.jpoker.js\'>jpoker sources.</a></div><div class=\'jpoker_dismiss\'><a href=\'#\'>Dismiss</a></div></div></div>').dialog({ width: 'none', height: 'none' });
+            var copyright = $('<div><div id=\'jpoker_copyright\'><div class=\'jpoker_copyright_image\'></div><div class=\'jpoker_software\'>jpoker-' + this.VERSION + '</div><div class=\'jpoker_authors\'><div><span>Copyright 2008 </span><a href=\'mailto:loic@dachary.org\'>Loic Dachary</a></div><div><span class=\'jpoker_click\'>Copyright 2008 </span><a href=\'mailto:proppy@aminche.com\'>Johan Euphrosine</a></div></div><div class=\'jpoker_explain\'>jpoker runs on this web browser and is Free Software. You may use jpoker to run a business without asking the authors permissions. You may give a copy to your friends. However, the authors do not want jpoker to be used with proprietary software.</div><div class=\'jpoker_license\'>This program is free software: you can redistribute it and/or modify it under the terms of the <a href=\'http://www.fsf.org/licensing/licenses/gpl.txt\'>GNU General Public License</a> as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</div> <div class=\'jpoker_full_copyright\'>Read the full <a href=\'http://jspoker.pokersource.info/jpoker/#Copyright\'>copyright information page.</a></div><div class=\'jpoker_download\'>Download <a href=\'http://upstream.jspoker.pokersource.info/file/tip/jpoker/js/jquery.jpoker.js\'>jpoker sources.</a></div><div class=\'jpoker_dismiss\'><a href=\'#\'>Dismiss</a></div></div></div>').dialog(); // { width: 'none', height: 'none' } IE bug
             $('.jpoker_download', copyright).frame('box1');
             $('.ui-dialog-titlebar', copyright.parents('.ui-dialog-container')).hide();
             var close = function() { copyright.dialog('destroy'); };
@@ -2037,11 +2037,11 @@
                                     var server = jpoker.getServer(url);
                                     if(server) {
                                         server.login(name, password);
-                                        $('#' + id).html('<div class=\'jpoker_login_progress\'>' + _("signlogin in progress") + '</a>');
+                                        $('#' + id).html('<div class=\'jpoker_login_progress\'>' + _("login in progress") + '</a>');
                                     }
                                 }
                             };
-                            $('.jpoker_login_submit, .jpoker_login_signin', e).click(action);
+                            $('.jpoker_login_submit, .jpoker_login_signup', e).click(action);
                             e.keypress(function(event) {
                                     if(event.which == 13) {
                                         action.call(this);
@@ -2073,7 +2073,7 @@
 	} else {
 	    html.push(t.login.supplant({ 'login': _("user: "),
                                          'password': _("password: "),
-                                         'signin': _("Sign In"),
+                                         'signup': _("Sign Up"),
                                          'go': _("Login")
                     }));
 	}
@@ -2081,7 +2081,7 @@
     };
 
     jpoker.plugins.login.templates = {
-	login: '<table>\n<tbody><tr>\n<td class=\'jpoker_login_name_label\'><b>{login}</b></td>\n<td><input type=\'text\' class=\'jpoker_login_name\' size=\'10\'/></td>\n<td><input type=\'submit\' class=\'jpoker_login_submit\' value=\'{go}\' /></td>\n</tr>\n<tr>\n<td class=\'jpoker_login_name_label\'><b>{password}</b></td>\n<td><input type=\'password\' class=\'jpoker_login_password\' size=\'10\'/></td>\n<td><input type=\'submit\' class=\'jpoker_login_signin\' value=\'{signin}\' /></td>\n</tr>\n</tbody></table>',
+	login: '<table>\n<tbody><tr>\n<td class=\'jpoker_login_name_label\'><b>{login}</b></td>\n<td><input type=\'text\' class=\'jpoker_login_name\' size=\'10\'/></td>\n<td><input type=\'submit\' class=\'jpoker_login_submit\' value=\'{go}\' /></td>\n</tr>\n<tr>\n<td class=\'jpoker_login_name_label\'><b>{password}</b></td>\n<td><input type=\'password\' class=\'jpoker_login_password\' size=\'10\'/></td>\n<td><input type=\'submit\' class=\'jpoker_login_signup\' value=\'{signup}\' /></td>\n</tr>\n</tbody></table>',
 	logout: '<div class=\'jpoker_logout\'>{logout}<div>'
     };
 
@@ -2625,7 +2625,7 @@
             appendTo(button);
             $('.ui-slider-1', rebuy).slider({
                     min: limits[0],
-                        startValue: limits[1],
+                        //                        startValue: limits[1], IE bug
                         max: limits[2],
                         stepping: 1,
                         change: function(event, ui) {
@@ -2727,7 +2727,7 @@
                     raise.show(); // must be visible otherwise outerWeight/outerWidth returns 0
                     $('.ui-slider-1', raise).slider({
                             min: betLimit.min,
-                                startValue: betLimit.min,
+                                // startValue: betLimit.min, IE bug
                                 max: betLimit.max,
                                 axis: 'horizontal',
                                 stepping: betLimit.step,
