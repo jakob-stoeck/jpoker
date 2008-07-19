@@ -734,7 +734,7 @@ test("jpoker.server.tourneyRegister error", function(){
 
         var serial = 43;
         var game_id = 2;
-	var ERROR_PACKET = {'message':'Not enough money to enter the tournament 955','code':4,'type':'PacketError','other_type':jpoker.packetName2Type.PACKET_POKER_TOURNEY_REGISTER};
+	var ERROR_PACKET = {'message':'server error message','code': 2,'type':'PacketError','other_type':jpoker.packetName2Type.PACKET_POKER_TOURNEY_REGISTER};
 
         var server = jpoker.serverCreate({ url: 'url' });
 
@@ -743,7 +743,7 @@ test("jpoker.server.tourneyRegister error", function(){
 	    server.queueIncoming([ERROR_PACKET]);
         };
 	jpoker.dialog = function(message) {
-	    equals(message, ERROR_PACKET.message);
+	    equals(message, _("Player {serial} already registered in tournament {game_id}").supplant({game_id:game_id, serial:serial}));
 	};
         server.registerUpdate(function(server, what, packet) {
 		if (packet.type == 'PacketError')
@@ -788,7 +788,7 @@ test("jpoker.server.tourneyUnregister error", function(){
 
         var serial = 43;
         var game_id = 2;
-	var ERROR_PACKET = {"message":"It is too late to unregister player 6 from tournament 1179 ","code":3,"type":"PacketError","other_type":117}
+	var ERROR_PACKET = {'message':'server error message','code':3,'type':'PacketError','other_type':117}
 
         var server = jpoker.serverCreate({ url: 'url' });
 
@@ -797,7 +797,7 @@ test("jpoker.server.tourneyUnregister error", function(){
 	    server.queueIncoming([ERROR_PACKET]);
         };
 	jpoker.dialog = function(message) {
-	    equals(message, ERROR_PACKET.message);
+	    equals(message, _("It is too late to unregister player {serial} from tournament {game_id}").supplant({game_id:game_id, serial:serial}));
 	};
         server.registerUpdate(function(server, what, packet) {
 		if (packet.type == 'PacketError')

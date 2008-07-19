@@ -1212,9 +1212,16 @@
 				}
 				return true;
 			    });
-			server.registerHandler(0, function(server, game_id, packet) {
-				if (packet.type == 'PacketError') {
-				    jpoker.dialog(_(packet.message));
+			server.registerHandler(0, function(server, unused_game_id, packet) {
+				if ((packet.type == 'PacketError') && (packet.subpacket == jpoker.packetName2Type.PACKET_POKER_TOURNEY_REGISTER)) {
+				    var code2message = {
+					1:_("Tournament {game_id} does not exist"),
+					2:_("Player {serial} already registered in tournament {game_id}"),
+					3:_("Registration refused in tournament {game_id}"),
+					4:_("Not enough money to enter the tournament {game_id}")};
+				    if (code2message[packet.code] !== undefined)
+					packet.message = code2message[packet.code].supplant({game_id: game_id, serial: server.serial});
+				    jpoker.dialog(packet.message);
 				    server.notifyUpdate(packet);
 				    server.setState(server.RUNNING, 'PacketError');
 				    return false;
@@ -1236,8 +1243,14 @@
 				}
 				return true;
 			    });
-			server.registerHandler(0, function(server, game_id, packet) {
-				if (packet.type == 'PacketError') {
+			server.registerHandler(0, function(server, unused_game_id, packet) {
+				if ((packet.type == 'PacketError') && (packet.subpacket == jpoker.packetName2Type.PACKET_POKER_TOURNEY_UNREGISTER)) {
+				    var code2message = {
+					1: _("Tournament {game_id} does not exist"),
+					2: _("Player {serial} is not registered in tournament {game_id}"),
+					3: _("It is too late to unregister player {serial} from tournament {game_id}")};
+				    if (code2message[packet.code] !== undefined)
+					packet.message = code2message[packet.code].supplant({game_id: game_id, serial: server.serial});
 				    jpoker.dialog(_(packet.message));
 				    server.notifyUpdate(packet);
 				    server.setState(server.RUNNING, 'PacketError');
