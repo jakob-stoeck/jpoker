@@ -970,16 +970,14 @@
             },
 
             refresh: function(tag, request, handler, state, options) {
-                var timer = jpoker.refresh(this, request, handler, state, options);
-                if(timer) {
+                var timerRequest = jpoker.refresh(this, request, handler, state, options);
+                if(timerRequest.timer) {
                     if(tag in this.timers) {
                         this.clearInterval(this.timers[tag].timer);
-                    } else {
-                        this.timers[tag] = {};
-                    }
-                    this.timers[tag].timer = timer;
+                    } 
+		    this.timers[tag] = timerRequest;
                 }
-                return timer;
+                return timerRequest;
             },
 
             //
@@ -1208,6 +1206,7 @@
 				if (packet.type == 'PacketPokerTourneyRegister') {
 				    server.notifyUpdate(packet);
 				    server.setState(server.RUNNING, 'PacketPokerTourneyRegister');
+				    
 				    return false;
 				}
 				return true;
@@ -1611,7 +1610,7 @@
             timer = opts.setInterval(sendRequest, opts.delay);
         }
 
-        return timer;
+        return { timer: timer, request: sendRequest };
     };
 
     jpoker.refresh.defaults = {

@@ -307,15 +307,15 @@ test("jpoker.refresh", function(){
         var request = function(server) {
             server.sendPacket({'type': 'packet'});
         };
-        var timer = 0;
+        var timerRequest = {timer:0};
         var handler = function(server, packet) {
             equals(packet.type, 'packet');
-            equals(timer !== 0, true, 'timer');
-            window.clearInterval(timer);
+            equals(timerRequest.timer !== 0, true, 'timer');
+            window.clearInterval(timerRequest.timer);
             start_and_cleanup();
             return false;
         };
-        timer = jpoker.refresh(server, request, handler, 'state');
+        timerRequest = jpoker.refresh(server, request, handler, 'state');
     });
 
 test("jpoker.refresh requireSession", function(){
@@ -323,7 +323,7 @@ test("jpoker.refresh requireSession", function(){
 
         var server = jpoker.serverCreate({ url: 'url' });
 
-        equals(jpoker.refresh(server, null, null, 'state', { requireSession: true }), 0, 'requireSession');
+        equals(jpoker.refresh(server, null, null, 'state', { requireSession: true }).timer, 0, 'requireSession');
 
         cleanup();
     });
