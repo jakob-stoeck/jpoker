@@ -307,15 +307,15 @@ test("jpoker.refresh", function(){
         var request = function(server) {
             server.sendPacket({'type': 'packet'});
         };
-        var timer = 0;
+        var timerRequest = {timer:0};
         var handler = function(server, packet) {
             equals(packet.type, 'packet');
-            equals(timer !== 0, true, 'timer');
-            window.clearInterval(timer);
+            equals(timerRequest.timer !== 0, true, 'timer');
+            window.clearInterval(timerRequest.timer);
             start_and_cleanup();
             return false;
         };
-        timer = jpoker.refresh(server, request, handler, 'state');
+        timerRequest = jpoker.refresh(server, request, handler, 'state');
     });
 
 test("jpoker.refresh requireSession", function(){
@@ -323,7 +323,7 @@ test("jpoker.refresh requireSession", function(){
 
         var server = jpoker.serverCreate({ url: 'url' });
 
-        equals(jpoker.refresh(server, null, null, 'state', { requireSession: true }), 0, 'requireSession');
+        equals(jpoker.refresh(server, null, null, 'state', { requireSession: true }).timer, 0, 'requireSession');
 
         cleanup();
     });
@@ -700,6 +700,127 @@ test("jpoker.server.bankroll", function(){
         cleanup();
     });
 
+test("jpoker.server.tourneyRegister", function(){
+        expect(4);
+	stop();
+
+        var serial = 43;
+        var game_id = 2;
+	var TOURNEY_REGISTER_PACKET = {'type': 'PacketPokerTourneyRegister',
+				       'serial': serial,
+				       'game_id': game_id};
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        server.serial = serial;
+	
+        server.sendPacket = function(packet) {
+            equals(packet.type, 'PacketPokerTourneyRegister');
+            equals(packet.serial, serial, 'player serial');
+            equals(packet.game_id, game_id, 'tournament id');
+	    equals(server.getState(), server.TOURNEY_REGISTER);
+	    server.queueIncoming([TOURNEY_REGISTER_PACKET]);
+        };
+        server.registerUpdate(function(server, what, packet) {
+		if (packet.type == 'PacketPokerTourneyRegister') {
+		    server.timers = {'tourneyDetails': 
+				     { timer: 0, 
+				       request: start_and_cleanup }
+		    };
+		    return false;
+		}
+		return true;
+            });
+        server.tourneyRegister(game_id);
+    });
+
+test("jpoker.server.tourneyRegister error", function(){
+        expect(1);
+	stop();
+
+        var serial = 43;
+        var game_id = 2;
+	var ERROR_PACKET = {'message':'server error message','code': 2,'type':'PacketError','other_type':jpoker.packetName2Type.PACKET_POKER_TOURNEY_REGISTER};
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        server.serial = serial;
+        server.sendPacket = function(packet) {
+	    server.queueIncoming([ERROR_PACKET]);
+        };
+	dialog = jpoker.dialog;
+	jpoker.dialog = function(message) {
+	    equals(message, _("Player {serial} already registered in tournament {game_id}").supplant({game_id:game_id, serial:serial}));
+	    jpoker.dialog = dialog;
+	};
+        server.registerUpdate(function(server, what, packet) {
+		if (packet.type == 'PacketError')
+		    server.queueRunning(start_and_cleanup);
+		return true;
+            });
+        server.tourneyRegister(game_id);
+    });
+
+test("jpoker.server.tourneyUnregister", function(){
+        expect(4);
+	stop();
+
+        var serial = 43;
+        var game_id = 2;
+	var TOURNEY_REGISTER_PACKET = {'type': 'PacketPokerTourneyUnregister',
+				       'serial': serial,
+				       'game_id': game_id};
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        server.serial = serial;
+        server.sendPacket = function(packet) {
+            equals(packet.type, 'PacketPokerTourneyUnregister');
+            equals(packet.serial, serial, 'player serial');
+            equals(packet.game_id, game_id, 'tournament id');
+	    equals(server.getState(), server.TOURNEY_REGISTER);
+	    server.queueIncoming([TOURNEY_REGISTER_PACKET]);
+        };
+        server.registerUpdate(function(server, what, packet) {
+		if (packet.type == 'PacketPokerTourneyUnregister') {
+		    server.timers = {'tourneyDetails': 
+				     { timer: 0, 
+				       request: start_and_cleanup }
+		    };
+		    return false;
+		}
+		return true;
+            });
+        server.tourneyUnregister(game_id);
+    });
+
+test("jpoker.server.tourneyUnregister error", function(){
+
+        expect(1);
+	stop();
+
+        var serial = 43;
+        var game_id = 2;
+	var ERROR_PACKET = {'message':'server error message','code':3,'type':'PacketError','other_type':117}
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        server.serial = serial;
+        server.sendPacket = function(packet) {
+	    server.queueIncoming([ERROR_PACKET]);
+        };
+	dialog = jpoker.dialog;
+	jpoker.dialog = function(message) {
+	    equals(message, _("It is too late to unregister player {serial} from tournament {game_id}").supplant({game_id:game_id, serial:serial}));
+	    jpoker.dialog = dialog;
+	};
+        server.registerUpdate(function(server, what, packet) {
+		if (packet.type == 'PacketError')
+		    server.queueRunning(start_and_cleanup);
+		return true;
+            });
+        server.tourneyUnregister(game_id);
+    });
 
 //
 // jpoker.connection
@@ -1506,7 +1627,7 @@ test("jpoker.plugins.tourneyDetails", function(){
 // tourneyDetails.register
 //
 test("jpoker.plugins.tourneyDetails.register", function(){
-        expect(4);
+        expect(2);
         stop();
 
         //
@@ -1542,15 +1663,12 @@ test("jpoker.plugins.tourneyDetails.register", function(){
                 if(element.length > 0) {
 		    var input = $("#" + id + " input");
 		    equals(input.val(), "Register");
-		    server.sendPacket = function(packet) {
-			equals(packet.type, 'PacketPokerTourneyRegister');
-			equals(packet.serial, server.serial, 'player serial');
-			equals(packet.game_id, tourney_serial, 'tourney_serial');
-			server.sendPacket = function() {}
+		    server.tourneyRegister = function(game_id) {
+			equals(tourney_serial, game_id);
+			start_and_cleanup();
 		    };
-		    input.click();
+		    input.click();	    
                     $("#" + id).remove();
-		    start_and_cleanup();
                     return false;
 		}
             });
@@ -1560,7 +1678,7 @@ test("jpoker.plugins.tourneyDetails.register", function(){
 // tourneyDetails.unregister
 //
 test("jpoker.plugins.tourneyDetails.unregister", function(){
-        expect(4);
+        expect(2);
         stop();
 
         //
@@ -1596,15 +1714,12 @@ test("jpoker.plugins.tourneyDetails.unregister", function(){
                 if(element.length > 0) {
 		    var input = $("#" + id + " input");
 		    equals(input.val(), "Unregister");
-		    server.sendPacket = function(packet) {
-			equals(packet.type, 'PacketPokerTourneyUnregister');
-			equals(packet.serial, server.serial, 'player serial');
-			equals(packet.game_id, tourney_serial, 'tourney_serial');
-			server.sendPacket = function() {}
+		    server.tourneyUnregister = function(game_id) {
+			equals(tourney_serial, game_id);
+			start_and_cleanup();
 		    };
 		    input.click();
                     $("#" + id).remove();
-		    start_and_cleanup();
                     return false;
                 }
             });

@@ -510,6 +510,7 @@
             TOURNEY_LIST: 'searching tourneys',
             TOURNEY_DETAILS: 'retrieving tourney details',
             TABLE_JOIN: 'joining table',
+	    TOURNEY_REGISTER: 'updating tourney registration',
 
             blocked: false,
 
@@ -872,7 +873,7 @@
                         jpoker.error('undefined state');
                     }
                     if(jpoker.verbose > 0) {
-                        jpoker.message('setSate ' + state + ' ' + comment);
+                        jpoker.message('setState ' + state + ' ' + comment);
                     }
                     this.notifyUpdate({type: 'PacketState', state: state});
                     this.dequeueRunning();
@@ -969,16 +970,14 @@
             },
 
             refresh: function(tag, request, handler, state, options) {
-                var timer = jpoker.refresh(this, request, handler, state, options);
-                if(timer) {
+                var timerRequest = jpoker.refresh(this, request, handler, state, options);
+                if(timerRequest.timer) {
                     if(tag in this.timers) {
                         this.clearInterval(this.timers[tag].timer);
-                    } else {
-                        this.timers[tag] = {};
-                    }
-                    this.timers[tag].timer = timer;
+                    } 
+		    this.timers[tag] = timerRequest;
                 }
-                return timer;
+                return timerRequest;
             },
 
             //
@@ -1197,7 +1196,76 @@
                     return this.userInfo.money[key][0] / 100; // PacketPokerUserInfo for documentation
                 }
                 return 0;
-            }
+            },
+
+	    tourneyRegister: function(game_id) {
+		this.queueRunning(function(server) {
+			server.setState(server.TOURNEY_REGISTER);
+			server.sendPacket({'type': 'PacketPokerTourneyRegister', 'serial': server.serial, 'game_id' : game_id});
+			server.registerHandler(game_id, function(server, game_id, packet) {
+				if (packet.type == 'PacketPokerTourneyRegister') {
+				    server.notifyUpdate(packet);
+				    server.queueRunning(function() {
+					    if (server.timers['tourneyDetails'] !== undefined)
+						server.timers['tourneyDetails'].request();
+					});
+				    server.setState(server.RUNNING, 'PacketPokerTourneyRegister');
+				    return false;
+				}
+				return true;
+			    });
+			server.registerHandler(0, function(server, unused_game_id, packet) {
+				if ((packet.type == 'PacketError') && (packet.subpacket == jpoker.packetName2Type.PACKET_POKER_TOURNEY_REGISTER)) {
+				    var code2message = {
+					1:_("Tournament {game_id} does not exist"),
+					2:_("Player {serial} already registered in tournament {game_id}"),
+					3:_("Registration refused in tournament {game_id}"),
+					4:_("Not enough money to enter the tournament {game_id}")};
+				    if (code2message[packet.code] !== undefined)
+					packet.message = code2message[packet.code].supplant({game_id: game_id, serial: server.serial});
+				    jpoker.dialog(packet.message);
+				    server.notifyUpdate(packet);
+				    server.setState(server.RUNNING, 'PacketError');
+				    return false;
+				}
+				return true;
+			    });
+		    });
+	    },
+
+	    tourneyUnregister: function(game_id) {
+		this.queueRunning(function(server) {
+			server.setState(server.TOURNEY_REGISTER);
+			server.sendPacket({'type': 'PacketPokerTourneyUnregister', 'serial': server.serial, 'game_id' : game_id});
+			server.registerHandler(game_id, function(server, game_id, packet) {
+				if (packet.type == 'PacketPokerTourneyUnregister') {
+				    server.notifyUpdate(packet);
+				    server.queueRunning(function() {
+					    if (server.timers['tourneyDetails'] !== undefined)
+						server.timers['tourneyDetails'].request();
+					});
+				    server.setState(server.RUNNING, 'PacketPokerTourneyUnregister');
+				    return false;
+				}
+				return true;
+			    });
+			server.registerHandler(0, function(server, unused_game_id, packet) {
+				if ((packet.type == 'PacketError') && (packet.subpacket == jpoker.packetName2Type.PACKET_POKER_TOURNEY_UNREGISTER)) {
+				    var code2message = {
+					1: _("Tournament {game_id} does not exist"),
+					2: _("Player {serial} is not registered in tournament {game_id}"),
+					3: _("It is too late to unregister player {serial} from tournament {game_id}")};
+				    if (code2message[packet.code] !== undefined)
+					packet.message = code2message[packet.code].supplant({game_id: game_id, serial: server.serial});
+				    jpoker.dialog(_(packet.message));
+				    server.notifyUpdate(packet);
+				    server.setState(server.RUNNING, 'PacketError');
+				    return false;
+				}
+				return true;
+			    });
+		    });
+	    },
         });
 
     //
@@ -1549,7 +1617,7 @@
             timer = opts.setInterval(sendRequest, opts.delay);
         }
 
-        return timer;
+        return { timer: timer, request: sendRequest };
     };
 
     jpoker.refresh.defaults = {
@@ -1853,7 +1921,6 @@
         var tourneyDetails = jpoker.plugins.tourneyDetails;
         var opts = $.extend({}, tourneyDetails.defaults, options);
         var server = jpoker.url2server({ url: url });
-	console.log(opts);
 
         return this.each(function() {
                 var $this = $(this);
@@ -1868,23 +1935,17 @@
                         if(packet && packet.type == 'PacketPokerTourneyPlayersList') {
                             $(element).html(tourneyDetails.getHTML(id, packet));
 			    if(server.loggedIn()) {
-				var input = $("<input type='submit'>").appendTo(element);
+				var input = $('<input type=\'submit\'>').appendTo(element);
 				var registerPlayers = $.map(packet.players, function(n, i) {
 					return n[0];
 				    });
 				if ($.inArray(server.userInfo.name, registerPlayers) == -1) {
-				    input.val("Register").click(function() {
-                                            var server = jpoker.getServer(url);
-                                            if(server) {
-						server.sendPacket({'type': 'PacketPokerTourneyRegister', 'serial': server.serial, 'game_id' : game_id});
-					    }
+				    input.val(_("Register")).click(function() {
+					    server.tourneyRegister(game_id);
 					});
 				} else {
-				    input.val("Unregister").click(function() {
-                                            var server = jpoker.getServer(url);
-                                            if(server) {
-						server.sendPacket({'type': 'PacketPokerTourneyUnregister', 'serial': server.serial, 'game_id' : game_id});
-					    }
+				    input.val(_("Unregister")).click(function() {
+					    server.tourneyUnregister(game_id);
 					});;
 				}
 			    }
