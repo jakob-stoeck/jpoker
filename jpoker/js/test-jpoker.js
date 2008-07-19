@@ -742,8 +742,10 @@ test("jpoker.server.tourneyRegister error", function(){
         server.sendPacket = function(packet) {
 	    server.queueIncoming([ERROR_PACKET]);
         };
+	dialog = jpoker.dialog;
 	jpoker.dialog = function(message) {
 	    equals(message, _("Player {serial} already registered in tournament {game_id}").supplant({game_id:game_id, serial:serial}));
+	    jpoker.dialog = dialog;
 	};
         server.registerUpdate(function(server, what, packet) {
 		if (packet.type == 'PacketError')
@@ -796,8 +798,10 @@ test("jpoker.server.tourneyUnregister error", function(){
         server.sendPacket = function(packet) {
 	    server.queueIncoming([ERROR_PACKET]);
         };
+	dialog = jpoker.dialog;
 	jpoker.dialog = function(message) {
 	    equals(message, _("It is too late to unregister player {serial} from tournament {game_id}").supplant({game_id:game_id, serial:serial}));
+	    jpoker.dialog = dialog;
 	};
         server.registerUpdate(function(server, what, packet) {
 		if (packet.type == 'PacketError')
