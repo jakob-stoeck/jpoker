@@ -1896,11 +1896,11 @@
 				    });
 				if ($.inArray(server.userInfo.name, registerPlayers) == -1) {
 				    input.val("Register").click(function() {
-					    jpoker.tourneyRegister(game_id);
+					    server.tourneyRegister(game_id);
 					});
 				} else {
 				    input.val("Unregister").click(function() {
-					    jpoker.tourneyUnregister(game_id);
+					    server.tourneyUnregister(game_id);
 					});;
 				}
 			    }

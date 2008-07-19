@@ -1597,7 +1597,7 @@ test("jpoker.plugins.tourneyDetails.register", function(){
                 if(element.length > 0) {
 		    var input = $("#" + id + " input");
 		    equals(input.val(), "Register");
-		    jpoker.tourneyRegister = function(game_id) {
+		    server.tourneyRegister = function(game_id) {
 			equals(tourney_serial, game_id);
 			start_and_cleanup();
 		    };
@@ -1648,7 +1648,7 @@ test("jpoker.plugins.tourneyDetails.unregister", function(){
                 if(element.length > 0) {
 		    var input = $("#" + id + " input");
 		    equals(input.val(), "Unregister");
-		    jpoker.tourneyUnregister = function(game_id) {
+		    server.tourneyUnregister = function(game_id) {
 			equals(tourney_serial, game_id);
 			start_and_cleanup();
 		    };
