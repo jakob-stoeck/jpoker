@@ -706,9 +706,9 @@ test("jpoker.server.tourneyRegister", function(){
 
         var serial = 43;
         var game_id = 2;
-	var TOURNEY_REGISTER_PACKET = {"type": 'PacketPokerTourneyRegister',
-				       "serial": serial,
-				       "game_id": game_id};
+	var TOURNEY_REGISTER_PACKET = {'type': 'PacketPokerTourneyRegister',
+				       'serial': serial,
+				       'game_id': game_id};
 
         var server = jpoker.serverCreate({ url: 'url' });
 
@@ -722,7 +722,36 @@ test("jpoker.server.tourneyRegister", function(){
         };
         server.registerUpdate(function(server, what, packet) {
 		if (packet.type == 'PacketPokerTourneyRegister')
-		    start_and_cleanup();
+		    server.queueRunning(start_and_cleanup);
+		return true;
+            });
+        server.tourneyRegister(game_id);
+    });
+
+test("jpoker.server.tourneyRegister error", function(){
+        expect(5);
+	stop();
+
+        var serial = 43;
+        var game_id = 2;
+	var ERROR_PACKET = {'message':'Not enough money to enter the tournament 955','code':4,'type':'PacketError','other_type':jpoker.packetName2Type.PACKET_POKER_TOURNEY_REGISTER};
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        server.serial = serial;
+        server.sendPacket = function(packet) {
+            equals(packet.type, 'PacketPokerTourneyRegister');
+            equals(packet.serial, serial, 'player serial');
+            equals(packet.game_id, game_id, 'tournament id');
+	    equals(server.getState(), server.TOURNEY_REGISTER);
+	    server.queueIncoming([ERROR_PACKET]);
+        };
+	jpoker.dialog = function(message) {
+	    equals(message, ERROR_PACKET.message);
+	};
+        server.registerUpdate(function(server, what, packet) {
+		if (packet.type == 'PacketError')
+		    server.queueRunning(start_and_cleanup);
 		return true;
             });
         server.tourneyRegister(game_id);
@@ -734,9 +763,9 @@ test("jpoker.server.tourneyUnregister", function(){
 
         var serial = 43;
         var game_id = 2;
-	var TOURNEY_REGISTER_PACKET = {"type": 'PacketPokerTourneyUnregister',
-				       "serial": serial,
-				       "game_id": game_id};
+	var TOURNEY_REGISTER_PACKET = {'type': 'PacketPokerTourneyUnregister',
+				       'serial': serial,
+				       'game_id': game_id};
 
         var server = jpoker.serverCreate({ url: 'url' });
 
@@ -750,7 +779,7 @@ test("jpoker.server.tourneyUnregister", function(){
         };
         server.registerUpdate(function(server, what, packet) {
 		if (packet.type == 'PacketPokerTourneyUnregister')
-		    start_and_cleanup();
+		    server.queueRunning(start_and_cleanup);
 		return true;
             });
         server.tourneyUnregister(game_id);

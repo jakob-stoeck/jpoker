@@ -1205,9 +1205,18 @@
 			server.setState(server.TOURNEY_REGISTER);
 			server.sendPacket({'type': 'PacketPokerTourneyRegister', 'serial': server.serial, 'game_id' : game_id});
 			server.registerHandler(game_id, function(server, game_id, packet) {
-				server.notifyUpdate(packet);
-				return false;
-			    });
+				if (packet.type == 'PacketPokerTourneyRegister') {
+				    server.notifyUpdate(packet);
+				    server.setState(server.RUNNING, 'PacketPokerTourneyRegister');
+				    return false;
+				}});
+			server.registerHandler(0, function(server, game_id, packet) {
+				if (packet.type == 'PacketError') {
+				    jpoker.dialog(_(packet.message));
+				    server.notifyUpdate(packet);
+				    server.setState(server.RUNNING, 'PacketError');
+				    return false;
+				}});
 		    });
 	    },
 
@@ -1217,6 +1226,7 @@
 			server.sendPacket({'type': 'PacketPokerTourneyUnregister', 'serial': server.serial, 'game_id' : game_id});
 			server.registerHandler(game_id, function(server, game_id, packet) {
 				server.notifyUpdate(packet);
+				server.setState(server.RUNNING, 'PacketPokerTourneyUnregister');
 				return false;
 			    });
 		    });
@@ -1890,16 +1900,16 @@
                         if(packet && packet.type == 'PacketPokerTourneyPlayersList') {
                             $(element).html(tourneyDetails.getHTML(id, packet));
 			    if(server.loggedIn()) {
-				var input = $("<input type='submit'>").appendTo(element);
+				var input = $('<input type=\'submit\'>').appendTo(element);
 				var registerPlayers = $.map(packet.players, function(n, i) {
 					return n[0];
 				    });
 				if ($.inArray(server.userInfo.name, registerPlayers) == -1) {
-				    input.val("Register").click(function() {
+				    input.val(_("Register")).click(function() {
 					    server.tourneyRegister(game_id);
 					});
 				} else {
-				    input.val("Unregister").click(function() {
+				    input.val(_("Unregister")).click(function() {
 					    server.tourneyUnregister(game_id);
 					});;
 				}
