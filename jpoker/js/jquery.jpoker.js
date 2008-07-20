@@ -2659,6 +2659,7 @@
         },
 
         leave: function(player, packet, id) {
+            $('#sitout' + id).hide();
             $('#rebuy' + id).hide();
             $('#chat' + id).hide();
         },
