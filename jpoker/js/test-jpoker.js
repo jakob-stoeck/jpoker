@@ -2718,7 +2718,7 @@ test("jpoker.plugins.player: rebuy", function(){
     });
 
 test("jpoker.plugins.player: sitout", function(){
-        expect(6);
+        expect(7);
 
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
@@ -2740,6 +2740,14 @@ test("jpoker.plugins.player: sitout", function(){
         };
         sitout.click();
         equals(sent, true, 'sitout packet sent');
+        equals(sitout.is(':hidden'), true, 'sitout button hidden');
+
+        // when PokerSitOut packet arrives, sitout button is hidden again
+        sitout.show();
+        var table = server.tables[game_id];
+        table.handler(server, game_id, { type: 'PacketPokerSitOut',
+                    game_id: game_id,
+                    serial: player_serial });
         equals(sitout.is(':hidden'), true, 'sitout button hidden');
         
         cleanup(id);

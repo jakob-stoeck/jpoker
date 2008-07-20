@@ -2770,6 +2770,7 @@
                         }
                     }
                 });
+            $('#sitout' + id).hide();
         },
 
         chips: function(player, id) {
