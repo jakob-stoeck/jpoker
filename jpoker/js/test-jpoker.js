@@ -1216,6 +1216,27 @@ test("jpoker.table.reinit", function(){
     });
 
 
+test("jpoker.table.handler: PacketPokerState", function(){
+        expect(1);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var game_id = 100;
+
+        // define table
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        var state = 'pre-flop';
+        var packet = { type: 'PacketPokerState',
+                       game_id: game_id,
+                       string: state
+        };
+        table.handler(server, game_id, packet);
+
+        equals(table.state, state);
+    });
+
 test("jpoker.table.handler: PacketPokerBetLimit", function(){
         expect(6);
 

@@ -1315,6 +1315,7 @@
                 this.buyIn = { min: 1000000000, max: 1000000000, best: 1000000000, bankroll: 0 };
                 this.dealer = -1;
                 this.position = -1;
+                this.state = 'end';
             },
 
             buyInLimits: function() {
@@ -1389,6 +1390,10 @@
                 case 'PacketPokerChipsPotReset':
                     table.pots = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
                     table.notifyUpdate(packet);
+                    break;
+
+                case 'PacketPokerState':
+                    table.state = packet.string;
                     break;
 
                 case 'PacketPokerDealer':
