@@ -32,6 +32,13 @@
     line-height: 30px;
 }
 
+.jpoker_table .jpoker_sitout {
+    color: #FFF;
+    margin: 0 5px;
+    line-height: 25px;
+    text-align: center;
+}
+
 .jpoker_table .jpoker_pot, .jpoker_table .jpoker_bet {
     text-align: center;
     line-height: 48px;

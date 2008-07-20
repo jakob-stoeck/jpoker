@@ -41,9 +41,9 @@
      bordercolor="#666666"
      pagecolor="#ffffff"
      id="base"
-     inkscape:zoom="0.91333333"
-     inkscape:cx="400"
-     inkscape:cy="300"
+     inkscape:zoom="1.2916484"
+     inkscape:cx="324.21121"
+     inkscape:cy="437.89498"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:current-layer="game_fixed"
@@ -183,18 +183,18 @@
        id="winner1" />
     <image
        xlink:href="../css/images/jpoker_table/exit.png"
-       x="25.230156"
-       y="18.746033"
+       x="25"
        width="67"
        height="26"
-       id="quit" />
+       id="quit"
+       y="20" />
     <image
        xlink:href="../css/images/jpoker_table/rebuy.png"
-       x="98.246025"
-       y="19.539679"
        width="67"
        height="26"
-       id="rebuy" />
+       id="rebuy"
+       x="101"
+       y="20" />
     <image
        xlink:href="../css/images/jpoker_table/tables_dock.png"
        x="28.119055"
@@ -783,5 +783,21 @@
        inkscape:label="#image2255"
        height="40"
        y="600" />
+    <image
+       xlink:href="../css/images/jpoker_table/button.png"
+       y="101"
+       width="67"
+       height="26"
+       id="sitout"
+       inkscape:label="sitout"
+       x="25" />
+    <image
+       xlink:href="../css/images/jpoker_table/button.png"
+       y="101"
+       width="67"
+       height="26"
+       id="muck"
+       inkscape:label="sitout"
+       x="101" />
   </g>
 </svg>

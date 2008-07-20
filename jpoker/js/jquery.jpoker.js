@@ -2275,6 +2275,8 @@
             }
             $('#switch' + id).hide();
             $('#rebuy' + id).hide();
+            $('#sitout' + id).hide();
+            $('#muck' + id).hide();
             $('#quit' + id).click(function() {
                     var server = jpoker.getServer(url);
                     var table = jpoker.getTable(url, game_id);
@@ -2598,6 +2600,9 @@
             for(var i = 0; i < names.length; i++) {
                 $('#' + names[i] + id).html('<div class=\'jpoker_button\'><a href=\'#\'>' + labels[i] + '</a></div>');
             }
+            //
+            // rebuy
+            //
             var rebuy = $('#rebuy' + id);
             rebuy.click(function() {
                     var server = jpoker.getServer(url);
@@ -2613,6 +2618,23 @@
             if(player.state == 'buyin') {
                 rebuy.click();
             }
+            //
+            // sitout
+            //
+            var sitout = $('#sitout' + id);
+            sitout.html('<div class=\'jpoker_sitout\'><a href=\'#\'>' + _("sit out") + '</a></div>');
+            sitout.click(function() {
+                    var server = jpoker.getServer(url);
+                    if(server && server.loggedIn()) {
+                        server.sendPacket({ 'type': 'PacketPokerSitOut',
+                                    'game_id': table.id,
+                                    'serial': serial });
+                        $(this).hide();
+                    }                    
+                });
+            //
+            // chat
+            //
             var chat = function() {
                 var server = jpoker.getServer(url);
                 if(server) {
@@ -2719,6 +2741,7 @@
                                     });
                     }
                 });
+            $('#sitout' + id).show();
         },
 
         sitOut: function(player, id) {

@@ -2717,6 +2717,34 @@ test("jpoker.plugins.player: rebuy", function(){
         cleanup(id);
     });
 
+test("jpoker.plugins.player: sitout", function(){
+        expect(6);
+
+        var id = 'jpoker' + jpoker.serial;
+        var player_serial = 1;
+        var game_id = 100;
+        var money = 1000;
+        _SelfPlayerSit(game_id, player_serial, money);
+        var server = jpoker.getServer('url');
+        var player = jpoker.getPlayer('url', game_id, player_serial);
+
+        // click on sitout, packet sent and sitout button hides
+        var sitout = $("#sitout" + id);
+        equals(sitout.is(':visible'), true, 'sitout button visible');
+        var sent = false;
+        sendPacket = server.sendPacket;
+        server.sendPacket = function(packet) {
+            if(packet.type == 'PacketPokerSitOut') {
+                sent = true;
+            }
+        };
+        sitout.click();
+        equals(sent, true, 'sitout packet sent');
+        equals(sitout.is(':hidden'), true, 'sitout button hidden');
+        
+        cleanup(id);
+    });
+
 test("profileEnd", function(){
         try {
             console.profileEnd();
