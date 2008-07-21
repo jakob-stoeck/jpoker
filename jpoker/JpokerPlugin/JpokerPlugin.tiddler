@@ -82,6 +82,12 @@ config.macros.jpokerFeaturedTable = {
     }
 };
 
+config.macros.jpokerUserInfo = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        $(place).jpoker('userInfo', config.jpoker.restURL);
+    }
+};
+
 //}}}
 //!END-PLUGIN-CODE
 // %/
