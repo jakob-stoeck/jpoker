@@ -2909,4 +2909,58 @@
         }
 
     };
+
+    //
+    // userInfo
+    //
+    jpoker.plugins.userInfo = function(url, options) {
+
+        var userInfo = jpoker.plugins.userInfo;
+        var opts = $.extend({}, userInfo.defaults, options);
+        var server = jpoker.url2server({ url: url });
+
+        return this.each(function() {
+                var $this = $(this);
+
+                var id = jpoker.uid();
+		
+                $this.append('<div class=\'jpoker_user_info\' id=\'' + id + '\'></div>');
+
+                var updated = function(server, what, packet) {
+                    var element = document.getElementById(id);
+                    if(element) {
+			if(packet && packet.type == 'PacketPokerPersonalInfo') {
+			    $(element).html(userInfo.getHTML(packet));
+			}
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+
+		server.registerUpdate(updated, null, 'userInfo ' + id);
+		server.getPersonalInfo();
+
+                return this;
+            });
+    };
+
+    jpoker.plugins.userInfo.defaults = $.extend({
+        }, jpoker.defaults);
+
+    jpoker.plugins.userInfo.getHTML = function(packet) {
+        var t = this.templates;
+	var html = [];	
+	var userInfo = t.info.supplant($.extend({
+		    'firstname_title': _("First name"),
+		    'lastname_title': _("Last name")},
+		packet));
+	console.log(userInfo);
+	return userInfo;
+    };
+
+    jpoker.plugins.userInfo.templates = {
+        info: '<table><tr><td>{firstname_title}</td><td><input name=\'firstname\' value=\'{firstname}\'></input></td></tr><tr><td>{lastname_title}</td><td><input name=\'lastname\' value=\'{lastname}\'></input></td></tr></table>'
+    };
+
 })(jQuery);

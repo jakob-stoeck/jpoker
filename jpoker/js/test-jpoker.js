@@ -2725,6 +2725,39 @@ test("jpoker.plugins.player: rebuy", function(){
         cleanup(id);
     });
 
+test("jpoker.plugins.userInfo", function(){
+        expect(6);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        jpoker.serverDestroy('url');
+        server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+	server.serial = 42;
+	var PERSONAL_INFO_PACKET = {"rating": 1000, "firstname": "John", "money": {}, "addr_street": "", "phone": "", "cookie": "", "serial": server.serial, "password": "", "addr_country": "", "name": "testuser", "gender": "", "birthdate": "", "addr_street2": "", "addr_zip": "", "affiliate": 0, "lastname": "Doe", "addr_town": "", "addr_state": "", "type": "PacketPokerPersonalInfo", "email": ""};
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $("#main");
+
+	server.getPersonalInfo = function() {
+	    ok(true, "getPersonalInfoCalled");
+	    server.registerUpdate(function(server, what, data) {
+		    var element = $("#" + id);
+		    if(element.length > 0) {
+			equals($("input[name=firstname]", element).val(), "John");
+			equals($("input[name=lastname]", element).val(), "Doe");
+			start_and_cleanup();
+		    }
+		});
+	    server.notifyUpdate(PERSONAL_INFO_PACKET);
+	};
+        equals('update' in server.callbacks, false, 'no update registered');
+        place.jpoker('userInfo', 'url');
+        equals(server.callbacks.update.length, 1, 'userInfo update registered');
+	equals($(".jpoker_user_info").length, 1, "user info div");
+    });
+
 test("profileEnd", function(){
         try {
             console.profileEnd();
