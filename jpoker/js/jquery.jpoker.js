@@ -1935,11 +1935,14 @@
                         if(packet && packet.type == 'PacketPokerTourneyPlayersList') {
                             $(element).html(tourneyDetails.getHTML(id, packet));
 			    if(server.loggedIn()) {
-				var input = $('<input type=\'submit\'>').appendTo(element);
-				var registerPlayers = $.map(packet.players, function(n, i) {
+				var tbody = $('tbody', element);
+				var tr = $('<tr>').appendTo(tbody);
+				var td = $('<td>').appendTo(tr);
+				var input = $('<input type=\'submit\'>').appendTo(td);
+				var registeredPlayers = $.map(packet.players, function(n, i) {
 					return n[0];
 				    });
-				if ($.inArray(server.userInfo.name, registerPlayers) == -1) {
+				if ($.inArray(server.userInfo.name, registeredPlayers) == -1) {
 				    input.val(_("Register")).click(function() {
 					    server.tourneyRegister(game_id);
 					});
