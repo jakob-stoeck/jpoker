@@ -822,6 +822,33 @@ test("jpoker.server.tourneyUnregister error", function(){
         server.tourneyUnregister(game_id);
     });
 
+test("jpoker.server.getPersonalInfo", function(){
+        expect(0);
+	stop();
+
+        var serial = 42;
+	var PERSONAL_INFO_PACKET = {"rating": 1000, "firstname": "", "money": {}, "addr_street": "", "phone": "", "cookie": "", "serial": serial, "password": "", "addr_country": "", "name": "testuser", "gender": "", "birthdate": "", "addr_street2": "", "addr_zip": "", "affiliate": 0, "lastname": "", "addr_town": "", "addr_state": "", "type": "PacketPokerPersonalInfo", "email": ""};
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        server.serial = serial;
+	
+        server.sendPacket = function(packet) {
+            equals(packet.type, "PacketPokerGetPersonalInfo");
+            equals(packet.serial, serial, 'player serial');
+	    equals(server.getState(), server.PERSONAL_INFO);
+	    server.queueIncoming([PERSONAL_INFO_PACKET]);
+        };
+        server.registerUpdate(function(server, what, packet) {
+		if (packet.type == 'PacketPokerPersonalInfo') {
+		    server.queueRunning(start_and_cleanup);
+		    return false;
+		}
+		return true;
+	    });
+        server.getPersonalInfo();
+    });
+
 //
 // jpoker.connection
 //

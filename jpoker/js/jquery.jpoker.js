@@ -511,6 +511,7 @@
             TOURNEY_DETAILS: 'retrieving tourney details',
             TABLE_JOIN: 'joining table',
 	    TOURNEY_REGISTER: 'updating tourney registration',
+	    PERSONAL_INFO: 'getting personal info',
 
             blocked: false,
 
@@ -1260,6 +1261,21 @@
 				    jpoker.dialog(_(packet.message));
 				    server.notifyUpdate(packet);
 				    server.setState(server.RUNNING, 'PacketError');
+				    return false;
+				}
+				return true;
+			    });
+		    });
+	    },
+	    
+	    getPersonalInfo : function() {
+		this.queueRunning(function(server) {
+			server.setState(server.PERSONAL_INFO);
+			server.sendPacket({'type': 'PacketPokerGetPersonalInfo', 'serial': server.serial});
+			server.registerHandler(0, function(server, unused_game_id, packet) {
+				if (packet.type == 'PacketPokerPersonalInfo') {
+				    server.notifyUpdate(packet);
+				    server.setState(server.RUNNING, 'PacketPokerPersonalInfo');
 				    return false;
 				}
 				return true;
