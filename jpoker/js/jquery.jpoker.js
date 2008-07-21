@@ -2456,10 +2456,19 @@
             $('#player_seat' + seat + '_bet' + id).addClass('jpoker_bet');
             $('#player_seat' + seat  + '_money' + id).addClass('jpoker_money');
             var avatar = (seat + 1) + (10 * game_id % 2);
-            $('#player_seat' + seat  + '_avatar' + id).css({ 
-                    'background-image': 'url("css/images/jpoker_table/avatar' + avatar + '.png")',
-                        'display': 'block'
-                                });
+	    if ((packet.url !== undefined) && (packet.url != 'random')) {
+		$('#player_seat' + seat  + '_avatar' + id).css({
+			'background-image': 'url("'+packet.url+'")',
+			    'background-repeat': 'no-repeat',			    
+			    'display': 'block'
+			    });
+	    } else {
+		$('#player_seat' + seat  + '_avatar' + id).css({ 
+			'background-image': 'url("css/images/jpoker_table/avatar' + avatar + '.png")',
+			'background-repeat': 'no-repeat',			    
+			'display': 'block'
+		    });
+	    }
 
             jpoker.plugins.player.chips(player, id);
             var name = $('#player_seat' + seat + '_name' + id);

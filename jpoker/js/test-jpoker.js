@@ -2016,7 +2016,7 @@ test("jpoker.plugins.table.chat", function(){
     });
 
 test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
-        expect(17);
+        expect(18);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var player_serial = 1;
@@ -2041,12 +2041,14 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
                               seat: 0,
                               serial: player_serial,
                               game_id: game_id,
-                              name: 'username'
+                              name: 'username',
+			      url: 'mycustomavatar.png'
                               });
         equals($("#jpokerSound " + jpoker.sound).attr("src").indexOf('arrive') >= 0, true, 'sound arrive');
         equals($("#seat0" + id).css('display'), 'block', "arrive");
         equals($("#sit_seat0" + id).css('display'), 'none', "seat0 hidden");
         equals($("#player_seat0_name" + id).html(), 'click to sit', "username arrive");
+	ok($("#player_seat0_avatar" + id).css('background-image').indexOf("mycustomavatar.png") >= 0, "custom avatar");
         equals($("#jpokerRebuy").size(), 1, 'rebuy dialog launched for self');
         equals(table.seats[0], player_serial, "player 1");
         equals(table.serial2player[player_serial].serial, player_serial, "player 1 in player2serial");
