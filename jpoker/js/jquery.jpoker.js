@@ -52,7 +52,7 @@
         copyrightTimeout: 5000,
 
         copyright: function() {
-            var copyright = $('<div><div id=\'jpoker_copyright\'><div class=\'jpoker_copyright_image\'></div><div class=\'jpoker_software\'>jpoker-' + this.VERSION + '</div><div class=\'jpoker_authors\'><div><span>Copyright 2008 </span><a href=\'mailto:loic@dachary.org\'>Loic Dachary</a></div><div><span class=\'jpoker_click\'>Copyright 2008 </span><a href=\'mailto:proppy@aminche.com\'>Johan Euphrosine</a></div></div><div class=\'jpoker_explain\'>jpoker runs on this web browser and is Free Software. You may use jpoker to run a business without asking the authors permissions. You may give a copy to your friends. However, the authors do not want jpoker to be used with proprietary software.</div><div class=\'jpoker_license\'>This program is free software: you can redistribute it and/or modify it under the terms of the <a href=\'http://www.fsf.org/licensing/licenses/gpl.txt\'>GNU General Public License</a> as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</div> <div class=\'jpoker_full_copyright\'>Read the full <a href=\'http://jspoker.pokersource.info/jpoker/#Copyright\'>copyright information page.</a></div><div class=\'jpoker_download\'>Download <a href=\'http://upstream.jspoker.pokersource.info/file/tip/jpoker/js/jquery.jpoker.js\'>jpoker sources.</a></div><div class=\'jpoker_dismiss\'><a href=\'#\'>Dismiss</a></div></div></div>').dialog(); // { width: 'none', height: 'none' } IE bug
+            var copyright = $('<div><div id=\'jpoker_copyright\'><div class=\'jpoker_copyright_image\'></div><div class=\'jpoker_software\'>jpoker-' + this.VERSION + '</div><div class=\'jpoker_authors\'><div><span>Copyright 2008 </span><a href=\'mailto:loic@dachary.org\'>Loic Dachary</a></div><div><span class=\'jpoker_click\'>Copyright 2008 </span><a href=\'mailto:proppy@aminche.com\'>Johan Euphrosine</a></div></div><div class=\'jpoker_explain\'>jpoker runs on this web browser and is Free Software. You may use jpoker to run a business without asking the authors permissions. You may give a copy to your friends. However, the authors do not want jpoker to be used with proprietary software.</div><div class=\'jpoker_license\'>This program is free software: you can redistribute it and/or modify it under the terms of the <a href=\'http://www.fsf.org/licensing/licenses/gpl.txt\'>GNU General Public License</a> as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</div> <div class=\'jpoker_full_copyright\'>Read the full <a href=\'http://jspoker.pokersource.info/jpoker/#Copyright\'>copyright information page.</a></div><div class=\'jpoker_download\'>Download <a href=\'http://upstream.jspoker.pokersource.info/file/tip/jpoker/js/jquery.jpoker.js\'>jpoker sources.</a></div><div class=\'jpoker_dismiss\'><a href=\'javascript://\'>Dismiss</a></div></div></div>').dialog(); // { width: 'none', height: 'none' } IE bug
             $('.jpoker_download', copyright).frame('box1');
             $('.ui-dialog-titlebar', copyright.parents('.ui-dialog-container')).hide();
             var close = function() { copyright.dialog('destroy'); };
@@ -2598,7 +2598,7 @@
             var names = [ 'check', 'call', 'raise', 'fold' ];
             var labels = [ _("check"), _("call"), _("raise"), _("fold") ];
             for(var i = 0; i < names.length; i++) {
-                $('#' + names[i] + id).html('<div class=\'jpoker_button\'><a href=\'#\'>' + labels[i] + '</a></div>');
+                $('#' + names[i] + id).html('<div class=\'jpoker_button\'><a href=\'javascript://\'>' + labels[i] + '</a></div>');
             }
             //
             // rebuy
@@ -2621,16 +2621,16 @@
             //
             // sitout
             //
-            var sitout = $('#sitout' + id);
-            sitout.html('<div class=\'jpoker_sitout\'><a href=\'#\'>' + _("sit out") + '</a></div>');
-            sitout.click(function() {
+            $('#sitout' + id).html('<div class=\'jpoker_sitout\'><a href=\'javascript://\'>' + _("sit out") + '</a></div>');
+            $('#sitout' + id).click(function() {
                     var server = jpoker.getServer(url);
                     if(server && server.loggedIn()) {
                         server.sendPacket({ 'type': 'PacketPokerSitOut',
                                     'game_id': table.id,
                                     'serial': serial });
                         $(this).hide();
-                    }                    
+                    }
+                    return false;
                 });
             //
             // chat
@@ -2800,12 +2800,13 @@
                                 'game_id': game_id
                                 });
                 }
+                return false; // prevent default action on <a href>
             };
-            $('#fold' + id).unbind('click').click(function() { send('Fold'); }).show();
+            $('#fold' + id).unbind('click').click(function() { return send('Fold'); }).show();
             if(betLimit.call > 0) {
-                $('#call' + id).unbind('click').click(function() { send('Call'); }).show();
+                $('#call' + id).unbind('click').click(function() { return send('Call'); }).show();
             } else {
-                $('#check' + id).unbind('click').click(function() { send('Check'); }).show();
+                $('#check' + id).unbind('click').click(function() { return send('Check'); }).show();
             }
             if(betLimit.allin > betLimit.call) {
                 var click;
