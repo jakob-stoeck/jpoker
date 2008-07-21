@@ -511,6 +511,7 @@
             TOURNEY_DETAILS: 'retrieving tourney details',
             TABLE_JOIN: 'joining table',
 	    TOURNEY_REGISTER: 'updating tourney registration',
+	    PERSONAL_INFO: 'getting personal info',
 
             blocked: false,
 
@@ -1266,6 +1267,21 @@
 			    });
 		    });
 	    },
+	    
+	    getPersonalInfo : function() {
+		this.queueRunning(function(server) {
+			server.setState(server.PERSONAL_INFO);
+			server.sendPacket({'type': 'PacketPokerGetPersonalInfo', 'serial': server.serial});
+			server.registerHandler(0, function(server, unused_game_id, packet) {
+				if (packet.type == 'PacketPokerPersonalInfo') {
+				    server.notifyUpdate(packet);
+				    server.setState(server.RUNNING, 'PacketPokerPersonalInfo');
+				    return false;
+				}
+				return true;
+			    });
+		    });
+	    },
         });
 
     //
@@ -1940,11 +1956,14 @@
                         if(packet && packet.type == 'PacketPokerTourneyPlayersList') {
                             $(element).html(tourneyDetails.getHTML(id, packet));
 			    if(server.loggedIn()) {
-				var input = $('<input type=\'submit\'>').appendTo(element);
-				var registerPlayers = $.map(packet.players, function(n, i) {
+				var tbody = $('tbody', element);
+				var tr = $('<tr>').appendTo(tbody);
+				var td = $('<td>').appendTo(tr);
+				var input = $('<input type=\'submit\'>').appendTo(td);
+				var registeredPlayers = $.map(packet.players, function(n, i) {
 					return n[0];
 				    });
-				if ($.inArray(server.userInfo.name, registerPlayers) == -1) {
+				if ($.inArray(server.userInfo.name, registeredPlayers) == -1) {
 				    input.val(_("Register")).click(function() {
 					    server.tourneyRegister(game_id);
 					});
@@ -2461,10 +2480,17 @@
             $('#player_seat' + seat + '_bet' + id).addClass('jpoker_bet');
             $('#player_seat' + seat  + '_money' + id).addClass('jpoker_money');
             var avatar = (seat + 1) + (10 * game_id % 2);
-            $('#player_seat' + seat  + '_avatar' + id).css({ 
-                    'background-image': 'url("css/images/jpoker_table/avatar' + avatar + '.png")',
-                        'display': 'block'
-                                });
+	    if ((packet.url !== undefined) && (packet.url != 'random')) {
+		$('#player_seat' + seat  + '_avatar' + id).css({
+			'background-image': 'url("'+packet.url+'")',
+			    'display': 'block'
+			    });
+	    } else {
+		$('#player_seat' + seat  + '_avatar' + id).css({ 
+			'background-image': 'url("css/images/jpoker_table/avatar' + avatar + '.png")',
+			'display': 'block'
+		    });
+	    }
 
             jpoker.plugins.player.chips(player, id);
             var name = $('#player_seat' + seat + '_name' + id);
