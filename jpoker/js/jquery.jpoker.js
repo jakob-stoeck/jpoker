@@ -1285,6 +1285,18 @@
 	    },
 
 	    setPersonalInfo : function(info) {
+		this.queueRunning(function(server) {
+			server.setState(server.PERSONAL_INFO);
+			server.sendPacket($.extend({'type': 'PacketPokerSetAccount', 'serial': server.serial}, info));
+			server.registerHandler(0, function(server, unused_game_id, packet) {
+				if (packet.type == 'PacketPokerPersonalInfo') {
+				    server.notifyUpdate(packet);
+				    server.setState(server.RUNNING, 'PacketPokerPersonalInfo');
+				    return false;
+				}
+				return true;
+			    });
+		    });
 	    },
         });
 
