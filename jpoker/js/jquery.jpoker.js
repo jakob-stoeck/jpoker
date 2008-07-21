@@ -733,6 +733,7 @@
                                                 'low': {'packets': [],
                                                         'delay': 0 } };
                         }
+			var queue;
                         if(jQuery.inArray(packet.type, this.high) >= 0) {
                             queue = this.queues[id].high;
                         } else {
@@ -758,7 +759,7 @@
                     
                     for(var id in this.queues) {
                         for(var priority in this.queues[id]) {
-                            queue = this.queues[id][priority];
+                            var queue = this.queues[id][priority];
                             if(queue.packets.length <= 0) {
                                 continue;
                             }
