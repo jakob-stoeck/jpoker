@@ -1283,6 +1283,9 @@
 			    });
 		    });
 	    },
+
+	    setPersonalInfo : function(info) {
+	    },
         });
 
     //
@@ -2931,6 +2934,17 @@
                     if(element) {
 			if(packet && packet.type == 'PacketPokerPersonalInfo') {
 			    $(element).html(userInfo.getHTML(packet));
+			    var table = $('table', element);
+			    var tr = $('<tr>').appendTo(table);
+			    var td = $('<td>').appendTo(tr);
+			    var input = $('<input type=\'submit\'>').appendTo(td);
+			    input.val(_("Update personal info")).click(function() {
+				    var info = {};
+				    $("input[type=text]", element).each(function() {
+					    info[$(this).attr("name")] = $(this).attr("value");
+					});
+				    server.setPersonalInfo(info);
+				});
 			}
                         return true;
                     } else {
@@ -2955,12 +2969,11 @@
 		    'firstname_title': _("First name"),
 		    'lastname_title': _("Last name")},
 		packet));
-	console.log(userInfo);
 	return userInfo;
     };
 
     jpoker.plugins.userInfo.templates = {
-        info: '<table><tr><td>{firstname_title}</td><td><input name=\'firstname\' value=\'{firstname}\'></input></td></tr><tr><td>{lastname_title}</td><td><input name=\'lastname\' value=\'{lastname}\'></input></td></tr></table>'
+        info: '<table><tr><td>{firstname_title}</td><td><input type=\'text\' name=\'firstname\' value=\'{firstname}\'></input></td></tr><tr><td>{lastname_title}</td><td><input type=\'text\' name=\'lastname\' value=\'{lastname}\'></input></td></tr></table>'
     };
 
 })(jQuery);
