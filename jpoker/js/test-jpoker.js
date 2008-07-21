@@ -882,6 +882,36 @@ test("jpoker.server.setPersonalInfo", function(){
 		    });
     });
 
+test("jpoker.server.setPersonalInfo error", function(){
+        expect(1);
+	stop();
+
+	var serial = 42;
+	var ERROR_PACKET = {'message':'server error message','code': 2,'type':'PacketError','other_type':jpoker.packetName2Type.PACKET_POKER_SET_ACCOUNT};
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        server.serial = serial;
+	
+        server.sendPacket = function(packet) {
+	    server.queueIncoming([ERROR_PACKET]);
+        };
+	dialog = jpoker.dialog;
+	jpoker.dialog = function(message) {
+	    equals(message, ERROR_PACKET.message);
+	    jpoker.dialog = dialog;
+	};
+        server.registerUpdate(function(server, what, packet) {
+		if (packet.type == 'PacketError') {
+		    server.queueRunning(start_and_cleanup);
+		    return false;
+		}
+		return true;
+	    });
+        server.setPersonalInfo({firstname: 'John',
+		    lastname: 'Doe',
+		    });
+    });
+
 //
 // jpoker.connection
 //

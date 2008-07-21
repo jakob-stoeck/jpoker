@@ -1294,6 +1294,11 @@
 				    server.setState(server.RUNNING, 'PacketPokerPersonalInfo');
 				    return false;
 				}
+				else if (packet.type == 'PacketError') {
+				    jpoker.dialog(packet.message);
+				    server.notifyUpdate(packet);
+				    server.setState(server.RUNNING, 'PacketError');
+				}
 				return true;
 			    });
 		    });
