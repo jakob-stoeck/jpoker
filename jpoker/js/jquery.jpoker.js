@@ -826,6 +826,7 @@
 	    tourneysCount: null,
             tableRowClick: function(server, packet) {},
             tourneyRowClick: function(server, packet) {},
+	    tourneyJoin: function(server, packet) {},
             setInterval: function(cb, delay) { return window.setInterval(cb, delay); },
             clearInterval: function(id) { return window.clearInterval(id); }
         }, jpoker.connection.defaults);
@@ -905,8 +906,20 @@
                 if(packet.id in server.tables) {
                     server.tables[packet.id].reinit(packet);
                 } else {
-                    server.tables[packet.id] = new jpoker.table(server, packet);
-                    server.notifyUpdate(packet);
+		    if (server.getState() != server.TABLE_JOIN) {
+			//tourney
+			//server.setState(server.TABLE_JOIN);
+			packet.game_id = packet.id;
+			packet.tourney = true;
+			server.tourneyJoin(server, packet);
+			server.tables[packet.id] = new jpoker.table(server, packet);
+			server.tables[packet.id].tourney = true;
+			server.notifyUpdate(packet);
+		    }
+		    else {
+			server.tables[packet.id] = new jpoker.table(server, packet);
+			server.notifyUpdate(packet);
+		    }
                 }
                 break;
 
@@ -927,7 +940,7 @@
                     server.tables[id].notifyUpdate(packet);
                 }
                 delete packet.game_id;
-                server.setState(server.RUNNING, 'PacketPokerUserInfo');
+		server.setState(server.RUNNING, 'PacketPokerUserInfo');
                 break;
 
                 }
@@ -1187,7 +1200,7 @@
                         server.setState(server.TABLE_JOIN);
                         server.ensureSession();
                         server.sendPacket({ 'type': 'PacketPokerTableJoin',
-                                    'game_id': game_id });
+				    'game_id': game_id });
                         server.ping();
                     });
             },
@@ -1388,7 +1401,7 @@
 
                 case 'PacketPokerStreamMode':
                     if(server.getState() != server.TABLE_JOIN) {
-                        jpoker.error('PacketPokerStreamMode but state is \'' + server.getState() + '\' instead of the expected \'' + server.TABLE_JOIN + '\'');
+                        //jpoker.error('PacketPokerStreamMode but state is \'' + server.getState() + '\' instead of the expected \'' + server.TABLE_JOIN + '\'');
                     }
                     server.setState(server.RUNNING, 'PacketPokerStreamMode');
                     break;
@@ -1706,6 +1719,7 @@
                                             var server = jpoker.getServer(url);
                                             if(server) {
                                                 server.tableRowClick(server, subpacket);
+						server.tableJoin(subpacket.id);
                                             }
                                         }).hover(function(){
                                                 $(this).addClass('hover');
@@ -2269,9 +2283,7 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<span class=\'jpoker_table\' id=\'' + id + '\'><div class=\'jpoker_connecting\'><div class=\'jpoker_connecting_message\'>' + _("connecting to table {name}").supplant({ 'name': name }) + '</div><div class=\'jpoker_connecting_image\'></div></div></span>');
-                
-                server.tableJoin(game_id);
+                $this.append('<span class=\'jpoker_table\' id=\'' + id + '\'><div class=\'jpoker_connecting\'><div class=\'jpoker_connecting_message\'>' + _("connecting to table {name}").supplant({ 'name': name }) + '</div><div class=\'jpoker_connecting_image\'></div></div></span>');                
 
                 var updated = function(server) {
                     var element = document.getElementById(id);
@@ -2660,9 +2672,11 @@
                     }
                 });
             rebuy.show();
-            if(player.state == 'buyin') {
-                rebuy.click();
-            }
+	    if (!table.tourney) {
+		if(player.state == 'buyin') {
+		    rebuy.click();
+		}
+	    }
             var chat = function() {
                 var server = jpoker.getServer(url);
                 if(server) {

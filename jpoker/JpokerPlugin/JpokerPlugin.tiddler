@@ -30,6 +30,12 @@ $.jpoker.server.defaults.tourneyRowClick = function(server, packet) {
     story.displayTiddler(null, title, 1);
 };
 
+$.jpoker.server.defaults.tourneyJoin = function(server, packet) {
+    var title = " Tourney " + packet.name;
+    config.shadowTiddlers[title] = "<<jpokerTable '" + server.url + "' " + packet.game_id + " '" + packet.name+"'>>";
+    story.displayTiddler(null, title, 1);
+};
+
 $.jpoker.verbose = 6;
 
 $.jpoker.copyright();
