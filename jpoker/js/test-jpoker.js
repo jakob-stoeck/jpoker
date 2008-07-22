@@ -2823,7 +2823,7 @@ test("jpoker.plugins.userInfo", function(){
     });
 
 test("jpoker.plugins.userInfo update", function(){
-        expect(5);
+        expect(6);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -2841,6 +2841,7 @@ test("jpoker.plugins.userInfo update", function(){
 	    server.registerUpdate(function(server, what, data) {
 		    var element = $('#' + id);
 		    if(element.length > 0) {
+			equals($(".feedback", element).text(), '');
 			$('input[name=firstname]', element).val('Alan');
 			$('input[name=lastname]', element).val('Smith');
 			$('input[name=email]', element).val('alan@smith.com');
@@ -2848,11 +2849,11 @@ test("jpoker.plugins.userInfo update", function(){
 			    equals(info.firstname, 'Alan');
 			    equals(info.lastname, 'Smith');
 			    equals(info.email, 'alan@smith.com');
-			    var packet = $.extend(PERSONAL_INFO_PACKET, info);
+			    var packet = $.extend(PERSONAL_INFO_PACKET, info, {set_account: true});
 			    setTimeout(function() {
 				    server.registerUpdate(function(server, what, data) {
 					    var element = $('#' + id);
-					    equals($(".feedback", element).text(), '');
+					    equals($(".feedback", element).text(), _("Updated"));
 					    start_and_cleanup();
 					});
 				    server.notifyUpdate(packet);

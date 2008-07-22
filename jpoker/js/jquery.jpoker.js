@@ -1296,6 +1296,7 @@
 			server.sendPacket($.extend(info, personalInfoDefaults));
 			server.registerHandler(0, function(server, unused_game_id, packet) {
 				if (packet.type == 'PacketPokerPersonalInfo') {
+				    packet.set_account = true;
 				    server.notifyUpdate(packet);
 				    server.setState(server.RUNNING, 'PacketPokerPersonalInfo');
 				    return false;
@@ -2965,6 +2966,9 @@
 					});
 				    server.setPersonalInfo(info);
 				});
+			    if (packet.set_account) {
+				$('.feedback').text(_("Updated"));
+			    }
 			}
                         return true;
                     } else {
