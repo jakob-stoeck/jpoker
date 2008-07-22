@@ -2957,20 +2957,14 @@
                     if(element) {
 			if(packet && packet.type == 'PacketPokerPersonalInfo') {
 			    $(element).html(userInfo.getHTML(packet));
-			    var table = $('table', element);
-			    var tr = $('<tr>').appendTo(table);
-			    var tdInput = $('<td>').appendTo(tr);
-			    var tdFeedback = $('<td>').appendTo(tr);
-			    var input = $('<input type=\'submit\'>').appendTo(tdInput);
-			    input.val(_("Update personal info")).click(function() {
-				    $('<div class=\'feedback\'>').appendTo(tdFeedback).text(_("Updating..."));
+			    $('input[type=submit]').click(function() {
+				    $('.feedback').text(_("Updating..."));
 				    var info = {};
 				    $("input[type=text]", element).each(function() {
 					    info[$(this).attr("name")] = $(this).attr("value");
 					});
 				    server.setPersonalInfo(info);
 				});
-			    $(".feedback", element).text(_("Updated"));
 			}
                         return true;
                     } else {
@@ -2994,12 +2988,14 @@
 	var userInfo = t.info.supplant($.extend({
 		    'firstname_title': _("First name"),
 		    'lastname_title': _("Last name"),
-		    'email_title': _("Email")}, packet));
+		    'email_title': _("Email"),
+		    'submit_title': _("Update personal info")
+		}, packet));
 	return userInfo;
     };
 
     jpoker.plugins.userInfo.templates = {
-      info: '<table><tr><td>{firstname_title}</td><td><input type=\'text\' name=\'firstname\' value=\'{firstname}\'></input></td></tr><tr><td>{lastname_title}</td><td><input type=\'text\' name=\'lastname\' value=\'{lastname}\'></input></td></tr><tr><td>{email_title}</td><td><input type=\'text\' name=\'email\' value=\'{email}\'</td></tr></table>'
+      info: '<table><tr><td>{firstname_title}</td><td><input type=\'text\' name=\'firstname\' value=\'{firstname}\'></input></td></tr><tr><td>{lastname_title}</td><td><input type=\'text\' name=\'lastname\' value=\'{lastname}\'></input></td></tr><tr><td>{email_title}</td><td><input type=\'text\' name=\'email\' value=\'{email}\'</td></tr><tr><td><input type=\'submit\' value=\'{submit_title}\'></td><td><div class=\'feedback\'></div></td></tr></table>'
     };
 
 })(jQuery);

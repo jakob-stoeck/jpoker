@@ -2852,8 +2852,7 @@ test("jpoker.plugins.userInfo update", function(){
 			    setTimeout(function() {
 				    server.registerUpdate(function(server, what, data) {
 					    var element = $('#' + id);
-					    console.log(element);
-					    equals($(".feedback", element).text(), _("Updated"));
+					    equals($(".feedback", element).text(), '');
 					    start_and_cleanup();
 					});
 				    server.notifyUpdate(packet);
