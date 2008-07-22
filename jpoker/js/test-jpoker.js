@@ -2789,7 +2789,7 @@ test("jpoker.plugins.player: rebuy", function(){
     });
 
 test("jpoker.plugins.userInfo", function(){
-        expect(6);
+        expect(7);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -2798,7 +2798,7 @@ test("jpoker.plugins.userInfo", function(){
         server.connectionState = 'connected';
 
 	server.serial = 42;
-	var PERSONAL_INFO_PACKET = {'rating': 1000, 'firstname': 'John', 'money': {}, 'addr_street': '', 'phone': '', 'cookie': '', 'serial': server.serial, 'password': '', 'addr_country': '', 'name': 'testuser', 'gender': '', 'birthdate': '', 'addr_street2': '', 'addr_zip': '', 'affiliate': 0, 'lastname': 'Doe', 'addr_town': '', 'addr_state': '', 'type': 'PacketPokerPersonalInfo', 'email': ''};
+	var PERSONAL_INFO_PACKET = {'rating': 1000, 'firstname': 'John', 'money': {}, 'addr_street': '', 'phone': '', 'cookie': '', 'serial': server.serial, 'password': '', 'addr_country': '', 'name': 'testuser', 'gender': '', 'birthdate': '', 'addr_street2': '', 'addr_zip': '', 'affiliate': 0, 'lastname': 'Doe', 'addr_town': '', 'addr_state': '', 'type': 'PacketPokerPersonalInfo', 'email': 'john@doe.com'};
 
         var id = 'jpoker' + jpoker.serial;
         var place = $('#main');
@@ -2810,6 +2810,7 @@ test("jpoker.plugins.userInfo", function(){
 		    if(element.length > 0) {
 			equals($('input[name=firstname]', element).val(), 'John');
 			equals($('input[name=lastname]', element).val(), 'Doe');
+			equals($('input[name=email]', element).val(), 'john@doe.com');
 			start_and_cleanup();
 		    }
 		});
@@ -2822,7 +2823,7 @@ test("jpoker.plugins.userInfo", function(){
     });
 
 test("jpoker.plugins.userInfo update", function(){
-        expect(2);
+        expect(3);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -2842,9 +2843,11 @@ test("jpoker.plugins.userInfo update", function(){
 		    if(element.length > 0) {
 			$('input[name=firstname]', element).val('Alan');
 			$('input[name=lastname]', element).val('Smith');
+			$('input[name=email]', element).val('alan@smith.com');
 			server.setPersonalInfo = function(info) {
 			    equals(info.firstname, 'Alan');
 			    equals(info.lastname, 'Smith');
+			    equals(info.email, 'alan@smith.com');
 			    start_and_cleanup();
 			};
 			$('input[type=submit]').click();

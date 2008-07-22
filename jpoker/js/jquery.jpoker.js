@@ -1287,7 +1287,13 @@
 	    setPersonalInfo : function(info) {
 		this.queueRunning(function(server) {
 			server.setState(server.PERSONAL_INFO);
-			server.sendPacket($.extend({'type': 'PacketPokerSetAccount', 'serial': server.serial}, info));
+			var personalInfoDefaults = {
+			  'type' : 'PacketPokerSetAccount',
+			  'serial': server.serial,
+			  'name': server.userInfo.name,
+			  'password': ''
+			};
+			server.sendPacket($.extend(info, personalInfoDefaults));
 			server.registerHandler(0, function(server, unused_game_id, packet) {
 				if (packet.type == 'PacketPokerPersonalInfo') {
 				    server.notifyUpdate(packet);
@@ -2981,16 +2987,16 @@
 
     jpoker.plugins.userInfo.getHTML = function(packet) {
         var t = this.templates;
-	var html = [];	
+	var html = [];
 	var userInfo = t.info.supplant($.extend({
 		    'firstname_title': _("First name"),
-		    'lastname_title': _("Last name")},
-		packet));
+		    'lastname_title': _("Last name"),
+		    'email_title': _("Email")}, packet));
 	return userInfo;
     };
 
     jpoker.plugins.userInfo.templates = {
-        info: '<table><tr><td>{firstname_title}</td><td><input type=\'text\' name=\'firstname\' value=\'{firstname}\'></input></td></tr><tr><td>{lastname_title}</td><td><input type=\'text\' name=\'lastname\' value=\'{lastname}\'></input></td></tr></table>'
+      info: '<table><tr><td>{firstname_title}</td><td><input type=\'text\' name=\'firstname\' value=\'{firstname}\'></input></td></tr><tr><td>{lastname_title}</td><td><input type=\'text\' name=\'lastname\' value=\'{lastname}\'></input></td></tr><tr><td>{email_title}</td><td><input type=\'text\' name=\'email\' value=\'{email}\'</td></tr></table>'
     };
 
 })(jQuery);
