@@ -2959,15 +2959,18 @@
 			    $(element).html(userInfo.getHTML(packet));
 			    var table = $('table', element);
 			    var tr = $('<tr>').appendTo(table);
-			    var td = $('<td>').appendTo(tr);
-			    var input = $('<input type=\'submit\'>').appendTo(td);
+			    var tdInput = $('<td>').appendTo(tr);
+			    var tdFeedback = $('<td>').appendTo(tr);
+			    var input = $('<input type=\'submit\'>').appendTo(tdInput);
 			    input.val(_("Update personal info")).click(function() {
+				    $('<div class=\'feedback\'>').appendTo(tdFeedback).text(_("Updating..."));
 				    var info = {};
 				    $("input[type=text]", element).each(function() {
 					    info[$(this).attr("name")] = $(this).attr("value");
 					});
 				    server.setPersonalInfo(info);
 				});
+			    $(".feedback", element).text(_("Updated"));
 			}
                         return true;
                     } else {
