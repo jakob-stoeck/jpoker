@@ -1306,6 +1306,27 @@ test("jpoker.table.reinit", function(){
     });
 
 
+test("jpoker.table.handler: PacketPokerState", function(){
+        expect(1);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var game_id = 100;
+
+        // define table
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        var state = 'pre-flop';
+        var packet = { type: 'PacketPokerState',
+                       game_id: game_id,
+                       string: state
+        };
+        table.handler(server, game_id, packet);
+
+        equals(table.state, state);
+    });
+
 test("jpoker.table.handler: PacketPokerBetLimit", function(){
         expect(6);
 
@@ -2868,6 +2889,42 @@ test("jpoker.plugins.userInfo update", function(){
 	    server.notifyUpdate(PERSONAL_INFO_PACKET);
 	};
         place.jpoker('userInfo', 'url');
+    });
+
+test("jpoker.plugins.player: sitout", function(){
+        expect(7);
+
+        var id = 'jpoker' + jpoker.serial;
+        var player_serial = 1;
+        var game_id = 100;
+        var money = 1000;
+        _SelfPlayerSit(game_id, player_serial, money);
+        var server = jpoker.getServer('url');
+        var player = jpoker.getPlayer('url', game_id, player_serial);
+
+        // click on sitout, packet sent and sitout button hides
+        var sitout = $("#sitout" + id);
+        equals(sitout.is(':visible'), true, 'sitout button visible');
+        var sent = false;
+        sendPacket = server.sendPacket;
+        server.sendPacket = function(packet) {
+            if(packet.type == 'PacketPokerSitOut') {
+                sent = true;
+            }
+        };
+        sitout.click();
+        equals(sent, true, 'sitout packet sent');
+        equals(sitout.is(':hidden'), true, 'sitout button hidden');
+
+        // when PokerSitOut packet arrives, sitout button is hidden again
+        sitout.show();
+        var table = server.tables[game_id];
+        table.handler(server, game_id, { type: 'PacketPokerSitOut',
+                    game_id: game_id,
+                    serial: player_serial });
+        equals(sitout.is(':hidden'), true, 'sitout button hidden');
+        
+        cleanup(id);
     });
 
 test("profileEnd", function(){
