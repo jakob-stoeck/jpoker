@@ -2043,7 +2043,7 @@ test("jpoker.plugins.table.reinit", function(){
     });
 
 test("jpoker.plugins.table.chat", function(){
-        expect(11);
+        expect(10);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var player_serial = 1;
@@ -2074,11 +2074,10 @@ test("jpoker.plugins.table.chat", function(){
             equals(packet.type, 'PacketPokerChat');
             equals(packet.serial, player_serial);
             equals(packet.game_id, game_id);
-            equals("^"+packet.message+"$", '^ABC $');
+            equals("^"+packet.message+"$", '^ABC$');
             sent = true;
         };
-        $('input', chat).attr('value', 'A\'B"C\n');
-	equals("^"+$('input', chat).val()+"$", '^A\'B"C $'); //FF3 seems to s/\n/' '/ in <input>
+        $('input', chat).attr('value', 'A\'B"C');
         chat.triggerKeypress("13");
         equals(sent, true, "packet sent");
         equals($('input', chat).attr('value'), ' ', 'input is reset');
