@@ -1319,6 +1319,7 @@
     //
     jpoker.table = function(server, packet) {
         $.extend(this, jpoker.table.defaults, packet);
+	this.is_tourney = packet.betting_structure.search(/^level-/) == 0;
         this.url = server.url;
         this.init();
         server.registerHandler(packet.id, this.handler);

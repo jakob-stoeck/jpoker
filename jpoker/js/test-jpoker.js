@@ -1306,6 +1306,16 @@ test("jpoker.table.reinit", function(){
     });
 
 
+test("jpoker.table or tourney", function() {
+	expect(2);
+        var server = jpoker.serverCreate({ url: 'url' });
+	var table = new jpoker.table(server, {"type": "PacketPokerTable", "id": 101, "betting_structure": "15-30-no-limit"});
+	equals(table.is_tourney, false);
+	var tourney = new jpoker.table(server, {"type": "PacketPokerTable", "id": 101, "betting_structure": "level-15-30-no-limit"});
+	equals(tourney.is_tourney, true);
+    });
+
+
 test("jpoker.table.handler: PacketPokerState", function(){
         expect(1);
 
