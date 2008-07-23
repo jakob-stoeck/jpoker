@@ -2772,6 +2772,32 @@ test("jpoker.plugins.player: rebuy", function(){
         cleanup(id);
     });
 
+test("jpoker.plugins.player: no rebuy in tourney", function() {
+	expect(1);
+	var server = jpoker.serverCreate({ url: 'url' });
+	var game_id = 101;
+
+	var packet = { type: 'PacketPokerTable', game_id: game_id, id: game_id, is_tourney: true};
+	var table = new jpoker.table(server, packet);
+
+        var player_serial = 43;
+        var player = new jpoker.player({ url: url }, { serial: player_serial });
+	player.state = 'buyin';
+	table.serial2player[player_serial] = player;
+
+        var player_seat = 2;
+        var player_name = 'username';
+        var player_packet = { type: 'PacketPokerPlayerArrive', name: player_name, seat: player_seat, serial: player_serial, game_id: game_id };
+
+	var id = 'jpoker' + jpoker.serial;
+	$('<input id=\'rebuy'+id+'\' type=\'submit\'>').appendTo('#main').click(function() {
+		ok(false, 'tourney should not trigger rebuy');
+	    });
+	jpoker.plugins.playerSelf.create(table, player_packet, id);
+
+	ok(true);
+    });
+
 test("jpoker.plugins.userInfo", function(){
         expect(7);
 	stop();

@@ -1319,7 +1319,11 @@
     //
     jpoker.table = function(server, packet) {
         $.extend(this, jpoker.table.defaults, packet);
-	this.is_tourney = packet.betting_structure.search(/^level-/) == 0;
+	if (packet.betting_structure) {
+	    this.is_tourney = packet.betting_structure.search(/^level-/) == 0;
+	} else {
+	    this.is_tourney = false;
+	}
         this.url = server.url;
         this.init();
         server.registerHandler(packet.id, this.handler);
@@ -1391,9 +1395,6 @@
                     break;
 
                 case 'PacketPokerStreamMode':
-                    if(server.getState() != server.TABLE_JOIN) {
-                        jpoker.error('PacketPokerStreamMode but state is \'' + server.getState() + '\' instead of the expected \'' + server.TABLE_JOIN + '\'');
-                    }
                     server.setState(server.RUNNING, 'PacketPokerStreamMode');
                     break;
 
@@ -2660,8 +2661,10 @@
                 });
             rebuy.show();
 
-	    if(player.state == 'buyin') {
-		rebuy.click();
+	    if (table.is_tourney) {
+		if (player.state == 'buyin') {
+		    rebuy.click();
+		}
 	    }
 
             //
