@@ -824,7 +824,7 @@
 	    tablesCount: null,
 	    playersTourneysCount: null,
 	    tourneysCount: null,
-            tableRowClick: function(server, packet) {},
+            spawnTable: function(server, packet) {},
             tourneyRowClick: function(server, packet) {},
             setInterval: function(cb, delay) { return window.setInterval(cb, delay); },
             clearInterval: function(id) { return window.clearInterval(id); }
@@ -908,6 +908,8 @@
                     server.tables[packet.id] = new jpoker.table(server, packet);
                     server.notifyUpdate(packet);
                 }
+		packet.game_id = packet.id;
+		server.spawnTable(server, packet);
                 break;
 
                 case 'PacketPokerMessage':
@@ -1710,7 +1712,7 @@
                                     $('#' + subpacket.id).click(function() {
                                             var server = jpoker.getServer(url);
                                             if(server) {
-                                                server.tableRowClick(server, subpacket);
+						server.tableJoin(subpacket.game_id);
                                             }
                                         }).hover(function(){
                                                 $(this).addClass('hover');
@@ -2218,7 +2220,7 @@
                 }
                 if(found) {
                     found.game_id = found.id;
-                    server.setTimeout(function() { server.tableRowClick(server, found); }, 1);
+                    server.setTimeout(function() { server.tableJoin(found.game_id); }, 1);
                 }
                 return false;
             } else {
@@ -2276,24 +2278,11 @@
                 var id = jpoker.uid();
 
                 $this.append('<span class=\'jpoker_table\' id=\'' + id + '\'><div class=\'jpoker_connecting\'><div class=\'jpoker_connecting_message\'>' + _("connecting to table {name}").supplant({ 'name': name }) + '</div><div class=\'jpoker_connecting_image\'></div></div></span>');
-                
-                server.tableJoin(game_id);
-
-                var updated = function(server) {
-                    var element = document.getElementById(id);
-                    if(element) {
-                        if(game_id in server.tables) {
-                            jpoker.plugins.table.create($(element), id, server, game_id);
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    } else {
-                        return false;
-                    }
-                };
-
-                server.registerUpdate(updated, null, 'table ' + id);
+                	       
+		if(game_id in server.tables) {
+		    var element = document.getElementById(id);
+		    jpoker.plugins.table.create($(element), id, server, game_id);
+		}
 
                 return this;
             });

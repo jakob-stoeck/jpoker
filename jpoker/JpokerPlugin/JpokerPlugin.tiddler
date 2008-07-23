@@ -18,7 +18,7 @@
 config.jpoker = { restURL : '/REST' };
 config.options.chkSinglePagePermalink = false;
 
-$.jpoker.server.defaults.tableRowClick = function(server, packet) {
+$.jpoker.server.defaults.spawnTable = function(server, packet) {
     var title = " Table " + packet.name;
     config.shadowTiddlers[title] = "<<jpokerTable '" + server.url + "' " + packet.game_id + " '" + packet.name + "'>>";
     story.displayTiddler(null, title, 1);
