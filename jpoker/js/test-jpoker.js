@@ -2777,8 +2777,9 @@ test("jpoker.plugins.player: no rebuy in tourney", function() {
 	var server = jpoker.serverCreate({ url: 'url' });
 	var game_id = 101;
 
-	var packet = { type: 'PacketPokerTable', game_id: game_id, id: game_id, is_tourney: true};
+	var packet = { type: 'PacketPokerTable', game_id: game_id, id: game_id};
 	var table = new jpoker.table(server, packet);
+	table.is_tourney = true;
 
         var player_serial = 43;
         var player = new jpoker.player({ url: url }, { serial: player_serial });

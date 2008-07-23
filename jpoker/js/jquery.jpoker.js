@@ -2661,7 +2661,7 @@
                 });
             rebuy.show();
 
-	    if (table.is_tourney) {
+	    if (table.is_tourney === false) {
 		if (player.state == 'buyin') {
 		    rebuy.click();
 		}
