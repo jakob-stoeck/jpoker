@@ -304,6 +304,14 @@ test("jpoker.url2hash", function(){
         equals(jpoker.url2hash('url'), jpoker.url2hash('url'), "url2hash");
     });
 
+test("jpoker.url2server", function(){
+        expect(1);
+	jpoker.servers = {}
+	var options = {url : 'url'};
+	var server = jpoker.url2server(options);
+	equals(server.url, options.url, "server created");
+    });
+
 test("jpoker.copyright", function(){
         expect(1);
         var copyright = jpoker.copyright();
