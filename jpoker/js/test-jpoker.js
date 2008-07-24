@@ -2668,7 +2668,7 @@ function _SelfPlayerSit(game_id, player_serial, money) {
 }
 
 test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function(){
-        expect(55);
+        expect(79);
 
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
@@ -2728,6 +2728,16 @@ test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function()
             pot:  20
         };
         interactors([ 'fold', 'call', 'raise' ], [ 'check' ], 'no check');
+
+        Z.table.betLimit = {
+            min:   10,
+            max:   10,
+            step:  1,
+            call: 10,
+            allin:40,
+            pot:  20
+        };
+        interactors([ 'fold', 'call', 'raise' ], [ 'check' ], 'limit');
 
         Z.table.betLimit = {
             min:   5,
