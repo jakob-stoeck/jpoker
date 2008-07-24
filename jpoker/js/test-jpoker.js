@@ -579,6 +579,26 @@ test("jpoker.server.rejoin", function(){
         server.rejoin();
     });
 
+
+test("jpoker.server.refresh clearInterval", function(){
+	expect(2);
+	
+	var server = jpoker.serverCreate({ url: 'url' });
+	var oldTimer = 42;
+	var newTimer = 43;
+	jpokerRefresh = jpoker.refresh;
+	jpoker.refresh = function() {
+	    jpoker.refresh = jpokerRefresh;
+	    return {timer:newTimer};
+	};
+	server.clearInterval = function(id) {
+	    equals(id, oldTimer, 'timer cleared');
+	};
+	server.timers['foo'] = {timer:oldTimer};
+	server.refresh('foo');
+	equals(server.timers['foo'].timer, newTimer, 'timer updated');
+    });
+
 test("jpoker.server.login", function(){
         expect(12);
         stop();
