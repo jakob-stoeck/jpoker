@@ -527,7 +527,7 @@ test("jpoker.server.reconnect waiting", function(){
         expect(2);
 	
         var server = jpoker.serverCreate({ url: 'url' });
-	server.callbacks[0] = {}
+	server.callbacks[0] = [];
 	server.reconnect();
 	equals(server.callbacks[0].length, 1, 'reconnect callback registered');
 	var callback = server.callbacks[0][0];
@@ -539,7 +539,7 @@ test("jpoker.server.refreshTable waiting", function(){
         expect(2);
 	
         var server = jpoker.serverCreate({ url: 'url' });
-	server.callbacks[0] = {}
+	server.callbacks[0] = [];
 	server.refreshTables('');
 	equals(server.callbacks[0].length, 1, 'refreshTables callback registered');
 	var callback = server.callbacks[0][0];
@@ -551,7 +551,7 @@ test("jpoker.server.refreshTourneys waiting", function(){
         expect(2);
 	
         var server = jpoker.serverCreate({ url: 'url' });
-	server.callbacks[0] = {}
+	server.callbacks[0] = [];
 	server.refreshTourneys('');
 	equals(server.callbacks[0].length, 1, 'refreshTourneys callback registered');
 	var callback = server.callbacks[0][0];
@@ -563,7 +563,7 @@ test("jpoker.server.refreshTourneyDetails waiting", function(){
         expect(2);
 	
         var server = jpoker.serverCreate({ url: 'url' });
-	server.callbacks[0] = {}
+	server.callbacks[0] = [];
 	server.refreshTourneyDetails(0);
 	equals(server.callbacks[0].length, 1, 'refreshTourneyDetails callback registered');
 	var callback = server.callbacks[0][0];
@@ -635,7 +635,7 @@ test("jpoker.server.rejoin waiting", function(){
         expect(2);
 	
         var server = jpoker.serverCreate({ url: 'url' });
-	server.callbacks[0] = {}
+	server.callbacks[0] = [];
 	server.rejoin(0);
 	equals(server.callbacks[0].length, 1, 'rejoin callback registered');
 	var callback = server.callbacks[0][0];
@@ -835,7 +835,7 @@ test("jpoker.server.login waiting", function(){
         expect(2);
 	
         var server = jpoker.serverCreate({ url: 'url' });
-	server.callbacks[0] = {}
+	server.callbacks[0] = [];
 	server.login(0);
 	equals(server.callbacks[0].length, 1, 'login callback registered');
 	var callback = server.callbacks[0][0];
@@ -972,8 +972,8 @@ test("jpoker.server.tourneyRegister waiting", function(){
 	
         var server = jpoker.serverCreate({ url: 'url' });
 	var game_id = 100;
-	server.callbacks[0] = {}
-	server.callbacks[game_id] = {}
+	server.callbacks[0] = [];
+	server.callbacks[game_id] = [];
 	server.tourneyRegister(game_id);
 	equals(server.callbacks[0].length, 1, 'tourneyRegister callbacks[0] registered');
 	equals(server.callbacks[game_id].length, 1, 'tourneyRegister callbacks[game_id] registered');
@@ -1051,8 +1051,8 @@ test("jpoker.server.tourneyUnregister waiting", function(){
 	
         var server = jpoker.serverCreate({ url: 'url' });
 	var game_id = 100;
-	server.callbacks[0] = {}
-	server.callbacks[game_id] = {}
+	server.callbacks[0] = [];
+	server.callbacks[game_id] = [];
 	server.tourneyUnregister(game_id);
 	equals(server.callbacks[0].length, 1, 'tourneyUnregister callbacks[0] registered');
 	equals(server.callbacks[game_id].length, 1, 'tourneyUnregister callbacks[game_id] registered');
@@ -1097,7 +1097,7 @@ test("jpoker.server.getPersonalInfo waiting", function(){
 	
         var server = jpoker.serverCreate({ url: 'url' });
 	var game_id = 100;
-	server.callbacks[0] = {}
+	server.callbacks[0] = [];
 	server.getPersonalInfo(game_id);
 	equals(server.callbacks[0].length, 1, 'getPersonalInfo callbacks[0] registered');
 	var callback = server.callbacks[0][0];
@@ -2773,6 +2773,27 @@ test("jpoker.plugins.table: PacketPokerUserInfo", function(){
 	    ok(true, 'rebuy called');
 	};
         server.handler(server, game_id, { 'type': 'PacketPokerUserInfo', 'game_id': game_id });
+    });
+
+test("jpoker.plugins.table: remove update callback", function(){
+        expect(2);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+	table.callbacks['update'] = [];
+        place.jpoker('table', 'url', game_id);
+	equals(table.callbacks['update'].length, 1, 'table updateCallback registered');
+	table.notifyUpdate({type: 'PacketPing'});
+	$("#" + id).remove();
+        server.handler(server, game_id, { 'type': 'PacketPokerUserInfo', 'game_id': game_id });
+	equals(table.callbacks['update'].length, 0, 'table updateCallback removed');
     });
 
 //
