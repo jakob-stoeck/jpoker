@@ -962,6 +962,16 @@ test("jpoker.server.setInterval", function(){
 	    }, 0);	
     });
 
+test("jpoker.server.setState", function(){
+	expect(1);
+	var server = jpoker.serverCreate({ url: 'url' });
+	var undefinedState = undefined;
+	jpoker.error = function(reason) {
+	    equals('undefined state', reason, 'error undefined state');
+	};
+	server.setState(undefined);	
+    });
+
 //
 // jpoker.connection
 //
