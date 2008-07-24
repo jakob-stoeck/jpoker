@@ -1075,6 +1075,20 @@ test("jpoker.server.getPersonalInfo", function(){
         server.getPersonalInfo();
     });
 
+
+test("jpoker.server.getPersonalInfo waiting", function(){
+        expect(2);
+	
+        var server = jpoker.serverCreate({ url: 'url' });
+	var game_id = 100;
+	server.callbacks[0] = {}
+	server.getPersonalInfo(game_id);
+	equals(server.callbacks[0].length, 1, 'getPersonalInfo callbacks[0] registered');
+	var callback = server.callbacks[0][0];
+	server.notify(0, {type: 'PacketPing'});
+	equals(server.callbacks[0][0], callback, 'getPersonalInfo callback still in place');
+    });
+
 test("jpoker.server.setPersonalInfo", function(){
         expect(0);
 	stop();
