@@ -1539,7 +1539,7 @@ test("jpoker.player.reinit", function(){
 // tableList
 //
 test("jpoker.plugins.tableList", function(){
-        expect(8);
+        expect(11);
         stop();
 
         //
@@ -1575,6 +1575,16 @@ test("jpoker.plugins.tableList", function(){
                     var tr = $("#" + id + " tr", place);
                     equals(tr.length, 4);
                     equals($('td:nth-child(5)', tr[1]).text(), average_pot, 'average pot');
+		    var row_id = TABLE_LIST_PACKET.packets[1].id + id;
+		    var row = $("#" + row_id, place);
+		    server.tableJoin = function(id) {
+			equals(id, TABLE_LIST_PACKET.packets[1].id, 'tableJoin called');
+		    };
+		    row.click();
+		    row.trigger('mouseenter');
+		    equals(row.hasClass('hover'), true, 'hasClass hover');
+		    row.trigger('mouseleave');
+		    equals(row.hasClass('hover'), false, '!hasClass hover');
                     $("#" + id).remove();
                     return true;
                 } else {
