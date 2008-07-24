@@ -615,6 +615,17 @@ test("jpoker.server.rejoin", function(){
         server.rejoin();
     });
 
+test("jpoker.server.rejoin waiting", function(){
+        expect(2);
+	
+        var server = jpoker.serverCreate({ url: 'url' });
+	server.callbacks[0] = {}
+	server.rejoin(0);
+	equals(server.callbacks[0].length, 1, 'rejoin callback registered');
+	var callback = server.callbacks[0][0];
+	server.notify(0, {type: 'PacketPing'});
+	equals(server.callbacks[0][0], callback, 'rejoin callback still in place');
+    });
 
 test("jpoker.server.refresh clearInterval", function(){
 	expect(2);
