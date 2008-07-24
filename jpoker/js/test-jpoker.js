@@ -132,6 +132,29 @@ test("jpoker: get{Server,Table,Player}", function() {
     });
 
 //
+// jpoker.error
+//
+test("jpoker.error", function() {
+	expect(3);
+	var error_reason = "error reason";
+	jpokerMessage = jpoker.message;
+	jpoker.message = function(reason) {
+	    equals(error_reason, reason, "error_reason message");
+	};
+	jpokerUninit = jpoker.uninit;
+	jpoker.uninit = function() {
+	    ok (true, "uninit called");
+	};
+	try {
+	    jpoker.error(error_reason);
+	} catch (reason) {
+	    equals(reason, error_reason, "error_reason thrown");
+	}
+	jpoker.message = jpokerMessage;
+	jpoker.uninit = jpokerUninit;
+    });
+
+//
 // jpoker.watchable
 //
 test("jpoker.watchable", function(){
