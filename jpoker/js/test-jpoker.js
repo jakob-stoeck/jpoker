@@ -1589,7 +1589,7 @@ test("jpoker.plugins.tableList", function(){
 // regularTourneyList
 //
 test("jpoker.plugins.regularTourneyList", function(){
-        expect(9);
+        expect(12);
         stop();
 
         //
@@ -1628,6 +1628,14 @@ test("jpoker.plugins.regularTourneyList", function(){
                     equals(tr.length, 4+1);
                     equals($('td:nth-child(5)', row).text(), start_time, 'start_time');
 		    equals($('.headerSortDown', tr[0]).text(), 'Start Time', "headerSortDown");
+		    server.tourneyRowClick = function(server, subpacket) {
+			equals(subpacket.serial, TOURNEY_LIST_PACKET.packets[1].serial, 'tourneyRowClick called');
+		    };
+		    row.click();
+		    row.trigger('mouseenter');
+		    equals(row.hasClass('hover'), true, 'hasClass hover');
+		    row.trigger('mouseleave');
+		    equals(row.hasClass('hover'), false, '!hasClass hover');
                     $("#" + id).remove();
                     return true;
                 } else {
@@ -1650,7 +1658,7 @@ test("jpoker.plugins.regularTourneyList", function(){
 // sitngoTourneyList
 //
 test("jpoker.plugins.sitngoTourneyList", function(){
-        expect(9);
+        expect(12);
         stop();
 
         //
@@ -1689,6 +1697,14 @@ test("jpoker.plugins.sitngoTourneyList", function(){
                     equals(tr.length, 1+1);
                     equals($('td:nth-child(4)', row).text(), buy_in, 'buy in');
 		    equals($('.headerSortDown', tr[0]).text(), 'Buy In', "headerSortDown");
+		    server.tourneyRowClick = function(server, subpacket) {
+			equals(subpacket.serial, TOURNEY_LIST_PACKET.packets[0].serial, 'tourneyRowClick called');
+		    };
+		    row.click();
+		    row.trigger('mouseenter');
+		    equals(row.hasClass('hover'), true, 'hasClass hover');
+		    row.trigger('mouseleave');
+		    equals(row.hasClass('hover'), false, '!hasClass hover');
                     $("#" + id).remove();
                     return true;
                 } else {
