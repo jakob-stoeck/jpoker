@@ -804,6 +804,18 @@ test("jpoker.server.login: serial is set", function(){
         cleanup();
     });
 
+test("jpoker.server.login waiting", function(){
+        expect(2);
+	
+        var server = jpoker.serverCreate({ url: 'url' });
+	server.callbacks[0] = {}
+	server.login(0);
+	equals(server.callbacks[0].length, 1, 'login callback registered');
+	var callback = server.callbacks[0][0];
+	server.notify(0, {type: 'PacketPing'});
+	equals(server.callbacks[0][0], callback, 'login callback still in place');
+    });
+
 test("jpoker.server.logout", function(){
         expect(5);
         stop();
