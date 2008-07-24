@@ -951,6 +951,17 @@ test("jpoker.server.setPersonalInfo error", function(){
 		    });
     });
 
+test("jpoker.server.setInterval", function(){
+	expect(1);
+	stop();
+	var server = jpoker.serverCreate({ url: 'url' });
+	var id = server.setInterval(function() {
+		ok(true, "callback called");
+		clearInterval(id);
+		start();
+	    }, 0);	
+    });
+
 //
 // jpoker.connection
 //
