@@ -2877,6 +2877,7 @@
                                 axis: 'horizontal',
                                 stepping: betLimit.step,
                                 change: function(event, ui) {
+				console.log(ui);
                                 var current = $('.jpoker_raise_current', ui.element);
                                 current.html(jpoker.chips.SHORT(ui.value));
                                 current.attr('title', ui.value);

@@ -3029,7 +3029,7 @@ function _SelfPlayerSit(game_id, player_serial, money) {
 }
 
 test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function(){
-        expect(79);
+        expect(81);
 
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
@@ -3117,6 +3117,9 @@ test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function()
         equals($(".jpoker_raise_max", raise).html(), Z.table.betLimit.max, 'max');
         equals(raise.is(':visible'), true, 'raise range visible');
         var slider = $('.ui-slider-1', raise);
+	equals($('.jpoker_raise_current', raise).attr("title"), 5, "title = raise amount");
+	slider.slider("moveTo", 0);
+	equals($('.jpoker_raise_current', raise).attr("title"), 0, "title updated");
         //        $('.ui-slider-handle', raise).parent().triggerKeydown("38");
         // equals($(".jpokerRaiseCurrent", raise).attr('title'), Z.table.betLimit.min, 'value changed');
         Z.table.handler(Z.server, game_id, { type: 'PacketPokerSelfLostPosition', serial: 333, game_id: game_id });
