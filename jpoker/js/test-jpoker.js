@@ -2356,6 +2356,9 @@ test("jpoker.plugins.login", function(){
 	content = $("#" + id).text();
 	equals(content.indexOf("user:") >= 0, true, "user:");
 
+	$("#" + id).remove();
+	server.notifyUpdate();
+
         cleanup(id);
     });
 
