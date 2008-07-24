@@ -1108,7 +1108,7 @@ test("jpoker.connection:dequeueIncoming setTimeout", function(){
     });
 
 test("jpoker.connection:dequeueIncoming handle", function(){
-        expect(6);
+        expect(7);
         var self = new jpoker.connection();
 
         self.clearTimeout = function(id) { };
@@ -1124,6 +1124,12 @@ test("jpoker.connection:dequeueIncoming handle", function(){
             return true;
         };
         self.registerHandler(0, handler);
+	jpoker.verbose = 2;
+	jpokerMessage = jpoker.message;
+	jpoker.message = function(message) {
+	    ok(message.indexOf('connection handle') >= 0, 'jpoker.message called');
+	    jpoker.message = jpokerMessage;
+	};
         self.dequeueIncoming();
         self.unregisterHandler(0, handler);
 
