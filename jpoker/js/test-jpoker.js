@@ -733,6 +733,58 @@ test("jpoker.server.login: already logged", function(){
         server.login("name", "password");
     });
 
+test("jpoker.server.login: POKER_SET_ROLE error", function(){
+        expect(1);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        var PokerServer = function() {};
+
+        var refused = "not good";
+        PokerServer.prototype = {
+            outgoing: '[{"type": "PacketError", "other_type": ' + jpoker.packetName2Type.POKER_SET_ROLE + ' ,"message": "poker set role error"}]',
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        dialog = jpoker.dialog;
+        jpoker.dialog = function(message) {
+            equals(message.indexOf("poker set role error") >= 0, true, "poker set role error");
+            jpoker.dialog = dialog;
+            start_and_cleanup();
+        };
+        server.login("name", "password");
+    });
+
+test("jpoker.server.login: PacketSerial error", function(){
+        expect(1);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        var PokerServer = function() {};
+
+        var refused = "not good";
+        PokerServer.prototype = {
+            outgoing: '[{"type": "PacketSerial"}]',
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        error = jpoker.dialog;
+        jpoker.error = function(reason) {
+            equals(reason.indexOf("expected PacketPokerRoles before") >= 0, true, "expected PacketPokerRoles before");
+            jpoker.error = error;
+            start_and_cleanup();
+        };
+        server.login("name", "password");
+    });
+
 test("jpoker.server.login: serial is set", function(){
         expect(2);
 
