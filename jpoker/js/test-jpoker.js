@@ -352,6 +352,14 @@ test("jpoker.refresh requireSession", function(){
     });
 
 //
+// jpoker.Crypto
+//
+test("jpoker.Crypto b32 str", function (){
+	expect(1);
+	equals(jpoker.Crypto.be32sToStr(jpoker.Crypto.strToBe32s("0123")), "0123", "str to be32 to str");
+    });
+
+//
 // jpoker.server
 //
 test("jpoker.server.handler PacketPokerMessage/GameMessage ", function(){
