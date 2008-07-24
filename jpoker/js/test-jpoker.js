@@ -2775,8 +2775,8 @@ test("jpoker.plugins.table: PacketPokerUserInfo", function(){
         server.handler(server, game_id, { 'type': 'PacketPokerUserInfo', 'game_id': game_id });
     });
 
-test("jpoker.plugins.table: remove update callback", function(){
-        expect(2);
+test("jpoker.plugins.table: remove callbacks", function(){
+        expect(4);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
@@ -2790,10 +2790,12 @@ test("jpoker.plugins.table: remove update callback", function(){
 	table.callbacks['update'] = [];
         place.jpoker('table', 'url', game_id);
 	equals(table.callbacks['update'].length, 1, 'table updateCallback registered');
-	table.notifyUpdate({type: 'PacketPing'});
+	equals(table.callbacks['reinit'].length, 1, 'table reinitCallback registered');
 	$("#" + id).remove();
-        server.handler(server, game_id, { 'type': 'PacketPokerUserInfo', 'game_id': game_id });
+	table.notifyUpdate({type: 'PacketPing'});
 	equals(table.callbacks['update'].length, 0, 'table updateCallback removed');
+	table.notifyReinit({type: 'PacketPing'});
+	equals(table.callbacks['reinit'].length, 0, 'table reinitCallback removed');
     });
 
 //
