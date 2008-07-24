@@ -951,6 +951,24 @@ test("jpoker.server.tourneyRegister error", function(){
         server.tourneyRegister(game_id);
     });
 
+test("jpoker.server.tourneyRegister waiting", function(){
+        expect(4);
+	
+        var server = jpoker.serverCreate({ url: 'url' });
+	var game_id = 100;
+	server.callbacks[0] = {}
+	server.callbacks[game_id] = {}
+	server.tourneyRegister(game_id);
+	equals(server.callbacks[0].length, 1, 'tourneyRegister callbacks[0] registered');
+	equals(server.callbacks[game_id].length, 1, 'tourneyRegister callbacks[game_id] registered');
+	var callback = server.callbacks[0][0];
+	var callback_game_id = server.callbacks[game_id][0];
+	server.notify(0, {type: 'PacketPing'});
+	equals(server.callbacks[0][0], callback, 'tourneyRegister callback still in place');
+	server.notify(game_id, {type: 'PacketPing'});
+	equals(server.callbacks[game_id][0], callback_game_id, 'tourneyRegister callback_game_id still in place');
+    });
+
 test("jpoker.server.tourneyUnregister", function(){
         expect(4);
 	stop();
@@ -1010,6 +1028,24 @@ test("jpoker.server.tourneyUnregister error", function(){
 		return true;
             });
         server.tourneyUnregister(game_id);
+    });
+
+test("jpoker.server.tourneyUnregister waiting", function(){
+        expect(4);
+	
+        var server = jpoker.serverCreate({ url: 'url' });
+	var game_id = 100;
+	server.callbacks[0] = {}
+	server.callbacks[game_id] = {}
+	server.tourneyUnregister(game_id);
+	equals(server.callbacks[0].length, 1, 'tourneyUnregister callbacks[0] registered');
+	equals(server.callbacks[game_id].length, 1, 'tourneyUnregister callbacks[game_id] registered');
+	var callback = server.callbacks[0][0];
+	var callback_game_id = server.callbacks[game_id][0];
+	server.notify(0, {type: 'PacketPing'});
+	equals(server.callbacks[0][0], callback, 'tourneyUnregister callback still in place');
+	server.notify(game_id, {type: 'PacketPing', id: game_id});
+	equals(server.callbacks[game_id][0], callback_game_id, 'tourneyUnregister callback_game_id still in place');
     });
 
 test("jpoker.server.getPersonalInfo", function(){
