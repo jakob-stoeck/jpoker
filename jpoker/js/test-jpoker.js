@@ -346,7 +346,23 @@ test("jpoker.refresh", function(){
             start_and_cleanup();
             return false;
         };
+	jpoker.verbose = 1;
         timerRequest = jpoker.refresh(server, request, handler, 'state');
+    });
+
+test("jpoker.refresh waiting", function(){
+        expect(1);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+	server.setInterval = function(id) {};
+        var timerRequest = jpoker.refresh(server, function() {}, function() {}, 'state');
+	jpoker.verbose = 1;
+	var jpokerMessage = jpoker.message;
+	jpoker.message = function(message) {
+	    jpoker.message = jpokerMessage;
+	    equals(message, 'refresh waiting', 'refresh waiting');
+	};
+	timerRequest.request();
     });
 
 test("jpoker.refresh requireSession", function(){
