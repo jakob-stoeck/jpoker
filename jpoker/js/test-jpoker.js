@@ -3230,7 +3230,7 @@ test("jpoker.plugins.player: no rebuy in tourney", function() {
     });
 
 test("jpoker.plugins.userInfo", function(){
-        expect(7);
+        expect(6);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -3241,26 +3241,37 @@ test("jpoker.plugins.userInfo", function(){
 	server.serial = 42;
 	var PERSONAL_INFO_PACKET = {'rating': 1000, 'firstname': 'John', 'money': {}, 'addr_street': '', 'phone': '', 'cookie': '', 'serial': server.serial, 'password': '', 'addr_country': '', 'name': 'testuser', 'gender': '', 'birthdate': '', 'addr_street2': '', 'addr_zip': '', 'affiliate': 0, 'lastname': 'Doe', 'addr_town': '', 'addr_state': '', 'type': 'PacketPokerPersonalInfo', 'email': 'john@doe.com'};
 
+        var PokerServer = function() {};
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(PERSONAL_INFO_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+        ActiveXObject.prototype.server = new PokerServer();
+
         var id = 'jpoker' + jpoker.serial;
         var place = $('#main');
 
-	server.getPersonalInfo = function() {
-	    ok(true, 'getPersonalInfoCalled');
-	    server.registerUpdate(function(server, what, data) {
-		    var element = $('#' + id);
-		    if(element.length > 0) {
-			equals($('input[name=firstname]', element).val(), 'John');
-			equals($('input[name=lastname]', element).val(), 'Doe');
-			equals($('input[name=email]', element).val(), 'john@doe.com');
-			start_and_cleanup();
-		    }
-		});
-	    server.notifyUpdate(PERSONAL_INFO_PACKET);
-	};
         equals('update' in server.callbacks, false, 'no update registered');
         place.jpoker('userInfo', 'url');
         equals(server.callbacks.update.length, 1, 'userInfo update registered');
 	equals($('.jpoker_user_info').length, 1, 'user info div');
+	server.registerUpdate(function(server, what, data) {
+		var element = $('#' + id);
+		if(element.length > 0) {
+		    if (data.type == 'PacketPokerPersonalInfo') {
+			console.log(data);
+			equals($('input[name=firstname]', element).val(), 'John');
+			equals($('input[name=lastname]', element).val(), 'Doe');
+			equals($('input[name=email]', element).val(), 'john@doe.com');
+			$('#' + id).remove();
+		    }
+		    return true;
+		} else {
+		    start_and_cleanup();
+		    return false;
+		}
+	    });
     });
 
 test("jpoker.plugins.userInfo update", function(){
