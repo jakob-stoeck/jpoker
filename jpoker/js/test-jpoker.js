@@ -372,7 +372,7 @@ test("jpoker.Crypto b32 str", function (){
 //
 test("jpoker.server.handler PacketPokerMessage/GameMessage ", function(){
         expect(2);
-
+	
         var server = jpoker.serverCreate({ url: 'url' });
         var message = "AAA";
         server.handler(server, 0, { type: 'PacketPokerMessage', string: message });
@@ -1741,6 +1741,64 @@ test("jpoker.table.handler: PacketPokerBuyInLimits", function(){
         }
         equals(table.buyIn.bankroll, money, 'money');
     });
+
+test("jpoker.table.handler: PacketPokerBatchMode", function(){
+        expect(1);
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        var game_id = 100;	
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        var packet = { 'type': 'PacketPokerBatchMode',
+		       'game_id': game_id
+        };
+
+	table.handler(server, game_id, packet);
+	ok(true, 'PacketPokerBatchMode');
+    });
+
+test("jpoker.table.handler: PacketPokerStreamMode", function(){
+        expect(1);
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        var game_id = 100;
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        var packet = { 'type': 'PacketPokerStreamMode',
+		       'game_id': game_id
+        };
+
+	server.state = 'unknown state';
+	table.handler(server, game_id, packet);
+	equals(server.getState(), 'running', 'state running');
+    });
+
+test("jpoker.table.handler: unknown table", function(){
+        expect(1);
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        var game_id = 100;
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        var packet = { 'type': 'PacketPing',
+                       'game_id': 101,
+        };
+
+        jpokerMessage = jpoker.message;
+        jpoker.message = function(message) {
+            equals(message.indexOf("unknown table") >= 0, true, "unknown table");
+            jpoker.message = jpokerMessage;
+        };
+	jpoker.verbose = 0;
+	table.handler(server, game_id, packet);
+    });
+
 
 //
 // player
