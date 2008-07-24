@@ -2634,7 +2634,7 @@ test("jpoker.plugins.table: PacketPokerChat", function(){
     });
 
 test("jpoker.plugins.table: PacketPokerPosition", function(){
-        expect(10);
+        expect(12);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -2667,6 +2667,10 @@ test("jpoker.plugins.table: PacketPokerPosition", function(){
         equals($("#player_seat2" + id).hasClass('jpoker_position'), false, "seat 2 not in position");
         equals($("#player_seat2" + id).hasClass('jpoker_sit_out'), false, "seat 2 sit");
 
+        table.handler(server, game_id, { type: 'PacketPokerPosition', serial: 11, game_id: game_id });
+	equals($("#player_seat1" + id).hasClass('jpoker_position'), false, "seat 1 in position");
+        equals($("#player_seat2" + id).hasClass('jpoker_position'), true, "seat 2 not in position");
+	
         start_and_cleanup();
     });
 
