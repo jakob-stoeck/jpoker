@@ -519,6 +519,42 @@ test("jpoker.server.reconnect waiting", function(){
 	equals(server.callbacks[0][0], callback, 'reconnect callback still in place');
     });
 
+test("jpoker.server.refreshTable waiting", function(){
+        expect(2);
+	
+        var server = jpoker.serverCreate({ url: 'url' });
+	server.callbacks[0] = {}
+	server.refreshTables('');
+	equals(server.callbacks[0].length, 1, 'refreshTables callback registered');
+	var callback = server.callbacks[0][0];
+	server.notify(0, {type: 'PacketPing'});
+	equals(server.callbacks[0][0], callback, 'refreshTables callback still in place');
+    });
+
+test("jpoker.server.refreshTourneys waiting", function(){
+        expect(2);
+	
+        var server = jpoker.serverCreate({ url: 'url' });
+	server.callbacks[0] = {}
+	server.refreshTourneys('');
+	equals(server.callbacks[0].length, 1, 'refreshTourneys callback registered');
+	var callback = server.callbacks[0][0];
+	server.notify(0, {type: 'PacketPing'});
+	equals(server.callbacks[0][0], callback, 'refreshTourneys callback still in place');
+    });
+
+test("jpoker.server.refreshTourneyDetails waiting", function(){
+        expect(2);
+	
+        var server = jpoker.serverCreate({ url: 'url' });
+	server.callbacks[0] = {}
+	server.refreshTourneyDetails(0);
+	equals(server.callbacks[0].length, 1, 'refreshTourneyDetails callback registered');
+	var callback = server.callbacks[0][0];
+	server.notify(0, {type: 'PacketPing'});
+	equals(server.callbacks[0][0], callback, 'refreshTourneyDetails callback still in place');
+    });
+
 test("jpoker.server.rejoin", function(){
         expect(5);
         stop();
