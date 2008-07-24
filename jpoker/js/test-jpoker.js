@@ -507,6 +507,18 @@ test("jpoker.server.reconnect invalid error", function(){
         server.reconnect();
     });
 
+test("jpoker.server.reconnect waiting", function(){
+        expect(2);
+	
+        var server = jpoker.serverCreate({ url: 'url' });
+	server.callbacks[0] = {}
+	server.reconnect();
+	equals(server.callbacks[0].length, 1, 'reconnect callback registered');
+	var callback = server.callbacks[0][0];
+	server.notify(0, {type: 'PacketPing'});
+	equals(server.callbacks[0][0], callback, 'reconnect callback still in place');
+    });
+
 test("jpoker.server.rejoin", function(){
         expect(5);
         stop();
