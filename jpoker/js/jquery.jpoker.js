@@ -1377,7 +1377,6 @@
             },
 
             handler: function(server, game_id, packet) {
-
                 if(jpoker.verbose > 0) {
                     jpoker.message('table.handler ' + JSON.stringify(packet));
                 }
@@ -1484,7 +1483,6 @@
                     break;
 
                 case 'PacketPokerUserInfo':
-
                     table.buyIn.bankroll = server.bankroll(table.currency_serial);
                     break;
 
