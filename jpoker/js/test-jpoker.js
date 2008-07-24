@@ -2754,6 +2754,27 @@ test("jpoker.plugins.table: PacketSerial ", function(){
         cleanup();
     });
 
+test("jpoker.plugins.table: PacketPokerUserInfo", function(){
+        expect(1);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+	var rebuy = jpoker.plugins.playerSelf.rebuy;
+	jpoker.plugins.playerSelf.rebuy = function() {
+	    jpoker.plugins.playerSelf.rebuy = rebuy;
+	    ok(true, 'rebuy called');
+	};
+        server.handler(server, game_id, { 'type': 'PacketPokerUserInfo', 'game_id': game_id });
+    });
+
 //
 // player
 //

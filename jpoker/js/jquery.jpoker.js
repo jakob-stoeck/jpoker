@@ -2416,7 +2416,7 @@
                 break;
 
             case 'PacketPokerUserInfo':
-                jpoker.plugins.playerSelf.rebuy(url, game_id, serial);
+                jpoker.plugins.playerSelf.rebuy(url, game_id, serial);		
                 break;
 
             case 'PacketPokerBoardCards':
