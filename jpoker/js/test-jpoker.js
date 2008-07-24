@@ -718,7 +718,7 @@ test("jpoker.server.getUserInfo", function(){
     });
 
 test("jpoker.server.bankroll", function(){
-        expect(4);
+        expect(5);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var money = 43;
@@ -735,6 +735,14 @@ test("jpoker.server.bankroll", function(){
         server.serial = player_serial;
         equals(server.bankroll(33333), 0, 'no bankroll for currency');
         equals(server.bankroll(currency_serial), money, 'bankroll');
+
+	var game_id = 100;
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);	
+        var table = server.tables[game_id];
+	table.currency_serial = currency_serial;
+        server.handler(server, 0, packet);
+	equals(table.buyIn.bankroll, money, 'table.buyIn.bankroll');
 
         cleanup();
     });
