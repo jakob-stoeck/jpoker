@@ -158,7 +158,12 @@ function jpoker_03_joinBuyIn(place) {
             outgoing: JSON.stringify(packets),
             handle: function(packet) { }
         };
-        $(place).jpoker('table', 'url', game_id, 'ONE');
+
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
 };
 
 function jpoker_03_playerBet(place) {
@@ -187,7 +192,12 @@ function jpoker_03_playerBet(place) {
             outgoing: JSON.stringify(packets),
             handle: function(packet) { }
         };
-        $(place).jpoker('table', 'url', game_id, 'ONE');
+
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
 };
 
 function jpoker_04_playerInPosition(place) {
@@ -215,7 +225,12 @@ function jpoker_04_playerInPosition(place) {
             outgoing: JSON.stringify(packets),
             handle: function(packet) { }
         };
-        $(place).jpoker('table', 'url', game_id, 'ONE');
+
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
 };
 
 function jpoker_05_selfPlayer(place) {
@@ -236,7 +251,12 @@ function jpoker_05_selfPlayer(place) {
             outgoing: JSON.stringify(packets),
             handle: function(packet) { }
         };
-        $(place).jpoker('table', 'url', game_id, 'ONE');
+
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
 };
 
 function jpoker_06_selfInPosition(place) {
@@ -273,10 +293,12 @@ function jpoker_06_selfInPosition(place) {
             handle: function(packet) { }
         };
         var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
         server.sendPacket('ping');
         server.registerHandler(0, function(server, dummy, packet) {
                 if(packet.type == 'two') {
-                    $(place).jpoker('table', 'url', game_id, 'ONE');
                 } else if(packet.type == 'three') {
                     server.notifyUpdate();
                     return false;
@@ -326,7 +348,11 @@ function jpoker_08_all(place) {
             outgoing: JSON.stringify(packets),
             handle: function(packet) { }
         };
-        $(place).jpoker('table', 'url', game_id, 'ONE');
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
 };
 
 function jpoker_09_dialog(place) {
@@ -457,7 +483,11 @@ function jpoker_50_sitOut(place) {
             outgoing: JSON.stringify(packets),
             handle: function(packet) { }
         };
-        $(place).jpoker('table', 'url', game_id, 'ONE');
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
 };
 
 function jpoker_51_sit(place) {
@@ -479,7 +509,11 @@ function jpoker_51_sit(place) {
             outgoing: JSON.stringify(packets),
             handle: function(packet) { }
         };
-        $(place).jpoker('table', 'url', game_id, 'ONE');
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
 };
 
 function jpoker_52_inPosition(place) {
@@ -502,7 +536,11 @@ function jpoker_52_inPosition(place) {
             outgoing: JSON.stringify(packets),
             handle: function(packet) { }
         };
-        $(place).jpoker('table', 'url', game_id, 'ONE');
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
 };
 
 function jpoker_60_text(place) {
