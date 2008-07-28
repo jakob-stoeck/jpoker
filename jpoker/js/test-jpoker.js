@@ -1123,17 +1123,18 @@ test("jpoker.server.getPersonalInfo waiting", function(){
 	equals(server.callbacks[0][0], callback, 'getPersonalInfo callback still in place');
     });
 
-test("jpoker.server.selectMyTables", function(){
+test("jpoker.server.selectTables", function(){
         expect(3);
 	stop();
 
         var TABLE_LIST_PACKET = {"players": 4, "type": "PacketPokerTableList", "packets": [{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 1000, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 4, "waiting": 0, "skin": "default", "id": 100, "type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Two", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 101,"type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Three", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-pot-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 102,"type": "PacketPokerTable", "player_timeout": 60}]};
 
+	var string = 'dummy';
         var server = jpoker.serverCreate({ url: 'url' });
         server.sendPacket = function(packet) {
             equals(packet.type, 'PacketPokerTableSelect');
-            equals(packet.string, 'my');
-	    equals(server.getState(), server.MY);
+            equals(packet.string, string);
+	    equals(server.getState(), server.TABLE_LIST);
 	    server.queueIncoming([TABLE_LIST_PACKET]);
         };
         server.registerUpdate(function(server, what, packet) {
@@ -1143,7 +1144,7 @@ test("jpoker.server.selectMyTables", function(){
 		}
 		return true;
 	    });
-        server.selectMyTables();
+        server.selectTables(string);
     });
 
 

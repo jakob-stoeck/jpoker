@@ -1317,10 +1317,10 @@
 		    });
 	    },
 
-	    selectMyTables : function() {
+	    selectTables : function(string) {
 		this.queueRunning(function(server) {
-			server.setState(server.MY);
-			server.sendPacket({'type': 'PacketPokerTableSelect', 'string': 'my'});
+			server.setState(server.TABLE_LIST);
+			server.sendPacket({'type': 'PacketPokerTableSelect', 'string': string});
 			server.registerHandler(0, function(server, unused_game_id, packet) {
 				if (packet.type == 'PacketPokerTableList') {
 				    server.notifyUpdate(packet);
