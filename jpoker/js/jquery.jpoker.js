@@ -1316,6 +1316,21 @@
 			    });
 		    });
 	    },
+
+	    selectMyTables : function() {
+		this.queueRunning(function(server) {
+			server.setState(server.MY);
+			server.sendPacket({'type': 'PacketPokerTableSelect', 'string': 'my'});
+			server.registerHandler(0, function(server, unused_game_id, packet) {
+				if (packet.type == 'PacketPokerTableList') {
+				    server.notifyUpdate(packet);
+				    server.setState(server.RUNNING, 'PacketPokerTableList');
+				    return false;
+				}
+				return true;
+			    });
+		    });		
+	    },
         });
 
     //
@@ -2832,8 +2847,6 @@
             var table = jpoker.getTable(player.url, player.game_id);
             if(table.state == 'end') {
                 var limits = table.buyInLimits();
-		console.log(player.money);
-		console.log(limits);
                 if(player.money < limits[2]) {
                     $('#rebuy' + id).show();
                 } else {
