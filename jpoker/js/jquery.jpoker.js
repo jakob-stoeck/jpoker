@@ -2251,7 +2251,7 @@
 
         server.registerUpdate(updated, null, 'featuredTable ' + url);
 
-        server.refreshTables(opts.string, { delay: null });
+        server.selectTables(opts.string);
 
         return this;
     };
