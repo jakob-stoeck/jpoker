@@ -127,7 +127,12 @@ function jpoker_02_join(place) {
             outgoing: JSON.stringify(packets),
             handle: function(packet) { }
         };
-        $(place).jpoker('table', 'url', game_id, 'ONE');
+
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
 };
 
 function jpoker_03_joinBuyIn(place) {
