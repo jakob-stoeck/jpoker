@@ -1065,7 +1065,7 @@ test("jpoker.server.tourneyUnregister waiting", function(){
     });
 
 test("jpoker.server.getPersonalInfo", function(){
-        expect(0);
+        expect(3);
 	stop();
 
         var serial = 42;
@@ -1091,11 +1091,29 @@ test("jpoker.server.getPersonalInfo", function(){
         server.getPersonalInfo();
     });
 
+test("jpoker.server.getPersonalInfo not logged", function(){
+        expect(1);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        server.serial = 0;
+
+        dialog = jpoker.dialog;
+        jpoker.dialog = function(message) {
+            equals(message.indexOf("must be logged in") >= 0, true, "should be logged");
+            jpoker.dialog = dialog;
+            start_and_cleanup();
+        };	
+        server.getPersonalInfo();
+    });
+
 
 test("jpoker.server.getPersonalInfo waiting", function(){
         expect(2);
 	
         var server = jpoker.serverCreate({ url: 'url' });
+	server.serial = 42;
 	var game_id = 100;
 	server.callbacks[0] = [];
 	server.getPersonalInfo(game_id);
@@ -1106,7 +1124,7 @@ test("jpoker.server.getPersonalInfo waiting", function(){
     });
 
 test("jpoker.server.setPersonalInfo", function(){
-        expect(0);
+        expect(7);
 	stop();
 
         var serial = 42;
