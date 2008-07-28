@@ -2230,29 +2230,36 @@
         var opts = $.extend({}, jpoker.plugins.featuredTable.defaults, options);
         var server = jpoker.url2server({ url: url });
 
-        var updated = function(server, what, packet) {
-            if(packet && packet.type == 'PacketPokerTableList') {
-                var found = null;
-                for(var i = packet.packets.length - 1; i >= 0 ; i--) {
-                    var subpacket = packet.packets[i];
-                    if(opts.compare(found, subpacket) >= 0) {
-                        found = subpacket;
-                    }
-                }
-                if(found) {
-                    found.game_id = found.id;
-                    server.setTimeout(function() { server.tableJoin(found.game_id); }, 1);
-                }
-                return false;
-            } else {
-                return true;
-            }
-        };
-
-        server.registerUpdate(updated, null, 'featuredTable ' + url);
-
-        server.selectTables(opts.string);
-
+	server.registerUpdate(function(server, what, packet) {
+		if (packet && packet.type == 'PacketPokerTableList') {
+		    if (packet.packets.length === 0) {
+			var updated = function(server, what, packet) {
+			    if(packet && packet.type == 'PacketPokerTableList') {
+				var found = null;
+				for(var i = packet.packets.length - 1; i >= 0 ; i--) {
+				    var subpacket = packet.packets[i];
+				    if(opts.compare(found, subpacket) >= 0) {
+					found = subpacket;
+				    }
+				}
+				if(found) {
+				    found.game_id = found.id;
+				    server.setTimeout(function() { server.tableJoin(found.game_id); }, 1);
+				}
+				return false;
+			    } else {
+				return true;
+			    }
+			};
+			server.registerUpdate(updated, null, 'featuredTable ' + url);
+			server.selectTables(opts.string);
+		    }
+		    return false;
+		} else {
+		    return true;
+		}		
+	    }, null, 'featuredTable ' + url);
+        server.selectTables('my');
         return this;
     };
 

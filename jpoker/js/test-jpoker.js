@@ -2260,6 +2260,37 @@ test("jpoker.plugins.tourneyDetails.unregister", function(){
 // featuredTable
 //
 test("jpoker.plugins.featuredTable", function(){
+        expect(3);
+        stop();
+
+        //
+        // Mockup server that will always return TABLE_LIST_PACKET,
+        // whatever is sent to it.
+        //
+
+        var TABLE_LIST_PACKET = {"players": 4, "type": "PacketPokerTableList", "packets": [{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 1535, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 2, "waiting": 0, "skin": "default", "id": 100, "type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Two", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 101,"type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Three", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-pot-limit", "currency_serial": 1, "muck_timeout": 5, "players": 2, "waiting": 0, "skin": "default", "id": 102,"type": "PacketPokerTable", "player_timeout": 60}]};
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $("#main");
+	server.selectTables = function(string) {
+	    equals(string, 'my', 'selectTables my');
+	    server.selectTables = function(string) {
+		server.tableJoin = function(game_id) {
+		    equals(game_id, 100, 'game_id field');
+		    start_and_cleanup();
+		};
+		setTimeout(function() {server.notifyUpdate(TABLE_LIST_PACKET);}, 0);
+	    };
+	    setTimeout(function() {server.notifyUpdate({'type': 'PacketPokerTableList', 'packets' : []})}, 0);
+	    equals(server.callbacks['update'].length, 1, 'callback registered');
+	};
+        place.jpoker('featuredTable', 'url');
+    });
+
+test("jpoker.plugins.featuredTable selectTable(my) not empty", function(){
         expect(2);
         stop();
 
@@ -2275,13 +2306,14 @@ test("jpoker.plugins.featuredTable", function(){
 
         var id = 'jpoker' + jpoker.serial;
         var place = $("#main");
-        server.tableJoin = function(game_id) {
-            equals(game_id, 100, 'game_id field');
-            start_and_cleanup();
-        };
 	server.selectTables = function(string) {
-	    ok(true, 'selectTables');
-	    server.notifyUpdate(TABLE_LIST_PACKET);
+	    equals(string, 'my', 'selectTables my');
+	    setTimeout(function() {
+		    server.notifyUpdate({'type': 'PacketPokerTableList', 'packets' : [TABLE_LIST_PACKET]});
+		    equals(server.callbacks['update'].length, 0, 'no callback registered');
+		    start_and_cleanup();
+		    
+		}, 0);
 	};
         place.jpoker('featuredTable', 'url');
     });
