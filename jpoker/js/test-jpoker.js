@@ -3056,6 +3056,45 @@ test("jpoker.plugins.player: PokerSit/SitOut", function(){
         cleanup(id);
     });
 
+
+test("jpoker.plugins.player: PokerSit/SitOut PacketPokerAutoFold", function(){
+        expect(2);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 43;
+        server.handler(server, 0, { type: 'PacketSerial', serial: player_serial});
+        var player_seat = 2;
+        var player_name = 'username';
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', name: player_name, seat: player_seat, serial: player_serial, game_id: game_id });
+        var player = server.tables[game_id].serial2player[player_serial];
+        player.money = 100;
+        //
+        // sit
+        //
+        var sit = $("#player_seat2_name" + id);
+        sit.click();
+        table.handler(server, game_id, { type: 'PacketPokerSit', serial: player_serial, game_id: game_id });
+
+        //
+        // sit out
+        //
+        sit.click();
+        table.handler(server, game_id, { type: 'PacketPokerAutoFold', serial: player_serial, game_id: game_id });
+        equals($("#player_seat2" + id).hasClass('jpoker_sit_out'), true, 'class sitout');
+        equals(sit.html(), 'click to sit');
+
+        cleanup(id);
+    });
+
 function _SelfPlayer(game_id, player_serial) {
     var server = jpoker.serverCreate({ url: 'url' });
     var place = $("#main");

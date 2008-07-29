@@ -1590,6 +1590,11 @@
                 this.notifyUpdate(packet);
                 break;
 
+                case 'PacketPokerAutoFold':
+                this.sit = false;
+                this.notifyUpdate(packet);
+                break;
+
                 }
             }    
 
@@ -2569,6 +2574,10 @@
             break;
 
             case 'PacketPokerSitOut':
+            jpoker.plugins.player.sitOut(player, id);
+            break;
+
+            case 'PacketPokerAutoFold':
             jpoker.plugins.player.sitOut(player, id);
             break;
 
