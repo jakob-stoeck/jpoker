@@ -1224,8 +1224,9 @@
 				if (packet.type == 'PacketPokerTourneyRegister') {
 				    server.notifyUpdate(packet);
 				    server.queueRunning(function() {
-					    if (server.timers['tourneyDetails'] !== undefined)
-						server.timers['tourneyDetails'].request();
+					    if (server.timers.tourneyDetails !== undefined) {
+						server.timers.tourneyDetails.request();
+                                            }
 					});
 				    server.setState(server.RUNNING, 'PacketPokerTourneyRegister');
 				    return false;
@@ -1239,8 +1240,9 @@
 					2:_("Player {serial} already registered in tournament {game_id}"),
 					3:_("Registration refused in tournament {game_id}"),
 					4:_("Not enough money to enter the tournament {game_id}")};
-				    if (code2message[packet.code] !== undefined)
+				    if (code2message[packet.code] !== undefined) {
 					packet.message = code2message[packet.code].supplant({game_id: game_id, serial: server.serial});
+                                    }
 				    jpoker.dialog(packet.message);
 				    server.notifyUpdate(packet);
 				    server.setState(server.RUNNING, 'PacketError');
@@ -1259,8 +1261,9 @@
 				if (packet.type == 'PacketPokerTourneyUnregister') {
 				    server.notifyUpdate(packet);
 				    server.queueRunning(function() {
-					    if (server.timers['tourneyDetails'] !== undefined)
-						server.timers['tourneyDetails'].request();
+					    if (server.timers.tourneyDetails !== undefined) {
+						server.timers.tourneyDetails.request();
+                                            }
 					});
 				    server.setState(server.RUNNING, 'PacketPokerTourneyUnregister');
 				    return false;
@@ -1273,8 +1276,9 @@
 					1: _("Tournament {game_id} does not exist"),
 					2: _("Player {serial} is not registered in tournament {game_id}"),
 					3: _("It is too late to unregister player {serial} from tournament {game_id}")};
-				    if (code2message[packet.code] !== undefined)
+				    if (code2message[packet.code] !== undefined) {
 					packet.message = code2message[packet.code].supplant({game_id: game_id, serial: server.serial});
+                                    }
 				    jpoker.dialog(_(packet.message));
 				    server.notifyUpdate(packet);
 				    server.setState(server.RUNNING, 'PacketError');
@@ -1344,7 +1348,7 @@
 				return true;
 			    });
 		    });		
-	    },
+	    }
         });
 
     //
@@ -1353,7 +1357,7 @@
     jpoker.table = function(server, packet) {
         $.extend(this, jpoker.table.defaults, packet);
 	if (packet.betting_structure) {
-	    this.is_tourney = packet.betting_structure.search(/^level-/) == 0;
+	    this.is_tourney = packet.betting_structure.search(/^level-/) === 0;
 	} else {
 	    this.is_tourney = false;
 	}
@@ -2040,7 +2044,7 @@
 				} else {
 				    input.val(_("Unregister")).click(function() {
 					    server.tourneyUnregister(game_id);
-					});;
+					});
 				}
 			    }
                         }
@@ -2063,7 +2067,7 @@
         var t = this.templates;
         var html = [];
         html.push(t.header.supplant({
-                        'player_name': _("Player Name"),
+                        'player_name': _("Player Name")
                         }));
         for(var i = 0; i < packet.players.length; i++) {
             var subpacket = packet.players[i];

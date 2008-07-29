@@ -306,7 +306,7 @@ test("jpoker.url2hash", function(){
 
 test("jpoker.url2server", function(){
         expect(1);
-	jpoker.servers = {}
+	jpoker.servers = {};
 	var options = {url : 'url'};
 	var server = jpoker.url2server(options);
 	equals(server.url, options.url, "server created");
@@ -667,9 +667,9 @@ test("jpoker.server.refresh clearInterval", function(){
 	server.clearInterval = function(id) {
 	    equals(id, oldTimer, 'timer cleared');
 	};
-	server.timers['foo'] = {timer:oldTimer};
+	server.timers.foo = { timer: oldTimer };
 	server.refresh('foo');
-	equals(server.timers['foo'].timer, newTimer, 'timer updated');
+	equals(server.timers.foo.timer, newTimer, 'timer updated');
     });
 
 test("jpoker.server.login", function(){
@@ -970,8 +970,9 @@ test("jpoker.server.tourneyRegister error", function(){
 	    jpoker.dialog = dialog;
 	};
         server.registerUpdate(function(server, what, packet) {
-		if (packet.type == 'PacketError')
+		if (packet.type == 'PacketError') {
 		    server.queueRunning(start_and_cleanup);
+                }
 		return true;
             });
         server.tourneyRegister(game_id);
@@ -1035,7 +1036,7 @@ test("jpoker.server.tourneyUnregister error", function(){
 
         var serial = 43;
         var game_id = 2;
-	var ERROR_PACKET = {'message':'server error message','code':3,'type':'PacketError','other_type':117}
+	var ERROR_PACKET = {'message':'server error message','code':3,'type':'PacketError','other_type':117};
 
         var server = jpoker.serverCreate({ url: 'url' });
 
@@ -1049,8 +1050,9 @@ test("jpoker.server.tourneyUnregister error", function(){
 	    jpoker.dialog = dialog;
 	};
         server.registerUpdate(function(server, what, packet) {
-		if (packet.type == 'PacketError')
+		if (packet.type == 'PacketError') {
 		    server.queueRunning(start_and_cleanup);
+                }
 		return true;
             });
         server.tourneyUnregister(game_id);
@@ -1201,7 +1203,7 @@ test("jpoker.server.setPersonalInfo", function(){
 		return true;
 	    });
         server.setPersonalInfo({firstname: 'John',
-		    lastname: 'Doe',
+		    lastname: 'Doe'
 		    });
     });
 
@@ -1231,7 +1233,7 @@ test("jpoker.server.setPersonalInfo error", function(){
 		return true;
 	    });
         server.setPersonalInfo({firstname: 'John',
-		    lastname: 'Doe',
+		    lastname: 'Doe'
 		    });
     });
 
@@ -1870,7 +1872,7 @@ test("jpoker.table.handler: unknown table", function(){
         var table = server.tables[game_id];
 
         var packet = { 'type': 'PacketPing',
-                       'game_id': 101,
+                       'game_id': 101
         };
 
         jpokerMessage = jpoker.message;
@@ -2303,8 +2305,13 @@ test("jpoker.plugins.featuredTable", function(){
 		};
 		setTimeout(function() {server.notifyUpdate(TABLE_LIST_PACKET);}, 0);
 	    };
-	    setTimeout(function() {server.notifyUpdate({'type': 'PacketPokerTableList', 'packets' : []})}, 0);
-	    equals(server.callbacks['update'].length, 1, 'callback registered');
+	    setTimeout(function() {
+                    server.notifyUpdate({
+                            'type': 'PacketPokerTableList',
+                                'packets' : []
+                                });
+                        }, 0);
+	    equals(server.callbacks.update.length, 1, 'callback registered');
 	};
         place.jpoker('featuredTable', 'url');
     });
@@ -2324,7 +2331,7 @@ test("jpoker.plugins.featuredTable selectTable(my) not empty", function(){
 	    equals(string, 'my', 'selectTables my');
 	    setTimeout(function() {
 		    server.notifyUpdate({'type': 'PacketPokerTableList', 'packets' : [TABLE_LIST_PACKET]});
-		    equals(server.callbacks['update'].length, 0, 'no callback registered');
+		    equals(server.callbacks.update.length, 0, 'no callback registered');
 		    start_and_cleanup();
 		    
 		}, 0);
@@ -2346,13 +2353,13 @@ test("jpoker.plugins.featuredTable waiting", function(){
 	server.selectTables = function(string) {
 	    setTimeout(function() {
 		    server.notifyUpdate({'type': 'PacketPing'});
-		    equals(server.callbacks['update'].length, 1, 'callback registered');
+		    equals(server.callbacks.update.length, 1, 'callback registered');
 		    server.selectTables = function(string) {
 			setTimeout(function() {
 				server.notifyUpdate({'type': 'PacketPing'});
-				equals(server.callbacks['update'].length, 1, 'callback registered');
+				equals(server.callbacks.update.length, 1, 'callback registered');
 				server.notifyUpdate(TABLE_LIST_PACKET);
-				equals(server.callbacks['update'].length, 0, 'callback registered');
+				equals(server.callbacks.update.length, 0, 'callback registered');
 				start_and_cleanup();				
 			    }, 0);
 		    };
@@ -2901,15 +2908,15 @@ test("jpoker.plugins.table: remove callbacks", function(){
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
-	table.callbacks['update'] = [];
+	table.callbacks.update = [];
         place.jpoker('table', 'url', game_id);
-	equals(table.callbacks['update'].length, 1, 'table updateCallback registered');
-	equals(table.callbacks['reinit'].length, 1, 'table reinitCallback registered');
+	equals(table.callbacks.update.length, 1, 'table updateCallback registered');
+	equals(table.callbacks.reinit.length, 1, 'table reinitCallback registered');
 	$("#" + id).remove();
 	table.notifyUpdate({type: 'PacketPing'});
-	equals(table.callbacks['update'].length, 0, 'table updateCallback removed');
+	equals(table.callbacks.update.length, 0, 'table updateCallback removed');
 	table.notifyReinit({type: 'PacketPing'});
-	equals(table.callbacks['reinit'].length, 0, 'table reinitCallback removed');
+	equals(table.callbacks.reinit.length, 0, 'table reinitCallback removed');
     });
 
 //
@@ -3527,12 +3534,11 @@ test("jpoker.plugins.playerSelf: create in position", function(){
 	place.jpoker('table', 'url', game_id);
 	// player
 	server.serial = player_serial;
-	var player_seat = 2;
 	var inPosition = jpoker.plugins.playerSelf.inPosition;
 	jpoker.plugins.playerSelf.inPosition = function(player, id) {
 	    jpoker.plugins.playerSelf.inPosition = inPosition;
 	    equals(player, server.tables[game_id].serial2player[player_serial], "in position");
-	}
+	};
 	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
     });
 
@@ -3555,7 +3561,6 @@ test("jpoker.plugins.playerSelf: rebuy if not enough money", function() {
 	place.jpoker('table', 'url', game_id);
 	// player
 	server.serial = player_serial;
-	var player_seat = 2;
 	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
 	var rebuy = $("#rebuy"+id);
 
@@ -3587,12 +3592,12 @@ test("$.fn.frame", function(){
 
 test("IE7Bugs", function(){
     var dialogTest = $("<div id='xyz'>Test Dialog</div>").dialog({width: 'none', height: 'none'});
-    equals(dialogTest != undefined,true, 'UI Dialog Bug on IE (width, height = "none")');
+    equals(dialogTest !== undefined,true, 'UI Dialog Bug on IE (width, height = "none")');
 
     var dialogTestIE7 = $("<div style=\'margin:auto\' id='xyz'>Test Dialog</div>").dialog();
-    equals(dialogTestIE7 != undefined,true, 'UI Dialog Bug on IE (margin = "auto" )');
+    equals(dialogTestIE7 !== undefined,true, 'UI Dialog Bug on IE (margin = "auto" )');
 
-    var limits = new Array(0,0,0);
+    var limits = [0,0,0];
     $('.ui-slider-1').slider({
         min: limits[0],
         startValue: limits[1], //IE bug
@@ -3602,7 +3607,7 @@ test("IE7Bugs", function(){
             $('.jpoker_rebuy_current').html(ui.value);
         }
     });
-    equals($('.ui-slider-1')  != undefined,true, 'UI Slider Bug on IE');
+    equals($('.ui-slider-1') !== undefined,true, 'UI Slider Bug on IE');
 });
 
 //
