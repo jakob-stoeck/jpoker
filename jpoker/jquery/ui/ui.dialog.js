@@ -29,16 +29,16 @@ var setDataSwitch = {
 
 $.widget("ui.dialog", {
 	init: function() {
-		var self = this,
-			if ($.browser.msie) {
-				if (this.options.width == 'none') {
-					this.options.width = undefined;
-				}
-				if (this.options.height == 'none') {
-					this.options.height = undefined;
-				}
+		if ($.browser.msie) {
+			if (this.options.width == 'none') {
+				this.options.width = undefined;
 			}
+			if (this.options.height == 'none') {
+				this.options.height = undefined;
+			}
+		}
 
+		var self = this,
 			options = this.options,
 			resizeHandles = typeof options.resizable == 'string'
 				? options.resizable
