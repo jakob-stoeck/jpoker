@@ -52,7 +52,21 @@
         copyrightTimeout: 5000,
 
         copyright: function() {
-            var copyright = $('<div><div id=\'jpoker_copyright\'><div class=\'jpoker_copyright_image\'></div><div class=\'jpoker_software\'>jpoker-' + this.VERSION + '</div><div class=\'jpoker_authors\'><div><span>Copyright 2008 </span><a href=\'mailto:loic@dachary.org\'>Loic Dachary</a></div><div><span class=\'jpoker_click\'>Copyright 2008 </span><a href=\'mailto:proppy@aminche.com\'>Johan Euphrosine</a></div></div><div class=\'jpoker_explain\'>jpoker runs on this web browser and is Free Software. You may use jpoker to run a business without asking the authors permissions. You may give a copy to your friends. However, the authors do not want jpoker to be used with proprietary software.</div><div class=\'jpoker_license\'>This program is free software: you can redistribute it and/or modify it under the terms of the <a href=\'http://www.fsf.org/licensing/licenses/gpl.txt\'>GNU General Public License</a> as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</div> <div class=\'jpoker_full_copyright\'>Read the full <a href=\'http://jspoker.pokersource.info/jpoker/#Copyright\'>copyright information page.</a></div><div class=\'jpoker_download\'>Download <a href=\'http://upstream.jspoker.pokersource.info/file/tip/jpoker/js/jquery.jpoker.js\'>jpoker sources.</a></div><div class=\'jpoker_dismiss\'><a href=\'javascript://\'>Dismiss</a></div></div></div>').dialog(); // { width: 'none', height: 'none' } IE bug
+            var options = { width: 'none', height: 'none' };
+	    if($.browser.msie) {
+		/* 
+                 *  On IE, the widget container width and height needs to be set explicitly
+                 *  if the widget width/height is being set as 'none'
+                 */
+		options.containerWidth = '400px';
+		options.containerHeight = '300px';
+	    }
+
+            /*
+             * On IE7, css('margin') returns 'auto' instead of the actual margin value unless
+	     * the  margin is set explicitly. This causes ui.dialog to throw exceptions.
+             */
+            var copyright = $('<div style=\'margin:0px\'><div id=\'jpoker_copyright\'><div class=\'jpoker_copyright_image\'></div><div class=\'jpoker_software\'>jpoker-' + this.VERSION + '</div><div class=\'jpoker_authors\'><div><span>Copyright 2008 </span><a href=\'mailto:loic@dachary.org\'>Loic Dachary</a></div><div><span class=\'jpoker_click\'>Copyright 2008 </span><a href=\'mailto:proppy@aminche.com\'>Johan Euphrosine</a></div></div><div class=\'jpoker_explain\'>jpoker runs on this web browser and is Free Software. You may use jpoker to run a business without asking the authors permissions. You may give a copy to your friends. However, the authors do not want jpoker to be used with proprietary software.</div><div class=\'jpoker_license\'>This program is free software: you can redistribute it and/or modify it under the terms of the <a href=\'http://www.fsf.org/licensing/licenses/gpl.txt\'>GNU General Public License</a> as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</div> <div class=\'jpoker_full_copyright\'>Read the full <a href=\'http://jspoker.pokersource.info/jpoker/#Copyright\'>copyright information page.</a></div><div class=\'jpoker_download\'>Download <a href=\'http://upstream.jspoker.pokersource.info/file/tip/jpoker/js/jquery.jpoker.js\'>jpoker sources.</a></div><div class=\'jpoker_dismiss\'><a href=\'javascript://\'>Dismiss</a></div></div></div>').dialog(options); 
             $('.jpoker_download', copyright).frame('box1');
             $('.ui-dialog-titlebar', copyright.parents('.ui-dialog-container')).hide();
             var close = function() { copyright.dialog('destroy'); };
@@ -2800,7 +2814,7 @@
             appendTo(button);
             $('.ui-slider-1', rebuy).slider({
                     min: limits[0],
-                        //                        startValue: limits[1], IE bug
+                        startValue: limits[1],
                         max: limits[2],
                         stepping: 1,
                         change: function(event, ui) {
@@ -2905,7 +2919,7 @@
                     raise.show(); // must be visible otherwise outerWeight/outerWidth returns 0
                     $('.ui-slider-1', raise).slider({
                             min: betLimit.min,
-                                // startValue: betLimit.min, IE bug
+                                startValue: betLimit.min,
                                 max: betLimit.max,
                                 axis: 'horizontal',
                                 stepping: betLimit.step,

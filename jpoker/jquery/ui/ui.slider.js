@@ -379,7 +379,7 @@ $.widget("ui.slider", {
 		if(x !== undefined && x.constructor != Number) {
 			var me = /^\-\=/.test(x), pe = /^\+\=/.test(x);
 			if(me || pe) {
-				x = this.value(null, "x") + parseInt(x.replace(me ? '=' : '+=', ''), 10);
+				x = isNaN(this.value(null, "x"))?0:this.value(null, "x") + parseInt(x.replace(me ? '=' : '+=', ''), 10);
 			} else {
 				x = isNaN(parseInt(x, 10)) ? undefined : parseInt(x, 10);
 			}
@@ -388,7 +388,7 @@ $.widget("ui.slider", {
 		if(y !== undefined && y.constructor != Number) {
 			var me = /^\-\=/.test(y), pe = /^\+\=/.test(y);
 			if(me || pe) {
-				y = this.value(null, "y") + parseInt(y.replace(me ? '=' : '+=', ''), 10);
+				y = isNaN(this.value(null, "y"))?0:this.value(null, "y") + parseInt(y.replace(me ? '=' : '+=', ''), 10);
 			} else {
 				y = isNaN(parseInt(y, 10)) ? undefined : parseInt(y, 10);
 			}
@@ -399,7 +399,8 @@ $.widget("ui.slider", {
 			x = this.translateValue(x, "x");
 			x = this.translateLimits(x, "x");
 			x = this.translateRange(x, "x");
-			this.currentHandle.css({ left: x });
+			if (!isNaN(x))
+				this.currentHandle.css({ left: x });
 		}
 
 		if(o.axis != "horizontal" && y !== undefined) {
@@ -407,7 +408,8 @@ $.widget("ui.slider", {
 			y = this.translateValue(y, "y");
 			y = this.translateLimits(y, "y");
 			y = this.translateRange(y, "y");
-			this.currentHandle.css({ top: y });
+			if (!isNaN(y))
+				this.currentHandle.css({ top: y });
 		}
 		
 		if (this.rangeElement)

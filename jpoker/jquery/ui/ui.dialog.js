@@ -29,6 +29,15 @@ var setDataSwitch = {
 
 $.widget("ui.dialog", {
 	init: function() {
+		if ($.browser.msie) {
+			if (this.options.width == 'none') {
+				this.options.width = undefined;
+			}
+			if (this.options.height == 'none') {
+				this.options.height = undefined;
+			}
+		}
+
 		var self = this,
 			options = this.options,
 			resizeHandles = typeof options.resizable == 'string'
@@ -42,7 +51,7 @@ $.widget("ui.dialog", {
 			
 			uiDialogContainer = (this.uiDialogContainer = uiDialogContent.parent()
 				.addClass('ui-dialog-container')
-				.css({position: 'relative', width: '100%', height: '100%'})),
+				.css({position: 'relative', width: options.containerWidth, height: options.containerHeight})),
 			
 			title = options.title || uiDialogContent.attr('title') || '',
 			uiDialogTitlebar = (this.uiDialogTitlebar =
@@ -237,6 +246,8 @@ $.widget("ui.dialog", {
 			content = this.element,
 			tbMargin = parseInt(content.css('margin-top')) + parseInt(content.css('margin-bottom')),
 			lrMargin = parseInt(content.css('margin-left')) + parseInt(content.css('margin-right'));
+		if(isNaN(tbMargin)) { tbMargin = 0; }
+		if(isNaN(lrMargin)) { lrMargin = 0; }
 		content.height(container.height() - titlebar.outerHeight() - tbMargin);
 		content.width(container.width() - lrMargin);
 	},
@@ -340,7 +351,9 @@ $.extend($.ui.dialog, {
 		resizable: true,
 		stack: true,
 		width: 300,
-		zIndex: 1000
+		zIndex: 1000,
+		containerWidth: '100%',
+		containerHeight: '100%'
 	},
 	
 	overlay: function(dialog) {
