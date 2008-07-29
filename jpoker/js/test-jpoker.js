@@ -3413,7 +3413,6 @@ test("jpoker.plugins.userInfo", function(){
 		var element = $('#' + id);
 		if(element.length > 0) {
 		    if (data.type == 'PacketPokerPersonalInfo') {
-			console.log(data);
 			equals($('input[name=firstname]', element).val(), 'John');
 			equals($('input[name=lastname]', element).val(), 'Doe');
 			equals($('input[name=email]', element).val(), 'john@doe.com');
