@@ -51,7 +51,7 @@ $.widget("ui.dialog", {
 			
 			uiDialogContainer = (this.uiDialogContainer = uiDialogContent.parent()
 				.addClass('ui-dialog-container')
-				.css({position: 'relative', width: '100%', height: '100%'})),
+				.css({position: 'relative', width: options.containerWidth, height: options.containerHeight})),
 			
 			title = options.title || uiDialogContent.attr('title') || '',
 			uiDialogTitlebar = (this.uiDialogTitlebar =
