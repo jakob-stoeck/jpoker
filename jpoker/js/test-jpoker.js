@@ -319,6 +319,16 @@ test("jpoker.copyright", function(){
         copyright.dialog('destroy');
     });
 
+test("jpoker.copyright msie", function(){
+        expect(1);
+	var browser = $.browser.msie;
+	$.browser.msie = true;
+        var copyright = jpoker.copyright();
+        equals(copyright.text().indexOf('GNU') >= 0, true, 'GNU');
+        copyright.dialog('destroy');
+	$.browser.msie = browser;
+    });
+
 test("jpoker.refresh", function(){
         expect(2);
         stop();
@@ -1145,6 +1155,20 @@ test("jpoker.server.selectTables", function(){
 		return true;
 	    });
         server.selectTables(string);
+    });
+
+test("jpoker.server.selectTables waiting", function(){
+        expect(2);
+	
+        var server = jpoker.serverCreate({ url: 'url' });
+	server.serial = 42;
+	var game_id = 100;
+	server.callbacks[0] = [];
+	server.selectTables('');
+	equals(server.callbacks[0].length, 1, 'selectTables callbacks[0] registered');
+	var callback = server.callbacks[0][0];
+	server.notify(0, {type: 'PacketPing'});
+	equals(server.callbacks[0][0], callback, 'selectTables callback still in place');
     });
 
 
@@ -2263,11 +2287,6 @@ test("jpoker.plugins.featuredTable", function(){
         expect(3);
         stop();
 
-        //
-        // Mockup server that will always return TABLE_LIST_PACKET,
-        // whatever is sent to it.
-        //
-
         var TABLE_LIST_PACKET = {"players": 4, "type": "PacketPokerTableList", "packets": [{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 1535, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 2, "waiting": 0, "skin": "default", "id": 100, "type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Two", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 101,"type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Three", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-pot-limit", "currency_serial": 1, "muck_timeout": 5, "players": 2, "waiting": 0, "skin": "default", "id": 102,"type": "PacketPokerTable", "player_timeout": 60}]};
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -2294,11 +2313,6 @@ test("jpoker.plugins.featuredTable selectTable(my) not empty", function(){
         expect(2);
         stop();
 
-        //
-        // Mockup server that will always return TABLE_LIST_PACKET,
-        // whatever is sent to it.
-        //
-
         var TABLE_LIST_PACKET = {"players": 4, "type": "PacketPokerTableList", "packets": [{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 1535, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 2, "waiting": 0, "skin": "default", "id": 100, "type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Two", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 101,"type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Three", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-pot-limit", "currency_serial": 1, "muck_timeout": 5, "players": 2, "waiting": 0, "skin": "default", "id": 102,"type": "PacketPokerTable", "player_timeout": 60}]};
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -2313,6 +2327,36 @@ test("jpoker.plugins.featuredTable selectTable(my) not empty", function(){
 		    equals(server.callbacks['update'].length, 0, 'no callback registered');
 		    start_and_cleanup();
 		    
+		}, 0);
+	};
+        place.jpoker('featuredTable', 'url');
+    });
+
+test("jpoker.plugins.featuredTable waiting", function(){
+        expect(3);
+        stop();
+
+        var TABLE_LIST_PACKET = {"players": 4, "type": "PacketPokerTableList", "packets": [{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 1535, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 2, "waiting": 0, "skin": "default", "id": 100, "type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Two", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 101,"type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Three", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-pot-limit", "currency_serial": 1, "muck_timeout": 5, "players": 2, "waiting": 0, "skin": "default", "id": 102,"type": "PacketPokerTable", "player_timeout": 60}]};
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $("#main");
+	server.selectTables = function(string) {
+	    setTimeout(function() {
+		    server.notifyUpdate({'type': 'PacketPing'});
+		    equals(server.callbacks['update'].length, 1, 'callback registered');
+		    server.selectTables = function(string) {
+			setTimeout(function() {
+				server.notifyUpdate({'type': 'PacketPing'});
+				equals(server.callbacks['update'].length, 1, 'callback registered');
+				server.notifyUpdate(TABLE_LIST_PACKET);
+				equals(server.callbacks['update'].length, 0, 'callback registered');
+				start_and_cleanup();				
+			    }, 0);
+		    };
+		    server.notifyUpdate({'type': 'PacketPokerTableList', 'packets': []});
 		}, 0);
 	};
         place.jpoker('featuredTable', 'url');
