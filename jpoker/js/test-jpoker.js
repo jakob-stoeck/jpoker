@@ -2155,9 +2155,9 @@ test("jpoker.plugins.tourneyDetails", function(){
         server.registerUpdate(function(server, what, data) {
                 var element = $("#" + id);
                 if(element.length > 0) {
-                    var tr = $("#" + id + " tr", place);
+                    var tr = $("#" + id + " .jpoker_tourney_details_players tr", place);
                     equals(tr.length, players_count+1, 'tourneyDetails players_count');
-		    var input = $("#" + id + " input");
+		    var input = $("#" + id + " .jpoker_tourney_details_register input");
 		    equals(input.length, 0, 'no tourneyDetails register button');
                     $("#" + id).remove();
                     return true;
@@ -2211,7 +2211,7 @@ test("jpoker.plugins.tourneyDetails.register", function(){
         server.registerUpdate(function(server, what, data) {
                 var element = $("#" + id);
                 if(element.length > 0) {
-		    var input = $("#" + id + " input");
+		    var input = $("#" + id + " .jpoker_tourney_details_register input");
 		    equals(input.val(), "Register");
 		    server.tourneyRegister = function(game_id) {
 			equals(tourney_serial, game_id);
@@ -2258,7 +2258,7 @@ test("jpoker.plugins.tourneyDetails.unregister", function(){
         server.registerUpdate(function(server, what, data) {
                 var element = $("#" + id);
                 if(element.length > 0) {
-		    var input = $("#" + id + " input");
+		    var input = $("#" + id + " .jpoker_tourney_details_register input");
 		    equals(input.val(), "Unregister");
 		    server.tourneyUnregister = function(game_id) {
 			equals(tourney_serial, game_id);

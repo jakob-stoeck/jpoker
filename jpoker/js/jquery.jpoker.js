@@ -2022,24 +2022,23 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<table class=\'jpoker_tourney_details\' id=\'' + id + '\'></table>');
+                $this.append('<div class=\'jpoker_tourney_details\' id=\'' + id + '\'></div>');
 
                 var updated = function(server, what, packet) {
                     var element = document.getElementById(id);
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTourneyManager') {
-                            $(element).html(tourneyDetails.getHTML(id, packet));
-			    if(server.loggedIn()) {
-				var tbody = $('tbody', element);
-				var tr = $('<tr>').appendTo(tbody);
-				var td = $('<td>').appendTo(tr);
-				var input = $('<input type=\'submit\'>').appendTo(td);
-				if (server.serial.toString() in packet.user2name) {
-				    input.val(_("Unregister")).click(function() {
+			    var logged = server.loggedIn();
+			    var registered = server.serial.toString() in packet.user2name;
+                            $(element).html(tourneyDetails.getHTML(id, packet, logged, registered));
+			    if(logged) {
+				var input = $('.jpoker_tourney_details_register input', element);
+				if (registered) {
+				    input.click(function() {
 					    server.tourneyUnregister(game_id);
 					});
 				} else {
-				    input.val(_("Register")).click(function() {
+				    input.click(function() {
 					    server.tourneyRegister(game_id);
 					});
 				}
@@ -2060,24 +2059,37 @@
     jpoker.plugins.tourneyDetails.defaults = $.extend({
 	}, jpoker.refresh.defaults, jpoker.defaults);
 
-    jpoker.plugins.tourneyDetails.getHTML = function(id, packet) {
+    jpoker.plugins.tourneyDetails.getHTML = function(id, packet, logged, registered) {
         var t = this.templates;
         var html = [];
-        html.push(t.header.supplant({
+
+        html.push(t.player.header.supplant({
                         'player_name': _("Player Name")
                         }));
         for(var serial in packet.user2name) {
 	    var player = {player_name: packet.user2name[serial]};
-            html.push(t.rows.supplant(player));
+            html.push(t.player.rows.supplant(player));
         }
-        html.push(t.footer);
+        html.push(t.player.footer);
+
+	if (logged) {
+	    if (registered) {
+		html.push(t.register.supplant({'register': _("Unregister")}));
+	    } else {
+		html.push(t.register.supplant({'register': _("Register")}));
+	    }
+	}
+
         return html.join('\n');
     };
 
     jpoker.plugins.tourneyDetails.templates = {
-        header : '<thead><tr><th>{player_name}</th></tr></thead><tbody>',
-        rows : '<tr><td>{player_name}</td></tr>',
-        footer : '</tbody>'
+	player : {
+	    header : '<div class=\'jpoker_tourney_details_players\'><table><thead><tr><th>{player_name}</th></tr></thead><tbody>',
+	    rows : '<tr><td>{player_name}</td></tr>',
+	    footer : '</tbody></table></div>'
+	},
+	register : '<div class=\'jpoker_tourney_details_register\'><input type=\'submit\' value=\'{register}\'></div>'
     };
 
     //
