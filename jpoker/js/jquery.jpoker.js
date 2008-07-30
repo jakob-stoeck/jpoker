@@ -1065,13 +1065,13 @@
 
                 var request = function(server) {
                     server.sendPacket({
-                            type: 'PacketPokerTourneyRequestPlayersList',
-                            game_id: game_id
+                            type: 'PacketPokerGetTourneyManager',
+                            tourney_serial: game_id
                         });
                 };
 
                 var handler = function(server, packet) {
-                    if(packet.type == 'PacketPokerTourneyPlayersList') {
+                    if(packet.type == 'PacketPokerTourneyManager') {
                         // although the tourneys/players count is sent with each
                         // tourney list, it is global to the server
 			server.notifyUpdate(packet);
@@ -2027,23 +2027,20 @@
                 var updated = function(server, what, packet) {
                     var element = document.getElementById(id);
                     if(element) {
-                        if(packet && packet.type == 'PacketPokerTourneyPlayersList') {
+                        if(packet && packet.type == 'PacketPokerTourneyManager') {
                             $(element).html(tourneyDetails.getHTML(id, packet));
 			    if(server.loggedIn()) {
 				var tbody = $('tbody', element);
 				var tr = $('<tr>').appendTo(tbody);
 				var td = $('<td>').appendTo(tr);
 				var input = $('<input type=\'submit\'>').appendTo(td);
-				var registeredPlayers = $.map(packet.players, function(n, i) {
-					return n[0];
-				    });
-				if ($.inArray(server.userInfo.name, registeredPlayers) == -1) {
-				    input.val(_("Register")).click(function() {
-					    server.tourneyRegister(game_id);
-					});
-				} else {
+				if (server.serial.toString() in packet.user2name) {
 				    input.val(_("Unregister")).click(function() {
 					    server.tourneyUnregister(game_id);
+					});
+				} else {
+				    input.val(_("Register")).click(function() {
+					    server.tourneyRegister(game_id);
 					});
 				}
 			    }
@@ -2069,9 +2066,8 @@
         html.push(t.header.supplant({
                         'player_name': _("Player Name")
                         }));
-        for(var i = 0; i < packet.players.length; i++) {
-            var subpacket = packet.players[i];
-	    var player = {player_name: subpacket[0]};
+        for(var serial in packet.user2name) {
+	    var player = {player_name: packet.user2name[serial]};
             html.push(t.rows.supplant(player));
         }
         html.push(t.footer);
