@@ -2063,6 +2063,11 @@
         var t = this.templates;
         var html = [];
 
+	html.push(t.info.supplant({
+		    'registered' : _("{registered} players registered."),
+			'seats_per_game' : _("{seats_per_game} seats available.")
+			}).supplant(packet.tourney));
+
         html.push(t.player.header.supplant({
                         'player_name': _("Player Name")
                         }));
@@ -2084,6 +2089,7 @@
     };
 
     jpoker.plugins.tourneyDetails.templates = {
+	info: '<div class=\'jpoker_tourney_details_info\'><div class=\'jpoker_tourney_details_info_description\'>{description_long}</div><div class=\'jpoker_tourney_details_info_registered\'>{registered}</div><div class=\'jpoker_tourney_details_info_seats_available\'>{seats_per_game}</div></div>',
 	player : {
 	    header : '<div class=\'jpoker_tourney_details_players\'><table><thead><tr><th>{player_name}</th></tr></thead><tbody>',
 	    rows : '<tr><td>{player_name}</td></tr>',

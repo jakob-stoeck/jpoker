@@ -2124,7 +2124,7 @@ test("jpoker.plugins.sitngoTourneyList", function(){
 // tourneyDetails
 //
 test("jpoker.plugins.tourneyDetails", function(){
-        expect(8);
+        expect(11);
         stop();
 
         var PokerServer = function() {};
@@ -2155,6 +2155,13 @@ test("jpoker.plugins.tourneyDetails", function(){
         server.registerUpdate(function(server, what, data) {
                 var element = $("#" + id);
                 if(element.length > 0) {
+                    var info = $("#" + id + " .jpoker_tourney_details_info", place);
+		    var description = $(".jpoker_tourney_details_info_description", info);
+		    equals(description.html(), TOURNEY_MANAGER_PACKET.tourney.description_long);
+		    var registered = $(".jpoker_tourney_details_info_registered", info);
+		    equals(registered.html(), TOURNEY_MANAGER_PACKET.tourney.registered + " players registered.");
+		    var seats_available = $(".jpoker_tourney_details_info_seats_available", info);
+		    equals(seats_available.html(), TOURNEY_MANAGER_PACKET.tourney.seats_per_game + " seats available.");
                     var tr = $("#" + id + " .jpoker_tourney_details_players tr", place);
                     equals(tr.length, players_count+1, 'tourneyDetails players_count');
 		    var input = $("#" + id + " .jpoker_tourney_details_register input");
