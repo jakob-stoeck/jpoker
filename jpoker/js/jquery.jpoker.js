@@ -2738,10 +2738,10 @@
                 });
             rebuy.show();
 
-	    if (table.is_tourney === false) {
-		if (player.state == 'buyin') {
-		    rebuy.click();
-		}
+	    if ((table.is_tourney === false) &&
+		(player.state == 'buyin') &&
+		(packet.money === 0)) {
+		rebuy.click();
 	    }
 
             //
