@@ -2572,7 +2572,7 @@ test("jpoker.plugins.table.chat", function(){
         cleanup(id);
     });
 
-test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
+test("jpoker.plugins.table: PokerPlayerArrive/Leave (Self)", function(){
         expect(18);
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -2663,8 +2663,7 @@ test("jpoker.plugins.table: PacketPokerBoardCards", function(){
         var card_value = 1;
         table.handler(server, game_id, { type: 'PacketPokerBoardCards', cards: [card_value], game_id: game_id });
         equals($("#board0" + id).css('display'), 'block', "card 1 set");
-        var background = $("#board0" + id).css('background-image');
-	equals(background.indexOf("small-3h") >= 0, true, "background " + background);
+        equals($("#board0" + id).hasClass('jpoker_card_3h'), true, 'card_3h class');
         equals($("#board1" + id).css('display'), 'none', "card 2 not set");
         equals(table.board[0], card_value, "card in slot 0");
         start_and_cleanup();
@@ -2918,6 +2917,33 @@ test("jpoker.plugins.table: remove callbacks", function(){
 //
 // player
 //
+test("jpoker.plugins.player: PacketPokerPlayerArrive", function(){
+        expect(2);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 1;
+        server.serial = player_serial;
+        var player_seat = 2;
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+        var player = server.tables[game_id].serial2player[player_serial];
+        equals(player.serial, player_serial, "player_serial");
+
+        var avatar = $("#player_seat2_avatar" + id);
+        equals(avatar.hasClass('jpoker_avatar_default_3'), true, 'default avatar 3');
+        
+        start_and_cleanup();
+    });
+
 test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
         expect(6);
         stop();
@@ -2929,6 +2955,7 @@ test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
 
         table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
 
         place.jpoker('table', 'url', game_id);
         var player_serial = 1;
@@ -2943,8 +2970,7 @@ test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
         equals(card.css('display'), 'none', "seat 2, card 0 hidden");
         equals(player.cards[0], null, "player card empty");
         table.handler(server, game_id, { type: 'PacketPokerPlayerCards', cards: [card_value], serial: player_serial, game_id: game_id });
-        var background = card.css('background-image');
-	equals(background.indexOf("small-3h") >= 0, true, "background " + background);
+        equals(card.hasClass('jpoker_card_3h'), true, 'card_3h class');
         equals(player.cards[0], card_value, "card in slot 0");
         
         start_and_cleanup();
@@ -2961,6 +2987,7 @@ test("jpoker.plugins.player: PacketPokerPlayerChips", function(){
 
         table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
 
         place.jpoker('table', 'url', game_id);
         var player_serial = 1;
@@ -2997,7 +3024,7 @@ test("jpoker.plugins.player: PacketPokerPlayerChips", function(){
         start_and_cleanup();
     });
 
-test("jpoker.plugins.player: PokerPlayerSeat", function(){
+test("jpoker.plugins.player: PokerSeat", function(){
         expect(6);
 
         var server = jpoker.serverCreate({ url: 'url' });
