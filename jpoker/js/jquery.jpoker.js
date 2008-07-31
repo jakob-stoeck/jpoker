@@ -2029,7 +2029,7 @@
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTourneyManager') {
 			    var logged = server.loggedIn();
-			    var registered = server.serial.toString() in packet.user2name;
+			    var registered = packet.user2properties[server.serial.toString()] != undefined;
                             $(element).html(tourneyDetails.getHTML(id, packet, logged, registered));
 			    if(logged) {
 				var input = $('.jpoker_tourney_details_register input', element);
@@ -2064,15 +2064,25 @@
         var html = [];
 
 	html.push(t.info.supplant({
-		    'registered' : _("{registered} players registered."),
-			'seats_per_game' : _("{seats_per_game} seats available.")
-			}).supplant(packet.tourney));
+		        'registered' : _("{registered} players registered."),
+			'players_quota' : _("{players_quota} players max.")
+			    }).supplant(packet.tourney));
 
         html.push(t.player.header.supplant({
-                        'player_name': _("Player Name")
+		        'name': _("Name"),
+			'money': _("Money"),
+			'rank' : _("Rank")    
                         }));
-        for(var serial in packet.user2name) {
-	    var player = {player_name: packet.user2name[serial]};
+        for(var serial in packet.user2properties) {
+	    var player = packet.user2properties[serial];
+	    if (player.rank == -1) {
+		player.rank = "";
+	    }
+	    if (player.money == -1) {
+		player.money = "";
+	    } else {
+		player.money /= 100;
+	    }
             html.push(t.player.rows.supplant(player));
         }
         html.push(t.player.footer);
@@ -2089,10 +2099,10 @@
     };
 
     jpoker.plugins.tourneyDetails.templates = {
-	info: '<div class=\'jpoker_tourney_details_info\'><div class=\'jpoker_tourney_details_info_description\'>{description_long}</div><div class=\'jpoker_tourney_details_info_registered\'>{registered}</div><div class=\'jpoker_tourney_details_info_seats_available\'>{seats_per_game}</div></div>',
+	info: '<div class=\'jpoker_tourney_details_info\'><div class=\'jpoker_tourney_details_info_description\'>{description_long}</div><div class=\'jpoker_tourney_details_info_registered\'>{registered}</div><div class=\'jpoker_tourney_details_info_players_quota\'>{players_quota}</div></div>',
 	player : {
-	    header : '<div class=\'jpoker_tourney_details_players\'><table><thead><tr><th>{player_name}</th></tr></thead><tbody>',
-	    rows : '<tr><td>{player_name}</td></tr>',
+	    header : '<div class=\'jpoker_tourney_details_players\'><table><thead><tr><th>{name}</th><th>{money}</th><th>{rank}</th></tr></thead><tbody>',
+	    rows : '<tr><td>{name}</td><td>{money}</td><td>{rank}</td></tr>',
 	    footer : '</tbody></table></div>'
 	},
 	register : '<div class=\'jpoker_tourney_details_register\'><input type=\'submit\' value=\'{register}\'></div>'
