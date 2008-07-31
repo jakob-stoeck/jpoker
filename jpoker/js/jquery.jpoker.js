@@ -2738,12 +2738,6 @@
                 });
             rebuy.show();
 
-	    if ((table.is_tourney === false) &&
-		(player.state == 'buyin') &&
-		(packet.money === 0)) {
-		rebuy.click();
-	    }
-
             //
             // sitout
             //
@@ -2911,6 +2905,13 @@
                     $('#rebuy' + id).hide();
                 }
             }
+
+	    if (table.is_tourney) {
+		$('#rebuy' + id).hide();
+	    } else if ((player.state == 'buyin') &&
+		       (player.money === 0)) {
+		$('#rebuy' + id).click();
+	    }
         },
 
         inPosition: function(player, id) {

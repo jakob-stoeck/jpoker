@@ -2650,7 +2650,7 @@ test("jpoker.plugins.table.chat", function(){
     });
 
 test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
-        expect(18);
+        expect(17);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var player_serial = 1;
@@ -2658,8 +2658,8 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
         var place = $("#main");
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
-
-        table_packet = { id: game_id };
+	
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -2684,7 +2684,6 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave", function(){
         equals($("#player_seat0_name" + id).html(), 'click to sit', "username arrive");
         var background = $("#player_seat0_avatar" + id).css('background-image');
 	ok(background.indexOf("mycustomavatar.png") >= 0, "custom avatar");
-        equals($("#jpokerRebuy").size(), 1, 'rebuy dialog launched for self');
         equals(table.seats[0], player_serial, "player 1");
         equals(table.serial2player[player_serial].serial, player_serial, "player 1 in player2serial");
         var names = [ 'check', 'call', 'raise', 'fold' ];
@@ -3010,7 +3009,7 @@ test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
         place.jpoker('table', 'url', game_id);
         var player_serial = 1;
         var player_seat = 2;
-        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+        server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
         var player = server.tables[game_id].serial2player[player_serial];
         equals(player.serial, player_serial, "player_serial");
 
@@ -3435,59 +3434,110 @@ test("jpoker.plugins.player: rebuy", function(){
         cleanup(id);
     });
 
+test("jpoker.plugins.player: rebuy if not enough money", function() {
+	expect(2);
+
+        var id = 'jpoker' + jpoker.serial;
+	var server = jpoker.serverCreate({ url: 'url' });
+	var place = $("#main");
+	var game_id = 100;
+	var currency_serial = 42;
+	var player_serial = 12;
+	var player_seat = 2;
+	
+	var table_packet = { id: game_id, currency_serial: currency_serial };
+	server.tables[game_id] = new jpoker.table(server, table_packet);    
+	server.tables[game_id].buyIn.min = 1000;
+	server.tables[game_id].buyIn.bankroll = 1000;
+	
+	place.jpoker('table', 'url', game_id);
+	// player
+	server.serial = player_serial;
+	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+	var rebuy = $("#rebuy"+id);
+
+	rebuy.click(function() {
+		ok(true, 'rebuy clicked');
+	    });
+	table.handler(server, game_id, { type: 'PacketPokerPlayerChips',
+		    money: 0,
+		    bet: 0,
+		    serial: player_serial,
+		    game_id: game_id });
+	equals(rebuy.is(':visible'), true, 'rebuy shown');	
+	cleanup();
+    });
+
 test("jpoker.plugins.player: no rebuy in tourney", function() {
 	expect(1);
+
+        var id = 'jpoker' + jpoker.serial;
 	var server = jpoker.serverCreate({ url: 'url' });
-	var game_id = 101;
+	var place = $("#main");
+	var game_id = 100;
+	var currency_serial = 42;
+	var player_serial = 12;
+	var player_seat = 2;
+	
+	var table_packet = { id: game_id, currency_serial: currency_serial };
+	server.tables[game_id] = new jpoker.table(server, table_packet);    
+	server.tables[game_id].buyIn.min = 1000;
+	server.tables[game_id].buyIn.bankroll = 1000;
+	server.tables[game_id].is_tourney = true;
+	
+	place.jpoker('table', 'url', game_id);
+	// player
+	server.serial = player_serial;
+	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+	var rebuy = $("#rebuy"+id);
 
-	var packet = { type: 'PacketPokerTable', game_id: game_id, id: game_id};
-	var table = new jpoker.table(server, packet);
-	table.is_tourney = true;
-
-        var player_serial = 43;
-        var player = new jpoker.player({ url: url }, { serial: player_serial });
-	player.state = 'buyin';
-	table.serial2player[player_serial] = player;
-
-        var player_seat = 2;
-        var player_name = 'username';
-        var player_packet = { type: 'PacketPokerPlayerArrive', name: player_name, seat: player_seat, serial: player_serial, game_id: game_id };
-
-	var id = 'jpoker' + jpoker.serial;
-	$('<input id=\'rebuy'+id+'\' type=\'submit\'>').appendTo('#main').click(function() {
-		ok(false, 'tourney should not trigger rebuy');
+	rebuy.click(function() {
+		ok(false, 'rebuy should not be clicked');
 	    });
-	jpoker.plugins.playerSelf.create(table, player_packet, id);
-
-	ok(true);
+	table.handler(server, game_id, { type: 'PacketPokerPlayerChips',
+		    money: 0,
+		    bet: 0,
+		    serial: player_serial,
+		    game_id: game_id });	
+	equals(rebuy.is(':hidden'), true, 'rebuy hidden');
+	cleanup();
     });
 
 test("jpoker.plugins.player: no rebuy if money", function() {
 	expect(1);
+
+        var id = 'jpoker' + jpoker.serial;
 	var server = jpoker.serverCreate({ url: 'url' });
-	var game_id = 101;
+	var place = $("#main");
+	var game_id = 100;
+	var currency_serial = 42;
+	var player_serial = 12;
+	var player_seat = 2;
+	
+	var table_packet = { id: game_id, currency_serial: currency_serial };
+	server.tables[game_id] = new jpoker.table(server, table_packet);    
+	server.tables[game_id].buyIn.min = 1000;
+	server.tables[game_id].buyIn.bankroll = 1000;
+	server.tables[game_id].is_tourney = false;
+	
+	place.jpoker('table', 'url', game_id);
+	// player
+	server.serial = player_serial;
+	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+	var rebuy = $("#rebuy"+id);
 
-	var packet = { type: 'PacketPokerTable', game_id: game_id, id: game_id};
-	var table = new jpoker.table(server, packet);
-	table.is_tourney = false;
-
-        var player_serial = 43;
-        var player = new jpoker.player({ url: url }, { serial: player_serial });
-	player.state = 'buyin';
-	table.serial2player[player_serial] = player;
-
-        var player_seat = 2;
-        var player_name = 'username';
-        var player_packet = { type: 'PacketPokerPlayerArrive', name: player_name, seat: player_seat, serial: player_serial, game_id: game_id, money: 10000 };
-
-	var id = 'jpoker' + jpoker.serial;
-	$('<input id=\'rebuy'+id+'\' type=\'submit\'>').appendTo('#main').click(function() {
-		ok(false, 'tourney should not trigger rebuy');
+	rebuy.click(function() {
+		ok(false, 'rebuy should not be clicked');
 	    });
-	jpoker.plugins.playerSelf.create(table, player_packet, id);
-
-	ok(true);
+	table.handler(server, game_id, { type: 'PacketPokerPlayerChips',
+		    money: 100,
+		    bet: 0,
+		    serial: player_serial,
+		    game_id: game_id });
+	equals(rebuy.is(':visible'), true, 'rebuy visible');
+	cleanup();
     });
+
 
 test("jpoker.plugins.userInfo", function(){
         expect(6);
@@ -3640,36 +3690,6 @@ test("jpoker.plugins.playerSelf: create in position", function(){
 	    equals(player, server.tables[game_id].serial2player[player_serial], "in position");
 	};
 	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
-    });
-
-test("jpoker.plugins.playerSelf: rebuy if not enough money", function() {
-	expect(1);
-
-        var id = 'jpoker' + jpoker.serial;
-	var server = jpoker.serverCreate({ url: 'url' });
-	var place = $("#main");
-	var game_id = 100;
-	var currency_serial = 42;
-	var player_serial = 12;
-	var player_seat = 2;
-	
-	table_packet = { id: game_id, currency_serial: currency_serial };
-	server.tables[game_id] = new jpoker.table(server, table_packet);    
-	server.tables[game_id].buyIn.min = 1000;
-	server.tables[game_id].buyIn.bankroll = 1000;
-	
-	place.jpoker('table', 'url', game_id);
-	// player
-	server.serial = player_serial;
-	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
-	var rebuy = $("#rebuy"+id);
-
-	table.handler(server, game_id, { type: 'PacketPokerPlayerChips',
-		    money: 0,
-		    bet: 0,
-		    serial: player_serial,
-		    game_id: game_id });
-	equals(rebuy.is(':hidden'), false, 'rebuy shown');
     });
 
 test("profileEnd", function(){
