@@ -2187,9 +2187,9 @@ test("jpoker.plugins.tourneyDetails templates no ranks no moneys", function(){
 	var tourneyDetails = jpoker.plugins.tourneyDetails;
 	var element = document.getElementById(id);
 	var packet = TOURNEY_MANAGER_PACKET;
-	var logged = true;
-	var registered = true;
-	$(element).html(tourneyDetails.getHTML(id, packet, logged, registered));
+	var is_logged = true;
+	var is_registered = true;
+	$(element).html(tourneyDetails.getHTML(id, packet, is_logged, is_registered));
 
 	var info = $(" .jpoker_tourney_details_info", element);
 	var description = $(".jpoker_tourney_details_info_description", info);

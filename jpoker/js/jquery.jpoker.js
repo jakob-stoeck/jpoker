@@ -2029,7 +2029,7 @@
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTourneyManager') {
 			    var logged = server.loggedIn();
-			    var registered = packet.user2properties[server.serial.toString()] != undefined;
+			    var registered = packet.user2properties[server.serial.toString()] !== undefined;
                             $(element).html(tourneyDetails.getHTML(id, packet, logged, registered));
 			    if(logged) {
 				var input = $('.jpoker_tourney_details_register input', element);
