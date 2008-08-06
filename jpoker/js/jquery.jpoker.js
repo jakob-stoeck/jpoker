@@ -2068,7 +2068,7 @@
 			'players_quota' : _("{players_quota} players max.")
 			    }).supplant(packet.tourney));
 
-        html.push(t.player.header.supplant({
+        html.push(t.players.header.supplant({
 		        'name': _("Name"),
 			'money': _("Money"),
 			'rank' : _("Rank")    
@@ -2083,9 +2083,9 @@
 	    } else {
 		player.money /= 100;
 	    }
-            html.push(t.player.rows.supplant(player));
+            html.push(t.players.rows.supplant(player));
         }
-        html.push(t.player.footer);
+        html.push(t.players.footer);
 
 	if (logged) {
 	    if (registered) {
@@ -2100,7 +2100,7 @@
 
     jpoker.plugins.tourneyDetails.templates = {
 	info: '<div class=\'jpoker_tourney_details_info\'><div class=\'jpoker_tourney_details_info_description\'>{description_long}</div><div class=\'jpoker_tourney_details_info_registered\'>{registered}</div><div class=\'jpoker_tourney_details_info_players_quota\'>{players_quota}</div></div>',
-	player : {
+	players : {
 	    header : '<div class=\'jpoker_tourney_details_players\'><table><thead><tr><th>{name}</th><th>{money}</th><th>{rank}</th></tr></thead><tbody>',
 	    rows : '<tr><td>{name}</td><td>{money}</td><td>{rank}</td></tr>',
 	    footer : '</tbody></table></div>'
