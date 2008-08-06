@@ -2095,6 +2095,29 @@
 	    }
 	}
 
+	html.push(t.tables.header.supplant({
+		    'table': _("Table"),
+		    'players': _("Players"),
+		    'max_money': _("Max money"),
+		    'min_money': _("Min money")
+		}));
+	$.each(packet.table2serials, function(table, players) {
+		var row = {
+		    table: table,
+		    players: players.length,
+		    min_money: "",
+		    max_money: ""};
+		var moneys = $.map(players, function(player) {
+			return packet.user2properties[player.toString()].money;
+		    }).sort();
+		if (moneys.length >= 2) {
+		    row.min_money = moneys[0];
+		    row.max_money = moneys[moneys.length - 1];
+		}
+		html.push(t.tables.rows.supplant(row));
+	    });
+	html.push(t.tables.footer);
+
         return html.join('\n');
     };
 
@@ -2103,6 +2126,11 @@
 	players : {
 	    header : '<div class=\'jpoker_tourney_details_players\'><table><thead><tr><th>{name}</th><th>{money}</th><th>{rank}</th></tr></thead><tbody>',
 	    rows : '<tr><td>{name}</td><td>{money}</td><td>{rank}</td></tr>',
+	    footer : '</tbody></table></div>'
+	},
+	tables : {
+	    header : '<div class=\'jpoker_tourney_details_tables\'><table><thead><tr><th>{table}</th><th>{players}</th><th>{max_money}</th><th>{min_money}</th></tr></thead><tbody>',
+	    rows : '<tr><td>{table}</td><td>{players}</td><td>{max_money}</td><td>{min_money}</td></tr>',
 	    footer : '</tbody></table></div>'
 	},
 	register : '<div class=\'jpoker_tourney_details_register\'><input type=\'submit\' value=\'{register}\'></div>'

@@ -2264,6 +2264,41 @@ test("jpoker.plugins.tourneyDetails templates ranks and no money", function(){
 	cleanup();
     });
 
+test("jpoker.plugins.tourneyDetails templates tables", function(){
+	expect(12);
+	
+	var TOURNEY_MANAGER_PACKET = {"user2properties": {"4": {"money": 100000, "table_serial": 606, "name": "user1", "rank": -1}, "5": {"money": 200000, "table_serial": 606, "name": "user2", "rank": -1}, "6": {"money": 300000, "table_serial": 607, "name": "user3", "rank": -1}, "7": {"money": 400000, "table_serial": 608, "name": "user3", "rank": -1}, "8": {"money": 500000, "table_serial": 608, "name": "user4", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"606": [4,5], "607": [6,7,8]}, "type": 149, "tourney": {"registered": 4, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Sit and Go 2 players", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "registering", "buy_in": 300000, "add_on_count": 0, "description_short": "Sit and Go 2 players, Holdem", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0}, "type": "PacketPokerTourneyManager"};
+
+	var id = jpoker.uid();
+	$("#main").append('<div class=\'jpoker_tourney_details\' id=\'' + id + '\'></div>');
+	var tourneyDetails = jpoker.plugins.tourneyDetails;
+	var element = document.getElementById(id);
+	var packet = TOURNEY_MANAGER_PACKET;
+	var logged = true;
+	var registered = true;
+	$(element).html(tourneyDetails.getHTML(id, packet, logged, registered));
+
+	var headers = $(".jpoker_tourney_details_tables tr th", element);
+	equals(headers.eq(0).html(), "Table");
+	equals(headers.eq(1).html(), "Players");
+	equals(headers.eq(2).html(), "Max money");
+	equals(headers.eq(3).html(), "Min money");
+
+	var table1 = $(".jpoker_tourney_details_tables tr:nth-child(1) td", element);
+	equals(table1.eq(0).html(), "606");
+	equals(table1.eq(1).html(), "2");
+	equals(table1.eq(2).html(), "2000");
+	equals(table1.eq(3).html(), "1000");
+
+	var table2 = $(".jpoker_tourney_details_tables tr:nth-child(2) td", element);
+	equals(table2.eq(0).html(), "607");
+	equals(table2.eq(1).html(), "3");
+	equals(table2.eq(2).html(), "5000");
+	equals(table2.eq(3).html(), "3000");
+
+	cleanup();
+    });
+
 test("jpoker.plugins.tourneyDetails.register", function(){
         expect(2);
         stop();
