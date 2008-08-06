@@ -2030,6 +2030,11 @@
                         if(packet && packet.type == 'PacketPokerTourneyManager') {
 			    var logged = server.loggedIn();
 			    var registered = packet.user2properties['X'+server.serial.toString()] !== undefined;
+			    $.each(packet.user2properties, function(serial, player) {
+				    if (player.money != -1) {
+					player.money /= 100;
+				    }
+				});
                             $(element).html(tourneyDetails.getHTML(id, packet, logged, registered));
 			    $(".jpoker_tourney_details_table", element).click(function() {
 				    $(".jpoker_tourney_details_table_details", element).html(tourneyDetails.getHTMLTableDetails(id, packet, $(this).attr("id")));
@@ -2083,8 +2088,6 @@
 	    }
 	    if (player.money == -1) {
 		player.money = "";
-	    } else {
-		player.money /= 100;
 	    }
             html.push(t.players.rows.supplant(player));
         }
@@ -2138,7 +2141,6 @@
 	var players = packet.table2serials[table];
 	$.each(players, function(i, serial) {
 		var player = packet.user2properties['X'+serial];
-		player.money /= 100;
 		html.push(t.table_players.rows.supplant(player));
 	    });
 	html.push(t.table_players.footer);
