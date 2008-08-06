@@ -2123,6 +2123,23 @@
         return html.join('\n');
     };
 
+    jpoker.plugins.tourneyDetails.getHTMLTablePlayers = function(id, packet, table) {
+        var t = this.templates;
+        var html = [];
+	html.push(t.table_players.header.supplant({
+		        player: _("Player"),
+			money: _("Money")
+			}));
+	var players = packet.table2serials[table];
+	$.each(players, function(i, serial) {
+		var player = packet.user2properties['X'+serial];
+		player.money /= 100;
+		html.push(t.table_players.rows.supplant(player));
+	    });
+	html.push(t.table_players.footer);
+	return html.join('\n');
+    };
+
     jpoker.plugins.tourneyDetails.templates = {
 	info: '<div class=\'jpoker_tourney_details_info\'><div class=\'jpoker_tourney_details_info_description\'>{description_long}</div><div class=\'jpoker_tourney_details_info_registered\'>{registered}</div><div class=\'jpoker_tourney_details_info_players_quota\'>{players_quota}</div></div>',
 	players : {
@@ -2133,6 +2150,11 @@
 	tables : {
 	    header : '<div class=\'jpoker_tourney_details_tables\'><table><thead><tr><th>{table}</th><th>{players}</th><th>{max_money}</th><th>{min_money}</th></tr></thead><tbody>',
 	    rows : '<tr><td>{table}</td><td>{players}</td><td>{max_money}</td><td>{min_money}</td></tr>',
+	    footer : '</tbody></table></div>'
+	},
+	table_players : {
+	    header : '<div class=\'jpoker_tourney_details_table_players\'><table><thead><tr><th>{player}</th><th>{money}</th></tr></thead><tbody>',
+	    rows : '<tr><td>{name}</td><td>{money}</td></tr>',
 	    footer : '</tbody></table></div>'
 	},
 	register : '<div class=\'jpoker_tourney_details_register\'><input type=\'submit\' value=\'{register}\'></div>'
