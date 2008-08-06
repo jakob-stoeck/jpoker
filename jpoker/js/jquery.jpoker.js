@@ -2031,6 +2031,9 @@
 			    var logged = server.loggedIn();
 			    var registered = packet.user2properties['X'+server.serial.toString()] !== undefined;
                             $(element).html(tourneyDetails.getHTML(id, packet, logged, registered));
+			    $(".jpoker_tourney_details_table", element).click(function() {
+				    $(".jpoker_tourney_details_table_details", element).html(tourneyDetails.getHTMLTableDetails(id, packet, $(this).attr("id")));
+				});
 			    if(logged) {
 				var input = $('.jpoker_tourney_details_register input', element);
 				if (registered) {
@@ -2104,6 +2107,7 @@
 		    }));
 	    $.each(packet.table2serials, function(table, players) {
 		    var row = {
+			id: table,
 			table: table.substr(1),
 			players: players.length,
 			min_money: "",
@@ -2120,10 +2124,11 @@
 	    html.push(t.tables.footer);
 	}
 
+	html.push(t.table_details);
         return html.join('\n');
     };
 
-    jpoker.plugins.tourneyDetails.getHTMLTablePlayers = function(id, packet, table) {
+    jpoker.plugins.tourneyDetails.getHTMLTableDetails = function(id, packet, table) {
         var t = this.templates;
         var html = [];
 	html.push(t.table_players.header.supplant({
@@ -2149,7 +2154,7 @@
 	},
 	tables : {
 	    header : '<div class=\'jpoker_tourney_details_tables\'><table><thead><tr><th>{table}</th><th>{players}</th><th>{max_money}</th><th>{min_money}</th></tr></thead><tbody>',
-	    rows : '<tr><td>{table}</td><td>{players}</td><td>{max_money}</td><td>{min_money}</td></tr>',
+	    rows : '<tr id=\'{id}\' class=\'jpoker_tourney_details_table\'><td>{table}</td><td>{players}</td><td>{max_money}</td><td>{min_money}</td></tr>',
 	    footer : '</tbody></table></div>'
 	},
 	table_players : {
@@ -2157,7 +2162,8 @@
 	    rows : '<tr><td>{name}</td><td>{money}</td></tr>',
 	    footer : '</tbody></table></div>'
 	},
-	register : '<div class=\'jpoker_tourney_details_register\'><input type=\'submit\' value=\'{register}\'></div>'
+	register : '<div class=\'jpoker_tourney_details_register\'><input type=\'submit\' value=\'{register}\'></div>',
+	table_details : '<div class=\'jpoker_tourney_details_table_details\'>'
     };
 
     //
