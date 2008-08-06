@@ -2029,7 +2029,7 @@
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTourneyManager') {
 			    var logged = server.loggedIn();
-			    var registered = packet.user2properties[server.serial.toString()] !== undefined;
+			    var registered = packet.user2properties['X'+server.serial.toString()] !== undefined;
                             $(element).html(tourneyDetails.getHTML(id, packet, logged, registered));
 			    if(logged) {
 				var input = $('.jpoker_tourney_details_register input', element);
@@ -2095,28 +2095,30 @@
 	    }
 	}
 
-	html.push(t.tables.header.supplant({
-		    'table': _("Table"),
-		    'players': _("Players"),
-		    'max_money': _("Max money"),
-		    'min_money': _("Min money")
-		}));
-	$.each(packet.table2serials, function(table, players) {
-		var row = {
-		    table: table,
-		    players: players.length,
-		    min_money: "",
-		    max_money: ""};
-		var moneys = $.map(players, function(player) {
-			return packet.user2properties[player.toString()].money;
-		    }).sort();
-		if (moneys.length >= 2) {
-		    row.min_money = moneys[0];
-		    row.max_money = moneys[moneys.length - 1];
-		}
-		html.push(t.tables.rows.supplant(row));
-	    });
-	html.push(t.tables.footer);
+	if (packet.tourney.state == "running") {
+	    html.push(t.tables.header.supplant({
+			'table': _("Table"),
+			'players': _("Players"),
+			'max_money': _("Max money"),
+			'min_money': _("Min money")
+		    }));
+	    $.each(packet.table2serials, function(table, players) {
+		    var row = {
+			table: table.substr(1),
+			players: players.length,
+			min_money: "",
+			max_money: ""};
+		    var moneys = $.map(players, function(player) {
+			    return packet.user2properties['X'+player.toString()].money;
+			}).sort();
+		    if (moneys.length >= 2) {
+			row.min_money = moneys[0];
+			row.max_money = moneys[moneys.length - 1];
+		    }
+		    html.push(t.tables.rows.supplant(row));
+		});
+	    html.push(t.tables.footer);
+	}
 
         return html.join('\n');
     };
