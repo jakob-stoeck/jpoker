@@ -2102,6 +2102,20 @@
 	}
 
 	if (packet.tourney.state == "running") {
+	    html.push(t.prizes.header.supplant({
+			'rank': _("Rank"),
+			'prize': _("Prize")
+		    }));
+	    if (packet.tourney.rank2prize) {
+		$.each(packet.tourney.rank2prize, function(rank, prize) {
+			html.push(t.prizes.rows.supplant({
+				    'rank': rank+1,
+				    'prize': prize
+					}));
+		    });
+	    }			    
+	    html.push(t.prizes.footer);
+
 	    html.push(t.tables.header.supplant({
 			'table': _("Table"),
 			'players': _("Players"),
@@ -2125,7 +2139,7 @@
 		    html.push(t.tables.rows.supplant(row));
 		});
 	    html.push(t.tables.footer);
-	}
+	}	
 
 	html.push(t.table_details);
         return html.join('\n');
@@ -2162,6 +2176,11 @@
 	table_players : {
 	    header : '<div class=\'jpoker_tourney_details_table_players\'><table><thead><tr><th>{player}</th><th>{money}</th></tr></thead><tbody>',
 	    rows : '<tr><td>{name}</td><td>{money}</td></tr>',
+	    footer : '</tbody></table></div>'
+	},
+	prizes : {
+	    header : '<div class=\'jpoker_tourney_details_prizes\'><table><thead><tr><th>{rank}</th><th>{prize}</th></tr></thead><tbody>',
+	    rows : '<tr><td>{rank}</td><td>{prize}</td></tr>',
 	    footer : '</tbody></table></div>'
 	},
 	register : '<div class=\'jpoker_tourney_details_register\'><input type=\'submit\' value=\'{register}\'></div>',
