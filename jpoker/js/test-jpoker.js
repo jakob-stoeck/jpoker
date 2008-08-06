@@ -2298,7 +2298,7 @@ test("jpoker.plugins.tourneyDetails templates tables", function(){
 	equals(table1.children().eq(2).html(), "2000");
 	equals(table1.children().eq(3).html(), "1000");
 
-	var table2 = $(".jpoker_tourney_details_tables tr", element).eq(2)
+	var table2 = $(".jpoker_tourney_details_tables tr", element).eq(2);
 	equals(table2.attr("id"), "X607");
 	ok(table2.hasClass("jpoker_tourney_details_table"), "jpoker_tourney_details_table class");
 	equals(table2.children().eq(0).html(), "607");
