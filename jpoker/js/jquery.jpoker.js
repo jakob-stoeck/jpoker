@@ -2101,7 +2101,7 @@
 	    }
 	}
 
-	if (packet.tourney.state == "running") {
+	if (packet.tourney.state == "running" || packet.tourney.state == "complete") {
 	    html.push(t.prizes.header.supplant({
 			'rank': _("Rank"),
 			'prize': _("Prize")
@@ -2115,7 +2115,8 @@
 		    });
 	    }			    
 	    html.push(t.prizes.footer);
-
+	}
+	if (packet.tourney.state == "running") {
 	    html.push(t.tables.header.supplant({
 			'table': _("Table"),
 			'players': _("Players"),
