@@ -2406,7 +2406,7 @@
             element.html(this.templates.room.supplant({ id: id }));
             jpoker.plugins.table.seats(id, server, table);
             jpoker.plugins.table.dealer(id, table, table.dealer);
-            jpoker.plugins.cards.update(table.board, '#board', id);
+            jpoker.plugins.cards.update(table.board, 'board', id);
             for(var pot = 0; pot < table.pots.length; pot++) {
                 $('#pot' + pot + id).addClass('jpoker_pot');
                 jpoker.plugins.chips.update(table.pots[pot], '#pot' + pot + id);
@@ -2523,7 +2523,7 @@
                 break;
 
             case 'PacketPokerBoardCards':
-                jpoker.plugins.cards.update(table.board, '#board', id);
+                jpoker.plugins.cards.update(table.board, 'board', id);
                 break;
 
             case 'PacketPokerPotChips':
@@ -2598,20 +2598,20 @@
             var seat = player.seat;
             var server = jpoker.getServer(url);
             jpoker.plugins.player.seat(seat, id, server, table);
-            jpoker.plugins.cards.update(player.cards, '#card_seat' + player.seat, id);
+            jpoker.plugins.cards.update(player.cards, 'card_seat' + player.seat, id);
             $('#player_seat' + seat + '_bet' + id).addClass('jpoker_bet');
             $('#player_seat' + seat  + '_money' + id).addClass('jpoker_money');
-            var avatar = (seat + 1) + (10 * game_id % 2);
+            var avatar_element = $('#player_seat' + seat  + '_avatar' + id);
 	    if ((packet.url !== undefined) && (packet.url != 'random')) {
-		$('#player_seat' + seat  + '_avatar' + id).css({
-			'background-image': 'url("'+packet.url+'")',
+                avatar_element.removeClass().addClass('jpoker_avatar jpoker_ptable_player_seat' + seat + '_avatar ');
+		avatar_element.css({
+                            'background-image': 'url("' + packet.url + '")',
 			    'display': 'block'
 			    });
 	    } else {
-		$('#player_seat' + seat  + '_avatar' + id).css({ 
-			'background-image': 'url("css/images/jpoker_table/avatar' + avatar + '.png")',
-			'display': 'block'
-		    });
+                var avatar = (seat + 1) + (10 * game_id % 2);
+                avatar_element.removeClass().addClass('jpoker_avatar jpoker_ptable_player_seat' + seat + '_avatar jpoker_avatar_default_' + avatar);
+		avatar_element.show();
 	    }
 
             jpoker.plugins.player.chips(player, id);
@@ -2654,7 +2654,7 @@
             break;
 
             case 'PacketPokerPlayerCards':
-            jpoker.plugins.cards.update(player.cards, '#card_seat' + player.seat, id);
+            jpoker.plugins.cards.update(player.cards, 'card_seat' + player.seat, id);
             break;
 
             case 'PacketPokerPlayerChips':
@@ -3039,17 +3039,16 @@
         update: function(cards, prefix, id) {
             for(var i = 0; i < cards.length; i++) {
                 var card = cards[i];
+                var element = $('#' + prefix + i + id);
                 if(card !== null) {
-                    var card_image = 'small-back';
+                    var card_image = 'back';
                     if(card != 255) {
-                        card_image = 'small-' + jpoker.cards.card2string[card & 0x3F];
+                        card_image = jpoker.cards.card2string[card & 0x3F];
                     }
-                    $(prefix + i + id).css({ 
-                            'background-image': 'url("css/images/jpoker_table/cards/' + card_image + '.png")',
-                                'display': 'block'
-                                });
+                    element.removeClass().addClass('jpoker_card jpoker_ptable_' + prefix + i + ' jpoker_card_' + card_image);
+                    element.show();
                 } else {
-                    $(prefix + i + id).hide();
+                    element.hide();
                 }
             }
         }
