@@ -1,0 +1,7 @@
+.jpoker_tourney_details_tables table tr {
+	cursor:pointer;
+}
+.jpoker_tourney_details_tables table tr.hover {
+	background:#73BF60;
+	color:#fff;
+}

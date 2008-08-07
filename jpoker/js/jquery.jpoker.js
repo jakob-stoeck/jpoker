@@ -2043,7 +2043,11 @@
                             $(element).html(tourneyDetails.getHTML(id, packet, logged, registered));
 			    $(".jpoker_tourney_details_table", element).click(function() {
 				    $(".jpoker_tourney_details_table_details", element).html(tourneyDetails.getHTMLTableDetails(id, packet, $(this).attr("id")));
-				});
+				}).hover(function(){
+					$(this).addClass('hover');
+				    },function(){
+					$(this).removeClass('hover');
+				    });;
 			    if(logged) {
 				var input = $('.jpoker_tourney_details_register input', element);
 				if (registered) {
@@ -2176,7 +2180,7 @@
 	},
 	tables : {
 	    header : '<div class=\'jpoker_tourney_details_tables\'><table><thead><tr><th>{table}</th><th>{players}</th><th>{max_money}</th><th>{min_money}</th></tr></thead><tbody>',
-	    rows : '<tr id=\'{id}\' class=\'jpoker_tourney_details_table\'><td>{table}</td><td>{players}</td><td>{max_money}</td><td>{min_money}</td></tr>',
+	    rows : '<tr id=\'{id}\' class=\'jpoker_tourney_details_table\' title=\'' + _("Click to show table details") + '\'><td>{table}</td><td>{players}</td><td>{max_money}</td><td>{min_money}</td></tr>',
 	    footer : '</tbody></table></div>'
 	},
 	table_players : {

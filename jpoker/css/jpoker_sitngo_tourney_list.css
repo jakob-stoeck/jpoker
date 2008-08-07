@@ -2,13 +2,13 @@ table.jpoker_sitngo_tourney_list {
 	border:1px solid #24B300;
 }
 table.jpoker_sitngo_tourney_list th {
+	background: #24B300;
 	padding: 0.5em 1em;
 }
 table.jpoker_sitngo_tourney_list td {
 	padding: 0.5em 1em;
 }
-table.jpoker_sitngo_tourney_list th  {
-	background: #24B300;
+table.jpoker_sitngo_tourney_list tr  {
 	cursor:pointer;
 }
 table.jpoker_sitngo_tourney_list .odd {

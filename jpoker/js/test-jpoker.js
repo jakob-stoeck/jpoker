@@ -2440,7 +2440,7 @@ test("jpoker.plugins.tourneyDetails templates prizes complete", function(){
     });
 
 test("jpoker.plugins.tourneyDetails table details", function(){
-        expect(3);
+        expect(5);
         stop();
 
         var PokerServer = function() {};
@@ -2477,6 +2477,10 @@ test("jpoker.plugins.tourneyDetails table details", function(){
 			equals(table, "X606");
 			return "table details";
 		    };
+		    row.trigger('mouseenter');
+		    equals(row.hasClass('hover'), true, 'hasClass hover');
+		    row.trigger('mouseleave');
+		    equals(row.hasClass('hover'), false, '!hasClass hover');
 		    row.click();
 		    equals($(".jpoker_tourney_details_table_details").html(), "table details");
                     $("#" + id).remove();
