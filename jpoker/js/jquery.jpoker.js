@@ -2047,7 +2047,7 @@
 					$(this).addClass('hover');
 				    },function(){
 					$(this).removeClass('hover');
-				    });;
+				    });
 			    if(logged) {
 				var input = $('.jpoker_tourney_details_register input', element);
 				if (registered) {
