@@ -2415,9 +2415,9 @@ test("jpoker.plugins.tourneyDetails templates prizes", function(){
     });
 
 test("jpoker.plugins.tourneyDetails templates prizes complete", function(){
-	expect(12);
+	expect(1);
 	
-	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": 100000, "table_serial": 606, "name": "user1", "rank": -1}, "X5": {"money": 200000, "table_serial": 606, "name": "user2", "rank": -1}, "X6": {"money": 300000, "table_serial": 607, "name": "user3", "rank": -1}, "X7": {"money": 400000, "table_serial": 608, "name": "user3", "rank": -1}, "X8": {"money": 500000, "table_serial": 608, "name": "user4", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4,5], "X607": [6,7,8]}, "type": 149, "tourney": {"registered": 4, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Sit and Go 2 players", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "complete", "buy_in": 300000, "add_on_count": 0, "description_short": "Sit and Go 2 players, Holdem", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0, "rank2prize": [1000000, 100000, 10000, 1000, 100]}, "type": "PacketPokerTourneyManager"};
+	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": 100000, "table_serial": 606, "name": "user1", "rank": -1}, "X5": {"money": 200000, "table_serial": 606, "name": "user2", "rank": -1}, "X6f": {"money": 300000, "table_serial": 607, "name": "user3", "rank": -1}, "X7": {"money": 400000, "table_serial": 608, "name": "user3", "rank": -1}, "X8": {"money": 500000, "table_serial": 608, "name": "user4", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4,5], "X607": [6,7,8]}, "type": 149, "tourney": {"registered": 4, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Sit and Go 2 players", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "complete", "buy_in": 300000, "add_on_count": 0, "description_short": "Sit and Go 2 players, Holdem", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0, "rank2prize": [1000000, 100000, 10000, 1000, 100]}, "type": "PacketPokerTourneyManager"};
 	$.each(TOURNEY_MANAGER_PACKET.user2properties, function(serial, player) {
 		player.money /= 100;
 	    });
@@ -2434,21 +2434,7 @@ test("jpoker.plugins.tourneyDetails templates prizes complete", function(){
 	var registered = true;
 	$(element).html(tourneyDetails.getHTML(id, packet, logged, registered));
 
-	var headers = $(".jpoker_tourney_details_prizes tr th", element);
-	equals(headers.eq(0).html(), "Rank");
-	equals(headers.eq(1).html(), "Prize");
-
-	var prizes = $(".jpoker_tourney_details_prizes tr td", element);
-	equals(prizes.eq(0).html(), "1");
-	equals(prizes.eq(1).html(), "10000");
-	equals(prizes.eq(2).html(), "2");
-	equals(prizes.eq(3).html(), "1000");
-	equals(prizes.eq(4).html(), "3");
-	equals(prizes.eq(5).html(), "100");
-	equals(prizes.eq(6).html(), "4");
-	equals(prizes.eq(7).html(), "10");
-	equals(prizes.eq(8).html(), "5");
-	equals(prizes.eq(9).html(), "1");
+	equals($(".jpoker_tourney_details_prizes", element).length, 1);
 
 	cleanup();
     });
@@ -2493,6 +2479,48 @@ test("jpoker.plugins.tourneyDetails table details", function(){
 		    };
 		    row.click();
 		    equals($(".jpoker_tourney_details_table_details").html(), "table details");
+                    $("#" + id).remove();
+		    start_and_cleanup();    
+                    return false;
+		}
+            });
+    });
+
+test("jpoker.plugins.tourneyDetails packet money update", function(){
+        expect(2);
+        stop();
+
+        var PokerServer = function() {};
+
+	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": 100000, "table_serial": 606, "name": "user1", "rank": -1}, "X5": {"money": 200000, "table_serial": 606, "name": "user2", "rank": -1}, "X6f": {"money": 300000, "table_serial": 607, "name": "user3", "rank": -1}, "X7": {"money": 400000, "table_serial": 608, "name": "user3", "rank": -1}, "X8": {"money": 500000, "table_serial": 608, "name": "user4", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4,5], "X607": [6,7,8]}, "type": 149, "tourney": {"registered": 4, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Sit and Go 2 players", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "complete", "buy_in": 300000, "add_on_count": 0, "description_short": "Sit and Go 2 players, Holdem", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0, "rank2prize": [1000000, 100000, 10000, 1000, 100]}, "type": "PacketPokerTourneyManager"};
+
+	var tourney_serial = TOURNEY_MANAGER_PACKET.tourney_serial;
+	var players_count = 1;
+
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TOURNEY_MANAGER_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        jpoker.serverDestroy('url');
+        server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $("#main");
+	server.userInfo.name = "player10";
+	server.serial = 42;
+        place.jpoker('tourneyDetails', 'url', tourney_serial.toString());
+        server.registerUpdate(function(server, what, data) {
+                var element = $("#" + id);
+                if(element.length > 0) {
+		    var packet = data;
+		    equals(packet.user2properties["X4"].money, 1000);
+		    equals(packet.tourney.rank2prize[0], 10000);
                     $("#" + id).remove();
 		    start_and_cleanup();    
                     return false;

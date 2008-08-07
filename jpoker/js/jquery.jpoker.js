@@ -2035,6 +2035,11 @@
 					player.money /= 100;
 				    }
 				});
+			    if (packet.tourney.rank2prize) {
+				$.each(packet.tourney.rank2prize, function(i, prize) {
+					packet.tourney.rank2prize[i] /= 100;
+				    });
+			    }
                             $(element).html(tourneyDetails.getHTML(id, packet, logged, registered));
 			    $(".jpoker_tourney_details_table", element).click(function() {
 				    $(".jpoker_tourney_details_table_details", element).html(tourneyDetails.getHTMLTableDetails(id, packet, $(this).attr("id")));
