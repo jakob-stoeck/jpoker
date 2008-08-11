@@ -3194,4 +3194,45 @@
       info: '<table><tr><td>{firstname_title}</td><td><input type=\'text\' name=\'firstname\' value=\'{firstname}\'></input></td></tr><tr><td>{lastname_title}</td><td><input type=\'text\' name=\'lastname\' value=\'{lastname}\'></input></td></tr><tr><td>{email_title}</td><td><input type=\'text\' name=\'email\' value=\'{email}\'</td></tr><tr><td><input type=\'submit\' value=\'{submit_title}\'></td><td><div class=\'feedback\'></div></td></tr></table>'
     };
 
+    //
+    // timeout
+    //
+    jpoker.plugins.timeout = function(url, options) {
+
+        var timeout = jpoker.plugins.timeout;
+        var opts = $.extend({}, timeout.defaults, options);
+	var server = jpoker.url2server({ url: url });
+
+        return this.each(function() {
+                var $this = $(this);		
+                var id = jpoker.uid();
+		$('<div class=\'jpoker_timeout progressbar\' id=\'' + id + '\'></div>').appendTo($this).hide();	
+                var updated = function(server, what, packet) {
+                    var element = document.getElementById(id);
+                    if(element) {
+			if(packet) {
+			    if (packet.type == 'PacketPokerPosition') {
+				$(element).progression({Current: 100, Animate: false});
+				$(element).progression({Current: 0, AnimateTimeOut: opts.player_timeout, Animate: true});
+				$(element).show();			    
+				setTimeout(function() {
+					$(element).hide();
+				    }, opts.player_timeout);
+			    }
+			}
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+
+		server.registerUpdate(updated, null, 'timeout ' + id);
+		return this;
+	    });
+    };
+
+    jpoker.plugins.timeout.defaults = $.extend({
+        }, jpoker.defaults);
+
+
 })(jQuery);

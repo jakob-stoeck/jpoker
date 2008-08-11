@@ -3987,6 +3987,27 @@ test("jpoker.plugins.playerSelf: create in position", function(){
 	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
     });
 
+test("jpoker.plugins.timeout", function(){
+	expect(6);
+	stop();
+
+	var server = jpoker.serverCreate({ url: 'url'});
+	var place = $('#main');
+	var player_timeout = 500;
+	place.jpoker('timeout', 'url', {player_timeout: player_timeout});
+	var timeout = $('.jpoker_timeout', place);
+	equals(timeout.length, 1);
+	equals(timeout.is(':hidden'), true, 'hidden');
+	server.notifyUpdate({'type': 'PacketPokerPosition'});
+	equals(timeout.is(':visible'), true, 'visible');
+	equals(timeout.attr("pcur"), 100, '100%');
+	setTimeout(function() {
+		equals(timeout.is(':hidden'), true, 'hidden');
+		equals(timeout.attr("pcur"), 0, '0%');
+		start();
+	    }, player_timeout*2);
+    });
+
 test("profileEnd", function(){
         try {
             console.profileEnd();
