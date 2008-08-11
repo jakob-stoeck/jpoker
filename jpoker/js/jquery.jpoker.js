@@ -2704,6 +2704,8 @@
                 avatar_element.removeClass().addClass('jpoker_avatar jpoker_ptable_player_seat' + seat + '_avatar jpoker_avatar_default_' + avatar);
 		avatar_element.show();
 	    }
+	    var timeout_element = $('#player_seat' + seat  + '_timeout' + id);
+	    timeout_element.removeClass().addClass('jpoker_timeout jpoker_ptable_player_seat' + seat + '_timeout');
 
             jpoker.plugins.player.chips(player, id);
             var name = $('#player_seat' + seat + '_name' + id);

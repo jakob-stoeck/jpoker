@@ -3135,7 +3135,7 @@ test("jpoker.plugins.table: PacketPokerPosition", function(){
     });
 
 test("jpoker.plugins.table.timeout", function(){
-        expect(18);
+        expect(21);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -3159,6 +3159,7 @@ test("jpoker.plugins.table.timeout", function(){
         for(seat = 1; seat <= 3; seat++) {
             var c = "#player_seat" + seat + "_timeout" +  id;
             equals($(c).size(), 1, "seat timeout length " + seat);
+	    equals($(c).hasClass("jpoker_timeout"), true, "seat jpoker_timeout class " + seat);
 	    equals($(c).is(":hidden"), true, "seat timeout hidden");
         }
         table.handler(server, game_id, { type: 'PacketPokerPosition', serial: 10, game_id: game_id });

@@ -22,6 +22,12 @@
 .jpoker_table .jpoker_avatar
 {
  background-repeat: no-repeat;
+ z-index: 1;
+}
+
+.jpoker_table .jpoker_timeout
+{
+ z-index: 2;
 }
 
 .jpoker_table .jpoker_card_2h { background-image: url("images/jpoker_table/cards/small-2h.png"); }
