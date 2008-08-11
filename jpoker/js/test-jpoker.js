@@ -2523,7 +2523,7 @@ test("jpoker.plugins.tourneyDetails packet money update", function(){
                 var element = $("#" + id);
                 if(element.length > 0) {
 		    var packet = data;
-		    equals(packet.user2properties["X4"].money, 1000);
+		    equals(packet.user2properties.X4.money, 1000);
 		    equals(packet.tourney.rank2prize[0], 10000);
                     $("#" + id).remove();
 		    start_and_cleanup();    
