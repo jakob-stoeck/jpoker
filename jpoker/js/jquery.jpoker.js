@@ -1613,6 +1613,17 @@
                 this.notifyUpdate(packet);
                 break;
 
+		case 'PacketPokerPosition':
+		this.notifyUpdate(packet);
+		break;
+
+		case 'PacketPokerTimeoutWarning':
+		this.notifyUpdate(packet);
+		break;
+
+		case 'PacketPokerTimeoutNotice':
+		this.notifyUpdate(packet);
+		break;
                 }
             }    
 
@@ -2686,8 +2697,9 @@
                 jpoker.plugins.player.sitOut(player, id);
             }
             $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_arrive.swf\' />');
-            
-	    $('#player_seat' + seat + id).jpoker('timeout', url, {player_timeout: table.player_timeout});
+	    	    
+	    $('#player_seat' + seat + id).append('<div class=\'jpoker_timeout\' id=\'player_seat' + seat + '_timeout' + id + '\'></div>');
+	    
             player.registerUpdate(this.update, id, 'update' + id);
             player.registerDestroy(this.destroy, id, 'destroy' + id);
         },
@@ -2729,6 +2741,21 @@
             case 'PacketPokerSelfLostPosition':
             jpoker.plugins.playerSelf.lostPosition(player, packet, id);
             break;
+
+	    case 'PacketPokerPosition':
+	    var table_timeout = jpoker.getTable(player.url, player.game_id).player_timeout;
+	    jpoker.plugins.timeout.update('player_seat' + player.seat + '_timeout' + id, 1.0, table_timeout);
+	    break;
+
+	    case 'PacketPokerTimeoutWarning':
+	    var table_timeout = jpoker.getTable(player.url, player.game_id).player_timeout;
+	    jpoker.plugins.timeout.update('player_seat' + player.seat + '_timeout' + id, 0.5, table_timeout);
+	    break;
+
+	    case 'PacketPokerTimeoutNotice':
+	    var table_timeout = jpoker.getTable(player.url, player.game_id).player_timeout;
+	    jpoker.plugins.timeout.update('player_seat' + player.seat + '_timeout' + id, 0.0, table_timeout);
+	    break;
 
             }
             return true;
@@ -3132,6 +3159,28 @@
     };
 
     //
+    // timeout
+    //
+    jpoker.plugins.timeout = {
+	update : function(id, ratio, table_timeout) {
+	    var element = document.getElementById(id);
+	    if(element) {
+		$(element).progression({Current: ratio*100, Animate: false});
+		if (ratio === 0) {
+		    $(element).hide();
+		} else {
+		    var player_timeout = table_timeout * (1.0 - ratio);
+		    $(element).progression({Current: 0, AnimateTimeOut: player_timeout, Animate: true});
+		    $(element).show();
+		    setTimeout(function() {
+			    $(element).hide();
+			}, player_timeout);
+		}
+	    }
+	},
+    };
+
+    //
     // userInfo
     //
     jpoker.plugins.userInfo = function(url, options) {
@@ -3194,28 +3243,6 @@
 
     jpoker.plugins.userInfo.templates = {
       info: '<table><tr><td>{firstname_title}</td><td><input type=\'text\' name=\'firstname\' value=\'{firstname}\'></input></td></tr><tr><td>{lastname_title}</td><td><input type=\'text\' name=\'lastname\' value=\'{lastname}\'></input></td></tr><tr><td>{email_title}</td><td><input type=\'text\' name=\'email\' value=\'{email}\'</td></tr><tr><td><input type=\'submit\' value=\'{submit_title}\'></td><td><div class=\'feedback\'></div></td></tr></table>'
-    };
-
-    //
-    // timeout
-    //
-    jpoker.plugins.timeout = {
-	update : function(player, id, ratio) {
-	    var element = document.getElementById(id);
-	    if(element) {
-		$(element).progression({Current: ratio*100, Animate: false});
-		if (ratio === 0) {
-		    $(element).hide();
-		} else {
-		    var player_timeout = player.table_timeout * (1.0 - ratio);
-		    $(element).progression({Current: 0, AnimateTimeOut: player_timeout, Animate: true});
-		    $(element).show();
-		    setTimeout(function() {
-			    $(element).hide();
-			}, player_timeout);
-		}
-	    }
-	},
     };
 
 })(jQuery);

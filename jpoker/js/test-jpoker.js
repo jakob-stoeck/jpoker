@@ -3992,25 +3992,60 @@ test("jpoker.plugins.timeout", function(){
 	stop();
 
 	var server = jpoker.serverCreate({ url: 'url'});
-	var id = jpoker.uid();
 	
-	var timeout = $('<div class=\'jpoker_timeout\' id=\'' + id + '\'></div>').appendTo($("#main"));
-	var player = {table_timeout: 500};
-	jpoker.plugins.timeout.update(player, id, 0.0);
+	var seat = 0;
+	var prefix = 'player_seat' + seat + '_timeout';
+	var id = jpoker.uid();
+	var timeout = $('<div class=\'jpoker_timeout\' id=\''+ prefix + id +'\'></div>').appendTo($('#main'));
+	var table_timeout = 500;
+	jpoker.plugins.timeout.update(prefix+id, 0.0, table_timeout);
 	equals(timeout.is(':hidden'), true, 'hidden');
 	equals(timeout.attr("pcur"), 0, '0%');
-	jpoker.plugins.timeout.update(player, id, 1.0);
+	jpoker.plugins.timeout.update(prefix+id, 1.0, table_timeout);
 	equals(timeout.is(':visible'), true, 'visible');
 	equals(timeout.attr("pcur"), 100, '100%');
-	jpoker.plugins.timeout.update(player, id, 0.5);
+	jpoker.plugins.timeout.update(prefix+id, 0.5, table_timeout);
 	equals(timeout.is(':visible'), true, 'visible');
 	equals(timeout.attr("pcur"), 50, '50%');
 	setTimeout(function() {
 		equals(timeout.is(':hidden'), true, 'hidden');
 		equals(timeout.attr("pcur"), 0, '0%');
 		start();
-	    }, player.table_timeout*2);
+	    }, table_timeout*2);
     });
+
+test("jpoker.plugins.timeout: integration", function(){
+	expect(4);
+
+	var server = jpoker.serverCreate({ url: 'url' });
+	var place = $("#main");
+	var game_id = 100;
+	var currency_serial = 42;
+	var player_serial = 12;
+	var player_seat = 2;
+	
+	table_packet = { id: game_id, currency_serial: currency_serial, player_timeout: 100 };
+	server.tables[game_id] = new jpoker.table(server, table_packet);    
+	
+	place.jpoker('table', 'url', game_id);
+
+	// player
+	server.serial = player_serial;
+	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+
+	var timeout = $('.jpoker_timeout', place);
+	equals(timeout.length, 1, 'timeout');
+
+	server.tables[game_id].serial2player[player_serial].handler(server, game_id, { type: 'PacketPokerPosition', seat: player_seat, serial: player_serial, game_id: game_id });
+	equals(timeout.attr("pcur"), 100, '100%');
+	    
+	server.tables[game_id].serial2player[player_serial].handler(server, game_id, { type: 'PacketPokerTimeoutWarning', seat: player_seat, serial: player_serial, game_id: game_id });
+	equals(timeout.attr("pcur"), 50, '50%');
+
+	server.tables[game_id].serial2player[player_serial].handler(server, game_id, { type: 'PacketPokerTimeoutNotice', seat: player_seat, serial: player_serial, game_id: game_id });
+	equals(timeout.attr("pcur"), 0, '0%');
+    });
+
 
 test("profileEnd", function(){
         try {
