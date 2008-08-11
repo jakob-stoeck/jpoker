@@ -3134,6 +3134,59 @@ test("jpoker.plugins.table: PacketPokerPosition", function(){
         start_and_cleanup();
     });
 
+test("jpoker.plugins.table.timeout", function(){
+        expect(18);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        var player_name = 'username';
+        for(var i = 1; i <= 3; i++) {
+            table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: i, serial: i * 10, game_id: game_id, name: player_name + i });
+            table.serial2player[i * 10].sit = true;
+        }
+
+        place.jpoker('table', 'url', game_id);
+
+        var seat;
+        for(seat = 1; seat <= 3; seat++) {
+            var c = "#player_seat" + seat + "_timeout" +  id;
+            equals($(c).size(), 1, "seat timeout length " + seat);
+	    equals($(c).is(":hidden"), true, "seat timeout hidden");
+        }
+        table.handler(server, game_id, { type: 'PacketPokerPosition', serial: 10, game_id: game_id });
+        equals($("#player_seat1_timeout" + id).is(":visible"), true, "seat 1 timeout visible");
+        equals($("#player_seat1_timeout" + id).attr("pcur"), 100, "seat 1 timeout 100");
+        equals($("#player_seat2_timeout" + id).is(":hidden"), true, "seat 2 timeout hidden");
+
+        table.handler(server, game_id, { type: 'PacketPokerPosition', serial: 20, game_id: game_id });
+
+        equals($("#player_seat1_timeout" + id).is(":hidden"), true, "seat 1 timeout hidden");
+        equals($("#player_seat2_timeout" + id).is(":visible"), true, "seat 2 timeout visible");
+        equals($("#player_seat2_timeout" + id).attr("pcur"), 100, "seat 2 timeout 100");
+
+        table.handler(server, game_id, { type: 'PacketPokerTimeoutWarning', serial: 20, game_id: game_id });
+
+        equals($("#player_seat1_timeout" + id).is(":hidden"), true, "seat 1 timeout hidden");
+        equals($("#player_seat2_timeout" + id).is(":visible"), true, "seat 2 timeout visible");
+        equals($("#player_seat2_timeout" + id).attr("pcur"), 50, "seat 2 timeout 50");
+
+        table.handler(server, game_id, { type: 'PacketPokerTimeoutNotice', serial: 20, game_id: game_id });
+
+        equals($("#player_seat1_timeout" + id).is(":hidden"), true, "seat 1 timeout hidden");
+        equals($("#player_seat2_timeout" + id).is(":visible"), true, "seat 2 timeout hidden");
+        equals($("#player_seat2_timeout" + id).attr("pcur"), 0, "seat 2 timeout 0");
+	
+        start_and_cleanup();
+    });
+
 test("jpoker.plugins.table: PacketPokerPotChips/Reset", function(){
         expect(9);
         stop();

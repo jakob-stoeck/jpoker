@@ -1526,6 +1526,14 @@
                 case 'PacketPokerChat':
                     table.notifyUpdate(packet);
                     break;
+
+		case 'PacketPokerTimeoutWarning':
+		    table.notifyUpdate(packet);
+		    break;
+
+		case 'PacketPokerTimeoutNotice':
+		    table.notifyUpdate(packet);
+		    break;
                 }
 
                 if(serial in table.serial2player) {
@@ -2494,6 +2502,7 @@
                 jpoker.plugins.player.create(table, table.serial2player[serial], id);
             }
             jpoker.plugins.table.position(id, table, table.serial_in_position);
+	    jpoker.plugins.table.timeout(id, table, table.serial_in_position);
             if($('#jpokerSound').size() === 0) {
                 $('body').prepend('<div id=\'jpokerSound\' />');
             }
@@ -2533,6 +2542,20 @@
                 if(seat_element.hasClass('jpoker_position')) {
                     seat_element.removeClass('jpoker_position');
                 }
+            }
+        }
+    };
+
+    jpoker.plugins.table.timeout = function(id, table, serial_in_position, ratio) {
+        var in_position = table.serial2player[serial_in_position];
+        for(var seat = 0; seat < table.seats.length; seat++) {
+            var seat_element = $('#player_seat' + seat + id);
+            if(in_position && in_position.sit === true && in_position.seat == seat) {
+		$('#player_seat' + seat + '_timeout' + id).progression({Current: 100*ratio, Animate: false});
+		$('#player_seat' + seat + '_timeout' + id).show();
+		$('#player_seat' + seat + '_timeout' + id).progression({Current: 0, AnimateTimeOut: table.player_timeout*1000, Animate: true});
+            } else {
+		$('#player_seat' + seat + '_timeout' + id).hide();
             }
         }
     };
@@ -2601,7 +2624,16 @@
 
             case 'PacketPokerPosition':
                 jpoker.plugins.table.position(id, table, packet.serial);
-                break;
+                jpoker.plugins.table.timeout(id, table, packet.serial, 1.0);
+                break;	      
+
+	    case 'PacketPokerTimeoutWarning':
+                jpoker.plugins.table.timeout(id, table, packet.serial, 0.5);
+		break;
+
+	    case 'PacketPokerTimeoutNotice':
+                jpoker.plugins.table.timeout(id, table, packet.serial, 0.0);
+		break;
 
             case 'PacketPokerChat':
                 var prefix = '';
