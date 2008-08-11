@@ -2549,14 +2549,15 @@
     jpoker.plugins.table.timeout = function(id, table, serial_in_position, ratio) {
         var in_position = table.serial2player[serial_in_position];
         for(var seat = 0; seat < table.seats.length; seat++) {
-            var seat_element = $('#player_seat' + seat + id);
+	    var timeout_element = $('#player_seat' + seat + '_timeout' + id);
             if(in_position && in_position.sit === true && in_position.seat == seat) {
-		$('#player_seat' + seat + '_timeout' + id).progression({Current: 100*ratio, Animate: false});
-		$('#player_seat' + seat + '_timeout' + id).show();
-		$('#player_seat' + seat + '_timeout' + id).progression({Current: 0, AnimateTimeOut: table.player_timeout*1000, Animate: true});
+		timeout_element.progression({Current: 100*ratio, Animate: false});
+		timeout_element.show();
+		timeout_element.progression({Current: 0, AnimateTimeOut: table.player_timeout*1000, Animate: true});
             } else {
-		$('#player_seat' + seat + '_timeout' + id).hide();
+		timeout_element.hide();
             }
+	    timeout_element.find('.text').hide();
         }
     };
 
