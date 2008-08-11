@@ -3988,24 +3988,28 @@ test("jpoker.plugins.playerSelf: create in position", function(){
     });
 
 test("jpoker.plugins.timeout", function(){
-	expect(6);
+	expect(8);
 	stop();
 
 	var server = jpoker.serverCreate({ url: 'url'});
-	var place = $('#main');
-	var player_timeout = 500;
-	place.jpoker('timeout', 'url', {player_timeout: player_timeout});
-	var timeout = $('.jpoker_timeout', place);
-	equals(timeout.length, 1);
+	var id = jpoker.uid();
+	
+	var timeout = $('<div class=\'jpoker_timeout\' id=\'' + id + '\'></div>').appendTo($("#main"));
+	var player = {table_timeout: 500};
+	jpoker.plugins.timeout.update(player, id, 0.0);
 	equals(timeout.is(':hidden'), true, 'hidden');
-	server.notifyUpdate({'type': 'PacketPokerPosition'});
+	equals(timeout.attr("pcur"), 0, '0%');
+	jpoker.plugins.timeout.update(player, id, 1.0);
 	equals(timeout.is(':visible'), true, 'visible');
 	equals(timeout.attr("pcur"), 100, '100%');
+	jpoker.plugins.timeout.update(player, id, 0.5);
+	equals(timeout.is(':visible'), true, 'visible');
+	equals(timeout.attr("pcur"), 50, '50%');
 	setTimeout(function() {
 		equals(timeout.is(':hidden'), true, 'hidden');
 		equals(timeout.attr("pcur"), 0, '0%');
 		start();
-	    }, player_timeout*2);
+	    }, player.table_timeout*2);
     });
 
 test("profileEnd", function(){

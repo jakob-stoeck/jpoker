@@ -2406,7 +2406,7 @@
 
     //
     // decoration divs to help CSS skining
-    //
+    // 
     $.fn.extend({
             frame: function(css) {
                 var box = '';
@@ -2686,6 +2686,8 @@
                 jpoker.plugins.player.sitOut(player, id);
             }
             $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_arrive.swf\' />');
+            
+	    $('#player_seat' + seat + id).jpoker('timeout', url, {player_timeout: table.player_timeout});
             player.registerUpdate(this.update, id, 'update' + id);
             player.registerDestroy(this.destroy, id, 'destroy' + id);
         },
@@ -3197,42 +3199,23 @@
     //
     // timeout
     //
-    jpoker.plugins.timeout = function(url, options) {
-
-        var timeout = jpoker.plugins.timeout;
-        var opts = $.extend({}, timeout.defaults, options);
-	var server = jpoker.url2server({ url: url });
-
-        return this.each(function() {
-                var $this = $(this);		
-                var id = jpoker.uid();
-		$('<div class=\'jpoker_timeout progressbar\' id=\'' + id + '\'></div>').appendTo($this).hide();	
-                var updated = function(server, what, packet) {
-                    var element = document.getElementById(id);
-                    if(element) {
-			if(packet) {
-			    if (packet.type == 'PacketPokerPosition') {
-				$(element).progression({Current: 100, Animate: false});
-				$(element).progression({Current: 0, AnimateTimeOut: opts.player_timeout, Animate: true});
-				$(element).show();			    
-				setTimeout(function() {
-					$(element).hide();
-				    }, opts.player_timeout);
-			    }
-			}
-                        return true;
-                    } else {
-                        return false;
-                    }
-                };
-
-		server.registerUpdate(updated, null, 'timeout ' + id);
-		return this;
-	    });
+    jpoker.plugins.timeout = {
+	update : function(player, id, ratio) {
+	    var element = document.getElementById(id);
+	    if(element) {
+		$(element).progression({Current: ratio*100, Animate: false});
+		if (ratio === 0) {
+		    $(element).hide();
+		} else {
+		    var player_timeout = player.table_timeout * (1.0 - ratio);
+		    $(element).progression({Current: 0, AnimateTimeOut: player_timeout, Animate: true});
+		    $(element).show();
+		    setTimeout(function() {
+			    $(element).hide();
+			}, player_timeout);
+		}
+	    }
+	},
     };
-
-    jpoker.plugins.timeout.defaults = $.extend({
-        }, jpoker.defaults);
-
 
 })(jQuery);
