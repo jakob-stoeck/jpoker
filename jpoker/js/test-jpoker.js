@@ -3921,7 +3921,7 @@ test("jpoker.plugins.player: no rebuy if money", function() {
 
 
 test("jpoker.plugins.userInfo", function(){
-        expect(8);
+        expect(22);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -3930,7 +3930,7 @@ test("jpoker.plugins.userInfo", function(){
         server.connectionState = 'connected';
 
 	server.serial = 42;
-	var PERSONAL_INFO_PACKET = {'rating': 1000, 'firstname': 'John', 'money': {}, 'addr_street': '', 'phone': '', 'cookie': '', 'serial': server.serial, 'password': '', 'addr_country': '', 'name': 'testuser', 'gender': '', 'birthdate': '', 'addr_street2': '', 'addr_zip': '', 'affiliate': 0, 'lastname': 'Doe', 'addr_town': '', 'addr_state': '', 'type': 'PacketPokerPersonalInfo', 'email': 'john@doe.com'};
+	var PERSONAL_INFO_PACKET = {'rating': 1000, 'firstname': 'John', 'money': {}, 'addr_street': '8', 'phone': '000-00000', 'cookie': '', 'serial': server.serial, 'password': '', 'addr_country': 'Yours', 'name': 'testuser', 'gender': 'Male', 'birthdate': '01/01/1970', 'addr_street2': 'Main street', 'addr_zip': '5000', 'affiliate': 0, 'lastname': 'Doe', 'addr_town': 'GhostTown', 'addr_state': 'Alabama', 'type': 'PacketPokerPersonalInfo', 'email': 'john@doe.com'};
 
         var PokerServer = function() {};
         PokerServer.prototype = {
@@ -3951,9 +3951,25 @@ test("jpoker.plugins.userInfo", function(){
 		var element = $('#' + id);
 		if(element.length > 0) {
 		    if (data.type == 'PacketPokerPersonalInfo') {
+			equals($('.jpoker_user_info_name', element).text(), 'testuser');
+			equals($('input[name=password]', element).val(), '');
+			equals($('input[name=password]', element).attr('type'), 'password');
+			$('input[name=toggle_password]', element).click();
+			equals($('input[name=password]', element).attr('type'), 'text');
+			$('input[name=toggle_password]', element).click();
+			equals($('input[name=password]', element).attr('type'), 'password');
+			equals($('input[name=email]', element).val(), 'john@doe.com');
+			equals($('input[name=phone]', element).val(), '000-00000');
 			equals($('input[name=firstname]', element).val(), 'John');
 			equals($('input[name=lastname]', element).val(), 'Doe');
-			equals($('input[name=email]', element).val(), 'john@doe.com');
+			equals($('input[name=addr_street]', element).val(), '8');
+			equals($('input[name=addr_street2]', element).val(), 'Main street');
+			equals($('input[name=addr_zip]', element).val(), '5000');
+			equals($('input[name=addr_town]', element).val(), 'GhostTown');
+			equals($('input[name=addr_state]', element).val(), 'Alabama');
+			equals($('input[name=addr_country]', element).val(), 'Yours');
+			equals($('input[name=gender]', element).val(), 'Male');
+			equals($('input[name=birthdate]', element).val(), '01/01/1970');
 			equals($('input[type=submit]').length, 2, 'user info submit');
 			equals($('.jpoker_user_info_avatar_upload input[type=submit]').length, 1, 'user info avatar submit');
 			$('#' + id).remove();
@@ -3967,7 +3983,7 @@ test("jpoker.plugins.userInfo", function(){
     });
 
 test("jpoker.plugins.userInfo update", function(){
-        expect(6);
+        expect(16);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -3985,14 +4001,35 @@ test("jpoker.plugins.userInfo update", function(){
 	    server.registerUpdate(function(server, what, data) {
 		    var element = $('#' + id);
 		    if(element.length > 0) {
-			equals($(".feedback", element).text(), '');
+			equals($(".jpoker_user_info_feedback", element).text(), '');
+			$('input[name=password]', element).val('testpassword');
+			$('input[name=email]', element).val('alan@smith.com');
+			$('input[name=phone]', element).val('000-00000');
 			$('input[name=firstname]', element).val('Alan');
 			$('input[name=lastname]', element).val('Smith');
-			$('input[name=email]', element).val('alan@smith.com');
+			$('input[name=addr_street]', element).val('8');
+			$('input[name=addr_street2]', element).val('Main street');
+			$('input[name=addr_zip]', element).val('5000');
+			$('input[name=addr_town]', element).val('GhostTown');
+			$('input[name=addr_state]', element).val('Alabama');
+			$('input[name=addr_country]', element).val('Yours');
+			$('input[name=gender]', element).val('Male');
+			$('input[name=birthdate]', element).val('01/01/1970');
 			server.setPersonalInfo = function(info) {
+			    equals(info.password, 'testpassword');
+			    equals(info.email, 'alan@smith.com');
+			    equals(info.phone, '000-00000');
 			    equals(info.firstname, 'Alan');
 			    equals(info.lastname, 'Smith');
-			    equals(info.email, 'alan@smith.com');
+			    equals(info.addr_street, '8');
+			    equals(info.addr_street2, 'Main street');
+			    equals(info.addr_zip, '5000');
+			    equals(info.addr_town, 'GhostTown');
+			    equals(info.addr_state, 'Alabama');
+			    equals(info.addr_country, 'Yours');
+			    equals(info.gender, 'Male');
+			    equals(info.birthdate, '01/01/1970');
+			    
 			    var packet = $.extend(PERSONAL_INFO_PACKET, info, {set_account: true});
 			    setTimeout(function() {
 				    server.registerUpdate(function(server, what, data) {
@@ -4002,8 +4039,8 @@ test("jpoker.plugins.userInfo update", function(){
 					});
 				    server.notifyUpdate(packet);
 				}, 0);
-			};
-			$('.jpoker_user_info_submit').click(function() {
+			};			
+			$('.jpoker_user_info_submit', element).click(function() {
 				equals($(".jpoker_user_info_feedback", element).text(), _("Updating..."));
 			    }).click();
 			return false;
