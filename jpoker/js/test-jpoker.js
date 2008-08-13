@@ -3345,6 +3345,33 @@ test("jpoker.plugins.player: PacketPokerPlayerArrive", function(){
         start_and_cleanup();
     });
 
+test("jpoker.plugins.player: /AVATAR", function(){
+        expect(1);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 1;
+        server.serial = player_serial;
+        var player_seat = 2;
+	server.ajax = function(options) {
+	    options.success('data', 'status');
+	};
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+        var player = server.tables[game_id].serial2player[player_serial];
+        var background = $("#player_seat2_avatar" + id).css('background-image');
+	ok(background.indexOf("AVATAR/1") >= 0, "AVATAR serial");
+        start_and_cleanup();
+    });
+
 test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
         expect(6);
         stop();

@@ -2705,6 +2705,17 @@
                 avatar_element.removeClass().addClass('jpoker_avatar jpoker_ptable_player_seat' + seat + '_avatar jpoker_avatar_default_' + avatar);
 		avatar_element.show();
 	    }
+	    var avatar_url = '/AVATAR/'+serial;
+	    server.ajax({url: avatar_url,
+			type: 'GET',
+			global: false,
+			success: function(data, status) {
+			avatar_element.css({
+				'background-image': 'url("' + avatar_url + '")',
+				    'display': 'block'
+				    });
+		    }
+		});
 	    var timeout_element = $('#player_seat' + seat  + '_timeout' + id);
 	    timeout_element.removeClass().addClass('jpoker_timeout jpoker_ptable_player_seat' + seat + '_timeout');
 
