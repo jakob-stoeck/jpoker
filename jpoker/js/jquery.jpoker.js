@@ -553,7 +553,7 @@
             },
 
             sessionName: function() {
-                return 'TWISTED_SESSION_' + jpoker.url2hash(this.url);
+                return 'TWISTED_SESSION';
             },
 
             sessionExists: function() {
@@ -689,7 +689,7 @@
                     data: json_data,
                     mode: this.mode,
                     timeout: this.timeout,
-                    url: this.url + '?' + this.session,
+                    url: this.url,
                     type: 'POST',
                     dataType: 'json',
                     global: false, // do not fire global events

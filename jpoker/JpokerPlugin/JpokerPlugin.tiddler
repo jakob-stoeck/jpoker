@@ -16,7 +16,7 @@
 //config.jpoker = { restURL : 'http://pok01.prodin.orbus.fr:19382/REST' };
 //config.jpoker = { restURL : 'http://127.0.0.1/REST' };
 //config.jpoker = { restURL : 'http://127.0.0.1:19382/REST' };
-config.jpoker = { restURL : '/REST' };
+config.jpoker = { restURL : '/POKER_REST' };
 config.options.chkSinglePagePermalink = false;
 
 $.jpoker.server.defaults.spawnTable = function(server, packet) {
