@@ -4195,6 +4195,11 @@ test("jpoker.plugins.playerSelf: create in position", function(){
 	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
     });
 
+test("jpoker coverage left overs", function() {
+	expect(1);
+	equals('TWISTED_SESSION', jpoker.connection.prototype.sessionName(), 'sessionName coverage');
+    });
+
 test("profileEnd", function(){
         try {
             console.profileEnd();
