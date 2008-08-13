@@ -3196,8 +3196,8 @@
                     if(element) {
 			if(packet && packet.type == 'PacketPokerPersonalInfo') {
 			    $(element).html(userInfo.getHTML(packet));
-			    $('input[type=submit]').click(function() {
-				    $('.feedback').text(_("Updating..."));
+			    $('.jpoker_user_info_submit', element).click(function() {
+				    $('.jpoker_user_info_feedback', element).text(_("Updating..."));
 				    var info = {};
 				    $("input[type=text]", element).each(function() {
 					    info[$(this).attr("name")] = $(this).attr("value");
@@ -3205,8 +3205,20 @@
 				    server.setPersonalInfo(info);
 				});
 			    if (packet.set_account) {
-				$('.feedback').text(_("Updated"));
+				$('.jpoker_user_info_feedback', element).text(_("Updated"));
 			    }
+			    $('.jpoker_user_info_avatar_upload', element).ajaxForm({
+				    beforeSubmit: function() {
+					$('.jpoker_user_info_avatar_upload_feedback', element).text(_("Uploading..."));
+				    },
+				    success: function(data) {
+					if (data.search('image uploaded') != -1) {
+					    $('.jpoker_user_info_avatar_upload_feedback', element).text(_("Uploaded"));
+					} else {
+					    $('.jpoker_user_info_avatar_upload_feedback', element).text(_("Uploading failed") + ": " + data);
+					}
+				    },
+				});
 			}
                         return true;
                     } else {
@@ -3227,17 +3239,19 @@
     jpoker.plugins.userInfo.getHTML = function(packet) {
         var t = this.templates;
 	var html = [];
-	var userInfo = t.info.supplant($.extend({
+	html.push(t.info.supplant($.extend({
 		    'firstname_title': _("First name"),
 		    'lastname_title': _("Last name"),
 		    'email_title': _("Email"),
 		    'submit_title': _("Update personal info")
-		}, packet));
-	return userInfo;
+		}, packet)));
+	html.push(t.avatar.supplant({'upload': _("Upload avatar")}));
+        return html.join('\n');
     };
 
     jpoker.plugins.userInfo.templates = {
-      info: '<table><tr><td>{firstname_title}</td><td><input type=\'text\' name=\'firstname\' value=\'{firstname}\'></input></td></tr><tr><td>{lastname_title}</td><td><input type=\'text\' name=\'lastname\' value=\'{lastname}\'></input></td></tr><tr><td>{email_title}</td><td><input type=\'text\' name=\'email\' value=\'{email}\'</td></tr><tr><td><input type=\'submit\' value=\'{submit_title}\'></td><td><div class=\'feedback\'></div></td></tr></table>'
+	info: '<table><tr><td>{firstname_title}</td><td><input type=\'text\' name=\'firstname\' value=\'{firstname}\'></input></td></tr><tr><td>{lastname_title}</td><td><input type=\'text\' name=\'lastname\' value=\'{lastname}\'></input></td></tr><tr><td>{email_title}</td><td><input type=\'text\' name=\'email\' value=\'{email}\'</td></tr><tr><td><input class=\'jpoker_user_info_submit\' type=\'submit\' value=\'{submit_title}\'></td><td><div class=\'jpoker_user_info_feedback\'></div></td></tr></table>',
+	avatar: '<form class=\'jpoker_user_info_avatar_upload\' action=\'/UPLOAD\' method=\'post\' enctype=\'multipart/form-data\'><input type=\'file\' name=\'filename\'></input><input type=\'submit\' value=\'{upload}\'></input></form><div class=\'jpoker_user_info_avatar_upload_feedback\'></div>'
     };
 
 })(jQuery);

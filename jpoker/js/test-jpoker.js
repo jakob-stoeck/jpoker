@@ -3919,7 +3919,7 @@ test("jpoker.plugins.player: no rebuy if money", function() {
 
 
 test("jpoker.plugins.userInfo", function(){
-        expect(6);
+        expect(8);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -3952,6 +3952,8 @@ test("jpoker.plugins.userInfo", function(){
 			equals($('input[name=firstname]', element).val(), 'John');
 			equals($('input[name=lastname]', element).val(), 'Doe');
 			equals($('input[name=email]', element).val(), 'john@doe.com');
+			equals($('input[type=submit]').length, 2, 'user info submit');
+			equals($('.jpoker_user_info_avatar_upload input[type=submit]').length, 1, 'user info avatar submit');
 			$('#' + id).remove();
 		    }
 		    return true;
@@ -3993,15 +3995,94 @@ test("jpoker.plugins.userInfo update", function(){
 			    setTimeout(function() {
 				    server.registerUpdate(function(server, what, data) {
 					    var element = $('#' + id);
-					    equals($(".feedback", element).text(), _("Updated"));
+					    equals($(".jpoker_user_info_feedback", element).text(), _("Updated"));
 					    start_and_cleanup();
 					});
 				    server.notifyUpdate(packet);
 				}, 0);
 			};
-			$('input[type=submit]').click(function() {
-				equals($(".feedback", element).text(), _("Updating..."));
+			$('.jpoker_user_info_submit').click(function() {
+				equals($(".jpoker_user_info_feedback", element).text(), _("Updating..."));
 			    }).click();
+			return false;
+		    }
+		});
+	    server.notifyUpdate(PERSONAL_INFO_PACKET);
+	};
+        place.jpoker('userInfo', 'url');
+    });
+
+test("jpoker.plugins.userInfo avatar upload succeed", function(){
+        expect(3);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        jpoker.serverDestroy('url');
+        server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+	server.serial = 42;
+	var PERSONAL_INFO_PACKET = {'rating': 1000, 'firstname': 'John', 'money': {}, 'addr_street': '', 'phone': '', 'cookie': '', 'serial': server.serial, 'password': '', 'addr_country': '', 'name': 'testuser', 'gender': '', 'birthdate': '', 'addr_street2': '', 'addr_zip': '', 'affiliate': 0, 'lastname': 'Doe', 'addr_town': '', 'addr_state': '', 'type': 'PacketPokerPersonalInfo', 'email': ''};
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $('#main');
+	var ajaxform = $.fn.ajaxForm;
+	var ajaxFormCallback;
+	$.fn.ajaxForm = function(options) {
+	    ajaxFormCallback = function() {
+		var element = $('#' + id);
+		options.beforeSubmit();
+		equals($(".jpoker_user_info_avatar_upload_feedback", element).text(), _("Uploading..."));
+		options.success('<pre>image uploaded</pre>');
+		equals($(".jpoker_user_info_avatar_upload_feedback", element).text(), "Uploaded");
+		start_and_cleanup();
+	    };
+	};
+	server.getPersonalInfo = function() {
+	    server.registerUpdate(function(server, what, data) {
+		    var element = $('#' + id);
+		    if(element.length > 0) {
+			equals($(".jpoker_user_info_avatar_upload_feedback", element).text(), '');
+			ajaxFormCallback();			
+			return false;
+		    }
+		});
+	    server.notifyUpdate(PERSONAL_INFO_PACKET);
+	};
+        place.jpoker('userInfo', 'url');
+    });
+
+test("jpoker.plugins.userInfo avatar upload failed", function(){
+        expect(1);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        jpoker.serverDestroy('url');
+        server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+	server.serial = 42;
+	var PERSONAL_INFO_PACKET = {'rating': 1000, 'firstname': 'John', 'money': {}, 'addr_street': '', 'phone': '', 'cookie': '', 'serial': server.serial, 'password': '', 'addr_country': '', 'name': 'testuser', 'gender': '', 'birthdate': '', 'addr_street2': '', 'addr_zip': '', 'affiliate': 0, 'lastname': 'Doe', 'addr_town': '', 'addr_state': '', 'type': 'PacketPokerPersonalInfo', 'email': ''};
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $('#main');
+	var ajaxform = $.fn.ajaxForm;
+	var ajaxFormCallback;
+	$.fn.ajaxForm = function(options) {
+	    ajaxFormCallback = function() {
+		var element = $('#' + id);
+		options.beforeSubmit();
+		var error_message = 'error';
+		options.success(error_message);
+		equals($(".jpoker_user_info_avatar_upload_feedback", element).text(), "Uploading failed: " + error_message);
+		start_and_cleanup();
+	    };
+	};
+	server.getPersonalInfo = function() {
+	    server.registerUpdate(function(server, what, data) {
+		    var element = $('#' + id);
+		    if(element.length > 0) {
+			ajaxFormCallback();			
 			return false;
 		    }
 		});
