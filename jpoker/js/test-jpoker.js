@@ -1178,7 +1178,7 @@ test("jpoker.server.selectTables waiting", function(){
 
 
 test("jpoker.server.setPersonalInfo", function(){
-        expect(7);
+        expect(8);
 	stop();
 
         var serial = 42;
@@ -1193,6 +1193,7 @@ test("jpoker.server.setPersonalInfo", function(){
             equals(packet.serial, serial, 'player serial');
             equals(packet.firstname, 'John', 'firstname');
             equals(packet.lastname, 'Doe', 'lastname');
+	    equals(packet.password, 'testpassword', 'password');
 	    equals(server.getState(), server.PERSONAL_INFO);
 	    server.queueIncoming([PERSONAL_INFO_PACKET]);
         };
@@ -1206,7 +1207,8 @@ test("jpoker.server.setPersonalInfo", function(){
 		return true;
 	    });
         server.setPersonalInfo({firstname: 'John',
-		    lastname: 'Doe'
+		    lastname: 'Doe',
+		    password: 'testpassword',
 		    });
     });
 

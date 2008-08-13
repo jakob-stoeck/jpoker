@@ -1317,7 +1317,7 @@
 			  'name': server.userInfo.name,
 			  'password': ''
 			};
-			server.sendPacket($.extend(info, personalInfoDefaults));
+			server.sendPacket($.extend(personalInfoDefaults, info));
 			server.registerHandler(0, function(server, unused_game_id, packet) {
 				if (packet.type == 'PacketPokerPersonalInfo') {
 				    packet.set_account = true;
