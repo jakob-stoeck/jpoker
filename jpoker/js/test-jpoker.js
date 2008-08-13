@@ -3921,7 +3921,7 @@ test("jpoker.plugins.player: no rebuy if money", function() {
 
 
 test("jpoker.plugins.userInfo", function(){
-        expect(22);
+        expect(24);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -3971,6 +3971,8 @@ test("jpoker.plugins.userInfo", function(){
 			equals($('input[name=gender]', element).val(), 'Male');
 			equals($('input[name=birthdate]', element).val(), '01/01/1970');
 			equals($('input[type=submit]').length, 2, 'user info submit');
+			equals($('.jpoker_user_info_avatar_preview').length, 1, 'user info avatar preview');
+			ok($('.jpoker_user_info_avatar_preview').css('background-image').indexOf('/AVATAR/42') >= 0, 'user info avatar preview');
 			equals($('.jpoker_user_info_avatar_upload input[type=submit]').length, 1, 'user info avatar submit');
 			$('#' + id).remove();
 		    }
@@ -4052,7 +4054,7 @@ test("jpoker.plugins.userInfo update", function(){
     });
 
 test("jpoker.plugins.userInfo avatar upload succeed", function(){
-        expect(3);
+        expect(4);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -4072,8 +4074,10 @@ test("jpoker.plugins.userInfo avatar upload succeed", function(){
 		var element = $('#' + id);
 		options.beforeSubmit();
 		equals($(".jpoker_user_info_avatar_upload_feedback", element).text(), _("Uploading..."));
+		$(".jpoker_user_info_avatar_preview", element).css("background-image", "none");
 		options.success('<pre>image uploaded</pre>');
 		equals($(".jpoker_user_info_avatar_upload_feedback", element).text(), "Uploaded");
+		ok($(".jpoker_user_info_avatar_preview", element).css("background-image").indexOf("/AVATAR/42") >= 0, "avatar preview updated");
 		start_and_cleanup();
 	    };
 	};
