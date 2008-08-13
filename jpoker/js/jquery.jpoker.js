@@ -3208,7 +3208,7 @@
 				    server.setPersonalInfo(info);
 				});
 			    
-			    $('input[name=toggle_password]').click(function() {
+			    $('input[name=toggle_password]', element).click(function() {
 				    var password = $('input[name=password]');
 				    if (password.attr('type') == 'password') {
 					password.replaceWith(password.clone().attr('type', 'text'));
