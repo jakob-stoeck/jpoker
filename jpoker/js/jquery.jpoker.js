@@ -3237,7 +3237,7 @@
 					} else {
 					    $('.jpoker_user_info_avatar_upload_feedback', element).text(_("Uploading failed") + ": " + data);
 					}
-				    },
+				    }
 				});
 			}
                         return true;

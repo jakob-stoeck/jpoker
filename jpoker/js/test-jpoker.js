@@ -96,7 +96,7 @@ jpoker.verbose = 1; // activate the code parts that depends on verbosity
 jpoker.sound = 'span'; // using embed for test purposes triggers too many problems
 jpoker.server.prototype.sessionName = function() {
     return 'NO SESSION';
-}
+};
 
 //
 // jpoker
@@ -1208,7 +1208,7 @@ test("jpoker.server.setPersonalInfo", function(){
 	    });
         server.setPersonalInfo({firstname: 'John',
 		    lastname: 'Doe',
-		    password: 'testpassword',
+		    password: 'testpassword'
 		    });
     });
 
