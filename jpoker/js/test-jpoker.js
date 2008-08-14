@@ -4195,6 +4195,35 @@ test("jpoker.plugins.playerSelf: create in position", function(){
 	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
     });
 
+test("jpoker.plugins.player: muck", function(){
+        expect(7);
+
+        var id = 'jpoker' + jpoker.serial;
+        var player_serial = 1;
+        var game_id = 100;
+        var money = 1000;
+        _SelfPlayerSit(game_id, player_serial, money);
+
+        var server = jpoker.getServer('url');
+        var player = jpoker.getPlayer('url', game_id, player_serial);
+        var table = server.tables[game_id];
+
+	ok($('#muck' + id).children(0).hasClass('jpoker_muck'), 'jpoker_muck');
+
+        table.handler(server, game_id, { type: 'PacketPokerMuckRequest', serial: player_serial, game_id: game_id, muckable_serials: [player_serial] });
+	 equals($("#muck" + id).is(':visible'), true, 'muck visible');
+
+	server.sendPacket = function(packet) {
+	    equals(packet.type, 'PacketPokerMuckAccept', 'send PacketPokerMuckAccept')
+	};
+	$("#muck" + id).click();
+
+        table.handler(server, game_id, { type: 'PacketPokerState', game_id: game_id, state: 'end' });
+        equals($("#muck" + id).is(':hidden'), true, 'muck hidden');
+
+        cleanup(id);
+    });
+
 test("jpoker coverage left overs", function() {
 	expect(1);
 	equals('TWISTED_SESSION', jpoker.connection.prototype.sessionName(), 'sessionName coverage');

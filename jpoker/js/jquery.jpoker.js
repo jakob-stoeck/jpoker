@@ -1479,6 +1479,7 @@
 
                 case 'PacketPokerState':
                     table.state = packet.string;
+		    table.notifyUpdate(packet);
                     break;
 
                 case 'PacketPokerDealer':
@@ -1621,6 +1622,9 @@
                 this.notifyUpdate(packet);
                 break;
 
+		case 'PacketPokerMuckRequest':
+		this.notifyUpdate(packet);
+		break;		
                 }
             }    
 
@@ -2605,6 +2609,10 @@
                 jpoker.plugins.playerSelf.rebuy(url, game_id, serial);		
                 break;
 
+	    case 'PacketPokerState':
+		jpoker.plugins.playerSelf.muckRequestTimeout(id);
+		break;
+
             case 'PacketPokerBoardCards':
                 jpoker.plugins.cards.update(table.board, 'board', id);
                 break;
@@ -2774,6 +2782,10 @@
             jpoker.plugins.playerSelf.lostPosition(player, packet, id);
             break;
 
+	    case 'PacketPokerMuckRequest':
+	    jpoker.plugins.playerSelf.muckRequest(player, packet, id);
+	    break;
+
             }
             return true;
         },
@@ -2909,6 +2921,15 @@
                         chat();
                     }
                 }).show();
+
+	    //
+	    // muck
+	    //
+	    $('#muck' + id).html('<div class=\'jpoker_muck\'><a href=\'javascript://\'>' + _("muck") + '</a></div>').click(function() {
+		    var server = jpoker.getServer(url);
+		    server.sendPacket({type: 'PacketPokerMuckAccept', serial: server.serial, game_id: table.id});
+		});
+
             if(serial == table.serial_in_position) {
                 jpoker.plugins.playerSelf.inPosition(player, id);
             }
@@ -3123,6 +3144,16 @@
         lostPosition: function(player, packet, id) {
             jpoker.plugins.playerSelf.hide(id);
         },
+
+	muckRequest: function(player, packet, id) {
+	    if ($.inArray(player.serial, packet.muckable_serials) != -1) {
+		$('#muck' + id).show();
+	    }
+	},
+
+	muckRequestTimeout: function(id) {
+	    $('#muck' + id).hide();
+	},
 
         names: [ 'fold', 'call', 'check', 'raise', 'raise_range', 'rebuy' ],
 
