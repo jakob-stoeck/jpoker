@@ -3359,6 +3359,7 @@
 		auto_muck |= jpoker.plugins.muck.AUTO_MUCK_LOSE;
 	    }
 	    server.sendPacket({type: 'PacketPokerAutoMuck', serial: server.serial, game_id: game_id, auto_muck: auto_muck});
+	    jpoker.plugins.preferences.extend({auto_muck_win: $('#auto_muck_win' + id).is(':checked'), auto_muck_lose: $('#auto_muck_lose' + id).is(':checked')});
 	}
     };
 

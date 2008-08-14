@@ -4199,7 +4199,7 @@ test("jpoker.plugins.playerSelf: create in position", function(){
     });
 
 test("jpoker.plugins.muck", function(){
-        expect(28);
+        expect(30);
 
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
@@ -4273,6 +4273,8 @@ test("jpoker.plugins.muck", function(){
 	auto_muck_win[0].checked = true;
 	auto_muck_lose[0].checked = true;
 	jpoker.plugins.muck.sendAutoMuck(server, game_id, id);
+	equals(jpoker.plugins.preferences.auto_muck_win, true, 'jpoker.plugins.preferences.auto_muck_win updated');
+	equals(jpoker.plugins.preferences.auto_muck_lose, true, 'jpoker.plugins.preferences.auto_muck_lose updated');
 
         table.handler(server, game_id, { type: 'PacketPokerMuckRequest', serial: player_serial, game_id: game_id, muckable_serials: [player_serial] });
 	equals($("#muck_accept" + id).is(':visible'), true, 'muck accept visible');
