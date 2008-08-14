@@ -3364,7 +3364,9 @@
     };
 
     jpoker.plugins.preferences = {
-        defaults: function() {	    
+        defaults: function() {
+	    return {auto_muck_win: true,
+		    auto_muck_false: true};
 	},
 	load: function() {
 	    $.extend(jpoker.plugins.preferences, jpoker.plugins.preferences.defaults());

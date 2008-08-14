@@ -4309,7 +4309,7 @@ test("jpoker.plugins.preferences", function() {
 	jpoker.plugins.preferences.extend({'b': 2, 'c': 3});
 	equals(jpoker.plugins.preferences.b, 2, 'jpoker.plugins.preferences.b');
 	equals(jpoker.plugins.preferences.c, 3, 'jpoker.plugins.preferences.c');
-	equals($.cookie('jpoker_preferences'), '{"a":1,"b":2,"c":3}', 'cookie updated');
+	equals($.cookie('jpoker_preferences'), JSON.stringify(jpoker.plugins.preferences), 'cookie updated');
 	cleanup();
     });
 
