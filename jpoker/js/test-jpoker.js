@@ -4198,7 +4198,7 @@ test("jpoker.plugins.playerSelf: create in position", function(){
 	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
     });
 
-test("jpoker.plugins.player: muck", function(){
+test("jpoker.plugins.muck", function(){
         expect(28);
 
         var id = 'jpoker' + jpoker.serial;
@@ -4206,6 +4206,8 @@ test("jpoker.plugins.player: muck", function(){
         var game_id = 100;
         var money = 1000;
 
+	jpoker.plugins.preferences.extend({auto_muck_win: false,
+					   auto_muck_lose: false});
 	var sendAutoMuck = jpoker.plugins.muck.sendAutoMuck;
 	jpoker.plugins.muck.sendAutoMuck = function() {
 	    ok(true, 'sendAutoMuck called');
@@ -4237,8 +4239,8 @@ test("jpoker.plugins.player: muck", function(){
 	var auto_muck_lose = $('#auto_muck_lose' + id);
 	equals(auto_muck_win.attr('type'), 'checkbox', '#auto_muck_win checkbox');
 	equals(auto_muck_lose.attr('type'), 'checkbox', '#auto_muck_win checkbox');
-	equals(auto_muck_win.is(':checked'), true, '#auto_muck_win checked');
-	equals(auto_muck_lose.is(':checked'), true, '#auto_muck_lose checked');
+	equals(auto_muck_win.is(':checked'), jpoker.plugins.preferences.auto_muck_win, '#auto_muck_win checked preferences');
+	equals(auto_muck_lose.is(':checked'), jpoker.plugins.preferences.auto_muck_lose, '#auto_muck_lose checked preferences');
 	
 	server.sendPacket = function() {};
 	auto_muck_win.click();

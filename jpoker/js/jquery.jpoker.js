@@ -2949,8 +2949,8 @@
 		    jpoker.plugins.muck.sendAutoMuck(server, game_id, id);
 		});
 
-	    $('#auto_muck_win' + id)[0].checked = true;
-	    $('#auto_muck_lose' + id)[0].checked = true;
+	    $('#auto_muck_win' + id)[0].checked = jpoker.plugins.preferences.auto_muck_win;
+	    $('#auto_muck_lose' + id)[0].checked = jpoker.plugins.preferences.auto_muck_lose;
 	    var server = jpoker.getServer(url);
 	    jpoker.plugins.muck.sendAutoMuck(server, game_id, id);
 	    
