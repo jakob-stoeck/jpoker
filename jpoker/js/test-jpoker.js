@@ -3364,6 +3364,8 @@ test("jpoker.plugins.player: /AVATAR", function(){
         var player_serial = 1;
         server.serial = player_serial;
         var player_seat = 2;
+	var send_auto_muck = jpoker.plugins.muck.sendAutoMuck;
+	jpoker.plugins.muck.sendAutoMuck = function() {};
 	server.ajax = function(options) {
 	    options.success('data', 'status');
 	};
@@ -3371,6 +3373,7 @@ test("jpoker.plugins.player: /AVATAR", function(){
         var player = server.tables[game_id].serial2player[player_serial];
         var background = $("#player_seat2_avatar" + id).css('background-image');
 	ok(background.indexOf("AVATAR/1") >= 0, "AVATAR serial");
+	jpoker.plugins.muck.sendAutoMuck = send_auto_muck;
         start_and_cleanup();
     });
 
