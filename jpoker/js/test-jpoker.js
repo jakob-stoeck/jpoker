@@ -4293,6 +4293,18 @@ test("jpoker.plugins.player: muck", function(){
         cleanup(id);
     });
 
+test("jpoker.plugins.preferences", function() {
+	expect(4);
+	$.cookie('jpoker_preferences', '{"a": 1}');
+	jpoker.plugins.preferences.load();
+	equals(jpoker.plugins.preferences.a, 1, 'jpoker.plugins.preferences.a');
+	jpoker.plugins.preferences.extend({'b': 2, 'c': 3});
+	equals(jpoker.plugins.preferences.b, 2, 'jpoker.plugins.preferences.b');
+	equals(jpoker.plugins.preferences.c, 3, 'jpoker.plugins.preferences.c');
+	equals($.cookie('jpoker_preferences'), '{"a":1,"b":2,"c":3}', 'cookie updated');
+	$.cookie('jpoker_preferences', undefined);
+    });
+
 test("jpoker coverage left overs", function() {
 	expect(1);
 	equals('TWISTED_SESSION', jpoker.connection.prototype.sessionName(), 'sessionName coverage');

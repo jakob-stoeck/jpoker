@@ -3362,4 +3362,14 @@
 	}
     };
 
+    jpoker.plugins.preferences = {
+	load: function() {
+	    $.extend(jpoker.plugins.preferences, JSON.parse($.cookie('jpoker_preferences')));
+	},
+	extend: function(preferences) {
+	    $.extend(jpoker.plugins.preferences, preferences);
+	    $.cookie('jpoker_preferences', JSON.stringify(jpoker.plugins.preferences));
+	}
+    };
+
 })(jQuery);
