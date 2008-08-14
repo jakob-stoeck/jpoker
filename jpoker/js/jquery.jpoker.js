@@ -1535,6 +1535,10 @@
 		case 'PacketPokerTimeoutNotice':
 		    table.notifyUpdate(packet);
 		    break;
+
+		case 'PacketPokerMuckRequest':
+		    table.notifyUpdate(packet);
+		    break;
                 }
 
                 if(serial in table.serial2player) {
@@ -1621,10 +1625,6 @@
                 this.sit = false;
                 this.notifyUpdate(packet);
                 break;
-
-		case 'PacketPokerMuckRequest':
-		this.notifyUpdate(packet);
-		break;		
                 }
             }    
 
@@ -2655,6 +2655,10 @@
                     chat.prepend('<div class=\'jpoker_chat_line\'><span class=\'jpoker_chat_prefix\'>' + prefix + '</span><span class=\'jpoker_chat_message\'>' + lines[line] + '</span></div>');
                 }
                 break;
+
+	    case 'PacketPokerMuckRequest':
+		jpoker.plugins.playerSelf.muckRequest(server, packet, id);
+		break;
             }
 
             return true;
@@ -2781,11 +2785,6 @@
             case 'PacketPokerSelfLostPosition':
             jpoker.plugins.playerSelf.lostPosition(player, packet, id);
             break;
-
-	    case 'PacketPokerMuckRequest':
-	    jpoker.plugins.playerSelf.muckRequest(player, packet, id);
-	    break;
-
             }
             return true;
         },
@@ -3160,8 +3159,8 @@
             jpoker.plugins.playerSelf.hide(id);
         },
 
-	muckRequest: function(player, packet, id) {
-	    if ($.inArray(player.serial, packet.muckable_serials) != -1) {
+	muckRequest: function(server, packet, id) {
+	    if ($.inArray(server.serial, packet.muckable_serials) != -1) {
 		$('#muck' + id).show();
 	    }
 	},
