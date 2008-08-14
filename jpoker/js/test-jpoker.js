@@ -4196,13 +4196,19 @@ test("jpoker.plugins.playerSelf: create in position", function(){
     });
 
 test("jpoker.plugins.player: muck", function(){
-        expect(25);
+        expect(26);
 
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
         var game_id = 100;
         var money = 1000;
+
+	var sendAutoMuck = jpoker.plugins.muck.sendAutoMuck;
+	jpoker.plugins.muck.sendAutoMuck = function() {
+	    ok(true, 'sendAutoMuck called');
+	};
         _SelfPlayerSit(game_id, player_serial, money);
+	jpoker.plugins.muck.sendAutoMuck = sendAutoMuck;
 
         var server = jpoker.getServer('url');
         var player = jpoker.getPlayer('url', game_id, player_serial);
@@ -4229,6 +4235,7 @@ test("jpoker.plugins.player: muck", function(){
 	equals(auto_muck_win.is(':checked'), true, '#auto_muck_win checked');
 	equals(auto_muck_lose.is(':checked'), true, '#auto_muck_lose checked');
 	
+	server.sendPacket = function() {};
 	auto_muck_win.click();
 	auto_muck_lose.click();
        

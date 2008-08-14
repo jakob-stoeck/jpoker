@@ -2940,14 +2940,19 @@
 	    $('#auto_muck' + id).html(jpoker.plugins.muck.templates.auto_muck.supplant({id: id,
 			    auto_muck_win_label: _("Muck winning"),
 			    auto_muck_lose_label: _("Muck loosing")}));
-	    $('#auto_muck_win' + id).click().click(function() {
+	    $('#auto_muck_win' + id).click(function() {
 		    var server = jpoker.getServer(url);
 		    jpoker.plugins.muck.sendAutoMuck(server, game_id, id);
 		});
-	    $('#auto_muck_lose' + id).click().click(function() {
+	    $('#auto_muck_lose' + id).click(function() {
 		    var server = jpoker.getServer(url);
 		    jpoker.plugins.muck.sendAutoMuck(server, game_id, id);
-		});	    
+		});
+
+	    $('#auto_muck_win' + id)[0].checked = true;
+	    $('#auto_muck_lose' + id)[0].checked = true;
+	    var server = jpoker.getServer(url);
+	    jpoker.plugins.muck.sendAutoMuck(server, game_id, id);
 	    
             if(serial == table.serial_in_position) {
                 jpoker.plugins.playerSelf.inPosition(player, id);
