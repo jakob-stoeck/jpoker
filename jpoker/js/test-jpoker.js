@@ -4244,28 +4244,28 @@ test("jpoker.plugins.player: muck", function(){
        
 	server.sendPacket = function(packet) {
 	    equals(packet.auto_muck, 0, 'AUTO_MUCK_NEVER');
-	}
+	};
 	auto_muck_win[0].checked = false;
 	auto_muck_lose[0].checked = false;
 	jpoker.plugins.muck.sendAutoMuck(server, game_id, id);
 
 	server.sendPacket = function(packet) {
 	    equals(packet.auto_muck, 1, 'AUTO_MUCK_WIN');
-	}
+	};
 	auto_muck_win[0].checked = true;
 	auto_muck_lose[0].checked = false;
 	jpoker.plugins.muck.sendAutoMuck(server, game_id, id);
 
 	server.sendPacket = function(packet) {
 	    equals(packet.auto_muck, 2, 'AUTO_MUCK_LOSE');
-	}
+	};
 	auto_muck_win[0].checked = false;
 	auto_muck_lose[0].checked = true;
 	jpoker.plugins.muck.sendAutoMuck(server, game_id, id);
 
 	server.sendPacket = function(packet) {
 	    equals(packet.auto_muck, 3, 'AUTO_MUCK_WIN|AUTO_MUCK_LOSE');
-	}
+	};
 	auto_muck_win[0].checked = true;
 	auto_muck_lose[0].checked = true;
 	jpoker.plugins.muck.sendAutoMuck(server, game_id, id);
@@ -4275,7 +4275,7 @@ test("jpoker.plugins.player: muck", function(){
 	equals($("#muck_deny" + id).is(':visible'), true, 'muck deny visible');
 	 
 	server.sendPacket = function(packet) {
-	    equals(packet.type, 'PacketPokerMuckAccept', 'send PacketPokerMuckAccept')
+	    equals(packet.type, 'PacketPokerMuckAccept', 'send PacketPokerMuckAccept');
 	};
 	$("#muck_accept" + id).click();
 
