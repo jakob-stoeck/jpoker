@@ -3365,11 +3365,13 @@
     jpoker.plugins.preferences = {
 	load: function() {
 	    $.extend(jpoker.plugins.preferences, JSON.parse($.cookie('jpoker_preferences')));
+	    jpoker.plugins.preferences.loaded = function() { return true; }
 	},
 	extend: function(preferences) {
 	    $.extend(jpoker.plugins.preferences, preferences);
 	    $.cookie('jpoker_preferences', JSON.stringify(jpoker.plugins.preferences));
 	}
     };
+    jpoker.plugins.preferences.load();
 
 })(jQuery);

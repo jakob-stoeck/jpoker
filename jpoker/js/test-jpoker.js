@@ -4294,7 +4294,8 @@ test("jpoker.plugins.player: muck", function(){
     });
 
 test("jpoker.plugins.preferences", function() {
-	expect(4);
+	expect(5);
+	equals(jpoker.plugins.preferences.loaded(), true, 'jpoker.plugins.preferences.loaded at startup');
 	$.cookie('jpoker_preferences', '{"a": 1}');
 	jpoker.plugins.preferences.load();
 	equals(jpoker.plugins.preferences.a, 1, 'jpoker.plugins.preferences.a');
