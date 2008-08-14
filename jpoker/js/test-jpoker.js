@@ -4196,7 +4196,7 @@ test("jpoker.plugins.playerSelf: create in position", function(){
     });
 
 test("jpoker.plugins.player: muck", function(){
-        expect(20);
+        expect(25);
 
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
@@ -4208,9 +4208,14 @@ test("jpoker.plugins.player: muck", function(){
         var player = jpoker.getPlayer('url', game_id, player_serial);
         var table = server.tables[game_id];
 	
-	var muck_element = $("#muck" + id);
-	equals(muck_element.length, 1, '#muck');
-	ok(muck_element.children(0).hasClass('jpoker_muck'), 'jpoker_muck');
+	var muck_accept_element = $("#muck_accept" + id);
+	equals(muck_accept_element.length, 1, '#muck_accept');
+	ok(muck_accept_element.children(0).hasClass('jpoker_muck_accept'), 'jpoker_muck_accept');
+
+	var muck_deny_element = $("#muck_deny" + id);
+	equals(muck_deny_element.length, 1, '#muck_deny');
+	ok(muck_deny_element.children(0).hasClass('jpoker_muck_deny'), 'jpoker_muck_deny');
+
 	var auto_muck_element = $('#auto_muck' + id);
 	equals(auto_muck_element.length, 1, '#auto_muck');
 	ok(auto_muck_element.children(0).hasClass('jpoker_auto_muck'), 'jpoker_auto_muck');
@@ -4256,15 +4261,22 @@ test("jpoker.plugins.player: muck", function(){
 	jpoker.plugins.muck.sendAutoMuck(server, game_id, id);
 
         table.handler(server, game_id, { type: 'PacketPokerMuckRequest', serial: player_serial, game_id: game_id, muckable_serials: [player_serial] });
-	 equals($("#muck" + id).is(':visible'), true, 'muck visible');
-
+	equals($("#muck_accept" + id).is(':visible'), true, 'muck accept visible');
+	equals($("#muck_deny" + id).is(':visible'), true, 'muck deny visible');
+	 
 	server.sendPacket = function(packet) {
 	    equals(packet.type, 'PacketPokerMuckAccept', 'send PacketPokerMuckAccept')
 	};
-	$("#muck" + id).click();
+	$("#muck_accept" + id).click();
+
+	server.sendPacket = function(packet) {
+	    equals(packet.type, 'PacketPokerMuckDeny', 'send PacketPokerMuckDeny');
+	};
+	$("#muck_deny" + id).click();
 
         table.handler(server, game_id, { type: 'PacketPokerState', game_id: game_id, state: 'end' });
-        equals($("#muck" + id).is(':hidden'), true, 'muck hidden');
+        equals($("#muck_accept" + id).is(':hidden'), true, 'muck accept hidden');
+        equals($("#muck_deny" + id).is(':hidden'), true, 'muck deny hidden');
 
         cleanup(id);
     });
