@@ -2930,6 +2930,21 @@
 		    server.sendPacket({type: 'PacketPokerMuckAccept', serial: server.serial, game_id: table.id});
 		});
 
+	    //
+	    // automuck
+	    //
+	    $('#auto_muck' + id).html(jpoker.plugins.muck.templates.auto_muck.supplant({id: id,
+			    auto_muck_win_label: _("Muck winning"),
+			    auto_muck_lose_label: _("Muck loosing")}));
+	    $('#auto_muck_win' + id).click().click(function() {
+		    var server = jpoker.getServer(url);
+		    jpoker.plugins.muck.sendAutoMuck(server, game_id, id);
+		});
+	    $('#auto_muck_lose' + id).click().click(function() {
+		    var server = jpoker.getServer(url);
+		    jpoker.plugins.muck.sendAutoMuck(server, game_id, id);
+		});	    
+	    
             if(serial == table.serial_in_position) {
                 jpoker.plugins.playerSelf.inPosition(player, id);
             }
@@ -3315,6 +3330,24 @@
     jpoker.plugins.userInfo.templates = {
 	info: '<table><tr><td>{name_title}</td><td><div class=\'jpoker_user_info_name\'>{name}</div></input></td></tr><tr><td>{password_title}</td><td><input type=\'password\' name=\'password\' value=\'{password}\'></input></td></tr><tr><td>{toggle_password_title}</td><td><input type=\'checkbox\' name=\'toggle_password\'></input></td></tr><tr><td>{email_title}</td><td><input type=\'text\' name=\'email\' value=\'{email}\'></input></td></tr><tr><td>{phone_title}</td><td><input type=\'text\' name=\'phone\' value=\'{phone}\'></input></td></tr><tr><td>{firstname_title}</td><td><input type=\'text\' name=\'firstname\' value=\'{firstname}\'></input></td></tr><tr><td>{lastname_title}</td><td><input type=\'text\' name=\'lastname\' value=\'{lastname}\'></input></td></tr><tr><td>{addr_street_title}</td><td><input type=\'text\' name=\'addr_street\' value=\'{addr_street}\'></input></td></tr><tr><td>{addr_street2_title}</td><td><input type=\'text\' name=\'addr_street2\' value=\'{addr_street2}\'></input></td></tr><tr><td>{addr_zip_title}</td><td><input type=\'text\' name=\'addr_zip\' value=\'{addr_zip}\'></input></td></tr><tr><td>{addr_town_title}</td><td><input type=\'text\' name=\'addr_town\' value=\'{addr_town}\'></input></td></tr><tr><td>{addr_state_title}</td><td><input type=\'text\' name=\'addr_state\' value=\'{addr_state}\'></input></td></tr><tr><td>{addr_country_title}</td><td><input type=\'text\' name=\'addr_country\' value=\'{addr_country}\'></input></td></tr><tr><td>{gender_title}</td><td><input type=\'text\' name=\'gender\' value=\'{gender}\'></input></td></tr><tr><td>{birthdate_title}</td><td><input type=\'text\' name=\'birthdate\' value=\'{birthdate}\'></input></td></tr><tr><td><input class=\'jpoker_user_info_submit\' type=\'submit\' value=\'{submit_title}\'></input></td><td><div class=\'jpoker_user_info_feedback\'></div></td></tr></table>',
 	avatar: '<div class=\'jpoker_user_info_avatar_preview\'></div><form class=\'jpoker_user_info_avatar_upload\' action=\'/UPLOAD\' method=\'post\' enctype=\'multipart/form-data\'><input type=\'file\' name=\'filename\'></input><input type=\'submit\' value=\'{upload}\'></input></form><div class=\'jpoker_user_info_avatar_upload_feedback\'></div>'
+    };
+
+    jpoker.plugins.muck = {
+	AUTO_MUCK_WIN: 1,
+	AUTO_MUCK_LOSE: 2,
+	templates : {
+	    auto_muck: '<div class=\'jpoker_auto_muck\'><div class=\'jpoker_auto_muck_win\'><input type=\'checkbox\' name=\'auto_muck_win\' id=\'auto_muck_win{id}\'></input><label for=\'auto_muck_win{id}\'>{auto_muck_win_label}</label></div><div class=\'jpoker_auto_muck_lose\'><input type=\'checkbox\' name=\'auto_muck_lose\' id=\'auto_muck_lose{id}\'></input><label for=\'auto_muck_lose{id}\'>{auto_muck_lose_label}</label></div></div>'
+	},
+	sendAutoMuck: function(server, game_id, id) {
+	    var auto_muck = 0;
+	    if ($('#auto_muck_win' + id).is(':checked')) {
+		auto_muck |= jpoker.plugins.muck.AUTO_MUCK_WIN;
+	    }
+	    if ($('#auto_muck_lose' + id).is(':checked')) {
+		auto_muck |= jpoker.plugins.muck.AUTO_MUCK_LOSE;
+	    }
+	    server.sendPacket({type: 'PacketPokerAutoMuck', serial: server.serial, game_id: game_id, auto_muck: auto_muck});
+	}
     };
 
 })(jQuery);

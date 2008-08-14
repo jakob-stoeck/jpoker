@@ -42,8 +42,8 @@
      pagecolor="#ffffff"
      id="base"
      inkscape:zoom="1.2916484"
-     inkscape:cx="258.97362"
-     inkscape:cy="670.54536"
+     inkscape:cx="585.9476"
+     inkscape:cy="224.01418"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:current-layer="game_fixed"
@@ -810,11 +810,21 @@
        x="25" />
     <image
        xlink:href="../css/images/jpoker_table/button.png"
-       y="101"
+       y="598.03931"
        width="67"
        height="26"
        id="muck"
        inkscape:label="sitout"
-       x="101" />
+       x="715.71838" />
+    <image
+       xlink:href="../css/images/jpoker_table/status.png"
+       x="671.49695"
+       id="auto_muck"
+       inkscape:transform-center-y="205.45783"
+       inkscape:transform-center-x="-11.4202"
+       width="110.96224"
+       inkscape:label="#image2255"
+       height="59.571888"
+       y="629.80438" />
   </g>
 </svg>
