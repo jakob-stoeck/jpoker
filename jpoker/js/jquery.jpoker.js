@@ -3335,8 +3335,8 @@
 	AUTO_MUCK_WIN: 1,
 	AUTO_MUCK_LOSE: 2,
 	templates : {
-	    muck_accept: '<div class=\'jpoker_muck_accept\'><a href=\'javascript://\'>{muck_accept_label}</a></div>',
-	    muck_deny: '<div class=\'jpoker_muck_deny\'><a href=\'javascript://\'>{muck_deny_label}</a></div>',
+	    muck_accept: '<div class=\'jpoker_muck jpoker_muck_accept\'><a href=\'javascript://\'>{muck_accept_label}</a></div>',
+	    muck_deny: '<div class=\'jpoker_muck jpoker_muck_deny\'><a href=\'javascript://\'>{muck_deny_label}</a></div>',
 	    auto_muck: '<div class=\'jpoker_auto_muck\'><div class=\'jpoker_auto_muck_win\'><input type=\'checkbox\' name=\'auto_muck_win\' id=\'auto_muck_win{id}\'></input><label for=\'auto_muck_win{id}\'>{auto_muck_win_label}</label></div><div class=\'jpoker_auto_muck_lose\'><input type=\'checkbox\' name=\'auto_muck_lose\' id=\'auto_muck_lose{id}\'></input><label for=\'auto_muck_lose{id}\'>{auto_muck_lose_label}</label></div></div>'
 	},
 	muckRequest: function(server, packet, id) {

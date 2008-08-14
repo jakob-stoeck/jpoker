@@ -4199,7 +4199,7 @@ test("jpoker.plugins.playerSelf: create in position", function(){
     });
 
 test("jpoker.plugins.player: muck", function(){
-        expect(26);
+        expect(28);
 
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
@@ -4220,10 +4220,12 @@ test("jpoker.plugins.player: muck", function(){
 	var muck_accept_element = $("#muck_accept" + id);
 	equals(muck_accept_element.length, 1, '#muck_accept');
 	ok(muck_accept_element.children(0).hasClass('jpoker_muck_accept'), 'jpoker_muck_accept');
+	ok(muck_accept_element.children(0).hasClass('jpoker_muck'), 'jpoker_muck');
 
 	var muck_deny_element = $("#muck_deny" + id);
 	equals(muck_deny_element.length, 1, '#muck_deny');
 	ok(muck_deny_element.children(0).hasClass('jpoker_muck_deny'), 'jpoker_muck_deny');
+	ok(muck_deny_element.children(0).hasClass('jpoker_muck'), 'jpoker_muck');
 
 	var auto_muck_element = $('#auto_muck' + id);
 	equals(auto_muck_element.length, 1, '#auto_muck');
