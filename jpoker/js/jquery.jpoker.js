@@ -3364,8 +3364,13 @@
     };
 
     jpoker.plugins.preferences = {
+        defaults: function() {	    
+	},
 	load: function() {
-	    $.extend(jpoker.plugins.preferences, JSON.parse($.cookie('jpoker_preferences')));
+	    $.extend(jpoker.plugins.preferences, jpoker.plugins.preferences.defaults());
+	    if ($.cookie('jpoker_preferences')) {
+		$.extend(jpoker.plugins.preferences, JSON.parse($.cookie('jpoker_preferences')));
+	    }
 	    jpoker.plugins.preferences.loaded = function() { return true; }
 	},
 	extend: function(preferences) {

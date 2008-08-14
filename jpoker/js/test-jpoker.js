@@ -76,6 +76,7 @@ var cleanup = function(id) {
         delete ActiveXObject.prototype.server;
     }
     jpoker.uninit();
+    $.cookie('jpoker_preferences', null);
 };
 
 var start_and_cleanup = function(id) {
@@ -4301,13 +4302,27 @@ test("jpoker.plugins.preferences", function() {
 	expect(5);
 	equals(jpoker.plugins.preferences.loaded(), true, 'jpoker.plugins.preferences.loaded at startup');
 	$.cookie('jpoker_preferences', '{"a": 1}');
+	jpoker.plugins.preferences.defaults = function() {
+	};
 	jpoker.plugins.preferences.load();
 	equals(jpoker.plugins.preferences.a, 1, 'jpoker.plugins.preferences.a');
 	jpoker.plugins.preferences.extend({'b': 2, 'c': 3});
 	equals(jpoker.plugins.preferences.b, 2, 'jpoker.plugins.preferences.b');
 	equals(jpoker.plugins.preferences.c, 3, 'jpoker.plugins.preferences.c');
 	equals($.cookie('jpoker_preferences'), '{"a":1,"b":2,"c":3}', 'cookie updated');
-	$.cookie('jpoker_preferences', undefined);
+	cleanup();
+    });
+
+test("jpoker.plugins.preferences defaults", function() {
+	expect(2);
+	$.cookie('jpoker_preferences', '{"d": 4}');
+	jpoker.plugins.preferences.defaults = function() {
+	    return {"d": 4.1, "e":5};
+	};
+	jpoker.plugins.preferences.load();
+	equals(jpoker.plugins.preferences.d, 4, 'jpoker.plugins.preferences.d');
+	equals(jpoker.plugins.preferences.e, 5, 'jpoker.plugins.preferences.e');
+	cleanup();
     });
 
 test("jpoker coverage left overs", function() {
