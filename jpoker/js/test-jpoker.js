@@ -478,7 +478,7 @@ test("jpoker.server.reconnect success", function(){
     });
 
 test("jpoker.server.reconnect failure", function(){
-        expect(3);
+        expect(2);
         stop();
 
         var PokerServer = function() {};
@@ -498,7 +498,6 @@ test("jpoker.server.reconnect failure", function(){
                     equals(server.state, expected);
                     if(expected == server.RECONNECT) {
                         expected = server.RUNNING;
-                        equals(server.session.indexOf('clear') >= 0, true, 'session is not set');
                         start_and_cleanup();
                     }
                 }
@@ -583,7 +582,7 @@ test("jpoker.server.refreshTourneyDetails waiting", function(){
     });
 
 test("jpoker.server.rejoin", function(){
-        expect(5);
+        expect(4);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -625,7 +624,6 @@ test("jpoker.server.rejoin", function(){
                     if(expected == server.MY) {
                         expected = server.RUNNING;
                     } else if(expected == server.RUNNING) {
-                        equals(server.session.indexOf('clear') >= 0, true, 'session is not set');
                         start_and_cleanup();
                     }
                 }
@@ -674,7 +672,7 @@ test("jpoker.server.refresh clearInterval", function(){
     });
 
 test("jpoker.server.login", function(){
-        expect(10);
+        expect(9);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -693,7 +691,6 @@ test("jpoker.server.login", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var logname = "name";
-        equals(server.session.indexOf('session=clear'), 0, "does not have session");
         server.login(logname, "password");
         server.registerUpdate(function(server, what, packet) {
                 switch(packet.type) {
@@ -801,7 +798,7 @@ test("jpoker.server.login waiting", function(){
     });
 
 test("jpoker.server.logout", function(){
-        expect(5);
+        expect(4);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -814,7 +811,6 @@ test("jpoker.server.logout", function(){
                 equals(server.loggedIn(), false);
                 equals(server.userInfo.name, null, "logname");
                 equals(packet.type, "PacketLogout");
-                equals(server.session.indexOf('session=clear'), 0, "does not have session");
                 start_and_cleanup();
             });
         server.logout();

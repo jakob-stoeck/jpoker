@@ -528,8 +528,6 @@
 
             blocked: false,
 
-            session: 'session=clear',
-
             lag: 0,
 
             high: ['PacketPokerChat', 'PacketPokerMessage', 'PacketPokerGameMessage'],
@@ -542,6 +540,7 @@
                 jpoker.watchable.prototype.init.call(this);
                 this.queues = {};
                 this.delays = {};
+                this.session = 'name=' + jpoker.url2hash(this.url);
                 this.reset();
             },
 
@@ -559,20 +558,6 @@
                 return this.cookie().indexOf(this.sessionName()) >= 0;
             },
 
-            clearSession: function() {
-                this.session = 'session=clear&name=' + jpoker.url2hash(this.url);
-            },
-
-            setSession: function() {
-                this.session = 'session=yes&name=' + jpoker.url2hash(this.url);
-            },
-
-            ensureSession: function() {
-                if(this.session.indexOf('session=clear') === 0) {
-                    this.setSession();
-                }
-            },
-
             reset: function() {
                 this.clearTimeout(this.pingTimer);
                 this.pingTimer = -1;
@@ -584,7 +569,6 @@
                 this.queues = {};
                 this.delays = {};
                 this.connectionState = 'disconnected';
-                this.clearSession();
             },
 
             error: function(reason) {
@@ -958,7 +942,6 @@
 
             reconnect: function() {
                 this.setState(this.RECONNECT);
-                this.setSession();
                 //
                 // the answer to PacketPokerGetPlayerInfo gives back the serial, if and
                 // only if the session is still valid. Otherwise it returns an error 
@@ -971,7 +954,6 @@
                         server.rejoin();
                         return false;
                     } else if(packet.type == 'PacketError') {
-                        server.clearSession();
                         if(packet.other_type != jpoker.packetName2Type.POKER_GET_PLAYER_INFO) {
                             jpoker.error('unexpected error while reconnecting ' + JSON.stringify(packet));
                         }
@@ -1092,7 +1074,6 @@
                     throw _("{url} attempt to login {name} although serial is {serial} instead of 0").supplant({ 'url': this.url, 'name': name, 'serial': this.serial});
                 }
                 this.setState(this.LOGIN);
-                this.ensureSession();
                 this.userInfo.name = name;
                 this.sendPacket({
                         type: 'PacketLogin',
@@ -1143,7 +1124,6 @@
                     this.userInfo = {};
                     var packet = { type: 'PacketLogout' };
                     this.sendPacket(packet);
-                    this.clearSession();
                     //
                     // LOGOUT IMPLIES ALL TABLES ARE DESTROYED INSTEAD
                     //
@@ -1184,7 +1164,6 @@
             tableJoin: function(game_id) {
                 this.queueRunning(function(server) {
                         server.setState(server.TABLE_JOIN);
-                        server.ensureSession();
                         server.sendPacket({ 'type': 'PacketPokerTableJoin',
                                     'game_id': game_id });
                         server.ping();
