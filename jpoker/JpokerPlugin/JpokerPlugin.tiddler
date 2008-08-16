@@ -11,11 +11,11 @@
 ***/
 //{{{
 
-//config.jpoker = { restURL : 'http://pokersource.eu/REST' };
-//config.jpoker = { restURL : 'http://jspoker.pokersource.info/REST' };
-//config.jpoker = { restURL : 'http://pok01.prodin.orbus.fr:19382/REST' };
-//config.jpoker = { restURL : 'http://127.0.0.1/REST' };
-//config.jpoker = { restURL : 'http://127.0.0.1:19382/REST' };
+//config.jpoker = { restURL : 'http://pokersource.eu/POKER_REST' };
+//config.jpoker = { restURL : 'http://jspoker.pokersource.info/POKER_REST' };
+//config.jpoker = { restURL : 'http://pok01.prodin.orbus.fr:19384/POKER_REST' };
+//config.jpoker = { restURL : 'http://127.0.0.1/POKER_REST' };
+//config.jpoker = { restURL : 'http://127.0.0.1:19384/REST' };
 config.jpoker = { restURL : '/POKER_REST' };
 config.options.chkSinglePagePermalink = false;
 

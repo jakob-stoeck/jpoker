@@ -514,7 +514,6 @@
 
     jpoker.connection.prototype = $.extend({}, jpoker.watchable.prototype, {
 
-            ROLE: 'role',
             LOGIN: 'loging',
             RUNNING: 'running',
             USER_INFO: 'retrieving user info',
@@ -553,7 +552,7 @@
             },
 
             sessionName: function() {
-                return 'TWISTED_SESSION';
+                return 'TWISTED_SESSION_' + jpoker.url2hash(this.url);
             },
 
             sessionExists: function() {
@@ -571,8 +570,6 @@
             ensureSession: function() {
                 if(this.session.indexOf('session=clear') === 0) {
                     this.setSession();
-                    this.sendPacket({ 'type': 'PacketPokerExplain',
-                                      'value': 0xFF });
                 }
             },
 
@@ -689,7 +686,7 @@
                     data: json_data,
                     mode: this.mode,
                     timeout: this.timeout,
-                    url: this.url,
+                    url: this.url + '?' + this.session,
                     type: 'POST',
                     dataType: 'json',
                     global: false, // do not fire global events
@@ -1098,22 +1095,14 @@
                 this.ensureSession();
                 this.userInfo.name = name;
                 this.sendPacket({
-                        type: 'PacketPokerSetRole',
-                        roles: 'PLAY'
-                            });
-                this.sendPacket({
                         type: 'PacketLogin',
                         name: name,
                         password: password
                     });
                 this.ping();
                 this.getUserInfo(); // will fire when login is complete
-                var role_is_set = false;
                 var answer = function(server, game_id, packet) {
                     switch(packet.type) {
-                    case 'PacketPokerRoles':
-                    role_is_set = true;
-                    return true;
 
                     case 'PacketAuthOk':
                     return true;
@@ -1125,9 +1114,7 @@
                     return false;
 
                     case 'PacketError':
-                    if(packet.other_type == jpoker.packetName2Type.POKER_SET_ROLE) {
-                        jpoker.dialog(packet.message);
-                    } else if(packet.other_type == jpoker.packetName2Type.LOGIN) {
+                    if(packet.other_type == jpoker.packetName2Type.LOGIN) {
                         jpoker.dialog(_("user {name} is already logged in".supplant({ 'name': name })));
                         server.notifyUpdate(packet);
                     }
@@ -1135,10 +1122,6 @@
                     return false;
 
                     case 'PacketSerial':
-                    if(role_is_set === false) {
-                        jpoker.error('expected PacketPokerRoles before ' + JSON.stringify(packet));
-                        return false;
-                    }
                     server.notifyUpdate(packet);
                     server.setState(server.RUNNING, 'login serial received');
                     return false;
