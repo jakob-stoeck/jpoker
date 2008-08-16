@@ -95,9 +95,6 @@ var jpoker = $.jpoker;
 
 jpoker.verbose = 1; // activate the code parts that depends on verbosity
 jpoker.sound = 'span'; // using embed for test purposes triggers too many problems
-jpoker.server.prototype.sessionName = function() {
-    return 'NO SESSION';
-};
 
 //
 // jpoker
@@ -677,7 +674,7 @@ test("jpoker.server.refresh clearInterval", function(){
     });
 
 test("jpoker.server.login", function(){
-        expect(12);
+        expect(10);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -688,7 +685,7 @@ test("jpoker.server.login", function(){
         var PokerServer = function() {};
 
         PokerServer.prototype = {
-            outgoing: '[{"type": "PacketAuthOk"}, {"type": "PacketPokerRoles"}, {"type": "PacketSerial", "serial": 1}]',
+            outgoing: '[{"type": "PacketAuthOk"}, {"type": "PacketSerial", "serial": 1}]',
 
             handle: function(packet) { packets.push(packet); }
         };
@@ -701,9 +698,7 @@ test("jpoker.server.login", function(){
         server.registerUpdate(function(server, what, packet) {
                 switch(packet.type) {
                 case "PacketSerial":
-                    equals(packets[0].indexOf('PacketPokerExplain') >= 0, true, 'Explain');
-                    equals(packets[1].indexOf('PacketPokerSetRole') >= 0, true, 'SetRole');
-                    equals(packets[2].indexOf('PacketLogin') >= 0, true, 'Login');
+                    equals(packets[0].indexOf('PacketLogin') >= 0, true, 'Login');
                     equals(server.loggedIn(), true, "loggedIn");
                     equals(server.userInfo.name, logname, "logname");
                     equals(server.pinging(), true, "pinging");
@@ -769,58 +764,6 @@ test("jpoker.server.login: already logged", function(){
         jpoker.dialog = function(message) {
             equals(message.indexOf("already logged") >= 0, true, "already logged");
             jpoker.dialog = dialog;
-            start_and_cleanup();
-        };
-        server.login("name", "password");
-    });
-
-test("jpoker.server.login: POKER_SET_ROLE error", function(){
-        expect(1);
-        stop();
-
-        var server = jpoker.serverCreate({ url: 'url' });
-
-        var PokerServer = function() {};
-
-        var refused = "not good";
-        PokerServer.prototype = {
-            outgoing: '[{"type": "PacketError", "other_type": ' + jpoker.packetName2Type.POKER_SET_ROLE + ' ,"message": "poker set role error"}]',
-
-            handle: function(packet) { }
-        };
-
-        ActiveXObject.prototype.server = new PokerServer();
-
-        dialog = jpoker.dialog;
-        jpoker.dialog = function(message) {
-            equals(message.indexOf("poker set role error") >= 0, true, "poker set role error");
-            jpoker.dialog = dialog;
-            start_and_cleanup();
-        };
-        server.login("name", "password");
-    });
-
-test("jpoker.server.login: PacketSerial error", function(){
-        expect(1);
-        stop();
-
-        var server = jpoker.serverCreate({ url: 'url' });
-
-        var PokerServer = function() {};
-
-        var refused = "not good";
-        PokerServer.prototype = {
-            outgoing: '[{"type": "PacketSerial"}]',
-
-            handle: function(packet) { }
-        };
-
-        ActiveXObject.prototype.server = new PokerServer();
-
-        error = jpoker.dialog;
-        jpoker.error = function(reason) {
-            equals(reason.indexOf("expected PacketPokerRoles before") >= 0, true, "expected PacketPokerRoles before");
-            jpoker.error = error;
             start_and_cleanup();
         };
         server.login("name", "password");
@@ -4337,11 +4280,6 @@ test("jpoker.plugins.preferences defaults values", function() {
 	equals(jpoker.plugins.preferences.defaults().auto_muck_win, true);
 	equals(jpoker.plugins.preferences.defaults().auto_muck_lose, true);
 	cleanup();
-    });
-
-test("jpoker coverage left overs", function() {
-	expect(1);
-	equals('TWISTED_SESSION', jpoker.connection.prototype.sessionName(), 'sessionName coverage');
     });
 
 test("profileEnd", function(){
