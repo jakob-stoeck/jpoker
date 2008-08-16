@@ -4,8 +4,6 @@ ProxyRequests Off
   Order deny,allow
   Allow from all
 </Proxy>
-ProxyPass /REST http://pokersource.eu/REST
-ProxyPassReverse /REST http://pokersource.eu/REST
 ProxyPass /POKER_REST http://pokersource.eu/POKER_REST
 ProxyPassReverse /POKER_REST http://pokersource.eu/POKER_REST
 ProxyPass /AVATAR http://pokersource.eu/AVATAR
