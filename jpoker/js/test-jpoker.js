@@ -4299,43 +4299,22 @@ test("jpoker.plugins.muck", function(){
     });
 
 test("jpoker.plugins.preferences", function() {
-
-    });
-test("jpoker.plugins.preferences", function() {
 	expect(5);
 	equals(jpoker.plugins.preferences.loaded(), true, 'jpoker.plugins.preferences.loaded at startup');
 	$.cookie('jpoker_preferences', '{"a": 1}');
-	var preferences_defaults = jpoker.plugins.preferences.defaults;
-	jpoker.plugins.preferences.defaults = function() {
-	};
 	jpoker.plugins.preferences.load();
 	equals(jpoker.plugins.preferences.a, 1, 'jpoker.plugins.preferences.a');
 	jpoker.plugins.preferences.extend({'b': 2, 'c': 3});
 	equals(jpoker.plugins.preferences.b, 2, 'jpoker.plugins.preferences.b');
 	equals(jpoker.plugins.preferences.c, 3, 'jpoker.plugins.preferences.c');
 	equals($.cookie('jpoker_preferences'), JSON.stringify(jpoker.plugins.preferences), 'cookie updated');
-	jpoker.plugins.preferences.defaults = preferences_defaults;
-	cleanup();
-    });
-
-test("jpoker.plugins.preferences defaults", function() {
-	expect(2);
-	$.cookie('jpoker_preferences', '{"d": 4}');
-	var preferences_defaults = jpoker.plugins.preferences.defaults;
-	jpoker.plugins.preferences.defaults = function() {
-	    return {"d": 4.1, "e":5};
-	};
-	jpoker.plugins.preferences.load();
-	equals(jpoker.plugins.preferences.d, 4, 'jpoker.plugins.preferences.d');
-	equals(jpoker.plugins.preferences.e, 5, 'jpoker.plugins.preferences.e');
-	jpoker.plugins.preferences.defaults = preferences_defaults;
 	cleanup();
     });
 
 test("jpoker.plugins.preferences defaults values", function() {
 	expect(2);
-	equals(jpoker.plugins.preferences.defaults().auto_muck_win, true);
-	equals(jpoker.plugins.preferences.defaults().auto_muck_lose, true);
+	equals(jpoker.plugins.preferences.auto_muck_win, true);
+	equals(jpoker.plugins.preferences.auto_muck_lose, true);
 	cleanup();
     });
 
