@@ -122,6 +122,7 @@
 
         serverCreate: function(options) {
             this.servers[options.url] = new jpoker.server(options);
+	    jpoker.plugins.preferences.load(jpoker.url2hash(options.url));
             return this.servers[options.url];
         },
 
@@ -3326,19 +3327,19 @@
     };
 
     jpoker.plugins.preferences = {
-	load: function() {
-	    if ($.cookie('jpoker_preferences')) {
-		$.extend(jpoker.plugins.preferences, JSON.parse($.cookie('jpoker_preferences')));
+	load: function(hash) {
+	    var cookie = 'jpoker_preferences_'+hash;
+	    if ($.cookie(cookie)) {
+		$.extend(jpoker.plugins.preferences, JSON.parse($.cookie(cookie)));
 	    }
-	    jpoker.plugins.preferences.loaded = function() { return true; }
+	    jpoker.plugins.preferences.cookie = function() { return cookie; }
 	},
 	extend: function(preferences) {
 	    $.extend(jpoker.plugins.preferences, preferences);
-	    $.cookie('jpoker_preferences', JSON.stringify(jpoker.plugins.preferences));
+	    $.cookie(jpoker.plugins.preferences.cookie(), JSON.stringify(jpoker.plugins.preferences));
 	},
 	auto_muck_win: true,
 	auto_muck_lose: true
     };
-    jpoker.plugins.preferences.load();
 
 })(jQuery);

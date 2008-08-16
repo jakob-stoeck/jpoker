@@ -4239,14 +4239,18 @@ test("jpoker.plugins.muck", function(){
 
 test("jpoker.plugins.preferences", function() {
 	expect(5);
-	equals(jpoker.plugins.preferences.loaded(), true, 'jpoker.plugins.preferences.loaded at startup');
-	$.cookie('jpoker_preferences', '{"a": 1}');
-	jpoker.plugins.preferences.load();
+	
+        var server = jpoker.serverCreate({ url: 'url' });
+	var hash = jpoker.url2hash('url');
+	equals(jpoker.plugins.preferences.cookie(), 'jpoker_preferences_'+hash, 'jpoker.plugins.preferences.cookie');
+
+	$.cookie('jpoker_preferences_'+hash, '{"a": 1}');
+	jpoker.plugins.preferences.load(hash);
 	equals(jpoker.plugins.preferences.a, 1, 'jpoker.plugins.preferences.a');
 	jpoker.plugins.preferences.extend({'b': 2, 'c': 3});
 	equals(jpoker.plugins.preferences.b, 2, 'jpoker.plugins.preferences.b');
 	equals(jpoker.plugins.preferences.c, 3, 'jpoker.plugins.preferences.c');
-	equals($.cookie('jpoker_preferences'), JSON.stringify(jpoker.plugins.preferences), 'cookie updated');
+	equals($.cookie('jpoker_preferences_'+hash), JSON.stringify(jpoker.plugins.preferences), 'cookie updated');
 	cleanup();
     });
 
