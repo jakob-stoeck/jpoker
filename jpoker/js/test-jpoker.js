@@ -3997,7 +3997,7 @@ test("jpoker.plugins.userInfo update", function(){
     });
 
 test("jpoker.plugins.userInfo avatar upload succeed", function(){
-        expect(4);
+        expect(5);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -4028,6 +4028,7 @@ test("jpoker.plugins.userInfo avatar upload succeed", function(){
 	    server.registerUpdate(function(server, what, data) {
 		    var element = $('#' + id);
 		    if(element.length > 0) {
+			ok($(".jpoker_user_info_avatar_upload", element).attr("action").indexOf(jpoker.url2hash('url')) >= 0, 'session hash');
 			equals($(".jpoker_user_info_avatar_upload_feedback", element).text(), '');
 			ajaxFormCallback();			
 			return false;

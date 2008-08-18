@@ -3203,7 +3203,7 @@
                     var element = document.getElementById(id);
                     if(element) {
 			if(packet && packet.type == 'PacketPokerPersonalInfo') {
-			    $(element).html(userInfo.getHTML(packet));
+			    $(element).html(userInfo.getHTML(packet, url));
 			    $('.jpoker_user_info_submit', element).click(function() {
 				    $('.jpoker_user_info_feedback', element).text(_("Updating..."));
 				    var info = {};
@@ -3264,7 +3264,7 @@
     jpoker.plugins.userInfo.defaults = $.extend({
         }, jpoker.defaults);
 
-    jpoker.plugins.userInfo.getHTML = function(packet) {
+    jpoker.plugins.userInfo.getHTML = function(packet, url) {
         var t = this.templates;
 	var html = [];
 	html.push(t.info.supplant($.extend({
@@ -3285,13 +3285,14 @@
 		    'birthdate_title' : _("Birthdate"),
 		    'submit_title': _("Update personal info")
 		}, packet)));
-	html.push(t.avatar.supplant({'upload': _("Upload avatar")}));
+	html.push(t.avatar.supplant({'hash': jpoker.url2hash(url),
+			             'upload': _("Upload avatar")}));
         return html.join('\n');
     };
 
     jpoker.plugins.userInfo.templates = {
 	info: '<table><tr><td>{name_title}</td><td><div class=\'jpoker_user_info_name\'>{name}</div></input></td></tr><tr><td>{password_title}</td><td><input type=\'password\' name=\'password\' value=\'{password}\'></input></td></tr><tr><td>{toggle_password_title}</td><td><input type=\'checkbox\' name=\'toggle_password\'></input></td></tr><tr><td>{email_title}</td><td><input type=\'text\' name=\'email\' value=\'{email}\'></input></td></tr><tr><td>{phone_title}</td><td><input type=\'text\' name=\'phone\' value=\'{phone}\'></input></td></tr><tr><td>{firstname_title}</td><td><input type=\'text\' name=\'firstname\' value=\'{firstname}\'></input></td></tr><tr><td>{lastname_title}</td><td><input type=\'text\' name=\'lastname\' value=\'{lastname}\'></input></td></tr><tr><td>{addr_street_title}</td><td><input type=\'text\' name=\'addr_street\' value=\'{addr_street}\'></input></td></tr><tr><td>{addr_street2_title}</td><td><input type=\'text\' name=\'addr_street2\' value=\'{addr_street2}\'></input></td></tr><tr><td>{addr_zip_title}</td><td><input type=\'text\' name=\'addr_zip\' value=\'{addr_zip}\'></input></td></tr><tr><td>{addr_town_title}</td><td><input type=\'text\' name=\'addr_town\' value=\'{addr_town}\'></input></td></tr><tr><td>{addr_state_title}</td><td><input type=\'text\' name=\'addr_state\' value=\'{addr_state}\'></input></td></tr><tr><td>{addr_country_title}</td><td><input type=\'text\' name=\'addr_country\' value=\'{addr_country}\'></input></td></tr><tr><td>{gender_title}</td><td><input type=\'text\' name=\'gender\' value=\'{gender}\'></input></td></tr><tr><td>{birthdate_title}</td><td><input type=\'text\' name=\'birthdate\' value=\'{birthdate}\'></input></td></tr><tr><td><input class=\'jpoker_user_info_submit\' type=\'submit\' value=\'{submit_title}\'></input></td><td><div class=\'jpoker_user_info_feedback\'></div></td></tr></table>',
-	avatar: '<div class=\'jpoker_user_info_avatar_preview\'></div><form class=\'jpoker_user_info_avatar_upload\' action=\'/UPLOAD\' method=\'post\' enctype=\'multipart/form-data\'><input type=\'file\' name=\'filename\'></input><input type=\'submit\' value=\'{upload}\'></input></form><div class=\'jpoker_user_info_avatar_upload_feedback\'></div>'
+	avatar: '<div class=\'jpoker_user_info_avatar_preview\'></div><form class=\'jpoker_user_info_avatar_upload\' action=\'/UPLOAD?name={hash}\' method=\'post\' enctype=\'multipart/form-data\'><input type=\'file\' name=\'filename\'></input><input type=\'submit\' value=\'{upload}\'></input></form><div class=\'jpoker_user_info_avatar_upload_feedback\'></div>'
     };
 
     jpoker.plugins.muck = {
