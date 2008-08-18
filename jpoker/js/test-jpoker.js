@@ -1203,6 +1203,25 @@ test("jpoker.server.setState", function(){
 	server.setState(undefined);	
     });
 
+test("jpoker.server.urls", function() {
+	expect(8);
+	var server = jpoker.serverCreate({ url: 'http://host/POKER_REST' });
+	equals(server.urls.avatar, 'http://host/AVATAR');
+	equals(server.urls.upload, 'http://host/UPLOAD');
+	
+	server = jpoker.serverCreate({ url: '/POKER_REST' });
+	equals(server.urls.avatar, '/AVATAR');
+	equals(server.urls.upload, '/UPLOAD');
+
+	server = jpoker.serverCreate({ url: 'url' });
+	equals(server.urls.avatar, 'AVATAR');
+	equals(server.urls.upload, 'UPLOAD');
+
+	server = jpoker.serverCreate({ url: 'url', urls: {avatar: 'avatar', upload: 'upload'}});
+	equals(server.urls.avatar, 'avatar');
+	equals(server.urls.upload, 'upload');
+    });
+
 //
 // jpoker.connection
 //
@@ -3287,11 +3306,11 @@ test("jpoker.plugins.player: PacketPokerPlayerArrive", function(){
         start_and_cleanup();
     });
 
-test("jpoker.plugins.player: /AVATAR", function(){
+test("jpoker.plugins.player: avatar", function(){
         expect(1);
         stop();
 
-        var server = jpoker.serverCreate({ url: 'url' });
+        var server = jpoker.serverCreate({ url: 'url', urls : {avatar : 'http://avatar-server/'}});
         var place = $("#main");
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
@@ -3310,9 +3329,8 @@ test("jpoker.plugins.player: /AVATAR", function(){
 	    options.success('data', 'status');
 	};
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
-        var player = server.tables[game_id].serial2player[player_serial];
         var background = $("#player_seat2_avatar" + id).css('background-image');
-	ok(background.indexOf("AVATAR/1") >= 0, "AVATAR serial");
+	ok(background.indexOf('/1') >= 0, 'avatar');
 	jpoker.plugins.muck.sendAutoMuck = send_auto_muck;
         start_and_cleanup();
     });
@@ -3864,7 +3882,7 @@ test("jpoker.plugins.player: no rebuy if money", function() {
 
 
 test("jpoker.plugins.userInfo", function(){
-        expect(24);
+        expect(22);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -3914,8 +3932,6 @@ test("jpoker.plugins.userInfo", function(){
 			equals($('input[name=gender]', element).val(), 'Male');
 			equals($('input[name=birthdate]', element).val(), '01/01/1970');
 			equals($('input[type=submit]').length, 2, 'user info submit');
-			equals($('.jpoker_user_info_avatar_preview').length, 1, 'user info avatar preview');
-			ok($('.jpoker_user_info_avatar_preview').css('background-image').indexOf('/AVATAR/42') >= 0, 'user info avatar preview');
 			equals($('.jpoker_user_info_avatar_upload input[type=submit]').length, 1, 'user info avatar submit');
 			$('#' + id).remove();
 		    }
@@ -3997,12 +4013,10 @@ test("jpoker.plugins.userInfo update", function(){
     });
 
 test("jpoker.plugins.userInfo avatar upload succeed", function(){
-        expect(5);
+        expect(8);
 	stop();
 
-        var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
+        var server = jpoker.serverCreate({ url: 'url', urls: {avatar: 'http://avatar-server/'}});
         server.connectionState = 'connected';
 
 	server.serial = 42;
@@ -4020,7 +4034,7 @@ test("jpoker.plugins.userInfo avatar upload succeed", function(){
 		$(".jpoker_user_info_avatar_preview", element).css("background-image", "none");
 		options.success('<pre>image uploaded</pre>');
 		equals($(".jpoker_user_info_avatar_upload_feedback", element).text(), "Uploaded");
-		ok($(".jpoker_user_info_avatar_preview", element).css("background-image").indexOf("/AVATAR/42") >= 0, "avatar preview updated");
+		ok($(".jpoker_user_info_avatar_preview", element).css("background-image").indexOf("/42") >= 0, "avatar preview updated");
 		start_and_cleanup();
 	    };
 	};
@@ -4029,8 +4043,11 @@ test("jpoker.plugins.userInfo avatar upload succeed", function(){
 		    var element = $('#' + id);
 		    if(element.length > 0) {
 			ok($(".jpoker_user_info_avatar_upload", element).attr("action").indexOf(jpoker.url2hash('url')) >= 0, 'session hash');
+			ok($(".jpoker_user_info_avatar_upload", element).attr("action").indexOf(server.urls.upload) >= 0, 'upload url');
 			equals($(".jpoker_user_info_avatar_upload_feedback", element).text(), '');
-			ajaxFormCallback();			
+			equals($('.jpoker_user_info_avatar_preview').length, 1, 'user info avatar preview');
+			ok($('.jpoker_user_info_avatar_preview').css('background-image').indexOf('42') >= 0, 'user info avatar preview');
+			ajaxFormCallback();	
 			return false;
 		    }
 		});
@@ -4043,9 +4060,7 @@ test("jpoker.plugins.userInfo avatar upload failed", function(){
         expect(1);
 	stop();
 
-        var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
+        var server = jpoker.serverCreate({ url: 'url', urls: {avatar: 'http://avatar-server/'}});
         server.connectionState = 'connected';
 
 	server.serial = 42;
