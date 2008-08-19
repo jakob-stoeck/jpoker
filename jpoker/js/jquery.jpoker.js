@@ -2102,11 +2102,13 @@
 	    html.push(t.players_no_rank.footer);
 	}
 	
-	if (logged) {
-	    if (registered) {
-		html.push(t.register.supplant({'register': _("Unregister")}));
-	    } else {
-		html.push(t.register.supplant({'register': _("Register")}));
+	if (packet.tourney.state == "registering") {	    
+	    if (logged) {
+		if (registered) {
+		    html.push(t.register.supplant({'register': _("Unregister")}));
+		} else {
+		    html.push(t.register.supplant({'register': _("Register")}));
+		}
 	    }
 	}
 
