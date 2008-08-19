@@ -1950,7 +1950,7 @@ test("jpoker.plugins.tableList", function(){
 // regularTourneyList
 //
 test("jpoker.plugins.regularTourneyList", function(){
-        expect(12);
+        expect(13);
         stop();
 
         //
@@ -1961,6 +1961,7 @@ test("jpoker.plugins.regularTourneyList", function(){
 
 	var TOURNEY_LIST_PACKET = {"players": 0, "packets": [{"players_quota": 2, "breaks_first": 7200, "name": "sitngo2", "description_short" : "Sit and Go 2 players, Holdem", "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 1, "sit_n_go": "y", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval" : 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 39, "sit_n_go": "n", "registered": 0}, {"players_quota": 1000, "breaks_first" : 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 40, "sit_n_go": "n", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial" : 41, "sit_n_go": "n", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 42, "sit_n_go": "n", "registered": 0}], "tourneys": 5, "type": "PacketPokerTourneyList"};
 	var start_time = TOURNEY_LIST_PACKET.packets[1].start_time;
+	var state = TOURNEY_LIST_PACKET.packets[1].state;
 
         PokerServer.prototype = {
             outgoing: "[ " + JSON.stringify(TOURNEY_LIST_PACKET) + " ]",
@@ -1988,6 +1989,7 @@ test("jpoker.plugins.regularTourneyList", function(){
                     var row = $("#" + row_id, place);
                     equals(tr.length, 4+1);
                     equals($('td:nth-child(5)', row).text(), start_time, 'start_time');
+		    equals($('td:nth-child(6)', row).text(), state, 'state');
 		    equals($('.headerSortDown', tr[0]).text(), 'Start Time', "headerSortDown");
 		    server.tourneyRowClick = function(server, subpacket) {
 			equals(subpacket.serial, TOURNEY_LIST_PACKET.packets[1].serial, 'tourneyRowClick called');
