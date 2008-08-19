@@ -2069,23 +2069,39 @@
 			'players_quota' : _("{players_quota} players max.")
 			    }).supplant(packet.tourney));
 
-        html.push(t.players.header.supplant({
-		        'name': _("Name"),
+
+	if (packet.tourney.state == "running" || packet.tourney.state == "complete") {
+	    html.push(t.players.header.supplant({
+			'name': _("Name"),
 			'money': _("Money"),
 			'rank' : _("Rank")    
-                        }));
-        for(var serial in packet.user2properties) {
-	    var player = packet.user2properties[serial];
-	    if (player.rank == -1) {
-		player.rank = "";
+			}));
+	    for(var serial in packet.user2properties) {
+		var player = packet.user2properties[serial];
+		if (player.rank == -1) {
+		    player.rank = "";
+		}
+		if (player.money == -1) {
+		    player.money = "";
+		}
+		html.push(t.players.rows.supplant(player));
 	    }
-	    if (player.money == -1) {
-		player.money = "";
+	    html.push(t.players.footer);
+	} else {
+	    html.push(t.players_no_rank.header.supplant({
+			'name': _("Name"),
+			'money': _("Money")
+			}));
+	    for(var serial in packet.user2properties) {
+		var player = packet.user2properties[serial];
+		if (player.money == -1) {
+		    player.money = "";
+		}
+		html.push(t.players_no_rank.rows.supplant(player));
 	    }
-            html.push(t.players.rows.supplant(player));
-        }
-        html.push(t.players.footer);
-
+	    html.push(t.players_no_rank.footer);
+	}
+	
 	if (logged) {
 	    if (registered) {
 		html.push(t.register.supplant({'register': _("Unregister")}));
@@ -2160,6 +2176,11 @@
 	players : {
 	    header : '<div class=\'jpoker_tourney_details_players\'><table><thead><tr><th>{name}</th><th>{money}</th><th>{rank}</th></tr></thead><tbody>',
 	    rows : '<tr><td>{name}</td><td>{money}</td><td>{rank}</td></tr>',
+	    footer : '</tbody></table></div>'
+	},
+	players_no_rank : {
+	    header : '<div class=\'jpoker_tourney_details_players\'><table><thead><tr><th>{name}</th><th>{money}</th></tr></thead><tbody>',
+	    rows : '<tr><td>{name}</td><td>{money}</td></tr>',
 	    footer : '</tbody></table></div>'
 	},
 	tables : {
