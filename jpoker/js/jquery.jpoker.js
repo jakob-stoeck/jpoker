@@ -122,7 +122,6 @@
 
         serverCreate: function(options) {
             this.servers[options.url] = new jpoker.server(options);
-	    jpoker.plugins.preferences.load(jpoker.url2hash(options.url));
             return this.servers[options.url];
         },
 
@@ -843,6 +842,7 @@
                 this.timers = {};
                 this.serial = 0;
                 this.userInfo = {};
+		this.preferences = new jpoker.preferences(jpoker.url2hash(this.url));
                 this.registerHandler(0, this.handler);
                 if(this.sessionExists()) {
                     this.reconnect();
@@ -2944,8 +2944,9 @@
 		    jpoker.plugins.muck.sendAutoMuck(server, game_id, id);
 		});
 
-	    $('#auto_muck_win' + id)[0].checked = jpoker.plugins.preferences.auto_muck_win;
-	    $('#auto_muck_lose' + id)[0].checked = jpoker.plugins.preferences.auto_muck_lose;
+	    var server = jpoker.getServer(url);
+	    $('#auto_muck_win' + id)[0].checked = server.preferences.auto_muck_win;
+	    $('#auto_muck_lose' + id)[0].checked = server.preferences.auto_muck_lose;
 	    var server = jpoker.getServer(url);
 	    jpoker.plugins.muck.sendAutoMuck(server, game_id, id);
 	    
@@ -3357,22 +3358,21 @@
 		auto_muck |= jpoker.plugins.muck.AUTO_MUCK_LOSE;
 	    }
 	    server.sendPacket({type: 'PacketPokerAutoMuck', serial: server.serial, game_id: game_id, auto_muck: auto_muck});
-	    jpoker.plugins.preferences.extend({auto_muck_win: $('#auto_muck_win' + id).is(':checked'), auto_muck_lose: $('#auto_muck_lose' + id).is(':checked')});
+	    server.preferences.extend({auto_muck_win: $('#auto_muck_win' + id).is(':checked'), auto_muck_lose: $('#auto_muck_lose' + id).is(':checked')});
 	}
     };
 
-    jpoker.plugins.preferences = {
-	load: function(hash) {
+    jpoker.preferences = function(hash) {
 	    var cookie = 'jpoker_preferences_'+hash;
 	    if ($.cookie(cookie)) {
-		$.extend(jpoker.plugins.preferences, JSON.parse($.cookie(cookie)));
+		$.extend(this, JSON.parse($.cookie(cookie)));
 	    }
-	    jpoker.plugins.preferences.cookie = function() { return cookie; }
-	},
-	extend: function(preferences) {
-	    $.extend(jpoker.plugins.preferences, preferences);
-	    $.cookie(jpoker.plugins.preferences.cookie(), JSON.stringify(jpoker.plugins.preferences));
-	},
+	    this.extend = function(preferences) {
+		$.extend(this, preferences);
+		$.cookie(cookie, JSON.stringify(this));
+	    };
+    };
+    jpoker.preferences.prototype = {
 	auto_muck_win: true,
 	auto_muck_lose: true
     };
