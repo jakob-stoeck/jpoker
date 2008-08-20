@@ -2497,6 +2497,7 @@
                     }
                 });
             $('#chat' + id).html('<input value=\'chat here\' type=\'text\' width=\'100%\' />').hide();
+	    $('#chat_history' + id).html('<div class=\'jpoker_chat_history_dealer\'></div><div class=\'jpoker_chat_history_player\'></div>');
             jpoker.plugins.playerSelf.hide(id);
             for(var serial in table.serial2player) {
                 jpoker.plugins.player.create(table, table.serial2player[serial], id);
@@ -2641,13 +2642,20 @@
 		break;
 
             case 'PacketPokerChat':
-                var prefix = '';
-                if(packet.serial in table.serial2player) {
-                    prefix = table.serial2player[packet.serial].name + ' :';
-                }
                 var lines = packet.message.replace(/\n$/, '').split('\n');
-                var chat = $('#chat_history' + id);
-                for(var line = 0; line < lines.length; line++) {
+		var chat_history = $('#chat_history' + id);
+                var chat;
+                var prefix = '';
+		if (packet.serial === 0) {
+		    chat = $('.jpoker_chat_history_dealer', chat_history);
+		}
+		else {
+		    chat = $('.jpoker_chat_history_player', chat_history);
+		    if(packet.serial in table.serial2player) {
+			prefix = table.serial2player[packet.serial].name + ' :';
+		    }	
+		}
+		for(var line = 0; line < lines.length; line++) {
                     chat.prepend('<div class=\'jpoker_chat_line\'><span class=\'jpoker_chat_prefix\'>' + prefix + '</span><span class=\'jpoker_chat_message\'>' + lines[line] + '</span></div>');
                 }
                 break;

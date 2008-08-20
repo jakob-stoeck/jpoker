@@ -3081,7 +3081,7 @@ test("jpoker.plugins.table: PacketPokerDealer", function(){
     });
 
 test("jpoker.plugins.table: PacketPokerChat", function(){
-        expect(4);
+        expect(10);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
@@ -3097,13 +3097,26 @@ test("jpoker.plugins.table: PacketPokerChat", function(){
         var player_seat = 2;
         var player_name = 'username';
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id, name: player_name });
-        equals($("#chat_history" + id).size(), 1, "chat history DOM element");
+	var chat_history = $("#chat_history" + id);
+        equals(chat_history.size(), 1, "chat history DOM element");
+        equals($(".jpoker_chat_history_dealer", chat_history).size(), 1, "chat history DOM element");
+        equals($(".jpoker_chat_history_player", chat_history).size(), 1, "chat history DOM element");
         var message = 'voila\ntout';
+
         table.handler(server, game_id, { type: 'PacketPokerChat', message: message, game_id: game_id, serial: player_serial });
-        var content = $("#chat_history" + id).text();
+        var content = $(".jpoker_chat_history_player", chat_history).text();
         equals(content.indexOf(message) >= 0, false, "message is split");
         equals(content.indexOf('tout') >= 0, true, "message part is displayed");
         equals(content.indexOf(player_name) >= 0, true, "player_name displayed");
+        equals($(".jpoker_chat_history_dealer").text(), "", "no dealer message");
+	
+	$(".jpoker_chat_history_player").text("");
+        table.handler(server, game_id, { type: 'PacketPokerChat', message: message, game_id: game_id, serial: 0 });	
+        var content = $(".jpoker_chat_history_dealer", chat_history).text();
+        equals(content.indexOf(message) >= 0, false, "message is split");
+        equals(content.indexOf('tout') >= 0, true, "message part is displayed");
+        equals($(".jpoker_chat_history_player").text(), "", "no player message");
+
         cleanup();
     });
 

@@ -1,0 +1,13 @@
+.jpoker_chat_history_dealer {
+    overflow: auto;
+    height: 4.5em;
+}
+
+.jpoker_chat_history_player {
+    overflow: auto;
+    height: 4.5em;
+}
+
+.jpoker_chat_message {
+    line-height: 1.5em;
+}
