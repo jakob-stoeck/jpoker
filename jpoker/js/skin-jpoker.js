@@ -38,6 +38,9 @@ ActiveXObject.prototype = {
     responseText: "[]",
 
     open: function(type, url, async) {
+	if (url.indexOf('AVATAR') >= 0) {
+	    this.status = 404;
+	}
         //window.console.log(url);
     },
     
@@ -527,6 +530,34 @@ function jpoker_52_inPosition(place) {
         var player_serial = 200;
         var packets = [
 { type: 'PacketPokerTable', id: game_id },
+{ type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'USER' },
+{ type: 'PacketPokerSit', serial: player_serial, game_id: game_id },
+{ type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, money: 200, bet: 0 },
+{ type: 'PacketPokerPosition', serial: player_serial, game_id: game_id }
+                       ];
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
+};
+
+
+function jpoker_53_timeout(place) {
+        setUp();
+        if(explain) {
+            $(place).append('A descending progress bar shows how much time is left for the player to act.');
+            $(place).append('<hr>');
+        }
+
+        var game_id = 100;
+        var player_serial = 200;
+        var packets = [
+{ type: 'PacketPokerTable', id: game_id, player_timeout: 10 },
 { type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'USER' },
 { type: 'PacketPokerSit', serial: player_serial, game_id: game_id },
 { type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, money: 200, bet: 0 },
