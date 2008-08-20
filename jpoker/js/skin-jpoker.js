@@ -543,6 +543,28 @@ function jpoker_52_inPosition(place) {
         server.sendPacket('ping');
 };
 
+function jpoker_53_userInfo(place) {
+        setUp();
+        if(explain) {
+            $(place).append('Personal informations of the current logged user.');
+            $(place).append('<hr>');
+        }    
+
+        var server = $.jpoker.getServer('url');
+	server.serial = 42;
+	var PERSONAL_INFO_PACKET = {'rating': 1000, 'firstname': 'John', 'money': {}, 'addr_street': '8', 'phone': '000-00000', 'cookie': '', 'serial': server.serial, 'password': '', 'addr_country': 'Yours', 'name': 'testuser', 'gender': 'Male', 'birthdate': '01/01/1970', 'addr_street2': 'Main street', 'addr_zip': '5000', 'affiliate': 0, 'lastname': 'Doe', 'addr_town': 'GhostTown', 'addr_state': 'Alabama', 'type': 'PacketPokerPersonalInfo', 'email': 'john@doe.com'};
+
+        var PokerServer = function() {};
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(PERSONAL_INFO_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+        ActiveXObject.prototype.server = new PokerServer();
+
+        $(place).jpoker('userInfo', 'url');
+};
+
 function jpoker_60_text(place) {
         setUp();
         $('#text').show();
