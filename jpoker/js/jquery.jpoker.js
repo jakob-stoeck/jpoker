@@ -2501,7 +2501,7 @@
                     }
                 });
             $('#chat' + id).html('<input value=\'chat here\' type=\'text\' width=\'100%\' />').hide();
-	    $('#chat_history' + id).html('<div class=\'jpoker_chat_history_player\'></div><hr><div class=\'jpoker_chat_history_dealer\'></div>');
+	    $('#chat_history' + id).html('<div class=\'jpoker_chat_history_player\'></div><div class=\'jpoker_chat_history_dealer\'></div>');
             jpoker.plugins.playerSelf.hide(id);
             for(var serial in table.serial2player) {
                 jpoker.plugins.player.create(table, table.serial2player[serial], id);
