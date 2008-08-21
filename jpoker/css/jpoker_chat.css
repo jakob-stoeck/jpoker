@@ -1,6 +1,6 @@
 .jpoker_chat_history_dealer {
     overflow: auto;
-    height: 4.5em;
+    height: 6em;
 }
 
 .jpoker_chat_history_player {
@@ -9,5 +9,10 @@
 }
 
 .jpoker_chat_message {
+    line-height: 1.5em;
+}
+
+.jpoker_chat_history_dealer .jpoker_chat_message {
+    color: red;
     line-height: 1.5em;
 }
