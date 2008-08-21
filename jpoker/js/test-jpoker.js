@@ -3399,7 +3399,7 @@ test("jpoker.plugins.player: avatar", function(){
     });
 
 test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
-        expect(6);
+        expect(8);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -3426,6 +3426,10 @@ test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
         table.handler(server, game_id, { type: 'PacketPokerPlayerCards', cards: [card_value], serial: player_serial, game_id: game_id });
         equals(card.hasClass('jpoker_card_3h'), true, 'card_3h class');
         equals(player.cards[0], card_value, "card in slot 0");
+	equals(card.is(':visible'), true, 'card visible');
+
+	table.handler(server, game_id, { type: 'PacketPokerFold', serial: player_serial, game_id: game_id });
+	equals(card.is(':hidden'), true, 'card hidden');
         
         start_and_cleanup();
     });

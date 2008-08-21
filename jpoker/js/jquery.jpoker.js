@@ -1577,6 +1577,10 @@
                 this.notifyUpdate(packet);
                 break;
 
+		case 'PacketPokerFold':
+		this.notifyUpdate(packet);
+		break;
+
                 case 'PacketPokerPlayerChips':
                 this.money = packet.money / 100;
                 this.bet = packet.bet / 100;
@@ -2778,6 +2782,10 @@
             jpoker.plugins.cards.update(player.cards, 'card_seat' + player.seat, id);
             break;
 
+	    case 'PacketPokerFold':
+	    jpoker.plugins.cards.hide(player.cards, 'card_seat' + player.seat, id);
+	    break;
+
             case 'PacketPokerPlayerChips':
             jpoker.plugins.player.chips(player, id);
             break;
@@ -3205,7 +3213,13 @@
                     element.hide();
                 }
             }
-        }
+        },
+	hide: function(cards, prefix, id) {
+	    for(var i = 0; i < cards.length; i++) {
+		var element = $('#' + prefix + i + id);
+		element.hide();
+	    }
+	}
     };
     //
     // chips (table plugin helper)
