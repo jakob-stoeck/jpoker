@@ -3398,6 +3398,41 @@ test("jpoker.plugins.player: avatar", function(){
         start_and_cleanup();
     });
 
+test("jpoker.plugins.player: avatar race condition", function(){
+        expect(2);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url', urls : {avatar : 'http://avatar-server/'}});
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 1;
+        server.serial = player_serial;
+        var player_seat = 2;
+	var send_auto_muck = jpoker.plugins.muck.sendAutoMuck;
+	jpoker.plugins.muck.sendAutoMuck = function() {};
+	var ajax_success = [];
+	server.ajax = function(options) {
+	    ajax_success.push(options.success);
+	};
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat+1, serial: player_serial+1, game_id: game_id });
+
+	ajax_success[0]('data', 'status');
+	ajax_success[1]('data', 'status');
+	ok($("#player_seat2_avatar" + id).css('background-image').indexOf('/1') >= 0, 'avatar 1');
+	ok($("#player_seat3_avatar" + id).css('background-image').indexOf('/2') >= 0, 'avatar 2');
+
+	jpoker.plugins.muck.sendAutoMuck = send_auto_muck;
+        start_and_cleanup();
+    });
+
 test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
         expect(8);
         stop();
