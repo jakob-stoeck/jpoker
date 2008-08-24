@@ -1,30 +1,32 @@
+# translation of jpoker-ja.po to french
 # Japanese translations for PACKAGE package
-# PACKAGE •—•√•±°º•∏§À¬–§π§Î±—Ãı.
+# PACKAGE „Éë„ÉÉ„Ç±„Éº„Ç∏„Å´ÂØæ„Åô„ÇãËã±Ë®≥.
 # Copyright (C) 2008 Loic Dachary <loic@dachary.org>
 # This file is distributed under the same license as the PACKAGE package.
-# root <proppy@aminche.com>, 2008.
 #
+# root <proppy@aminche.com>, 2008.
+# Loic Dachary <loic@dachary.org>, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: jpoker\n"
+"Project-Id-Version: jpoker-ja\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-27 12:46+0200\n"
-"PO-Revision-Date: 2008-04-09 23:48+0100\n"
-"Last-Translator: Yoko Shamoto <yuby126youc@yahoo.co.jp>\n"
-"Language-Team: Japanese\n"
+"PO-Revision-Date: 2008-08-25 01:58+0200\n"
+"Last-Translator: Loic Dachary <loic@dachary.org>\n"
+"Language-Team: french <fr@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=EUC-JP\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: jpoker/js/jquery.jpoker.js:1029
-#, fuzzy
 msgid " (login name is {name} )"
-msgstr "(•Ì•∞•§•Û•Õ°º•‡§œ°Ûs§«§π°À"
+msgstr "(„É≠„Ç∞„Ç§„É≥„Éç„Éº„É†„ÅØÔºÖs„Åß„ÅôÔºâ"
 
 #: jpoker/js/jquery.jpoker.js:1550
 msgid "%Flop"
-msgstr "%•’•Ì•√•◊"
+msgstr "%„Éï„É≠„ÉÉ„Éó"
 
 #: jpoker/js/jquery.jpoker.js:2204
 msgid "Add chips"
@@ -32,11 +34,11 @@ msgstr ""
 
 #: jpoker/js/jquery.jpoker.js:1548
 msgid "Average Pot"
-msgstr "•¢•Ÿ•Ï°º•∏°°•›•√•»"
+msgstr "„Ç¢„Éô„É¨„Éº„Ç∏„ÄÄ„Éù„ÉÉ„Éà"
 
 #: jpoker/js/jquery.jpoker.js:1558
 msgid "Betting Structure"
-msgstr "•Ÿ•√•∆•£•Û•∞°°•π•»•È•Ø•¡•„°º"
+msgstr "„Éô„ÉÉ„ÉÜ„Ç£„É≥„Ç∞„ÄÄ„Çπ„Éà„É©„ÇØ„ÉÅ„É£„Éº"
 
 #: jpoker/js/jquery.jpoker.js:2217
 msgid "Buy In"
@@ -52,16 +54,16 @@ msgstr ""
 
 #: jpoker/js/jquery.jpoker.js:1549
 msgid "Hands/Hour"
-msgstr "•œ•Û•…°øª˛¥÷"
+msgstr "„Éè„É≥„ÉâÔºèÊôÇÈñì"
 
 #: jpoker/js/jquery.jpoker.js:1721
 #, fuzzy
 msgid "Login"
-msgstr "•Ì•∞•§•Û"
+msgstr "„É≠„Ç∞„Ç§„É≥"
 
 #: jpoker/js/jquery.jpoker.js:1556
 msgid "Name"
-msgstr "•Õ°º•‡"
+msgstr "„Éç„Éº„É†"
 
 #: jpoker/js/jquery.jpoker.js:1552
 msgid "Observers"
@@ -69,7 +71,7 @@ msgstr ""
 
 #: jpoker/js/jquery.jpoker.js:1551
 msgid "Players"
-msgstr "•◊•Ï°º•‰°º"
+msgstr "„Éó„É¨„Éº„É§„Éº"
 
 #: jpoker/js/jquery.jpoker.js:2220
 msgid "Rebuy"
@@ -77,7 +79,7 @@ msgstr ""
 
 #: jpoker/js/jquery.jpoker.js:1547
 msgid "Seats"
-msgstr "•∑°º•»"
+msgstr "„Ç∑„Éº„Éà"
 
 #: jpoker/js/jquery.jpoker.js:1720
 msgid "Sign In"
@@ -133,11 +135,11 @@ msgstr ""
 
 #: jpoker/js/jquery.jpoker.js:1719
 msgid "password: "
-msgstr "•—•π•Ô°º•…"
+msgstr "„Éë„Çπ„ÉØ„Éº„Éâ"
 
 #: jpoker/js/jquery.jpoker.js:1628
 msgid "players"
-msgstr "•◊•Ï°º•‰°º"
+msgstr "„Éó„É¨„Éº„É§„Éº"
 
 #: jpoker/js/jquery.jpoker.js:2141
 msgid "raise"
@@ -145,7 +147,7 @@ msgstr ""
 
 #: jpoker/js/jquery.jpoker.js:1631
 msgid "tables"
-msgstr "•∆°º•÷•Î"
+msgstr "„ÉÜ„Éº„Éñ„É´"
 
 #: jpoker/js/jquery.jpoker.js:1679
 msgid "the password must not be empty"
@@ -175,5 +177,3 @@ msgstr ""
 msgid "{url} attempt to login {name} although serial is {serial} instead of 0"
 msgstr ""
 
-#~ msgid "%s logout"
-#~ msgstr "°Ûs•Ì•∞•¢•¶•»"
