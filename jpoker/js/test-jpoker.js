@@ -1078,6 +1078,35 @@ test("jpoker.server.getPersonalInfo waiting", function(){
 	equals(server.callbacks[0][0], callback, 'getPersonalInfo callback still in place');
     });
 
+test("jpoker.server.getPlayerPlaces", function(){
+        expect(5);
+	stop();
+
+        var serial = 42;
+	var PLAYER_PLACES_PACKET = {type: 'PacketPokerPlayerPlaces', serial: 42, tables:[11, 12, 13], tourneys:[21, 22, 23]};
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        server.serial = serial;
+	
+        server.sendPacket = function(packet) {
+            equals(packet.type, 'PacketPokerGetPlayerPlaces');
+            equals(packet.serial, serial, 'player serial');
+	    equals(server.getState(), server.PLACES);
+	    server.queueIncoming([PLAYER_PLACES_PACKET]);
+        };
+        server.registerUpdate(function(server, what, packet) {
+		if (packet.type == 'PacketPokerPlayerPlaces') {
+		    equals(server.places.tables[0], 11, 'places.tables');
+		    equals(server.places.tourneys[0], 21, 'places.tourneys');
+		    server.queueRunning(start_and_cleanup);		    
+		    return false;
+		}
+		return true;
+	    });
+        server.getPlayerPlaces();
+    });
+
 test("jpoker.server.selectTables", function(){
         expect(3);
 	stop();

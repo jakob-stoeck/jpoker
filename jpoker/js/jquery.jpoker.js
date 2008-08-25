@@ -525,6 +525,7 @@
             TABLE_JOIN: 'joining table',
 	    TOURNEY_REGISTER: 'updating tourney registration',
 	    PERSONAL_INFO: 'getting personal info',
+	    PLACES: 'getting player places',
 
             blocked: false,
 
@@ -843,6 +844,7 @@
                 this.serial = 0;
                 this.userInfo = {};
 		this.preferences = new jpoker.preferences(jpoker.url2hash(this.url));
+		this.places = {};
                 this.registerHandler(0, this.handler);
                 if(this.sessionExists()) {
                     this.reconnect();
@@ -1320,6 +1322,27 @@
 				return true;
 			    });
 		    });		
+	    },
+
+	    getPlayerPlaces : function() {
+		if (this.loggedIn())  {
+		    this.queueRunning(function(server) {
+			    server.setState(server.PLACES);
+			    server.sendPacket({'type': 'PacketPokerGetPlayerPlaces', 'serial': server.serial});
+			    server.registerHandler(0, function(server, unused_game_id, packet) {
+				    if (packet.type == 'PacketPokerPlayerPlaces') {
+					server.places.tables = packet.tables;
+					server.places.tourneys = packet.tourneys;
+					server.notifyUpdate(packet);
+					server.setState(server.RUNNING, 'PacketPokerPlayerPlaces');
+					return false;
+				    }
+				    return true;
+				});
+			});
+		} else {
+		    jpoker.dialog(_("User must be logged in"));
+		}
 	    }
         });
 
