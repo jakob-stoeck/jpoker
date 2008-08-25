@@ -1359,7 +1359,6 @@
         this.url = server.url;
         this.init();
         server.registerHandler(packet.id, this.handler);
-	this.poll();
     };
 
     jpoker.table.defaults = {

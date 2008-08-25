@@ -1673,6 +1673,7 @@ test("jpoker.table.poll", function() {
 	    return 42;
 	};
 	var table = new jpoker.table(server, {"type": "PacketPokerTable", "id": 101, "betting_structure": "15-30-no-limit"});
+	table.poll();
 	equals(table.pollTimer, 42, 'pollTimer set');
 
 	server.clearTimeout = function(timer) {
