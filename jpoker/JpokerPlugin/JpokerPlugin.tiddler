@@ -89,6 +89,12 @@ config.macros.jpokerUserInfo = {
     }
 };
 
+config.macros.jpokerPlaces = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        $(place).jpoker('places', config.jpoker.restURL);
+    }
+};
+
 //}}}
 //!END-PLUGIN-CODE
 // %/
