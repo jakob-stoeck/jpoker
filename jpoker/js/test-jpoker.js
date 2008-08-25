@@ -1668,7 +1668,7 @@ test("jpoker.table.poll", function() {
 	    equals(packet.type, "PacketPokerPoll");
 	};
 	var callback;
-	server.setTimeout = function(f) {
+	jpoker.table.prototype.setTimeout = function(f) {
 	    callback = f;
 	    return 42;
 	};
@@ -1676,7 +1676,7 @@ test("jpoker.table.poll", function() {
 	table.poll();
 	equals(table.pollTimer, 42, 'pollTimer set');
 
-	server.clearTimeout = function(timer) {
+	jpoker.table.prototype.clearTimeout = function(timer) {
 	    equals(timer, 42, "clearTimeout called by poll")
 	};
 	callback();
@@ -1686,12 +1686,11 @@ test("jpoker.table.poll", function() {
 	};
 	callback();
 
-	server.clearTimeout = function(timer) {
+	jpoker.table.prototype.clearTimeout = function(timer) {
 	    ok(true, "clearTimeout called by uninit")
 	};
 	table.uninit();
 	equals(table.pollTimer, -1, 'pollTimer cleared by uninit');
-	server.clearTimeout = function() {};
 	cleanup();
     });
 

@@ -1399,17 +1399,20 @@
                 this.dealer = -1;
                 this.position = -1;
                 this.state = 'end';
-		jpoker.getServer(this.url).clearTimeout(this.pollTimer);
+		this.clearTimeout(this.pollTimer);
 		this.pollTimer = -1;
 		this.pollFrequency = 1000;
             },
+
+            clearTimeout: function(id) { return window.clearTimeout(id); },
+            setTimeout: function(cb, delay) { return window.setTimeout(cb, delay); },
 
 	    poll: function() {
 		var server = jpoker.getServer(this.url);
 		server.sendPacket({type: 'PacketPokerPoll',
 			    game_id: this.game_id});
 		var $this  = this;
-		this.pollTimer = server.setTimeout(function() {
+		this.pollTimer = this.setTimeout(function() {
 			$this.poll();
 		    }, this.pollFrequency);
 	    },
