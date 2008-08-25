@@ -3422,7 +3422,7 @@
 	    });
 	html.push(t.tables.footer);
 
-	html.push(t.tourneys.header.supplant({table_title: _("Tourneys")}));
+	html.push(t.tourneys.header.supplant({tourney_title: _("Tourneys")}));
 	$.each(packet.tourneys, function(i, tourney) {
 		html.push(t.tourneys.rows.supplant({tourney: tourney}));
 	    });
