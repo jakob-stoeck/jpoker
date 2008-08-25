@@ -4399,6 +4399,47 @@ test("jpoker.plugins.muck", function(){
         cleanup(id);
     });
 
+test("jpoker.plugins.places", function(){
+        expect(5);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+	server.serial = 42;
+	var PLAYER_PLACES_PACKET = {type: 'PacketPokerPlayerPlaces', serial: 42, tables: [11, 12, 13], tourneys: [21, 22]};
+
+        var PokerServer = function() {};
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(PLAYER_PLACES_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $('#main');
+
+        equals('update' in server.callbacks, false, 'no update registered');
+        place.jpoker('places', 'url');
+        equals(server.callbacks.update.length, 1, 'places update registered');
+	equals($('.jpoker_places').length, 1, 'places div');
+	server.registerUpdate(function(server, what, data) {
+		var element = $('#' + id);
+		if(element.length > 0) {
+		    if (data.type == 'PacketPokerPlayerPlaces') {
+			equals($('.jpoker_places_table', element).length, 3, 'jpoker_places_table');
+			equals($('.jpoker_places_tourney', element).length, 2, 'jpoker_places_tourney');
+			$('#' + id).remove();
+		    }
+		    return true;
+		} else {
+		    start_and_cleanup();
+		    return false;
+		}
+	    });
+    });
+
 test("jpoker.preferences", function() {
 	expect(4);
 	
