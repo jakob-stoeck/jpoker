@@ -1661,6 +1661,39 @@ test("jpoker.table or tourney", function() {
     });
 
 
+test("jpoker.table.poll", function() {
+	expect(6);
+	var server = jpoker.serverCreate({ url: 'url' });
+	server.sendPacket = function(packet) {
+	    equals(packet.type, "PacketPokerPoll");
+	};
+	var callback;
+	server.setTimeout = function(f) {
+	    callback = f;
+	    return 42;
+	};
+	var table = new jpoker.table(server, {"type": "PacketPokerTable", "id": 101, "betting_structure": "15-30-no-limit"});
+	equals(table.pollTimer, 42, 'pollTimer set');
+
+	server.clearTimeout = function(timer) {
+	    equals(timer, 42, "clearTimeout called by poll")
+	};
+	callback();
+
+	table.poll = function() {
+	    ok(true, "poll called by timeout callback");
+	};
+	callback();
+
+	server.clearTimeout = function(timer) {
+	    ok(true, "clearTimeout called by uninit")
+	};
+	table.uninit();
+	equals(table.pollTimer, -1, 'pollTimer cleared by uninit');
+	server.clearTimeout = function() {};
+	cleanup();
+    });
+
 test("jpoker.table.handler: PacketPokerState", function(){
         expect(1);
 

@@ -1359,6 +1359,7 @@
         this.url = server.url;
         this.init();
         server.registerHandler(packet.id, this.handler);
+	this.poll();
     };
 
     jpoker.table.defaults = {
@@ -1399,7 +1400,20 @@
                 this.dealer = -1;
                 this.position = -1;
                 this.state = 'end';
+		jpoker.getServer(this.url).clearTimeout(this.pollTimer);
+		this.pollTimer = -1;
+		this.pollFrequency = 1000;
             },
+
+	    poll: function() {
+		var server = jpoker.getServer(this.url);
+		server.sendPacket({type: 'PacketPokerPoll',
+			    game_id: this.game_id});
+		var $this  = this;
+		this.pollTimer = server.setTimeout(function() {
+			$this.poll();
+		    }, this.pollFrequency);
+	    },
 
             buyInLimits: function() {
                 var max = Math.min(this.buyIn.max, this.buyIn.bankroll);
