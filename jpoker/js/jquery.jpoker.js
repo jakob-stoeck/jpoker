@@ -525,6 +525,7 @@
             TABLE_JOIN: 'joining table',
 	    TOURNEY_REGISTER: 'updating tourney registration',
 	    PERSONAL_INFO: 'getting personal info',
+	    PLACES: 'getting player places',
 
             blocked: false,
 
@@ -843,6 +844,7 @@
                 this.serial = 0;
                 this.userInfo = {};
 		this.preferences = new jpoker.preferences(jpoker.url2hash(this.url));
+		this.places = {};
                 this.registerHandler(0, this.handler);
                 if(this.sessionExists()) {
                     this.reconnect();
@@ -1320,6 +1322,27 @@
 				return true;
 			    });
 		    });		
+	    },
+
+	    getPlayerPlaces : function() {
+		if (this.loggedIn())  {
+		    this.queueRunning(function(server) {
+			    server.setState(server.PLACES);
+			    server.sendPacket({'type': 'PacketPokerGetPlayerPlaces', 'serial': server.serial});
+			    server.registerHandler(0, function(server, unused_game_id, packet) {
+				    if (packet.type == 'PacketPokerPlayerPlaces') {
+					server.places.tables = packet.tables;
+					server.places.tourneys = packet.tourneys;
+					server.notifyUpdate(packet);
+					server.setState(server.RUNNING, 'PacketPokerPlayerPlaces');
+					return false;
+				    }
+				    return true;
+				});
+			});
+		} else {
+		    jpoker.dialog(_("User must be logged in"));
+		}
 	    }
         });
 
@@ -1376,7 +1399,23 @@
                 this.dealer = -1;
                 this.position = -1;
                 this.state = 'end';
+		this.clearTimeout(this.pollTimer);
+		this.pollTimer = -1;
+		this.pollFrequency = 1000;
             },
+
+            clearTimeout: function(id) { return window.clearTimeout(id); },
+            setTimeout: function(cb, delay) { return window.setTimeout(cb, delay); },
+
+	    poll: function() {
+		var server = jpoker.getServer(this.url);
+		server.sendPacket({type: 'PacketPokerPoll',
+			    game_id: this.game_id});
+		var $this  = this;
+		this.pollTimer = this.setTimeout(function() {
+			$this.poll();
+		    }, this.pollFrequency);
+	    },
 
             buyInLimits: function() {
                 var max = Math.min(this.buyIn.max, this.buyIn.bankroll);
@@ -3350,6 +3389,74 @@
     jpoker.plugins.userInfo.templates = {
 	info: '<table><tr><td>{name_title}</td><td><div class=\'jpoker_user_info_name\'>{name}</div></input></td></tr><tr><td>{password_title}</td><td><input type=\'password\' name=\'password\' value=\'{password}\'></input></td></tr><tr><td>{toggle_password_title}</td><td><input type=\'checkbox\' name=\'toggle_password\'></input></td></tr><tr><td>{email_title}</td><td><input type=\'text\' name=\'email\' value=\'{email}\'></input></td></tr><tr><td>{phone_title}</td><td><input type=\'text\' name=\'phone\' value=\'{phone}\'></input></td></tr><tr><td>{firstname_title}</td><td><input type=\'text\' name=\'firstname\' value=\'{firstname}\'></input></td></tr><tr><td>{lastname_title}</td><td><input type=\'text\' name=\'lastname\' value=\'{lastname}\'></input></td></tr><tr><td>{addr_street_title}</td><td><input type=\'text\' name=\'addr_street\' value=\'{addr_street}\'></input></td></tr><tr><td>{addr_street2_title}</td><td><input type=\'text\' name=\'addr_street2\' value=\'{addr_street2}\'></input></td></tr><tr><td>{addr_zip_title}</td><td><input type=\'text\' name=\'addr_zip\' value=\'{addr_zip}\'></input></td></tr><tr><td>{addr_town_title}</td><td><input type=\'text\' name=\'addr_town\' value=\'{addr_town}\'></input></td></tr><tr><td>{addr_state_title}</td><td><input type=\'text\' name=\'addr_state\' value=\'{addr_state}\'></input></td></tr><tr><td>{addr_country_title}</td><td><input type=\'text\' name=\'addr_country\' value=\'{addr_country}\'></input></td></tr><tr><td>{gender_title}</td><td><input type=\'text\' name=\'gender\' value=\'{gender}\'></input></td></tr><tr><td>{birthdate_title}</td><td><input type=\'text\' name=\'birthdate\' value=\'{birthdate}\'></input></td></tr><tr><td><input class=\'jpoker_user_info_submit\' type=\'submit\' value=\'{submit_title}\'></input></td><td><div class=\'jpoker_user_info_feedback\'></div></td></tr></table>',
 	avatar: '<div class=\'jpoker_user_info_avatar_preview\'></div><form class=\'jpoker_user_info_avatar_upload\' action=\'{upload_url}?name={hash}\' method=\'post\' enctype=\'multipart/form-data\'><input type=\'file\' name=\'filename\'></input><input type=\'submit\' value=\'{upload}\'></input></form><div class=\'jpoker_user_info_avatar_upload_feedback\'></div>'
+    };
+
+    //
+    // places
+    //
+    jpoker.plugins.places = function(url, options) {
+
+        var places = jpoker.plugins.places;
+        var opts = $.extend({}, places.defaults, options);
+        var server = jpoker.url2server({ url: url });
+
+        return this.each(function() {
+                var $this = $(this);
+
+                var id = jpoker.uid();
+		
+                $this.append('<div class=\'jpoker_places\' id=\'' + id + '\'></div>');
+
+                var updated = function(server, what, packet) {
+                    var element = document.getElementById(id);
+                    if(element) {
+			if(packet && packet.type == 'PacketPokerPlayerPlaces') {
+			    $(element).html(places.getHTML(packet));
+			}
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+
+		server.registerUpdate(updated, null, 'places ' + id);
+		server.getPlayerPlaces();
+
+                return this;
+            });
+    };
+
+    jpoker.plugins.places.defaults = $.extend({
+        }, jpoker.defaults);
+
+    jpoker.plugins.places.getHTML = function(packet) {
+        var t = this.templates;
+	var html = [];
+	html.push(t.tables.header.supplant({table_title: _("Tables")}));
+	$.each(packet.tables, function(i, table) {
+		html.push(t.tables.rows.supplant({table: table}));
+	    });
+	html.push(t.tables.footer);
+
+	html.push(t.tourneys.header.supplant({tourney_title: _("Tourneys")}));
+	$.each(packet.tourneys, function(i, tourney) {
+		html.push(t.tourneys.rows.supplant({tourney: tourney}));
+	    });
+	html.push(t.tourneys.footer);
+        return html.join('\n');
+    };
+
+    jpoker.plugins.places.templates = {
+	tables : {
+	    header : '<div class=\'jpoker_places_tables\'><table><thead><tr><th>{table_title}</th></tr></thead><tbody>',
+	    rows : '<tr class=\'jpoker_places_table\'><td>{table}</td></tr>',
+	    footer : '</tbody></table></div>'
+	},
+	tourneys : {
+	    header : '<div class=\'jpoker_places_tourneys\'><table><thead><tr><th>{tourney_title}</th></tr></thead><tbody>',
+	    rows : '<tr class=\'jpoker_places_tourney\'><td>{tourney}</td></tr>',
+	    footer : '</tbody></table></div>'
+	},
     };
 
     jpoker.plugins.muck = {

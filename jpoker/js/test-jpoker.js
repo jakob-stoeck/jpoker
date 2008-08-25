@@ -1078,6 +1078,35 @@ test("jpoker.server.getPersonalInfo waiting", function(){
 	equals(server.callbacks[0][0], callback, 'getPersonalInfo callback still in place');
     });
 
+test("jpoker.server.getPlayerPlaces", function(){
+        expect(5);
+	stop();
+
+        var serial = 42;
+	var PLAYER_PLACES_PACKET = {type: 'PacketPokerPlayerPlaces', serial: 42, tables:[11, 12, 13], tourneys:[21, 22, 23]};
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        server.serial = serial;
+	
+        server.sendPacket = function(packet) {
+            equals(packet.type, 'PacketPokerGetPlayerPlaces');
+            equals(packet.serial, serial, 'player serial');
+	    equals(server.getState(), server.PLACES);
+	    server.queueIncoming([PLAYER_PLACES_PACKET]);
+        };
+        server.registerUpdate(function(server, what, packet) {
+		if (packet.type == 'PacketPokerPlayerPlaces') {
+		    equals(server.places.tables[0], 11, 'places.tables');
+		    equals(server.places.tourneys[0], 21, 'places.tourneys');
+		    server.queueRunning(start_and_cleanup);		    
+		    return false;
+		}
+		return true;
+	    });
+        server.getPlayerPlaces();
+    });
+
 test("jpoker.server.selectTables", function(){
         expect(3);
 	stop();
@@ -1631,6 +1660,39 @@ test("jpoker.table or tourney", function() {
 	equals(tourney.is_tourney, true);
     });
 
+
+test("jpoker.table.poll", function() {
+	expect(6);
+	var server = jpoker.serverCreate({ url: 'url' });
+	server.sendPacket = function(packet) {
+	    equals(packet.type, "PacketPokerPoll");
+	};
+	var callback;
+	jpoker.table.prototype.setTimeout = function(f) {
+	    callback = f;
+	    return 42;
+	};
+	var table = new jpoker.table(server, {"type": "PacketPokerTable", "id": 101, "betting_structure": "15-30-no-limit"});
+	table.poll();
+	equals(table.pollTimer, 42, 'pollTimer set');
+
+	jpoker.table.prototype.clearTimeout = function(timer) {
+	    equals(timer, 42, "clearTimeout called by poll")
+	};
+	callback();
+
+	table.poll = function() {
+	    ok(true, "poll called by timeout callback");
+	};
+	callback();
+
+	jpoker.table.prototype.clearTimeout = function(timer) {
+	    ok(true, "clearTimeout called by uninit")
+	};
+	table.uninit();
+	equals(table.pollTimer, -1, 'pollTimer cleared by uninit');
+	cleanup();
+    });
 
 test("jpoker.table.handler: PacketPokerState", function(){
         expect(1);
@@ -4368,6 +4430,47 @@ test("jpoker.plugins.muck", function(){
         equals($("#muck_deny" + id).is(':hidden'), true, 'muck deny hidden');
 
         cleanup(id);
+    });
+
+test("jpoker.plugins.places", function(){
+        expect(5);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+	server.serial = 42;
+	var PLAYER_PLACES_PACKET = {type: 'PacketPokerPlayerPlaces', serial: 42, tables: [11, 12, 13], tourneys: [21, 22]};
+
+        var PokerServer = function() {};
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(PLAYER_PLACES_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $('#main');
+
+        equals('update' in server.callbacks, false, 'no update registered');
+        place.jpoker('places', 'url');
+        equals(server.callbacks.update.length, 1, 'places update registered');
+	equals($('.jpoker_places').length, 1, 'places div');
+	server.registerUpdate(function(server, what, data) {
+		var element = $('#' + id);
+		if(element.length > 0) {
+		    if (data.type == 'PacketPokerPlayerPlaces') {
+			equals($('.jpoker_places_table', element).length, 3, 'jpoker_places_table');
+			equals($('.jpoker_places_tourney', element).length, 2, 'jpoker_places_tourney');
+			$('#' + id).remove();
+		    }
+		    return true;
+		} else {
+		    start_and_cleanup();
+		    return false;
+		}
+	    });
     });
 
 test("jpoker.preferences", function() {
