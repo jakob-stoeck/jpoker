@@ -1169,10 +1169,14 @@
             rejoin: function() {
                 this.setState(this.MY);
                 var handler = function(server, game_id, packet) {
-                    if(packet.type == 'PacketPokerTableList') {
-                        for(var i = 0; i < packet.packets.length; i++) {
-                            var subpacket = packet.packets[i];
-                            server.tableJoin(subpacket.id);
+                    if(packet.type == 'PacketPokerPlayerPlaces') {
+                        for(var i = 0; i < packet.tables.length; i++) {
+                            var game_id = packet.tables[i];
+                            server.tableJoin(game_id);
+                        }
+                        for(var i = 0; i < packet.tourneys.length; i++) {
+                            var tourney_serial = packet.tourneys[i];
+                            server.tourneyJoin(tourney_serial);
                         }
                         server.getUserInfo();
                         server.setState(server.RUNNING, 'rejoin');
@@ -1181,7 +1185,7 @@
                     return true;
                 };
                 this.registerHandler(0, handler);
-                this.sendPacket({ type: 'PacketPokerTableSelect', string: 'my' });
+                this.sendPacket({ type: 'PacketPokerGetPlayerPlaces', serial: this.serial });
             },
             
             tableJoin: function(game_id) {
@@ -1207,7 +1211,7 @@
 			server.sendPacket({'type': 'PacketPokerTourneyRegister', 'serial': server.serial, 'game_id' : game_id});
 			server.registerHandler(game_id, function(server, game_id, packet) {
 				if (packet.type == 'PacketPokerTourneyRegister') {
-				    server.tourneyJoin(packet);
+				    server.tourneyJoin(packet.game_id);
 				    server.notifyUpdate(packet);
 				    server.queueRunning(function() {
 					    if (server.timers.tourneyDetails !== undefined) {
@@ -1275,10 +1279,10 @@
 		    });
 	    },
 
-	    tourneyJoin: function(packet) {
-		var tourney = new jpoker.tourney(this, packet);
+	    tourneyJoin: function(game_id) {
+		var tourney = new jpoker.tourney(this, game_id);
 		tourney.poll();
-		this.tourneys[packet.game_id] = tourney;
+		this.tourneys[game_id] = tourney;
 	    },
 	    
 	    getPersonalInfo : function() {
@@ -1582,11 +1586,12 @@
     //
     // tourney
     //
-    jpoker.tourney = function(server, packet) {
-        $.extend(this, jpoker.tourney.defaults, packet);
+    jpoker.tourney = function(server, game_id) {
+        $.extend(this, jpoker.tourney.defaults);
+	this.game_id = game_id;
         this.url = server.url;
         this.init();
-        server.registerHandler(packet.game_id, this.handler);
+        server.registerHandler(game_id, this.handler);
     };
 
     jpoker.tourney.defaults = {

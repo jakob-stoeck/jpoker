@@ -405,8 +405,7 @@ test("jpoker.server.uninit", function() {
         var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
 	var tourney_serial = 43;
-	var tourney_packet = {game_id: tourney_serial };
-        server.tourneys[game_id] = new jpoker.tourney(server, table_packet);
+        server.tourneys[game_id] = new jpoker.tourney(server, tourney_serial);
 
 	server.tables[game_id].uninit = function() {
 	    ok(true, "table uninit called");	    
@@ -608,16 +607,17 @@ test("jpoker.server.refreshTourneyDetails waiting", function(){
     });
 
 test("jpoker.server.rejoin", function(){
-        expect(4);
+        expect(5);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
+	var tourney_serial = 200;
 
         var PokerServer = function() {};
         PokerServer.prototype = {
-            outgoing: '[{"type": "PacketPokerTableList", "packets": [{"id": ' + game_id + '}]}]',
+            outgoing: '[{"type": "PacketPokerPlayerPlaces", "tables": [' + game_id + '], "tourneys": [' + tourney_serial + ']}]',
 
             handle: function(packet) { }
         };
@@ -627,6 +627,10 @@ test("jpoker.server.rejoin", function(){
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
         server.notifyUpdate(table_packet);
+
+        server.tourneys[tourney_serial] = new jpoker.tourney(server, tourney_serial);
+        var tourney = server.tourneys[tourney_serial];
+
         var player_serial = 43;
         var player_seat = 2;
         var player_name = 'username';
@@ -657,6 +661,9 @@ test("jpoker.server.rejoin", function(){
             });
         server.tableJoin = function(other_game_id) {
             equals(other_game_id, game_id, 'rejoin same table');
+        };
+        server.tourneyJoin = function(game_id) {
+            equals(game_id, tourney_serial, 'rejoin same tourney');
         };
 
         server.getUserInfo = function() {
@@ -890,7 +897,7 @@ test("jpoker.server.tourneyJoin", function(){
 	
 	var game_id = 42;
         var server = jpoker.serverCreate({ url: 'url' });
-        server.tourneyJoin({game_id: game_id});
+        server.tourneyJoin(game_id);
 	ok(game_id in server.tourneys, 'tourney created');
 	ok(server.tourneys[game_id].pollTimer != -1, 'tourney pollTimer activated');
 	cleanup();
@@ -2044,7 +2051,7 @@ test("jpoker.tourney.uninit", function(){
 
         var server = jpoker.serverCreate({ url: 'url' });
         var game_id = 100;
-        var tourney = new jpoker.tourney(server, { game_id: game_id });
+        var tourney = new jpoker.tourney(server, game_id);
         server.tourneys[game_id] = tourney;
         var notified = false;
         var handler = function() {
@@ -2059,7 +2066,7 @@ test("jpoker.tourney.uninit", function(){
 test("jpoker.tourney.poll", function() {
 	expect(8);
 	var server = jpoker.serverCreate({ url: 'url' });
-	var tourney = new jpoker.tourney(server, {"type": "PacketPokerTourneyRegister", "game_id": 101});
+	var tourney = new jpoker.tourney(server, 101);
 	equals(tourney.pollTimer, -1, 'pollTimer not set');
 
 	server.sendPacket = function(packet) {
@@ -2095,8 +2102,7 @@ test("jpoker.tourney.handler: unknown tourney", function(){
         var server = jpoker.serverCreate({ url: 'url' });
 
         var game_id = 100;
-        var tourney_packet = { game_id: game_id };
-        server.tourneys[game_id] = new jpoker.tourney(server, tourney_packet);
+        server.tourneys[game_id] = new jpoker.tourney(server, game_id);
         var tourney = server.tourneys[game_id];
 
         var packet = { 'type': 'PacketPing',
