@@ -1416,7 +1416,7 @@
 	    poll: function() {
 		var server = jpoker.getServer(this.url);
 		server.sendPacket({type: 'PacketPokerPoll',
-			    game_id: this.game_id});
+			    game_id: this.id});
 		var $this  = this;
 		this.clearTimeout(this.pollTimer);
 		this.pollTimer = this.setTimeout(function() {
