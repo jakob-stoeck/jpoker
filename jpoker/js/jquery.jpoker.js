@@ -1207,9 +1207,7 @@
 			server.sendPacket({'type': 'PacketPokerTourneyRegister', 'serial': server.serial, 'game_id' : game_id});
 			server.registerHandler(game_id, function(server, game_id, packet) {
 				if (packet.type == 'PacketPokerTourneyRegister') {
-				    var tourney = new jpoker.tourney(server, packet);
-				    tourney.poll();
-				    server.tourneys[packet.game_id] = tourney;
+				    server.tourneyJoin(packet);
 				    server.notifyUpdate(packet);
 				    server.queueRunning(function() {
 					    if (server.timers.tourneyDetails !== undefined) {
@@ -1275,6 +1273,12 @@
 				return true;
 			    });
 		    });
+	    },
+
+	    tourneyJoin: function(packet) {
+		var tourney = new jpoker.tourney(this, packet);
+		tourney.poll();
+		this.tourneys[packet.game_id] = tourney;
 	    },
 	    
 	    getPersonalInfo : function() {

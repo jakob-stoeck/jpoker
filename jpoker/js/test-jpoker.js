@@ -885,6 +885,17 @@ test("jpoker.server.bankroll", function(){
         cleanup();
     });
 
+test("jpoker.server.tourneyJoin", function(){
+        expect(2);
+	
+	var game_id = 42;
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.tourneyJoin({game_id: game_id});
+	ok(game_id in server.tourneys, 'tourney created');
+	ok(server.tourneys[game_id].pollTimer != -1, 'tourney pollTimer activated');
+	cleanup();
+    });
+
 test("jpoker.server.tourneyRegister", function(){
         expect(4);
 	stop();
