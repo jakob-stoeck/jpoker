@@ -416,9 +416,9 @@ test("jpoker.server.uninit", function() {
 	};
 	server.uninit();
 	var table_count = 0;
-	for (var table in server.tables) ++table_count;
+	for (var table in server.tables) { ++table_count; }
 	var tourney_count = 0;
-	for (var tourneys_count in server.tourneys) ++tourney_count;
+	for (var tourneys_count in server.tourneys) { ++tourney_count; }
 	equals(table_count, 0, "server.tables empty");
 	equals(tourney_count, 0, "server.tourneys empty");
     });

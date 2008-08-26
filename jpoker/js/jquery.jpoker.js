@@ -1640,8 +1640,8 @@
                      break;
 		}
 
-		return true
-	    },
+		return true;
+	    }
 	});
 
     //
