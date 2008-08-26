@@ -610,7 +610,7 @@ test("jpoker.server.rejoin", function(){
         };
 
         ActiveXObject.prototype.server = new PokerServer();
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
         server.notifyUpdate(table_packet);
@@ -862,7 +862,7 @@ test("jpoker.server.bankroll", function(){
         equals(server.bankroll(currency_serial), money, 'bankroll');
 
 	var game_id = 100;
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);	
         var table = server.tables[game_id];
 	table.currency_serial = currency_serial;
@@ -1715,7 +1715,7 @@ test("jpoker.table.handler: PacketPokerState", function(){
         var game_id = 100;
 
         // define table
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -1740,7 +1740,7 @@ test("jpoker.table.handler: PacketPokerBetLimit", function(){
         server.serial = player_serial;
 
         // define table
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -1769,7 +1769,7 @@ test("jpoker.table.handler: PacketPokerTableDestroy", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -1799,7 +1799,7 @@ test("jpoker.table.handler: PacketPokerTable", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -1843,7 +1843,7 @@ test("jpoker.table.handler: PacketPokerBuyInLimits", function(){
         server.userInfo.money[currency_key] = [ money * 100, in_game * 100, points ];
 
         // define table
-        table_packet = { id: game_id, currency_serial: currency_serial };
+        var table_packet = { id: game_id, currency_serial: currency_serial };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -1872,7 +1872,7 @@ test("jpoker.table.handler: PacketPokerBatchMode", function(){
         var server = jpoker.serverCreate({ url: 'url' });
 
         var game_id = 100;	
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -1889,7 +1889,7 @@ test("jpoker.table.handler: PacketPokerStreamMode", function(){
         var server = jpoker.serverCreate({ url: 'url' });
 
         var game_id = 100;
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -1907,7 +1907,7 @@ test("jpoker.table.handler: unknown table", function(){
         var server = jpoker.serverCreate({ url: 'url' });
 
         var game_id = 100;
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -2973,7 +2973,7 @@ test("jpoker.plugins.table.chat", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -3062,7 +3062,7 @@ test("jpoker.plugins.table: PacketSerial/PacketLogout", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -3086,7 +3086,7 @@ test("jpoker.plugins.table: PacketPokerBoardCards", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -3111,7 +3111,7 @@ test("jpoker.plugins.table: PacketPokerTableQuit", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -3140,7 +3140,7 @@ test("jpoker.plugins.table: PacketPokerDealer", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -3164,7 +3164,7 @@ test("jpoker.plugins.table: PacketPokerChat", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -3205,7 +3205,7 @@ test("jpoker.plugins.table: PacketPokerPosition", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -3246,7 +3246,7 @@ test("jpoker.plugins.table.timeout", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -3300,7 +3300,7 @@ test("jpoker.plugins.table: PacketPokerPotChips/Reset", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -3332,7 +3332,7 @@ test("jpoker.plugins.table: PacketSerial ", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -3379,7 +3379,7 @@ test("jpoker.plugins.table: PacketPokerUserInfo", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -3400,7 +3400,7 @@ test("jpoker.plugins.table: remove callbacks", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -3427,7 +3427,7 @@ test("jpoker.plugins.player: PacketPokerPlayerArrive", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -3454,7 +3454,7 @@ test("jpoker.plugins.player: avatar", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -3483,7 +3483,7 @@ test("jpoker.plugins.player: avatar race condition", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -3518,7 +3518,7 @@ test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -3554,7 +3554,7 @@ test("jpoker.plugins.player: PacketPokerPlayerChips", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -3601,7 +3601,7 @@ test("jpoker.plugins.player: PokerSeat", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -3630,7 +3630,7 @@ test("jpoker.plugins.player: PokerSit/SitOut", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -3709,7 +3709,7 @@ test("jpoker.plugins.player: PokerSit/SitOut PacketPokerAutoFold", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        table_packet = { id: game_id };
+        var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
@@ -3744,7 +3744,7 @@ function _SelfPlayer(game_id, player_serial) {
     var place = $("#main");
 
     var currency_serial = 42;
-    table_packet = { id: game_id, currency_serial: currency_serial };
+    var table_packet = { id: game_id, currency_serial: currency_serial };
     server.tables[game_id] = new jpoker.table(server, table_packet);    
 
     // table
@@ -4317,7 +4317,7 @@ test("jpoker.plugins.playerSelf: create in position", function(){
 	var player_serial = 12;
 	var player_seat = 2;
 	
-	table_packet = { id: game_id, currency_serial: currency_serial };
+	var table_packet = { id: game_id, currency_serial: currency_serial };
 	server.tables[game_id] = new jpoker.table(server, table_packet);    
 	server.tables[game_id].serial_in_position = player_serial;
 	
@@ -4351,7 +4351,7 @@ test("jpoker.plugins.muck", function(){
 	server.preferences.extend({auto_muck_win: false,
 		                   auto_muck_lose: false});
 	var currency_serial = 42;
-	table_packet = { id: game_id, currency_serial: currency_serial };
+	var table_packet = { id: game_id, currency_serial: currency_serial };
 	server.tables[game_id] = new jpoker.table(server, table_packet);
 
 	// table
