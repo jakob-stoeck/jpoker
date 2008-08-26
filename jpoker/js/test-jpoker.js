@@ -1582,7 +1582,7 @@ test("jpoker.connection:queueIncoming", function(){
 // jpoker.table
 //
 test("jpoker.table.init", function(){
-        expect(4);
+        expect(5);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -1594,7 +1594,7 @@ test("jpoker.table.init", function(){
             outgoing: '[{"type": "PacketPokerTable", "id": ' + game_id + '}]',
 
             handle: function(packet) {
-                if(packet.indexOf("PacketPing") >= 0 || packet.indexOf("PacketPokerExplain") >= 0) {
+                if(packet.indexOf("PacketPing") >= 0 || packet.indexOf("PacketPokerExplain") >= 0 || packet.indexOf("PacketPokerPoll") >= 0) {
                     return;
                 }
                 equals(packet, '{"type":"PacketPokerTableJoin","game_id":' + game_id + '}');
@@ -1608,6 +1608,7 @@ test("jpoker.table.init", function(){
                 equals(packet.id, game_id);
                 equals(game_id in server.tables, true, game_id + " created");
                 equals(server.tables[game_id].id, game_id, "id");
+		ok(server.tables[game_id].pollTimer != -1, "poll timer set");
                 start_and_cleanup();
             }
             return true;

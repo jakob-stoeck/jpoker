@@ -916,7 +916,9 @@
                 if(packet.id in server.tables) {
                     server.tables[packet.id].reinit(packet);
                 } else {
-                    server.tables[packet.id] = new jpoker.table(server, packet);
+                    var table = new jpoker.table(server, packet);
+		    table.poll();
+		    server.tables[packet.id] = table;
                     server.notifyUpdate(packet);
                 }
 		packet.game_id = packet.id;
