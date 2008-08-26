@@ -1171,11 +1171,11 @@
                 var handler = function(server, game_id, packet) {
                     if(packet.type == 'PacketPokerPlayerPlaces') {
                         for(var i = 0; i < packet.tables.length; i++) {
-                            var game_id = packet.tables[i];
-                            server.tableJoin(game_id);
+                            var table_id = packet.tables[i];
+                            server.tableJoin(table_id);
                         }
-                        for(var i = 0; i < packet.tourneys.length; i++) {
-                            var tourney_serial = packet.tourneys[i];
+                        for(var j = 0; j < packet.tourneys.length; j++) {
+                            var tourney_serial = packet.tourneys[j];
                             server.tourneyJoin(tourney_serial);
                         }
                         server.getUserInfo();
