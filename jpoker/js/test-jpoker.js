@@ -397,6 +397,19 @@ test("jpoker.Crypto b32 str", function (){
 //
 // jpoker.server
 //
+
+test("jpoker.server.uninit", function() {
+	expect(1);
+        var server = jpoker.serverCreate({ url: 'url' });
+	var game_id = 42;
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+	server.tables[game_id].uninit = function() {
+	    ok(true, "table uninit called");
+	};
+	server.uninit();
+    });
+
 test("jpoker.server.handler PacketPokerMessage/GameMessage ", function(){
         expect(2);
 	

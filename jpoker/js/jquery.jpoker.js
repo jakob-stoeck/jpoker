@@ -854,6 +854,10 @@
             uninit: function() {
                 this.clearTimers();
                 this.unregisterHandler(0, this.handler);
+		$.each(this.tables, function(game_id, table) {
+			table.uninit();
+		    });
+		this.tables = {};
                 jpoker.connection.prototype.uninit.call(this);
             },
 
