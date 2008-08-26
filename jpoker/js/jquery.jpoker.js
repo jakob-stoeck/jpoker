@@ -1416,6 +1416,7 @@
 		server.sendPacket({type: 'PacketPokerPoll',
 			    game_id: this.game_id});
 		var $this  = this;
+		this.clearTimeout(this.pollTimer);
 		this.pollTimer = this.setTimeout(function() {
 			$this.poll();
 		    }, this.pollFrequency);

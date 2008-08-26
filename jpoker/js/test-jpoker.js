@@ -1675,31 +1675,31 @@ test("jpoker.table or tourney", function() {
 
 
 test("jpoker.table.poll", function() {
-	expect(6);
+	expect(7);
 	var server = jpoker.serverCreate({ url: 'url' });
+	var table = new jpoker.table(server, {"type": "PacketPokerTable", "id": 101, "betting_structure": "15-30-no-limit"});
+	equals(table.pollTimer, -1, 'pollTimer not set');
+
 	server.sendPacket = function(packet) {
 	    equals(packet.type, "PacketPokerPoll");
 	};
 	var callback;
-	jpoker.table.prototype.setTimeout = function(f) {
+	table.setTimeout = function(f) {
 	    callback = f;
 	    return 42;
 	};
-	var table = new jpoker.table(server, {"type": "PacketPokerTable", "id": 101, "betting_structure": "15-30-no-limit"});
+	table.clearTimeout = function(timer) {
+	    equals(timer, -1, "clearTimeout called by poll")
+	};
 	table.poll();
 	equals(table.pollTimer, 42, 'pollTimer set');
-
-	jpoker.table.prototype.clearTimeout = function(timer) {
-	    equals(timer, 42, "clearTimeout called by poll")
-	};
-	callback();
 
 	table.poll = function() {
 	    ok(true, "poll called by timeout callback");
 	};
 	callback();
 
-	jpoker.table.prototype.clearTimeout = function(timer) {
+	table.clearTimeout = function(timer) {
 	    ok(true, "clearTimeout called by uninit")
 	};
 	table.uninit();
