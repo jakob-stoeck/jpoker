@@ -977,6 +977,7 @@ test("jpoker.server.tourneyRegister waiting", function(){
 	equals(server.callbacks[0][0], callback, 'tourneyRegister callback still in place');
 	server.notify(game_id, {type: 'PacketPing'});
 	equals(server.callbacks[game_id][0], callback_game_id, 'tourneyRegister callback_game_id still in place');
+	cleanup();
     });
 
 test("jpoker.server.tourneyUnregister", function(){
@@ -1013,7 +1014,6 @@ test("jpoker.server.tourneyUnregister", function(){
     });
 
 test("jpoker.server.tourneyUnregister error", function(){
-
         expect(1);
 	stop();
 
@@ -1057,6 +1057,7 @@ test("jpoker.server.tourneyUnregister waiting", function(){
 	equals(server.callbacks[0][0], callback, 'tourneyUnregister callback still in place');
 	server.notify(game_id, {type: 'PacketPing', id: game_id});
 	equals(server.callbacks[game_id][0], callback_game_id, 'tourneyUnregister callback_game_id still in place');
+	cleanup();
     });
 
 test("jpoker.server.getPersonalInfo", function(){
