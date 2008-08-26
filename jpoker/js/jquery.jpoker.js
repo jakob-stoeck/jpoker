@@ -1407,7 +1407,7 @@
                 this.state = 'end';
 		this.clearTimeout(this.pollTimer);
 		this.pollTimer = -1;
-		this.pollFrequency = 1000;
+		this.pollFrequency = 5000;
             },
 
             clearTimeout: function(id) { return window.clearTimeout(id); },
