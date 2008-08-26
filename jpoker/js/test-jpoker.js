@@ -1691,7 +1691,7 @@ test("jpoker.table.poll", function() {
 	    return 42;
 	};
 	table.clearTimeout = function(timer) {
-	    equals(timer, -1, "clearTimeout called by poll")
+	    equals(timer, -1, "clearTimeout called by poll");
 	};
 	table.poll();
 	equals(table.pollTimer, 42, 'pollTimer set');
@@ -1702,7 +1702,7 @@ test("jpoker.table.poll", function() {
 	callback();
 
 	table.clearTimeout = function(timer) {
-	    ok(true, "clearTimeout called by uninit")
+	    ok(true, "clearTimeout called by uninit");
 	};
 	table.uninit();
 	equals(table.pollTimer, -1, 'pollTimer cleared by uninit');
@@ -3189,7 +3189,7 @@ test("jpoker.plugins.table: PacketPokerChat", function(){
 	
 	$(".jpoker_chat_history_player").text("");
         table.handler(server, game_id, { type: 'PacketPokerChat', message: message, game_id: game_id, serial: 0 });	
-        var content = $(".jpoker_chat_history_dealer", chat_history).text();
+        content = $(".jpoker_chat_history_dealer", chat_history).text();
         equals(content.indexOf(message) >= 0, false, "message is split");
         equals(content.indexOf('tout') >= 0, true, "message part is displayed");
         equals($(".jpoker_chat_history_player").text(), "", "no player message");

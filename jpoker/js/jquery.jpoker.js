@@ -2142,12 +2142,12 @@
 			'name': _("Name"),
 			'money': _("Money")
 			}));
-	    for(var serial in packet.user2properties) {
-		var player = packet.user2properties[serial];
-		if (player.money == -1) {
-		    player.money = "";
+	    for(var current_serial in packet.user2properties) {
+		var current_player = packet.user2properties[current_serial];
+		if (current_player.money == -1) {
+		    current_player.money = "";
 		}
-		html.push(t.players_no_rank.rows.supplant(player));
+		html.push(t.players_no_rank.rows.supplant(current_player));
 	    }
 	    html.push(t.players_no_rank.footer);
 	}
@@ -3009,7 +3009,6 @@
 	    var server = jpoker.getServer(url);
 	    $('#auto_muck_win' + id)[0].checked = server.preferences.auto_muck_win;
 	    $('#auto_muck_lose' + id)[0].checked = server.preferences.auto_muck_lose;
-	    var server = jpoker.getServer(url);
 	    jpoker.plugins.muck.sendAutoMuck(server, game_id, id);
 	    
             if(serial == table.serial_in_position) {
@@ -3463,7 +3462,7 @@
 	    header : '<div class=\'jpoker_places_tourneys\'><table><thead><tr><th>{tourney_title}</th></tr></thead><tbody>',
 	    rows : '<tr class=\'jpoker_places_tourney\'><td>{tourney}</td></tr>',
 	    footer : '</tbody></table></div>'
-	},
+	}
     };
 
     jpoker.plugins.muck = {
