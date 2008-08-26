@@ -2092,7 +2092,7 @@ test("jpoker.tourney.handler: unknown tourney", function(){
         };
 
         jpokerMessage = jpoker.message;
-	var messages = []
+	var messages = [];
         jpoker.message = function(message) {
 	    messages.push(message);
         };
