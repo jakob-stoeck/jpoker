@@ -839,6 +839,7 @@
             init: function() {
                 jpoker.connection.prototype.init.call(this);
                 this.tables = {};
+		this.tourneys = {};
                 this.tableLists = {};
                 this.timers = {};
                 this.serial = 0;
@@ -858,6 +859,10 @@
 			table.uninit();
 		    });
 		this.tables = {};
+		$.each(this.tourneys, function(game_id, tourney) {
+			tourney.uninit();
+		    });
+		this.tourneys = {};
                 jpoker.connection.prototype.uninit.call(this);
             },
 
@@ -1202,6 +1207,9 @@
 			server.sendPacket({'type': 'PacketPokerTourneyRegister', 'serial': server.serial, 'game_id' : game_id});
 			server.registerHandler(game_id, function(server, game_id, packet) {
 				if (packet.type == 'PacketPokerTourneyRegister') {
+				    var tourney = new jpoker.tourney(server, packet);
+				    tourney.poll();
+				    server.tourneys[packet.game_id] = tourney;
 				    server.notifyUpdate(packet);
 				    server.queueRunning(function() {
 					    if (server.timers.tourneyDetails !== undefined) {
@@ -1566,6 +1574,75 @@
                 return true;
             }
         });
+
+    //
+    // tourney
+    //
+    jpoker.tourney = function(server, packet) {
+        $.extend(this, jpoker.tourney.defaults, packet);
+        this.url = server.url;
+        this.init();
+        server.registerHandler(packet.game_id, this.handler);
+    };
+
+    jpoker.tourney.defaults = {
+    };
+
+    jpoker.tourney.prototype = $.extend({}, jpoker.watchable.prototype, {
+            init: function() {
+                jpoker.watchable.prototype.init.call(this);
+                this.reset();
+            },
+
+            uninit: function() {
+                jpoker.watchable.prototype.uninit.call(this);
+                this.reset();
+            },
+
+            reset: function() {
+		this.clearTimeout(this.pollTimer);
+		this.pollTimer = -1;
+		this.pollFrequency = 5000;
+            },
+
+            clearTimeout: function(id) { return window.clearTimeout(id); },
+            setTimeout: function(cb, delay) { return window.setTimeout(cb, delay); },
+
+	    poll: function() {
+		var server = jpoker.getServer(this.url);
+		server.sendPacket({type: 'PacketPokerPoll',
+			    tourney_serial: this.game_id});
+		var $this  = this;
+		this.clearTimeout(this.pollTimer);
+		this.pollTimer = this.setTimeout(function() {
+			$this.poll();
+		    }, this.pollFrequency);
+	    },
+
+            handler: function(server, game_id, packet) {
+                if(jpoker.verbose > 0) {
+                    jpoker.message('tourney.handler ' + JSON.stringify(packet));
+                }
+                
+                tourney = server.tourneys[packet.game_id];
+                if(!tourney) {
+                    jpoker.message('unknown tourney ' + packet.game_id);
+                    return true;
+                }
+                var url = server.url;
+                var serial = packet.serial;
+
+                switch(packet.type) {
+
+                case 'PacketPokerTourneyUnregister':
+                     tourney.uninit();
+                     delete server.tourneys[game_id];
+                     break;
+		}
+
+		return true
+	    },
+	});
 
     //
     // player

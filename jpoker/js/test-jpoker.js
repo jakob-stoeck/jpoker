@@ -399,15 +399,28 @@ test("jpoker.Crypto b32 str", function (){
 //
 
 test("jpoker.server.uninit", function() {
-	expect(1);
+	expect(4);
         var server = jpoker.serverCreate({ url: 'url' });
 	var game_id = 42;
         var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
+	var tourney_serial = 43;
+	var tourney_packet = {game_id: tourney_serial };
+        server.tourneys[game_id] = new jpoker.tourney(server, table_packet);
+
 	server.tables[game_id].uninit = function() {
-	    ok(true, "table uninit called");
+	    ok(true, "table uninit called");	    
+	};
+	server.tourneys[game_id].uninit = function() {
+	    ok(true, "tourney uninit called");
 	};
 	server.uninit();
+	var table_count = 0;
+	for (var table in server.tables) ++table_count;
+	var tourney_count = 0;
+	for (var tourneys_count in server.tourneys) ++tourney_count;
+	equals(table_count, 0, "server.tables empty");
+	equals(tourney_count, 0, "server.tourneys empty");
     });
 
 test("jpoker.server.handler PacketPokerMessage/GameMessage ", function(){
@@ -887,6 +900,9 @@ test("jpoker.server.tourneyRegister", function(){
         server.serial = serial;
 	
         server.sendPacket = function(packet) {
+	    if (packet.type == 'PacketPokerPoll') {
+		return;
+	    }
             equals(packet.type, 'PacketPokerTourneyRegister');
             equals(packet.serial, serial, 'player serial');
             equals(packet.game_id, game_id, 'tournament id');
@@ -1956,6 +1972,97 @@ test("jpoker.table.handler: unknown table", function(){
 	table.handler(server, game_id, packet);
     });
 
+//
+// tourney
+//
+test("jpoker.tourney.init", function(){
+        expect(5);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+	server.serial = 42;
+        var game_id = 100;
+
+        var PokerServer = function() {};
+
+        PokerServer.prototype = {
+            outgoing: '[{"type": "PacketPokerTourneyRegister", "game_id": ' + game_id + '}]',
+
+            handle: function(packet) {
+		if(packet.indexOf("PacketPing") >= 0 || packet.indexOf("PacketPokerExplain") >= 0 || packet.indexOf("PacketPokerPoll") >= 0) {
+                    return;
+                }
+                equals(packet, '{"type":"PacketPokerTourneyRegister","serial":42,"game_id":' + game_id + '}');
+            }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var handler = function(server, what, packet) {
+            if(packet.type == "PacketPokerTourneyRegister") {
+                equals(packet.game_id, game_id);
+                equals(game_id in server.tourneys, true, game_id + " created");
+                equals(server.tourneys[game_id].game_id, game_id, "id");
+		ok(server.tourneys[game_id].pollTimer != -1, "poll timer set");
+                start_and_cleanup();
+            }
+            return true;
+        };
+        server.registerUpdate(handler);
+        server.tourneyRegister(game_id);
+    });
+
+
+test("jpoker.tourney.uninit", function(){
+        expect(2);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var game_id = 100;
+        var tourney = new jpoker.tourney(server, { game_id: game_id });
+        server.tourneys[game_id] = tourney;
+        var notified = false;
+        var handler = function() {
+            notified = true;
+        };
+        tourney.registerDestroy(handler);
+        tourney.handler(server, game_id, { type: 'PacketPokerTourneyUnregister', game_id: game_id });
+        equals(notified, true, 'destroy callback called');
+        equals(game_id in server.tourneys, false, 'tourney removed from server');
+    });
+
+test("jpoker.tourney.poll", function() {
+	expect(8);
+	var server = jpoker.serverCreate({ url: 'url' });
+	var tourney = new jpoker.tourney(server, {"type": "PacketPokerTourneyRegister", "game_id": 101});
+	equals(tourney.pollTimer, -1, 'pollTimer not set');
+
+	server.sendPacket = function(packet) {
+	    equals(packet.type, "PacketPokerPoll");
+	    equals(packet.tourney_serial, 101);
+	};
+	var callback;
+	tourney.setTimeout = function(f) {
+	    callback = f;
+	    return 42;
+	};
+	tourney.clearTimeout = function(timer) {
+	    equals(timer, -1, "clearTimeout called by poll");
+	};
+	tourney.poll();
+	equals(tourney.pollTimer, 42, 'pollTimer set');
+	
+	tourney.poll = function() {
+	    ok(true, "poll called by timeout callback");
+	};
+	callback();
+
+	tourney.clearTimeout = function(timer) {
+	    ok(true, "clearTimeout called by uninit");
+	};
+	tourney.uninit();
+	equals(tourney.pollTimer, -1, 'pollTimer cleared by uninit');
+	cleanup();
+    });
 
 //
 // player
