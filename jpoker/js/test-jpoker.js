@@ -1120,6 +1120,37 @@ test("jpoker.server.getPlayerPlaces", function(){
         server.getPlayerPlaces();
     });
 
+test("jpoker.server.getPlayerPlaces not logged", function(){
+        expect(1);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        server.serial = 0;
+
+        dialog = jpoker.dialog;
+        jpoker.dialog = function(message) {
+            equals(message.indexOf("must be logged in") >= 0, true, "should be logged");
+            jpoker.dialog = dialog;
+            start_and_cleanup();
+        };	
+        server.getPlayerPlaces();
+    });
+
+test("jpoker.server.getPlayerPlaces waiting", function(){
+        expect(2);
+	
+        var server = jpoker.serverCreate({ url: 'url' });
+	server.serial = 42;
+	var game_id = 100;
+	server.callbacks[0] = [];
+	server.getPlayerPlaces();
+	equals(server.callbacks[0].length, 1, 'getPlayerPlaces callbacks[0] registered');
+	var callback = server.callbacks[0][0];
+	server.notify(0, {type: 'PacketPing'});
+	equals(server.callbacks[0][0], callback, 'getPlayerPlaces callback still in place');
+    });
+
 test("jpoker.server.selectTables", function(){
         expect(3);
 	stop();
