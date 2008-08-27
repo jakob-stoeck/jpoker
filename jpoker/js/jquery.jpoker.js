@@ -2643,7 +2643,7 @@
                 jpoker.plugins.player.create(table, table.serial2player[serial], id);
             }
             jpoker.plugins.table.position(id, table, table.serial_in_position);
-	    jpoker.plugins.table.timeout(id, table, table.serial_in_position);
+	    jpoker.plugins.table.timeout(id, table, table.serial_in_position, 0.0);
             if($('#jpokerSound').size() === 0) {
                 $('body').prepend('<div id=\'jpokerSound\' />');
             }
@@ -2692,9 +2692,10 @@
         for(var seat = 0; seat < table.seats.length; seat++) {
 	    var timeout_element = $('#player_seat' + seat + '_timeout' + id);
             if(in_position && in_position.sit === true && in_position.seat == seat) {
-		timeout_element.progression({Current: 100*ratio, Animate: false});
+		$('.jpoker_timeout_progress', timeout_element).css({width: ratio*100+'%'}).show();
+		$('.jpoker_timeout_progress', timeout_element).animate({width: '0%'}, {duration: ratio*table.player_timeout*1000, queue: false});
+		timeout_element.attr("pcur", ratio*100);
 		timeout_element.show();
-		timeout_element.progression({Current: 0, AnimateTimeOut: table.player_timeout*1000, Animate: true});
             } else {
 		timeout_element.hide();
             }
@@ -2874,6 +2875,7 @@
 		});
 	    var timeout_element = $('#player_seat' + seat  + '_timeout' + id);
 	    timeout_element.removeClass().addClass('jpoker_timeout jpoker_ptable_player_seat' + seat + '_timeout');
+	    $('<div class=\'jpoker_timeout_progress\'>').appendTo(timeout_element);
 
             jpoker.plugins.player.chips(player, id);
             var name = $('#player_seat' + seat + '_name' + id);
