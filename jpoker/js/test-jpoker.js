@@ -2362,6 +2362,90 @@ test("jpoker.plugins.sitngoTourneyList", function(){
             });
     });
 
+test("jpoker.plugins.regularTourneyList empty", function(){
+        expect(1);
+        stop();
+
+        //
+        // Mockup server that will always return TOURNEY_LIST_PACKET,
+        // whatever is sent to it.
+        //
+        var PokerServer = function() {};
+
+	var TOURNEY_LIST_PACKET = {"players": 0, "packets": [], "tourneys": 5, "type": "PacketPokerTourneyList"};
+
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TOURNEY_LIST_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $("#main");
+        place.jpoker('regularTourneyList', 'url', { delay: 30 });
+        server.registerUpdate(function(server, what, data) {
+                var element = $("#" + id);
+                if(element.length > 0) {
+                    var tr = $("#" + id + " tr", place);
+                    equals(tr.length, 1);
+                    $("#" + id).remove();
+                    return true;
+                } else {
+                    window.setTimeout(function() {
+                            start_and_cleanup();
+                        }, 30);
+                    return false;
+                }
+            });
+    });
+
+test("jpoker.plugins.sitngoTourneyList empty", function(){
+        expect(1);
+        stop();
+
+        //
+        // Mockup server that will always return TOURNEY_LIST_PACKET,
+        // whatever is sent to it.
+        //
+        var PokerServer = function() {};
+
+	var TOURNEY_LIST_PACKET = {"players": 0, "packets": [], "tourneys": 5, "type": "PacketPokerTourneyList"};
+
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TOURNEY_LIST_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $("#main");
+        place.jpoker('sitngoTourneyList', 'url', { delay: 30 });
+        server.registerUpdate(function(server, what, data) {
+                var element = $("#" + id);
+                if(element.length > 0) {
+                    var tr = $("#" + id + " tr", place);
+                    equals(tr.length, 1);
+                    $("#" + id).remove();
+                    return true;
+                } else {
+                    window.setTimeout(function() {
+                            start_and_cleanup();
+                        }, 30);
+                    return false;
+                }
+            });
+    });
+
 //
 // tourneyDetails
 //

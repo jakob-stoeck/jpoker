@@ -1962,7 +1962,9 @@
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTourneyList') {
                             $(element).html(regularTourneyList.getHTML(id, packet));
-			    $(element).tablesorter({widgets: ['zebra'], sortList: [[4, 0]]});
+			    if ($('tr', element).length > 1) {
+				$(element).tablesorter({widgets: ['zebra'], sortList: [[4, 0]]});
+			    }
                             for(var i = 0; i < packet.packets.length; i++) {
                                 (function(){
                                     var subpacket = packet.packets[i];
@@ -2054,7 +2056,9 @@
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTourneyList') {
                             $(element).html(sitngoTourneyList.getHTML(id, packet));
-			    $(element).tablesorter({widgets: ['zebra'], sortList: [[3, 0]]});
+			    if ($('tr', element).length > 1) {
+				$(element).tablesorter({widgets: ['zebra'], sortList: [[3, 0]]});
+			    }
                             for(var i = 0; i < packet.packets.length; i++) {
                                 (function(){
                                     var subpacket = packet.packets[i];
