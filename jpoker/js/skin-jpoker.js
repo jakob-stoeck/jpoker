@@ -247,8 +247,9 @@ function jpoker_05_selfPlayer(place) {
         var player_serial = 200;
         var packets = [
 { type: 'PacketSerial', serial: player_serial },
-{ type: 'PacketPokerTable', id: game_id },
-{ type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'myself' }
+{ type: 'PacketPokerTable', id: game_id},
+{ type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'myself' },
+{ type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, money: 0, bet: 0 },
                        ];
         ActiveXObject.prototype.server = {
             outgoing: JSON.stringify(packets),
