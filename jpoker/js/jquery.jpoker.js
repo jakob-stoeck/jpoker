@@ -3282,6 +3282,13 @@
                     raise.append('<span class=\'jpoker_raise_bound jpoker_raise_max\'>' + jpoker.chips.SHORT(betLimit.max) + '</span> ');
                     raise.append('<div class=\'ui-slider-1\' style=\'margin:10px; width:70px; \'><div class=\'ui-slider-handle\'></div></div>');
                     raise.show(); // must be visible otherwise outerWeight/outerWidth returns 0
+
+		    var raise_input = $('#raise_input' + id);
+		    raise_input.empty();
+		    $('<input class=\'jpoker_raise_input\' type=\'text\'>').appendTo(raise_input)
+			.val(betLimit.min);
+		    raise_input.show();
+
                     $('.ui-slider-1', raise).slider({
                             min: betLimit.min,
                                 startValue: betLimit.min,
@@ -3292,8 +3299,14 @@
                                 var current = $('.jpoker_raise_current', ui.element);
                                 current.html(jpoker.chips.SHORT(ui.value));
                                 current.attr('title', ui.value);
+				$('.jpoker_raise_input', raise_input).val(jpoker.chips.SHORT(ui.value));
                             }
                         });
+
+		    $('.jpoker_raise_input', raise_input).change(function() {
+			    $('.ui-slider-1', raise).slider('moveTo', $(this).val());
+			});
+
                     click = function() {
                         var server = jpoker.getServer(url);
                         if(server) {
@@ -3325,7 +3338,7 @@
             jpoker.plugins.playerSelf.hide(id);
         },
 
-        names: [ 'fold', 'call', 'check', 'raise', 'raise_range', 'rebuy' ],
+        names: [ 'fold', 'call', 'check', 'raise', 'raise_range', 'raise_input', 'rebuy' ],
 
         hide: function(id) {
             for(var i = 0; i < this.names.length; i++) {

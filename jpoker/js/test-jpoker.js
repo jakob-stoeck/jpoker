@@ -3212,7 +3212,7 @@ test("jpoker.plugins.login", function(){
 // table
 //
 test("jpoker.plugins.table", function(){
-        expect(17);
+        expect(18);
 
 	var packet = {"type": "PacketPokerTable", "id": 100};
         var server = jpoker.serverCreate({ url: 'url' });
@@ -3236,7 +3236,7 @@ test("jpoker.plugins.table", function(){
     });
 
 test("jpoker.plugins.table.reinit", function(){
-        expect(16);
+        expect(17);
 
 	var packet = {"type": "PacketPokerTable", "id": 100};
         var server = jpoker.serverCreate({ url: 'url' });
@@ -4078,7 +4078,7 @@ function _SelfPlayerSit(game_id, player_serial, money) {
 }
 
 test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function(){
-        expect(81);
+        expect(89);
 
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
@@ -4165,13 +4165,23 @@ test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function()
         equals($(".jpoker_raise_current", raise).html(), Z.table.betLimit.min, 'current');
         equals($(".jpoker_raise_max", raise).html(), Z.table.betLimit.max, 'max');
         equals(raise.is(':visible'), true, 'raise range visible');
+	var raise_input = $('#raise_input' + id);
+	equals(raise_input.is(':visible'), true, 'raise input visible');
+	equals($('.jpoker_raise_input', raise_input).length, 1, 'raise input');
         var slider = $('.ui-slider-1', raise);
 	equals($('.jpoker_raise_current', raise).attr("title"), 5, "title = raise amount");
-	slider.slider("moveTo", 0);
-	equals($('.jpoker_raise_current', raise).attr("title"), 0, "title updated");
+	equals($('.jpoker_raise_input', raise_input).val(), 5, 'raise input value = raise amount');
+	slider.slider("moveTo", 6, 0);
+	equals(slider.slider("value", 0), 6, "slider value updated");
+	equals($('.jpoker_raise_current', raise).attr("title"), 6, "title updated by slider");
+	equals($('.jpoker_raise_input', raise_input).val(), 6, 'raise input updated by slider');
+	$('.jpoker_raise_input', raise_input).val(7).change();
+	equals($('.jpoker_raise_current', raise).attr("title"), 7, "title updated by input");
         //        $('.ui-slider-handle', raise).parent().triggerKeydown("38");
         // equals($(".jpokerRaiseCurrent", raise).attr('title'), Z.table.betLimit.min, 'value changed');
         Z.table.handler(Z.server, game_id, { type: 'PacketPokerSelfLostPosition', serial: 333, game_id: game_id });
+	equals(raise.is(':hidden'), true, 'raise range hidden');
+	equals($('#raise_input' + id).is(':hidden'), true, 'raise input hidden');
 
         cleanup(id);
     });
