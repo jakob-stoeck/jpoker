@@ -1717,6 +1717,27 @@
                 break;
 
 		case 'PacketPokerFold':
+		this.action = _("fold");
+		this.notifyUpdate(packet);
+		break;
+
+		case 'PacketPokerCheck':
+		this.action = _("check");
+		this.notifyUpdate(packet);
+		break;
+
+		case 'PacketPokerCall':
+		this.action = _("call");
+		this.notifyUpdate(packet);
+		break;
+
+		case 'PacketPokerRaise':
+		this.action = _("raise");
+		this.notifyUpdate(packet);
+		break;
+
+		case 'PacketPokerEndRound':
+		this.action = '';
 		this.notifyUpdate(packet);
 		break;
 
@@ -2857,6 +2878,7 @@
             jpoker.plugins.cards.update(player.cards, 'card_seat' + player.seat, id);
             $('#player_seat' + seat + '_bet' + id).addClass('jpoker_bet');
             $('#player_seat' + seat  + '_money' + id).addClass('jpoker_money');
+            $('#player_seat' + seat  + '_action' + id).addClass('jpoker_action');
             var avatar_element = $('#player_seat' + seat  + '_avatar' + id);
 	    if ((packet.url !== undefined) && (packet.url != 'random')) {
                 avatar_element.removeClass().addClass('jpoker_avatar jpoker_ptable_player_seat' + seat + '_avatar ');
@@ -2929,6 +2951,22 @@
 
 	    case 'PacketPokerFold':
 	    jpoker.plugins.cards.hide(player.cards, 'card_seat' + player.seat, id);
+	    jpoker.plugins.player.action(player, id);
+	    break;
+
+	    case 'PacketPokerCheck':
+	    jpoker.plugins.player.action(player, id);
+
+	    case 'PacketPokerCall':
+	    jpoker.plugins.player.action(player, id);
+	    break;
+
+	    case 'PacketPokerRaise':
+	    jpoker.plugins.player.action(player, id);
+	    break;
+
+	    case 'PacketPokerEndRound':
+	    jpoker.plugins.player.action(player, id);
 	    break;
 
             case 'PacketPokerPlayerChips':
@@ -2973,6 +3011,10 @@
                 jpoker.plugins.playerSelf.chips(player, id);
             }
         },
+
+	action: function(player, id) {
+	    $('#player_seat' + player.seat + '_action' + id).html(player.action);
+	},
 
         seat: function(seat, id, server, table) {
             if(table.seats[seat] !== null) {

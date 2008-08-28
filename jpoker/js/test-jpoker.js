@@ -3842,6 +3842,46 @@ test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
         start_and_cleanup();
     });
 
+test("jpoker.plugins.player: PacketPokerPlayerCall/Fold/Raise/Check/EndRound", function(){
+        expect(7);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 1;
+        var player_seat = 2;
+        server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+        var player = server.tables[game_id].serial2player[player_serial];
+	var player_action_element = $('#player_seat'+player.seat+'_action'+id);
+	equals(player_action_element.length, 1, 'player action');
+	equals(player_action_element.hasClass('jpoker_action'), true, 'player action class');
+
+        table.handler(server, game_id, { type: 'PacketPokerCall', serial: player_serial, game_id: game_id });
+	equals(player_action_element.html(), 'call');
+
+	table.handler(server, game_id, { type: 'PacketPokerFold', serial: player_serial, game_id: game_id });
+	equals(player_action_element.html(), 'fold');
+
+	table.handler(server, game_id, { type: 'PacketPokerRaise', serial: player_serial, game_id: game_id });
+	equals(player_action_element.html(), 'raise');
+
+	table.handler(server, game_id, { type: 'PacketPokerCheck', serial: player_serial, game_id: game_id });
+	equals(player_action_element.html(), 'check');
+
+	table.handler(server, game_id, { type: 'PacketPokerEndRound', serial: player_serial, game_id: game_id });
+	equals(player_action_element.html(), '');
+        
+        start_and_cleanup();
+    });
+
 test("jpoker.plugins.player: PacketPokerPlayerChips", function(){
         expect(15);
         stop();

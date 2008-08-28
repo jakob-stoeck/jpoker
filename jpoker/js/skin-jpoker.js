@@ -186,6 +186,7 @@ function jpoker_03_playerBet(place) {
         for(var i = 0; i < 10; i++) {
             packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
             packets.push({ type: 'PacketPokerSit', serial: player_serial + i, game_id: game_id });
+            packets.push({ type: 'PacketPokerRaise', serial: player_serial + i, game_id: game_id });
             packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money, bet: bet });
             money *= 10;
             bet *= 10;

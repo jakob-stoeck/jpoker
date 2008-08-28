@@ -149,6 +149,15 @@
     color: #e5b408;
 }
 
+.jpoker_table .jpoker_action {
+    text-align: center;
+    line-height: 10px;
+    font-size: small;
+    font-weight: bold;
+    font-family: "trebuchet MS",arial,helvetica,sans-serif;
+    color: #e5e5e5;
+}
+
 .jpoker_table .jpoker_name {
     text-align: center;
     line-height: 10px;
