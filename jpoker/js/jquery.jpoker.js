@@ -1580,6 +1580,14 @@
 		case 'PacketPokerMuckRequest':
 		    table.notifyUpdate(packet);
 		    break;
+		    
+		case 'PacketPokerEndRound':
+		    $.each(table.serial2player, function(serial, player) {
+			    packet.serial = serial;
+			    player.handler(server, game_id, packet);
+			});
+		    table.notifyUpdate(packet);
+		    break;
                 }
 
                 if(serial in table.serial2player) {
