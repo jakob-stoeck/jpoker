@@ -1588,6 +1588,11 @@
 			});
 		    table.notifyUpdate(packet);
 		    break;
+
+		case 'PacketPokerStart':
+		    table.level = packet.level;
+		    table.notifyUpdate(packet);
+		    break;
                 }
 
                 if(serial in table.serial2player) {
@@ -2683,6 +2688,15 @@
             if($('#jpokerSound').size() === 0) {
                 $('body').prepend('<div id=\'jpokerSound\' />');
             }
+
+	    var table_info_element = $('#table_info' + id);
+	    $('<div class=\'jpoker_table_info_name\'>').appendTo(table_info_element).html(table.name);
+	    $('<div class=\'jpoker_table_info_flop\'>').appendTo(table_info_element).html(table.percent_flop + _("% Flop"));
+	    $('<div class=\'jpoker_table_info_blind\'>').appendTo(table_info_element).html(table.betting_structure);
+	    if (table.is_tourney) {
+		$('<div class=\'jpoker_table_info_level\'>').appendTo(table_info_element);
+	    }
+
             // it does not matter to register twice as long as the same key is used
             // because the second registration will override the first
             table.registerUpdate(this.update, id, 'table update' + id);
@@ -2837,6 +2851,13 @@
 
 	    case 'PacketPokerMuckRequest':
 		jpoker.plugins.muck.muckRequest(server, packet, id);
+		break;
+		
+	    case 'PacketPokerStart':
+	        var table_info = $('#table_info' + id);
+		if (table.is_tourney) {
+		    $('.jpoker_table_info_level', table_info).html(table.level);
+		}
 		break;
             }
 

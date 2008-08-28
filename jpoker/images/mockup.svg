@@ -42,8 +42,8 @@
      pagecolor="#ffffff"
      id="base"
      inkscape:zoom="1.2916484"
-     inkscape:cx="128.10044"
-     inkscape:cy="618.01228"
+     inkscape:cx="673.91661"
+     inkscape:cy="749.34498"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:current-layer="game_fixed"
@@ -260,13 +260,6 @@
        width="94"
        height="50"
        id="raise_range" />
-    <rect
-       style="stroke:none;fill:url(#pattern2504)"
-       width="150"
-       height="75"
-       x="628.19409"
-       y="11.148649"
-       id="rect2507" />
     <image
        xlink:href="../css/images/jpoker_table/get_seat.png"
        x="25.861681"
@@ -866,5 +859,15 @@
        inkscape:label="raise_input"
        height="26.281096"
        y="544.92053" />
+    <image
+       xlink:href="../css/images/jpoker_table/status.png"
+       x="628.14154"
+       id="table_info"
+       inkscape:transform-center-y="261.53116"
+       inkscape:transform-center-x="-15.404275"
+       width="149.67247"
+       inkscape:label="auto_muck"
+       height="75.830185"
+       y="10.71941" />
   </g>
 </svg>

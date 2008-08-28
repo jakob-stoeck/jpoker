@@ -3235,6 +3235,54 @@ test("jpoker.plugins.table", function(){
 	content = $("#" + id).text();
     });
 
+test("jpoker.plugins.table: info", function(){
+        expect(8);
+	var packet = {"type": "PacketPokerTable", "id": 100, "name": "One", "percent_flop" : 98, "betting_structure": "15-30-no-limit"};
+        var server = jpoker.serverCreate({ url: 'url' });
+	server.tables[packet.id] = new jpoker.table(server, packet);
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+
+        var game_id = 100;
+
+        place.jpoker('table', 'url', game_id);
+
+	var table_info_element = $('#table_info'+id);
+	equals(table_info_element.length, 1, 'table info');
+	equals($('.jpoker_table_info_name', table_info_element).length, 1, 'table info name');
+	equals($('.jpoker_table_info_name', table_info_element).html(), 'One');
+	equals($('.jpoker_table_info_flop', table_info_element).length, 1, 'table info flop');
+	equals($('.jpoker_table_info_flop', table_info_element).html(), '98% Flop', 'table info flop');
+	equals($('.jpoker_table_info_blind', table_info_element).length, 1, 'table info blind');
+	equals($('.jpoker_table_info_blind', table_info_element).html(), '15-30-no-limit', 'table info blind');
+	equals($('.jpoker_table_info_level', table_info_element).length, 0, 'table info level');
+
+	cleanup();
+    });
+
+test("jpoker.plugins.table: info tourney", function(){
+        expect(4);
+	var packet = {"type": "PacketPokerTable", "id": 100, "name": "One", "percent_flop" : 98, "betting_structure": "level-15-30-no-limit"};
+        var server = jpoker.serverCreate({ url: 'url' });
+	var table = server.tables[packet.id] = new jpoker.table(server, packet);
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+
+        var game_id = 100;
+
+        place.jpoker('table', 'url', game_id);
+
+	var table_info_element = $('#table_info'+id);
+	equals($('.jpoker_table_info_blind', table_info_element).length, 1, 'table info blind');
+	equals($('.jpoker_table_info_blind', table_info_element).html(), 'level-15-30-no-limit', 'table info blind');
+	equals($('.jpoker_table_info_level', table_info_element).length, 1, 'table info level');
+
+	table.handler(server, game_id, { type: 'PacketPokerStart', game_id: game_id, level: 1 });
+	equals($('.jpoker_table_info_level', table_info_element).html(), '1', 'table info level');
+
+	cleanup();
+    });
+
 test("jpoker.plugins.table.reinit", function(){
         expect(17);
 

@@ -123,8 +123,8 @@ function jpoker_02_join(place) {
         var game_id = 100;
         var player_serial = 200;
         var packets = [
-{ type: 'PacketPokerTable', id: game_id },
-{ type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'verylongusername' }
+{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 100, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 4, "waiting": 0, "skin": "default", "id": game_id, "type": "PacketPokerTable", "player_timeout": 60},
+{ type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'verylongusername' },
                        ];
         ActiveXObject.prototype.server = {
             outgoing: JSON.stringify(packets),
