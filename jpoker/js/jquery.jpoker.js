@@ -3285,8 +3285,7 @@
 
 		    var raise_input = $('#raise_input' + id);
 		    raise_input.empty();
-		    $('<input class=\'jpoker_raise_input\' type=\'text\'>').appendTo(raise_input)
-			.val(betLimit.min);
+		    $('<input class=\'jpoker_raise_input\' type=\'text\'>').appendTo(raise_input).val(betLimit.min);
 		    raise_input.show();
 
                     $('.ui-slider-1', raise).slider({
