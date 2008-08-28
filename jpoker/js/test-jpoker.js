@@ -3547,7 +3547,7 @@ test("jpoker.plugins.table.timeout", function(){
 	    equals($(c).hasClass("jpoker_timeout"), true, "seat jpoker_timeout class " + seat);
 	    equals($(c).is(":hidden"), true, "seat timeout hidden");
         }
-	equals($(".jpoker_timeout_progress").length, 3, "timeout_progress")
+	equals($(".jpoker_timeout_progress").length, 3, "timeout_progress");
 
         table.handler(server, game_id, { type: 'PacketPokerPosition', serial: 10, game_id: game_id });
         equals($("#player_seat1_timeout" + id).is(":visible"), true, "seat 1 timeout visible");
