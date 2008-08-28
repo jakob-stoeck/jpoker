@@ -3876,7 +3876,7 @@ test("jpoker.plugins.player: PacketPokerPlayerCall/Fold/Raise/Check/EndRound", f
 	table.handler(server, game_id, { type: 'PacketPokerCheck', serial: player_serial, game_id: game_id });
 	equals(player_action_element.html(), 'check');
 
-	table.handler(server, game_id, { type: 'PacketPokerEndRound', serial: 0, game_id: game_id });
+	table.handler(server, game_id, { type: 'PacketPokerEndRoundLast', serial: 0, game_id: game_id });
 	equals(player_action_element.html(), '');
         
         start_and_cleanup();

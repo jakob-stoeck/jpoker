@@ -1581,7 +1581,7 @@
 		    table.notifyUpdate(packet);
 		    break;
 		    
-		case 'PacketPokerEndRound':
+		case 'PacketPokerEndRoundLast':
 		    $.each(table.serial2player, function(serial, player) {
 			    packet.serial = serial;
 			    player.handler(server, game_id, packet);
@@ -1744,7 +1744,7 @@
 		this.notifyUpdate(packet);
 		break;
 
-		case 'PacketPokerEndRound':
+		case 'PacketPokerEndRoundLast':
 		this.action = '';
 		this.notifyUpdate(packet);
 		break;
@@ -2973,7 +2973,7 @@
 	    jpoker.plugins.player.action(player, id);
 	    break;
 
-	    case 'PacketPokerEndRound':
+	    case 'PacketPokerEndRoundLast':
 	    jpoker.plugins.player.action(player, id);
 	    break;
 
