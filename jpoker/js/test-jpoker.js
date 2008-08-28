@@ -3533,7 +3533,7 @@ test("jpoker.plugins.table: PacketPokerPosition", function(){
     });
 
 test("jpoker.plugins.table.timeout", function(){
-        expect(22);
+        expect(23);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -3560,7 +3560,7 @@ test("jpoker.plugins.table.timeout", function(){
 	    equals($(c).hasClass("jpoker_timeout"), true, "seat jpoker_timeout class " + seat);
 	    equals($(c).is(":hidden"), true, "seat timeout hidden");
         }
-	equals($(".jpoker_timeout_progress").length, 3, "timeout_progress");
+	equals($(".jpoker_timeout_progress", place).length, 3, "timeout_progress");
 
         table.handler(server, game_id, { type: 'PacketPokerPosition', serial: 10, game_id: game_id });
         equals($("#player_seat1_timeout" + id).is(":visible"), true, "seat 1 timeout visible");
@@ -3573,7 +3573,13 @@ test("jpoker.plugins.table.timeout", function(){
         equals($("#player_seat2_timeout" + id).is(":visible"), true, "seat 2 timeout visible");
         equals($("#player_seat2_timeout" + id).attr("pcur"), 100, "seat 2 timeout 100");
 
+	var jquery_stop = jQuery.fn.stop;
+	jQuery.fn.stop = function() {
+	    ok(true, '$.stop called');
+	    return this;
+	};
         table.handler(server, game_id, { type: 'PacketPokerTimeoutWarning', serial: 20, game_id: game_id });
+	jQuery.fn.stop = jquery_stop;
 
         equals($("#player_seat1_timeout" + id).is(":hidden"), true, "seat 1 timeout hidden");
         equals($("#player_seat2_timeout" + id).is(":visible"), true, "seat 2 timeout visible");
