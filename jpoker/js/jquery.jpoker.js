@@ -845,6 +845,13 @@
                 this.serial = 0;
                 this.userInfo = {};
 		this.preferences = new jpoker.preferences(jpoker.url2hash(this.url));
+		var jpoker_serial_cookie = 'jpoker_serial_'+jpoker.url2hash(this.url);
+		var jpoker_serial = $.cookie(jpoker_serial_cookie);
+		if (jpoker_serial === undefined) {
+		    jpoker_serial = 0;
+		}
+		++jpoker_serial;
+		$.cookie(jpoker_serial_cookie, jpoker_serial);
 		this.places = {};
                 this.registerHandler(0, this.handler);
                 if(this.sessionExists()) {

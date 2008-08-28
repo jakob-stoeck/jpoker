@@ -77,6 +77,7 @@ var cleanup = function(id) {
     }
     jpoker.uninit();
     $.cookie('jpoker_preferences_'+jpoker.url2hash('url'), null);
+    $.cookie('jpoker_serial_'+jpoker.url2hash('url'), null);
 };
 
 var start_and_cleanup = function(id) {
@@ -397,6 +398,18 @@ test("jpoker.Crypto b32 str", function (){
 //
 // jpoker.server
 //
+
+test("jpoker.server.init increment serial cookie", function() {
+	expect(2);
+	
+	$.cookie('jpoker_serial_'+jpoker.url2hash('url'), null);
+	var server1 = jpoker.serverCreate({ url: 'url' });
+	equals($.cookie('jpoker_serial_'+jpoker.url2hash('url')), 1);
+	var server2 = jpoker.serverCreate({ url: 'url' });
+	equals($.cookie('jpoker_serial_'+jpoker.url2hash('url')), 2);
+	
+	cleanup();
+    });
 
 test("jpoker.server.uninit", function() {
 	expect(4);
