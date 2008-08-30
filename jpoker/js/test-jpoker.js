@@ -4905,7 +4905,7 @@ test("jpoker.plugins.muck", function(){
     });
 
 test("jpoker.plugins.places", function(){
-        expect(5);
+        expect(7);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -4935,6 +4935,14 @@ test("jpoker.plugins.places", function(){
 		    if (data.type == 'PacketPokerPlayerPlaces') {
 			equals($('.jpoker_places_table', element).length, 3, 'jpoker_places_table');
 			equals($('.jpoker_places_tourney', element).length, 2, 'jpoker_places_tourney');
+			server.tableJoin = function(id) {
+			    equals(id, PLAYER_PLACES_PACKET.tables[0], 'tableJoin called');
+			};
+			$('.jpoker_places_table', element).eq(0).click();
+			server.placeTourneyRowClick = function(server, id) {
+			    equals(id, PLAYER_PLACES_PACKET.tourneys[0], 'placeTourneyRowClick called');
+			};
+			$('.jpoker_places_tourney', element).eq(0).click();
 			$('#' + id).remove();
 		    }
 		    return true;

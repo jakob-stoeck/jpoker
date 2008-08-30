@@ -31,6 +31,12 @@ $.jpoker.server.defaults.tourneyRowClick = function(server, packet) {
     story.displayTiddler(null, title, 1);
 };
 
+$.jpoker.server.defaults.placeTourneyRowClick = function(server, id) {
+    var title = " TourneyPlaceholder " + id;
+    config.shadowTiddlers[title] = "<<jpokerTourneyPlaceholder '" + server.url + "' " + id + ">>";
+    story.displayTiddler(null, title, 1);
+};
+
 $.jpoker.verbose = 6;
 
 $.jpoker.copyright();
@@ -98,6 +104,12 @@ config.macros.jpokerPlaces = {
 config.macros.jpokerCashier = {
     handler: function(place, macroName, params, wikifier, paramString, tiddler) {
         $(place).jpoker('cashier', config.jpoker.restURL);
+    }
+};
+
+config.macros.jpokerTourneyPlaceholder = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        $(place).jpoker('tourneyPlaceholder', params[0], params[1]);
     }
 };
 

@@ -830,6 +830,7 @@
 	    playersTourneysCount: null,
 	    tourneysCount: null,
             spawnTable: function(server, packet) {},
+	    placeTourneyRowClick: function(server, id) {},
             tourneyRowClick: function(server, packet) {},
             setInterval: function(cb, delay) { return window.setInterval(cb, delay); },
             clearInterval: function(id) { return window.clearInterval(id); }
@@ -3654,6 +3655,23 @@
                     if(element) {
 			if(packet && packet.type == 'PacketPokerPlayerPlaces') {
 			    $(element).html(places.getHTML(packet));
+			    $.each(packet.tables, function(i, table) {
+				    $('#' + table, element).click(function() {
+					    var server = jpoker.getServer(url);
+					    if(server) {
+						server.tableJoin(table);
+					    }
+					});
+				});
+			    $.each(packet.tourneys, function(i, tourney) {
+				    $('#' + tourney, element).click(function() {
+					    var server = jpoker.getServer(url);
+					    if(server) {
+						server.placeTourneyRowClick(server, tourney);
+					    }
+					});
+				});
+			    
 			}
                         return true;
                     } else {
@@ -3676,13 +3694,15 @@
 	var html = [];
 	html.push(t.tables.header.supplant({table_title: _("Tables")}));
 	$.each(packet.tables, function(i, table) {
-		html.push(t.tables.rows.supplant({table: table}));
+		html.push(t.tables.rows.supplant({id: table,
+				table: table}));
 	    });
 	html.push(t.tables.footer);
 
 	html.push(t.tourneys.header.supplant({tourney_title: _("Tourneys")}));
 	$.each(packet.tourneys, function(i, tourney) {
-		html.push(t.tourneys.rows.supplant({tourney: tourney}));
+		html.push(t.tourneys.rows.supplant({id: tourney,
+				tourney: tourney}));
 	    });
 	html.push(t.tourneys.footer);
         return html.join('\n');
@@ -3691,12 +3711,12 @@
     jpoker.plugins.places.templates = {
 	tables : {
 	    header : '<div class=\'jpoker_places_tables\'><table><thead><tr><th>{table_title}</th></tr></thead><tbody>',
-	    rows : '<tr class=\'jpoker_places_table\'><td>{table}</td></tr>',
+	    rows : '<tr class=\'jpoker_places_table\' id={id}><td>{table}</td></tr>',
 	    footer : '</tbody></table></div>'
 	},
 	tourneys : {
 	    header : '<div class=\'jpoker_places_tourneys\'><table><thead><tr><th>{tourney_title}</th></tr></thead><tbody>',
-	    rows : '<tr class=\'jpoker_places_tourney\'><td>{tourney}</td></tr>',
+	    rows : '<tr class=\'jpoker_places_tourney\' id={id}><td>{tourney}</td></tr>',
 	    footer : '</tbody></table></div>'
 	}
     };

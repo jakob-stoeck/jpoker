@@ -1,5 +1,5 @@
 .jpoker_tourney_placeholder {
-    width:800px; height:800px;
+    width:800px; height:800px; position:relative;
 }
 .jpoker_tourney_placeholder_table {
     width:588px; height:296px; position:absolute; top:152px; left:106px;
@@ -9,7 +9,8 @@
     position: absolute;
     border: solid black 5px;
     background-color: white;
-    top: 50%;
-    left: 100px;
-    width: 600px;
+    text-align: center;
+    top: 250px;
+    left: 150px;
+    width: 500px;
 }
