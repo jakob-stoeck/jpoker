@@ -2387,6 +2387,61 @@
     };
 
     //
+    // tourneyPlaceholder
+    //
+    jpoker.plugins.tourneyPlaceholder = function(url, game_id, options) {
+
+	game_id = parseInt(game_id, 10);
+	
+        var tourneyPlaceholder = jpoker.plugins.tourneyPlaceholder;
+        var opts = $.extend({}, tourneyPlaceholder.defaults, options);
+        var server = jpoker.url2server({ url: url });
+
+        return this.each(function() {
+                var $this = $(this);
+
+                var id = jpoker.uid();
+
+                $this.append('<div class=\'jpoker_tourney_placeholder\' id=\'' + id + '\'></div>');
+
+                var updated = function(server, what, packet) {
+                    var element = document.getElementById(id);
+                    if(element) {
+                        if(packet && packet.type == 'PacketPokerTourneyManager') {
+                            $(element).html(tourneyPlaceholder.getHTML(id, packet));
+                        }
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+		
+                server.registerUpdate(updated, null, 'tourneyPlaceholder' + id);
+                server.refreshTourneyDetails(game_id, opts);
+                return this;
+            });
+    };
+    
+    jpoker.plugins.tourneyPlaceholder.defaults = $.extend({
+	}, jpoker.refresh.defaults, jpoker.defaults);
+    
+    jpoker.plugins.tourneyPlaceholder.getHTML = function(id, packet) {
+        var t = this.templates;
+        var html = [];
+	html.push(t.table);
+	var date = new Date();
+	date.setTime(packet.tourney.start_time*1000);
+	html.push(t.starttime.supplant({tourney_starttime:
+		    _("Tournaments is starting at: ")+date.toString()}));
+        return html.join('\n');
+    };
+    
+    jpoker.plugins.tourneyPlaceholder.templates = {
+	table: '<div class=\'jpoker_tourney_placeholder_table\'></div>',
+	starttime: '<div class=\'jpoker_tourney_placeholder_starttime\'>{tourney_starttime}</div>'
+    };
+    
+    //
     // serverStatus
     //
     jpoker.plugins.serverStatus = function(url, options) {
