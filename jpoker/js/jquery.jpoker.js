@@ -3687,9 +3687,16 @@
     jpoker.plugins.cashier.getHTML = function(packet) {
         var t = this.templates;
 	var html = [];
-	html.push(t.currencies.header.supplant({currency_serial_title: _("Currency"), currency_money_title: _("Amount")}));
-	$.each(packet.money, function(currency_serial, amount) {
-		html.push(t.currencies.rows.supplant({currency_serial: currency_serial, currency_money: amount/=100}));
+	html.push(t.currencies.header.supplant({currency_serial_title: _("Currency"),
+			currency_amount_title: _("Amount"),
+			currency_ingame_title: _("In Game"),
+			currency_points_title: _("Points")
+			}));
+	$.each(packet.money, function(currency_serial, money) {		
+		html.push(t.currencies.rows.supplant({currency_serial: currency_serial.substr(1),
+				currency_amount: money[0]/=100,
+				currency_ingame: money[1]/=100,
+				currency_points: money[2]}));
 	    });
 	html.push(t.currencies.footer);
         return html.join('\n');
@@ -3697,8 +3704,8 @@
 
     jpoker.plugins.cashier.templates = {
 	currencies : {
-	    header : '<div class=\'jpoker_cashier_currencies\'><table><thead><tr><th>{currency_serial_title}</th><th>{currency_money_title}</th></tr></thead><tbody>',
-	    rows : '<tr class=\'jpoker_cashier_currency\'><td>{currency_serial}</td><td>{currency_money}</td></tr>',
+	    header : '<div class=\'jpoker_cashier_currencies\'><table><thead><tr><th>{currency_serial_title}</th><th>{currency_amount_title}</th><th>{currency_ingame_title}</th><th>{currency_points_title}</th></tr></thead><tbody>',
+	    rows : '<tr class=\'jpoker_cashier_currency\'><td>{currency_serial}</td><td>{currency_amount}</td><td>{currency_ingame}</td><td>{currency_points}</td></tr>',
 	    footer : '</tbody></table></div>'
 	},
     };

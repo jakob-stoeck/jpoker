@@ -4890,14 +4890,14 @@ test("jpoker.plugins.places", function(){
 
 
 test("jpoker.plugins.cashier", function(){
-        expect(6);
+        expect(12);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
 	server.serial = 42;
-	var USER_INFO_PACKET = { type: 'PacketPokerUserInfo', 'money': { 'X1': 100000, 'X2': 200000 } };
+	var USER_INFO_PACKET = {"rating":1000,"name":"proppy","money":{"X1":[100000,10000,0], "X2":[200000,20000,0]},"affiliate":0,"cookie":"","serial":4,"password":"","type":"PacketPokerUserInfo","email":"","uid__":"jpoker1220102037582"}
 
         var PokerServer = function() {};
         PokerServer.prototype = {
@@ -4919,8 +4919,14 @@ test("jpoker.plugins.cashier", function(){
 		if(element.length > 0) {
 		    if (data.type == 'PacketPokerUserInfo') {
 			equals($('.jpoker_cashier_currency', element).length, 2, 'jpoker_places_currency');
-			equals($('.jpoker_cashier_currency td:nth-child(2)', element).eq(0).html(), '1000', 'jpoker_places_currency X1');
-			equals($('.jpoker_cashier_currency td:nth-child(2)', element).eq(1).html(), '2000', 'jpoker_places_currency X2');
+			equals($('.jpoker_cashier_currency td:nth-child(1)', element).eq(0).html(), '1', 'jpoker_places_currency amount 1');
+			equals($('.jpoker_cashier_currency td:nth-child(2)', element).eq(0).html(), '1000', 'jpoker_places_currency amount 1');
+			equals($('.jpoker_cashier_currency td:nth-child(3)', element).eq(0).html(), '100', 'jpoker_places_currency in game 1');
+			equals($('.jpoker_cashier_currency td:nth-child(4)', element).eq(0).html(), '0', 'jpoker_places_currency points 1');
+			equals($('.jpoker_cashier_currency td:nth-child(1)', element).eq(1).html(), '2', 'jpoker_places_currency amount 2');
+			equals($('.jpoker_cashier_currency td:nth-child(2)', element).eq(1).html(), '2000', 'jpoker_places_currency amount 2');
+			equals($('.jpoker_cashier_currency td:nth-child(3)', element).eq(1).html(), '200', 'jpoker_places_currency in game 2');
+			equals($('.jpoker_cashier_currency td:nth-child(4)', element).eq(1).html(), '0', 'jpoker_places_currency points 2');
 			$('#' + id).remove();
 		    }
 		    return true;
