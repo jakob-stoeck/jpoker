@@ -732,3 +732,48 @@ function jpoker_90_tourneyPlaceholder(place) {
 	
         $(place).jpoker('tourneyPlaceholder', 'url', tourney_serial.toString());
 };
+
+function jpoker_100_places(place) {
+        setUp();
+        if(explain) {
+            $(place).append('Tables showing the table and tournaments the player is currently connected to.');
+            $(place).append('<hr>');
+        }
+
+	var PLAYER_PLACES_PACKET = {type: 'PacketPokerPlayerPlaces', serial: 42, tables: [11, 12, 13], tourneys: [21, 22]};
+
+        var PokerServer = function() {};
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(PLAYER_PLACES_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+        ActiveXObject.prototype.server = new PokerServer();
+	
+        var server = $.jpoker.getServer('url');
+	server.serial = 42;
+        $(place).jpoker('places', 'url');
+};
+
+
+function jpoker_110_cashier(place) {
+        setUp();
+        if(explain) {
+            $(place).append('Cashier showing player bankroll for each currency.');
+            $(place).append('<hr>');
+        }
+
+	var USER_INFO_PACKET = {"rating":1000,"name":"proppy","money":{"X1":[100000,10000,0], "X2":[200000,20000,0]},"affiliate":0,"cookie":"","serial":4,"password":"","type":"PacketPokerUserInfo","email":"","uid__":"jpoker1220102037582"}
+
+        var PokerServer = function() {};
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(USER_INFO_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+        ActiveXObject.prototype.server = new PokerServer();
+	
+        var server = $.jpoker.getServer('url');
+	server.serial = 42;
+	$(place).jpoker('cashier', 'url');
+};
