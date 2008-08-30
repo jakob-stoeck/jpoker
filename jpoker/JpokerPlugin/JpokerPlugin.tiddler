@@ -95,6 +95,12 @@ config.macros.jpokerPlaces = {
     }
 };
 
+config.macros.jpokerCashier = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        $(place).jpoker('cashier', config.jpoker.restURL);
+    }
+};
+
 //}}}
 //!END-PLUGIN-CODE
 // %/

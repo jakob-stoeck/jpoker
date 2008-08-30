@@ -954,6 +954,7 @@
                     server.tables[id].notifyUpdate(packet);
                 }
                 delete packet.game_id;
+		server.notifyUpdate(packet);
                 server.setState(server.RUNNING, 'PacketPokerUserInfo');
                 break;
 
@@ -3643,6 +3644,63 @@
 	    rows : '<tr class=\'jpoker_places_tourney\'><td>{tourney}</td></tr>',
 	    footer : '</tbody></table></div>'
 	}
+    };
+
+    //
+    // cashier
+    //
+    jpoker.plugins.cashier = function(url, options) {
+
+        var cashier = jpoker.plugins.cashier;
+        var opts = $.extend({}, cashier.defaults, options);
+        var server = jpoker.url2server({ url: url });
+
+        return this.each(function() {
+                var $this = $(this);
+
+                var id = jpoker.uid();
+		
+                $this.append('<div class=\'jpoker_cashier\' id=\'' + id + '\'></div>');
+
+                var updated = function(server, what, packet) {
+                    var element = document.getElementById(id);
+                    if(element) {
+			if(packet && packet.type == 'PacketPokerUserInfo') {
+			    $(element).html(cashier.getHTML(packet));
+			}
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+
+		server.registerUpdate(updated, null, 'cashier ' + id);
+		server.getUserInfo();
+
+                return this;
+            });
+    };
+
+    jpoker.plugins.cashier.defaults = $.extend({
+        }, jpoker.defaults);
+
+    jpoker.plugins.cashier.getHTML = function(packet) {
+        var t = this.templates;
+	var html = [];
+	html.push(t.currencies.header.supplant({currency_serial_title: _("Currency"), currency_money_title: _("Amount")}));
+	$.each(packet.money, function(currency_serial, amount) {
+		html.push(t.currencies.rows.supplant({currency_serial: currency_serial, currency_money: amount/=100}));
+	    });
+	html.push(t.currencies.footer);
+        return html.join('\n');
+    };
+
+    jpoker.plugins.cashier.templates = {
+	currencies : {
+	    header : '<div class=\'jpoker_cashier_currencies\'><table><thead><tr><th>{currency_serial_title}</th><th>{currency_money_title}</th></tr></thead><tbody>',
+	    rows : '<tr class=\'jpoker_cashier_currency\'><td>{currency_serial}</td><td>{currency_money}</td></tr>',
+	    footer : '</tbody></table></div>'
+	},
     };
 
     jpoker.plugins.muck = {

@@ -4888,6 +4888,49 @@ test("jpoker.plugins.places", function(){
 	    });
     });
 
+
+test("jpoker.plugins.cashier", function(){
+        expect(6);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+	server.serial = 42;
+	var USER_INFO_PACKET = { type: 'PacketPokerUserInfo', 'money': { 'X1': 100000, 'X2': 200000 } };
+
+        var PokerServer = function() {};
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(USER_INFO_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $('#main');
+
+        equals('update' in server.callbacks, false, 'no update registered');
+        place.jpoker('cashier', 'url');
+        equals(server.callbacks.update.length, 1, 'cashier update registered');
+	equals($('.jpoker_cashier').length, 1, 'cashier div');
+	server.registerUpdate(function(server, what, data) {
+		var element = $('#' + id);
+		if(element.length > 0) {
+		    if (data.type == 'PacketPokerUserInfo') {
+			equals($('.jpoker_cashier_currency', element).length, 2, 'jpoker_places_currency');
+			equals($('.jpoker_cashier_currency td:nth-child(2)', element).eq(0).html(), '1000', 'jpoker_places_currency X1');
+			equals($('.jpoker_cashier_currency td:nth-child(2)', element).eq(1).html(), '2000', 'jpoker_places_currency X2');
+			$('#' + id).remove();
+		    }
+		    return true;
+		} else {
+		    start_and_cleanup();
+		    return false;
+		}
+	    });
+    });
+
 test("jpoker.preferences", function() {
 	expect(4);
 	
