@@ -101,6 +101,12 @@ config.macros.jpokerPlaces = {
     }
 };
 
+config.macros.jpokerPlayerLookup = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        $(place).jpoker('playerLookup', config.jpoker.restURL);
+    }
+};
+
 config.macros.jpokerCashier = {
     handler: function(place, macroName, params, wikifier, paramString, tiddler) {
         $(place).jpoker('cashier', config.jpoker.restURL);

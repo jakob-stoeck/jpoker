@@ -1374,6 +1374,21 @@
 		} else {
 		    jpoker.dialog(_("User must be logged in"));
 		}
+	    },
+
+	    getPlayerPlacesByName : function(name) {
+		this.queueRunning(function(server) {
+			server.setState(server.PLACES);
+			server.sendPacket({'type': 'PacketPokerGetPlayerPlaces', 'name': name});
+			server.registerHandler(0, function(server, unused_game_id, packet) {
+				if (packet.type == 'PacketPokerPlayerPlaces') {
+				    server.notifyUpdate(packet);
+				    server.setState(server.RUNNING, 'PacketPokerPlayerPlaces');
+				    return false;
+				}
+				return true;
+			    });
+		    });
 	    }
         });
 
@@ -3717,6 +3732,103 @@
 	tourneys : {
 	    header : '<div class=\'jpoker_places_tourneys\'><table><thead><tr><th>{tourney_title}</th></tr></thead><tbody>',
 	    rows : '<tr class=\'jpoker_places_tourney\' id={id}><td>{tourney}</td></tr>',
+	    footer : '</tbody></table></div>'
+	}
+    };
+
+    //
+    // places
+    //
+    jpoker.plugins.playerLookup = function(url, options) {
+
+        var playerLookup = jpoker.plugins.playerLookup;
+        var opts = $.extend({}, playerLookup.defaults, options);
+        var server = jpoker.url2server({ url: url });
+
+        return this.each(function() {
+                var $this = $(this);
+
+                var id = jpoker.uid();
+		var player_lookup_element = $('<div class=\'jpoker_player_lookup\' id=\'' + id + '\'></div>').appendTo($this);
+
+                var updated = function(server, what, packet) {
+                    var element = document.getElementById(id);
+                    if(element) {
+			if(packet && packet.type == 'PacketPokerPlayerPlaces') {
+			    $('.jpoker_player_lookup_result', element).html(playerLookup.getHTML(packet));
+			    $.each(packet.tables, function(i, table) {
+				    $('#' + table, element).click(function() {
+					    var server = jpoker.getServer(url);
+					    if(server) {
+						server.tableJoin(table);
+					    }
+					});
+				});
+			    $.each(packet.tourneys, function(i, tourney) {
+				    $('#' + tourney, element).click(function() {
+					    var server = jpoker.getServer(url);
+					    if(server) {
+						server.placeTourneyRowClick(server, tourney);
+					    }
+					});
+				});
+			    
+			}
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+		
+		server.registerUpdate(updated, null, 'playerLookup ' + id);
+
+		$(player_lookup_element).html(playerLookup.getHTMLForm());
+		$('.jpoker_player_lookup_submit', player_lookup_element).click(function() {
+			server.getPlayerPlacesByName($('.jpoker_player_lookup_input', player_lookup_element).val());
+		    });
+                return this;
+            });
+    };
+
+    jpoker.plugins.playerLookup.defaults = $.extend({
+        }, jpoker.defaults);
+
+    jpoker.plugins.playerLookup.getHTML = function(packet) {
+        var t = this.templates;
+	var html = [];
+	html.push(t.tables.header.supplant({table_title: _("Tables")}));
+	$.each(packet.tables, function(i, table) {
+		html.push(t.tables.rows.supplant({id: table,
+				table: table}));
+	    });
+	html.push(t.tables.footer);
+
+	html.push(t.tourneys.header.supplant({tourney_title: _("Tourneys")}));
+	$.each(packet.tourneys, function(i, tourney) {
+		html.push(t.tourneys.rows.supplant({id: tourney,
+				tourney: tourney}));
+	    });
+	html.push(t.tourneys.footer);
+        return html.join('\n');
+    };
+
+    jpoker.plugins.playerLookup.getHTMLForm = function() {
+	var t = this.templates;
+	var html = [];
+	html.push(t.form.supplant({player_lookup: _("Look for player")}));
+	return html.join('\n');
+    };
+
+    jpoker.plugins.playerLookup.templates = {
+	form : '<input class=\'jpoker_player_lookup_input\' type=\'text\'></input><input class=\'jpoker_player_lookup_submit\' type=\'submit\' value=\'{player_lookup}\'></input><div class=\'jpoker_player_lookup_result\'></div>',
+	tables : {
+	    header : '<div class=\'jpoker_player_lookup_tables\'><table><thead><tr><th>{table_title}</th></tr></thead><tbody>',
+	    rows : '<tr class=\'jpoker_player_lookup_table\' id={id}><td>{table}</td></tr>',
+	    footer : '</tbody></table></div>'
+	},
+	tourneys : {
+	    header : '<div class=\'jpoker_player_lookup_tourneys\'><table><thead><tr><th>{tourney_title}</th></tr></thead><tbody>',
+	    rows : '<tr class=\'jpoker_player_lookup_tourney\' id={id}><td>{tourney}</td></tr>',
 	    footer : '</tbody></table></div>'
 	}
     };
