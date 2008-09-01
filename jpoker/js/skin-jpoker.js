@@ -755,6 +755,24 @@ function jpoker_100_places(place) {
         $(place).jpoker('places', 'url');
 };
 
+function jpoker_101_playerLookup(place) {
+        setUp();
+        if(explain) {
+            $(place).append('Form for searching where is a player.');
+            $(place).append('<hr>');
+        }	
+	
+        var server = $.jpoker.getServer('url');
+        $(place).jpoker('playerLookup', 'url');
+	$('.jpoker_player_lookup_input', place).val('user');
+	var i = 0;
+	$('.jpoker_player_lookup_submit', place).click(function() {
+		var PLAYER_PLACES_PACKET = {type: 'PacketPokerPlayerPlaces', name: 'user', tables: [11+i, 12+i, 13+i], tourneys: [21+i, 22+i]};
+		++i;
+		server.queueIncoming([PLAYER_PLACES_PACKET]);
+	    }).click();
+};
+
 
 function jpoker_110_cashier(place) {
         setUp();
