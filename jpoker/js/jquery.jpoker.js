@@ -3055,6 +3055,7 @@
 
 	    case 'PacketPokerCheck':
 	    jpoker.plugins.player.action(player, id);
+	    break;
 
 	    case 'PacketPokerCall':
 	    jpoker.plugins.player.action(player, id);
@@ -3894,7 +3895,7 @@
 	    header : '<div class=\'jpoker_cashier_currencies\'><table><thead><tr><th>{currency_serial_title}</th><th>{currency_amount_title}</th><th>{currency_ingame_title}</th><th>{currency_points_title}</th></tr></thead><tbody>',
 	    rows : '<tr class=\'jpoker_cashier_currency\'><td>{currency_serial}</td><td>{currency_amount}</td><td>{currency_ingame}</td><td>{currency_points}</td></tr>',
 	    footer : '</tbody></table></div>'
-	},
+	}
     };
 
     jpoker.plugins.muck = {
