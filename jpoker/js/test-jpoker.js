@@ -1226,6 +1226,20 @@ test("jpoker.server.getPlayerPlacesByName", function(){
         server.getPlayerPlacesByName(name);
     });
 
+test("jpoker.server.getPlayerPlacesByName waiting", function(){
+        expect(2);
+	
+        var server = jpoker.serverCreate({ url: 'url' });
+	server.serial = 42;
+	var game_id = 100;
+	server.callbacks[0] = [];
+	server.getPlayerPlacesByName('user');
+	equals(server.callbacks[0].length, 1, 'getPlayerPlacesByName callbacks[0] registered');
+	var callback = server.callbacks[0][0];
+	server.notify(0, {type: 'PacketPing'});
+	equals(server.callbacks[0][0], callback, 'getPlayerPlacesByName callback still in place');
+    });
+
 test("jpoker.server.selectTables", function(){
         expect(3);
 	stop();

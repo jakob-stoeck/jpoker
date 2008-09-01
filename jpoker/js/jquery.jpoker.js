@@ -848,7 +848,7 @@
 		this.preferences = new jpoker.preferences(jpoker.url2hash(this.url));
 		var jpoker_serial_cookie = 'jpoker_serial_'+jpoker.url2hash(this.url);
 		var jpoker_serial = $.cookie(jpoker_serial_cookie);
-		if (jpoker_serial === undefined) {
+		if (jpoker_serial == null) {
 		    jpoker_serial = 0;
 		}
 		++jpoker_serial;
