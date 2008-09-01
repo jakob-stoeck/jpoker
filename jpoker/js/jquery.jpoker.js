@@ -2266,13 +2266,13 @@
 		        'registered' : _("{registered} players registered."),
 			'players_quota' : _("{players_quota} players max.")
 			    }).supplant(packet.tourney));
-
-
-	if (packet.tourney.state == "running" || packet.tourney.state == "complete") {
-	    html.push(t.players.header.supplant({
+	
+	var player_state_template = t.players[packet.tourney.state];
+	if (player_state_template) {
+	    html.push(player_state_template.header.supplant({
 			'name': _("Name"),
 			'money': _("Money"),
-			'rank' : _("Rank")    
+			'rank' : _("Rank")
 			}));
 	    for(var serial in packet.user2properties) {
 		var player = packet.user2properties[serial];
@@ -2282,22 +2282,9 @@
 		if (player.money == -1) {
 		    player.money = "";
 		}
-		html.push(t.players.rows.supplant(player));
+		html.push(player_state_template.rows.supplant(player));
 	    }
-	    html.push(t.players.footer);
-	} else {
-	    html.push(t.players_no_rank.header.supplant({
-			'name': _("Name"),
-			'money': _("Money")
-			}));
-	    for(var current_serial in packet.user2properties) {
-		var current_player = packet.user2properties[current_serial];
-		if (current_player.money == -1) {
-		    current_player.money = "";
-		}
-		html.push(t.players_no_rank.rows.supplant(current_player));
-	    }
-	    html.push(t.players_no_rank.footer);
+	    html.push(player_state_template.footer);
 	}
 	
 	if (packet.tourney.state == "registering") {	    
@@ -2374,14 +2361,21 @@
     jpoker.plugins.tourneyDetails.templates = {
 	info: '<div class=\'jpoker_tourney_details_info\'><div class=\'jpoker_tourney_details_info_description\'>{description_long}</div><div class=\'jpoker_tourney_details_info_registered\'>{registered}</div><div class=\'jpoker_tourney_details_info_players_quota\'>{players_quota}</div></div>',
 	players : {
-	    header : '<div class=\'jpoker_tourney_details_players\'><table><thead><tr><th>{name}</th><th>{money}</th><th>{rank}</th></tr></thead><tbody>',
-	    rows : '<tr><td>{name}</td><td>{money}</td><td>{rank}</td></tr>',
-	    footer : '</tbody></table></div>'
-	},
-	players_no_rank : {
-	    header : '<div class=\'jpoker_tourney_details_players\'><table><thead><tr><th>{name}</th><th>{money}</th></tr></thead><tbody>',
-	    rows : '<tr><td>{name}</td><td>{money}</td></tr>',
-	    footer : '</tbody></table></div>'
+	    registering : {
+		header : '<div class=\'jpoker_tourney_details_players\'><table><thead><tr><th>{name}</th></tr></thead><tbody>',
+		rows : '<tr><td>{name}</td></tr>',
+		footer : '</tbody></table></div>'
+	    },
+	    running : {
+		header : '<div class=\'jpoker_tourney_details_players\'><table><thead><tr><th>{name}</th><th>{money}</th><th>{rank}</th></tr></thead><tbody>',
+		rows : '<tr><td>{name}</td><td>{money}</td><td>{rank}</td></tr>',
+		footer : '</tbody></table></div>'
+	    },
+	    complete : {
+		header : '<div class=\'jpoker_tourney_details_players\'><table><thead><tr><th>{name}</th><th>{rank}</th></tr></thead><tbody>',
+		rows : '<tr><td>{name}</td><td>{rank}</td></tr>',
+		footer : '</tbody></table></div>'
+	    }
 	},
 	tables : {
 	    header : '<div class=\'jpoker_tourney_details_tables\'><table><thead><tr><th>{table}</th><th>{players}</th><th>{max_money}</th><th>{min_money}</th></tr></thead><tbody>',
