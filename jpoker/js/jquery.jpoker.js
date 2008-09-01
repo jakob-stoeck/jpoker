@@ -2223,8 +2223,8 @@
 				    });
 			    }
                             $(element).html(tourneyDetails.getHTML(id, packet, logged, registered));
-			    $(".jpoker_tourney_details_table", element).click(function() {
-				    $(".jpoker_tourney_details_table_details", element).html(tourneyDetails.getHTMLTableDetails(id, packet, $(this).attr("id")));
+			    $('.jpoker_tourney_details_table', element).click(function() {
+				    $('.jpoker_tourney_details_table_details', element).html(tourneyDetails.getHTMLTableDetails(id, packet, $(this).attr('id')));
 				}).hover(function(){
 					$(this).addClass('hover');
 				    },function(){
@@ -3560,11 +3560,11 @@
 			    $('.jpoker_user_info_submit', element).click(function() {
 				    $('.jpoker_user_info_feedback', element).text(_("Updating..."));
 				    var info = {};
-				    $("input[type=text]", element).each(function() {
-					    info[$(this).attr("name")] = $(this).attr("value");
+				    $('input[type=text]', element).each(function() {
+					    info[$(this).attr('name')] = $(this).attr('value');
 					});
-				    $("input[type=password]", element).each(function() {
-					    info[$(this).attr("name")] = $(this).attr("value");
+				    $('input[type=password]', element).each(function() {
+					    info[$(this).attr('name')] = $(this).attr('value');
 					});
 				    server.setPersonalInfo(info);
 				});
