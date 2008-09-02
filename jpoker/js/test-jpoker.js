@@ -1240,6 +1240,22 @@ test("jpoker.server.getPlayerPlacesByName waiting", function(){
 	equals(server.callbacks[0][0], callback, 'getPlayerPlacesByName callback still in place');
     });
 
+test("jpoker.server.getPlayerPlacesByName failed", function(){
+        expect(1);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        dialog = jpoker.dialog;
+        jpoker.dialog = function(message) {
+            equals(message.indexOf("No such user: user999") >= 0, true, "no such user");
+            jpoker.dialog = dialog;
+            start_and_cleanup();
+        };
+        server.getPlayerPlacesByName('user999');
+	server.notify(0, {type: 'PacketError', other_type: jpoker.packetName2Type.PACKET_POKER_PLAYER_PLACES});
+    });
+
 test("jpoker.server.selectTables", function(){
         expect(3);
 	stop();
@@ -5050,6 +5066,46 @@ test("jpoker.plugins.playerLookup", function(){
 	};
 	$('.jpoker_player_lookup_submit', player_lookup_element).click();
     });
+
+test("jpoker.plugins.playerLookup error", function(){
+        expect(2);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+	var PLAYER_PLACES_PACKET = {type: 'PacketPokerPlayerPlaces', name: 'user', tables: [11, 12, 13], tourneys: [21, 22]};
+	var ERROR_PACKET = {type: 'PacketError', other_type: jpoker.packetName2Type.PACKET_POKER_PLAYER_PLACES};
+        var id = 'jpoker' + jpoker.serial;
+        var place = $('#main');
+
+        place.jpoker('playerLookup', 'url');
+	server.registerUpdate(function(server, what, data) {
+		var element = $('#' + id);
+		if(element.length > 0) {
+		    if (data.type == 'PacketError') {
+			equals($('.jpoker_player_lookup_tables', element).length, 0, 'jpoker_places_table');
+			equals($('.jpoker_player_lookup_tourneys', element).length, 0, 'jpoker_places_tourney');
+			$('#' + id).remove();
+		    }
+		    return true;
+		} else {
+		    start_and_cleanup();
+		    return false;
+		}
+	    });
+	var player_lookup_element = $('.jpoker_player_lookup');
+	$('.jpoker_player_lookup_input', player_lookup_element).val('user');
+	server.sendPacket = function(packet) {
+	    server.queueIncoming([PLAYER_PLACES_PACKET]);
+	};
+	$('.jpoker_player_lookup_submit', player_lookup_element).click();
+	server.sendPacket = function(packet) {
+	    server.queueIncoming([ERROR_PACKET]);
+	};
+	$('.jpoker_player_lookup_submit', player_lookup_element).click();
+    });
+
 
 test("jpoker.plugins.cashier", function(){
         expect(12);
