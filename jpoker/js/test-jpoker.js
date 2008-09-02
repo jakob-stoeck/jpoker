@@ -2680,7 +2680,7 @@ test("jpoker.plugins.tourneyDetails templates players", function(){
 	$(element).html(tourneyDetails.getHTML(id, packet, logged, registered));
 	equals($(".jpoker_tourney_details_players tr:nth-child(2) td", element).length, 1, "player when registering");
 
-	packet.tourney.state = "running"
+	packet.tourney.state = "running";
 	$(element).html(tourneyDetails.getHTML(id, packet, logged, registered));
 	equals($(".jpoker_tourney_details_players tr:nth-child(1) th", element).length, 3, "player, money, ranks when running");
 
@@ -3384,7 +3384,8 @@ test("jpoker.plugins.table: info tourney", function(){
         expect(4);
 	var packet = {"type": "PacketPokerTable", "id": 100, "name": "One", "percent_flop" : 98, "betting_structure": "level-15-30-no-limit"};
         var server = jpoker.serverCreate({ url: 'url' });
-	var table = server.tables[packet.id] = new jpoker.table(server, packet);
+	var table = new jpoker.table(server, packet);
+	server.tables[packet.id] = table;
         var place = $("#main");
         var id = 'jpoker' + jpoker.serial;
 
@@ -5115,7 +5116,7 @@ test("jpoker.plugins.cashier", function(){
         server.connectionState = 'connected';
 
 	server.serial = 42;
-	var USER_INFO_PACKET = {"rating":1000,"name":"proppy","money":{"X1":[100000,10000,0], "X2":[200000,20000,0]},"affiliate":0,"cookie":"","serial":4,"password":"","type":"PacketPokerUserInfo","email":"","uid__":"jpoker1220102037582"}
+	var USER_INFO_PACKET = {"rating":1000,"name":"proppy","money":{"X1":[100000,10000,0], "X2":[200000,20000,0]},"affiliate":0,"cookie":"","serial":4,"password":"","type":"PacketPokerUserInfo","email":"","uid__":"jpoker1220102037582"};
 
         var PokerServer = function() {};
         PokerServer.prototype = {
