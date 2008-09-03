@@ -509,7 +509,7 @@ function jpoker_42_sitngoTourneyList(place) {
 function jpoker_43_tableListWithLink(place) {
         setUp();
         if(explain) {
-            $(place).append('List of poker tables available on the server with html link on name');
+            $(place).append('List of poker tables available on the server, with html link on name');
             $(place).append('<hr>');
         }
 
@@ -527,7 +527,7 @@ function jpoker_43_tableListWithLink(place) {
 function jpoker_44_regularTourneyListWithLink(place) {
         setUp();
         if(explain) {
-            $(place).append('List of poker regular tourney available on the server.');
+            $(place).append('List of poker regular tourney available on the server, with html link on description.');
             $(place).append('<hr>');
         }
 
@@ -545,7 +545,7 @@ function jpoker_44_regularTourneyListWithLink(place) {
 function jpoker_45_sitngoTourneyListWithLink(place) {
         setUp();
         if(explain) {
-            $(place).append('List of poker regular tourney available on the server.');
+            $(place).append('List of poker regular tourney available on the server, with html link on description.');
             $(place).append('<hr>');
         }
 
