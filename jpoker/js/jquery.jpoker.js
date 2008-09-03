@@ -1931,21 +1931,23 @@
                     var element = document.getElementById(id);
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTableList') {
-                            $(element).html(tableList.getHTML(id, packet));
-                            for(var i = 0; i < packet.packets.length; i++) {
-                                (function(){
-                                    var subpacket = packet.packets[i];
-                                    $('#' + subpacket.id).click(function() {
-                                            var server = jpoker.getServer(url);
-                                            if(server) {
-						server.tableJoin(subpacket.game_id);
-                                            }
-                                        }).hover(function(){
-                                                $(this).addClass('hover');
-                                            },function(){
-                                                $(this).removeClass('hover');
-                                            });
-                                })();
+                            $(element).html(tableList.getHTML(id, packet, options.link_pattern));
+			    if (options.link_pattern === undefined) {
+				for(var i = 0; i < packet.packets.length; i++) {
+				    (function(){
+					var subpacket = packet.packets[i];
+					$('#' + subpacket.id).click(function() {
+						var server = jpoker.getServer(url);
+						if(server) {
+						    server.tableJoin(subpacket.game_id);
+						}
+					    }).hover(function(){
+						    $(this).addClass('hover');
+						},function(){
+						    $(this).removeClass('hover');
+						});
+				    })();
+				}
                             }
                         }
                         return true;
@@ -1965,7 +1967,7 @@
         string: ''
         }, jpoker.refresh.defaults, jpoker.defaults);
 
-    jpoker.plugins.tableList.getHTML = function(id, packet) {
+    jpoker.plugins.tableList.getHTML = function(id, packet, link_pattern) {
         var t = this.templates;
         var html = [];
         html.push(t.header.supplant({
@@ -1991,6 +1993,10 @@
                 subpacket.average_pot /= 100;
             }
             subpacket['class'] = i%2 ? 'evenRow' : 'oddRow';
+	    if (link_pattern) {
+		var link = t.link.supplant({link: link_pattern.supplant({game_id: subpacket.game_id}), name: subpacket.name});
+		subpacket.name = link;
+	    }
             html.push(t.rows.supplant(subpacket));
         }
         html.push(t.footer);
@@ -2000,7 +2006,8 @@
     jpoker.plugins.tableList.templates = {
         header : '<thead><tr><td>{name}</td><td>{players}</td><td>{seats}</td><td>{betting_structure}</td><td>{average_pot}</td><td>{hands_per_hour}</td><td>{percent_flop}</td></tr></thead><tbody>',
         rows : '<tr class=\'{class}\' id=\'{id}\' title=\'' + _("Click to join the table") + '\'><td>{name}</td><td>{players}</td><td>{seats}</td><td>{betting_structure}</td><td>{average_pot}</td><td>{hands_per_hour}</td><td>{percent_flop}</td></tr>',
-        footer : '</tbody>'
+        footer : '</tbody>',
+	link: '<a href=\'{link}\'>{name}</a>'
     };
 
     //

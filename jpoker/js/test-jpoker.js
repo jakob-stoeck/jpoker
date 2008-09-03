@@ -2290,6 +2290,61 @@ test("jpoker.plugins.tableList", function(){
             });
     });
 
+
+//
+// tableList
+//
+test("jpoker.plugins.tableList link pattern", function(){
+        expect(1);
+        stop();
+
+        //
+        // Mockup server that will always return TABLE_LIST_PACKET,
+        // whatever is sent to it.
+        //
+        var PokerServer = function() {};
+
+        var average_pot = 1535 / 100;
+        var TABLE_LIST_PACKET = {"players": 4, "type": "PacketPokerTableList", "packets": [{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": average_pot * 100, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 4, "waiting": 0, "skin": "default", "id": 100, "type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Two", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 101,"type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Three", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-pot-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 102,"type": "PacketPokerTable", "player_timeout": 60}]};
+
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TABLE_LIST_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        jpoker.serverDestroy('url');
+        server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $("#main");
+	var link_pattern = 'http://foo.com/table?game_id={game_id}';
+        place.jpoker('tableList', 'url', { delay: 30, link_pattern: link_pattern});
+        server.registerUpdate(function(server, what, data) {		
+                var element = $("#" + id);
+                if(element.length > 0) {
+		    var game_id = TABLE_LIST_PACKET.packets[1].id;
+		    var row_id = game_id + id;
+		    var row = $("#" + row_id, element);
+		    server.tableJoin = function(id) {
+			ok(false, 'tableJoin');
+		    };
+		    row.click();
+		    var link = link_pattern.supplant({game_id: TABLE_LIST_PACKET.packets[1].id});
+		    ok($('td:nth-child(1)', row).html().indexOf(link)>=0, link)
+                    $("#" + id).remove();
+                    return true;
+                } else {
+		    start_and_cleanup();
+                    return false;
+                }
+            });
+    });
+
 //
 // regularTourneyList
 //
