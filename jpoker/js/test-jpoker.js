@@ -2291,9 +2291,6 @@ test("jpoker.plugins.tableList", function(){
     });
 
 
-//
-// tableList
-//
 test("jpoker.plugins.tableList link pattern", function(){
         expect(1);
         stop();
