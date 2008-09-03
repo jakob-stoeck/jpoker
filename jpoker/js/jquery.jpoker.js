@@ -2030,24 +2030,26 @@
                     var element = document.getElementById(id);
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTourneyList') {
-                            $(element).html(regularTourneyList.getHTML(id, packet));
+                            $(element).html(regularTourneyList.getHTML(id, packet, opts.link_pattern));
 			    if ($('tr', element).length > 1) {
 				$(element).tablesorter({widgets: ['zebra'], sortList: [[4, 0]]});
 			    }
-                            for(var i = 0; i < packet.packets.length; i++) {
-                                (function(){
-                                    var subpacket = packet.packets[i];
-                                    $('#' + subpacket.id).click(function() {
-                                            var server = jpoker.getServer(url);
-                                            if(server) {
-                                                server.tourneyRowClick(server, subpacket);
-                                            }
-                                        }).hover(function(){
-                                                $(this).addClass('hover');
-                                            },function(){
-                                                $(this).removeClass('hover');
-                                            });
-                                })();
+			    if (opts.link_pattern === undefined) {
+				for(var i = 0; i < packet.packets.length; i++) {
+				    (function(){
+					var subpacket = packet.packets[i];
+					$('#' + subpacket.id).click(function() {
+						var server = jpoker.getServer(url);
+						if(server) {
+						    server.tourneyRowClick(server, subpacket);
+						}
+					    }).hover(function(){
+						    $(this).addClass('hover');
+						},function(){
+						    $(this).removeClass('hover');
+						});
+				    })();
+				}
 			    }
                         }
                         return true;
@@ -2067,7 +2069,7 @@
         string: ''
         }, jpoker.refresh.defaults, jpoker.defaults);
 
-    jpoker.plugins.regularTourneyList.getHTML = function(id, packet) {
+    jpoker.plugins.regularTourneyList.getHTML = function(id, packet, link_pattern) {
         var t = this.templates;
         var html = [];
         html.push(t.header.supplant({
@@ -2092,6 +2094,10 @@
                 subpacket.game_id = subpacket.serial;
                 subpacket.id = subpacket.game_id + id;
 	    }
+	    if (link_pattern) {
+		var link = t.link.supplant({link: link_pattern.supplant({tourney_serial: subpacket.serial}), name: subpacket.description_short});
+		subpacket.description_short = link;
+	    }
             html.push(t.rows.supplant(subpacket));
         }
         html.push(t.footer);
@@ -2101,7 +2107,8 @@
     jpoker.plugins.regularTourneyList.templates = {
         header : '<thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th><th>{start_time}</th><th>{state}</th></tr></thead><tbody>',
         rows : '<tr id=\'{id}\' title=\'' + _("Click to show tourney details") + '\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{start_time}</td><td>{state}</td></tr>',
-        footer : '</tbody>'
+        footer : '</tbody>',
+	link: '<a href=\'{link}\'>{name}</a>'
     };
 
     //
@@ -2124,24 +2131,26 @@
                     var element = document.getElementById(id);
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTourneyList') {
-                            $(element).html(sitngoTourneyList.getHTML(id, packet));
+                            $(element).html(sitngoTourneyList.getHTML(id, packet, opts.link_pattern));
 			    if ($('tr', element).length > 1) {
 				$(element).tablesorter({widgets: ['zebra'], sortList: [[3, 0]]});
 			    }
-                            for(var i = 0; i < packet.packets.length; i++) {
-                                (function(){
-                                    var subpacket = packet.packets[i];
-                                    $('#' + subpacket.id).click(function() {
-                                            var server = jpoker.getServer(url);
-                                            if(server) {
-                                                server.tourneyRowClick(server, subpacket);
-                                            }
-                                        }).hover(function(){
-                                                $(this).addClass('hover');
-                                            },function(){
-                                                $(this).removeClass('hover');
-                                            });
-                                })();
+			    if (opts.link_pattern === undefined) {
+				for(var i = 0; i < packet.packets.length; i++) {
+				    (function(){
+					var subpacket = packet.packets[i];
+					$('#' + subpacket.id).click(function() {
+						var server = jpoker.getServer(url);
+						if(server) {
+						    server.tourneyRowClick(server, subpacket);
+						}
+					    }).hover(function(){
+						    $(this).addClass('hover');
+						},function(){
+						    $(this).removeClass('hover');
+						});
+				    })();
+				}
 			    }
                         }
                         return true;
@@ -2161,7 +2170,7 @@
         string: ''
         }, jpoker.refresh.defaults, jpoker.defaults);
 
-    jpoker.plugins.sitngoTourneyList.getHTML = function(id, packet) {
+    jpoker.plugins.sitngoTourneyList.getHTML = function(id, packet, link_pattern) {
         var t = this.templates;
         var html = [];
         html.push(t.header.supplant({
@@ -2187,6 +2196,10 @@
                 subpacket.id = subpacket.game_id + id;
                 subpacket.buy_in /= 100;
 	    }
+	    if (link_pattern) {
+		var link = t.link.supplant({link: link_pattern.supplant({tourney_serial: subpacket.serial}), name: subpacket.description_short});
+		subpacket.description_short = link;
+	    }
             html.push(t.rows.supplant(subpacket));
         }
         html.push(t.footer);
@@ -2196,7 +2209,8 @@
     jpoker.plugins.sitngoTourneyList.templates = {
         header : '<thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th><th>{state}</th></tr></thead><tbody>',
         rows : '<tr id=\'{id}\' title=\'' + _("Click to show tourney details") + '\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{state}</td></tr>',
-        footer : '</tbody>'
+        footer : '</tbody>',
+	link: '<a href=\'{link}\'>{name}</a>'
     };
 
     //
