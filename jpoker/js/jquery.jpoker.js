@@ -3689,24 +3689,27 @@
                     var element = document.getElementById(id);
                     if(element) {
 			if(packet && packet.type == 'PacketPokerPlayerPlaces') {
-			    $(element).html(places.getHTML(packet));
-			    $.each(packet.tables, function(i, table) {
-				    $('#' + table, element).click(function() {
-					    var server = jpoker.getServer(url);
-					    if(server) {
-						server.tableJoin(table);
-					    }
-					});
-				});
-			    $.each(packet.tourneys, function(i, tourney) {
-				    $('#' + tourney, element).click(function() {
-					    var server = jpoker.getServer(url);
-					    if(server) {
-						server.placeTourneyRowClick(server, tourney);
-					    }
-					});
-				});
-			    
+			    $(element).html(places.getHTML(packet, opts.table_link_pattern, opts.tourney_link_pattern));
+			    if (opts.table_link_pattern === undefined) {
+				$.each(packet.tables, function(i, table) {
+					$('#' + table, element).click(function() {
+						var server = jpoker.getServer(url);
+						if(server) {
+						    server.tableJoin(table);
+						}
+					    });
+				    });
+			    }
+			    if (opts.tourney_link_pattern === undefined) {
+				$.each(packet.tourneys, function(i, tourney) {
+					$('#' + tourney, element).click(function() {
+						var server = jpoker.getServer(url);
+						if(server) {
+						    server.placeTourneyRowClick(server, tourney);
+						}
+					    });
+				    });
+			    }
 			}
                         return true;
                     } else {
@@ -3724,19 +3727,27 @@
     jpoker.plugins.places.defaults = $.extend({
         }, jpoker.defaults);
 
-    jpoker.plugins.places.getHTML = function(packet) {
+    jpoker.plugins.places.getHTML = function(packet, table_link_pattern, tourney_link_pattern) {
         var t = this.templates;
 	var html = [];
 	html.push(t.tables.header.supplant({table_title: _("Tables")}));
 	$.each(packet.tables, function(i, table) {
-		html.push(t.tables.rows.supplant({id: table,
+		var game_id = table;
+		if (table_link_pattern) {
+		    table = t.tables.link.supplant({link: table_link_pattern.supplant({game_id: game_id}), name: game_id});
+		}
+		html.push(t.tables.rows.supplant({id: game_id,
 				table: table}));
 	    });
 	html.push(t.tables.footer);
 
 	html.push(t.tourneys.header.supplant({tourney_title: _("Tourneys")}));
 	$.each(packet.tourneys, function(i, tourney) {
-		html.push(t.tourneys.rows.supplant({id: tourney,
+		var tourney_serial = tourney;
+		if (tourney_link_pattern) {
+		    tourney = t.tourneys.link.supplant({link: tourney_link_pattern.supplant({tourney_serial: tourney_serial}), name: tourney_serial});
+		}
+		html.push(t.tourneys.rows.supplant({id: tourney_serial,
 				tourney: tourney}));
 	    });
 	html.push(t.tourneys.footer);
@@ -3747,17 +3758,19 @@
 	tables : {
 	    header : '<div class=\'jpoker_places_tables\'><table><thead><tr><th>{table_title}</th></tr></thead><tbody>',
 	    rows : '<tr class=\'jpoker_places_table\' id={id}><td>{table}</td></tr>',
-	    footer : '</tbody></table></div>'
+	    footer : '</tbody></table></div>',
+	    link: '<a href=\'{link}\'>{name}</a>'
 	},
 	tourneys : {
 	    header : '<div class=\'jpoker_places_tourneys\'><table><thead><tr><th>{tourney_title}</th></tr></thead><tbody>',
 	    rows : '<tr class=\'jpoker_places_tourney\' id={id}><td>{tourney}</td></tr>',
-	    footer : '</tbody></table></div>'
+	    footer : '</tbody></table></div>',
+	    link: '<a href=\'{link}\'>{name}</a>'
 	}
     };
 
     //
-    // places
+    // playerLookup
     //
     jpoker.plugins.playerLookup = function(url, options) {
 
@@ -3776,24 +3789,27 @@
                     if(element) {
 			if(packet) {
 			    if (packet.type == 'PacketPokerPlayerPlaces') {
-			    $('.jpoker_player_lookup_result', element).html(playerLookup.getHTML(packet));
-			    $.each(packet.tables, function(i, table) {
-				    $('#' + table, element).click(function() {
-					    var server = jpoker.getServer(url);
-					    if(server) {
-						server.tableJoin(table);
-					    }
-					});
-				});
-			    $.each(packet.tourneys, function(i, tourney) {
-				    $('#' + tourney, element).click(function() {
-					    var server = jpoker.getServer(url);
-					    if(server) {
-						server.placeTourneyRowClick(server, tourney);
-					    }
-					});
-				});
-			    
+				$('.jpoker_player_lookup_result', element).html(playerLookup.getHTML(packet, opts.table_link_pattern, opts.tourney_link_pattern));
+			    if (opts.table_link_pattern === undefined) {
+				$.each(packet.tables, function(i, table) {
+					$('#' + table, element).click(function() {
+						var server = jpoker.getServer(url);
+						if(server) {
+						    server.tableJoin(table);
+						}
+					    });
+				    });
+			    }
+			    if (opts.tourney_link_pattern === undefined) {
+				$.each(packet.tourneys, function(i, tourney) {
+					$('#' + tourney, element).click(function() {
+						var server = jpoker.getServer(url);
+						if(server) {
+						    server.placeTourneyRowClick(server, tourney);
+						}
+					    });
+				    });
+			    }
 			    } else if ((packet.type == 'PacketError') && (packet.other_type == jpoker.packetName2Type.PACKET_POKER_PLAYER_PLACES)) {
 				$('.jpoker_player_lookup_result', element).empty();
 			    }
@@ -3817,19 +3833,27 @@
     jpoker.plugins.playerLookup.defaults = $.extend({
         }, jpoker.defaults);
 
-    jpoker.plugins.playerLookup.getHTML = function(packet) {
+    jpoker.plugins.playerLookup.getHTML = function(packet, table_link_pattern, tourney_link_pattern) {
         var t = this.templates;
 	var html = [];
 	html.push(t.tables.header.supplant({table_title: _("Tables")}));
 	$.each(packet.tables, function(i, table) {
-		html.push(t.tables.rows.supplant({id: table,
+		var game_id = table;
+		if (table_link_pattern) {
+		    table = t.tables.link.supplant({link: table_link_pattern.supplant({game_id: game_id}), name: game_id});
+		}
+		html.push(t.tables.rows.supplant({id: game_id,
 				table: table}));
 	    });
 	html.push(t.tables.footer);
 
 	html.push(t.tourneys.header.supplant({tourney_title: _("Tourneys")}));
 	$.each(packet.tourneys, function(i, tourney) {
-		html.push(t.tourneys.rows.supplant({id: tourney,
+		var tourney_serial = tourney;
+		if (tourney_link_pattern) {
+		    tourney = t.tourneys.link.supplant({link: tourney_link_pattern.supplant({tourney_serial: tourney_serial}), name: tourney_serial});
+		}
+		html.push(t.tourneys.rows.supplant({id: tourney_serial,
 				tourney: tourney}));
 	    });
 	html.push(t.tourneys.footer);
@@ -3848,12 +3872,14 @@
 	tables : {
 	    header : '<div class=\'jpoker_player_lookup_tables\'><table><thead><tr><th>{table_title}</th></tr></thead><tbody>',
 	    rows : '<tr class=\'jpoker_player_lookup_table\' id={id}><td>{table}</td></tr>',
-	    footer : '</tbody></table></div>'
+	    footer : '</tbody></table></div>',
+	    link: '<a href=\'{link}\'>{name}</a>'
 	},
 	tourneys : {
 	    header : '<div class=\'jpoker_player_lookup_tourneys\'><table><thead><tr><th>{tourney_title}</th></tr></thead><tbody>',
 	    rows : '<tr class=\'jpoker_player_lookup_tourney\' id={id}><td>{tourney}</td></tr>',
-	    footer : '</tbody></table></div>'
+	    footer : '</tbody></table></div>',
+	    link: '<a href=\'{link}\'>{name}</a>'
 	}
     };
 

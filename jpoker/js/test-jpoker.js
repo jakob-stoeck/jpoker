@@ -5171,6 +5171,56 @@ test("jpoker.plugins.places", function(){
 	    });
     });
 
+test("jpoker.plugins.places link_pattern", function(){
+        expect(2);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+	server.serial = 42;
+	var PLAYER_PLACES_PACKET = {type: 'PacketPokerPlayerPlaces', serial: 42, tables: [11, 12, 13], tourneys: [21, 22]};
+
+        var PokerServer = function() {};
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(PLAYER_PLACES_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $('#main');
+
+	var table_link_pattern = 'http://foo.com/table?game_id={game_id}';
+	var tourney_link_pattern = 'http://foo.com/tourney?tourney_serial={tourney_serial}';
+        place.jpoker('places', 'url', {table_link_pattern: table_link_pattern, tourney_link_pattern: tourney_link_pattern});
+	server.registerUpdate(function(server, what, data) {
+		var element = $('#' + id);
+		if(element.length > 0) {
+		    if (data.type == 'PacketPokerPlayerPlaces') {
+			server.tableJoin = function(id) {
+			    ok(false, 'tableJoin disabled');
+			};
+			var table = $('.jpoker_places_table', element).eq(0).click();
+			server.placeTourneyRowClick = function(server, id) {
+			    ok(false, 'tourneyRowClick disabled');
+			};
+			var tourney = $('.jpoker_places_tourney', element).eq(0).click();
+
+			var table_link = table_link_pattern.supplant({game_id: 11});
+			ok($('td:nth-child(1)', table).html().indexOf(table_link)>=0, table_link);
+			var tourney_link = tourney_link_pattern.supplant({tourney_serial: 21});
+			ok($('td:nth-child(1)', tourney).html().indexOf(tourney_link)>=0, tourney_link);
+			$('#' + id).remove();
+		    }
+		    return true;
+		} else {
+		    start_and_cleanup();
+		    return false;
+		}
+	    });
+    });
 
 test("jpoker.plugins.playerLookup", function(){
         expect(10);
@@ -5261,6 +5311,54 @@ test("jpoker.plugins.playerLookup error", function(){
 	$('.jpoker_player_lookup_submit', player_lookup_element).click();
     });
 
+test("jpoker.plugins.playerLookup link_pattern", function(){
+        expect(2);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+	server.serial = 42;
+	var PLAYER_PLACES_PACKET = {type: 'PacketPokerPlayerPlaces', name: 'user', tables: [11, 12, 13], tourneys: [21, 22]};
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $('#main');
+
+	var table_link_pattern = 'http://foo.com/table?game_id={game_id}';
+	var tourney_link_pattern = 'http://foo.com/tourney?tourney_serial={tourney_serial}';
+        place.jpoker('playerLookup', 'url', {table_link_pattern: table_link_pattern, tourney_link_pattern: tourney_link_pattern});
+	server.registerUpdate(function(server, what, data) {
+		var element = $('#' + id);
+		if(element.length > 0) {
+		    if (data.type == 'PacketPokerPlayerPlaces') {
+			server.tableJoin = function(id) {
+			    ok(false, 'tableJoin disabled');
+			};
+			var table = $('.jpoker_player_lookup_table', element).eq(0).click();
+			server.placeTourneyRowClick = function(server, id) {
+			    ok(false, 'tourneyRowClick disabled');
+			};
+			var tourney = $('.jpoker_player_lookup_tourney', element).eq(0).click();
+
+			var table_link = table_link_pattern.supplant({game_id: 11});
+			ok($('td:nth-child(1)', table).html().indexOf(table_link)>=0, table_link);
+			var tourney_link = tourney_link_pattern.supplant({tourney_serial: 21});
+			ok($('td:nth-child(1)', tourney).html().indexOf(tourney_link)>=0, tourney_link);
+			$('#' + id).remove();
+		    }
+		    return true;
+		} else {
+		    start_and_cleanup();
+		    return false;
+		}
+	    });
+	var player_lookup_element = $('.jpoker_player_lookup');
+	$('.jpoker_player_lookup_input', player_lookup_element).val('user');
+	server.sendPacket = function(packet) {
+	    server.queueIncoming([PLAYER_PLACES_PACKET]);
+	};
+	$('.jpoker_player_lookup_submit', player_lookup_element).click();
+    });
 
 test("jpoker.plugins.cashier", function(){
         expect(12);

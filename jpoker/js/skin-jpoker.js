@@ -827,6 +827,49 @@ function jpoker_101_playerLookup(place) {
 	    }).click();
 };
 
+function jpoker_102_placesWithLink(place) {
+        setUp();
+        if(explain) {
+            $(place).append('Tables showing the table and tournaments the player is currently connected to, with html link on name and description');
+            $(place).append('<hr>');
+        }
+
+	var PLAYER_PLACES_PACKET = {type: 'PacketPokerPlayerPlaces', serial: 42, tables: [11, 12, 13], tourneys: [21, 22]};
+
+        var PokerServer = function() {};
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(PLAYER_PLACES_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+        ActiveXObject.prototype.server = new PokerServer();
+	
+        var server = $.jpoker.getServer('url');
+	server.serial = 42;
+	var table_link_pattern = 'http://foo.com/table?game_id={game_id}';
+	var tourney_link_pattern = 'http://foo.com/tourney?tourney_serial={tourney_serial}';
+        $(place).jpoker('places', 'url', {table_link_pattern: table_link_pattern, tourney_link_pattern: tourney_link_pattern});
+};
+
+function jpoker_103_playerLookupWithLink(place) {
+        setUp();
+        if(explain) {
+            $(place).append('Form for searching where is a player, with html link on name and description.');
+            $(place).append('<hr>');
+        }	
+	
+        var server = $.jpoker.getServer('url');
+	var table_link_pattern = 'http://foo.com/table?game_id={game_id}';
+	var tourney_link_pattern = 'http://foo.com/tourney?tourney_serial={tourney_serial}';
+        $(place).jpoker('playerLookup', 'url', {table_link_pattern: table_link_pattern, tourney_link_pattern: tourney_link_pattern});
+	$('.jpoker_player_lookup_input', place).val('user');
+	var i = 0;
+	$('.jpoker_player_lookup_submit', place).click(function() {
+		var PLAYER_PLACES_PACKET = {type: 'PacketPokerPlayerPlaces', name: 'user', tables: [11+i, 12+i, 13+i], tourneys: [21+i, 22+i]};
+		++i;
+		server.queueIncoming([PLAYER_PLACES_PACKET]);
+	    }).click();
+};
 
 function jpoker_110_cashier(place) {
         setUp();
