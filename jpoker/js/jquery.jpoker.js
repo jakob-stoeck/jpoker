@@ -1931,8 +1931,8 @@
                     var element = document.getElementById(id);
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTableList') {
-                            $(element).html(tableList.getHTML(id, packet, options.link_pattern));
-			    if (options.link_pattern === undefined) {
+                            $(element).html(tableList.getHTML(id, packet, opts.link_pattern));
+			    if (opts.link_pattern === undefined) {
 				for(var i = 0; i < packet.packets.length; i++) {
 				    (function(){
 					var subpacket = packet.packets[i];
