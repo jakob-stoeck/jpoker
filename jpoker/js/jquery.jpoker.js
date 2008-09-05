@@ -1932,6 +1932,9 @@
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTableList') {
                             $(element).html(tableList.getHTML(id, packet, opts.link_pattern));
+			    if ($('tr', element).length > 1) {
+				$(element).tablesorter({widgets: ['zebra']}).tablesorterPager({container: $('.pager', element), positionFixed: false});
+			    }
 			    if (opts.link_pattern === undefined) {
 				for(var i = 0; i < packet.packets.length; i++) {
 				    (function(){
@@ -2000,6 +2003,7 @@
             html.push(t.rows.supplant(subpacket));
         }
         html.push(t.footer);
+	html.push(t.pager);
         return html.join('\n');
     };
 
@@ -2007,7 +2011,8 @@
         header : '<thead><tr><td>{name}</td><td>{players}</td><td>{seats}</td><td>{betting_structure}</td><td>{average_pot}</td><td>{hands_per_hour}</td><td>{percent_flop}</td></tr></thead><tbody>',
         rows : '<tr class=\'{class}\' id=\'{id}\' title=\'' + _("Click to join the table") + '\'><td>{name}</td><td>{players}</td><td>{seats}</td><td>{betting_structure}</td><td>{average_pot}</td><td>{hands_per_hour}</td><td>{percent_flop}</td></tr>',
         footer : '</tbody>',
-	link: '<a href=\'{link}\'>{name}</a>'
+	link: '<a href=\'{link}\'>{name}</a>',
+	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>'
     };
 
     //
@@ -2032,7 +2037,7 @@
                         if(packet && packet.type == 'PacketPokerTourneyList') {
                             $(element).html(regularTourneyList.getHTML(id, packet, opts.link_pattern));
 			    if ($('tr', element).length > 1) {
-				$(element).tablesorter({widgets: ['zebra'], sortList: [[4, 0]]});
+				$(element).tablesorter({widgets: ['zebra'], sortList: [[4, 0]]}).tablesorterPager({container: $('.pager', element), positionFixed: false});
 			    }
 			    if (opts.link_pattern === undefined) {
 				for(var i = 0; i < packet.packets.length; i++) {
@@ -2101,6 +2106,7 @@
             html.push(t.rows.supplant(subpacket));
         }
         html.push(t.footer);
+        html.push(t.pager);
         return html.join('\n');
     };
 
@@ -2108,7 +2114,8 @@
         header : '<thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th><th>{start_time}</th><th>{state}</th></tr></thead><tbody>',
         rows : '<tr id=\'{id}\' title=\'' + _("Click to show tourney details") + '\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{start_time}</td><td>{state}</td></tr>',
         footer : '</tbody>',
-	link: '<a href=\'{link}\'>{name}</a>'
+	link: '<a href=\'{link}\'>{name}</a>',
+	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>'
     };
 
     //
@@ -2133,7 +2140,7 @@
                         if(packet && packet.type == 'PacketPokerTourneyList') {
                             $(element).html(sitngoTourneyList.getHTML(id, packet, opts.link_pattern));
 			    if ($('tr', element).length > 1) {
-				$(element).tablesorter({widgets: ['zebra'], sortList: [[3, 0]]});
+				$(element).tablesorter({widgets: ['zebra'], sortList: [[3, 0]]}).tablesorterPager({container: $('.pager', element), positionFixed: false});;
 			    }
 			    if (opts.link_pattern === undefined) {
 				for(var i = 0; i < packet.packets.length; i++) {
@@ -2203,6 +2210,7 @@
             html.push(t.rows.supplant(subpacket));
         }
         html.push(t.footer);
+	html.push(t.pager);
         return html.join('\n');
     };
 
@@ -2210,7 +2218,8 @@
         header : '<thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th><th>{state}</th></tr></thead><tbody>',
         rows : '<tr id=\'{id}\' title=\'' + _("Click to show tourney details") + '\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{state}</td></tr>',
         footer : '</tbody>',
-	link: '<a href=\'{link}\'>{name}</a>'
+	link: '<a href=\'{link}\'>{name}</a>',
+	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>'	
     };
 
     //

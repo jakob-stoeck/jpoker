@@ -2342,6 +2342,57 @@ test("jpoker.plugins.tableList link pattern", function(){
             });
     });
 
+test("jpoker.plugins.tableList pager", function(){
+        expect(2);
+        stop();
+
+        //
+        // Mockup server that will always return TABLE_LIST_PACKET,
+        // whatever is sent to it.
+        //
+        var PokerServer = function() {};
+
+        var average_pot = 1535 / 100;
+        var TABLE_LIST_PACKET = {"players": 4, "type": "PacketPokerTableList", "packets": []};
+	for (var i = 0; i < 200; ++i) {
+	    var name = "Table" + i;
+	    var id = 100+i;
+	    var players = i%11;
+	    var packet = {"observers": 0, "name": name, "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": players, "waiting": 0, "skin": "default", "id": id,"type": "PacketPokerTable", "player_timeout": 60};
+	    TABLE_LIST_PACKET.packets.push(packet);
+	}
+
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TABLE_LIST_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        jpoker.serverDestroy('url');
+        server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $("#main");
+        place.jpoker('tableList', 'url', { delay: 30 });
+        server.registerUpdate(function(server, what, data) {		
+                var element = $("#" + id);
+                if(element.length > 0) {
+		    equals($('.pager', element).length, 1, 'has pager');
+		    equals($('.pager .current', element).length, 1, 'has current page');
+                    $("#" + id).remove();
+                    return true;
+                } else {
+		    start_and_cleanup();
+                    return false;
+                }
+            });
+    });
+
+
 //
 // regularTourneyList
 //
@@ -2464,6 +2515,56 @@ test("jpoker.plugins.regularTourneyList link_pattern", function(){
             });
     });
 
+test("jpoker.plugins.regularTourneyList pager", function(){
+        expect(2);
+        stop();
+
+        //
+        // Mockup server that will always return TOURNEY_LIST_PACKET,
+        // whatever is sent to it.
+        //
+        var PokerServer = function() {};
+
+	var TOURNEY_LIST_PACKET = {"players": 0, "packets": [], "tourneys": 5, "type": "PacketPokerTourneyList"};
+	for (var i = 0; i < 200; ++i) {
+	    var name = "Tourney" + i;
+	    var players = i%11;
+	    var packet = {"players_quota": players, "breaks_first": 7200, "name": name, "description_short" : name, "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 1, "sit_n_go": "n", "registered": 0};
+	    TOURNEY_LIST_PACKET.packets.push(packet);
+	}
+
+	var start_time = TOURNEY_LIST_PACKET.packets[1].start_time;
+	var state = TOURNEY_LIST_PACKET.packets[1].state;
+
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TOURNEY_LIST_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+        var id = 'jpoker' + jpoker.serial;
+        var row_id = TOURNEY_LIST_PACKET.packets[1].serial + id;
+        var place = $("#main");
+        place.jpoker('regularTourneyList', 'url', { delay: 30 });
+        server.registerUpdate(function(server, what, data) {
+                var element = $("#" + id);
+                if(element.length > 0) {
+		    equals($('.pager', element).length, 1, 'has pager');
+		    equals($('.pager .current', element).length, 1, 'has current page');
+                    $("#" + id).remove();
+                    return true;
+                } else {
+		    start_and_cleanup();
+                    return false;
+                }
+            });
+    });
+
 //
 // sitngoTourneyList
 //
@@ -2577,6 +2678,56 @@ test("jpoker.plugins.sitngoTourneyList link pattern", function(){
 		    row.click();
 		    var link = link_pattern.supplant({tourney_serial: TOURNEY_LIST_PACKET.packets[0].serial});
 		    ok($('td:nth-child(1)', row).html().indexOf(link)>=0, link)
+                    $("#" + id).remove();
+                    return true;
+                } else {
+		    start_and_cleanup();
+                    return false;
+                }
+            });
+    });
+
+test("jpoker.plugins.sitngoTourneyList pager", function(){
+        expect(2);
+        stop();
+
+        //
+        // Mockup server that will always return TOURNEY_LIST_PACKET,
+        // whatever is sent to it.
+        //
+        var PokerServer = function() {};
+
+	var TOURNEY_LIST_PACKET = {"players": 0, "packets": [], "tourneys": 5, "type": "PacketPokerTourneyList"};
+	for (var i = 0; i < 200; ++i) {
+	    var name = "Tourney" + i;
+	    var players = i%11;
+	    var packet = {"players_quota": players, "breaks_first": 7200, "name": name, "description_short" : name, "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 1, "sit_n_go": "y", "registered": 0};
+	    TOURNEY_LIST_PACKET.packets.push(packet);
+	}
+
+	var start_time = TOURNEY_LIST_PACKET.packets[1].start_time;
+	var state = TOURNEY_LIST_PACKET.packets[1].state;
+
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TOURNEY_LIST_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+        var id = 'jpoker' + jpoker.serial;
+        var row_id = TOURNEY_LIST_PACKET.packets[1].serial + id;
+        var place = $("#main");
+        place.jpoker('sitngoTourneyList', 'url', { delay: 30 });
+        server.registerUpdate(function(server, what, data) {
+                var element = $("#" + id);
+                if(element.length > 0) {
+		    equals($('.pager', element).length, 1, 'has pager');
+		    equals($('.pager .current', element).length, 1, 'has current page');
                     $("#" + id).remove();
                     return true;
                 } else {

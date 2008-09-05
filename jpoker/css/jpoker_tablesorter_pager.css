@@ -1,0 +1,10 @@
+.pager .pagelinks .current {
+    font-size: 1.4em;
+}
+.pager .pagelinks li {
+    display: inline;
+    margin-right: 0.5em;
+}
+.pager .pagesize {
+    display: none;
+}
