@@ -1355,11 +1355,18 @@
 		    });		
 	    },
 
-	    getPlayerPlaces : function() {
-		if (this.loggedIn())  {
+	    getPlayerPlaces : function(serial) {
+		if ((this.loggedIn() === false) && (serial === undefined)) {
+		    jpoker.dialog(_("User must be logged in"));
+		}
+		else {
+		    var player_serial = serial;
+		    if (player_serial === undefined) {
+			player_serial = this.serial;
+		    }
 		    this.queueRunning(function(server) {
 			    server.setState(server.PLACES);
-			    server.sendPacket({'type': 'PacketPokerGetPlayerPlaces', 'serial': server.serial});
+			    server.sendPacket({'type': 'PacketPokerGetPlayerPlaces', 'serial': player_serial});
 			    server.registerHandler(0, function(server, unused_game_id, packet) {
 				    if (packet.type == 'PacketPokerPlayerPlaces') {
 					server.places.tables = packet.tables;
@@ -1371,8 +1378,6 @@
 				    return true;
 				});
 			});
-		} else {
-		    jpoker.dialog(_("User must be logged in"));
 		}
 	    },
 
@@ -3029,6 +3034,12 @@
 				});
 		    }
 		});
+	    avatar_element.hover(function() {
+		    jpoker.plugins.player.avatar_hover_enter(player, id);
+		}, function() {
+		    jpoker.plugins.player.avatar_hover_leave(player, id);
+		});
+	    $('<div class=\'jpoker_avatar_hover jpoker_jquery_ui\'>').attr('id', 'player_seat'+seat+'_avatar_hover'+id).appendTo('body').dialog({ autoOpen: false, dialog: true});
 	    var timeout_element = $('#player_seat' + seat  + '_timeout' + id);
 	    timeout_element.removeClass().addClass('jpoker_timeout jpoker_ptable_player_seat' + seat + '_timeout');
 	    $('<div class=\'jpoker_timeout_progress\'>').appendTo(timeout_element);
@@ -3176,7 +3187,15 @@
             if(player.serial == server.serial) {
                 jpoker.plugins.playerSelf.destroy(player, dummy, id);
             }
-        }
+        },
+
+	avatar_hover_enter: function(player, id) {
+	    $('#player_seat'+player.seat+'_avatar_hover'+id).dialog('open').jpoker('places', player.url, player.serial);
+	},
+
+	avatar_hover_leave: function(player, id) {
+	    $('#player_seat'+player.seat+'_avatar_hover'+id).dialog('close');
+	}
     };
 
     //
@@ -3681,11 +3700,16 @@
     //
     // places
     //
-    jpoker.plugins.places = function(url, options) {
+    jpoker.plugins.places = function(url, options, serial) {
 
         var places = jpoker.plugins.places;
         var opts = $.extend({}, places.defaults, options);
         var server = jpoker.url2server({ url: url });
+	
+	var player_serial = server.serial;	
+	if (serial !== undefined) {
+	    player_serial = parseInt(serial, 10);;
+	}
 
         return this.each(function() {
                 var $this = $(this);
@@ -3727,7 +3751,7 @@
                 };
 
 		server.registerUpdate(updated, null, 'places ' + id);
-		server.getPlayerPlaces();
+		server.getPlayerPlaces(player_serial);
 
                 return this;
             });

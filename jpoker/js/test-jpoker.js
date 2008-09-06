@@ -1168,6 +1168,33 @@ test("jpoker.server.getPlayerPlaces", function(){
         server.getPlayerPlaces();
     });
 
+test("jpoker.server.getPlayerPlaces with serial argument", function(){
+        expect(5);
+	stop();
+
+        var serial = 42;
+	var PLAYER_PLACES_PACKET = {type: 'PacketPokerPlayerPlaces', serial: 42, tables:[11, 12, 13], tourneys:[21, 22, 23]};
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        server.sendPacket = function(packet) {
+            equals(packet.type, 'PacketPokerGetPlayerPlaces');
+            equals(packet.serial, serial, 'player serial');
+	    equals(server.getState(), server.PLACES);
+	    server.queueIncoming([PLAYER_PLACES_PACKET]);
+        };
+        server.registerUpdate(function(server, what, packet) {
+		if (packet.type == 'PacketPokerPlayerPlaces') {
+		    equals(server.places.tables[0], 11, 'places.tables');
+		    equals(server.places.tourneys[0], 21, 'places.tourneys');
+		    server.queueRunning(start_and_cleanup);		    
+		    return false;
+		}
+		return true;
+	    });
+        server.getPlayerPlaces(serial);
+    });
+
 test("jpoker.server.getPlayerPlaces not logged", function(){
         expect(1);
 	stop();
@@ -4286,6 +4313,82 @@ test("jpoker.plugins.player: avatar race condition", function(){
         start_and_cleanup();
     });
 
+test("jpoker.plugins.player: avatar hover", function(){
+        expect(4);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url', urls : {avatar : 'http://avatar-server/'}});
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 1;
+        server.serial = player_serial;
+        var player_seat = 2;
+	var send_auto_muck = jpoker.plugins.muck.sendAutoMuck;
+	jpoker.plugins.muck.sendAutoMuck = function() {};
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+	var avatar_hover_enter = jpoker.plugins.player.avatar_hover_enter;
+	jpoker.plugins.player.avatar_hover_enter = function(player, jpoker_id) {
+	    equals(player.serial, player_serial, 'avatar hover enter serial');
+	    equals(jpoker_id, id, 'avatar hover enter id');
+	};
+	$("#player_seat2_avatar" + id).trigger('mouseenter');
+	jpoker.plugins.player.avatar_hover_enter = avatar_hover_enter;
+	var avatar_hover_leave = jpoker.plugins.player.avatar_hover_leave;
+	jpoker.plugins.player.avatar_hover_leave = function(player, jpoker_id) {
+	    equals(player.serial, player_serial, 'avatar hover leave serial');
+	    equals(jpoker_id, id, 'avatar hover leave id');
+	};
+	$("#player_seat2_avatar" + id).trigger('mouseleave');
+	jpoker.plugins.player.avatar_hover_leave = avatar_hover_leave;
+	jpoker.plugins.muck.sendAutoMuck = send_auto_muck;
+        start_and_cleanup();
+    });
+
+test("jpoker.plugins.player: avatar hover default", function(){	
+	expect(6);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url', urls : {avatar : 'http://avatar-server/'}});
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 1;
+        server.serial = player_serial;
+        var player_seat = 2;
+	var send_auto_muck = jpoker.plugins.muck.sendAutoMuck;
+	jpoker.plugins.muck.sendAutoMuck = function() {};
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+	var player = server.tables[game_id].serial2player[player_serial];
+
+	var avatar_hover_element = $('#player_seat2_avatar_hover'+id);
+	equals(avatar_hover_element.length, 1, 'avatar hover');
+	ok(avatar_hover_element.hasClass('jpoker_avatar_hover'), 'avatar hover class');
+	ok($(avatar_hover_element.parents()).is(':hidden'), 'avatar hover dialog hidden');
+	server.getPlayerPlaces = function(serial) {
+	    equals(serial, player_serial, 'getPlayerPlaces serial');
+	};
+	jpoker.plugins.player.avatar_hover_enter(player, id);
+	
+	ok($(avatar_hover_element.parents()).is(':visible'), 'avatar hover dialog visible');
+	jpoker.plugins.player.avatar_hover_leave(player, id);
+	ok($(avatar_hover_element.parents()).is(':hidden'), 'avatar hover dialog hidden');
+
+	start_and_cleanup();
+    });
+
 test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
         expect(8);
         stop();
@@ -5296,6 +5399,54 @@ test("jpoker.plugins.places", function(){
 
         equals('update' in server.callbacks, false, 'no update registered');
         place.jpoker('places', 'url');
+        equals(server.callbacks.update.length, 1, 'places update registered');
+	equals($('.jpoker_places').length, 1, 'places div');
+	server.registerUpdate(function(server, what, data) {
+		var element = $('#' + id);
+		if(element.length > 0) {
+		    if (data.type == 'PacketPokerPlayerPlaces') {
+			equals($('.jpoker_places_table', element).length, 3, 'jpoker_places_table');
+			equals($('.jpoker_places_tourney', element).length, 2, 'jpoker_places_tourney');
+			server.tableJoin = function(id) {
+			    equals(id, PLAYER_PLACES_PACKET.tables[0], 'tableJoin called');
+			};
+			$('.jpoker_places_table', element).eq(0).click();
+			server.placeTourneyRowClick = function(server, id) {
+			    equals(id, PLAYER_PLACES_PACKET.tourneys[0], 'placeTourneyRowClick called');
+			};
+			$('.jpoker_places_tourney', element).eq(0).click();
+			$('#' + id).remove();
+		    }
+		    return true;
+		} else {
+		    start_and_cleanup();
+		    return false;
+		}
+	    });
+    });
+
+test("jpoker.plugins.places other serial", function(){
+        expect(7);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+	var PLAYER_PLACES_PACKET = {type: 'PacketPokerPlayerPlaces', serial: 42, tables: [11, 12, 13], tourneys: [21, 22]};
+
+        var PokerServer = function() {};
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(PLAYER_PLACES_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $('#main');
+
+        equals('update' in server.callbacks, false, 'no update registered');
+        place.jpoker('places', 'url', '42');
         equals(server.callbacks.update.length, 1, 'places update registered');
 	equals($('.jpoker_places').length, 1, 'places div');
 	server.registerUpdate(function(server, what, data) {
