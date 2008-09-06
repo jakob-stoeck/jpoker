@@ -4386,6 +4386,7 @@ test("jpoker.plugins.player: avatar hover default", function(){
 	jpoker.plugins.player.avatar_hover_leave(player, id);
 	ok($(avatar_hover_element.parents()).is(':hidden'), 'avatar hover dialog hidden');
 
+	jpoker.plugins.muck.sendAutoMuck = send_auto_muck;
 	start_and_cleanup();
     });
 
@@ -5400,7 +5401,7 @@ test("jpoker.plugins.places", function(){
         equals('update' in server.callbacks, false, 'no update registered');
         place.jpoker('places', 'url');
         equals(server.callbacks.update.length, 1, 'places update registered');
-	equals($('.jpoker_places').length, 1, 'places div');
+	equals($('.jpoker_places', place).length, 1, 'places div');
 	server.registerUpdate(function(server, what, data) {
 		var element = $('#' + id);
 		if(element.length > 0) {
@@ -5448,7 +5449,7 @@ test("jpoker.plugins.places other serial", function(){
         equals('update' in server.callbacks, false, 'no update registered');
         place.jpoker('places', 'url', '42');
         equals(server.callbacks.update.length, 1, 'places update registered');
-	equals($('.jpoker_places').length, 1, 'places div');
+	equals($('.jpoker_places', place).length, 1, 'places div');
 	server.registerUpdate(function(server, what, data) {
 		var element = $('#' + id);
 		if(element.length > 0) {
