@@ -235,7 +235,7 @@
 				
 				return this.each(function() {	
 					
-					config = $.extend(this.config, $.tablesorterPager.defaults, settings);
+					var config = $.extend(this.config, $.tablesorterPager.defaults, settings);
 					
 					var table = this, pager = config.container;
 				
