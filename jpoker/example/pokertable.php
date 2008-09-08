@@ -22,21 +22,21 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Earthquake Poker</title>
-	<link href="css/jpoker.css" rel="stylesheet" type="text/css" />
-	<script language="JavaScript" type="text/javascript" src="jquery/jquery-1.2.6.js"></script>
-	<script language="JavaScript" type="text/javascript" src="jquery/ui/ui.core.js"></script>
-	<script language="JavaScript" type="text/javascript" src="jquery/ui/ui.draggable.js"></script>
-	<script language="JavaScript" type="text/javascript" src="jquery/ui/ui.resizable.js"></script>
-	<script language="JavaScript" type="text/javascript" src="jquery/ui/ui.dialog.js"></script>
-	<script language="JavaScript" type="text/javascript" src="jquery/ui/ui.slider.js"></script>
-	<script language="JavaScript" type="text/javascript" src="js/jquery.ajaxQueue.js"></script>
-	<script language="JavaScript" type="text/javascript" src="js/jquery.cookie.js"></script>
-	<script language="JavaScript" type="text/javascript" src="js/jquery.gettext.js"></script>
-	<script language="JavaScript" type="text/javascript" src="js/jquery.tablesorter.js"></script>
-	<script language="JavaScript" type="text/javascript" src="js/jquery.form.js"></script>
-	<script language="JavaScript" type="text/javascript" src="js/json2.js"></script>
-	<script language="JavaScript" type="text/javascript" src="js/jquery.jpoker.js"></script>
-	<script language="JavaScript" type="text/javascript" src="js/mockup.js"></script>
+	<link href="../css/jpoker.css" rel="stylesheet" type="text/css" />
+	<script language="JavaScript" type="text/javascript" src="../jquery/jquery-1.2.6.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../jquery/ui/ui.core.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../jquery/ui/ui.draggable.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../jquery/ui/ui.resizable.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../jquery/ui/ui.dialog.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../jquery/ui/ui.slider.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../js/jquery.ajaxQueue.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../js/jquery.cookie.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../js/jquery.gettext.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../js/jquery.tablesorter.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../js/jquery.form.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../js/json2.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../js/jquery.jpoker.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../js/mockup.js"></script>
         <script language="JavaScript" type="text/javascript">
 	$.jpoker.verbose = 2;
         var restURL = '/POKER_REST';
