@@ -2262,6 +2262,12 @@
 				    });
 			    }
                             $(element).html(tourneyDetails.getHTML(id, packet, logged, registered));
+			    
+			    var tourney_details_player_element = $('.jpoker_tourney_details_players', element);
+			    if ($('tr', tourney_details_player_element).length > 1) {
+				$('table', tourney_details_player_element).tablesorter({widgets: ['zebra']}).tablesorterPager({container: $('.pager', tourney_details_player_element), positionFixed: false});
+			    }
+
 			    $('.jpoker_tourney_details_table', element).click(function() {
 				    $('.jpoker_tourney_details_table_details', element).html(tourneyDetails.getHTMLTableDetails(id, packet, $(this).attr('id')));
 				}).hover(function(){
@@ -2308,6 +2314,7 @@
 	
 	var player_state_template = t.players[packet.tourney.state];
 	if (player_state_template) {
+	    html.push(t.players.header);
 	    html.push(player_state_template.header.supplant({
 			'name': _("Name"),
 			'money': _("Money"),
@@ -2324,6 +2331,8 @@
 		html.push(player_state_template.rows.supplant(player));
 	    }
 	    html.push(player_state_template.footer);
+	    html.push(t.players.pager);
+	    html.push(t.players.footer);
 	}
 	
 	if (packet.tourney.state == "registering") {	    
@@ -2401,20 +2410,23 @@
 	info: '<div class=\'jpoker_tourney_details_info\'><div class=\'jpoker_tourney_details_info_description\'>{description_long}</div><div class=\'jpoker_tourney_details_info_registered\'>{registered}</div><div class=\'jpoker_tourney_details_info_players_quota\'>{players_quota}</div></div>',
 	players : {
 	    registering : {
-		header : '<div class=\'jpoker_tourney_details_players\'><table><thead><tr><th>{name}</th></tr></thead><tbody>',
+		header : '<table><thead><tr><th>{name}</th></tr></thead><tbody>',
 		rows : '<tr><td>{name}</td></tr>',
-		footer : '</tbody></table></div>'
+		footer : '</tbody></table>'
 	    },
 	    running : {
-		header : '<div class=\'jpoker_tourney_details_players\'><table><thead><tr><th>{name}</th><th>{money}</th><th>{rank}</th></tr></thead><tbody>',
+		header : '<table><thead><tr><th>{name}</th><th>{money}</th><th>{rank}</th></tr></thead><tbody>',
 		rows : '<tr><td>{name}</td><td>{money}</td><td>{rank}</td></tr>',
-		footer : '</tbody></table></div>'
+		footer : '</tbody></table>'
 	    },
 	    complete : {
-		header : '<div class=\'jpoker_tourney_details_players\'><table><thead><tr><th>{name}</th><th>{rank}</th></tr></thead><tbody>',
+		header : '<table><thead><tr><th>{name}</th><th>{rank}</th></tr></thead><tbody>',
 		rows : '<tr><td>{name}</td><td>{rank}</td></tr>',
-		footer : '</tbody></table></div>'
-	    }
+		footer : '</tbody></table>'
+	    },
+	    header: '<div class=\'jpoker_tourney_details_players\'>',
+	    pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
+	    footer: '</div>'
 	},
 	tables : {
 	    header : '<div class=\'jpoker_tourney_details_tables\'><table><thead><tr><th>{table}</th><th>{players}</th><th>{max_money}</th><th>{min_money}</th></tr></thead><tbody>',
