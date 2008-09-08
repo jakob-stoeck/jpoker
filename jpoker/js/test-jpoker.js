@@ -2359,7 +2359,7 @@ test("jpoker.plugins.tableList link pattern", function(){
 		    };
 		    row.click();
 		    var link = link_pattern.supplant({game_id: TABLE_LIST_PACKET.packets[1].id});
-		    ok($('td:nth-child(1)', row).html().indexOf(link)>=0, link)
+		    ok($('td:nth-child(1)', row).html().indexOf(link)>=0, link);
                     $("#" + id).remove();
                     return true;
                 } else {
@@ -2383,9 +2383,9 @@ test("jpoker.plugins.tableList pager", function(){
         var TABLE_LIST_PACKET = {"players": 4, "type": "PacketPokerTableList", "packets": []};
 	for (var i = 0; i < 200; ++i) {
 	    var name = "Table" + i;
-	    var id = 100+i;
+	    var game_id = 100+i;
 	    var players = i%11;
-	    var packet = {"observers": 0, "name": name, "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": players, "waiting": 0, "skin": "default", "id": id,"type": "PacketPokerTable", "player_timeout": 60};
+	    var packet = {"observers": 0, "name": name, "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": players, "waiting": 0, "skin": "default", "id": game_id,"type": "PacketPokerTable", "player_timeout": 60};
 	    TABLE_LIST_PACKET.packets.push(packet);
 	}
 
@@ -2532,7 +2532,7 @@ test("jpoker.plugins.regularTourneyList link_pattern", function(){
 		    };
 		    row.click();
 		    var link = link_pattern.supplant({tourney_serial: TOURNEY_LIST_PACKET.packets[1].serial});
-		    ok($('td:nth-child(1)', row).html().indexOf(link)>=0, link)
+		    ok($('td:nth-child(1)', row).html().indexOf(link)>=0, link);
                     $("#" + id).remove();
                     return true;
                 } else {
@@ -2704,7 +2704,7 @@ test("jpoker.plugins.sitngoTourneyList link pattern", function(){
 		    };
 		    row.click();
 		    var link = link_pattern.supplant({tourney_serial: TOURNEY_LIST_PACKET.packets[0].serial});
-		    ok($('td:nth-child(1)', row).html().indexOf(link)>=0, link)
+		    ok($('td:nth-child(1)', row).html().indexOf(link)>=0, link);
                     $("#" + id).remove();
                     return true;
                 } else {

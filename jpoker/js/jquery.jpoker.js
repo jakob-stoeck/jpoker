@@ -2145,7 +2145,7 @@
                         if(packet && packet.type == 'PacketPokerTourneyList') {
                             $(element).html(sitngoTourneyList.getHTML(id, packet, opts.link_pattern));
 			    if ($('tr', element).length > 1) {
-				$(element).tablesorter({widgets: ['zebra'], sortList: [[3, 0]]}).tablesorterPager({container: $('.pager', element), positionFixed: false});;
+				$(element).tablesorter({widgets: ['zebra'], sortList: [[3, 0]]}).tablesorterPager({container: $('.pager', element), positionFixed: false});
 			    }
 			    if (opts.link_pattern === undefined) {
 				for(var i = 0; i < packet.packets.length; i++) {
@@ -3708,7 +3708,7 @@
 	
 	var player_serial = server.serial;	
 	if (serial !== undefined) {
-	    player_serial = parseInt(serial, 10);;
+	    player_serial = parseInt(serial, 10);
 	}
 
         return this.each(function() {
