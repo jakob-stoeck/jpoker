@@ -19,7 +19,7 @@
 			        var c = table.config;
 				var s = $(c.cssPageDisplay,c.container).val((c.page+1) + c.seperator + c.totalPages);
 				var pagelinks = $('.pagelinks', c.container).empty();;
-				var range = c.computePageLinksRange(c.page+1, c.totalPages);
+				var range = c.computePageLinksRange(c.page+1, c.totalPages, c);
 				if (c.totalPages == 1) {
 				    c.container.hide();
 				} else {
@@ -171,7 +171,7 @@
 				appender: this.appender
 			};
 
-			this.defaults.computePageLinksRange = function(current, count) {
+			this.defaults.computePageLinksRange = function(current, count, options) {
 			    var size = 4;
 			    var first = 1;
 			    var last = count;
@@ -181,6 +181,7 @@
 			    var page = [];
 			    var label = [];
 			    var end = [];
+			    var opts = $.extend({}, options);
 			    if (first == count) {
 				return {label: [], page: []}
 			    }
@@ -214,6 +215,18 @@
 			    var end = page.length-1;
 			    if (page[end-1]+1 < last) {
 				label[end] = '...' + label[end];
+			    }
+			    if (opts.previous_label) {
+				if (current > first) {
+				    page.unshift(current - 1);
+				    label.unshift(opts.previous_label);
+				}
+			    }
+			    if (opts.next_label) {
+				if (current < last) {
+				    page.push(current + 1);
+				    label.push(opts.next_label);
+				}
 			    }
 			    return {page: page, label:label};
 			};

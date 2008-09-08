@@ -2370,7 +2370,7 @@ test("jpoker.plugins.tableList link pattern", function(){
     });
 
 test("jpoker.plugins.tableList pager", function(){
-        expect(2);
+        expect(4);
         stop();
 
         //
@@ -2410,6 +2410,9 @@ test("jpoker.plugins.tableList pager", function(){
                 if(element.length > 0) {
 		    equals($('.pager', element).length, 1, 'has pager');
 		    equals($('.pager .current', element).length, 1, 'has current page');
+		    ok($('.pager li:last', element).html().indexOf("Next page") >= 0, 'has next page');
+		    $('.pager li:last a', element).click();
+		    ok($('.pager li:first', element).html().indexOf("Previous page") >= 0, 'has previous page');
                     $("#" + id).remove();
                     return true;
                 } else {
@@ -2543,7 +2546,7 @@ test("jpoker.plugins.regularTourneyList link_pattern", function(){
     });
 
 test("jpoker.plugins.regularTourneyList pager", function(){
-        expect(2);
+        expect(4);
         stop();
 
         //
@@ -2583,6 +2586,9 @@ test("jpoker.plugins.regularTourneyList pager", function(){
                 if(element.length > 0) {
 		    equals($('.pager', element).length, 1, 'has pager');
 		    equals($('.pager .current', element).length, 1, 'has current page');
+		    ok($('.pager li:last', element).html().indexOf("Next page") >= 0, 'has next page');
+		    $('.pager li:last a', element).click();
+		    ok($('.pager li:first', element).html().indexOf("Previous page") >= 0, 'has previous page');
                     $("#" + id).remove();
                     return true;
                 } else {
@@ -2715,7 +2721,7 @@ test("jpoker.plugins.sitngoTourneyList link pattern", function(){
     });
 
 test("jpoker.plugins.sitngoTourneyList pager", function(){
-        expect(2);
+        expect(4);
         stop();
 
         //
@@ -2755,6 +2761,9 @@ test("jpoker.plugins.sitngoTourneyList pager", function(){
                 if(element.length > 0) {
 		    equals($('.pager', element).length, 1, 'has pager');
 		    equals($('.pager .current', element).length, 1, 'has current page');
+		    ok($('.pager li:last', element).html().indexOf("Next page") >= 0, 'has next page');
+		    $('.pager li:last a', element).click();
+		    ok($('.pager li:first', element).html().indexOf("Previous page") >= 0, 'has previous page');
                     $("#" + id).remove();
                     return true;
                 } else {
@@ -2906,7 +2915,7 @@ test("jpoker.plugins.tourneyDetails", function(){
     });
 
 test("jpoker.plugins.tourneyDetails pager", function(){
-        expect(2);
+        expect(4);
         stop();
 
         var PokerServer = function() {};
@@ -2941,6 +2950,9 @@ test("jpoker.plugins.tourneyDetails pager", function(){
                 if(element.length > 0) {
 		    equals($('.pager', element).length, 1, 'has pager');
 		    equals($('.pager .current', element).length, 1, 'has current page');
+		    ok($('.pager li:last', element).html().indexOf("Next page") >= 0, 'has next page');
+		    $('.pager li:last a', element).click();
+		    ok($('.pager li:first', element).html().indexOf("Previous page") >= 0, 'has previous page');
                     $("#" + id).remove();
                     return true;
                 } else {

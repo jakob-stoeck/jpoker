@@ -1938,7 +1938,12 @@
                         if(packet && packet.type == 'PacketPokerTableList') {
                             $(element).html(tableList.getHTML(id, packet, opts.link_pattern));
 			    if ($('tr', element).length > 1) {
-				$(element).tablesorter({widgets: ['zebra']}).tablesorterPager({container: $('.pager', element), positionFixed: false});
+				var t = jpoker.plugins.tableList.templates;
+				var options = {container: $('.pager', element),
+					       positionFixed: false,
+					       previous_label: t.previous_label.supplant({previous_label: _("Previous page")}),
+					       next_label: t.next_label.supplant({next_label: _("Next page")})};
+				$(element).tablesorter({widgets: ['zebra']}).tablesorterPager(options);
 			    }
 			    if (opts.link_pattern === undefined) {
 				for(var i = 0; i < packet.packets.length; i++) {
@@ -2017,7 +2022,9 @@
         rows : '<tr class=\'{class}\' id=\'{id}\' title=\'' + _("Click to join the table") + '\'><td>{name}</td><td>{players}</td><td>{seats}</td><td>{betting_structure}</td><td>{average_pot}</td><td>{hands_per_hour}</td><td>{percent_flop}</td></tr>',
         footer : '</tbody>',
 	link: '<a href=\'{link}\'>{name}</a>',
-	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>'
+	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
+	next_label: '{next_label} >>>',
+	previous_label: '<<< {previous_label}'
     };
 
     //
@@ -2042,7 +2049,12 @@
                         if(packet && packet.type == 'PacketPokerTourneyList') {
                             $(element).html(regularTourneyList.getHTML(id, packet, opts.link_pattern));
 			    if ($('tr', element).length > 1) {
-				$(element).tablesorter({widgets: ['zebra'], sortList: [[4, 0]]}).tablesorterPager({container: $('.pager', element), positionFixed: false});
+				var t = jpoker.plugins.regularTourneyList.templates;
+				var options = {container: $('.pager', element),
+					       positionFixed: false,
+					       previous_label: t.previous_label.supplant({previous_label: _("Previous page")}),
+					       next_label: t.next_label.supplant({next_label: _("Next page")})};
+				$(element).tablesorter({widgets: ['zebra'], sortList: [[4, 0]]}).tablesorterPager(options);
 			    }
 			    if (opts.link_pattern === undefined) {
 				for(var i = 0; i < packet.packets.length; i++) {
@@ -2120,7 +2132,9 @@
         rows : '<tr id=\'{id}\' title=\'' + _("Click to show tourney details") + '\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{start_time}</td><td>{state}</td></tr>',
         footer : '</tbody>',
 	link: '<a href=\'{link}\'>{name}</a>',
-	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>'
+	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
+	next_label: '{next_label} >>>',
+	previous_label: '<<< {previous_label}'
     };
 
     //
@@ -2145,7 +2159,12 @@
                         if(packet && packet.type == 'PacketPokerTourneyList') {
                             $(element).html(sitngoTourneyList.getHTML(id, packet, opts.link_pattern));
 			    if ($('tr', element).length > 1) {
-				$(element).tablesorter({widgets: ['zebra'], sortList: [[3, 0]]}).tablesorterPager({container: $('.pager', element), positionFixed: false});
+				var t = jpoker.plugins.sitngoTourneyList.templates;
+				var options = {container: $('.pager', element),
+					       positionFixed: false,
+					       previous_label: t.previous_label.supplant({previous_label: _("Previous page")}),
+					       next_label: t.next_label.supplant({next_label: _("Next page")})};
+				$(element).tablesorter({widgets: ['zebra'], sortList: [[3, 0]]}).tablesorterPager(options);				
 			    }
 			    if (opts.link_pattern === undefined) {
 				for(var i = 0; i < packet.packets.length; i++) {
@@ -2224,7 +2243,9 @@
         rows : '<tr id=\'{id}\' title=\'' + _("Click to show tourney details") + '\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{state}</td></tr>',
         footer : '</tbody>',
 	link: '<a href=\'{link}\'>{name}</a>',
-	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>'	
+	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
+	next_label: '{next_label} >>>',
+	previous_label: '<<< {previous_label}'	
     };
 
     //
@@ -2265,7 +2286,12 @@
 			    
 			    var tourney_details_player_element = $('.jpoker_tourney_details_players', element);
 			    if ($('tr', tourney_details_player_element).length > 1) {
-				$('table', tourney_details_player_element).tablesorter({widgets: ['zebra']}).tablesorterPager({container: $('.pager', tourney_details_player_element), positionFixed: false});
+				var t = jpoker.plugins.tourneyDetails.templates.players;
+				var options = {container: $('.pager', element),
+					       positionFixed: false,
+					       previous_label: t.previous_label.supplant({previous_label: _("Previous page")}),
+					       next_label: t.next_label.supplant({next_label: _("Next page")})};
+				$('table', tourney_details_player_element).tablesorter({widgets: ['zebra']}).tablesorterPager(options);
 			    }
 
 			    $('.jpoker_tourney_details_table', element).click(function() {
@@ -2440,6 +2466,8 @@
 	    },
 	    header: '<div class=\'jpoker_tourney_details_players\'>',
 	    pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
+	    next_label: '{next_label} >>>',
+	    previous_label: '<<< {previous_label}',
 	    footer: '</div>'
 	},
 	tables : {
