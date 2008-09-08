@@ -2261,7 +2261,7 @@
 					packet.tourney.rank2prize[i] /= 100;
 				    });
 			    }
-                            $(element).html(tourneyDetails.getHTML(id, packet, logged, registered));
+                            $(element).html(tourneyDetails.getHTML(id, packet, logged, registered, opts.link_pattern));
 			    
 			    var tourney_details_player_element = $('.jpoker_tourney_details_players', element);
 			    if ($('tr', tourney_details_player_element).length > 1) {
@@ -2275,6 +2275,14 @@
 				    },function(){
 					$(this).removeClass('hover');
 				    });
+			    
+			    if (opts.link_pattern === undefined) {
+				$('.jpoker_tourney_details_tables_goto_table', element).click(function() {
+					server.tableJoin(parseInt($(this).parent().parent().attr('id').substr(1), 10));
+				    });
+			    }
+
+			    
 			    if(logged) {
 				var input = $('.jpoker_tourney_details_register input', element);
 				if (registered) {
@@ -2303,7 +2311,7 @@
     jpoker.plugins.tourneyDetails.defaults = $.extend({
 	}, jpoker.refresh.defaults, jpoker.defaults);
 
-    jpoker.plugins.tourneyDetails.getHTML = function(id, packet, logged, registered) {
+    jpoker.plugins.tourneyDetails.getHTML = function(id, packet, logged, registered, link_pattern) {
         var t = this.templates;
         var html = [];
 
@@ -2365,7 +2373,8 @@
 			'table': _("Table"),
 			'players': _("Players"),
 			'max_money': _("Max money"),
-			'min_money': _("Min money")
+			'min_money': _("Min money"),
+			'goto_table': _("Go to table")
 		    }));
 	    $.each(packet.table2serials, function(table, players) {
 		    var row = {
@@ -2380,6 +2389,11 @@
 		    if (moneys.length >= 2) {
 			row.min_money = moneys[0];
 			row.max_money = moneys[moneys.length - 1];
+		    }
+		    if (link_pattern === undefined) {
+			row.goto_table = t.tables.goto_table_button.supplant({'goto_table_label': _("Go to table")});
+		    } else {
+			row.goto_table = t.tables.goto_table_link.supplant({'goto_table_label': _("Go to table"), 'link': link_pattern.supplant({game_id: table.substr(1)})});
 		    }
 		    html.push(t.tables.rows.supplant(row));
 		});
@@ -2429,9 +2443,11 @@
 	    footer: '</div>'
 	},
 	tables : {
-	    header : '<div class=\'jpoker_tourney_details_tables\'><table><thead><tr><th>{table}</th><th>{players}</th><th>{max_money}</th><th>{min_money}</th></tr></thead><tbody>',
-	    rows : '<tr id=\'{id}\' class=\'jpoker_tourney_details_table\' title=\'' + _("Click to show table details") + '\'><td>{table}</td><td>{players}</td><td>{max_money}</td><td>{min_money}</td></tr>',
-	    footer : '</tbody></table></div>'
+	    header : '<div class=\'jpoker_tourney_details_tables\'><table><thead><tr><th>{table}</th><th>{players}</th><th>{max_money}</th><th>{min_money}</th><th>{goto_table}</th></tr></thead><tbody>',
+	    rows : '<tr id=\'{id}\' class=\'jpoker_tourney_details_table\' title=\'' + _("Click to show table details") + '\'><td>{table}</td><td>{players}</td><td>{max_money}</td><td>{min_money}</td><td>{goto_table}</td></tr>',
+	    footer : '</tbody></table></div>',
+	    goto_table_button: '<input class=\'jpoker_tourney_details_tables_goto_table\' type=\'submit\' value=\'{goto_table_label}\'></input>',
+	    goto_table_link: '<a class=\'jpoker_tourney_details_tables_goto_table\' href=\'{link}\'>{goto_table_label}</a>'
 	},
 	table_players : {
 	    header : '<div class=\'jpoker_tourney_details_table_players\'><table><thead><tr><th>{player}</th><th>{money}</th></tr></thead><tbody>',
