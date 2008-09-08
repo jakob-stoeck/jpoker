@@ -3284,14 +3284,13 @@ test("jpoker.plugins.tourneyDetails table details", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
         var place = $("#main");
 	server.userInfo.name = "player10";
 	server.serial = 42;
+	var tourney_details_gethtml_table_details = jpoker.plugins.tourneyDetails.getHTMLTableDetails;
         place.jpoker('tourneyDetails', 'url', tourney_serial.toString());
         server.registerUpdate(function(server, what, data) {
                 var element = $("#" + id);
@@ -3308,8 +3307,8 @@ test("jpoker.plugins.tourneyDetails table details", function(){
 		    equals(row.hasClass('hover'), false, '!hasClass hover');
 		    row.click();
 		    equals($(".jpoker_tourney_details_table_details").html(), "table details");
-                    $("#" + id).remove();
-		    start_and_cleanup();    
+		    jpoker.plugins.tourneyDetails.getHTMLTableDetails = tourney_details_gethtml_table_details;
+		    start_and_cleanup();
                     return false;
 		}
             });
