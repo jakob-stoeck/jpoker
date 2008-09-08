@@ -5427,51 +5427,20 @@ test("jpoker.plugins.places", function(){
     });
 
 test("jpoker.plugins.places other serial", function(){
-        expect(7);
+        expect(1);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
-	var PLAYER_PLACES_PACKET = {type: 'PacketPokerPlayerPlaces', serial: 42, tables: [11, 12, 13], tourneys: [21, 22]};
-
-        var PokerServer = function() {};
-        PokerServer.prototype = {
-            outgoing: "[ " + JSON.stringify(PLAYER_PLACES_PACKET) + " ]",
-
-            handle: function(packet) { }
-        };
-        ActiveXObject.prototype.server = new PokerServer();
-
         var id = 'jpoker' + jpoker.serial;
         var place = $('#main');
 
-        equals('update' in server.callbacks, false, 'no update registered');
-        place.jpoker('places', 'url', '42');
-        equals(server.callbacks.update.length, 1, 'places update registered');
-	equals($('.jpoker_places', place).length, 1, 'places div');
-	server.registerUpdate(function(server, what, data) {
-		var element = $('#' + id);
-		if(element.length > 0) {
-		    if (data.type == 'PacketPokerPlayerPlaces') {
-			equals($('.jpoker_places_table', element).length, 3, 'jpoker_places_table');
-			equals($('.jpoker_places_tourney', element).length, 2, 'jpoker_places_tourney');
-			server.tableJoin = function(id) {
-			    equals(id, PLAYER_PLACES_PACKET.tables[0], 'tableJoin called');
-			};
-			$('.jpoker_places_table', element).eq(0).click();
-			server.placeTourneyRowClick = function(server, id) {
-			    equals(id, PLAYER_PLACES_PACKET.tourneys[0], 'placeTourneyRowClick called');
-			};
-			$('.jpoker_places_tourney', element).eq(0).click();
-			$('#' + id).remove();
-		    }
-		    return true;
-		} else {
-		    start_and_cleanup();
-		    return false;
-		}
-	    });
+	server.getPlayerPlaces = function(serial) {
+	    equals(serial, 42, 'serial');
+	    start_and_cleanup();
+	};
+        place.jpoker('places', 'url', {serial: '42'});
     });
 
 test("jpoker.plugins.places link_pattern", function(){

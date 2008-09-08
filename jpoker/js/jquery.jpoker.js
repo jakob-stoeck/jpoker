@@ -3700,15 +3700,15 @@
     //
     // places
     //
-    jpoker.plugins.places = function(url, options, serial) {
+    jpoker.plugins.places = function(url, options) {
 
         var places = jpoker.plugins.places;
         var opts = $.extend({}, places.defaults, options);
         var server = jpoker.url2server({ url: url });
 	
-	var player_serial = server.serial;	
-	if (serial !== undefined) {
-	    player_serial = parseInt(serial, 10);
+	var player_serial = server.serial;
+	if (opts.serial !== undefined) {
+	    player_serial = parseInt(opts.serial, 10);
 	}
 
         return this.each(function() {
