@@ -3084,14 +3084,19 @@
     };
 
     jpoker.plugins.table.templates = {
-        room: 'expected to be overriden by mockup.js but was not'
+        room: 'expected to be overriden by mockup.js but was not',
+	tourney_break: '<div>{label}</div><div>{date}</div>'
     };
 
     jpoker.plugins.table.callback = {
 	hand_start: function(packet) {
 	},
 	tourney_break: function(packet) {
-	    jpoker.dialog(_("Tournament break"));	    
+	    var t = jpoker.plugins.table.templates.tourney_break;
+	    var date = new Date();
+	    date.setTime(packet.resume_time*1000);
+	    jpoker.dialog(t.supplant({label: _("This tournament is on break, and will resume at:"),
+			    date: date.toString()}));
 	},
 	tourney_resume: function(packet) {
 	    $('#jpokerDialog').dialog('close');

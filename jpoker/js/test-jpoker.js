@@ -3980,7 +3980,7 @@ test("jpoker.plugins.table: PacketPokerTourneyBreak callback.tourney_break/resum
     });
 
 test("jpoker.plugins.table: PacketPokerTourneyBreak callback.tourney_break/resume default", function(){
-        expect(2);
+        expect(3);
 	var packet = {"type": "PacketPokerTable", "id": 100, "name": "One", "percent_flop" : 98, "betting_structure": "level-15-30-no-limit"};
         var server = jpoker.serverCreate({ url: 'url' });
 	var table = new jpoker.table(server, packet);
@@ -3992,8 +3992,9 @@ test("jpoker.plugins.table: PacketPokerTourneyBreak callback.tourney_break/resum
 
         place.jpoker('table', 'url', game_id);
 
-	table.handler(server, game_id, { type: 'PacketPokerTableTourneyBreakBegin', game_id: game_id});
+	table.handler(server, game_id, { type: 'PacketPokerTableTourneyBreakBegin', game_id: game_id, resume_time: 1220979087});
 	ok($("#jpokerDialog").parents().is(':visible'), 'jpoker dialog visible');
+	ok($("#jpokerDialog").html().indexOf('Tue Sep 09 2008 16:51') >= 0, $("#jpokerDialog").html());
 	table.handler(server, game_id, { type: 'PacketPokerTableTourneyBreakDone', game_id: game_id});
 	ok($("#jpokerDialog").parents().is(':hidden'), 'jpoker dialog hidden');
 	cleanup(id);

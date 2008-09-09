@@ -884,6 +884,40 @@ function jpoker_55_allWithSidePot(place) {
         server.sendPacket('ping');
 };
 
+function jpoker_56_tourneyBreak(place) {
+        setUp();
+        if(explain) {
+            $(place).append('Tournaments is on break, resume time is displayed.');
+            $(place).append('<hr>');
+        }
+
+        var game_id = 100;
+        var player_serial = 200;
+        var packets = [
+{ type: 'PacketPokerTable', id: game_id }
+                       ];
+        var money = 2;
+        var bet = 8;
+        for(var i = 0; i < 2; i++) {
+            packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
+            packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money , bet: bet });
+	    packets.push({ type: 'PacketPokerCheck', serial: player_serial + i, game_id: game_id });
+            bet *= 10;
+            money *= 10;
+        }
+	packets.push({ type: 'PacketPokerTableTourneyBreakBegin', game_id: game_id, resume_time: 1220979087});
+
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
+};
+
 function jpoker_60_text(place) {
         setUp();
         $('#text').show();
