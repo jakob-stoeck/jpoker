@@ -78,6 +78,8 @@ var cleanup = function(id) {
     jpoker.uninit();
     $.cookie('jpoker_preferences_'+jpoker.url2hash('url'), null);
     $.cookie('jpoker_serial_'+jpoker.url2hash('url'), null);
+    $('#jpokerDialog').dialog('close').remove();
+    $('#jpokerRebuy').dialog('close').remove();
 };
 
 var start_and_cleanup = function(id) {
