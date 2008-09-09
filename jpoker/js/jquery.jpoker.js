@@ -1808,7 +1808,10 @@
                 break;
 
 		case 'PacketPokerPotChips':
-		this.side_pot = packet;
+		if (this.side_pot.bet === undefined) {
+		    this.side_pot = $.extend({}, packet);
+		    this.side_pot.bet /= 100;
+		}
 		this.notifyUpdate(packet);
 		break;
 		
@@ -3195,11 +3198,11 @@
             break;
 
 	    case 'PacketPokerPotChips':
-	    jpoker.plugins.player.side_pot(player, id);
+	    jpoker.plugins.player.side_pot.update(player, id);
 	    break;
 
 	    case 'PacketPokerChipsPotReset':
-	    jpoker.plugins.player.side_pot(player, id);
+	    jpoker.plugins.player.side_pot.update(player, id);
 	    break;
             }
             return true;
@@ -3262,11 +3265,15 @@
             }
         },
 
-	side_pot: function(player, id) {
-	    if (player.side_pot.bet !== undefined) {
-		$('#player_seat' + player.seat + '_sidepot' + id).html(player.side_pot.bet/100);
-	    } else {
-		$('#player_seat' + player.seat + '_sidepot' + id).html('');
+	side_pot: {
+	    template : '{label} {index}: {bet}',
+	    update: function(player, id) {
+		if (player.side_pot.bet !== undefined) {
+		    var html = this.template.supplant($.extend(player.side_pot, {label: _("Pot")}));
+		    $('#player_seat' + player.seat + '_sidepot' + id).html(html);
+		} else {
+		    $('#player_seat' + player.seat + '_sidepot' + id).html('');
+		}
 	    }
 	},
 
