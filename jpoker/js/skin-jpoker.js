@@ -336,13 +336,13 @@ function jpoker_08_all(place) {
         var packets = [
 { type: 'PacketPokerTable', id: game_id }
                        ];
-        var money = 0;
+        var money = 2;
         var bet = 8;
         for(var i = 0; i < 10; i++) {
             packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
-            packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money, bet: bet });
-            packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money, bet: bet });
+            packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money , bet: bet });
             packets.push({ type: 'PacketPokerPlayerCards', serial: player_serial + i, game_id: game_id, cards: [ 13, 14, 15, 16, 17, 18, 19 ] });
+	    packets.push({ type: 'PacketPokerCheck', serial: player_serial + i, game_id: game_id });
             packets.push({ type: 'PacketPokerPotChips', game_id: game_id, index: i, bet: [ 1, bet ] });
             bet *= 10;
             money *= 10;
