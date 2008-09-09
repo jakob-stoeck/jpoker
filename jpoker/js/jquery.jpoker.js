@@ -1536,11 +1536,17 @@
 
                 case 'PacketPokerPotChips':
                     table.pots[packet.index] = jpoker.chips.chips2value(packet.bet);
+		    $.each(table.serial2player, function(serial, player) {
+			    player.handler(server, game_id, packet);
+			});
                     table.notifyUpdate(packet);
                     break;
 
                 case 'PacketPokerChipsPotReset':
                     table.pots = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+		    $.each(table.serial2player, function(serial, player) {
+			    player.handler(server, game_id, packet);
+			});
                     table.notifyUpdate(packet);
                     break;
 
@@ -1609,7 +1615,6 @@
 		    
 		case 'PacketPokerEndRoundLast':
 		    $.each(table.serial2player, function(serial, player) {
-			    packet.serial = serial;
 			    player.handler(server, game_id, packet);
 			});
 		    table.notifyUpdate(packet);
@@ -1736,6 +1741,7 @@
                 this.money = 0;
                 this.bet = 0;
                 this.sit = false;
+		this.side_pot = {};
             },
 
             handler: function(server, game_id, packet) {
@@ -1800,6 +1806,16 @@
                 this.sit = false;
                 this.notifyUpdate(packet);
                 break;
+
+		case 'PacketPokerPotChips':
+		this.side_pot = packet;
+		this.notifyUpdate(packet);
+		break;
+		
+		case 'PacketPokerChipsPotReset':
+		this.side_pot = {};
+		this.notifyUpdate(packet);
+		break;
                 }
             }    
 
@@ -3115,6 +3131,8 @@
             $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_arrive.swf\' />');
             player.registerUpdate(this.update, id, 'update' + id);
             player.registerDestroy(this.destroy, id, 'destroy' + id);
+	    var seat_element = $('#player_seat' + seat + id);
+	    $('<div class=\'jpoker_player_sidepot\'>').attr('id', 'player_seat' + seat + '_sidepot' + id).appendTo(seat_element);
         },
 
         leave: function(player, packet, id) {
@@ -3175,6 +3193,14 @@
             case 'PacketPokerSelfLostPosition':
             jpoker.plugins.playerSelf.lostPosition(player, packet, id);
             break;
+
+	    case 'PacketPokerPotChips':
+	    jpoker.plugins.player.side_pot(player, id);
+	    break;
+
+	    case 'PacketPokerChipsPotReset':
+	    jpoker.plugins.player.side_pot(player, id);
+	    break;
             }
             return true;
         },
@@ -3235,6 +3261,14 @@
                 }
             }
         },
+
+	side_pot: function(player, id) {
+	    if (player.side_pot.bet !== undefined) {
+		$('#player_seat' + player.seat + '_sidepot' + id).html(player.side_pot.bet/100);
+	    } else {
+		$('#player_seat' + player.seat + '_sidepot' + id).html('');
+	    }
+	},
 
         destroy: function(player, what, dummy, id) {
             var server = jpoker.servers[player.url];

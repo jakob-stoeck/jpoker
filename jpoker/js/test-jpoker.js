@@ -2249,6 +2249,24 @@ test("jpoker.player.reinit", function(){
         equals(player.money, 0, 'player.money is reset');
     });
 
+test("jpoker.player.sidepot", function(){
+        expect(3);
+
+        var serial = 42;
+        var name = 'username';
+        var url = 'url';
+        var player = new jpoker.player({ url: url }, { serial: serial, name: name });
+        var server = jpoker.serverCreate({ url: 'url' });
+	var game_id = 42;
+	player.handler(server, game_id, {'type': 'PacketPokerPlayerChips', 'money': 0, 'bet': 10000});
+	player.handler(server, game_id, {'type': 'PacketPokerPotChips', 'index': 1, 'bet': 20000});
+	equals(player.side_pot.bet, 20000, 'player side pot set');
+	player.handler(server, game_id, {'type': 'PacketPokerPotChips', 'index': 2, 'bet': 40000});
+	equals(player.side_pot.bet, 40000, 'player side pot not updated');
+	player.handler(server, game_id, {'type': 'PacketPokerChipsPotReset'});
+	equals(player.side_pot.bet, undefined, 'side pot reset');
+    });
+
 //
 // tableList
 //
@@ -4816,6 +4834,68 @@ test("jpoker.plugins.player: PokerSit/SitOut PacketPokerAutoFold", function(){
         equals(sit.html(), 'click to sit');
 
         cleanup(id);
+    });
+
+test("jpoker.plugins.player: side_pot", function(){
+        expect(3);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 43;
+        server.handler(server, 0, { type: 'PacketSerial', serial: player_serial});
+        var player_seat = 2;
+        var player_name = 'username';
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', name: player_name, seat: player_seat, serial: player_serial, game_id: game_id });
+        var player = server.tables[game_id].serial2player[player_serial];
+        player.money = 100;
+
+        var element = $('#player_seat2' + id);
+	var side_pot = $('#player_seat2_sidepot' + id, element);
+	ok(side_pot.hasClass('jpoker_player_sidepot'), 'side pot class');
+
+	player.money = 0;
+	table.handler(server, game_id, { type: 'PacketPokerPotChips', game_id: game_id, index: 1, bet: 100000 });
+	equals(side_pot.html(), '1000');
+	table.handler(server, game_id, { type: 'PacketPokerChipsPotReset', game_id: game_id });
+	equals(side_pot.html(),  '');
+        cleanup(id);
+    });
+
+test("jpoker.plugins.player: PacketPokerEndRoundLast", function(){
+        expect(1);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 43;
+        server.handler(server, 0, { type: 'PacketSerial', serial: player_serial});
+        var player_seat = 2;
+        var player_name = 'username';
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', name: player_name, seat: player_seat, serial: player_serial, game_id: game_id });
+        var player = server.tables[game_id].serial2player[player_serial];
+        player.money = 100;
+
+	player.handler = function(server, game_id, packet) {
+	    equals(packet.serial, undefined, 'packet serial undefined');
+	    start_and_cleanup();
+	};
+	table.handler(server, game_id, { type: 'PacketPokerEndRoundLast', game_id: game_id });	
     });
 
 function _SelfPlayer(game_id, player_serial) {
