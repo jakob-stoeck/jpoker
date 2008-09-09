@@ -5975,23 +5975,24 @@ test("$.fn.frame", function(){
     });
 
 test("IE7Bugs", function(){
-    var dialogTest = $("<div id='xyz'>Test Dialog</div>").dialog({width: 'none', height: 'none'});
+    var dialogTest = $("<div id='dialogtest1'>Test Dialog</div>").dialog({width: 'none', height: 'none'});
     equals(dialogTest !== undefined,true, 'UI Dialog Bug on IE (width, height = "none")');
+    dialogTest.dialog('close').remove();
 
-    var dialogTestIE7 = $("<div style=\'margin:auto\' id='xyz'>Test Dialog</div>").dialog();
+    var dialogTestIE7 = $("<div style=\'margin:auto\' id='dialogtest2'>Test Dialog</div>").dialog();
     equals(dialogTestIE7 !== undefined,true, 'UI Dialog Bug on IE (margin = "auto" )');
+    dialogTestIE7.dialog('close').remove();
 
     var limits = [0,0,0];
-    $('.ui-slider-1').slider({
-        min: limits[0],
-        startValue: limits[1], //IE bug
-        max: limits[2],
-        stepping: 1,
-        change: function(event, ui) {
-            $('.jpoker_rebuy_current').html(ui.value);
-        }
-    });
-    equals($('.ui-slider-1') !== undefined,true, 'UI Slider Bug on IE');
+    var sliderTest = $("<div class=\'ui-slider-1\' id=\'slidertest\'></div>").appendTo("#main").slider({
+	    min: limits[0],
+	    startValue: limits[1], //IE bug
+	    max: limits[2],
+	    stepping: 1,
+	    change: function(event, ui) {
+	    }
+	});
+    equals($('#slidertest').length, 1, 'UI Slider Bug on IE');    
 });
 
 //
