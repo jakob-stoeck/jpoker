@@ -3133,7 +3133,7 @@
             $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_arrive.swf\' />');
             player.registerUpdate(this.update, id, 'update' + id);
             player.registerDestroy(this.destroy, id, 'destroy' + id);
-	    var seat_element = $('#player_seat' + seat + id);
+	    var seat_element = $('#player_seat' + seat + id).addClass('jpoker_seat');
 	    $('<div class=\'jpoker_player_sidepot\'>').addClass('jpoker_ptable_player_seat' + seat + '_sidepot').attr('id', 'player_seat' + seat + '_sidepot' + id).appendTo(seat_element);
         },
 

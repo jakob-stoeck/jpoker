@@ -4411,7 +4411,7 @@ test("jpoker.plugins.table: remove callbacks", function(){
 // player
 //
 test("jpoker.plugins.player: PacketPokerPlayerArrive", function(){
-        expect(2);
+        expect(3);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -4433,6 +4433,7 @@ test("jpoker.plugins.player: PacketPokerPlayerArrive", function(){
 
         var avatar = $("#player_seat2_avatar" + id);
         equals(avatar.hasClass('jpoker_avatar_default_3'), true, 'default avatar 3');
+	ok($('#player_seat2' + id).hasClass('jpoker_seat'), 'jpoker_seat');
         
         start_and_cleanup();
     });
