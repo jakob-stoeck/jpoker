@@ -1741,7 +1741,7 @@
                 this.money = 0;
                 this.bet = 0;
                 this.sit = false;
-		this.side_pot = {};
+		this.side_pot = undefined;
             },
 
             handler: function(server, game_id, packet) {
@@ -1808,15 +1808,15 @@
                 break;
 
 		case 'PacketPokerPotChips':
-		if ((this.side_pot.bet === undefined) && (this.money == 0)) {
-		    this.side_pot = $.extend({}, packet);
-		    this.side_pot.bet /= 100;
+		if ((this.side_pot === undefined) && (this.money == 0)) {
+		    this.side_pot = {bet: jpoker.chips.chips2value(packet.bet),
+				     index: packet.index};
 		}
 		this.notifyUpdate(packet);
 		break;
 		
 		case 'PacketPokerChipsPotReset':
-		this.side_pot = {};
+		this.side_pot = undefined;
 		this.notifyUpdate(packet);
 		break;
                 }
@@ -3268,7 +3268,7 @@
 	side_pot: {
 	    template : '{label} {index}: {bet}',
 	    update: function(player, id) {
-		if (player.side_pot.bet !== undefined) {
+		if (player.side_pot !== undefined) {
 		    var html = this.template.supplant($.extend(player.side_pot, {label: _("Pot")}));
 		    $('#player_seat' + player.seat + '_sidepot' + id).html(html);
 		} else {
