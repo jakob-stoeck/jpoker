@@ -851,7 +851,7 @@ function jpoker_54_sidepot(place) {
 function jpoker_55_allWithSidePot(place) {
         setUp();
         if(explain) {
-            $(place).append('All player pots player are displayed.');
+            $(place).append('All player pots are displayed.');
             $(place).append('<hr>');
         }
 
