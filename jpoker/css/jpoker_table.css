@@ -25,6 +25,11 @@
  z-index: 1;
 }
 
+.jpoker_table .jpoker_avatar_hover
+{
+ border: 2px solid red;
+}
+
 .jpoker_table .jpoker_timeout
 {
  z-index: 2;

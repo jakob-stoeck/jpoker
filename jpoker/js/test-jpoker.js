@@ -4540,7 +4540,7 @@ test("jpoker.plugins.player: avatar hover", function(){
     });
 
 test("jpoker.plugins.player: avatar hover default", function(){	
-	expect(6);
+	expect(2);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url', urls : {avatar : 'http://avatar-server/'}});
@@ -4561,18 +4561,11 @@ test("jpoker.plugins.player: avatar hover default", function(){
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
 	var player = server.tables[game_id].serial2player[player_serial];
 
-	var avatar_hover_element = $('#player_seat2_avatar_hover'+id);
-	equals(avatar_hover_element.length, 1, 'avatar hover');
-	ok(avatar_hover_element.hasClass('jpoker_avatar_hover'), 'avatar hover class');
-	ok($(avatar_hover_element.parents()).is(':hidden'), 'avatar hover dialog hidden');
-	server.getPlayerPlaces = function(serial) {
-	    equals(serial, player_serial, 'getPlayerPlaces serial');
-	};
+	var avatar_element = $('#player_seat2_avatar'+id);
 	jpoker.plugins.player.avatar_hover_enter(player, id);
-	
-	ok($(avatar_hover_element.parents()).is(':visible'), 'avatar hover dialog visible');
+	equals(avatar_element.hasClass('jpoker_avatar_hover'), true, 'jpoker_avatar_hover');
 	jpoker.plugins.player.avatar_hover_leave(player, id);
-	ok($(avatar_hover_element.parents()).is(':hidden'), 'avatar hover dialog hidden');
+	equals(avatar_element.hasClass('jpoker_avatar_hover'), false, 'no jpoker_avatar_hover');
 
 	jpoker.plugins.muck.sendAutoMuck = send_auto_muck;
 	start_and_cleanup();

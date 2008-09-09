@@ -413,7 +413,7 @@ function jpoker_10_selfMuck(place) {
 function jpoker_11_avatarHover(place) {
         setUp();
         if(explain) {
-            $(place).append('Hovering the avatar show a dialog box with places.');
+            $(place).append('Hovering the avatar show a border around the image by default.');
             $(place).append('<hr>');
         }
 
