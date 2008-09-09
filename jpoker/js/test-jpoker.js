@@ -3926,6 +3926,79 @@ test("jpoker.plugins.table: info tourney", function(){
 	cleanup();
     });
 
+test("jpoker.plugins.table: PacketPokerStart callback.hand_start", function(){
+        expect(1);
+	stop();
+	var packet = {"type": "PacketPokerTable", "id": 100, "name": "One", "percent_flop" : 98, "betting_structure": "15-30-no-limit"};
+        var server = jpoker.serverCreate({ url: 'url' });
+	var table = new jpoker.table(server, packet);
+	server.tables[packet.id] = table;
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+
+        var game_id = 100;
+
+        place.jpoker('table', 'url', game_id);
+
+	var jpoker_table_callback = jpoker.plugins.table.callback;
+	jpoker.plugins.table.callback.hand_start = function(packet) {
+	    equals(packet.hands_count, 10, 'hand start callback');
+	    jpoker.plugins.table.callback = jpoker_table_callback;
+	    start_and_cleanup();
+	};
+	table.handler(server, game_id, { type: 'PacketPokerStart', game_id: game_id, hands_count: 10 });
+    });
+
+
+test("jpoker.plugins.table: PacketPokerTourneyBreak callback.tourney_break/resume", function(){
+        expect(2);
+	stop();
+	var packet = {"type": "PacketPokerTable", "id": 100, "name": "One", "percent_flop" : 98, "betting_structure": "level-15-30-no-limit"};
+        var server = jpoker.serverCreate({ url: 'url' });
+	var table = new jpoker.table(server, packet);
+	server.tables[packet.id] = table;
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+
+        var game_id = 100;
+
+        place.jpoker('table', 'url', game_id);
+
+	var jpoker_table_callback_tourney_break = jpoker.plugins.table.callback.tourney_break;
+	jpoker.plugins.table.callback.tourney_break = function(packet) {
+	    equals(packet.type, 'PacketPokerTableTourneyBreakBegin', 'tourney break callback');
+	     jpoker.plugins.table.callback.tourney_break = jpoker_table_callback_tourney_break;
+	};
+	table.handler(server, game_id, { type: 'PacketPokerTableTourneyBreakBegin', game_id: game_id});
+	var jpoker_table_callback_tourney_resume = jpoker.plugins.table.callback.tourney_resume;
+	jpoker.plugins.table.callback.tourney_resume = function(packet) {
+	    equals(packet.type, 'PacketPokerTableTourneyBreakDone', 'tourney resume callback');	    
+	    jpoker.plugins.table.callback.tourney_resume = jpoker_table_callback_tourney_resume;
+	    start_and_cleanup();
+	};
+	table.handler(server, game_id, { type: 'PacketPokerTableTourneyBreakDone', game_id: game_id});
+    });
+
+test("jpoker.plugins.table: PacketPokerTourneyBreak callback.tourney_break/resume default", function(){
+        expect(2);
+	var packet = {"type": "PacketPokerTable", "id": 100, "name": "One", "percent_flop" : 98, "betting_structure": "level-15-30-no-limit"};
+        var server = jpoker.serverCreate({ url: 'url' });
+	var table = new jpoker.table(server, packet);
+	server.tables[packet.id] = table;
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+
+        var game_id = 100;
+
+        place.jpoker('table', 'url', game_id);
+
+	table.handler(server, game_id, { type: 'PacketPokerTableTourneyBreakBegin', game_id: game_id});
+	ok($("#jpokerDialog").parents().is(':visible'), 'jpoker dialog visible');
+	table.handler(server, game_id, { type: 'PacketPokerTableTourneyBreakDone', game_id: game_id});
+	ok($("#jpokerDialog").parents().is(':hidden'), 'jpoker dialog hidden');
+	cleanup(id);
+    });
+
 test("jpoker.plugins.table.reinit", function(){
         expect(17);
 

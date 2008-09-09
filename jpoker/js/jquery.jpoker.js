@@ -1624,6 +1624,14 @@
 		    table.level = packet.level;
 		    table.notifyUpdate(packet);
 		    break;
+
+		case 'PacketPokerTableTourneyBreakBegin':
+		    table.notifyUpdate(packet);
+		    break;
+		    
+		case 'PacketPokerTableTourneyBreakDone':
+		    table.notifyUpdate(packet);
+		    break;
                 }
 
                 if(serial in table.serial2player) {
@@ -3038,6 +3046,15 @@
 		if (table.is_tourney) {
 		    $('.jpoker_table_info_level', table_info).html(table.level);
 		}
+		jpoker.plugins.table.callback.hand_start(packet);
+		break;
+
+	    case 'PacketPokerTableTourneyBreakBegin':
+		jpoker.plugins.table.callback.tourney_break(packet);
+		break;
+
+	    case 'PacketPokerTableTourneyBreakDone':
+		jpoker.plugins.table.callback.tourney_resume(packet);
 		break;
             }
 
@@ -3068,6 +3085,17 @@
 
     jpoker.plugins.table.templates = {
         room: 'expected to be overriden by mockup.js but was not'
+    };
+
+    jpoker.plugins.table.callback = {
+	hand_start: function(packet) {
+	},
+	tourney_break: function(packet) {
+	    jpoker.dialog(_("Tournament break"));	    
+	},
+	tourney_resume: function(packet) {
+	    $('#jpokerDialog').dialog('close');
+	},
     };
 
     //
