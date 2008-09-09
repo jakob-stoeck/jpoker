@@ -3132,7 +3132,7 @@
             player.registerUpdate(this.update, id, 'update' + id);
             player.registerDestroy(this.destroy, id, 'destroy' + id);
 	    var seat_element = $('#player_seat' + seat + id);
-	    $('<div class=\'jpoker_player_sidepot\'>').attr('id', 'player_seat' + seat + '_sidepot' + id).appendTo(seat_element);
+	    $('<div class=\'jpoker_player_sidepot\'>').addClass('jpoker_ptable_player_seat' + seat + '_sidepot').attr('id', 'player_seat' + seat + '_sidepot' + id).appendTo(seat_element);
         },
 
         leave: function(player, packet, id) {

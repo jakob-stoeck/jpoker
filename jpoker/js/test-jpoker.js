@@ -4837,7 +4837,7 @@ test("jpoker.plugins.player: PokerSit/SitOut PacketPokerAutoFold", function(){
     });
 
 test("jpoker.plugins.player: side_pot", function(){
-        expect(3);
+        expect(4);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
@@ -4860,6 +4860,7 @@ test("jpoker.plugins.player: side_pot", function(){
         var element = $('#player_seat2' + id);
 	var side_pot = $('#player_seat2_sidepot' + id, element);
 	ok(side_pot.hasClass('jpoker_player_sidepot'), 'side pot class');
+	ok(side_pot.hasClass('jpoker_ptable_player_seat2_sidepot'), 'side pot seat class');
 
 	player.money = 0;
 	table.handler(server, game_id, { type: 'PacketPokerPotChips', game_id: game_id, index: 1, bet: 100000 });
