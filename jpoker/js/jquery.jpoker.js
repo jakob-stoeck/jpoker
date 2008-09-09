@@ -2564,7 +2564,7 @@
 	var date = new Date();
 	date.setTime(packet.tourney.start_time*1000);
 	html.push(t.starttime.supplant({tourney_starttime:
-		    _("Tournaments is starting at: ")+date.toString()}));
+		    _("Tournaments is starting at: ")+date.toLocaleString()}));
         return html.join('\n');
     };
     
