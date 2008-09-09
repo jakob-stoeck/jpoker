@@ -1808,7 +1808,7 @@
                 break;
 
 		case 'PacketPokerPotChips':
-		if (this.side_pot.bet === undefined) {
+		if ((this.side_pot.bet === undefined) && (this.money == 0)) {
 		    this.side_pot = $.extend({}, packet);
 		    this.side_pot.bet /= 100;
 		}

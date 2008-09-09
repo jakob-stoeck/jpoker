@@ -2250,7 +2250,7 @@ test("jpoker.player.reinit", function(){
     });
 
 test("jpoker.player.sidepot", function(){
-        expect(4);
+        expect(5);
 
         var serial = 42;
         var name = 'username';
@@ -2259,14 +2259,22 @@ test("jpoker.player.sidepot", function(){
 	var game_id = 42;
         var player = new jpoker.player({ url: url }, { serial: serial, name: name });
 	player.handler(server, game_id, {'type': 'PacketPokerPlayerChips', 'money': 0, 'bet': 10000});
+	var player2 = new jpoker.player({ url: url }, { serial: serial+1, name: name+'1' });
+	player2.handler(server, game_id, {'type': 'PacketPokerPlayerChips', 'money': 0, 'bet': 10000});
+	var player3 = new jpoker.player({ url: url }, { serial: serial+2, name: name+'2' });
+	player3.handler(server, game_id, {'type': 'PacketPokerPlayerChips', 'money': 100000, 'bet': 10000});
+
 	var packet = {'type': 'PacketPokerPotChips', 'index': 1, 'bet': 20000};
 	player.handler(server, game_id, packet);
 	equals(player.side_pot.bet, 200, 'player side pot set');
-	var player2 = new jpoker.player({ url: url }, { serial: serial+1, name: name+'1' });
 	player2.handler(server, game_id, packet);
 	equals(player2.side_pot.bet, 200, 'player2 side pot set');
+	player3.handler(server, game_id, packet);
+	equals(player3.side_pot.bet, undefined, 'player3 side pot not set');
+
 	player.handler(server, game_id, {'type': 'PacketPokerPotChips', 'index': 2, 'bet': 40000});
 	equals(player.side_pot.bet, 200, 'player side pot not updated');
+
 	player.handler(server, game_id, {'type': 'PacketPokerChipsPotReset'});
 	equals(player.side_pot.bet, undefined, 'side pot reset');
     });
