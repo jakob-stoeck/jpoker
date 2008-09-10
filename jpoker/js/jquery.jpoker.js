@@ -3096,7 +3096,7 @@
 	    var date = new Date();
 	    date.setTime(packet.resume_time*1000);
 	    jpoker.dialog(t.supplant({label: _("This tournament is on break, and will resume at:"),
-			    date: date.toString()}));
+			    date: date.toLocaleString()}));
 	},
 	tourney_resume: function(packet) {
 	    $('#jpokerDialog').dialog('close');

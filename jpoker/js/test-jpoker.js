@@ -3631,7 +3631,7 @@ test("jpoker.plugins.tourneyPlaceholder", function(){
 		    equals($('.jpoker_tourney_placeholder_table', element).length, 1, 'table');
 		    equals($('.jpoker_tourney_placeholder_starttime', element).length, 1, 'starttime');		    
 		    var tourney_starttime_date = new Date(tourney_starttime*1000);
-		    ok($('.jpoker_tourney_placeholder_starttime', element).html().indexOf(tourney_starttime_date.toString()) >= 0, $('.jpoker_tourney_placeholder_starttime', element).html());
+		    ok($('.jpoker_tourney_placeholder_starttime', element).html().indexOf(tourney_starttime_date.toLocaleString()) >= 0, $('.jpoker_tourney_placeholder_starttime', element).html());
                     $("#" + id).remove();
                     return true;
                 } else {
@@ -3994,7 +3994,7 @@ test("jpoker.plugins.table: PacketPokerTourneyBreak callback.tourney_break/resum
 
 	table.handler(server, game_id, { type: 'PacketPokerTableTourneyBreakBegin', game_id: game_id, resume_time: 1220979087});
 	ok($("#jpokerDialog").parents().is(':visible'), 'jpoker dialog visible');
-	ok($("#jpokerDialog").html().indexOf('Tue Sep 09 2008 16:51') >= 0, $("#jpokerDialog").html());
+	ok($("#jpokerDialog").html().indexOf('Tue 09 Sep 2008 04:51:27 PM UTC') >= 0, $("#jpokerDialog").html());
 	table.handler(server, game_id, { type: 'PacketPokerTableTourneyBreakDone', game_id: game_id});
 	ok($("#jpokerDialog").parents().is(':hidden'), 'jpoker dialog hidden');
 	cleanup(id);
