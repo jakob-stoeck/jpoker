@@ -853,7 +853,6 @@
 		}
 		++jpoker_serial;
 		$.cookie(jpoker_serial_cookie, jpoker_serial);
-		this.places = {};
                 this.registerHandler(0, this.handler);
                 if(this.sessionExists()) {
                     this.reconnect();
@@ -1369,8 +1368,6 @@
 			    server.sendPacket({'type': 'PacketPokerGetPlayerPlaces', 'serial': player_serial});
 			    server.registerHandler(0, function(server, unused_game_id, packet) {
 				    if (packet.type == 'PacketPokerPlayerPlaces') {
-					server.places.tables = packet.tables;
-					server.places.tourneys = packet.tourneys;
 					server.notifyUpdate(packet);
 					server.setState(server.RUNNING, 'PacketPokerPlayerPlaces');
 					return false;

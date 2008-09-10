@@ -1160,8 +1160,8 @@ test("jpoker.server.getPlayerPlaces", function(){
         };
         server.registerUpdate(function(server, what, packet) {
 		if (packet.type == 'PacketPokerPlayerPlaces') {
-		    equals(server.places.tables[0], 11, 'places.tables');
-		    equals(server.places.tourneys[0], 21, 'places.tourneys');
+		    equals(packet.tables[0], 11, 'packet.tables');
+		    equals(packet.tourneys[0], 21, 'packet.tourneys');
 		    server.queueRunning(start_and_cleanup);		    
 		    return false;
 		}
@@ -1187,8 +1187,8 @@ test("jpoker.server.getPlayerPlaces with serial argument", function(){
         };
         server.registerUpdate(function(server, what, packet) {
 		if (packet.type == 'PacketPokerPlayerPlaces') {
-		    equals(server.places.tables[0], 11, 'places.tables');
-		    equals(server.places.tourneys[0], 21, 'places.tourneys');
+		    equals(packet.tables[0], 11, 'packet.tables');
+		    equals(packet.tourneys[0], 21, 'packet.tourneys');
 		    server.queueRunning(start_and_cleanup);		    
 		    return false;
 		}
