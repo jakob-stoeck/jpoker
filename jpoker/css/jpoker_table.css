@@ -177,7 +177,7 @@
     height: 1.5em;
 }
 
-.jpoker_table .jpoker_ptable_player_seat0_sidepot { width:80px; height:10px; position:absolute; top:232.82733px; left:37.737213px; }
+.jpoker_table .jpoker_ptable_player_seat0_sidepot { width:80px; height:10px; position:absolute; top:233px; left:38px; }
 .jpoker_table .jpoker_ptable_player_seat1_sidepot { width:80px; height:10px; position:absolute; top:110px; left:225px; }
 .jpoker_table .jpoker_ptable_player_seat2_sidepot { width:80px; height:10px; position:absolute; top:110px; left:366px; }
 .jpoker_table .jpoker_ptable_player_seat4_sidepot { width:80px; height:10px; position:absolute; top:233px; left:692px; }
@@ -187,3 +187,14 @@
 .jpoker_table .jpoker_ptable_player_seat7_sidepot { width:80px; height:10px; position:absolute; top:596px; left:360px; }
 .jpoker_table .jpoker_ptable_player_seat8_sidepot { width:80px; height:10px; position:absolute; top:596px; left:225px; }
 .jpoker_table .jpoker_ptable_player_seat9_sidepot { width:80px; height:10px; position:absolute; top:503px; left:39px; }
+
+.jpoker_table .jpoker_ptable_player_seat0_stats { width:80px; height:10px; position:absolute; top:243px; left:37.737213px; }
+.jpoker_table .jpoker_ptable_player_seat1_stats { width:80px; height:10px; position:absolute; top:120px; left:225px; }
+.jpoker_table .jpoker_ptable_player_seat2_stats { width:80px; height:10px; position:absolute; top:120px; left:366px; }
+.jpoker_table .jpoker_ptable_player_seat4_stats { width:80px; height:10px; position:absolute; top:243px; left:692px; }
+.jpoker_table .jpoker_ptable_player_seat3_stats { width:80px; height:10px; position:absolute; top:121px; left:499px; }
+.jpoker_table .jpoker_ptable_player_seat5_stats { width:80px; height:10px; position:absolute; top:514px; left:694px; }
+.jpoker_table .jpoker_ptable_player_seat6_stats { width:80px; height:10px; position:absolute; top:607px; left:495px; }
+.jpoker_table .jpoker_ptable_player_seat7_stats { width:80px; height:10px; position:absolute; top:606px; left:360px; }
+.jpoker_table .jpoker_ptable_player_seat8_stats { width:80px; height:10px; position:absolute; top:606px; left:225px; }
+.jpoker_table .jpoker_ptable_player_seat9_stats { width:80px; height:10px; position:absolute; top:513px; left:39px; }

@@ -343,7 +343,7 @@ function jpoker_08_all(place) {
             packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money , bet: bet });
             packets.push({ type: 'PacketPokerPlayerCards', serial: player_serial + i, game_id: game_id, cards: [ 13, 14, 15, 16, 17, 18, 19 ] });
 	    packets.push({ type: 'PacketPokerCheck', serial: player_serial + i, game_id: game_id });
-            packets.push({ type: 'PacketPokerPotChips', game_id: game_id, index: i, bet: [ 1, bet ] });
+            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i, level: i*10 });
             bet *= 10;
             money *= 10;
         }
@@ -868,6 +868,7 @@ function jpoker_55_allWithSidePot(place) {
             packets.push({ type: 'PacketPokerPlayerCards', serial: player_serial + i, game_id: game_id, cards: [ 13, 14, 15, 16, 17, 18, 19 ] });
 	    packets.push({ type: 'PacketPokerCheck', serial: player_serial + i, game_id: game_id });
             packets.push({ type: 'PacketPokerPotChips', game_id: game_id, index: i, bet: [ 1, bet ] });
+            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i, level: i*10 });
             bet *= 10;
             money *= 10;
         }
