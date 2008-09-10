@@ -1816,7 +1816,7 @@
                 break;
 
 		case 'PacketPokerPotChips':
-		if ((this.side_pot === undefined) && (this.money == 0)) {
+		if ((this.side_pot === undefined) && (this.money === 0)) {
 		    this.side_pot = {bet: jpoker.chips.chips2value(packet.bet),
 				     index: packet.index};
 		}
@@ -3100,7 +3100,7 @@
 	},
 	tourney_resume: function(packet) {
 	    $('#jpokerDialog').dialog('close');
-	},
+	}
     };
 
     //
@@ -3330,7 +3330,7 @@
 	    },
 	    player_arrive: function(element, serial) {
 	    }
-	},
+	}
     };
 
     //
