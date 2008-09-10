@@ -3143,9 +3143,9 @@
 		    }
 		});
 	    avatar_element.hover(function() {
-		    jpoker.plugins.player.avatar_hover_enter(player, id);
+		    jpoker.plugins.player.callback.avatar_hover_enter(player, id);
 		}, function() {
-		    jpoker.plugins.player.avatar_hover_leave(player, id);
+		    jpoker.plugins.player.callback.avatar_hover_leave(player, id);
 		});
 	    var timeout_element = $('#player_seat' + seat  + '_timeout' + id);
 	    timeout_element.removeClass().addClass('jpoker_timeout jpoker_ptable_player_seat' + seat + '_timeout');
@@ -3168,6 +3168,9 @@
             player.registerDestroy(this.destroy, id, 'destroy' + id);
 	    var seat_element = $('#player_seat' + seat + id).addClass('jpoker_seat');
 	    $('<div class=\'jpoker_player_sidepot\'>').addClass('jpoker_ptable_player_seat' + seat + '_sidepot').attr('id', 'player_seat' + seat + '_sidepot' + id).appendTo(seat_element);
+
+	    // at the end of player.create: call player_arrive callback
+	    this.callback.player_arrive(seat_element.get(0), serial);
         },
 
         leave: function(player, packet, id) {
@@ -3318,13 +3321,16 @@
             }
         },
 
-	avatar_hover_enter: function(player, id) {
-	    $('#player_seat' + player.seat  + '_avatar' + id).addClass('jpoker_avatar_hover');
+	callback: {
+	    avatar_hover_enter: function(player, id) {
+		$('#player_seat' + player.seat  + '_avatar' + id).addClass('jpoker_avatar_hover');
+	    },	    
+	    avatar_hover_leave: function(player, id) {
+		$('#player_seat' + player.seat  + '_avatar' + id).removeClass('jpoker_avatar_hover');
+	    },
+	    player_arrive: function(element, serial) {
+	    }
 	},
-
-	avatar_hover_leave: function(player, id) {
-	    $('#player_seat' + player.seat  + '_avatar' + id).removeClass('jpoker_avatar_hover');
-	}
     };
 
     //

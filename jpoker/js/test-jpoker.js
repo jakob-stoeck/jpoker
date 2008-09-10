@@ -4598,20 +4598,20 @@ test("jpoker.plugins.player: avatar hover", function(){
 	var send_auto_muck = jpoker.plugins.muck.sendAutoMuck;
 	jpoker.plugins.muck.sendAutoMuck = function() {};
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
-	var avatar_hover_enter = jpoker.plugins.player.avatar_hover_enter;
-	jpoker.plugins.player.avatar_hover_enter = function(player, jpoker_id) {
+	var avatar_hover_enter = jpoker.plugins.player.callback.avatar_hover_enter;
+	jpoker.plugins.player.callback.avatar_hover_enter = function(player, jpoker_id) {
 	    equals(player.serial, player_serial, 'avatar hover enter serial');
 	    equals(jpoker_id, id, 'avatar hover enter id');
 	};
 	$("#player_seat2_avatar" + id).trigger('mouseenter');
-	jpoker.plugins.player.avatar_hover_enter = avatar_hover_enter;
-	var avatar_hover_leave = jpoker.plugins.player.avatar_hover_leave;
-	jpoker.plugins.player.avatar_hover_leave = function(player, jpoker_id) {
+	jpoker.plugins.player.callback.avatar_hover_enter = avatar_hover_enter;
+	var avatar_hover_leave = jpoker.plugins.player.callback.avatar_hover_leave;
+	jpoker.plugins.player.callback.avatar_hover_leave = function(player, jpoker_id) {
 	    equals(player.serial, player_serial, 'avatar hover leave serial');
 	    equals(jpoker_id, id, 'avatar hover leave id');
 	};
 	$("#player_seat2_avatar" + id).trigger('mouseleave');
-	jpoker.plugins.player.avatar_hover_leave = avatar_hover_leave;
+	jpoker.plugins.player.callback.avatar_hover_leave = avatar_hover_leave;
 	jpoker.plugins.muck.sendAutoMuck = send_auto_muck;
         start_and_cleanup();
     });
@@ -4639,9 +4639,9 @@ test("jpoker.plugins.player: avatar hover default", function(){
 	var player = server.tables[game_id].serial2player[player_serial];
 
 	var avatar_element = $('#player_seat2_avatar'+id);
-	jpoker.plugins.player.avatar_hover_enter(player, id);
+	jpoker.plugins.player.callback.avatar_hover_enter(player, id);
 	equals(avatar_element.hasClass('jpoker_avatar_hover'), true, 'jpoker_avatar_hover');
-	jpoker.plugins.player.avatar_hover_leave(player, id);
+	jpoker.plugins.player.callback.avatar_hover_leave(player, id);
 	equals(avatar_element.hasClass('jpoker_avatar_hover'), false, 'no jpoker_avatar_hover');
 
 	jpoker.plugins.muck.sendAutoMuck = send_auto_muck;
@@ -4979,6 +4979,35 @@ test("jpoker.plugins.player: PacketPokerEndRoundLast", function(){
 	    start_and_cleanup();
 	};
 	table.handler(server, game_id, { type: 'PacketPokerEndRoundLast', game_id: game_id });	
+    });
+
+test("jpoker.plugins.player: player callback", function(){
+        expect(3);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 43;
+        server.handler(server, 0, { type: 'PacketSerial', serial: player_serial});
+        var player_seat = 2;
+        var player_name = 'username';
+	var jpoker_player_callback_player_arrive = jpoker.plugins.player.callback.player_arrive;
+	jpoker.plugins.player.callback.player_arrive = function(element, serial) {
+	    equals(serial, player_serial, 'player serial');
+	    equals(element.length, undefined, 'not a jquery selector');
+	    equals($('.jpoker_name', element).length, 1, 'player element');
+	    jpoker.plugins.player.callback.player_arrive = jpoker_player_callback_player_arrive;
+	    start_and_cleanup();
+	};
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', name: player_name, seat: player_seat, serial: player_serial, game_id: game_id });
     });
 
 function _SelfPlayer(game_id, player_serial) {
