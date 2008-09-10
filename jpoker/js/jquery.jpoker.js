@@ -526,6 +526,7 @@
 	    TOURNEY_REGISTER: 'updating tourney registration',
 	    PERSONAL_INFO: 'getting personal info',
 	    PLACES: 'getting player places',
+	    STATS: 'getting player stats',
 
             blocked: false,
 
@@ -1391,11 +1392,27 @@
 				    jpoker.dialog(_("No such user: "+name));
 				    server.notifyUpdate(packet);
 				    server.setState(server.RUNNING, 'PacketError');
+				    return false;
 				}
 				return true;
 			    });
 		    });
-	    }
+	    },
+
+	    getPlayerStats : function(serial) {
+		this.queueRunning(function(server) {
+			server.setState(server.STATS);
+			server.sendPacket({'type': 'PacketPokerGetPlayerStats', 'serial': serial});
+			server.registerHandler(0, function(server, unused_game_id, packet) {
+				if (packet.type == 'PacketPokerPlayerStats') {
+				    server.notifyUpdate(packet);
+				    server.setState(server.RUNNING, 'PacketPokerPlayerStats');
+				    return false;
+				}
+				return true;
+			    });
+		    });
+	    }	    
         });
 
     //

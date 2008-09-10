@@ -1270,7 +1270,7 @@ test("jpoker.server.getPlayerPlacesByName waiting", function(){
     });
 
 test("jpoker.server.getPlayerPlacesByName failed", function(){
-        expect(1);
+        expect(4);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -1278,11 +1278,41 @@ test("jpoker.server.getPlayerPlacesByName failed", function(){
         dialog = jpoker.dialog;
         jpoker.dialog = function(message) {
             equals(message.indexOf("No such user: user999") >= 0, true, "no such user");
-            jpoker.dialog = dialog;
-            start_and_cleanup();
+            jpoker.dialog = dialog;    
         };
+	equals(server.callbacks[0].length, 1, 'no getPlayerPlacesByName callback yet');
         server.getPlayerPlacesByName('user999');
+	equals(server.callbacks[0].length, 2, 'no getPlayerPlacesByName callback yet');
 	server.notify(0, {type: 'PacketError', other_type: jpoker.packetName2Type.PACKET_POKER_PLAYER_PLACES});
+	equals(server.callbacks[0].length, 1, 'getPlayerPlacesByName callback cleared');
+	start_and_cleanup();
+    });
+
+test("jpoker.server.getPlayerStats", function(){
+        expect(5);
+	stop();
+
+        var serial = 42;
+	var PLAYER_STATS_PACKET = {type: 'PacketPokerPlayerStats', serial:serial, rank: 100, level: 'junior'};
+
+        var server = jpoker.serverCreate({ url: 'url' });
+	
+        server.sendPacket = function(packet) {
+            equals(packet.type, 'PacketPokerGetPlayerStats');
+            equals(packet.serial, serial, 'player serial');
+	    equals(server.getState(), server.STATS);
+	    server.queueIncoming([PLAYER_STATS_PACKET]);
+        };
+        server.registerUpdate(function(server, what, packet) {
+		if (packet.type == 'PacketPokerPlayerStats') {
+		    equals(packet.rank, 100, 'packet.rank');
+		    equals(packet.level, 'junior', 'packet.level');
+		    server.queueRunning(start_and_cleanup);
+		    return false;
+		}
+		return true;
+	    });
+        server.getPlayerStats(serial);
     });
 
 test("jpoker.server.selectTables", function(){
