@@ -4678,6 +4678,46 @@ test("jpoker.plugins.player: avatar hover default", function(){
 	start_and_cleanup();
     });
 
+test("jpoker.plugins.player: rank and level", function(){
+        expect(9);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url', urls : {avatar : 'http://avatar-server/'}});
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 1;
+        server.serial = player_serial;
+        var player_seat = 2;
+	var send_auto_muck = jpoker.plugins.muck.sendAutoMuck;
+	jpoker.plugins.muck.sendAutoMuck = function() {
+	    jpoker.plugins.muck.sendAutoMuck = send_auto_muck;
+	};
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+	var player = table.serial2player[player_serial];
+	var element = $("#player_seat2_stats"+id);
+	ok(element.hasClass('jpoker_player_stats'), 'player stats seat class');
+	ok(element.hasClass('jpoker_ptable_player_seat2_stats'), 'player stats seat class');
+	table.handler(server, game_id, {type: 'PacketPokerPlayerStats', serial: player_serial, rank: 1, level: 0, game_id: game_id});
+	equals($('.jpoker_player_rank', element).length, 1, 'player rank');
+	equals($('.jpoker_player_level', element).length, 1, 'player level');	
+	equals($('.jpoker_player_rank', element).html(), 1, 'player rank 100');
+	ok($('.jpoker_player_level', element).hasClass('jpoker_player_level_junior'), 'player level junior');
+	table.handler(server, game_id, {type: 'PacketPokerPlayerStats', serial: player_serial, rank: 1, level: 25, game_id: game_id});
+	ok($('.jpoker_player_level', element).hasClass('jpoker_player_level_pro'), 'player level pro');
+	table.handler(server, game_id, {type: 'PacketPokerPlayerStats', serial: player_serial, rank: 1, level: 50, game_id: game_id});
+	ok($('.jpoker_player_level', element).hasClass('jpoker_player_level_expert'), 'player level expert');
+	table.handler(server, game_id, {type: 'PacketPokerPlayerStats', serial: player_serial, rank: 1, level: 75, game_id: game_id});
+	ok($('.jpoker_player_level', element).hasClass('jpoker_player_level_master'), 'player level master');
+	start_and_cleanup();
+     });
+
 test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
         expect(8);
         stop();

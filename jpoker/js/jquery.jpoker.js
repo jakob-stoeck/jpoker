@@ -1841,6 +1841,10 @@
 		this.side_pot = undefined;
 		this.notifyUpdate(packet);
 		break;
+
+		case 'PacketPokerPlayerStats':
+		this.notifyUpdate(packet);
+		break;
                 }
             }    
 
@@ -3181,6 +3185,7 @@
             player.registerUpdate(this.update, id, 'update' + id);
             player.registerDestroy(this.destroy, id, 'destroy' + id);
 	    var seat_element = $('#player_seat' + seat + id).addClass('jpoker_seat');
+	    $('<div class=\'jpoker_player_stats\'>').addClass('jpoker_ptable_player_seat' + seat + '_stats').attr('id', 'player_seat' + seat + '_stats' + id).appendTo(seat_element);
 	    $('<div class=\'jpoker_player_sidepot\'>').addClass('jpoker_ptable_player_seat' + seat + '_sidepot').attr('id', 'player_seat' + seat + '_sidepot' + id).appendTo(seat_element);
 
 	    // at the end of player.create: call player_arrive callback
@@ -3253,6 +3258,10 @@
 	    case 'PacketPokerChipsPotReset':
 	    jpoker.plugins.player.side_pot.update(player, id);
 	    break;
+	    
+	    case 'PacketPokerPlayerStats':
+	    jpoker.plugins.player.stats.update(player, packet, id);
+	    break;
             }
             return true;
         },
@@ -3323,6 +3332,33 @@
 		} else {
 		    $('#player_seat' + player.seat + '_sidepot' + id).html('');
 		}
+	    }
+	},
+
+	stats: {
+	    templates: {
+		rank: '<div class=\'jpoker_player_rank\'>{rank}</div>',
+		level: '<div class=\'jpoker_player_level jpoker_player_level_{level}\'></div>'
+	    },
+	    getHTML: function(packet) {
+		var html = [];
+		var t = this.templates;
+		html.push(t.rank.supplant({rank: packet.rank}));
+		var level;
+		if (packet.level >= 75) {
+		    level = 'master';
+		} else if (packet.level >= 50) {
+		    level = 'expert';
+		} else if (packet.level >= 25) {
+		    level = 'pro';
+		} else {
+		    level = 'junior';
+		}		
+		html.push(t.level.supplant({level: level}));
+		return html.join('\n');
+	    },
+	    update: function(player, packet, id) {
+		$('#player_seat' + player.seat + '_stats' + id).html(this.getHTML(packet));
 	    }
 	},
 
