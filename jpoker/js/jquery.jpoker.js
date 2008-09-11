@@ -1975,7 +1975,7 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<table class=\'jpoker_table_list\' id=\'' + id + '\'></table>');
+                $this.append('<div class=\'jpoker_table_list\' id=\'' + id + '\'></table>');
 
                 var updated = function(server, what, packet) {
                     var element = document.getElementById(id);
@@ -1988,7 +1988,7 @@
 					       positionFixed: false,
 					       previous_label: t.previous_label.supplant({previous_label: _("Previous page")}),
 					       next_label: t.next_label.supplant({next_label: _("Next page")})};
-				$(element).tablesorter({widgets: ['zebra']}).tablesorterPager(options);
+				$('table', element).tablesorter({widgets: ['zebra']}).tablesorterPager(options);
 			    }
 			    if (opts.link_pattern === undefined) {
 				for(var i = 0; i < packet.packets.length; i++) {
@@ -2063,9 +2063,9 @@
     };
 
     jpoker.plugins.tableList.templates = {
-        header : '<thead><tr><td>{name}</td><td>{players}</td><td>{seats}</td><td>{betting_structure}</td><td>{average_pot}</td><td>{hands_per_hour}</td><td>{percent_flop}</td></tr></thead><tbody>',
+        header : '<table><thead><tr><td>{name}</td><td>{players}</td><td>{seats}</td><td>{betting_structure}</td><td>{average_pot}</td><td>{hands_per_hour}</td><td>{percent_flop}</td></tr></thead><tbody>',
         rows : '<tr class=\'{class}\' id=\'{id}\' title=\'' + _("Click to join the table") + '\'><td>{name}</td><td>{players}</td><td>{seats}</td><td>{betting_structure}</td><td>{average_pot}</td><td>{hands_per_hour}</td><td>{percent_flop}</td></tr>',
-        footer : '</tbody>',
+        footer : '</tbody></table>',
 	link: '<a href=\'{link}\'>{name}</a>',
 	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
 	next_label: '{next_label} >>>',
@@ -2086,7 +2086,7 @@
 
                 var id = jpoker.uid();
 		
-                $this.append('<table class=\'jpoker_regular_tourney_list\' id=\'' + id + '\'></table>');
+                $this.append('<div class=\'jpoker_regular_tourney_list\' id=\'' + id + '\'></table>');
 
                 var updated = function(server, what, packet) {
                     var element = document.getElementById(id);
@@ -2099,7 +2099,7 @@
 					       positionFixed: false,
 					       previous_label: t.previous_label.supplant({previous_label: _("Previous page")}),
 					       next_label: t.next_label.supplant({next_label: _("Next page")})};
-				$(element).tablesorter({widgets: ['zebra'], sortList: [[4, 0]]}).tablesorterPager(options);
+				$('table', element).tablesorter({widgets: ['zebra'], sortList: [[4, 0]]}).tablesorterPager(options);
 			    }
 			    if (opts.link_pattern === undefined) {
 				for(var i = 0; i < packet.packets.length; i++) {
@@ -2173,9 +2173,9 @@
     };
 
     jpoker.plugins.regularTourneyList.templates = {
-        header : '<thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th><th>{start_time}</th><th>{state}</th></tr></thead><tbody>',
+        header : '<table><thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th><th>{start_time}</th><th>{state}</th></tr></thead><tbody>',
         rows : '<tr id=\'{id}\' title=\'' + _("Click to show tourney details") + '\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{start_time}</td><td>{state}</td></tr>',
-        footer : '</tbody>',
+        footer : '</tbody></table>',
 	link: '<a href=\'{link}\'>{name}</a>',
 	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
 	next_label: '{next_label} >>>',
@@ -2196,7 +2196,7 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<table class=\'jpoker_sitngo_tourney_list\' id=\'' + id + '\'></table>');
+                $this.append('<div class=\'jpoker_sitngo_tourney_list\' id=\'' + id + '\'></table>');
 
                 var updated = function(server, what, packet) {
                     var element = document.getElementById(id);
@@ -2209,7 +2209,7 @@
 					       positionFixed: false,
 					       previous_label: t.previous_label.supplant({previous_label: _("Previous page")}),
 					       next_label: t.next_label.supplant({next_label: _("Next page")})};
-				$(element).tablesorter({widgets: ['zebra'], sortList: [[3, 0]]}).tablesorterPager(options);				
+				$('table', element).tablesorter({widgets: ['zebra'], sortList: [[3, 0]]}).tablesorterPager(options);				
 			    }
 			    if (opts.link_pattern === undefined) {
 				for(var i = 0; i < packet.packets.length; i++) {
@@ -2284,9 +2284,9 @@
     };
 
     jpoker.plugins.sitngoTourneyList.templates = {
-        header : '<thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th><th>{state}</th></tr></thead><tbody>',
+        header : '<table><thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th><th>{state}</th></tr></thead><tbody>',
         rows : '<tr id=\'{id}\' title=\'' + _("Click to show tourney details") + '\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{state}</td></tr>',
-        footer : '</tbody>',
+        footer : '</tbody></table>',
 	link: '<a href=\'{link}\'>{name}</a>',
 	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
 	next_label: '{next_label} >>>',
