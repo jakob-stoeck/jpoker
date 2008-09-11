@@ -1315,6 +1315,19 @@ test("jpoker.server.getPlayerStats", function(){
         server.getPlayerStats(serial);
     });
 
+test("jpoker.server.getPlayerStats waiting", function(){
+        expect(2);
+	
+        var server = jpoker.serverCreate({ url: 'url' });
+	var game_id = 100;
+	server.callbacks[0] = [];
+	server.getPlayerStats(42);
+	equals(server.callbacks[0].length, 1, 'getPlayerStats callbacks[0] registered');
+	var callback = server.callbacks[0][0];
+	server.notify(0, {type: 'PacketPing'});
+	equals(server.callbacks[0][0], callback, 'getPlayerStats callback still in place');
+    });
+
 test("jpoker.server.selectTables", function(){
         expect(3);
 	stop();
