@@ -1,26 +1,26 @@
-table.jpoker_regular_tourney_list {
+.jpoker_regular_tourney_list table {
 	border:1px solid #24B300;
 }
-table.jpoker_regular_tourney_list th {
+.jpoker_regular_tourney_list th {
 	background: #24B300;
 	padding: 0.5em 1em;
 }
-table.jpoker_regular_tourney_list td {
+.jpoker_regular_tourney_list td {
 	padding: 0.5em 1em;
 }
-table.jpoker_regular_tourney_list tr {
+.jpoker_regular_tourney_list tr {
 	cursor:pointer;
 }
-table.jpoker_regular_tourney_list .odd {
+.jpoker_regular_tourney_list .odd {
 	background:#CCFFBF;
 }
-table.jpoker_regular_tourney_list .headerSortUp {
+.jpoker_regular_tourney_list .headerSortUp {
         background:#73BF60;
 }
-table.jpoker_regular_tourney_list .headerSortDown {
+.jpoker_regular_tourney_list .headerSortDown {
         background:#73BF60;
 }
-table.jpoker_regular_tourney_list tr.hover {
+.jpoker_regular_tourney_list tr.hover {
 	background:#73BF60;
 	color:#fff;
 }

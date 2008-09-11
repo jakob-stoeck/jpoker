@@ -1,24 +1,24 @@
-table.jpoker_table_list {
+.jpoker_table_list table {
 	border:1px solid #24B300;
 }
 
-table.jpoker_table_list td {
+.jpoker_table_list td {
 	padding: 0.5em 1em;
 }
 
-table.jpoker_table_list tr.evenRow {
+.jpoker_table_list tr.evenRow {
 	background:#CCFFBF;
 }
 
-table.jpoker_table_list thead td,  table.jpoker_table_list th  {
+.jpoker_table_list th {
 	background: #24B300;
 }
 
-table.jpoker_table_list tr{
+.jpoker_table_list tr {
 	cursor:pointer;
 }
 
-table.jpoker_table_list tr.evenRow.hover, table.jpoker_table_list tr.hover {
+.jpoker_table_list tr.hover {
 	background:#73BF60;
 	color:#fff;
 }
