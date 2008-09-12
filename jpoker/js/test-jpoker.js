@@ -4068,9 +4068,13 @@ test("jpoker.plugins.table: PacketPokerTourneyBreak callback.tourney_break/resum
 
         place.jpoker('table', 'url', game_id);
 
+	var resume_time = 1220979087*1000;
 	table.handler(server, game_id, { type: 'PacketPokerTableTourneyBreakBegin', game_id: game_id, resume_time: 1220979087});
 	ok($("#jpokerDialog").parents().is(':visible'), 'jpoker dialog visible');
-	ok($("#jpokerDialog").html().indexOf('Tue 09 Sep 2008 04:51:27 PM UTC') >= 0, $("#jpokerDialog").html());
+	var date = new Date();
+	date.setTime(resume_time);
+	console.log(date.toLocaleString());
+	ok($("#jpokerDialog").html().indexOf(date.toLocaleString()) >= 0, $("#jpokerDialog").html());
 	table.handler(server, game_id, { type: 'PacketPokerTableTourneyBreakDone', game_id: game_id});
 	ok($("#jpokerDialog").parents().is(':hidden'), 'jpoker dialog hidden');
 	cleanup(id);
