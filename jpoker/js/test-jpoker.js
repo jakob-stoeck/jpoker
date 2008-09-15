@@ -4180,7 +4180,7 @@ test("jpoker.plugins.table.chat", function(){
         $('input', chat).attr('value', 'A\'B"C');
         chat.triggerKeypress("13");
         equals(sent, true, "packet sent");
-        equals($('input', chat).attr('value'), ' ', 'input is reset');
+        equals($('input', chat).attr('value'), '', 'input is reset');
         table.handler(server, game_id, { type: 'PacketPokerPlayerLeave', seat: 0, serial: player_serial, game_id: game_id });
         equals(chat.is(':hidden'), true, "chat hidden (2)");
         cleanup(id);
@@ -4362,7 +4362,7 @@ test("jpoker.plugins.table: PacketPokerChat", function(){
         var content = $(".jpoker_chat_history_player", chat_history).text();
         equals(content.indexOf(message) >= 0, false, "message is split");
         equals(content.indexOf('tout') >= 0, true, "message part is displayed");
-        equals(content.indexOf(player_name) >= 0, true, "player_name displayed");
+        equals(content.indexOf(player_name+': ') >= 0, true, "player_name displayed");
         equals($(".jpoker_chat_history_dealer").text(), "", "no dealer message");
 	
 	$(".jpoker_chat_history_player").text("");

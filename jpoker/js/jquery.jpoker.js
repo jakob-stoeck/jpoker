@@ -3049,8 +3049,8 @@
 		else {
 		    chat = $('.jpoker_chat_history_player', chat_history);
 		    if(packet.serial in table.serial2player) {
-			prefix = table.serial2player[packet.serial].name + ' :';
-		    }	
+			prefix = table.serial2player[packet.serial].name + ': ';
+		    }
 		}
 		for(var line = 0; line < lines.length; line++) {
                     chat.prepend('<div class=\'jpoker_chat_line\'><span class=\'jpoker_chat_prefix\'>' + prefix + '</span><span class=\'jpoker_chat_message\'>' + lines[line] + '</span></div>');
@@ -3461,7 +3461,7 @@
                                 'game_id': table.id,
                                 'message': message
                                 });
-                    input.attr('value', ' ');
+                    input.attr('value', '');
                 }
             };
             $('#chat' + id).unbind('keypress').keypress(function(e) {
