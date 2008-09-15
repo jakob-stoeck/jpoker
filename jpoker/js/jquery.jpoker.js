@@ -3236,6 +3236,7 @@
 	    break;
 
 	    case 'PacketPokerEndRoundLast':
+	    jpoker.plugins.cards.hide(player.cards, 'card_seat' + player.seat, id);
 	    jpoker.plugins.player.action(player, id);
 	    break;
 

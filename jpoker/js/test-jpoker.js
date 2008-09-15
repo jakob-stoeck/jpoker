@@ -5072,7 +5072,7 @@ test("jpoker.plugins.player: side_pot", function(){
     });
 
 test("jpoker.plugins.player: PacketPokerEndRoundLast", function(){
-        expect(1);
+        expect(2);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -5095,9 +5095,11 @@ test("jpoker.plugins.player: PacketPokerEndRoundLast", function(){
 
 	player.handler = function(server, game_id, packet) {
 	    equals(packet.serial, undefined, 'packet serial undefined');
-	    start_and_cleanup();
 	};
 	table.handler(server, game_id, { type: 'PacketPokerEndRoundLast', game_id: game_id });	
+	var card = $("#card_seat" + player_seat + "0" + id);
+	equals(card.is(':hidden'), true, 'card hidden');
+	start_and_cleanup();
     });
 
 test("jpoker.plugins.player: player callback", function(){
