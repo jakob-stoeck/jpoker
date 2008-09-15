@@ -187,10 +187,11 @@
 .jpoker_table .jpoker_ptable_player_seat9_bet { width:48px; height:48px; position:absolute; top:343px; left:142px; background-image:url("images/jpoker_table/bet.png");}
 .jpoker_table .jpoker_ptable_chat_history { width:500px; height:150px; position:absolute; top:645px; left:160px; background-image:url("images/jpoker_table/status.png");}
 .jpoker_table .jpoker_ptable_chat { width:500px; height:40px; position:absolute; top:600px; left:160px; background-image:url("images/jpoker_table/status.png");}
-.jpoker_table .jpoker_ptable_sitout { width:67px; height:26px; position:absolute; top:101px; left:25px; background-image:url("images/jpoker_table/button.png");}
+.jpoker_table .jpoker_ptable_sitout { width:67px; height:26px; position:absolute; top:101.0274px; left:25px; background-image:url("images/jpoker_table/button.png");}
 .jpoker_table .jpoker_ptable_auto_muck { width:132.63997px; height:59.571888px; position:absolute; top:674.70825px; left:664.81036px; background-image:url("images/jpoker_table/status.png");}
 .jpoker_table .jpoker_ptable_muck_accept { width:67px; height:26px; position:absolute; top:644.13184px; left:663.84668px; background-image:url("images/jpoker_table/button.png");}
 .jpoker_table .jpoker_ptable_muck_deny { width:67px; height:26px; position:absolute; top:644.13184px; left:731.414px; background-image:url("images/jpoker_table/button.png");}
 .jpoker_table .jpoker_ptable_raise_input { width:89.284515px; height:26.281096px; position:absolute; top:544.92053px; left:688.52948px; background-image:url("images/jpoker_table/status.png");}
 .jpoker_table .jpoker_ptable_table_info { width:149.67247px; height:75.830185px; position:absolute; top:10.71941px; left:628.14154px; background-image:url("images/jpoker_table/status.png");}
+.jpoker_table .jpoker_ptable_sitin { width:67px; height:26px; position:absolute; top:101.0274px; left:99.66317px; background-image:url("images/jpoker_table/button.png");}
 

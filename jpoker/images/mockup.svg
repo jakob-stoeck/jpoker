@@ -42,14 +42,16 @@
      pagecolor="#ffffff"
      id="base"
      inkscape:zoom="1.2916484"
-     inkscape:cx="673.91661"
+     inkscape:cx="193.88453"
      inkscape:cy="749.34498"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:current-layer="game_fixed"
      height="800px"
      width="800px"
-     showgrid="false" />
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true" />
   <defs
      id="defs4">
     <inkscape:perspective
@@ -817,7 +819,7 @@
        y="600" />
     <image
        xlink:href="../css/images/jpoker_table/button.png"
-       y="101"
+       y="101.0274"
        width="67"
        height="26"
        id="sitout"
@@ -869,5 +871,13 @@
        inkscape:label="auto_muck"
        height="75.830185"
        y="10.71941" />
+    <image
+       xlink:href="../css/images/jpoker_table/button.png"
+       y="101.0274"
+       width="67"
+       height="26"
+       id="sitin"
+       inkscape:label="sitin"
+       x="99.66317" />
   </g>
 </svg>

@@ -130,6 +130,13 @@
     text-align: center;
 }
 
+.jpoker_table .jpoker_sitin {
+    color: #FFF;
+    margin: 0 5px;
+    line-height: 25px;
+    text-align: center;
+}
+
 .jpoker_table .jpoker_muck {
     color: #FFF;
     margin: 0 5px;

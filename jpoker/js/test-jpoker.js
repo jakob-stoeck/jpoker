@@ -5764,6 +5764,80 @@ test("jpoker.plugins.player: sitout", function(){
         cleanup(id);
     });
 
+test("jpoker.plugins.player: sitin", function(){
+        expect(6);
+
+        var id = 'jpoker' + jpoker.serial;
+        var player_serial = 1;
+        var game_id = 100;
+        var money = 1000;
+	
+	var server = jpoker.serverCreate({ url: 'url' });
+	var place = $("#main");
+
+	var currency_serial = 42;
+	var table_packet = { id: game_id, currency_serial: currency_serial };
+	server.tables[game_id] = new jpoker.table(server, table_packet);
+	var table = server.tables[game_id];
+	
+	// table
+	place.jpoker('table', 'url', game_id);
+	// player
+	server.serial = player_serial;
+	var player_seat = 2;
+	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+	var player = server.tables[game_id].serial2player[player_serial];
+	
+	var sitin = $("#sitin" + id);
+        equals(sitin.is(':visible'), true, 'sitin button visible');
+	
+	// player money
+	var money = 500;
+	var in_game = 44;
+	var points = 45;
+	var currency_key = 'X' + currency_serial;
+	server.userInfo = { money: {} };
+	server.userInfo.money[currency_key] = [ money * 100, in_game * 100, points ];
+
+	// buy in
+	var packet = { type: 'PacketPokerPlayerChips',
+		       money: money * 100,
+		       bet: 0,
+		       serial: player_serial,
+		       game_id: game_id };
+	table.handler(server, game_id, packet);
+
+	// sit
+	table.handler(server, game_id, { type: 'PacketPokerSit', serial: player_serial, game_id: game_id });
+        equals(sitin.is(':hidden'), true, 'sitin button hidden');
+	
+        table.handler(server, game_id, { type: 'PacketPokerSitOut',
+                    game_id: game_id,
+                    serial: player_serial });
+
+	equals(sitin.is(':visible'), true, 'sitin button visible');
+
+	// click on sitin, packet sent and sitout button hides
+        var sent = false;
+        server.sendPacket = function(packet) {
+            if(packet.type == 'PacketPokerSit') {
+                sent = true;
+            }
+        };
+        sitin.click();
+        equals(sent, true, 'sit packet sent');
+        equals(sitin.is(':hidden'), true, 'sitin button hidden');
+
+        // when PokerSitIn packet arrives, sitout button is hidden again
+        sitin.show();
+        table.handler(server, game_id, { type: 'PacketPokerSit',
+                    game_id: game_id,
+                    serial: player_serial });
+        equals(sitin.is(':hidden'), true, 'sitin button hidden');
+        
+        cleanup(id);
+    });
+
 test("jpoker.plugins.playerSelf: create in position", function(){
 	expect(1);
 

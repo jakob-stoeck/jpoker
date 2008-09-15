@@ -2871,6 +2871,7 @@
             $('#switch' + id).hide();
             $('#rebuy' + id).hide();
             $('#sitout' + id).hide();
+	    $('#sitin' + id).hide();
             $('#muck_accept' + id).hide();
             $('#muck_deny' + id).hide();
             $('#quit' + id).click(function() {
@@ -3431,6 +3432,21 @@
                     }
                     return false;
                 });
+
+            //
+            // sitin
+            //
+            $('#sitin' + id).html('<div class=\'jpoker_sitin\'><a href=\'javascript://\'>' + _("sit in") + '</a></div>').click(function() {
+                    var server = jpoker.getServer(url);
+                    if(server && server.loggedIn()) {
+                        server.sendPacket({ 'type': 'PacketPokerSit',
+                                    'game_id': table.id,
+                                    'serial': serial });
+                        $(this).hide();
+                    }
+                    return false;
+                }).show();
+
             //
             // chat
             //
@@ -3576,6 +3592,7 @@
                     }
                 });
             $('#sitout' + id).show();
+	    $('#sitin' + id).hide();
         },
 
         sitOut: function(player, id) {
@@ -3605,6 +3622,7 @@
                     }
                 });
             $('#sitout' + id).hide();
+	    $('#sitin' + id).show();
         },
 
         chips: function(player, id) {
