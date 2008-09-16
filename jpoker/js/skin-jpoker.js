@@ -709,6 +709,79 @@ function jpoker_48_sitngoTourneyListWithPager(place) {
         $(place).jpoker('sitngoTourneyList', 'url');
 };
 
+function jpoker_49_tableListWithPagerWithLinks(place) {
+        setUp();
+        if(explain) {
+            $(place).append('List of poker tables available on the server.');
+            $(place).append('<hr>');
+        }
+
+        var packets = [ {"players": 4, "type": "PacketPokerTableList", "packets": []} ];
+	for (var i = 0; i < 200; ++i) {
+	    var name = "Table" + i;
+	    var id = 100+i;
+	    var players = i%11;
+	    var packet = {"observers": 0, "name": name, "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": players, "waiting": 0, "skin": "default", "id": id,"type": "PacketPokerTable", "player_timeout": 60};
+	    packets[0].packets.push(packet);
+	}
+
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+        var server = $.jpoker.getServer('url');
+
+        $(place).jpoker('tableList', 'url', {link_pattern: 'http://foo/table/game_id={game_id}'});
+};
+
+function jpoker_49_1_regularTourneyListWithPagerWithLinks(place) {
+        setUp();
+        if(explain) {
+            $(place).append('List of poker regular tourneys available on the server.');
+            $(place).append('<hr>');
+        }
+
+	var packets = [{"players": 0, "packets": [], "tourneys": 5, "type": "PacketPokerTourneyList"}];
+	for (var i = 0; i < 200; ++i) {
+	    var name = "Tourney" + i;
+	    var players = i%11;
+	    var packet = {"players_quota": players, "breaks_first": 7200, "name": name, "description_short" : name, "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 1, "sit_n_go": "n", "registered": 0};
+	    packets[0].packets.push(packet);
+	}
+
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+        var server = $.jpoker.getServer('url');
+
+        $(place).jpoker('regularTourneyList', 'url', {link_pattern: 'http://foo/tourney/tourney_serial={tourney_serial}'});
+};
+
+function jpoker_49_2_sitngoTourneyListWithPagerWithLinks(place) {
+        setUp();
+        if(explain) {
+            $(place).append('List of poker sitngo tourneys available on the server.');
+            $(place).append('<hr>');
+        }
+
+	var packets = [{"players": 0, "packets": [], "tourneys": 5, "type": "PacketPokerTourneyList"}];
+	for (var i = 0; i < 200; ++i) {
+	    var name = "Tourney" + i;
+	    var players = i%11;
+	    var packet = {"players_quota": players, "breaks_first": 7200, "name": name, "description_short" : name, "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 1, "sit_n_go": "y", "registered": 0};
+	    packets[0].packets.push(packet);
+	}
+
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+        var server = $.jpoker.getServer('url');
+
+        $(place).jpoker('sitngoTourneyList', 'url', {link_pattern: 'http://foo/tourney/tourney_serial={tourney_serial}'});
+};
+
 function jpoker_50_sitOut(place) {
         setUp();
         if(explain) {
