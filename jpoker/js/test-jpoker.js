@@ -75,7 +75,7 @@ var cleanup = function(id) {
     if('server' in ActiveXObject.prototype) {
         delete ActiveXObject.prototype.server;
     }
-    var callbacks_left = []
+    var callbacks_left = [];
     $.each(jpoker.servers,
 	   function(key, server) {
 	       $.each(server.callbacks, function(key, callbacks) {
@@ -3456,7 +3456,6 @@ test("jpoker.plugins.tourneyDetails table details", function(){
         server.registerUpdate(function(server, what, packet) {
                 var element = $("#" + id);
                 if(element.length > 0) {
-		    var element = $("#" + id);
 		    equals($(".jpoker_tourney_details_table_details", element).length, 1);
 		    var row = $(".jpoker_tourney_details_tables #X606", element);
 		    jpoker.plugins.tourneyDetails.getHTMLTableDetails = function(id, packet, table){
@@ -5770,7 +5769,6 @@ test("jpoker.plugins.player: sitin", function(){
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
         var game_id = 100;
-        var money = 1000;
 	
 	var server = jpoker.serverCreate({ url: 'url' });
 	var place = $("#main");
