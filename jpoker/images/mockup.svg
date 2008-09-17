@@ -41,12 +41,12 @@
      bordercolor="#666666"
      pagecolor="#ffffff"
      id="base"
-     inkscape:zoom="1.2916484"
-     inkscape:cx="193.88453"
-     inkscape:cy="749.34498"
+     inkscape:zoom="1.721805"
+     inkscape:cx="163.77491"
+     inkscape:cy="657.52784"
      inkscape:window-x="0"
      inkscape:window-y="25"
-     inkscape:current-layer="game_fixed"
+     inkscape:current-layer="player_seat0"
      height="800px"
      width="800px"
      showgrid="false"
@@ -399,6 +399,22 @@
            width="40"
            height="10"
            id="player_seat0_action" />
+        <image
+           inkscape:label="#image4258"
+           xlink:href="../css/images/jpoker_table/name.png"
+           x="37.825306"
+           y="226.99144"
+           width="80"
+           height="10"
+           id="player_seat0_stats" />
+        <image
+           inkscape:label="#image4258"
+           xlink:href="../css/images/jpoker_table/name.png"
+           x="37.825302"
+           y="239.18794"
+           width="80"
+           height="10"
+           id="player_seat0_sidepot" />
       </g>
     </g>
     <image
