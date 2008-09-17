@@ -3348,11 +3348,11 @@
 		var t = this.templates;
 		html.push(t.rank.supplant({rank: packet.rank}));
 		var level;
-		if (packet.level >= 75) {
+		if (packet.percentile >= 75) {
 		    level = 'master';
-		} else if (packet.level >= 50) {
+		} else if (packet.percentile >= 50) {
 		    level = 'expert';
-		} else if (packet.level >= 25) {
+		} else if (packet.percentile >= 25) {
 		    level = 'pro';
 		} else {
 		    level = 'junior';
