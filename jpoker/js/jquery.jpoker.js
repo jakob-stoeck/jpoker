@@ -3188,7 +3188,7 @@
 	    var sidepot_element = $('#player_seat' + seat  + '_sidepot' + id).removeClass().addClass('jpoker_player_sidepot jpoker_ptable_player_seat' + seat + '_sidepot');
 
 	    // at the end of player.create: call player_arrive callback
-	    var seat_element = $('#player_seat' + seat + id).addClass('jpoker_seat');
+	    var seat_element = $('#player_seat' + seat + id).addClass('jpoker_seat jpoker_seat'+seat);
 	    this.callback.player_arrive(seat_element.get(0), serial);
         },
 
