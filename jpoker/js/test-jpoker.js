@@ -4812,6 +4812,27 @@ test("jpoker.plugins.player: rank and level", function(){
 	start_and_cleanup();
      });
 
+test("jpoker.plugins.player: rejoin", function(){
+	expect(2);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+
+        var player_name = 'username';
+	table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: 1, serial: 11, game_id: game_id, name: player_name});
+	equals($(".jpoker_timeout_progress", place).length, 1, 'timeout_progress added');
+	table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: 1, serial: 12, game_id: game_id, name: player_name});
+	equals($(".jpoker_timeout_progress", place).length, 1, 'timeout_progress readded');
+    });
+
 test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
         expect(8);
         stop();

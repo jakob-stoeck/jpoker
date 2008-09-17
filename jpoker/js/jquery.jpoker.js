@@ -3168,8 +3168,7 @@
 		    jpoker.plugins.player.callback.avatar_hover_leave(player, id);
 		});
 	    var timeout_element = $('#player_seat' + seat  + '_timeout' + id);
-	    timeout_element.removeClass().addClass('jpoker_timeout jpoker_ptable_player_seat' + seat + '_timeout');
-	    $('<div class=\'jpoker_timeout_progress\'>').appendTo(timeout_element);
+	    timeout_element.removeClass().addClass('jpoker_timeout jpoker_ptable_player_seat' + seat + '_timeout').html('<div class=\'jpoker_timeout_progress\'></div>');
 
             jpoker.plugins.player.chips(player, id);
             var name = $('#player_seat' + seat + '_name' + id);
