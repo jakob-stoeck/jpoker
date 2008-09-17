@@ -3437,6 +3437,10 @@
             $('#sitin' + id).html('<div class=\'jpoker_sitin\'><a href=\'javascript://\'>' + _("sit in") + '</a></div>').click(function() {
                     var server = jpoker.getServer(url);
                     if(server && server.loggedIn()) {
+			server.sendPacket({ 'type': 'PacketPokerAutoBlindAnte',
+				    'serial': serial,
+				    'game_id': game_id
+				    });			
                         server.sendPacket({ 'type': 'PacketPokerSit',
                                     'game_id': table.id,
                                     'serial': serial });

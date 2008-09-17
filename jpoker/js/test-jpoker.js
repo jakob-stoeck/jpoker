@@ -5797,7 +5797,7 @@ test("jpoker.plugins.player: sitout", function(){
     });
 
 test("jpoker.plugins.player: sitin", function(){
-        expect(6);
+        expect(8);
 
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
@@ -5849,14 +5849,14 @@ test("jpoker.plugins.player: sitin", function(){
 	equals(sitin.is(':visible'), true, 'sitin button visible');
 
 	// click on sitin, packet sent and sitout button hides
-        var sent = false;
+	var packets = [];
         server.sendPacket = function(packet) {
-            if(packet.type == 'PacketPokerSit') {
-                sent = true;
-            }
+	    packets.push(packet);
         };
         sitin.click();
-        equals(sent, true, 'sit packet sent');
+	equals(packets.length, 2, '2 packets sent');
+	equals(packets[0].type, 'PacketPokerAutoBlindAnte', 'autoblind sent');
+	equals(packets[1].type, 'PacketPokerSit', 'sit sent');
         equals(sitin.is(':hidden'), true, 'sitin button hidden');
 
         // when PokerSitIn packet arrives, sitout button is hidden again
