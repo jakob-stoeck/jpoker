@@ -4611,7 +4611,7 @@ test("jpoker.plugins.table: remove callbacks", function(){
 // player
 //
 test("jpoker.plugins.player: PacketPokerPlayerArrive", function(){
-        expect(4);
+        expect(6);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -4633,8 +4633,10 @@ test("jpoker.plugins.player: PacketPokerPlayerArrive", function(){
 
         var avatar = $("#player_seat2_avatar" + id);
         equals(avatar.hasClass('jpoker_avatar_default_3'), true, 'default avatar 3');
-	ok($('#player_seat2' + id).hasClass('jpoker_seat'), 'jpoker_seat');
-	ok($('#player_seat2' + id).hasClass('jpoker_seat2'), 'jpoker_seat2');
+	ok($('#player_seat2' + id).hasClass('jpoker_player_seat'), 'jpoker_seat');
+	ok($('#player_seat2' + id).hasClass('jpoker_player_seat2'), 'jpoker_seat2');
+	ok($('#seat2' + id).hasClass('jpoker_seat'), 'jpoker_seat');
+	ok($('#seat2' + id).hasClass('jpoker_seat2'), 'jpoker_seat2');
         
         start_and_cleanup();
     });
