@@ -5102,6 +5102,7 @@ test("jpoker.plugins.player: side_pot", function(){
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', name: player_name, seat: player_seat, serial: player_serial, game_id: game_id });
         var player = server.tables[game_id].serial2player[player_serial];
         player.money = 100;
+	player.sit = true;
 
         var element = $('#player_seat2' + id);
 	var side_pot = $('#player_seat2_sidepot' + id, element);
