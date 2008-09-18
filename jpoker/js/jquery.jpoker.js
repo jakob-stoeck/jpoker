@@ -1471,6 +1471,7 @@
 		this.clearTimeout(this.pollTimer);
 		this.pollTimer = -1;
 		this.pollFrequency = 5000;
+		this.tourney_rank = undefined;
             },
 
             clearTimeout: function(id) { return window.clearTimeout(id); },
@@ -1644,6 +1645,11 @@
 		    break;
 		    
 		case 'PacketPokerTableTourneyBreakDone':
+		    table.notifyUpdate(packet);
+		    break;
+
+		case 'PacketPokerTourneyRank':
+		    table.tourney_rank = packet;
 		    table.notifyUpdate(packet);
 		    break;
                 }
@@ -3088,6 +3094,9 @@
         // it is enough to destroy the DOM elements, even for players
         jpoker.message('plugins.table.destroy ' + id + ' game: ' + table.game_id);
         $('#game_window' + id).remove();
+	if (table.tourney_rank !== undefined) {
+	    jpoker.plugins.table.callback.tourney_end(table);
+	}
         return false;
     };
 
@@ -3120,7 +3129,11 @@
 	},
 	tourney_resume: function(packet) {
 	    $('#jpokerDialog').dialog('close');
-	}
+	},
+	tourney_end: function(table) {
+	    var server = jpoker.getServer(table.url);
+	    server.tourneyRowClick(server, {name: '', game_id: table.tourney_serial});
+	},
     };
 
     //

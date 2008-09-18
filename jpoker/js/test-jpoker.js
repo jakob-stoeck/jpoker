@@ -4584,6 +4584,61 @@ test("jpoker.plugins.table: PacketPokerUserInfo", function(){
         server.handler(server, game_id, { 'type': 'PacketPokerUserInfo', 'game_id': game_id });
     });
 
+test("jpoker.plugins.table: callback.tourney_end", function(){
+        expect(6);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+	table.is_tourney = true;
+	var tourney_serial = 42;
+	table.tourney_serial = tourney_serial;
+	   
+        place.jpoker('table', 'url', game_id);
+	equals(table.tourney_rank, undefined, 'tourney_rank undefined');
+        table.handler(server, game_id, { 'type': 'PacketPokerTourneyRank', 'serial': tourney_serial, 'game_id': game_id, 'rank': 1, 'players': 10, 'money': 1000});
+	equals(table.tourney_rank.rank, 1, 'tourney_rank.rank');
+	equals(table.tourney_rank.players, 10, 'tourney_rank.players');
+	equals(table.tourney_rank.money, 1000, 'tourney_rank.money')
+	
+	var jpoker_table_callback_tourney_end = jpoker.plugins.table.callback.tourney_end;
+	jpoker.plugins.table.callback.tourney_end = function(table) {
+	    jpoker.plugins.table.callback.tourney_end = jpoker_table_callback_tourney_end;
+	    equals(table.tourney_serial, tourney_serial, 'callback tourney_end called');
+	    equals($('#game_window' + id).length, 0, 'game window removed');
+	}
+	table.handler(server, game_id, { 'type': 'PacketPokerTableDestroy', 'game_id': game_id });
+    });
+
+test("jpoker.plugins.table: callback.tourney_end default", function(){
+        expect(2);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+	table.is_tourney = true;
+	var tourney_serial = 42;
+	table.tourney_serial = tourney_serial;
+	   
+        place.jpoker('table', 'url', game_id);
+        table.handler(server, game_id, { 'type': 'PacketPokerTourneyRank', 'serial': tourney_serial, 'game_id': game_id, 'rank': 1, 'players': 10, 'money': 1000});
+	server.tourneyRowClick = function(server, packet) {
+	    equals(packet.name, '');
+	    equals(packet.game_id, tourney_serial);
+	}
+	table.handler(server, game_id, { 'type': 'PacketPokerTableDestroy', 'game_id': game_id });
+    });
+
 test("jpoker.plugins.table: remove callbacks", function(){
         expect(4);
 
