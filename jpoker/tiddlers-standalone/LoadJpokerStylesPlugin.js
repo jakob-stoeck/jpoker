@@ -1,1 +1,2 @@
-store.addNotification("JpokerStyleSheet",refreshStyles);
+//store.addNotification("JpokerStyleSheet",refreshStyles);
+setStylesheet(store.getTiddlerText("JpokerStyleSheet"),"JpokerStyleSheet");
