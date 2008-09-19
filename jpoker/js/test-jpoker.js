@@ -6086,7 +6086,7 @@ test("jpoker.plugins.muck", function(){
     });
 
 test("jpoker.plugins.places", function(){
-        expect(7);
+        expect(8);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -6120,8 +6120,9 @@ test("jpoker.plugins.places", function(){
 			    equals(id, PLAYER_PLACES_PACKET.tables[0], 'tableJoin called');
 			};
 			$('.jpoker_places_table', element).eq(0).click();
-			server.placeTourneyRowClick = function(server, id) {
-			    equals(id, PLAYER_PLACES_PACKET.tourneys[0], 'placeTourneyRowClick called');
+			server.placeTourneyRowClick = function(server, packet) {
+			    equals(packet.game_id, PLAYER_PLACES_PACKET.tourneys[0], 'placeTourneyRowClick called');
+			    equals(packet.name, '', 'placeTourneyRowClick called');
 			};
 			$('.jpoker_places_tourney', element).eq(0).click();
 			$('#' + id).remove();
@@ -6207,7 +6208,7 @@ test("jpoker.plugins.places link_pattern", function(){
     });
 
 test("jpoker.plugins.playerLookup", function(){
-        expect(10);
+        expect(11);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -6232,8 +6233,9 @@ test("jpoker.plugins.playerLookup", function(){
 			    equals(id, PLAYER_PLACES_PACKET.tables[0], 'tableJoin called');
 			};
 			$('.jpoker_player_lookup_table', element).eq(0).click();
-			server.placeTourneyRowClick = function(server, id) {
-			    equals(id, PLAYER_PLACES_PACKET.tourneys[0], 'placeTourneyRowClick called');
+			server.placeTourneyRowClick = function(server, packet) {
+			    equals(packet.game_id, PLAYER_PLACES_PACKET.tourneys[0], 'placeTourneyRowClick called');
+			    equals(packet.name, '', 'placeTourneyRowClick called');
 			};
 			$('.jpoker_player_lookup_tourney', element).eq(0).click();
 			$('#' + id).remove();

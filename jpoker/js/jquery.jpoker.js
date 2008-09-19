@@ -3961,7 +3961,8 @@
 					$('#' + tourney, element).click(function() {
 						var server = jpoker.getServer(url);
 						if(server) {
-						    server.placeTourneyRowClick(server, tourney);
+						    var packet = {game_id: tourney, name: ''};
+						    server.placeTourneyRowClick(server, packet);
 						}
 					    });
 				    });
@@ -4061,7 +4062,8 @@
 					$('#' + tourney, element).click(function() {
 						var server = jpoker.getServer(url);
 						if(server) {
-						    server.placeTourneyRowClick(server, tourney);
+						    var packet = {game_id: tourney, name: ''};
+						    server.placeTourneyRowClick(server, packet);
 						}
 					    });
 				    });
