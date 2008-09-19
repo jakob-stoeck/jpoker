@@ -509,7 +509,8 @@
             clearTimeout: function(id) { return window.clearTimeout(id); },
             setTimeout: function(cb, delay) { return window.setTimeout(cb, delay); },
             ajax: function(o) { return jQuery.ajax(o); },
-            cookie: function() { return document.cookie; }
+            cookie: function() { return document.cookie; },
+	    protocol: function() { return document.location.protocol; }
         }, jpoker.watchable.defaults);
 
     jpoker.connection.prototype = $.extend({}, jpoker.watchable.prototype, {
@@ -855,7 +856,7 @@
 		++jpoker_serial;
 		$.cookie(jpoker_serial_cookie, jpoker_serial);
                 this.registerHandler(0, this.handler);
-                if(this.sessionExists()) {
+                if(this.sessionExists() || this.protocol() == 'file:') {
                     this.reconnect();
                 }
             },

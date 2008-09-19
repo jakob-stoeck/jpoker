@@ -494,6 +494,16 @@ test("jpoker.server.init reconnect", function(){
         cleanup();
     });
 
+test("jpoker.server.init reconnect file: protocol", function(){
+        expect(2);
+        var server = jpoker.serverCreate({ url: 'url',
+                                           protocol: function() { return 'file:'; } });
+
+        equals(server.state, server.RECONNECT);
+        equals(server.session.indexOf('clear') >= 0, false, 'session set');
+        cleanup();
+    });
+
 test("jpoker.server.reconnect success", function(){
         expect(5);
         stop();
@@ -1821,6 +1831,13 @@ test("jpoker.connection:queueIncoming", function(){
 
         self.queues = {};
         cleanup();
+    });
+
+test("jpoker.connection:cookie protocol", function() {
+	expect(2);
+	var connection = new jpoker.connection();
+	equals(connection.cookie(), document.cookie, 'cookie');
+	equals(connection.protocol(), document.location.protocol, 'protocol');
     });
 
 //
