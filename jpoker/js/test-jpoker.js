@@ -1305,6 +1305,25 @@ test("jpoker.server.getPlayerPlacesByName failed", function(){
 	start_and_cleanup();
     });
 
+test("jpoker.server.getPlayerPlacesByName failed no dialog", function(){
+        expect(1);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        dialog = jpoker.dialog;
+        jpoker.dialog = function(message) {
+	    ok(false, 'dialog not called');
+        };	
+        server.getPlayerPlacesByName('user999', {dialog: false});
+	server.registerUpdate(function(server, what, packet) {
+		equals(packet.type, 'PacketError', 'packer error update call');
+	    });
+	server.notify(0, {type: 'PacketError', other_type: jpoker.packetName2Type.PACKET_POKER_PLAYER_PLACES});
+	jpoker.dialog = dialog;
+	start_and_cleanup();
+    });
+
 test("jpoker.server.getPlayerStats", function(){
         expect(5);
 	stop();
@@ -6238,7 +6257,7 @@ test("jpoker.plugins.playerLookup", function(){
     });
 
 test("jpoker.plugins.playerLookup error", function(){
-        expect(2);
+        expect(4);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -6249,11 +6268,21 @@ test("jpoker.plugins.playerLookup error", function(){
         var id = 'jpoker' + jpoker.serial;
         var place = $('#main');
 
+	var jpoker_playerLookup_callback_error = jpoker.plugins.playerLookup.callback.error;
+	jpoker.plugins.playerLookup.callback.error = function(packet) {
+	    ok(true, 'callback error called');
+	};
         place.jpoker('playerLookup', 'url');
 	server.registerUpdate(function(server, what, data) {
 		var element = $('#' + id);
 		if(element.length > 0) {
-		    if (data.type == 'PacketError') {
+		    if (data.type == 'PacketPokerPlayerPlaces') {
+			server.sendPacket = function(packet) {
+			    equals($('.jpoker_player_lookup_result', player_lookup_element).html(), '', 'empty result');
+			    server.queueIncoming([ERROR_PACKET]);
+			};
+			$('.jpoker_player_lookup_submit', player_lookup_element).click();
+		    } else if (data.type == 'PacketError') {
 			equals($('.jpoker_player_lookup_tables', element).length, 0, 'jpoker_places_table');
 			equals($('.jpoker_player_lookup_tourneys', element).length, 0, 'jpoker_places_tourney');
 			$('#' + id).remove();
@@ -6264,14 +6293,10 @@ test("jpoker.plugins.playerLookup error", function(){
 		    return false;
 		}
 	    });
-	var player_lookup_element = $('.jpoker_player_lookup');
+	var player_lookup_element = $('.jpoker_player_lookup', place);
 	$('.jpoker_player_lookup_input', player_lookup_element).val('user');
 	server.sendPacket = function(packet) {
 	    server.queueIncoming([PLAYER_PLACES_PACKET]);
-	};
-	$('.jpoker_player_lookup_submit', player_lookup_element).click();
-	server.sendPacket = function(packet) {
-	    server.queueIncoming([ERROR_PACKET]);
 	};
 	$('.jpoker_player_lookup_submit', player_lookup_element).click();
     });
@@ -6321,6 +6346,41 @@ test("jpoker.plugins.playerLookup link_pattern", function(){
 	$('.jpoker_player_lookup_input', player_lookup_element).val('user');
 	server.sendPacket = function(packet) {
 	    server.queueIncoming([PLAYER_PLACES_PACKET]);
+	};
+	$('.jpoker_player_lookup_submit', player_lookup_element).click();
+    });
+
+test("jpoker.plugins.playerLookup options", function(){
+        expect(2);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+	var PLAYER_PLACES_PACKET = {type: 'PacketPokerPlayerPlaces', name: 'user', tables: [11, 12, 13], tourneys: [21, 22]};
+        var id = 'jpoker' + jpoker.serial;
+        var place = $('#main');
+
+        place.jpoker('playerLookup', 'url', {dialog: false, tag: 42});
+	server.registerUpdate(function(server, what, data) {
+		var element = $('#' + id);
+		if(element.length > 0) {
+		    if (data.type == 'PacketPokerPlayerPlaces') {
+			setTimeout(function() {
+				$('#' + id).remove();
+				server.notifyUpdate({});
+				start_and_cleanup();
+			    }, 0);
+		    }
+		    return false;
+		}
+	    });
+	var player_lookup_element = $('.jpoker_player_lookup', place);
+	$('.jpoker_player_lookup_input', player_lookup_element).val('user');
+	server.getPlayerPlacesByName = function(name, options) {
+	    equals(options.dialog, false, 'options dialog');
+	    equals(options.tag, 42, 'options tag');
+	    server.notifyUpdate(PLAYER_PLACES_PACKET);
 	};
 	$('.jpoker_player_lookup_submit', player_lookup_element).click();
     });

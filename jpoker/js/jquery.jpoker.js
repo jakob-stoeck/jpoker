@@ -1379,7 +1379,7 @@
 		}
 	    },
 
-	    getPlayerPlacesByName : function(name) {
+	    getPlayerPlacesByName : function(name, options) {
 		this.queueRunning(function(server) {
 			server.setState(server.PLACES);
 			server.sendPacket({'type': 'PacketPokerGetPlayerPlaces', 'name': name});
@@ -1389,7 +1389,9 @@
 				    server.setState(server.RUNNING, 'PacketPokerPlayerPlaces');
 				    return false;
 				} else if ((packet.type == 'PacketError') && (packet.other_type == jpoker.packetName2Type.PACKET_POKER_PLAYER_PLACES)) {
-				    jpoker.dialog(_("No such user: "+name));
+				    if (options === undefined || options.dialog) {
+					jpoker.dialog(_("No such user: "+name));
+				    }
 				    server.notifyUpdate(packet);
 				    server.setState(server.RUNNING, 'PacketError');
 				    return false;
@@ -4065,7 +4067,7 @@
 				    });
 			    }
 			    } else if ((packet.type == 'PacketError') && (packet.other_type == jpoker.packetName2Type.PACKET_POKER_PLAYER_PLACES)) {
-				$('.jpoker_player_lookup_result', element).empty();
+				jpoker.plugins.playerLookup.callback.error(packet);
 			    }
 			}
                         return true;
@@ -4078,7 +4080,8 @@
 
 		$(player_lookup_element).html(playerLookup.getHTMLForm());
 		$('.jpoker_player_lookup_submit', player_lookup_element).click(function() {
-			server.getPlayerPlacesByName($('.jpoker_player_lookup_input', player_lookup_element).val());
+			$('.jpoker_player_lookup_result', player_lookup_element).empty();
+			server.getPlayerPlacesByName($('.jpoker_player_lookup_input', player_lookup_element).val(), options);
 		    });
                 return this;
             });
@@ -4134,6 +4137,11 @@
 	    rows : '<tr class=\'jpoker_player_lookup_tourney\' id={id}><td>{tourney}</td></tr>',
 	    footer : '</tbody></table></div>',
 	    link: '<a href=\'{link}\'>{name}</a>'
+	}
+    };
+
+    jpoker.plugins.playerLookup.callback = {
+	error: function(packet) {
 	}
     };
 
