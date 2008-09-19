@@ -84,6 +84,7 @@ maintainer-clean:
 	rm -f jpoker/images/mockup_plain.svg
 	rm -f *.pyc
 	rm -f ${IMAGES}
+	rm -fr jpoker/standalone
 
 #
 # remove all that cannot be re-generated This is different from the
@@ -169,22 +170,35 @@ jpoker/poker.html: jpoker/JpokerPlugin/* jpoker/poker/* jpoker/markup/*
 	cp ${EMPTY} $@
 	${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/poker jpoker/markup $@
 
+#
+# Gather css, js and l10n files that are to be inlined in the TiddlyWiki
+#
 jpoker/standalone-temp-% : jpoker/markup/MarkupPostBody.tiddler jpoker/js/* jpoker/jquery/* jpoker/css/* jpoker/tiddlers-standalone/* i18n mockup
 	mkdir $@
+	#
 	# Parse MarkupPostBody for list of js files, copy them and create .div files.
 	cd jpoker; declare -i a=1 ; sed -ne 's/.*src="\([^"]*\)".*/\1/p' < markup/MarkupPostBody.tiddler | while read file ; do printf 'title="%02d_%s" author="script" tags="excludeLists excludeSearch systemConfig"\n' $$a "$$file" > standalone-temp-$*/$${file##*/}.div ; cp $$file standalone-temp-$*/; let a++ ; done
+	#
 	# Flatten all css files to one file and create a .div file
 	ruby getcss.rb jpoker/css/jpoker.css -d $@/jpoker.css
 	printf 'title="JpokerStyleSheet" author="script"\n' > $@/"jpoker.css.div";
+	#
 	# If lang is not en, convert json file to a plugin js file and create .div file
 	if [ -a ${LANG_DIR}/jpoker-$*.json ]; then sed "1i\$$.gt.setLang('$*');$$.gt.messages.$*=" ${LANG_DIR}/jpoker-$*.json > $@/"jpoker-$*.js"; printf 'title="%s-JpokerJson" author="script" tags="excludeLists excludeSearch systemConfig"\n' $* > $@/"jpoker-$*.js.div"; fi
 
+#
+# Create output folder for standalone files
+#
 jpoker/standalone:
 	if [ ! -d jpoker/standalone ]; then mkdir jpoker/standalone;fi
 
-jpoker/standalone/standalone-%.html: jpoker/JpokerPlugin/* jpoker/index-*/* jpoker/index/* jpoker/tiddlers/* jpoker/tiddlers-standalone/* jpoker/standalone-temp-% mockup jpoker/standalone
+#
+# Create standalone files with inlined CSS, JavaScript and l10n
+#
+jpoker/standalone/standalone-%.html: jpoker/JpokerPlugin/* jpoker/index-*/* jpoker/index/* jpoker/tiddlers/* jpoker/tiddlers-standalone/* jpoker/standalone jpoker/standalone-temp-% mockup
 	cp -f ${EMPTY} $@
 	${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-$* jpoker/index jpoker/tiddlers jpoker/tiddlers-standalone/* jpoker/standalone-temp-$*/* $@
+	# copy images to standalone directory
 	cp -R -f jpoker/images jpoker/standalone/images
 	cp -R -f jpoker/css/images jpoker/standalone
 	cp -R -f jpoker/css/jpoker_jquery_ui/i jpoker/standalone
