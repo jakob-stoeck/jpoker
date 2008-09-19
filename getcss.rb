@@ -3,39 +3,6 @@ require 'uri'
 require 'optparse'
 require 'ostruct'
 
-class Optparse
-	def self.parse(args)
-
-		options = OpenStruct.new
-		options.dest = ""
-
-		opts = OptionParser.new do |opts|
-			opts.banner = "GetCSS"
-			opts.banner += "Usage: getcss.rb startfile [options]"
-			opts.separator ""
-			opts.separator "Specific options:"
-
-			opts.on("-d", "--dest DESTINATION", "Destination path") do |dest|
-				options.dest = dest
-			end
-
-			options.help = opts
-			opts.on_tail("-h", "--help", "Show this message") do
-				exit 64
-			end
-		end
-		opts.parse!(args)
-		options
-	end
-end
-
-options = Optparse.parse(ARGV)
-
-if(ARGV.empty?)
-	puts options.help
-	exit
-end
-
 class String
 	def to_file(file_name) #:nodoc:
 		File.open(file_name,"w") { |f| f << self }
@@ -57,7 +24,7 @@ class GetRecursiveCSS
 				file.each_line { |line| processLine(line,filename)}
 			end
 		else
-			STDERR.puts("ERROR - File '#{filename}' does not exist.")
+			$stderr.puts("ERROR - File '#{filename}' does not exist.")
 			exit	
 		end		
 	end
@@ -73,9 +40,9 @@ class GetRecursiveCSS
 			@out << line	
 		end
 	end
-
-	def print
-		puts @out
+	
+	def to_s
+		@out.to_s
 	end
 	
 	def to_file
@@ -84,9 +51,42 @@ class GetRecursiveCSS
 
 end
 
-if(File.exist?(ARGV[0]))
-	GetRecursiveCSS.new(ARGV[0],options.dest).to_file
-else
-	STDERR.puts("ERROR - File '#{ARGV[0]}' does not exist.")
-	exit
+class Optparse
+	def self.parse(args)
+
+		options = OpenStruct.new
+		options.dest = ""
+
+		opts = OptionParser.new do |opts|
+			opts.banner = "GetCSS"
+			opts.banner += "Usage: getcss.rb startfile [options]"
+			opts.separator ""
+			opts.separator "Specific options:"
+
+			opts.on("-d", "--dest DESTINATION", "Destination path") do |dest|
+				options.dest = dest
+			end
+
+			options.help = opts
+			opts.on_tail("-h", "--help", "Show this message") do
+				exit 64
+				puts options.help
+			end
+		end
+		opts.parse!(args)
+		options
+	end
+	
+	def self.run(args)
+		options = Optparse.parse(args)
+
+		if(args.empty?)
+			puts options.help
+			exit
+		else
+			GetRecursiveCSS.new(args[0],options.dest).to_file
+		end	
+	end
 end
+
+Optparse.run(ARGV) unless(ARGV[0] == "testing")
