@@ -153,7 +153,7 @@ gems/bin/tiddlywiki_cp:
 jpoker/index-%.html: gems/bin/tiddlywiki_cp 
 jpoker/index.html: gems/bin/tiddlywiki_cp 
 jpoker/poker.html: gems/bin/tiddlywiki_cp
-jpoker/standalone/index-%.html : gems/bin/tiddlywiki_cp 
+#jpoker/standalone/index-%.html : gems/bin/tiddlywiki_cp
 
 GEMSCONTEXT=GEM_HOME=gems gems/bin/
 
@@ -196,7 +196,7 @@ jpoker/standalone:
 #
 # Create standalone files with inlined CSS, JavaScript and l10n
 #
-jpoker/standalone/index-%.html: jpoker/JpokerPlugin/* jpoker/index-*/* jpoker/index/* jpoker/tiddlers/* jpoker/tiddlers-standalone/* jpoker/standalone jpoker/standalone-temp-% mockup
+jpoker/standalone/index-%.html: jpoker/JpokerPlugin/* jpoker/index-*/* jpoker/index/* jpoker/tiddlers/* jpoker/tiddlers-standalone/* jpoker/standalone jpoker/standalone-temp-% mockup gems/bin/tiddlywiki_cp
 	cp -f ${EMPTY} $@
 	${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-$* jpoker/index jpoker/tiddlers jpoker/tiddlers-standalone/* jpoker/standalone-temp-$*/* $@
 	# copy images to standalone directory
