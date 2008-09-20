@@ -103,7 +103,7 @@ clobber: maintainer-clean
 LANG = en fr ja
 LANG_DIR = jpoker/l10n
 
-STANDALONE_TW = $(LANG:%=jpoker/standalone/standalone-%.html)
+STANDALONE_TW = $(LANG:%=jpoker/standalone/index-%.html)
 # 
 # because english is the default language, it has no
 # associated .json file
@@ -153,7 +153,7 @@ gems/bin/tiddlywiki_cp:
 jpoker/index-%.html: gems/bin/tiddlywiki_cp 
 jpoker/index.html: gems/bin/tiddlywiki_cp 
 jpoker/poker.html: gems/bin/tiddlywiki_cp
-jpoker/standalone/standalone-%.html : gems/bin/tiddlywiki_cp 
+jpoker/standalone/index-%.html : gems/bin/tiddlywiki_cp 
 
 GEMSCONTEXT=GEM_HOME=gems gems/bin/
 
@@ -174,6 +174,7 @@ jpoker/poker.html: jpoker/JpokerPlugin/* jpoker/poker/* jpoker/markup/*
 # Gather css, js and l10n files that are to be inlined in the TiddlyWiki
 #
 jpoker/standalone-temp-% : jpoker/markup/MarkupPostBody.tiddler jpoker/js/* jpoker/jquery/* jpoker/css/* jpoker/tiddlers-standalone/* i18n mockup
+	if [ -d $@ ]; then rm -fr $@;fi
 	mkdir $@
 	#
 	# Parse MarkupPostBody for list of js files, copy them and create .div files.
@@ -195,7 +196,7 @@ jpoker/standalone:
 #
 # Create standalone files with inlined CSS, JavaScript and l10n
 #
-jpoker/standalone/standalone-%.html: jpoker/JpokerPlugin/* jpoker/index-*/* jpoker/index/* jpoker/tiddlers/* jpoker/tiddlers-standalone/* jpoker/standalone jpoker/standalone-temp-% mockup
+jpoker/standalone/index-%.html: jpoker/JpokerPlugin/* jpoker/index-*/* jpoker/index/* jpoker/tiddlers/* jpoker/tiddlers-standalone/* jpoker/standalone jpoker/standalone-temp-% mockup
 	cp -f ${EMPTY} $@
 	${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-$* jpoker/index jpoker/tiddlers jpoker/tiddlers-standalone/* jpoker/standalone-temp-$*/* $@
 	# copy images to standalone directory
@@ -204,7 +205,10 @@ jpoker/standalone/standalone-%.html: jpoker/JpokerPlugin/* jpoker/index-*/* jpok
 	cp -R -f jpoker/css/jpoker_jquery_ui/i jpoker/standalone
 	rm -fr jpoker/standalone-temp-$*
 
-standalone: ${STANDALONE_TW}
+jpoker/standalone/index.html: jpoker/standalone/index-en.html
+	cp jpoker/standalone/index-en.html $@
+
+standalone: ${STANDALONE_TW} jpoker/standalone/index.html
 
 cook:	jpoker/poker.html ${LANG_TW} jpoker/index.html standalone
 
