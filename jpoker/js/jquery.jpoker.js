@@ -3135,7 +3135,7 @@
 	tourney_end: function(table) {
 	    var server = jpoker.getServer(table.url);
 	    server.tourneyRowClick(server, {name: '', game_id: table.tourney_serial});
-	},
+	}
     };
 
     //
