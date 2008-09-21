@@ -169,8 +169,8 @@ msgid "wait for {delay}s for queue {id}"
 msgstr "en attente pour {delay}s dans la file {id}"
 
 #: jpoker/js/jquery.jpoker.js:1716
-msgid "{logname} logout"
-msgstr "déconnecter {logname}"
+msgid "logout"
+msgstr "déconnecter"
 
 #: jpoker/js/jquery.jpoker.js:1012
 msgid "{url} attempt to login {name} although serial is {serial} instead of 0"

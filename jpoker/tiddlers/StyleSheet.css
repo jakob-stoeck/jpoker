@@ -58,6 +58,7 @@ body #contentWrapper {
 #menu {
 	background:[[ColorPalette::PrimaryMid]];
 	padding: 9px;
+	clear:both
 }
 
 #stickybod{
@@ -125,7 +126,7 @@ body #contentWrapper {
 }
 
 .shadow .title {
-	color:[[ColorPalette::TertiaryMid]];
+	color:#17691C;
 }
 
 .subtitle {
@@ -283,4 +284,42 @@ td.login_input input {
 #contentWrapper .viewer .jpoker_ptable table.jpokerTableList {
 	margin: 0.5em auto;
 }
+
+#contentWrapper .viewer .jpoker_table .jpoker_ptable{
+	margin: 0em auto;
+}
+
+.title .button, .title .button:hover {padding:0; background:transparent; border:none;}
+
+#menu {padding:0;}
+
+ul.suckerfish li ul {z-index:999;}
 /*}}}*/
+
+
+/**** COLORS AND APPEARANCE - DEFAULT *****/
+#menu ul.suckerfish li a {
+	padding: 0.5em 1.5em;
+	color: #FFF;
+	background: #009E03;
+	border-bottom: 0;
+	font-weight:bold;
+}
+
+#menu ul.suckerfish li:hover a, #menu ul.suckerfish li.sfhover a{
+	background: #17691C;
+}
+
+#menu ul.suckerfish li:hover ul a, #menu ul.suckerfish li.sfhover ul a{
+	color: #000;
+	background: #eff3fa;
+	border-top:1px solid #FFF;
+}
+
+#menu ul.suckerfish ul li a:hover {
+	background: #e0e8f5;
+}
+
+#menu ul.suckerfish li {
+	border-left: 1px solid #17691C;
+}

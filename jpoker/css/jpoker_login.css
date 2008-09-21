@@ -1,0 +1,13 @@
+.jpoker_login_submit, .jpoker_login_signup{
+	width: 100%;
+	cursor: hand;
+}
+
+ .jpoker_logout {
+ 	font-weight: bold;
+}
+
+.jpoker_logout a:hover{
+	background: transparent;
+	color: #009E03;
+}
