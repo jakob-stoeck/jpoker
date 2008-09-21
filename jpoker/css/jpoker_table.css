@@ -1,3 +1,5 @@
+ body {font-size: 0.75em}
+
 .jpoker_table .jpoker_avatar_default_1 { background-image: url("images/jpoker_table/avatar1.png"); }
 .jpoker_table .jpoker_avatar_default_2 { background-image: url("images/jpoker_table/avatar2.png"); }
 .jpoker_table .jpoker_avatar_default_3 { background-image: url("images/jpoker_table/avatar3.png"); }
