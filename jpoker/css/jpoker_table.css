@@ -108,6 +108,24 @@
     background-color: #44FF44;
 }
 
+.jpoker_table .jpoker_ptable_sit_seat0,
+.jpoker_table .jpoker_ptable_sit_seat1,
+.jpoker_table .jpoker_ptable_sit_seat2,
+.jpoker_table .jpoker_ptable_sit_seat3,
+.jpoker_table .jpoker_ptable_sit_seat4,
+.jpoker_table .jpoker_ptable_sit_seat5,
+.jpoker_table .jpoker_ptable_sit_seat6,
+.jpoker_table .jpoker_ptable_sit_seat7,
+.jpoker_table .jpoker_ptable_sit_seat8,
+.jpoker_table .jpoker_ptable_sit_seat9
+{
+	cursor: pointer;
+}
+
+
+
+
+
 .jpoker_table .jpoker_sit_out .jpoker_ptable_player_seat0_name,
 .jpoker_table .jpoker_sit_out .jpoker_ptable_player_seat1_name,
 .jpoker_table .jpoker_sit_out .jpoker_ptable_player_seat2_name,
@@ -206,7 +224,7 @@
 .jpoker_table .jpoker_ptable_table_info{
 	height: auto;
 	font-weight: bold;
-	background: #eee;
+	background: #ddd;
 }
 
 .jpoker_table .jpoker_ptable_table_info div{
@@ -228,7 +246,7 @@
 .jpoker_table .jpoker_ptable_auto_muck {
 	background: transparent;
 	font-weight: bold;
-	color: #fff;
+	color: #000;
 }
 
 .jpoker_table .jpoker_ptable_auto_muck label {
@@ -238,4 +256,14 @@
 .jpoker_table .jpoker_ptable_raise_input {
 	border: 2px solid #000;
 	background: #eee;
+}
+
+.jpoker_table .jpoker_ptable_game_background {
+	background: #eee;
+	border: 1px solid #ccc;
+}
+
+.jpoker_table .jpoker_ptable_quit, .jpoker_table .jpoker_ptable_rebuy
+{
+	cursor:pointer;
 }
