@@ -2664,12 +2664,12 @@
     jpoker.plugins.serverStatus.templates = {
 	disconnected: '<div class=\'jpoker_server_status_disconnected\'> {label} </div>',
 	connected: '<div class=\'jpoker_server_status_connected\'></div>',
-        players: '<div class=\'jpoker_server_status_players\'> <div class=\'jpoker_server_status_players_count\'>{count}</div> <div class=\'jpoker_server_status_players_label\'>{players}</div> </div>',
-        tables: '<div class=\'jpoker_server_status_tables\'> <div class=\'jpoker_server_status_tables_count\'>{count}</div> <div class=\'jpoker_server_status_tables_label\'>{tables}</div> </div>',
+        players: '<div class=\'jpoker_server_status_players\'> <span class=\'jpoker_server_status_players_count\'>{count}</span> <span class=\'jpoker_server_status_players_label\'>{players}</span> </div>',
+        tables: '<div class=\'jpoker_server_status_tables\'> <span class=\'jpoker_server_status_tables_count\'>{count}</span> <span class=\'jpoker_server_status_tables_label\'>{tables}</span> </div>',
 
-        players_tourneys: '<div class=\'jpoker_server_status_players_tourneys\'> <div class=\'jpoker_server_status_players_tourneys_count\'>{count}</div> <div class=\'jpoker_server_status_players_tourneys_label\'>{players_tourneys}</div> </div>',
+        players_tourneys: '<div class=\'jpoker_server_status_players_tourneys\'> <span class=\'jpoker_server_status_players_tourneys_count\'>{count}</span> <span class=\'jpoker_server_status_players_tourneys_label\'>{players_tourneys}</span> </div>',
 
-        tourneys: '<div class=\'jpoker_server_status_tourneys\'> <div class=\'jpoker_server_status_tourneys_count\'>{count}</div> <div class=\'jpoker_server_status_tourneys_label\'>{tourneys}</div> </div>'
+        tourneys: '<div class=\'jpoker_server_status_tourneys\'> <span class=\'jpoker_server_status_tourneys_count\'>{count}</span> <span class=\'jpoker_server_status_tourneys_label\'>{tourneys}</span> </div>'
     };
 
     //
@@ -2745,7 +2745,7 @@
         var t = this.templates;
 	var html = [];
 	if(server.loggedIn()) {
-	    html.push(t.logout.supplant({ 'logout': _("{logname} logout").supplant({ 'logname': server.userInfo.name }) }));
+	    html.push(t.logout.supplant({ 'logout': ("{logname} <a href=\"javascript:;\">" + _("logout") + "</a>").supplant({ 'logname': server.userInfo.name }) }));
 	} else {
 	    html.push(t.login.supplant({ 'login': _("user: "),
                                          'password': _("password: "),
