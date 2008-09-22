@@ -2508,7 +2508,7 @@ test("jpoker.plugins.tableList link pattern", function(){
     });
 
 test("jpoker.plugins.tableList pager", function(){
-        expect(4);
+        expect(6);
         stop();
 
         //
@@ -2551,6 +2551,13 @@ test("jpoker.plugins.tableList pager", function(){
 		    ok($('.pager li:last', element).html().indexOf("Next page") >= 0, 'has next page');
 		    $('.pager li:last a', element).click();
 		    ok($('.pager li:first', element).html().indexOf("Previous page") >= 0, 'has previous page');
+		    var row_id = TABLE_LIST_PACKET.packets[10].id + id;
+		    var row = $("#" + row_id, place);
+		    equals(row.length, 1, 'row element');
+		    server.tableJoin = function(id) {
+			equals(id, TABLE_LIST_PACKET.packets[10].id, 'tableJoin called');
+		    };
+		    row.click();
                     $("#" + id).remove();
                     return true;
                 } else {
@@ -2684,7 +2691,7 @@ test("jpoker.plugins.regularTourneyList link_pattern", function(){
     });
 
 test("jpoker.plugins.regularTourneyList pager", function(){
-        expect(4);
+        expect(6);
         stop();
 
         //
@@ -2696,8 +2703,9 @@ test("jpoker.plugins.regularTourneyList pager", function(){
 	var TOURNEY_LIST_PACKET = {"players": 0, "packets": [], "tourneys": 5, "type": "PacketPokerTourneyList"};
 	for (var i = 0; i < 200; ++i) {
 	    var name = "Tourney" + i;
+	    var serial = 100+i;
 	    var players = i%11;
-	    var packet = {"players_quota": players, "breaks_first": 7200, "name": name, "description_short" : name, "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 1, "sit_n_go": "n", "registered": 0};
+	    var packet = {"players_quota": players, "breaks_first": 7200, "name": name, "description_short" : name, "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": serial, "sit_n_go": "n", "registered": 0};
 	    TOURNEY_LIST_PACKET.packets.push(packet);
 	}
 
@@ -2727,6 +2735,12 @@ test("jpoker.plugins.regularTourneyList pager", function(){
 		    ok($('.pager li:last', element).html().indexOf("Next page") >= 0, 'has next page');
 		    $('.pager li:last a', element).click();
 		    ok($('.pager li:first', element).html().indexOf("Previous page") >= 0, 'has previous page');
+		    var row = $('table tr', place).eq(1);
+		    equals(row.length, 1, 'row element');
+		    server.tourneyRowClick = function(server, subpacket) {
+			ok(true, 'tourneyRowClick called');
+		    };
+		    row.click();
                     $("#" + id).remove();
                     return true;
                 } else {
@@ -2859,7 +2873,7 @@ test("jpoker.plugins.sitngoTourneyList link pattern", function(){
     });
 
 test("jpoker.plugins.sitngoTourneyList pager", function(){
-        expect(4);
+        expect(6);
         stop();
 
         //
@@ -2872,7 +2886,8 @@ test("jpoker.plugins.sitngoTourneyList pager", function(){
 	for (var i = 0; i < 200; ++i) {
 	    var name = "Tourney" + i;
 	    var players = i%11;
-	    var packet = {"players_quota": players, "breaks_first": 7200, "name": name, "description_short" : name, "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 1, "sit_n_go": "y", "registered": 0};
+	    var serial = i + 100;
+	    var packet = {"players_quota": players, "breaks_first": 7200, "name": name, "description_short" : name, "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": serial, "sit_n_go": "y", "registered": 0};
 	    TOURNEY_LIST_PACKET.packets.push(packet);
 	}
 
@@ -2902,6 +2917,12 @@ test("jpoker.plugins.sitngoTourneyList pager", function(){
 		    ok($('.pager li:last', element).html().indexOf("Next page") >= 0, 'has next page');
 		    $('.pager li:last a', element).click();
 		    ok($('.pager li:first', element).html().indexOf("Previous page") >= 0, 'has previous page');
+		    var row = $('table tr', place).eq(1);
+		    equals(row.length, 1, 'row element');
+		    server.tourneyRowClick = function(server, subpacket) {
+			ok(true, 'tourneyRowClick called');
+		    };
+		    row.click();
                     $("#" + id).remove();
                     return true;
                 } else {

@@ -1991,14 +1991,6 @@
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTableList') {
                             $(element).html(tableList.getHTML(id, packet, opts.link_pattern));
-			    if ($('tr', element).length > 1) {
-				var t = jpoker.plugins.tableList.templates;
-				var options = {container: $('.pager', element),
-					       positionFixed: false,
-					       previous_label: t.previous_label.supplant({previous_label: _("Previous page")}),
-					       next_label: t.next_label.supplant({next_label: _("Next page")})};
-				$('table', element).tablesorter({widgets: ['zebra']}).tablesorterPager(options);
-			    }
 			    if (opts.link_pattern === undefined) {
 				for(var i = 0; i < packet.packets.length; i++) {
 				    (function(){
@@ -2016,6 +2008,14 @@
 				    })();
 				}
                             }
+			    if ($('tr', element).length > 1) {
+				var t = jpoker.plugins.tableList.templates;
+				var options = {container: $('.pager', element),
+					       positionFixed: false,
+					       previous_label: t.previous_label.supplant({previous_label: _("Previous page")}),
+					       next_label: t.next_label.supplant({next_label: _("Next page")})};
+				$('table', element).tablesorter({widgets: ['zebra']}).tablesorterPager(options);
+			    }			    
                         }
                         return true;
                     } else {
@@ -2102,14 +2102,6 @@
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTourneyList') {
                             $(element).html(regularTourneyList.getHTML(id, packet, opts.link_pattern));
-			    if ($('tr', element).length > 1) {
-				var t = jpoker.plugins.regularTourneyList.templates;
-				var options = {container: $('.pager', element),
-					       positionFixed: false,
-					       previous_label: t.previous_label.supplant({previous_label: _("Previous page")}),
-					       next_label: t.next_label.supplant({next_label: _("Next page")})};
-				$('table', element).tablesorter({widgets: ['zebra'], sortList: [[4, 0]]}).tablesorterPager(options);
-			    }
 			    if (opts.link_pattern === undefined) {
 				for(var i = 0; i < packet.packets.length; i++) {
 				    (function(){
@@ -2126,6 +2118,14 @@
 						});
 				    })();
 				}
+			    }
+ 			    if ($('tr', element).length > 1) {
+				var t = jpoker.plugins.regularTourneyList.templates;
+				var options = {container: $('.pager', element),
+					       positionFixed: false,
+					       previous_label: t.previous_label.supplant({previous_label: _("Previous page")}),
+					       next_label: t.next_label.supplant({next_label: _("Next page")})};
+				$('table', element).tablesorter({widgets: ['zebra'], sortList: [[4, 0]]}).tablesorterPager(options);
 			    }
                         }
                         return true;
@@ -2212,14 +2212,6 @@
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTourneyList') {
                             $(element).html(sitngoTourneyList.getHTML(id, packet, opts.link_pattern));
-			    if ($('tr', element).length > 1) {
-				var t = jpoker.plugins.sitngoTourneyList.templates;
-				var options = {container: $('.pager', element),
-					       positionFixed: false,
-					       previous_label: t.previous_label.supplant({previous_label: _("Previous page")}),
-					       next_label: t.next_label.supplant({next_label: _("Next page")})};
-				$('table', element).tablesorter({widgets: ['zebra'], sortList: [[3, 0]]}).tablesorterPager(options);				
-			    }
 			    if (opts.link_pattern === undefined) {
 				for(var i = 0; i < packet.packets.length; i++) {
 				    (function(){
@@ -2236,6 +2228,14 @@
 						});
 				    })();
 				}
+			    }
+			    if ($('tr', element).length > 1) {
+				var t = jpoker.plugins.sitngoTourneyList.templates;
+				var options = {container: $('.pager', element),
+					       positionFixed: false,
+					       previous_label: t.previous_label.supplant({previous_label: _("Previous page")}),
+					       next_label: t.next_label.supplant({next_label: _("Next page")})};
+				$('table', element).tablesorter({widgets: ['zebra'], sortList: [[3, 0]]}).tablesorterPager(options);				
 			    }
                         }
                         return true;
