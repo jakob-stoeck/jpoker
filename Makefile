@@ -16,6 +16,8 @@
 #
 VERSION=1.0.14
 
+SHELL = /bin/bash
+
 install: jpoker-binary-${VERSION}
 	mkdir -p ${DESTDIR}usr/share
 	cp -a jpoker-binary-${VERSION} ${DESTDIR}usr/share/jpoker
@@ -82,6 +84,7 @@ maintainer-clean:
 	rm -f jpoker/images/mockup_plain.svg
 	rm -f *.pyc
 	rm -f ${IMAGES}
+	rm -fr jpoker/standalone
 
 #
 # remove all that cannot be re-generated This is different from the
@@ -99,6 +102,8 @@ clobber: maintainer-clean
 
 LANG = en fr ja
 LANG_DIR = jpoker/l10n
+
+STANDALONE_TW = $(LANG:%=jpoker/standalone/index-%.html)
 # 
 # because english is the default language, it has no
 # associated .json file
@@ -147,7 +152,8 @@ gems/bin/tiddlywiki_cp:
 
 jpoker/index-%.html: gems/bin/tiddlywiki_cp 
 jpoker/index.html: gems/bin/tiddlywiki_cp 
-jpoker/poker.html: gems/bin/tiddlywiki_cp 
+jpoker/poker.html: gems/bin/tiddlywiki_cp
+#jpoker/standalone/index-%.html : gems/bin/tiddlywiki_cp
 
 GEMSCONTEXT=GEM_HOME=gems gems/bin/
 
@@ -164,7 +170,47 @@ jpoker/poker.html: jpoker/JpokerPlugin/* jpoker/poker/* jpoker/markup/*
 	cp ${EMPTY} $@
 	${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/poker jpoker/markup $@
 
-cook:	jpoker/poker.html ${LANG_TW} jpoker/index.html
+#
+# Gather css, js and l10n files that are to be inlined in the TiddlyWiki
+#
+jpoker/standalone-temp-% : jpoker/markup/MarkupPostBody.tiddler jpoker/js/* jpoker/jquery/* jpoker/css/* jpoker/tiddlers-standalone/* i18n mockup
+	if [ -d $@ ]; then rm -fr $@;fi
+	mkdir $@
+	#
+	# Parse MarkupPostBody for list of js files, copy them and create .div files.
+	cd jpoker; declare -i a=1 ; sed -ne 's/.*src="\([^"]*\)".*/\1/p' < markup/MarkupPostBody.tiddler | while read file ; do printf 'title="%02d_%s" author="script" tags="excludeLists excludeSearch systemConfig"\n' $$a "$$file" > standalone-temp-$*/$${file##*/}.div ; cp $$file standalone-temp-$*/; let a++ ; done
+	#
+	# Flatten all css files to one file and create a .div file
+	ruby getcss.rb jpoker/css/jpoker.css -d $@/jpoker.css
+	printf 'title="JpokerStyleSheet" author="script"\n' > $@/"jpoker.css.div";
+	#
+	# If lang is not en, convert json file to a plugin js file and create .div file
+	if [ -a ${LANG_DIR}/jpoker-$*.json ]; then sed "1i\$$.gt.setLang('$*');$$.gt.messages.$*=" ${LANG_DIR}/jpoker-$*.json > $@/"jpoker-$*.js"; printf 'title="%s-JpokerJson" author="script" tags="excludeLists excludeSearch systemConfig"\n' $* > $@/"jpoker-$*.js.div"; fi
+
+#
+# Create output folder for standalone files
+#
+jpoker/standalone:
+	if [ ! -d jpoker/standalone ]; then mkdir jpoker/standalone;fi
+
+#
+# Create standalone files with inlined CSS, JavaScript and l10n
+#
+jpoker/standalone/index-%.html: jpoker/JpokerPlugin/* jpoker/index-*/* jpoker/index/* jpoker/tiddlers/* jpoker/tiddlers-standalone/* jpoker/standalone jpoker/standalone-temp-% mockup gems/bin/tiddlywiki_cp
+	cp -f ${EMPTY} $@
+	${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-$* jpoker/index jpoker/tiddlers jpoker/tiddlers-standalone/* jpoker/standalone-temp-$*/* $@
+	# copy images to standalone directory
+	cp -R -f jpoker/images jpoker/standalone/images
+	cp -R -f jpoker/css/images jpoker/standalone
+	cp -R -f jpoker/css/jpoker_jquery_ui/i jpoker/standalone
+	rm -fr jpoker/standalone-temp-$*
+
+jpoker/standalone/index.html: jpoker/standalone/index-en.html
+	cp jpoker/standalone/index-en.html $@
+
+standalone: ${STANDALONE_TW} jpoker/standalone/index.html
+
+cook:	jpoker/poker.html ${LANG_TW} jpoker/index.html standalone
 
 # mimic when a new lang shows
 newlang:

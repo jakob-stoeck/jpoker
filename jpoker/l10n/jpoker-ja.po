@@ -170,7 +170,7 @@ msgid "wait for {delay}s for queue {id}"
 msgstr ""
 
 #: jpoker/js/jquery.jpoker.js:1716
-msgid "{logname} logout"
+msgid "logout"
 msgstr ""
 
 #: jpoker/js/jquery.jpoker.js:1012

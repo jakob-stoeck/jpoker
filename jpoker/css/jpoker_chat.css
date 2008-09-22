@@ -18,3 +18,28 @@
     color: red;
     line-height: 1.5em;
 }
+
+.jpoker_table .jpoker_ptable_chat {
+	height:auto;
+}
+
+.jpoker_chat_line{
+	padding:0 0.2em;
+}
+
+.jpoker_ptable_chat_history, .jpoker_ptable_chat, .jpoker_ptable_table_info{
+	border: 2px solid #000;
+}
+
+.jpoker_table .jpoker_ptable_chat_history{
+	height: 10.5em;
+}
+
+.jpoker_chat_history_dealer{
+	background: #ddd;
+	border-top:1px solid #ccc;
+}
+
+.jpoker_chat_prefix{
+	font-weight: bold;
+}

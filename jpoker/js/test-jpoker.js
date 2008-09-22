@@ -4640,14 +4640,14 @@ test("jpoker.plugins.table: callback.tourney_end", function(){
         table.handler(server, game_id, { 'type': 'PacketPokerTourneyRank', 'serial': tourney_serial, 'game_id': game_id, 'rank': 1, 'players': 10, 'money': 1000});
 	equals(table.tourney_rank.rank, 1, 'tourney_rank.rank');
 	equals(table.tourney_rank.players, 10, 'tourney_rank.players');
-	equals(table.tourney_rank.money, 1000, 'tourney_rank.money')
+	equals(table.tourney_rank.money, 1000, 'tourney_rank.money');
 	
 	var jpoker_table_callback_tourney_end = jpoker.plugins.table.callback.tourney_end;
 	jpoker.plugins.table.callback.tourney_end = function(table) {
 	    jpoker.plugins.table.callback.tourney_end = jpoker_table_callback_tourney_end;
 	    equals(table.tourney_serial, tourney_serial, 'callback tourney_end called');
 	    equals($('#game_window' + id).length, 0, 'game window removed');
-	}
+	};
 	table.handler(server, game_id, { 'type': 'PacketPokerTableDestroy', 'game_id': game_id });
     });
 
@@ -4671,7 +4671,7 @@ test("jpoker.plugins.table: callback.tourney_end default", function(){
 	server.tourneyRowClick = function(server, packet) {
 	    equals(packet.name, '');
 	    equals(packet.game_id, tourney_serial);
-	}
+	};
 	table.handler(server, game_id, { 'type': 'PacketPokerTableDestroy', 'game_id': game_id });
     });
 
