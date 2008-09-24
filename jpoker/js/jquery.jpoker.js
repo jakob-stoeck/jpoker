@@ -1681,6 +1681,7 @@
         this.url = server.url;
         this.init();
         server.registerHandler(game_id, this.handler);
+	server.registerHandler(0, this.handler0);
     };
 
     jpoker.tourney.defaults = {
@@ -1737,7 +1738,30 @@
                      delete server.tourneys[game_id];
                      break;
 		}
+		
+		return true;
+	    },
+	    
+	    handler0: function(server, game_id, packet) {
+                if(jpoker.verbose > 0) {
+                    jpoker.message('tourney.handler ' + JSON.stringify(packet));
+                }
+                
+                tourney = server.tourneys[packet.tourney_serial];
+                if(!tourney) {
+                    jpoker.message('unknown tourney ' + packet.tourney_serial);
+                    return true;
+                }
+                var url = server.url;
 
+                switch(packet.type) {
+
+                case 'PacketPokerTable':
+                     tourney.uninit();
+                     delete server.tourneys[packet.tourney_serial];
+                     break;
+		}
+		
 		return true;
 	    }
 	});
