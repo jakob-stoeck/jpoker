@@ -744,6 +744,24 @@ test("jpoker.server.refresh clearInterval", function(){
 	equals(server.timers.foo.timer, newTimer, 'timer updated');
     });
 
+test("jpoker.server.stopRefresh clearInterval", function(){
+	expect(2);
+	
+	var server = jpoker.serverCreate({ url: 'url' });
+	var newTimer = 43;
+	jpokerRefresh = jpoker.refresh;
+	jpoker.refresh = function() {
+	    jpoker.refresh = jpokerRefresh;
+	    return {timer:newTimer};
+	};
+	server.clearInterval = function(id) {
+	    equals(id, newTimer, 'timer cleared');
+	};
+	server.refresh('foo');
+	server.stopRefresh('foo');
+	equals(server.timers.foo, undefined, 'timer tag cleared');
+    });
+
 test("jpoker.server.login", function(){
         expect(9);
         stop();
@@ -2441,7 +2459,7 @@ test("jpoker.plugins.tableList", function(){
                     return true;
                 } else {
                     equals(server.callbacks.update.length, 2, 'tableList and test update registered');
-                    equals('tableList' in server.timers, true, 'timer active');
+                    equals('tableList' in server.timers, false, 'timer active');
                     server.setTimeout = function(fun, delay) { };
                     window.setTimeout(function() {
                             start_and_cleanup();
@@ -2625,7 +2643,7 @@ test("jpoker.plugins.regularTourneyList", function(){
                     return true;
                 } else {
                     equals(server.callbacks.update.length, 2, 'regularTourneyList and test update registered');
-                    equals('tourneyList' in server.timers, true, 'timer active');
+                    equals('tourneyList' in server.timers, false, 'timer active');
                     server.setTimeout = function(fun, delay) { };
                     window.setTimeout(function() {
                             start_and_cleanup();
@@ -2807,7 +2825,7 @@ test("jpoker.plugins.sitngoTourneyList", function(){
                     return true;
                 } else {
                     equals(server.callbacks.update.length, 2, 'sitngoTourneyList and test update registered');
-                    equals('tourneyList' in server.timers, true, 'timer active');
+                    equals('tourneyList' in server.timers, false, 'timer active');
                     server.setTimeout = function(fun, delay) { };
                     window.setTimeout(function() {
                             start_and_cleanup();
@@ -3059,7 +3077,7 @@ test("jpoker.plugins.tourneyDetails", function(){
                     return true;
                 } else {
                     equals(server.callbacks.update.length, 2, 'tourneyDetails and test update registered');
-                    equals('tourneyDetails' in server.timers, true, 'timer active');
+                    equals('tourneyDetails' in server.timers, false, 'timer active');
                     server.setTimeout = function(fun, delay) { };
                     window.setTimeout(function() {
                             start_and_cleanup();

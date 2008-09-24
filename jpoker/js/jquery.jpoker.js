@@ -1010,6 +1010,13 @@
                 return timerRequest;
             },
 
+	    stopRefresh: function(tag) {
+		if (this.timers[tag] !== undefined) {		    
+		    this.clearInterval(this.timers[tag].timer);
+		    delete this.timers[tag];
+		}
+	    },
+
             //
             // tables lists
             //
@@ -2019,6 +2026,7 @@
                         }
                         return true;
                     } else {
+			server.stopRefresh('tableList');
                         return false;
                     }
                 };
@@ -2130,6 +2138,7 @@
                         }
                         return true;
                     } else {
+			server.stopRefresh('tourneyList');
                         return false;
                     }
                 };
@@ -2240,6 +2249,7 @@
                         }
                         return true;
                     } else {
+			server.stopRefresh('tourneyList');
                         return false;
                     }
                 };
@@ -2378,6 +2388,7 @@
                         }
                         return true;
                     } else {
+			server.stopRefresh('tourneyDetails');
                         return false;
                     }
                 };
