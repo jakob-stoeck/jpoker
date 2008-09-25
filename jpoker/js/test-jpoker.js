@@ -1561,7 +1561,7 @@ test("jpoker.connection:ping", function(){
     });
 
 test("jpoker.connection:ping frequency", function(){
-        expect(4);
+        expect(5);
         //
         // The next ping occurs N seconds after the last packet was sent
         //
@@ -1586,6 +1586,7 @@ test("jpoker.connection:ping frequency", function(){
         };
         self.ping();
         self.reset();
+	equals(0, self.sentTime, 'sentTime reset');
     });
 
 test("jpoker.connection:sendPacket error 404", function(){
