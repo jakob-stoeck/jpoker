@@ -504,7 +504,7 @@
             async: true,
             lagmax: 60,
             pollFrequency: 5000,
-            pingFrequency: 10000,
+            pingFrequency: 5000,
             timeout: 30000,
             clearTimeout: function(id) { return window.clearTimeout(id); },
             setTimeout: function(cb, delay) { return window.setTimeout(cb, delay); },
