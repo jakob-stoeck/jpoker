@@ -1560,6 +1560,34 @@ test("jpoker.connection:ping", function(){
             });
     });
 
+test("jpoker.connection:ping frequency", function(){
+        expect(4);
+        //
+        // The next ping occurs N seconds after the last packet was sent
+        //
+        var clock = 10;
+        jpoker.now = function() { return clock++; };
+        var self = new jpoker.connection();
+        self.sendPacket = function() { equals(1,0,'sendPacket called'); }
+        sentTime = self.sentTime = jpoker.now();
+        self.setTimeout = function(fun, when) { 
+            equals(when, self.pingFrequency - 1);
+        };
+        self.ping();
+        equals(sentTime, self.sentTime, 'sentTime');
+        //
+        // The next ping occurs after pingFrequency 
+        //
+        clock = 200000;
+        self.sendPacket = function() { equals(12,12); }
+        self.sentTime = 0;
+        self.setTimeout = function(fun, when) { 
+            equals(when, self.pingFrequency);
+        };
+        self.ping();
+        self.reset();
+    });
+
 test("jpoker.connection:sendPacket error 404", function(){
         expect(1);
         stop();
@@ -1609,8 +1637,8 @@ test("jpoker.connection:sendPacket timeout", function(){
         ActiveXObject.defaults.timeout = false;
     });
 
-test("jpoker.connection:sendPacket ", function(){
-        expect(5);
+test("jpoker.connection:sendPacket", function(){
+        expect(7);
         var self = new jpoker.connection({
                 async: false,
                 mode: null
@@ -1645,8 +1673,10 @@ test("jpoker.connection:sendPacket ", function(){
         var packet = {type: type};
 
         equals(self.connected(), false, "disconnected()");
+        equals(self.sentTime, 0, "sentTime default");
         self.sendPacket(packet);
 
+        equals(self.sentTime > 0, true, "sentTime updated");
         equals(handled[0], self);
         equals(handled[1], 0);
         equals(handled[2].type, type);

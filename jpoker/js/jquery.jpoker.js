@@ -580,6 +580,7 @@
                 // empty the incoming queue
                 this.queues = {};
                 this.delays = {};
+                this.sentTime = 0;
                 this.connectionState = 'disconnected';
             },
 
@@ -704,18 +705,21 @@
                         }
                     }
                 };
+                this.sentTime = jpoker.now();
                 this.ajax(args);
             },
 
             ping: function() {
-                if(jQuery([$.ajax_queue]).queue('ajax').length <= 0) {
+                var delta = jpoker.now() - this.sentTime;
+                if(delta > this.pingFrequency) {
                     this.sendPacket({ type: 'PacketPing' });
+                    delta = 0;
                 }
                 this.clearTimeout(this.pingTimer);
                 var $this = this;
                 this.pingTimer = this.setTimeout(function() {
                         $this.ping();
-                    }, this.pingFrequency);
+                    }, this.pingFrequency - delta);
             },
 
             pinging: function() { return this.pingTimer >= 0; },
