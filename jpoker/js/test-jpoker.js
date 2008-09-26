@@ -1992,9 +1992,10 @@ test("jpoker.table or tourney", function() {
 
 
 test("jpoker.table.poll", function() {
-	expect(8);
+	expect(9);
 	var server = jpoker.serverCreate({ url: 'url' });
 	var table = new jpoker.table(server, {"type": "PacketPokerTable", "id": 101, "betting_structure": "15-30-no-limit"});
+	ok(server.pingFrequency > table.pollFrequency, 'pingFrequency > pollFrequency');
 	equals(table.pollTimer, -1, 'pollTimer not set');
 
 	server.sendPacket = function(packet) {
