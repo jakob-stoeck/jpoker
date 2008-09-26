@@ -5625,7 +5625,19 @@ test("jpoker.plugins.player: hover button", function(){
 	equals(element.hasClass('hover'), true, 'hasClass hover');
 	element.trigger('mouseleave');
 	equals(element.hasClass('hover'), false, '!hasClass hover');
+    });
 
+test("jpoker.plugins.player: text button", function(){
+	expect(5);
+        var id = 'jpoker' + jpoker.serial;
+        var player_serial = 1;
+        var game_id = 100;
+        var money = 1000;
+        _SelfPlayerSit(game_id, player_serial, money);	
+	var element = $('#quit' + id);
+	equals(element.html(), 'Exit', 'exit label');
+	element = $('#rebuy' + id);
+	equals(element.html(), 'Rebuy', 'rebuy label');
     });
 
 test("jpoker.plugins.player: rebuy", function(){

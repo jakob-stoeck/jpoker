@@ -2936,7 +2936,7 @@
 			$(this).addClass('hover');
 		    },function(){
 			$(this).removeClass('hover');
-		    });
+		    }).html(_("Exit"));
             $('#chat' + id).html('<input value=\'chat here\' type=\'text\' width=\'100%\' />').hide();
 	    $('#chat_history' + id).html('<div class=\'jpoker_chat_history_player\'></div><div class=\'jpoker_chat_history_dealer\'></div>');
             jpoker.plugins.playerSelf.hide(id);
@@ -3488,6 +3488,7 @@
 		    },function(){
 			$(this).removeClass('hover');
 		    });
+	    rebuy.html(_("Rebuy"));
             rebuy.show();
 
             //
