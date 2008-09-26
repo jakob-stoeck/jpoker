@@ -1365,3 +1365,140 @@ function jpoker_110_cashier(place) {
 	server.serial = 42;
 	$(place).jpoker('cashier', 'url');
 };
+
+
+function jpoker_120_level_10(place) {
+        setUp();
+        if(explain) {
+            $(place).append('3 players with level 10.');
+            $(place).append('<hr>');
+        }
+
+        var game_id = 100;
+        var player_serial = 200;
+        var packets = [
+{ type: 'PacketPokerTable', id: game_id }
+                       ];
+        var money = 0;
+        var bet = 8;
+        for(var i = 0; i < 3; i++) {
+            packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
+            packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money , bet: bet });
+            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i+1, percentile: 0 });
+        }	
+	packets.push({ type: 'PacketPokerSit', serial: player_serial, game_id: game_id, seat: 0});
+	packets.push({ type: 'PacketPokerSit', serial: player_serial+1, game_id: game_id, seat: 1});
+	packets.push({ type: 'PacketPokerPosition', serial: player_serial, game_id: game_id });
+
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
+};
+
+function jpoker_121_level_40(place) {
+        setUp();
+        if(explain) {
+            $(place).append('3 players with level 40.');
+            $(place).append('<hr>');
+        }
+
+        var game_id = 100;
+        var player_serial = 200;
+        var packets = [
+{ type: 'PacketPokerTable', id: game_id }
+                       ];
+        var money = 0;
+        var bet = 8;
+        for(var i = 0; i < 3; i++) {
+            packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
+            packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money , bet: bet });
+            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i+1, percentile: 40 });
+        }	
+	packets.push({ type: 'PacketPokerSit', serial: player_serial, game_id: game_id, seat: 0});
+	packets.push({ type: 'PacketPokerSit', serial: player_serial+1, game_id: game_id, seat: 1});
+	packets.push({ type: 'PacketPokerPosition', serial: player_serial, game_id: game_id });
+
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
+};
+
+function jpoker_122_level_70(place) {
+        setUp();
+        if(explain) {
+            $(place).append('3 players with level 70.');
+            $(place).append('<hr>');
+        }
+
+        var game_id = 100;
+        var player_serial = 200;
+        var packets = [
+{ type: 'PacketPokerTable', id: game_id }
+                       ];
+        var money = 0;
+        var bet = 8;
+        for(var i = 0; i < 3; i++) {
+            packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
+            packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money , bet: bet });
+            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i+1, percentile: 70 });
+        }	
+	packets.push({ type: 'PacketPokerSit', serial: player_serial, game_id: game_id, seat: 0});
+	packets.push({ type: 'PacketPokerSit', serial: player_serial+1, game_id: game_id, seat: 1});
+	packets.push({ type: 'PacketPokerPosition', serial: player_serial, game_id: game_id });
+
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
+};
+
+function jpoker_123_level_100(place) {
+        setUp();
+        if(explain) {
+            $(place).append('3 players with level 100.');
+            $(place).append('<hr>');
+        }
+
+        var game_id = 100;
+        var player_serial = 200;
+        var packets = [
+{ type: 'PacketPokerTable', id: game_id }
+                       ];
+        var money = 0;
+        var bet = 8;
+        for(var i = 0; i < 3; i++) {
+            packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
+            packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money , bet: bet });
+            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i+1, percentile: 100 });
+        }	
+	packets.push({ type: 'PacketPokerSit', serial: player_serial, game_id: game_id, seat: 0});
+	packets.push({ type: 'PacketPokerSit', serial: player_serial+1, game_id: game_id, seat: 1});
+	packets.push({ type: 'PacketPokerPosition', serial: player_serial, game_id: game_id });
+
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
+};
