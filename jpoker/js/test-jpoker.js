@@ -1698,14 +1698,18 @@ test("jpoker.connection:dequeueIncoming clearTimeout", function(){
     });
 
 test("jpoker.connection:dequeueIncoming setTimeout", function(){
-        expect(2);
+        expect(4);
         var self = new jpoker.connection();
+	equals(self.dequeueFrequency, 100, 'dequeueFrequency default');
 
         var clock = 1;
         jpoker.now = function() { return clock++; };
         var timercalled = false;
         self.clearTimeout = function(id) { };
-        self.setTimeout = function(cb, delay) { timercalled = true; };
+        self.setTimeout = function(cb, delay) {
+	    equals(delay, self.dequeueFrequency, 'setTimeout(dequeueFrequency)');
+	    timercalled = true;
+	};
 
         // will not be deleted to preserve the delay
         self.queues[0] = { 'high': {'packets': [],

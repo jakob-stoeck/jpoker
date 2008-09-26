@@ -503,7 +503,7 @@
             url: '',
             async: true,
             lagmax: 60,
-            pollFrequency: 5000,
+            dequeueFrequency: 100,
             pingFrequency: 5000,
             timeout: 30000,
             clearTimeout: function(id) { return window.clearTimeout(id); },
@@ -759,7 +759,7 @@
                     var $this = this;
                     this.incomingTimer = this.setTimeout(function() {
                             $this.dequeueIncoming(); },
-                        this.pollFrequency);
+                        this.dequeueFrequency);
                 }
             },
 
@@ -816,7 +816,7 @@
                     var $this = this;
                     this.incomingTimer = this.setTimeout(function() {
                             $this.dequeueIncoming(); },
-                        this.pollFrequency);
+                        this.dequeueFrequency);
                 }
             }
 
