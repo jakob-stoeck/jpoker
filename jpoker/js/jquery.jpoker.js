@@ -2941,9 +2941,9 @@
             }
             jpoker.plugins.table.position(id, table, table.serial_in_position);
 	    jpoker.plugins.table.timeout(id, table, table.serial_in_position, 0.0);
-            if($('#jpokerSound').size() === 0) {
-                $('body').prepend('<div id=\'jpokerSound\' />');
-            }
+	    if($('#jpokerSound').size() === 0) {
+		$('body').append('<div id=\'jpokerSound\' />');
+	    }
 
 	    var table_info_element = $('#table_info' + id);
 	    $('<div class=\'jpoker_table_info_name\'>').appendTo(table_info_element).html(table.name);
