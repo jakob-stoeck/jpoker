@@ -3454,7 +3454,11 @@
             var names = [ 'check', 'call', 'raise', 'fold' ];
             var labels = [ _("check"), _("call"), _("raise"), _("fold") ];
             for(var i = 0; i < names.length; i++) {
-                $('#' + names[i] + id).html('<div class=\'jpoker_button\'><a href=\'javascript://\'>' + labels[i] + '</a></div>');
+                $('#' + names[i] + id).html('<div class=\'jpoker_button\'><a href=\'javascript://\'>' + labels[i] + '</a></div>').hover(function(){
+			$(this).addClass('hover');
+		    },function(){
+			$(this).removeClass('hover');
+		    });
             }
             //
             // rebuy
@@ -3470,6 +3474,11 @@
                         }
                     }
                 });
+	    rebuy.hover(function(){
+			$(this).addClass('hover');
+		    },function(){
+			$(this).removeClass('hover');
+		    });
             rebuy.show();
 
             //
@@ -3485,7 +3494,11 @@
                         $(this).hide();
                     }
                     return false;
-                });
+                }).hover(function(){
+			$(this).addClass('hover');
+		    },function(){
+			$(this).removeClass('hover');
+		    });;
 
             //
             // sitin
@@ -3503,7 +3516,11 @@
                         $(this).hide();
                     }
                     return false;
-                }).show();
+                }).hover(function(){
+			$(this).addClass('hover');
+		    },function(){
+			$(this).removeClass('hover');
+		    }).show();
 
             //
             // chat
@@ -3534,11 +3551,19 @@
 	    $('#muck_accept' + id).html(jpoker.plugins.muck.templates.muck_accept.supplant({muck_accept_label: _("Muck")})).click(function() {
 		    var server = jpoker.getServer(url);
 		    server.sendPacket({type: 'PacketPokerMuckAccept', serial: server.serial, game_id: table.id});
-		});
+		}).hover(function(){
+			$(this).addClass('hover');
+		    },function(){
+			$(this).removeClass('hover');
+		    });
 	    $('#muck_deny' + id).html(jpoker.plugins.muck.templates.muck_deny.supplant({muck_deny_label: _("Show")})).click(function() {
 		    var server = jpoker.getServer(url);
 		    server.sendPacket({type: 'PacketPokerMuckDeny', serial: server.serial, game_id: table.id});
-		});
+		}).hover(function(){
+			$(this).addClass('hover');
+		    },function(){
+			$(this).removeClass('hover');
+		    });
 
 	    //
 	    // automuck
