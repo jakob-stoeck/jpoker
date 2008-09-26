@@ -2932,7 +2932,11 @@
                                             game_id: game_id });
                             }, 1);
                     }
-                });
+                }).hover(function(){
+			$(this).addClass('hover');
+		    },function(){
+			$(this).removeClass('hover');
+		    });
             $('#chat' + id).html('<input value=\'chat here\' type=\'text\' width=\'100%\' />').hide();
 	    $('#chat_history' + id).html('<div class=\'jpoker_chat_history_player\'></div><div class=\'jpoker_chat_history_dealer\'></div>');
             jpoker.plugins.playerSelf.hide(id);

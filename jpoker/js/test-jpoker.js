@@ -5554,7 +5554,7 @@ test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function()
     });
 
 test("jpoker.plugins.player: hover button", function(){
-	expect(30);
+	expect(33);
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
         var game_id = 100;
@@ -5614,6 +5614,13 @@ test("jpoker.plugins.player: hover button", function(){
 	equals(element.hasClass('hover'), true, 'hasClass hover');
 	element.trigger('mouseleave');
 	equals(element.hasClass('hover'), false, '!hasClass hover');
+	element = $('#quit' + id);
+	equals(element.length, 1, 'element');
+	element.trigger('mouseenter');
+	equals(element.hasClass('hover'), true, 'hasClass hover');
+	element.trigger('mouseleave');
+	equals(element.hasClass('hover'), false, '!hasClass hover');
+
     });
 
 test("jpoker.plugins.player: rebuy", function(){
