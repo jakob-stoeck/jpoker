@@ -5634,10 +5634,10 @@ test("jpoker.plugins.player: text button", function(){
         var game_id = 100;
         var money = 1000;
         _SelfPlayerSit(game_id, player_serial, money);	
-	var element = $('#quit' + id);
-	equals(element.html(), 'Exit', 'exit label');
+	var element = $('#quit' + id);	
+	equals($('div a', element).html(), 'Exit', 'exit label');
 	element = $('#rebuy' + id);
-	equals(element.html(), 'Rebuy', 'rebuy label');
+	equals($('div a', element).html(), 'Rebuy', 'rebuy label');
     });
 
 test("jpoker.plugins.player: rebuy", function(){
