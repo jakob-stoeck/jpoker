@@ -3401,25 +3401,30 @@
 		rank: '<div class=\'jpoker_player_rank\'>{rank}</div>',
 		level: '<div class=\'jpoker_player_level jpoker_player_level_{level}\'></div>'
 	    },
+	    getLevel: function(percentile) {
+		var level;
+		if (percentile >= 75) {
+		    level = 'master';
+		} else if (percentile >= 50) {
+		    level = 'expert';
+		} else if (percentile >= 25) {
+		    level = 'pro';
+		} else {
+		    level = 'junior';
+		}
+		return level
+	    },
 	    getHTML: function(packet) {
 		var html = [];
 		var t = this.templates;
 		html.push(t.rank.supplant({rank: packet.rank}));
-		var level;
-		if (packet.percentile >= 75) {
-		    level = 'master';
-		} else if (packet.percentile >= 50) {
-		    level = 'expert';
-		} else if (packet.percentile >= 25) {
-		    level = 'pro';
-		} else {
-		    level = 'junior';
-		}		
-		html.push(t.level.supplant({level: level}));
+		html.push(t.level.supplant({level: packet.level}));
 		return html.join('\n');
 	    },
 	    update: function(player, packet, id) {
+		packet.level = this.getLevel(packet.percentile);
 		$('#player_seat' + player.seat + '_stats' + id).html(this.getHTML(packet));
+		$('#player_seat' + player.seat + id).addClass('jpoker_player_level_'+packet.level);
 	    }
 	},
 

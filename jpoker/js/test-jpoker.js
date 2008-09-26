@@ -4972,7 +4972,7 @@ test("jpoker.plugins.player: avatar hover default", function(){
     });
 
 test("jpoker.plugins.player: rank and level", function(){
-        expect(9);
+        expect(13);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url', urls : {avatar : 'http://avatar-server/'}});
@@ -4995,6 +4995,7 @@ test("jpoker.plugins.player: rank and level", function(){
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
 	var player = table.serial2player[player_serial];
 	var element = $("#player_seat2_stats"+id);
+	var seat_element = $("#player_seat2"+id);
 	ok(element.hasClass('jpoker_player_stats'), 'player stats seat class');
 	ok(element.hasClass('jpoker_ptable_player_seat2_stats'), 'player stats seat class');
 	table.handler(server, game_id, {type: 'PacketPokerPlayerStats', serial: player_serial, rank: 1, percentile: 0, game_id: game_id});
@@ -5002,12 +5003,16 @@ test("jpoker.plugins.player: rank and level", function(){
 	equals($('.jpoker_player_level', element).length, 1, 'player level');	
 	equals($('.jpoker_player_rank', element).html(), 1, 'player rank 100');
 	ok($('.jpoker_player_level', element).hasClass('jpoker_player_level_junior'), 'player level junior');
+	ok(seat_element.hasClass('jpoker_player_level_junior'), 'player level junior');
 	table.handler(server, game_id, {type: 'PacketPokerPlayerStats', serial: player_serial, rank: 1, percentile: 25, game_id: game_id});
 	ok($('.jpoker_player_level', element).hasClass('jpoker_player_level_pro'), 'player level pro');
+	ok(seat_element.hasClass('jpoker_player_level_pro'), 'player level pro');
 	table.handler(server, game_id, {type: 'PacketPokerPlayerStats', serial: player_serial, rank: 1, percentile: 50, game_id: game_id});
 	ok($('.jpoker_player_level', element).hasClass('jpoker_player_level_expert'), 'player level expert');
+	ok(seat_element.hasClass('jpoker_player_level_expert'), 'player level expert');
 	table.handler(server, game_id, {type: 'PacketPokerPlayerStats', serial: player_serial, rank: 1, percentile: 75, game_id: game_id});
 	ok($('.jpoker_player_level', element).hasClass('jpoker_player_level_master'), 'player level master');
+	ok(seat_element.hasClass('jpoker_player_level_master'), 'player level master');
 	start_and_cleanup();
      });
 
