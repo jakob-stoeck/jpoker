@@ -213,6 +213,15 @@
     cursor: pointer;
 }
 
+.jpoker_table .jpoker_raise_bound, .jpoker_table .jpoker_raise_current {
+    display: inline;
+}
+
+.jpoker_table .ui-slider-1 {
+    margin: 10px;
+    width: 70px;
+}
+
 .jpoker_table .jpoker_raise_input {
     width: 100%;
     height: 1.5em;
