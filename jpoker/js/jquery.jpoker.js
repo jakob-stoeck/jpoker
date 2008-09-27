@@ -102,10 +102,12 @@
             if(message.size() != 1) {
                 $('body').append('<div id=\'jpokerDialog\' class=\'jpoker_jquery_ui\' title=\'jpoker message\' />');
                 message = $('#jpokerDialog');
-                message.dialog({
-                        autoOpen: false,
-                            dialog: true
-                            });
+                var options = { width: 'none', height: 'none', autoOpen: false, dialog: true };
+                if($.browser.msie) {
+                    options.containerWidth = '300px';
+                    options.containerHeight = '200px';
+                }
+                message.dialog(options);
             }
             message.html(content).dialog('open');
         },
@@ -3624,7 +3626,16 @@
             if(rebuy.size() === 0) {
                 $('body').append('<div id=\'jpokerRebuy\' class=\'jpoker_jquery_ui\' title=\'' + _("Add chips") + '\' />');
                 rebuy = $('#jpokerRebuy');
-                rebuy.dialog({ autoOpen: false, resizable: false });
+                var options = { width: 'none', height: 'none', autoOpen: false, resizable: false };
+                if($.browser.msie) {
+                    /* 
+                     *  On IE, the widget container width and height needs to be set explicitly
+                     *  if the widget width/height is being set as 'none'
+                     */
+                    options.containerWidth = '300px';
+                    options.containerHeight = '200px';
+                }
+                rebuy.dialog(options);
             }
             rebuy.empty();
             rebuy.append('<div class=\'jpoker_rebuy_bound jpoker_rebuy_min\'>' + limits[0] + '</div>');
