@@ -3767,7 +3767,7 @@
                     raise.append('<span class=\'jpoker_raise_bound jpoker_raise_min\'>' + jpoker.chips.SHORT(betLimit.min) + '</span> ');
                     raise.append('<span class=\'jpoker_raise_current\' title=\'' + betLimit.min + '\'>' + jpoker.chips.SHORT(betLimit.min) + '</span> ');
                     raise.append('<span class=\'jpoker_raise_bound jpoker_raise_max\'>' + jpoker.chips.SHORT(betLimit.max) + '</span> ');
-                    raise.append('<div class=\'ui-slider-1\' style=\'margin:10px; width:70px; \'><div class=\'ui-slider-handle\'></div></div>');
+                    raise.append('<div class=\'ui-slider-1\'><div class=\'ui-slider-handle\'></div></div>');
                     raise.show(); // must be visible otherwise outerWeight/outerWidth returns 0
 
 		    var raise_input = $('#raise_input' + id);
