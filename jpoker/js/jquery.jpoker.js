@@ -3639,7 +3639,7 @@
             }
             rebuy.empty();
             rebuy.append('<div class=\'jpoker_rebuy_bound jpoker_rebuy_min\'>' + limits[0] + '</div>');
-            rebuy.append('<div class=\'ui-slider-1\' style=\'margin:10px;\'><div class=\'ui-slider-handle\'></div></div>');
+            rebuy.append('<div class=\'ui-slider-1\'><div class=\'ui-slider-handle\'></div></div>');
             rebuy.append('<div class=\'jpoker_rebuy_current\'>' + limits[1] + '</div>');
             rebuy.append('<div class=\'jpoker_rebuy_bound jpoker_rebuy_max\'>' + limits[2] + '</div>');
             var packet_type;

@@ -294,6 +294,11 @@
     width: 300px;
 }
 
+#jpokerRebuy .ui-slider-1
+{
+    margin: 10px;
+}
+
 #jpokerDialog
 {
     height: 150px;
