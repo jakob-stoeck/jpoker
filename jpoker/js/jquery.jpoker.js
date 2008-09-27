@@ -49,6 +49,8 @@
 
         verbose: 0,
 
+        doReconnect: true,
+
         copyrightTimeout: 5000,
 
         copyright: function() {
@@ -862,7 +864,7 @@
 		++jpoker_serial;
 		$.cookie(jpoker_serial_cookie, jpoker_serial);
                 this.registerHandler(0, this.handler);
-                if(this.sessionExists() || this.protocol() == 'file:') {
+                if(jpoker.doReconnect && (this.sessionExists() || this.protocol() == 'file:')) {
                     this.reconnect();
                 }
             },
