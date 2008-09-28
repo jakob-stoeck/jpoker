@@ -3584,7 +3584,7 @@
 	    //
 	    $('#auto_muck' + id).html(jpoker.plugins.muck.templates.auto_muck.supplant({id: id,
 			    auto_muck_win_label: _("Muck winning"),
-			    auto_muck_lose_label: _("Muck loosing")}));
+			    auto_muck_lose_label: _("Muck losing")}));
 	    $('#auto_muck_win' + id).click(function() {
 		    var server = jpoker.getServer(url);
 		    jpoker.plugins.muck.sendAutoMuck(server, game_id, id);
