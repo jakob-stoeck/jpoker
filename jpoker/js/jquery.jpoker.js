@@ -2501,25 +2501,27 @@
 			'goto_table': _("Go to table")
 		    }));
 	    $.each(packet.table2serials, function(table, players) {
-		    var row = {
-			id: table,
-			table: table.substr(1),
-			players: players.length,
-			min_money: "",
-			max_money: ""};
-		    var moneys = $.map(players, function(player) {
-			    return packet.user2properties['X'+player.toString()].money;
-			}).sort();
-		    if (moneys.length >= 2) {
-			row.min_money = moneys[0];
-			row.max_money = moneys[moneys.length - 1];
+		    if (table != '-1') {
+			var row = {
+			    id: table,
+			    table: table.substr(1),
+			    players: players.length,
+			    min_money: "",
+			    max_money: ""};
+			var moneys = $.map(players, function(player) {
+				return packet.user2properties['X'+player.toString()].money;
+			    }).sort();
+			if (moneys.length >= 2) {
+			    row.min_money = moneys[0];
+			    row.max_money = moneys[moneys.length - 1];
+			}
+			if (link_pattern === undefined) {
+			    row.goto_table = t.tables.goto_table_button.supplant({'goto_table_label': _("Go to table")});
+			} else {
+			    row.goto_table = t.tables.goto_table_link.supplant({'goto_table_label': _("Go to table"), 'link': link_pattern.supplant({game_id: table.substr(1)})});
+			}
+			html.push(t.tables.rows.supplant(row));
 		    }
-		    if (link_pattern === undefined) {
-			row.goto_table = t.tables.goto_table_button.supplant({'goto_table_label': _("Go to table")});
-		    } else {
-			row.goto_table = t.tables.goto_table_link.supplant({'goto_table_label': _("Go to table"), 'link': link_pattern.supplant({game_id: table.substr(1)})});
-		    }
-		    html.push(t.tables.rows.supplant(row));
 		});
 	    html.push(t.tables.footer);
 	}	
