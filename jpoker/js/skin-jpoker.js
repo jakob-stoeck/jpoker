@@ -249,6 +249,13 @@ function jpoker_05_selfPlayer(place) {
         var packets = [
 { type: 'PacketSerial', serial: player_serial },
 { type: 'PacketPokerTable', id: game_id},
+{ type: 'PacketPokerBuyInLimits',
+game_id: game_id,
+min:   500,
+max: 20000,
+best:  1000,
+rebuy_min: 1000,
+},
 { type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'myself' },
 { type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, money: 0, bet: 0 },
                        ];
@@ -258,6 +265,7 @@ function jpoker_05_selfPlayer(place) {
         };
 
         var server = $.jpoker.getServer('url');
+	server.bankroll = function() { return 1000; };
         server.spawnTable = function(server, packet) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
