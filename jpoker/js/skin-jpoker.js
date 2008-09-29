@@ -75,6 +75,8 @@ ActiveXObject.prototype = {
 
 explain = true;
 
+$.jpoker.doReconnect = false;
+
 function setUp() {
     $.jpoker.verbose = 1;
 
