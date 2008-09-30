@@ -3919,7 +3919,7 @@ test("jpoker.plugins.tourneyPlaceholder", function(){
                     return true;
                 } else {
                     equals(server.callbacks.update.length, 2, 'tourneyPlaceholder and test update registered');
-                    equals('tourneyDetails' in server.timers, true, 'timer active');
+                    equals('tourneyDetails' in server.timers, false, 'timer active');
 		    start_and_cleanup();
                     return false;
                 }

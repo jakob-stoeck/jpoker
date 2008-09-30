@@ -2617,6 +2617,7 @@
                         }
                         return true;
                     } else {
+			server.stopRefresh('tourneyDetails');
                         return false;
                     }
                 };
