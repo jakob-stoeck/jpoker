@@ -197,6 +197,7 @@ function jpoker_03_playerBet(place) {
             money *= 10;
             bet *= 10;
         }
+	packets.push({ type: 'PacketPokerDealer', dealer: 0, game_id: game_id });
 
         ActiveXObject.prototype.server = {
             outgoing: JSON.stringify(packets),
