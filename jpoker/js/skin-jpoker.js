@@ -127,6 +127,7 @@ function jpoker_02_join(place) {
         var packets = [
 {"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 100, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 4, "waiting": 0, "skin": "default", "id": game_id, "type": "PacketPokerTable", "player_timeout": 60},
 { type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'verylongusername' },
+{ type: 'PacketPokerPlayerStats', serial: player_serial, game_id: game_id, rank: 1, percentile: 10 }
                        ];
         ActiveXObject.prototype.server = {
             outgoing: JSON.stringify(packets),
@@ -155,6 +156,7 @@ function jpoker_03_joinBuyIn(place) {
         var money = 2;
         for(var i = 0; i < 10; i++) {
             packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
+            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i + 1, percentile: i*10 });
             packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money, bet: 0 });
             money *= 10;
         }
@@ -174,7 +176,7 @@ function jpoker_03_joinBuyIn(place) {
 function jpoker_03_playerBet(place) {
         setUp();
         if(explain) {
-            $(place).append('A player is sit, with money at the table and a bet.');
+            $(place).append('A player is sit, with money at the table, cards, and a bet.');
             $(place).append('<hr>');
         }
 
@@ -187,7 +189,9 @@ function jpoker_03_playerBet(place) {
         var bet = 80000;
         for(var i = 0; i < 10; i++) {
             packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
+            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i + 1, percentile: i*10 });
             packets.push({ type: 'PacketPokerSit', serial: player_serial + i, game_id: game_id });
+	    packets.push({ type: 'PacketPokerPlayerCards', serial: player_serial + i, game_id: game_id, cards: [255,255]});
             packets.push({ type: 'PacketPokerRaise', serial: player_serial + i, game_id: game_id });
             packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money, bet: bet });
             money *= 10;
@@ -221,7 +225,9 @@ function jpoker_04_playerInPosition(place) {
         var money = 2;
         for(var i = 0; i < 10; i++) {
             packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
+	    packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i + 1, percentile: i*10 });
             packets.push({ type: 'PacketPokerSit', serial: player_serial + i, game_id: game_id });
+	    packets.push({ type: 'PacketPokerPlayerCards', serial: player_serial + i, game_id: game_id, cards: [255,255]});
             packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money, bet: 0 });
             money *= 10;
         }
@@ -259,6 +265,7 @@ best:  1000,
 rebuy_min: 1000,
 },
 { type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'myself' },
+{ type: 'PacketPokerPlayerStats', serial:player_serial, game_id: game_id, rank: 1, percentile: 10 },
 { type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, money: 0, bet: 0 },
                        ];
         ActiveXObject.prototype.server = {
@@ -287,8 +294,10 @@ function jpoker_06_selfInPosition(place) {
 { type: 'PacketSerial', serial: player_serial },
 { type: 'PacketPokerTable', id: game_id },
 { type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'myself' },
+{ type: 'PacketPokerPlayerStats', serial:player_serial, game_id: game_id, rank: 1, percentile: 10 },
 { type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, money: 1000000, bet: 0 },
 { type: 'PacketPokerSit', serial: player_serial, game_id: game_id },
+{ type: 'PacketPokerPlayerCards', serial: player_serial, game_id: game_id, cards: [32, 33]},
 { type: 'PacketPokerBetLimit',
                        game_id: game_id,
                        min:   500,
