@@ -61,7 +61,7 @@ class SVGParse(ContentHandler):
 
 class SVG2HTML(SVGParse):
     def startElementSvg(self, attrs):
-        self.formats.append('<html><head></head><body><div id="%s" class="jpoker_ptable">')
+        self.formats.append('<html><head></head><body><div id="%s" class="jpoker_ptable jpoker_table">')
         self.tuples.append((attrs['id'],))
     def startElementImage(self, attrs):
         self.formats.append('<div id="%s" class="jpoker_ptable_%s"></div>')
@@ -78,7 +78,7 @@ class SVG2HTML(SVGParse):
 
 class SVG2JSON(SVGParse):
     def startElementSvg(self, attrs):
-        self.formats.append("<div id=\\'%s{id}\\' class=\\'jpoker_ptable\\'>")
+        self.formats.append("<div id=\\'%s{id}\\' class=\\'jpoker_ptable jpoker_table\\'>")
         self.tuples.append((attrs["id"],))
     def startElementImage(self, attrs):
         self.formats.append("<div id=\\'%s{id}\\' class=\\'jpoker_ptable_%s\\'></div>")
@@ -96,14 +96,36 @@ class SVG2JSON(SVGParse):
 class SVG2CSS(SVGParse):
     ignore = [ '../css/images/jpoker_table/money.png',
                '../css/images/jpoker_table/winner.png',
-               '../css/images/jpoker_table/name.png' ]
+               '../css/images/jpoker_table/name.png',
+               '../css/images/jpoker_table/winning_hand.png',
+               '../css/images/jpoker_table/timeout_bar.png',
+               '../css/images/jpoker_table/raise_amount.png',
+               '../css/images/jpoker_table/timeout_bar.png',
+               '../css/images/jpoker_table/chat_input.png',
+               '../css/images/jpoker_table/chat_log.png',
+               '../css/images/jpoker_table/muck_options.png'
+               ]
+    transforms = []
     def startElementSvg(self, attrs):
         self.root = attrs['id']
-        format = '.jpoker_table .jpoker_ptable { width:800px; height:782px; position:relative; background-image:url("images/jpoker_table/table_background.png"); }\n'
+        format = '.jpoker_table .jpoker_ptable { width:%spx; height:%spx; position:relative; background-image:url("images/jpoker_table/table_background.png"); }\n'
         self.formats.append(format)
-        self.tuples.append(())
+        self.tuples.append((attrs['width'], attrs['height']))
+    def startElementGroup(self, attrs):
+        tx, ty = 0, 0
+        if attrs.has_key('transform'):
+            tx, ty = map(float, re.match('translate\((-?\d+\.?\d*.*),\s*(-?\d+\.?\d*.*)\)', attrs['transform']).groups())
+        self.transforms.append((tx, ty))
+    def endElementGroup(self, name):
+        self.transforms.pop()
     def startElementImage(self, attrs):
-        values = [ attrs['id'], attrs['width'], attrs['height'], attrs['y'], attrs['x'] ]
+        tx, ty = 0, 0
+        if attrs.has_key('transform'):
+            tx, ty = map(float, re.match('translate\((-?\d+\.?\d*.*),\s*(-?\d+\.?\d*.*)\)', attrs['transform']).groups())
+        for gx, gy in self.transforms:
+            tx += gx
+            ty += gy
+        values = [ attrs['id'], attrs['width'], attrs['height'], str(int(float(attrs['y'])+ty)), str(int(float(attrs['x'])+tx)) ]
         if attrs['xlink:href'] not in SVG2CSS.ignore:
             image_format = 'background-image:url("%s");'
             values.append(str(attrs['xlink:href']).replace('../css/', ''))
