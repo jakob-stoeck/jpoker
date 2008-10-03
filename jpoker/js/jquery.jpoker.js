@@ -1535,6 +1535,7 @@
                     server.setState(server.RUNNING, 'PacketPokerStreamMode');
                     break;
 
+                case 'PacketPokerTableMove':
                 case 'PacketPokerTableDestroy':
                     table.uninit();
                     delete server.tables[game_id];
@@ -2440,9 +2441,10 @@
         var html = [];
 
 	html.push(t.info.supplant({
+                    'state': packet.tourney.state,
 		        'registered' : _("{registered} players registered."),
 			'players_quota' : _("{players_quota} players max.")
-			    }).supplant(packet.tourney));
+                        }).supplant(packet.tourney));
 	
 	var player_state_template = t.players[packet.tourney.state];
 	if (player_state_template) {
@@ -2547,7 +2549,7 @@
     };
 
     jpoker.plugins.tourneyDetails.templates = {
-	info: '<div class=\'jpoker_tourney_details_info\'><div class=\'jpoker_tourney_details_info_description\'>{description_long}</div><div class=\'jpoker_tourney_details_info_registered\'>{registered}</div><div class=\'jpoker_tourney_details_info_players_quota\'>{players_quota}</div></div>',
+	info: '<div class=\'jpoker_tourney_details_info jpoker_tourney_details_{state}\'><div class=\'jpoker_tourney_details_info_description\'>{description_long}</div><div class=\'jpoker_tourney_details_info_registered\'>{registered}</div><div class=\'jpoker_tourney_details_info_players_quota\'>{players_quota}</div></div>',
 	players : {
 	    registering : {
 		header : '<table><thead><tr><th>{name}</th></tr></thead><tbody>',
