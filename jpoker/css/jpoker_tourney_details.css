@@ -4,7 +4,7 @@
 	width:750px;
 	margin:0 auto;
 	font-size:14px;
-	overflow: auto;
+	*overflow: auto;
 }
 
 .jpoker_tourney_details .jpoker_tourney_name {
@@ -66,7 +66,7 @@ table caption {
 }
 
 table {
-	*border-collapse:collapse;
+	border-collapse:collapse;
 }
 
 table th {

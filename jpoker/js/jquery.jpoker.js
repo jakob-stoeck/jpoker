@@ -2558,17 +2558,17 @@
 	info: '<div class=\'jpoker_tourney_details_info jpoker_tourney_details_{state}\'><div class=\'jpoker_tourney_details_info_description\'>{description_long}</div><div class=\'jpoker_tourney_details_info_registered\'>{registered}</div><div class=\'jpoker_tourney_details_info_players_quota\'>{players_quota}</div></div>',
 	players : {
 	    registering : {
-		header : '<table><caption>{caption}</caption><thead><tr><th>{name}</th></tr></thead><tbody>',
+		header : '<table><thead><tr class=\'jpoker_thead_caption\'><th>{caption}</th></tr><tr><th>{name}</th></tr></thead><tbody>',
 		rows : '<tr><td>{name}</td></tr>',
 		footer : '</tbody></table>'
 	    },
 	    running : {
-		header : '<table><caption>{caption}</caption><thead><tr><th>{name}</th><th>{money}</th><th>{rank}</th></tr></thead><tbody>',
+		header : '<table><thead><tr class=\'jpoker_thead_caption\'><th colspan=\'3\'>{caption}</th></tr><tr><th>{name}</th><th>{money}</th><th>{rank}</th></tr></thead><tbody>',
 		rows : '<tr><td>{name}</td><td>{money}</td><td>{rank}</td></tr>',
 		footer : '</tbody></table>'
 	    },
 	    complete : {
-		header : '<table><caption>{caption}</caption><thead><tr><th>{name}</th><th>{rank}</th></tr></thead><tbody>',
+		header : '<table><thead><tr class=\'jpoker_thead_caption\'><th colspan=\'2\'>{caption}</th></tr><tr><th>{name}</th><th>{rank}</th></tr></thead><tbody>',
 		rows : '<tr><td>{name}</td><td>{rank}</td></tr>',
 		footer : '</tbody></table>'
 	    },
@@ -2579,19 +2579,19 @@
 	    footer: '</div>'
 	},
 	tables : {
-	    header : '<div class=\'jpoker_tourney_details_tables\'><table><caption>{caption}</caption><thead><tr><th>{table}</th><th>{players}</th><th>{max_money}</th><th>{min_money}</th><th>{goto_table}</th></tr></thead><tbody>',
+	    header : '<div class=\'jpoker_tourney_details_tables\'><table><thead><tr class=\'jpoker_thead_caption\'><th colspan=\'5\'>{caption}</th></tr><tr><th>{table}</th><th>{players}</th><th>{max_money}</th><th>{min_money}</th><th>{goto_table}</th></tr></thead><tbody>',
 	    rows : '<tr id=\'{id}\' class=\'jpoker_tourney_details_table\' title=\'' + _("Click to show table details") + '\'><td>{table}</td><td>{players}</td><td>{max_money}</td><td>{min_money}</td><td>{goto_table}</td></tr>',
 	    footer : '</tbody></table></div>',
 	    goto_table_button: '<input class=\'jpoker_tourney_details_tables_goto_table\' type=\'submit\' value=\'{goto_table_label}\'></input>',
 	    goto_table_link: '<a class=\'jpoker_tourney_details_tables_goto_table\' href=\'{link}\'>{goto_table_label}</a>'
 	},
 	table_players : {
-	    header : '<div class=\'jpoker_tourney_details_table_players\'><table><caption>{caption}</caption><thead><tr><th>{player}</th><th>{money}</th></tr></thead><tbody>',
+	    header : '<div class=\'jpoker_tourney_details_table_players\'><table><thead><tr class=\'jpoker_thead_caption\'><th colspan=\'2\'>{caption}</th></tr><tr><th>{player}</th><th>{money}</th></tr></thead><tbody>',
 	    rows : '<tr><td>{name}</td><td>{money}</td></tr>',
 	    footer : '</tbody></table></div>'
 	},
 	prizes : {
-	    header : '<div class=\'jpoker_tourney_details_prizes\'><table><caption>{caption}</caption><thead><tr><th>{rank}</th><th>{prize}</th></tr></thead><tbody>',
+	    header : '<div class=\'jpoker_tourney_details_prizes\'><table><thead><tr class=\'jpoker_thead_caption\'><th colspan=\'2\'>{caption}</th></tr><tr><th>{rank}</th><th>{prize}</th></tr></thead><tbody>',
 	    rows : '<tr><td>{rank}</td><td>{prize}</td></tr>',
 	    footer : '</tbody></table></div>'
 	},
