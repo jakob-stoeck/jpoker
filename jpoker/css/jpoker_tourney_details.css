@@ -7,6 +7,7 @@
 }
 
 
+/*
 .jpoker_tourney_details_info_description {
 	background : #009E03;
 	color : #fff;
@@ -14,16 +15,20 @@
 	font-weight: bold;
 	padding: 5px;
 }
+*/
 
 .jpoker_tourney_details {
 	font-family : "trebuchet MS",arial,helvetica,sans-serif;
 	position : relative;
 	width:800px;
 	margin:0 auto;
+	border:4px solid #009E03;
+	
 }
 
 .jpoker_tourney_details_info {
 	width:450px;
+	background:#CCFFBF;
 }
 
 .jpoker_tourney_details_players{
