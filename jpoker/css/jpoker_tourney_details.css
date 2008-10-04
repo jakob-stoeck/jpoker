@@ -106,3 +106,14 @@
 	color:#fff;
 	background:#17691C;
 }
+
+input.jpoker_tourney_details_tables_goto_table {
+	background:#009E03;
+	border: 1px solid #17691C;
+	color:#fff;
+	cursor:pointer;
+}
+
+input.jpoker_tourney_details_tables_goto_table:hover{
+	background: #17691C;
+}
