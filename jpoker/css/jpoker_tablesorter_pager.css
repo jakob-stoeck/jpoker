@@ -16,3 +16,8 @@ ul.pagelinks {
 .pager {
 	text-align:center;
 }
+
+.pager ul {
+	margin:0;
+	line-height: 30px;
+}

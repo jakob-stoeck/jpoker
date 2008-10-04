@@ -119,6 +119,14 @@
 	color:#fff;
 }
 
+.jpoker_tourney_details .pager {
+	background: #CCFFBF;
+	margin-left:-1px;
+	border: 1px solid #92CF81;
+	border-top:none;
+	border-bottom:none;
+}
+
 .jpoker_tourney_details .pager a {
 	color:#17691C;
 }
