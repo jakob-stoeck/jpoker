@@ -5,3 +5,17 @@
 	background:#73BF60;
 	color:#fff;
 }
+
+
+.jpoker_tourney_details_info_description {
+	background : #009E03;
+	color : #fff;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 5px;
+}
+
+.jpoker_tourney_details {
+	font-family : "trebuchet MS",arial,helvetica,sans-serif;
+	position : relative;
+}
