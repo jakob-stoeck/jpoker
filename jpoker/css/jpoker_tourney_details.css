@@ -4,7 +4,10 @@
 	width:740px;
 	margin:0 auto;
 	font-size:14px;
-	*overflow: auto;
+	overflow: auto;
+	background: #eee;
+	border:1px solid #ccc;
+	padding: 0 15px 15px;
 }
 
 .jpoker_tourney_details .jpoker_tourney_name {
@@ -107,13 +110,21 @@
 	background:#17691C;
 }
 
-input.jpoker_tourney_details_tables_goto_table {
+input.jpoker_tourney_details_tables_goto_table, a.jpoker_tourney_details_tables_goto_table {
 	background:#009E03;
 	border: 1px solid #17691C;
 	color:#fff;
 	cursor:pointer;
 }
 
-input.jpoker_tourney_details_tables_goto_table:hover{
+input.jpoker_tourney_details_tables_goto_table:hover, a.jpoker_tourney_details_tables_goto_table:hover{
 	background: #17691C;
+}
+
+a.jpoker_tourney_details_tables_goto_table {
+	text-decoration:none;
+	border-bottom:none;
+	margin:5px 0;
+	padding:0 5px;
+	border:none;
 }
