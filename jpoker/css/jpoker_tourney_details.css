@@ -18,4 +18,15 @@
 .jpoker_tourney_details {
 	font-family : "trebuchet MS",arial,helvetica,sans-serif;
 	position : relative;
+	width:800px;
+	margin:0 auto;
+}
+
+.jpoker_tourney_details_info {
+	width:450px;
+}
+
+.jpoker_tourney_details_players{
+	width:300px;
+	float:right;
 }
