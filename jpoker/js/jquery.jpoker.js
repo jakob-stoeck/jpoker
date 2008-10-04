@@ -2552,7 +2552,7 @@
     };
 
     jpoker.plugins.tourneyDetails.templates = {
-	info: '<div class=\'jpoker_tourney_details_info jpoker_tourney_details_{state}\'><div class=\'jpoker_tourney_details_info_description\'>{description_long}</div><div class=\'jpoker_tourney_details_info_registered\'>{registered}</div><div class=\'jpoker_tourney_details_info_players_quota\'>{players_quota}</div></div>',
+	info: '<div class=\'jpoker_tourney_details_info jpoker_tourney_details_{state}\'><div>{name}</div><div class=\'jpoker_tourney_details_info_description\'>{description_long}</div><div class=\'jpoker_tourney_details_info_registered\'>{registered}</div><div class=\'jpoker_tourney_details_info_players_quota\'>{players_quota}</div></div>',
 	players : {
 	    registering : {
 		header : '<table><caption>{caption}</caption><thead><tr><th>{name}</th></tr></thead><tbody>',
