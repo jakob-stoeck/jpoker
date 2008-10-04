@@ -2434,7 +2434,7 @@
 
     jpoker.plugins.tourneyDetails.defaults = $.extend(jpoker.defaults,
 						      jpoker.refresh.defaults,
-						      {delay: 5000});
+						      {delay: 500000000000});
 
     jpoker.plugins.tourneyDetails.getHTML = function(id, packet, logged, registered, link_pattern) {
         var t = this.templates;
