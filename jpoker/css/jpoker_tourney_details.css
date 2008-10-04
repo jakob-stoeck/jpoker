@@ -129,6 +129,7 @@
 
 .jpoker_tourney_details .pager a {
 	color:#17691C;
+	text-decoration:none;
 }
 
 .jpoker_tourney_details .pager a:hover {
