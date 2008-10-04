@@ -62,6 +62,18 @@
 	border-collapse:collapse;
 } 
 
+.jpoker_tourney_details table thead tr {
+	border: 1px solid #17691C;
+	border-top:0;
+	border-bottom:0;
+}
+
+.jpoker_tourney_details table thead tr.jpoker_thead_caption {
+	border: 1px solid #009E03;
+	border-top:0;
+	border-bottom:0;
+}
+
 .jpoker_tourney_details table tr.jpoker_thead_caption th {
 	background: #009E03;
 	color: #fff;
