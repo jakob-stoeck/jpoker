@@ -2441,7 +2441,6 @@
         var html = [];
 
 	html.push(t.info.supplant({
-                    'state': packet.tourney.state,
 		        'registered' : _("{registered} players registered."),
 			'players_quota' : _("{players_quota} players max.")
                         }).supplant(packet.tourney));

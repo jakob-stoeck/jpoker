@@ -1135,6 +1135,8 @@ function jpoker_80_tourneyDetailsRegistering(place) {
         };
         ActiveXObject.prototype.server = new PokerServer();
 
+        var server = $.jpoker.getServer('url');
+        server.serial = 10;
         $(place).jpoker('tourneyDetails', 'url', tourney_serial.toString());
 };
 
