@@ -2118,8 +2118,8 @@
         footer : '</tbody></table>',
 	link: '<a href=\'{link}\'>{name}</a>',
 	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
-	next_label: '{next_label} >>>',
-	previous_label: '<<< {previous_label}'
+	next_label: '>>>',
+	previous_label: '<<<'
     };
 
     //
@@ -2574,8 +2574,8 @@
 	    },
 	    header: '<div class=\'jpoker_tourney_details_players\'>',
 	    pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
-	    next_label: '{next_label} >>>',
-	    previous_label: '<<< {previous_label}',
+	    next_label: '>>>',
+	    previous_label: '<<<',
 	    footer: '</div>'
 	},
 	tables : {

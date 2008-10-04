@@ -1,5 +1,9 @@
+ul.pagelinks {
+	padding-left:5px;
+}
+
 .pager .pagelinks .current {
-    font-size: 1.4em;
+    font-weight:bold;
 }
 .pager .pagelinks li {
     display: inline;
@@ -7,4 +11,8 @@
 }
 .pager .pagesize {
     display: none;
+}
+
+.pager {
+	text-align:center;
 }
