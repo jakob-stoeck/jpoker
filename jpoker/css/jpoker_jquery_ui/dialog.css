@@ -4,6 +4,7 @@
 .jpoker_jquery_ui .ui-dialog,
 .jpoker_jquery_ui.ui-dialog {
 	background-color: #e6f7d4;
+	border:1px solid #AAAAAA;
 }
 
 .jpoker_jquery_ui .ui-dialog .ui-dialog-titlebar,
