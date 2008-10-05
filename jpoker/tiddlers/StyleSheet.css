@@ -30,9 +30,11 @@ body #contentWrapper {
 
 #pokLogin {
 	float:right;
+/*
 	padding:10px;
 	background:[[ColorPalette::TertiaryPale]];
 	border: 1px solid [[ColorPalette::TertiaryLight]];
+*/
 }
 
 #headerTitle{
