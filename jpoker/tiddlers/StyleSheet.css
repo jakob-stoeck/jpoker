@@ -220,6 +220,7 @@ h2,h3 {
       border-bottom:1px solid [[ColorPalette::PrimaryMid]];
 }
 
+/*
 .viewer table, table.twtable {
 	border:2px solid [[ColorPalette::PrimaryDark]];
 }
@@ -231,6 +232,7 @@ h2,h3 {
 .viewer td, .viewer tr, .twtable td, .twtable tr {
 	border:1px solid [[ColorPalette::PrimaryDark]];
 }
+*/
 
 .viewer .tab {
 	padding:1px;
@@ -262,6 +264,7 @@ h2,h3 {
 	width:13.5em;
 }
 
+/*
 td.login_text{
 	padding:5px 5px;
 	text-align:left;
@@ -278,6 +281,7 @@ td.login_input input {
 	font-size:15px;
 	padding:8px;
 }
+*/
 
 .editor input, .editor textarea {
 	width:99%;
@@ -326,4 +330,17 @@ ul.suckerfish li ul {z-index:999;}
 
 #menu ul.suckerfish li {
 	border-left: 1px solid #17691C;
+}
+
+
+
+
+.viewer .jpoker_tourney_details table, .jpoker_tourney_details table.twtable,
+.viewer .jpoker_tourney_details table th, .jpoker_tourney_details table.twtable th,
+.viewer .jpoker_tourney_details table thead td, .jpoker_tourney_details table.twtable thead td {
+	border:none;
+}
+
+.viewer .jpoker_tourney_details table, .jpoker_tourney_details table.twtable {
+	margin:0;
 }
