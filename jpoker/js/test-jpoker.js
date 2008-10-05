@@ -3136,7 +3136,8 @@ test("jpoker.plugins.tourneyDetails", function(){
                 var element = $("#" + id);
                 if(element.length > 0) {
                     var tr = $("#" + id + " .jpoker_tourney_details_players tr", place);
-                    equals(tr.length, players_count+1, 'tourneyDetails players_count');
+                    // +2 because 1 caption, 2 title
+                    equals(tr.length, players_count+2, 'tourneyDetails players_count');
 		    var input = $("#" + id + " .jpoker_tourney_details_register input");
 		    equals(input.length, 0, 'no tourneyDetails register button');
                     $("#" + id).remove();
