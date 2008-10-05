@@ -3232,9 +3232,9 @@ test("jpoker.plugins.tourneyDetails pager", function(){
                 if(element.length > 0) {
 		    equals($('.pager', element).length, 1, 'has pager');
 		    equals($('.pager .current', element).length, 1, 'has current page');
-		    ok($('.pager li:last', element).html().indexOf("Next page") >= 0, 'has next page');
+		    ok($('.pager li:last', element).html().indexOf(">>") >= 0, 'has next page');
 		    $('.pager li:last a', element).click();
-		    ok($('.pager li:first', element).html().indexOf("Previous page") >= 0, 'has previous page');
+		    ok($('.pager li:first', element).html().indexOf("<<") >= 0, 'has previous page');
                     $("#" + id).remove();
                     return true;
                 } else {

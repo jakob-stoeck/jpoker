@@ -8,24 +8,26 @@
 	background:#eee;
 	border:1px solid #ccc;
 	padding:10px;
+	float:right;
 }
 
 .jpoker_login_submit, .jpoker_login_signup{
 	width: 100%;
-	cursor: hand;
+	cursor: pointer;
 }
 
  .jpoker_logout {
  	font-weight: bold;
 }
 
-.jpoker_logout a, .jpoker_layout a:hover{
+.jpoker_logout a, .jpoker_logout a:hover{
 	background: transparent;
 	color: #009E03;
 	text-decoration:none;
 	border-bottom:0;
 }
 
+/*
 td.login_text{
 	padding:5px 5px;
 	text-align:left;
@@ -35,3 +37,4 @@ td.login_input input {
 	border:1px solid [[ColorPalette::TertiaryLight]];
 	width:140px;
 }
+*/
