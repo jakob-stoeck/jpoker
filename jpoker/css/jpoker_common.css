@@ -1,0 +1,13 @@
+.jpoker_widget {
+	font-family : "trebuchet MS",arial,helvetica,sans-serif;
+}
+
+.jpoker_widget a {
+	color : #17691c;
+	text-decoration:none;
+}
+
+.jpoker_widget a:hover {
+	background: #17691c;
+	color:#fff;
+}
