@@ -2,7 +2,7 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
@@ -12,13 +12,21 @@
    height="295.67157"
    id="svg30687"
    sodipodi:version="0.32"
-   inkscape:version="0.45.1"
+   inkscape:version="0.46"
    version="1.0"
    sodipodi:docbase="/home/proppy"
    sodipodi:docname="table.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <defs
-     id="defs30689" />
+     id="defs30689">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 147.83578 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="588.41425 : 147.83578 : 1"
+       inkscape:persp3d-origin="294.20712 : 98.55719 : 1"
+       id="perspective2453" />
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -30,14 +38,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4142114"
-     inkscape:cx="288.5"
+     inkscape:cx="162.6348"
      inkscape:cy="142"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     inkscape:window-width="910"
-     inkscape:window-height="627"
-     inkscape:window-x="91"
-     inkscape:window-y="49" />
+     inkscape:window-width="1680"
+     inkscape:window-height="975"
+     inkscape:window-x="0"
+     inkscape:window-y="49"
+     showgrid="false" />
   <metadata
      id="metadata30692">
     <rdf:RDF>
@@ -55,7 +64,7 @@
      id="layer1"
      transform="translate(-81.5,-385.10483)">
     <rect
-       style="fill:#006920;fill-opacity:1;stroke:#764205;stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#53bf73;fill-opacity:1;stroke:#008000;stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect30738"
        width="578.41425"
        height="285.67157"
