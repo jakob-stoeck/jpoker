@@ -283,6 +283,7 @@ td.login_input input {
 	width:99%;
 }
 
+/*
 #contentWrapper .viewer .jpoker_ptable table.jpokerTableList {
 	margin: 0.5em auto;
 }
@@ -290,6 +291,7 @@ td.login_input input {
 #contentWrapper .viewer .jpoker_table .jpoker_ptable{
 	margin: 0em auto;
 }
+*/
 
 .title .button, .title .button:hover {padding:0; background:transparent; border:none;}
 

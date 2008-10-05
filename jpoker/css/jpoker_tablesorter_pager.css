@@ -13,9 +13,13 @@ ul.pagelinks {
     display: none;
 }
 
+
 .pager {
-	text-align:center;
+	font-size:14px;
+	font-family:"trebuchet MS",arial,helvetica,sans-serif;
+	color:#444;
 }
+
 
 .pager ul {
 	margin:0;

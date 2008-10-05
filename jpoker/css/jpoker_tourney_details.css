@@ -158,6 +158,9 @@ a.jpoker_tourney_details_tables_goto_table {
 	border:none;
 }
 
+.jpoker_tourney_details .pager {
+	text-align:center;
+}
 
 
 .viewer .jpoker_tourney_details table, .jpoker_tourney_details table.twtable,

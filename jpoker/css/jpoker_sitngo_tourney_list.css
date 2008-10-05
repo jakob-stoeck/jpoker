@@ -24,3 +24,23 @@
 	background:#73BF60;
 	color:#fff;
 }
+
+.jpoker_widget.jpoker_sitngo_tourney_list table {
+	border:2px solid #17691c;
+	border-collapse:collapse;
+	font-size:14px;
+	font-family:"trebuchet MS",arial,helvetica,sans-serif;
+	color:#444;
+}
+
+.jpoker_widget.jpoker_sitngo_tourney_list table th, .jpoker_widget.jpoker_sitngo_tourney_list table thead td, .jpoker_widget.jpoker_sitngo_tourney_list table th, .jpoker_widget.jpoker_sitngo_tourney_list table thead td {
+	background:#17691c;
+	border:1px solid #17691c;
+	color:#fff;
+	padding:3px;
+}
+
+.jpoker_widget.jpoker_sitngo_tourney_list td, .jpoker_widget.jpoker_sitngo_tourney_list tr, .jpoker_widget.jpoker_sitngo_tourney_list td, .jpoker_widget.jpoker_sitngo_tourney_list tr {
+	border:1px solid #17691c;
+	padding:3px;
+}
