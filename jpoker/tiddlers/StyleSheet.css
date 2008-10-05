@@ -333,14 +333,15 @@ ul.suckerfish li ul {z-index:999;}
 }
 
 
-
+/*
+Jpoker overrides below here
+*/
 
 .viewer .jpoker_tourney_details table, .jpoker_tourney_details table.twtable,
 .viewer .jpoker_tourney_details table th, .jpoker_tourney_details table.twtable th,
 .viewer .jpoker_tourney_details table thead td, .jpoker_tourney_details table.twtable thead td {
 	border:none;
 }
-
 .viewer .jpoker_tourney_details table, .jpoker_tourney_details table.twtable {
 	margin:0;
 }
