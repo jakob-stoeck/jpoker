@@ -2024,7 +2024,7 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<div class=\'jpoker_table_list\' id=\'' + id + '\'></table>');
+                $this.append('<div class=\'jpoker_widget jpoker_table_list\' id=\'' + id + '\'></table>');
 
                 var updated = function(server, what, packet) {
                     var element = document.getElementById(id);
@@ -2136,7 +2136,7 @@
 
                 var id = jpoker.uid();
 		
-                $this.append('<div class=\'jpoker_regular_tourney_list\' id=\'' + id + '\'></table>');
+                $this.append('<div class=\'jpoker_widget jpoker_regular_tourney_list\' id=\'' + id + '\'></table>');
 
                 var updated = function(server, what, packet) {
                     var element = document.getElementById(id);
@@ -2247,7 +2247,7 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<div class=\'jpoker_sitngo_tourney_list\' id=\'' + id + '\'></table>');
+                $this.append('<div class=\'jpoker_widget jpoker_sitngo_tourney_list\' id=\'' + id + '\'></table>');
 
                 var updated = function(server, what, packet) {
                     var element = document.getElementById(id);
@@ -2361,7 +2361,7 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<div class=\'jpoker_tourney_details\' id=\'' + id + '\'></div>');
+                $this.append('<div class=\'jpoker_widget jpoker_tourney_details\' id=\'' + id + '\'></div>');
 
                 var updated = function(server, what, packet) {
                     var element = document.getElementById(id);
@@ -2615,7 +2615,7 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<div class=\'jpoker_tourney_placeholder\' id=\'' + id + '\'></div>');
+                $this.append('<div class=\'jpoker_widget jpoker_tourney_placeholder\' id=\'' + id + '\'></div>');
 
                 var updated = function(server, what, packet) {
                     var element = document.getElementById(id);
@@ -2669,7 +2669,7 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<div class=\'jpoker_server_status\' id=\'' + id + '\'></div>');
+                $this.append('<div class=\'jpoker_widget jpoker_server_status\' id=\'' + id + '\'></div>');
 
                 var updated = function(server) {
                     var element = document.getElementById(id);
@@ -2741,7 +2741,7 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<div class=\'jpoker_login\' id=\'' + id + '\'></div>');
+                $this.append('<div class=\'jpoker_widget jpoker_login\' id=\'' + id + '\'></div>');
 
                 var updated = function(server) {
                     var element = document.getElementById(id);
@@ -2899,7 +2899,7 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<span class=\'jpoker_table\' id=\'' + id + '\'><div class=\'jpoker_connecting\'><div class=\'jpoker_connecting_message\'>' + _("connecting to table {name}").supplant({ 'name': name }) + '</div><div class=\'jpoker_connecting_image\'></div></div></span>');
+                $this.append('<span class=\'jpoker_widget jpoker_table\' id=\'' + id + '\'><div class=\'jpoker_connecting\'><div class=\'jpoker_connecting_message\'>' + _("connecting to table {name}").supplant({ 'name': name }) + '</div><div class=\'jpoker_connecting_image\'></div></div></span>');
                 	       
 		if(game_id in server.tables) {
 		    var element = document.getElementById(id);
@@ -3919,7 +3919,7 @@
 
                 var id = jpoker.uid();
 		
-                $this.append('<div class=\'jpoker_user_info\' id=\'' + id + '\'></div>');
+                $this.append('<div class=\'jpoker_widget jpoker_user_info\' id=\'' + id + '\'></div>');
 
                 var updated = function(server, what, packet) {
                     var element = document.getElementById(id);
@@ -4038,7 +4038,7 @@
 
                 var id = jpoker.uid();
 		
-                $this.append('<div class=\'jpoker_places\' id=\'' + id + '\'></div>');
+                $this.append('<div class=\'jpoker_widget jpoker_places\' id=\'' + id + '\'></div>');
 
                 var updated = function(server, what, packet) {
                     var element = document.getElementById(id);
@@ -4138,7 +4138,7 @@
                 var $this = $(this);
 
                 var id = jpoker.uid();
-		var player_lookup_element = $('<div class=\'jpoker_player_lookup\' id=\'' + id + '\'></div>').appendTo($this);
+		var player_lookup_element = $('<div class=\'jpoker_widget jpoker_player_lookup\' id=\'' + id + '\'></div>').appendTo($this);
 
                 var updated = function(server, what, packet) {
                     var element = document.getElementById(id);
@@ -4260,7 +4260,7 @@
 
                 var id = jpoker.uid();
 		
-                $this.append('<div class=\'jpoker_cashier\' id=\'' + id + '\'></div>');
+                $this.append('<div class=\'jpoker_widget jpoker_cashier\' id=\'' + id + '\'></div>');
 
                 var updated = function(server, what, packet) {
                     var element = document.getElementById(id);
