@@ -156,7 +156,7 @@
     font-size: 95%;
 }
 
-.jpoker_table .jpoker_sitout {
+.jpoker_table .jpoker_sitout, .jpoker_table .jpoker_rebuy, .jpoker_table .jpoker_quit {
     color: #FFF;
     margin: 0 5px;
     line-height: 25px;
