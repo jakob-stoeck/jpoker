@@ -117,6 +117,7 @@ function jpokerTableList(place) {
 function jpoker_02_join(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_02_join</b> ');
             $(place).append('A player just arrived at the table, he is sit out and has no money in front of him.');
             $(place).append('The player name can be 50 characters at most.');
             $(place).append('<hr>');
@@ -144,6 +145,7 @@ function jpoker_02_join(place) {
 function jpoker_03_joinBuyIn(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_03_joinBuyIn</b> ');
             $(place).append('A player arrived at the table, he is sit out he brings money at the table.');
             $(place).append('<hr>');
         }
@@ -176,6 +178,7 @@ function jpoker_03_joinBuyIn(place) {
 function jpoker_03_playerBet(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_03_playerBet</b> ');
             $(place).append('A player is sit, with money at the table, cards, and a bet.');
             $(place).append('<hr>');
         }
@@ -214,6 +217,7 @@ function jpoker_03_playerBet(place) {
 function jpoker_04_playerInPosition(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_04_playerInPosition</b> ');
             $(place).append('The player username0 is to act / is in position.');
             $(place).append('<hr>');
         }
@@ -249,6 +253,7 @@ function jpoker_04_playerInPosition(place) {
 function jpoker_05_selfPlayer(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_05_selfPlayer</b> ');
             $(place).append('The logged in player is sit at the table, buy in dialog shows.');
             $(place).append('<hr>');
         }
@@ -285,6 +290,7 @@ rebuy_min: 1000,
 function jpoker_06_selfInPosition(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_06_selfInPosition</b> ');
             $(place).append('The logged in player is in position.');
             $(place).append('<hr>');
         }
@@ -336,6 +342,7 @@ function jpoker_06_selfInPosition(place) {
 function jpoker_07_joining(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_07_joining</b> ');
             $(place).append('A request to join the table was sent to the poker server and the HTML element where the table is going to be displayed has been created, with a message showing the table description is expected to arrive from the server.');
             $(place).append('<hr>');
         }
@@ -347,6 +354,7 @@ function jpoker_07_joining(place) {
 function jpoker_08_all(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_08_all</b> ');
             $(place).append('All community cards and all pots are displayed.');
             $(place).append('<hr>');
         }
@@ -386,6 +394,7 @@ function jpoker_08_all(place) {
 function jpoker_09_dialog(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_09_dialog</b> ');
             $(place).append('Dialog box used for various game messages and notifications.');
             $(place).append('<hr>');
         }
@@ -396,6 +405,7 @@ function jpoker_09_dialog(place) {
 function jpoker_10_selfMuck(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_10_selfMuck</b> ');
             $(place).append('The logged in player is sit at the table, if muck checkbox are unchecked, muck button will be shown.');
             $(place).append('<hr>');
         }
@@ -436,6 +446,7 @@ function jpoker_10_selfMuck(place) {
 function jpoker_11_avatarHover(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_11_avatarHover</b> ');
             $(place).append('Hovering the avatar show a border around the image by default.');
             $(place).append('<hr>');
         }
@@ -472,6 +483,7 @@ function jpoker_11_avatarHover(place) {
 function jpoker_12_selfRebuy(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_12_selfRebuy</b> ');
             $(place).append('player has less than betlimit money he is able to rebuy.');
             $(place).append('<hr>');
         }
@@ -509,6 +521,7 @@ function jpoker_12_selfRebuy(place) {
 function jpoker_20_login(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_20_login</b> ');
             $(place).append('Player is logged out.');
             $(place).append('<hr>');
         }
@@ -521,6 +534,7 @@ function jpoker_20_login(place) {
 function jpoker_21_loginProgress(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_21_loginProgress</b> ');
             $(place).append('Login request was sent, waiting for answer.');
             $(place).append('<hr>');
         }
@@ -539,6 +553,7 @@ function jpoker_21_loginProgress(place) {
 function jpoker_22_logout(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_22_logout</b> ');
             $(place).append('User is logged in, one choice only : logout.');
             $(place).append('<hr>');
         }
@@ -552,6 +567,7 @@ function jpoker_22_logout(place) {
 function jpoker_30_statusDisconnected(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_30_statusDisconnected</b> ');
             $(place).append('disconnected from server.');
             $(place).append('<hr>');
         }
@@ -562,6 +578,7 @@ function jpoker_30_statusDisconnected(place) {
 function jpoker_31_connectedTables(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_31_connectedTables</b> ');
             $(place).append('connected to server, with tables and no players.');
             $(place).append('<hr>');
         }
@@ -576,6 +593,7 @@ function jpoker_31_connectedTables(place) {
 function jpoker_32_connectedTablesPlayers(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_32_connectedTablesPlayers</b> ');
             $(place).append('connected to server, with tables and players.');
             $(place).append('<hr>');
         }
@@ -591,6 +609,7 @@ function jpoker_32_connectedTablesPlayers(place) {
 function jpoker_40_tableList(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_40_tableList</b> ');
             $(place).append('List of poker tables available on the server.');
             $(place).append('<hr>');
         }
@@ -609,6 +628,7 @@ function jpoker_40_tableList(place) {
 function jpoker_41_regularTourneyList(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_41_regularTourneyList</b> ');
             $(place).append('List of poker regular tourney available on the server.');
             $(place).append('<hr>');
         }
@@ -627,6 +647,7 @@ function jpoker_41_regularTourneyList(place) {
 function jpoker_42_sitngoTourneyList(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_42_sitngoTourneyList</b> ');
             $(place).append('List of poker regular tourney available on the server.');
             $(place).append('<hr>');
         }
@@ -645,6 +666,7 @@ function jpoker_42_sitngoTourneyList(place) {
 function jpoker_43_tableListWithLink(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_43_tableListWithLink</b> ');
             $(place).append('List of poker tables available on the server, with html link on name');
             $(place).append('<hr>');
         }
@@ -663,6 +685,7 @@ function jpoker_43_tableListWithLink(place) {
 function jpoker_44_regularTourneyListWithLink(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_44_regularTourneyListWithLink</b> ');
             $(place).append('List of poker regular tourney available on the server, with html link on description.');
             $(place).append('<hr>');
         }
@@ -681,6 +704,7 @@ function jpoker_44_regularTourneyListWithLink(place) {
 function jpoker_45_sitngoTourneyListWithLink(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_45_sitngoTourneyListWithLink</b> ');
             $(place).append('List of poker regular tourney available on the server, with html link on description.');
             $(place).append('<hr>');
         }
@@ -699,6 +723,7 @@ function jpoker_45_sitngoTourneyListWithLink(place) {
 function jpoker_46_tableListWithPager(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_46_tableListWithPager</b> ');
             $(place).append('List of poker tables available on the server.');
             $(place).append('<hr>');
         }
@@ -724,6 +749,7 @@ function jpoker_46_tableListWithPager(place) {
 function jpoker_47_regularTourneyListWithPager(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_47_regularTourneyListWithPager</b> ');
             $(place).append('List of poker tables available on the server.');
             $(place).append('<hr>');
         }
@@ -748,6 +774,7 @@ function jpoker_47_regularTourneyListWithPager(place) {
 function jpoker_48_sitngoTourneyListWithPager(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_48_sitngoTourneyListWithPager</b> ');
             $(place).append('List of poker tables available on the server.');
             $(place).append('<hr>');
         }
@@ -772,6 +799,7 @@ function jpoker_48_sitngoTourneyListWithPager(place) {
 function jpoker_49_tableListWithPagerWithLinks(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_49_tableListWithPagerWithLinks</b> ');
             $(place).append('List of poker tables available on the server.');
             $(place).append('<hr>');
         }
@@ -797,6 +825,7 @@ function jpoker_49_tableListWithPagerWithLinks(place) {
 function jpoker_49_1_regularTourneyListWithPagerWithLinks(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_49_1_regularTourneyListWithPagerWithLinks</b> ');
             $(place).append('List of poker regular tourneys available on the server.');
             $(place).append('<hr>');
         }
@@ -821,6 +850,7 @@ function jpoker_49_1_regularTourneyListWithPagerWithLinks(place) {
 function jpoker_49_2_sitngoTourneyListWithPagerWithLinks(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_49_2_sitngoTourneyListWithPagerWithLinks</b> ');
             $(place).append('List of poker sitngo tourneys available on the server.');
             $(place).append('<hr>');
         }
@@ -845,6 +875,7 @@ function jpoker_49_2_sitngoTourneyListWithPagerWithLinks(place) {
 function jpoker_50_sitOut(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_50_sitOut</b> ');
             $(place).append('A player is sit out, meaning he occupies a site but does not participate in the game.');
             $(place).append('<hr>');
         }
@@ -870,6 +901,7 @@ function jpoker_50_sitOut(place) {
 function jpoker_51_sit(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_51_sit</b> ');
             $(place).append('A player is sit, meaning he participates in the game.');
             $(place).append('<hr>');
         }
@@ -896,6 +928,7 @@ function jpoker_51_sit(place) {
 function jpoker_52_inPosition(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_52_inPosition</b> ');
             $(place).append('A player is in position, meaning he participates in the game and must act. This is associated with a sound notification.');
             $(place).append('<hr>');
         }
@@ -924,6 +957,7 @@ function jpoker_52_inPosition(place) {
 function jpoker_53_timeout(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_53_timeout</b> ');
             $(place).append('A descending progress bar shows how much time is left for the player to act.');
             $(place).append('<hr>');
         }
@@ -951,6 +985,7 @@ function jpoker_53_timeout(place) {
 function jpoker_54_sidepot(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_54_sidepot</b> ');
             $(place).append('A label show side pot attribution to allin player.');
             $(place).append('<hr>');
         }
@@ -986,6 +1021,7 @@ function jpoker_54_sidepot(place) {
 function jpoker_55_allWithSidePot(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_55_allWithSidePot</b> ');
             $(place).append('All player pots are displayed.');
             $(place).append('<hr>');
         }
@@ -1024,6 +1060,7 @@ function jpoker_55_allWithSidePot(place) {
 function jpoker_56_tourneyBreak(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_56_tourneyBreak</b> ');
             $(place).append('Tournaments is on break, resume time is displayed.');
             $(place).append('<hr>');
         }
@@ -1058,6 +1095,7 @@ function jpoker_56_tourneyBreak(place) {
 function jpoker_57_stats(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_57_stats</b> ');
             $(place).append('All player pots are displayed.');
             $(place).append('<hr>');
         }
@@ -1096,6 +1134,7 @@ function jpoker_60_text(place) {
 function jpoker_70_userInfo(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_70_userInfo</b> ');
             $(place).append('Personal informations of the current logged user.');
             $(place).append('<hr>');
         } 
@@ -1118,6 +1157,7 @@ function jpoker_70_userInfo(place) {
 function jpoker_80_tourneyDetailsRegistering(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_80_tourneyDetailsRegistering</b> ');
             $(place).append('Details of a registering tournament.');
             $(place).append('<hr>');
         }
@@ -1143,6 +1183,7 @@ function jpoker_80_tourneyDetailsRegistering(place) {
 function jpoker_81_tourneyDetailsRunning(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_81_tourneyDetailsRunning</b> ');
             $(place).append('Details of a running tournament.');
             $(place).append('<hr>');
         }
@@ -1167,6 +1208,7 @@ function jpoker_81_tourneyDetailsRunning(place) {
 function jpoker_82_tourneyDetailsCompleted(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_82_tourneyDetailsCompleted</b> ');
             $(place).append('Details of a completed tournament.');
             $(place).append('<hr>');
         }
@@ -1190,6 +1232,7 @@ function jpoker_82_tourneyDetailsCompleted(place) {
 function jpoker_83_tourneyDetailsRegisteringWithPager(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_83_tourneyDetailsRegisteringWithPager</b> ');
             $(place).append('Details of a registering tournament.');
             $(place).append('<hr>');
         }
@@ -1219,6 +1262,7 @@ function jpoker_83_tourneyDetailsRegisteringWithPager(place) {
 function jpoker_84_tourneyDetailsRunningWithLink(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_84_tourneyDetailsRunningWithLink</b> ');
             $(place).append('Details of a running tournament.');
             $(place).append('<hr>');
         }
@@ -1242,6 +1286,7 @@ function jpoker_84_tourneyDetailsRunningWithLink(place) {
 function jpoker_85_tourneyDetailsRegisteringWithPagerRegister(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_85_tourneyDetailsRegisteringWithPagerRegister</b> ');
             $(place).append('Details of a registering tournament with 200 players, when player is logged and not registered');
             $(place).append('<hr>');
         }
@@ -1273,6 +1318,7 @@ function jpoker_85_tourneyDetailsRegisteringWithPagerRegister(place) {
 function jpoker_86_tourneyDetailsRegisteringWithPagerUnregister(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_86_tourneyDetailsRegisteringWithPagerUnregister</b> ');
             $(place).append('Details of a registering tournament with 200 players, when player is logged and registered');
             $(place).append('<hr>');
         }
@@ -1304,6 +1350,7 @@ function jpoker_86_tourneyDetailsRegisteringWithPagerUnregister(place) {
 function jpoker_90_tourneyPlaceholder(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_90_tourneyPlaceholder</b> ');
             $(place).append('Placeholder table for a registering tournament.');
             $(place).append('<hr>');
         }
@@ -1349,6 +1396,7 @@ function jpoker_100_places(place) {
 function jpoker_101_playerLookup(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_101_playerLookup</b> ');
             $(place).append('Form for searching where is a player.');
             $(place).append('<hr>');
         }	
@@ -1367,6 +1415,7 @@ function jpoker_101_playerLookup(place) {
 function jpoker_102_placesWithLink(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_102_placesWithLink</b> ');
             $(place).append('Tables showing the table and tournaments the player is currently connected to, with html link on name and description');
             $(place).append('<hr>');
         }
@@ -1391,6 +1440,7 @@ function jpoker_102_placesWithLink(place) {
 function jpoker_103_playerLookupWithLink(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_103_playerLookupWithLink</b> ');
             $(place).append('Form for searching where is a player, with html link on name and description.');
             $(place).append('<hr>');
         }	
@@ -1411,6 +1461,7 @@ function jpoker_103_playerLookupWithLink(place) {
 function jpoker_110_cashier(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_110_cashier</b> ');
             $(place).append('Cashier showing player bankroll for each currency.');
             $(place).append('<hr>');
         }
@@ -1434,6 +1485,7 @@ function jpoker_110_cashier(place) {
 function jpoker_120_level_10(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_120_level_10</b> ');
             $(place).append('3 players with level 10.');
             $(place).append('<hr>');
         }
@@ -1468,6 +1520,7 @@ function jpoker_120_level_10(place) {
 function jpoker_121_level_40(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_121_level_40</b> ');
             $(place).append('3 players with level 40.');
             $(place).append('<hr>');
         }
@@ -1502,6 +1555,7 @@ function jpoker_121_level_40(place) {
 function jpoker_122_level_70(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_122_level_70</b> ');
             $(place).append('3 players with level 70.');
             $(place).append('<hr>');
         }
@@ -1536,6 +1590,7 @@ function jpoker_122_level_70(place) {
 function jpoker_123_level_100(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_123_level_100</b> ');
             $(place).append('3 players with level 100.');
             $(place).append('<hr>');
         }
@@ -1570,6 +1625,7 @@ function jpoker_123_level_100(place) {
 function jpoker_130_chat_scroll(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_130_chat_scroll</b> ');
             $(place).append('The logged in player is in position and the chat shows.');
             $(place).append('<hr>');
         }
@@ -1599,6 +1655,7 @@ function jpoker_130_chat_scroll(place) {
 function jpoker_131_chat_no_scroll(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_131_chat_no_scroll</b> ');
             $(place).append('The logged in player is in position and the chat shows.');
             $(place).append('<hr>');
         }
@@ -1628,6 +1685,7 @@ function jpoker_131_chat_no_scroll(place) {
 function jpoker_141_click_here_to_get_a_seat(place) {
         setUp();
         if(explain) {
+            $(place).append('<b>jpoker_141_click_here_to_get_a_seat</b> ');
             $(place).append('The logged in player is asked which seat he wants to take.');
             $(place).append('<hr>');
         }
