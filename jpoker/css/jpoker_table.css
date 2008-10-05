@@ -293,6 +293,9 @@
 	text-align: center;
 }
 
+.jpoker_table .jpoker_ptable_raise_input {
+	height:auto;
+}
 
 #jpokerRebuy
 {
