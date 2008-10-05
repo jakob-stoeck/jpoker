@@ -125,7 +125,9 @@
 }
 
 
-
+.jpoker_table .jpoker_player_seat .jpoker_name {
+	overflow:hidden;
+}
 
 
 .jpoker_table .jpoker_sit_out .jpoker_ptable_player_seat0_name,
@@ -211,6 +213,7 @@
     font-family: "trebuchet MS",arial,helvetica,sans-serif;
     color: #FFFFFF;
     cursor: pointer;
+    height:14px;
 }
 
 .jpoker_table .jpoker_raise_bound, .jpoker_table .jpoker_raise_current {
