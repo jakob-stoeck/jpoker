@@ -3270,9 +3270,10 @@ test("jpoker.plugins.tourneyDetails templates no ranks no moneys", function(){
 	equals(seats_available.html(), "2 players max.");	
 
 	var tr = $(".jpoker_tourney_details_players tr", element);
-	equals(tr.length, 2, 'tourneyDetails players_count');
+        // +2 because 1 caption, 2 title
+	equals(tr.length, 3, 'tourneyDetails players_count');
 
-	var player = tr.eq(1);
+	var player = tr.eq(2);
 	var name = $("td", player).eq(0);
 	equals(name.html(), "user1");
 
