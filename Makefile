@@ -116,6 +116,7 @@ IMAGES = jpoker/css/images/jpoker_table/avatar.png \
 	 jpoker/css/images/jpoker_table/dealer.png \
 	 jpoker/css/images/jpoker_table/pot.png \
 	 jpoker/css/images/jpoker_table/seat.png \
+	 jpoker/css/images/jpoker_table/seat_position.png \
 	 jpoker/css/images/jpoker_table/table.png
 
 messages.pot: jpoker/js/jquery.jpoker.js
