@@ -1481,14 +1481,8 @@ test("jpoker.server.setPersonalInfo password confirmation failed", function(){
 	jpoker.dialog = function(message) {
 	    equals(message, 'Password confirmation does not match');
 	    jpoker.dialog = dialog;
+	    start_and_cleanup();
 	};
-        server.registerUpdate(function(server, what, packet) {
-		if (packet.type == 'PacketError') {
-		    server.queueRunning(start_and_cleanup);
-		    return false;
-		}
-		return true;
-	    });
         server.setPersonalInfo({firstname: 'John',
 		    lastname: 'Doe',
 		    password: 'foo',
