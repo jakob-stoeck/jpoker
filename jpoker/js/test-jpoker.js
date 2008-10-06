@@ -1462,7 +1462,37 @@ test("jpoker.server.setPersonalInfo", function(){
 	    });
         server.setPersonalInfo({firstname: 'John',
 		    lastname: 'Doe',
-		    password: 'testpassword'
+		    password: 'testpassword',
+		    password_confirmation: 'testpassword'
+		    });
+    });
+
+test("jpoker.server.setPersonalInfo password confirmation failed", function(){
+        expect(1);
+	stop();
+
+        var serial = 42;
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        server.serial = serial;
+	
+	dialog = jpoker.dialog;
+	jpoker.dialog = function(message) {
+	    equals(message, 'Password confirmation does not match');
+	    jpoker.dialog = dialog;
+	};
+        server.registerUpdate(function(server, what, packet) {
+		if (packet.type == 'PacketError') {
+		    server.queueRunning(start_and_cleanup);
+		    return false;
+		}
+		return true;
+	    });
+        server.setPersonalInfo({firstname: 'John',
+		    lastname: 'Doe',
+		    password: 'foo',
+		    password_confirmation: 'bar'
 		    });
     });
 
@@ -5962,10 +5992,8 @@ test("jpoker.plugins.userInfo", function(){
 			equals($('.jpoker_user_info_name', element).text(), 'testuser');
 			equals($('input[name=password]', element).val(), '');
 			equals($('input[name=password]', element).attr('type'), 'password');
-			$('input[name=toggle_password]', element).click();
-			equals($('input[name=password]', element).attr('type'), 'text');
-			$('input[name=toggle_password]', element).click();
-			equals($('input[name=password]', element).attr('type'), 'password');
+			equals($('input[name=password_confirmation]', element).val(), '');
+			equals($('input[name=password_confirmation]', element).attr('type'), 'password');
 			equals($('input[name=email]', element).val(), 'john@doe.com');
 			equals($('input[name=phone]', element).val(), '000-00000');
 			equals($('input[name=firstname]', element).val(), 'John');
