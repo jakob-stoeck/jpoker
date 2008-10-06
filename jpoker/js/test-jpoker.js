@@ -2651,6 +2651,47 @@ test("jpoker.plugins.tableList pager", function(){
             });
     });
 
+test("jpoker.plugins.tableList no table no tablesorter", function(){
+        expect(1);
+        stop();
+
+        //
+        // Mockup server that will always return TABLE_LIST_PACKET,
+        // whatever is sent to it.
+        //
+        var PokerServer = function() {};
+
+        var average_pot = 1535 / 100;
+        var TABLE_LIST_PACKET = {"players": 4, "type": "PacketPokerTableList", "packets": []};
+
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TABLE_LIST_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        jpoker.serverDestroy('url');
+        server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $("#main");
+        place.jpoker('tableList', 'url', { delay: 30 });
+        server.registerUpdate(function(server, what, data) {		
+                var element = $("#" + id);
+                if(element.length > 0) {
+		    equals($('.header', element).length, 0, 'no tablesorter');
+                    $("#" + id).remove();
+                    return true;
+                } else {
+		    start_and_cleanup();
+                    return false;
+                }
+            });
+    });
 
 //
 // regularTourneyList
@@ -3017,7 +3058,7 @@ test("jpoker.plugins.sitngoTourneyList pager", function(){
     });
 
 test("jpoker.plugins.regularTourneyList empty", function(){
-        expect(1);
+        expect(2);
         stop();
 
         //
@@ -3047,6 +3088,7 @@ test("jpoker.plugins.regularTourneyList empty", function(){
                 if(element.length > 0) {
                     var tr = $("#" + id + " tr", place);
                     equals(tr.length, 1);
+		    equals($(".header", element).length, 0, 'no tablesorter');
                     $("#" + id).remove();
                     return true;
                 } else {
@@ -3059,7 +3101,7 @@ test("jpoker.plugins.regularTourneyList empty", function(){
     });
 
 test("jpoker.plugins.sitngoTourneyList empty", function(){
-        expect(1);
+        expect(2);
         stop();
 
         //
@@ -3089,6 +3131,7 @@ test("jpoker.plugins.sitngoTourneyList empty", function(){
                 if(element.length > 0) {
                     var tr = $("#" + id + " tr", place);
                     equals(tr.length, 1);
+		    equals($(".header", element).length, 0, 'no tablesorter');
                     $("#" + id).remove();
                     return true;
                 } else {
@@ -3245,7 +3288,7 @@ test("jpoker.plugins.tourneyDetails pager", function(){
             });
     });
 
-test("jpoker.plugins.tourneyDetails no player no pager", function(){
+test("jpoker.plugins.tourneyDetails no player no tablesorter", function(){
         expect(1);
         stop();
 
@@ -3273,7 +3316,7 @@ test("jpoker.plugins.tourneyDetails no player no pager", function(){
         server.registerUpdate(function(server, what, data) {
                 var element = $("#" + id);
                 if(element.length > 0) {
-		    equals($('.pager', element).length, 0, 'has no pager');
+		    equals($('.header', element).length, 0, 'no tablesorter');
                     $("#" + id).remove();
                     return true;
                 } else {

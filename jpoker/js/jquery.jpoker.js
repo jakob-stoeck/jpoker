@@ -2048,7 +2048,7 @@
 				    })();
 				}
                             }
-			    if ($('tr', element).length > 1) {
+			    if ($('tbody tr', element).length > 0) {
 				var t = jpoker.plugins.tableList.templates;
 				var options = {container: $('.pager', element),
 					       positionFixed: false,
@@ -2160,7 +2160,7 @@
 				    })();
 				}
 			    }
- 			    if ($('tr', element).length > 1) {
+ 			    if ($('tbody tr', element).length > 0) {
 				var t = jpoker.plugins.regularTourneyList.templates;
 				var options = {container: $('.pager', element),
 					       positionFixed: false,
@@ -2382,7 +2382,7 @@
                             $(element).html(tourneyDetails.getHTML(id, packet, logged, registered, opts.link_pattern));
 			    
 			    var tourney_details_player_element = $('.jpoker_tourney_details_players', element);
-			    if ($('tr', tourney_details_player_element).length > 1) {
+			    if ($('tbody tr', tourney_details_player_element).length > 0) {
 				var t = jpoker.plugins.tourneyDetails.templates.players;
 				var options = {container: $('.pager', element),
 					       positionFixed: false,
