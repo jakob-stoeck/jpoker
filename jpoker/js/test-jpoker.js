@@ -4286,7 +4286,7 @@ test("jpoker.plugins.table: PacketPokerTourneyBreak callback.tourney_break/resum
 	ok($("#jpokerDialog").parents().is(':visible'), 'jpoker dialog visible');
 	var date = new Date();
 	date.setTime(resume_time);
-	console.log(date.toLocaleString());
+	//console.log(date.toLocaleString());
 	ok($("#jpokerDialog").html().indexOf(date.toLocaleString()) >= 0, $("#jpokerDialog").html());
 	table.handler(server, game_id, { type: 'PacketPokerTableTourneyBreakDone', game_id: game_id});
 	ok($("#jpokerDialog").parents().is(':hidden'), 'jpoker dialog hidden');
