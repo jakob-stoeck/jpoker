@@ -1568,7 +1568,7 @@ test("jpoker.connection:ping frequency", function(){
         var clock = 10;
         jpoker.now = function() { return clock++; };
         var self = new jpoker.connection();
-        self.sendPacket = function() { equals(1,0,'sendPacket called'); }
+        self.sendPacket = function() { equals(1,0,'sendPacket called'); };
         sentTime = self.sentTime = jpoker.now();
         self.setTimeout = function(fun, when) { 
             equals(when, self.pingFrequency - 1);
@@ -1579,7 +1579,7 @@ test("jpoker.connection:ping frequency", function(){
         // The next ping occurs after pingFrequency 
         //
         clock = 200000;
-        self.sendPacket = function() { equals(12,12); }
+        self.sendPacket = function() { equals(12,12); };
         self.sentTime = 0;
         self.setTimeout = function(fun, when) { 
             equals(when, self.pingFrequency);

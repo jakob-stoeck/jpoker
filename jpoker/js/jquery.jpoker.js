@@ -3427,7 +3427,7 @@
 		} else {
 		    level = 'junior';
 		}
-		return level
+		return level;
 	    },
 	    getHTML: function(packet) {
 		var html = [];
@@ -3523,7 +3523,7 @@
 			$(this).addClass('hover');
 		    },function(){
 			$(this).removeClass('hover');
-		    });;
+		    });
 
             //
             // sitin
