@@ -2328,7 +2328,7 @@ test("jpoker.tourney.uninit", function(){
         equals(game_id in server.tourneys, false, 'tourney removed from server');
     });
 
-test("jpoker.tourney.uninit: PacketPokerTable", function(){
+test("jpoker.tourney.uninit: PacketPokerTourneyFinish", function(){
         expect(2);
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -2340,7 +2340,7 @@ test("jpoker.tourney.uninit: PacketPokerTable", function(){
             notified = true;
         };
         tourney.registerDestroy(handler);
-        tourney.handler0(server, 0, { type: 'PacketPokerTable', tourney_serial: game_id });
+        tourney.handler(server, 0, { type: 'PacketPokerTourneyFinish', tourney_serial: game_id });
         equals(notified, true, 'destroy callback called');
         equals(game_id in server.tourneys, false, 'tourney removed from server');
     });
@@ -2397,10 +2397,10 @@ test("jpoker.tourney.handler: unknown tourney", function(){
 	    messages.push(message);
         };
 	var verbose = jpoker.verbose;
-	jpoker.verbose = 1;
+	jpoker.verbose = 2;
 	tourney.handler(server, game_id, packet);
 	equals(messages[0].indexOf("tourney.handler") >= 0, true, "tourney handler");
-	equals(messages[1].indexOf("unknown tourney") >= 0, true, "unknown tourney");
+	equals(messages[1].indexOf("packet discarded") >= 0, true, "unknown tourney");
 	jpoker.verbose = verbose;
 	jpoker.message = jpokerMessage;
     });

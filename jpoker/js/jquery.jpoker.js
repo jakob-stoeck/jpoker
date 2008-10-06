@@ -1690,7 +1690,7 @@
         this.url = server.url;
         this.init();
         server.registerHandler(game_id, this.handler);
-	server.registerHandler(0, this.handler0);
+	server.registerHandler(0, this.handler);
     };
 
     jpoker.tourney.defaults = {
@@ -1731,48 +1731,34 @@
                 if(jpoker.verbose > 0) {
                     jpoker.message('tourney.handler ' + JSON.stringify(packet));
                 }
-                
-                tourney = server.tourneys[packet.game_id];
+
+                tourney_serial = packet.tourney_serial
+                tourney = server.tourneys[tourney_serial];
                 if(!tourney) {
-                    jpoker.message('unknown tourney ' + packet.game_id);
+                    tourney_serial = packet.game_id
+                    tourney = server.tourneys[tourney_serial];
+                }
+                if(!tourney) {
+                    // packets unrelated to an existing tourney are silently discarded
+                    if(jpoker.verbose > 1) {
+                        jpoker.message('tourney.handler: packet discarded');
+                    }
                     return true;
                 }
                 var url = server.url;
-                var serial = packet.serial;
 
                 switch(packet.type) {
 
+                case 'PacketPokerTourneyFinish':
                 case 'PacketPokerTourneyUnregister':
                      tourney.uninit();
-                     delete server.tourneys[game_id];
-                     break;
-		}
-		
-		return true;
-	    },
-	    
-	    handler0: function(server, game_id, packet) {
-                if(jpoker.verbose > 0) {
-                    jpoker.message('tourney.handler ' + JSON.stringify(packet));
-                }
-                
-                tourney = server.tourneys[packet.tourney_serial];
-                if(!tourney) {
-                    jpoker.message('unknown tourney ' + packet.tourney_serial);
-                    return true;
-                }
-                var url = server.url;
-
-                switch(packet.type) {
-
-                case 'PacketPokerTable':
-                     tourney.uninit();
-                     delete server.tourneys[packet.tourney_serial];
+                     delete server.tourneys[tourney_serial];
                      break;
 		}
 		
 		return true;
 	    }
+	    
 	});
 
     //
