@@ -51,24 +51,46 @@
 
         doReconnect: true,
 
+        msie_compatibility: function() {
+            /* 
+             *  On IE, the widget container width and height needs to be set explicitly
+             *  if the widget width/height is being set as 'none'
+             */
+            this.dialog_options.containerWidth = '300px';
+            this.dialog_options.containerHeight = '200px';
+
+            this.plugins.playerSelf.rebuy_options.containerWidth = '300px';
+            this.plugins.playerSelf.rebuy_options.containerHeight = '200px';
+
+            this.copyright_options.containerWidth = '400px';
+            this.copyright_options.containerHeight = '300px';
+        },
+
+        other_compatibility: function() {
+            /* 
+             *  On IE, the widget container width and height needs to be set explicitly
+             *  if the widget width/height is being set as 'none'
+             */
+            this.dialog_options.containerWidth = '100%';
+            this.dialog_options.containerHeight = '100%';
+
+            this.plugins.playerSelf.rebuy_options.containerWidth = '100%';
+            this.plugins.playerSelf.rebuy_options.containerHeight = '100%';
+
+            this.copyright_options.containerWidth = '100%';
+            this.copyright_options.containerHeight = '100%';
+        },
+
         copyrightTimeout: 5000,
 
-        copyright: function() {
-            var options = { width: 'none', height: 'none' };
-	    if($.browser.msie) {
-		/* 
-                 *  On IE, the widget container width and height needs to be set explicitly
-                 *  if the widget width/height is being set as 'none'
-                 */
-		options.containerWidth = '400px';
-		options.containerHeight = '300px';
-	    }
+        copyright_options: { width: 'none', height: 'none' },
 
+        copyright: function() {
             /*
              * On IE7, css('margin') returns 'auto' instead of the actual margin value unless
 	     * the  margin is set explicitly. This causes ui.dialog to throw exceptions.
              */
-            var copyright = $('<div style=\'margin:0px\'><div id=\'jpoker_copyright\'><div class=\'jpoker_copyright_image\'></div><div class=\'jpoker_software\'>jpoker-' + this.VERSION + '</div><div class=\'jpoker_authors\'><div><span>Copyright 2008 </span><a href=\'mailto:loic@dachary.org\'>Loic Dachary</a></div><div><span class=\'jpoker_click\'>Copyright 2008 </span><a href=\'mailto:proppy@aminche.com\'>Johan Euphrosine</a></div></div><div class=\'jpoker_explain\'>jpoker runs on this web browser and is Free Software. You may use jpoker to run a business without asking the authors permissions. You may give a copy to your friends. However, the authors do not want jpoker to be used with proprietary software.</div><div class=\'jpoker_license\'>This program is free software: you can redistribute it and/or modify it under the terms of the <a href=\'http://www.fsf.org/licensing/licenses/gpl.txt\'>GNU General Public License</a> as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</div> <div class=\'jpoker_full_copyright\'>Read the full <a href=\'http://jspoker.pokersource.info/jpoker/#Copyright\'>copyright information page.</a></div><div class=\'jpoker_download\'>Download <a href=\'http://upstream.jspoker.pokersource.info/file/tip/jpoker/js/jquery.jpoker.js\'>jpoker sources.</a></div><div class=\'jpoker_dismiss\'><a href=\'javascript://\'>Dismiss</a></div></div></div>').dialog(options); 
+            var copyright = $('<div style=\'margin:0px\'><div id=\'jpoker_copyright\'><div class=\'jpoker_copyright_image\'></div><div class=\'jpoker_software\'>jpoker-' + this.VERSION + '</div><div class=\'jpoker_authors\'><div><span>Copyright 2008 </span><a href=\'mailto:loic@dachary.org\'>Loic Dachary</a></div><div><span class=\'jpoker_click\'>Copyright 2008 </span><a href=\'mailto:proppy@aminche.com\'>Johan Euphrosine</a></div></div><div class=\'jpoker_explain\'>jpoker runs on this web browser and is Free Software. You may use jpoker to run a business without asking the authors permissions. You may give a copy to your friends. However, the authors do not want jpoker to be used with proprietary software.</div><div class=\'jpoker_license\'>This program is free software: you can redistribute it and/or modify it under the terms of the <a href=\'http://www.fsf.org/licensing/licenses/gpl.txt\'>GNU General Public License</a> as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</div> <div class=\'jpoker_full_copyright\'>Read the full <a href=\'http://jspoker.pokersource.info/jpoker/#Copyright\'>copyright information page.</a></div><div class=\'jpoker_download\'>Download <a href=\'http://upstream.jspoker.pokersource.info/file/tip/jpoker/js/jquery.jpoker.js\'>jpoker sources.</a></div><div class=\'jpoker_dismiss\'><a href=\'javascript://\'>Dismiss</a></div></div></div>').dialog(this.copyright_options); 
             $('.jpoker_download', copyright).frame('box1');
             $('.ui-dialog-titlebar', copyright.parents('.ui-dialog-container')).hide();
             var close = function() { copyright.dialog('destroy'); };
@@ -99,17 +121,14 @@
             if(window.console) { window.console.log(str); }
         },
 
+        dialog_options: { width: 'none', height: 'none', autoOpen: false, dialog: true },
+
         dialog: function(content) {
             var message = $('#jpokerDialog');
             if(message.size() != 1) {
                 $('body').append('<div id=\'jpokerDialog\' class=\'jpoker_jquery_ui\' title=\'jpoker message\' />');
                 message = $('#jpokerDialog');
-                var options = { width: 'none', height: 'none', autoOpen: false, dialog: true };
-                if($.browser.msie) {
-                    options.containerWidth = '300px';
-                    options.containerHeight = '200px';
-                }
-                message.dialog(options);
+                message.dialog(this.dialog_options);
             }
             message.html(content).dialog('open');
         },
@@ -194,6 +213,9 @@
     };
 
     var jpoker = $.jpoker;
+
+    if($.browser.msie) { jpoker.msie_compatibility(); } // no coverage
+
 
     //--
     //-- Crypto functions and associated conversion routines
@@ -3614,6 +3636,8 @@
             return true;
         },
         
+        rebuy_options: { width: 'none', height: 'none', autoOpen: false, resizable: false },
+
         rebuy: function(url, game_id, serial) {
             var player = jpoker.getPlayer(url, game_id, serial);
             if(!player) {
@@ -3625,16 +3649,7 @@
             if(rebuy.size() === 0) {
                 $('body').append('<div id=\'jpokerRebuy\' class=\'jpoker_jquery_ui\' title=\'' + _("Add chips") + '\' />');
                 rebuy = $('#jpokerRebuy');
-                var options = { width: 'none', height: 'none', autoOpen: false, resizable: false };
-                if($.browser.msie) {
-                    /* 
-                     *  On IE, the widget container width and height needs to be set explicitly
-                     *  if the widget width/height is being set as 'none'
-                     */
-                    options.containerWidth = '300px';
-                    options.containerHeight = '200px';
-                }
-                rebuy.dialog(options);
+                rebuy.dialog(this.rebuy_options);
             }
             rebuy.empty();
             rebuy.append('<div class=\'jpoker_rebuy_bound jpoker_rebuy_min\'>' + limits[0] + '</div>');

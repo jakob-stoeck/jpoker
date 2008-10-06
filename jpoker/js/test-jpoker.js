@@ -328,21 +328,44 @@ test("jpoker.url2server", function(){
 	equals(server.url, options.url, "server created");
     });
 
+test("jpoker.dialog", function(){
+        expect(2);
+        var message = 'ZAAAZ';
+        jpoker.dialog(message);
+        equals($('#jpokerDialog').text().indexOf(message) >= 0, true, message);
+        equals($('.ui-dialog-container').css('width'), '100%', 'containerWidth 100%');
+        cleanup();
+    });
+
+test("jpoker.dialog msie", function(){
+        expect(2);
+        jpoker.msie_compatibility();
+        var message = 'ZAAAZ';
+        jpoker.dialog(message);
+        equals($('#jpokerDialog').text().indexOf(message) >= 0, true, message);
+        equals($('.ui-dialog-container').css('width'), '300px', 'containerWidth');
+        $('#jpokerDialog').dialog('close');
+        jpoker.other_compatibility();
+        cleanup();
+    });
+
 test("jpoker.copyright", function(){
         expect(1);
         var copyright = jpoker.copyright();
         equals(copyright.text().indexOf('GNU') >= 0, true, 'GNU');
         copyright.dialog('destroy');
+        cleanup();
     });
 
 test("jpoker.copyright msie", function(){
-        expect(1);
-	var browser = $.browser.msie;
-	$.browser.msie = true;
+        expect(2);
+        jpoker.msie_compatibility();
         var copyright = jpoker.copyright();
         equals(copyright.text().indexOf('GNU') >= 0, true, 'GNU');
+        equals($('.ui-dialog-container').css('width'), '400px', 'containerWidth');
         copyright.dialog('destroy');
-	$.browser.msie = browser;
+        jpoker.other_compatibility();
+        cleanup();
     });
 
 test("jpoker.refresh", function(){
@@ -2387,10 +2410,6 @@ test("jpoker.tourney.handler: unknown tourney", function(){
         server.tourneys[game_id] = new jpoker.tourney(server, game_id);
         var tourney = server.tourneys[game_id];
 
-        var packet = { 'type': 'PacketPing',
-                       'game_id': 101
-        };
-
         jpokerMessage = jpoker.message;
 	var messages = [];
         jpoker.message = function(message) {
@@ -2398,7 +2417,7 @@ test("jpoker.tourney.handler: unknown tourney", function(){
         };
 	var verbose = jpoker.verbose;
 	jpoker.verbose = 2;
-	tourney.handler(server, game_id, packet);
+	tourney.handler(server, game_id, { 'type': 'PacketPing', 'game_id': 101 });
 	equals(messages[0].indexOf("tourney.handler") >= 0, true, "tourney handler");
 	equals(messages[1].indexOf("packet discarded") >= 0, true, "unknown tourney");
 	jpoker.verbose = verbose;
