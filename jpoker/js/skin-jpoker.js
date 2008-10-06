@@ -1495,7 +1495,7 @@ function jpoker_120_level_10(place) {
         var packets = [
 { type: 'PacketPokerTable', id: game_id }
                        ];
-        var money = 0;
+        var money = 10000;
         var bet = 8;
         for(var i = 0; i < 3; i++) {
             packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
@@ -1530,7 +1530,7 @@ function jpoker_121_level_40(place) {
         var packets = [
 { type: 'PacketPokerTable', id: game_id }
                        ];
-        var money = 0;
+        var money = 10000;
         var bet = 8;
         for(var i = 0; i < 3; i++) {
             packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
@@ -1565,7 +1565,7 @@ function jpoker_122_level_70(place) {
         var packets = [
 { type: 'PacketPokerTable', id: game_id }
                        ];
-        var money = 0;
+        var money = 10000;
         var bet = 8;
         for(var i = 0; i < 3; i++) {
             packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
@@ -1600,7 +1600,7 @@ function jpoker_123_level_100(place) {
         var packets = [
 { type: 'PacketPokerTable', id: game_id }
                        ];
-        var money = 0;
+        var money = 10000;
         var bet = 8;
         for(var i = 0; i < 3; i++) {
             packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
