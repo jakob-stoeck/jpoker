@@ -4589,6 +4589,30 @@ test("jpoker.plugins.table: PacketPokerTableQuit", function(){
         cleanup(id);
     });
 
+test("jpoker.plugins.table: quit callback", function(){
+	expect(1);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+	var callback = jpoker.plugins.table.callback.quit;
+	jpoker.plugins.table.callback.quit = function(table) {
+	    jpoker.plugins.table.callback.quit = callback;
+	    equals(game_id, table.id, 'callback called');
+	    start_and_cleanup();
+	};
+	
+	place.jpoker('table', 'url', game_id);
+        $("#quit" + id).click();       	
+    });
+
 test("jpoker.plugins.table: PacketPokerDealer", function(){
         expect(6);
         stop();

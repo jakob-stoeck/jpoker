@@ -3162,6 +3162,7 @@
 	if (table.tourney_rank !== undefined) {
 	    jpoker.plugins.table.callback.tourney_end(table);
 	}
+	jpoker.plugins.table.callback.quit(table);
         return false;
     };
 
@@ -3198,7 +3199,9 @@
 	tourney_end: function(table) {
 	    var server = jpoker.getServer(table.url);
 	    server.tourneyRowClick(server, {name: '', game_id: table.tourney_serial});
-	}
+	},
+	quit: function(table) {
+	},
     };
 
     //
