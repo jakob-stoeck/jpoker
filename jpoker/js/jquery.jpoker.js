@@ -961,7 +961,9 @@
                     server.tables[packet.id].reinit(packet);
                 } else {
                     var table = new jpoker.table(server, packet);
-		    table.poll();
+                    if(!table.tourney_serial) {
+                        table.poll();
+                    }
 		    server.tables[packet.id] = table;
                     server.notifyUpdate(packet);
                 }
