@@ -2943,14 +2943,16 @@
             $('#muck_deny' + id).hide();
             $('#quit' + id).click(function() {
                     var server = jpoker.getServer(url);
-                    var table = jpoker.getTable(url, game_id);
-                    if(server) {
-                        server.sendPacket({ type: 'PacketPokerTableQuit', game_id: game_id });
-                        server.setTimeout(function() {
-                                table.handler(server, game_id, { type: 'PacketPokerTableDestroy',
-                                            game_id: game_id });
-                            }, 1);
-                    }
+		    var table = jpoker.getTable(url, game_id);
+		    if(server) {
+			server.sendPacket({ type: 'PacketPokerTableQuit', game_id: game_id });
+			server.setTimeout(function() {
+				server.queueRunning(function(server) {
+					table.handler(server, game_id, { type: 'PacketPokerTableDestroy',
+						    game_id: game_id });
+				    });
+			    }, 1);
+		    }
                 }).hover(function(){
 			$(this).addClass('hover');
 		    },function(){

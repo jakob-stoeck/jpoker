@@ -4613,6 +4613,31 @@ test("jpoker.plugins.table: quit callback", function(){
         $("#quit" + id).click();       	
     });
 
+test("jpoker.plugins.table: quit non running", function(){
+	expect(1);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];	
+	place.jpoker('table', 'url', game_id);
+	server.setState('dummy');
+        $("#quit" + id).click();
+
+	var callback = jpoker.plugins.table.callback.quit;
+	jpoker.plugins.table.callback.quit = function(table) {
+	    jpoker.plugins.table.callback.quit = callback;
+	    equals(server.state, 'running', 'server running');
+	    start_and_cleanup();
+	};
+	setTimeout(function() {server.setState('running');}, 10);
+    });
+
 test("jpoker.plugins.table: PacketPokerDealer", function(){
         expect(6);
         stop();
