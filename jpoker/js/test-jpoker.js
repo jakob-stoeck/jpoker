@@ -3122,17 +3122,20 @@ test("jpoker.plugins.regularTourneyList empty", function(){
 
         var id = 'jpoker' + jpoker.serial;
         var place = $("#main");
+	var template = jpoker.plugins.regularTourneyList.templates.header;
+	jpoker.plugins.regularTourneyList.templates.header = '<table><thead><tr><th>{description_short}</th></tr><tr><th>{registered}</th></tr></thead><tbody>'
         place.jpoker('regularTourneyList', 'url', { delay: 30 });
         server.registerUpdate(function(server, what, data) {
                 var element = $("#" + id);
                 if(element.length > 0) {
                     var tr = $("#" + id + " tr", place);
-                    equals(tr.length, 1);
+                    equals(tr.length, 2);
 		    equals($(".header", element).length, 0, 'no tablesorter');
                     $("#" + id).remove();
                     return true;
                 } else {
                     window.setTimeout(function() {
+			    jpoker.plugins.regularTourneyList.templates.header = template;
                             start_and_cleanup();
                         }, 30);
                     return false;
@@ -3165,12 +3168,14 @@ test("jpoker.plugins.sitngoTourneyList empty", function(){
 
         var id = 'jpoker' + jpoker.serial;
         var place = $("#main");
+	var template = jpoker.plugins.sitngoTourneyList.templates.header;
+	jpoker.plugins.sitngoTourneyList.templates.header = '<table><thead><tr><th>{description_short}</th></tr><tr><th>{registered}</th></tr></thead><tbody>'
         place.jpoker('sitngoTourneyList', 'url', { delay: 30 });
         server.registerUpdate(function(server, what, data) {
                 var element = $("#" + id);
                 if(element.length > 0) {
                     var tr = $("#" + id + " tr", place);
-                    equals(tr.length, 1);
+                    equals(tr.length, 2);
 		    equals($(".header", element).length, 0, 'no tablesorter');
                     $("#" + id).remove();
                     return true;
