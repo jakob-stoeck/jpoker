@@ -214,9 +214,6 @@
 
     var jpoker = $.jpoker;
 
-    if($.browser.msie) { jpoker.msie_compatibility(); } // no coverage
-
-
     //--
     //-- Crypto functions and associated conversion routines
     //--
@@ -4357,5 +4354,7 @@
 	auto_muck_win: true,
 	auto_muck_lose: true
     };
+
+    if($.browser.msie) { jpoker.msie_compatibility(); } // no coverage
 
 })(jQuery);
