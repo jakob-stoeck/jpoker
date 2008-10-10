@@ -1590,6 +1590,15 @@ test("jpoker.server.init/uninit: state running", function() {
 	cleanup();
     });
 
+test("jpoker.server.reset: call clearTimers", function() {
+	expect(1);
+	var server = jpoker.serverCreate({ url: 'url' });
+	server.clearTimers = function() {
+	    ok(true, "clearTimers called");	    
+	};
+	server.reset();
+    });
+
 //
 // jpoker.connection
 //

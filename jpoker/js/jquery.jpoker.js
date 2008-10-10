@@ -885,6 +885,7 @@
             },
 
             reset: function() {
+		this.clearTimers();
                 jpoker.connection.prototype.reset.call(this);
                 this.stateQueue = [];
                 this.setState(this.RUNNING, 'reset');
@@ -922,10 +923,12 @@
 
             clearTimers: function() {
                 var $this = this;
-                $.each(this.timers, function(key, value) {
-                        $this.clearInterval(value.timer);
-                    });
-                this.timers = {};
+		if (this.timers) {
+		    $.each(this.timers, function(key, value) {
+			    $this.clearInterval(value.timer);
+			});
+		    this.timers = {};
+		}
             },
 
             handler: function(server, game_id, packet) {
