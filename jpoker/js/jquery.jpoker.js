@@ -2277,7 +2277,7 @@
 				    })();
 				}
 			    }
-			    if ($('tr body', element).length > 0) {
+			    if ($('tbody tr', element).length > 0) {
 				var t = jpoker.plugins.sitngoTourneyList.templates;
 				var options = {container: $('.pager', element),
 					       positionFixed: false,
