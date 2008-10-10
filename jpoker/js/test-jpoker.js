@@ -590,8 +590,8 @@ test("jpoker.server.reconnect invalid error", function(){
 
         var error = jpoker.error;
         jpoker.error = function(message) {
-            equals(message.indexOf(code) >= 0, true, 'invalid error code');
             jpoker.error = error;
+            equals(message.indexOf(code) >= 0, true, 'invalid error code');
             start_and_cleanup();
         };
         server.reconnect();
@@ -1535,7 +1535,9 @@ test("jpoker.server.setState", function(){
 	expect(1);
 	var server = jpoker.serverCreate({ url: 'url' });
 	var undefinedState = undefined;
+	var error = jpoker.error;
 	jpoker.error = function(reason) {
+            jpoker.error = error;
 	    equals('undefined state', reason, 'error undefined state');
 	};
 	server.setState(undefined);	
@@ -1558,6 +1560,34 @@ test("jpoker.server.urls", function() {
 	server = jpoker.serverCreate({ url: 'url', urls: {avatar: 'avatar', upload: 'upload'}});
 	equals(server.urls.avatar, 'avatar');
 	equals(server.urls.upload, 'upload');
+    });
+
+test("jpoker.server.error: throw correct exception", function() {
+	expect(1);
+	var server = jpoker.serverCreate({ url: 'url' });
+	server.state = 'unknown';
+	server.registerHandler(0, function() {
+		server.notifyUpdate({});
+	    });
+	server.registerUpdate(function() {
+		throw 'dummy error';
+	    });
+	try {
+	    server.handle(0, {});
+	} catch (e) {
+	    equals(e, 'dummy error');
+	}
+	cleanup();
+    });
+
+test("jpoker.server.init/uninit: state running", function() {
+	expect(2);
+	var server = jpoker.serverCreate({ url: 'url' });
+	equals(server.state, 'running');
+	server.state = 'dummy';
+	server.uninit();
+	equals(server.state, 'running');
+	cleanup();
     });
 
 //
@@ -1618,7 +1648,7 @@ test("jpoker.connection:sendPacket error 404", function(){
         stop();
         var self = new jpoker.connection();
         
-        error = jpoker.error;
+        var error = jpoker.error;
         jpoker.error = function(reason) {
             jpoker.error = error;
             equals(reason.xhr.status, 404);
@@ -1634,7 +1664,7 @@ test("jpoker.connection:sendPacket error 500", function(){
         stop();
         var self = new jpoker.connection();
         
-        error = jpoker.error;
+        var error = jpoker.error;
         jpoker.error = function(reason) {
             jpoker.error = error;
             equals(reason.xhr.status, 500);
