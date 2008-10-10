@@ -95,24 +95,24 @@ function setUp() {
     // disable ping logic by setting a very large frequency
     ///
     $.jpoker.serverCreate({ url: 'url', pingFrequency: 20000000 });
-};
+}
 
 function jpoker_01_copyright(place) {
     setUp();
     $.jpoker.copyright();
-};
+}
 
 function jpokerLogin(place) {
         $(place).jpoker('login', config.jpoker.restURL);
-};
+}
 
 function jpokerServerStatus(place) {
         $(place).jpoker('serverStatus', config.jpoker.restURL);
-};
+}
 
 function jpokerTableList(place) {
         $(place).jpoker('tableList', config.jpoker.restURL);
-};
+}
 
 function jpoker_02_join(place) {
         setUp();
@@ -140,7 +140,7 @@ function jpoker_02_join(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 function jpoker_03_joinBuyIn(place) {
         setUp();
@@ -173,7 +173,7 @@ function jpoker_03_joinBuyIn(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 function jpoker_03_playerBet(place) {
         setUp();
@@ -212,7 +212,7 @@ function jpoker_03_playerBet(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 function jpoker_04_playerInPosition(place) {
         setUp();
@@ -248,7 +248,7 @@ function jpoker_04_playerInPosition(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 function jpoker_05_selfPlayer(place) {
         setUp();
@@ -268,11 +268,11 @@ game_id: game_id,
 min:   500,
 max: 20000,
 best:  1000,
-rebuy_min: 1000,
+rebuy_min: 1000
 },
 { type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'myself' },
 { type: 'PacketPokerPlayerStats', serial:player_serial, game_id: game_id, rank: 1, percentile: 10 },
-{ type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, money: 0, bet: 0 },
+{ type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, money: 0, bet: 0 }
                        ];
         ActiveXObject.prototype.server = {
             outgoing: JSON.stringify(packets),
@@ -285,7 +285,7 @@ rebuy_min: 1000,
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 function jpoker_06_selfInPosition(place) {
         setUp();
@@ -337,7 +337,7 @@ function jpoker_06_selfInPosition(place) {
                 return true;
             });
         
-};
+}
 
 function jpoker_07_joining(place) {
         setUp();
@@ -349,7 +349,7 @@ function jpoker_07_joining(place) {
 
         var game_id = 100;
         $(place).jpoker('table', 'url', game_id, 'ONE');
-};
+}
 
 function jpoker_08_all(place) {
         setUp();
@@ -389,7 +389,7 @@ function jpoker_08_all(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 function jpoker_09_dialog(place) {
         setUp();
@@ -400,7 +400,7 @@ function jpoker_09_dialog(place) {
         }
 
         $.jpoker.dialog('Dialog box used for various game messages and notifications.');
-};
+}
 
 function jpoker_10_selfMuck(place) {
         setUp();
@@ -441,7 +441,7 @@ function jpoker_10_selfMuck(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 function jpoker_11_avatarHover(place) {
         setUp();
@@ -478,7 +478,7 @@ function jpoker_11_avatarHover(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 function jpoker_12_selfRebuy(place) {
         setUp();
@@ -498,11 +498,11 @@ function jpoker_12_selfRebuy(place) {
 			 min:   500,
 			 max: 20000,
 			 best:  1000,
-			 rebuy_min: 1000,
+			 rebuy_min: 1000
 		       },
 		       { type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'myself' },
 		       { type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, money: 100, bet: 0 },
-		       { type: 'PacketPokerSit', serial: player_serial, game_id: game_id },
+		       { type: 'PacketPokerSit', serial: player_serial, game_id: game_id }
                        ];
         ActiveXObject.prototype.server = {
             outgoing: JSON.stringify(packets),
@@ -515,7 +515,7 @@ function jpoker_12_selfRebuy(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 
 function jpoker_20_login(place) {
@@ -529,7 +529,7 @@ function jpoker_20_login(place) {
         $(place).jpoker('login', 'url');
         $("#name", place).attr('value', 'username');
         $("#password", place).attr('value', 'randompassword');
-};
+}
 
 function jpoker_21_loginProgress(place) {
         setUp();
@@ -548,7 +548,7 @@ function jpoker_21_loginProgress(place) {
         $(".jpoker_login", place).triggerKeypress("13");
 
         
-};
+}
 
 function jpoker_22_logout(place) {
         setUp();
@@ -562,7 +562,7 @@ function jpoker_22_logout(place) {
         server.serial = 1;
 
         $(place).jpoker('login', 'url');
-};
+}
 
 function jpoker_30_statusDisconnected(place) {
         setUp();
@@ -573,7 +573,7 @@ function jpoker_30_statusDisconnected(place) {
         }
 
         $(place).jpoker('serverStatus', 'url');
-};
+}
 
 function jpoker_31_connectedTables(place) {
         setUp();
@@ -588,7 +588,7 @@ function jpoker_31_connectedTables(place) {
         server.connectionState = 'connected';
         server.tablesCount = 10;
         $(place).jpoker('serverStatus', 'url');
-};
+}
 
 function jpoker_32_connectedTablesPlayers(place) {
         setUp();
@@ -604,7 +604,7 @@ function jpoker_32_connectedTablesPlayers(place) {
         server.tablesCount = 10;
         server.playersCount = 23;
         $(place).jpoker('serverStatus', 'url');
-};
+}
 
 function jpoker_40_tableList(place) {
         setUp();
@@ -623,7 +623,7 @@ function jpoker_40_tableList(place) {
         var server = $.jpoker.getServer('url');
 
         $(place).jpoker('tableList', 'url');
-};
+}
 
 function jpoker_41_regularTourneyList(place) {
         setUp();
@@ -642,7 +642,7 @@ function jpoker_41_regularTourneyList(place) {
         var server = $.jpoker.getServer('url');
 
         $(place).jpoker('regularTourneyList', 'url');
-};
+}
 
 function jpoker_42_sitngoTourneyList(place) {
         setUp();
@@ -661,7 +661,7 @@ function jpoker_42_sitngoTourneyList(place) {
         var server = $.jpoker.getServer('url');
 
         $(place).jpoker('sitngoTourneyList', 'url');
-};
+}
 
 function jpoker_43_tableListWithLink(place) {
         setUp();
@@ -680,7 +680,7 @@ function jpoker_43_tableListWithLink(place) {
         var server = $.jpoker.getServer('url');
 
         $(place).jpoker('tableList', 'url', {link_pattern: 'http://foo/table/game_id={game_id}'});
-};
+}
 
 function jpoker_44_regularTourneyListWithLink(place) {
         setUp();
@@ -699,7 +699,7 @@ function jpoker_44_regularTourneyListWithLink(place) {
         var server = $.jpoker.getServer('url');
 
         $(place).jpoker('regularTourneyList', 'url', {link_pattern: 'http://foo/tourney/tourney_serial={tourney_serial}'});
-};
+}
 
 function jpoker_45_sitngoTourneyListWithLink(place) {
         setUp();
@@ -718,7 +718,7 @@ function jpoker_45_sitngoTourneyListWithLink(place) {
         var server = $.jpoker.getServer('url');
 
         $(place).jpoker('sitngoTourneyList', 'url', {link_pattern: 'http://foo/tourney/tourney_serial={tourney_serial}'});
-};
+}
 
 function jpoker_46_tableListWithPager(place) {
         setUp();
@@ -744,7 +744,7 @@ function jpoker_46_tableListWithPager(place) {
         var server = $.jpoker.getServer('url');
 
         $(place).jpoker('tableList', 'url');
-};
+}
 
 function jpoker_47_regularTourneyListWithPager(place) {
         setUp();
@@ -769,7 +769,7 @@ function jpoker_47_regularTourneyListWithPager(place) {
         var server = $.jpoker.getServer('url');
 
         $(place).jpoker('regularTourneyList', 'url');
-};
+}
 
 function jpoker_48_sitngoTourneyListWithPager(place) {
         setUp();
@@ -794,7 +794,7 @@ function jpoker_48_sitngoTourneyListWithPager(place) {
         var server = $.jpoker.getServer('url');
 
         $(place).jpoker('sitngoTourneyList', 'url');
-};
+}
 
 function jpoker_49_tableListWithPagerWithLinks(place) {
         setUp();
@@ -820,7 +820,7 @@ function jpoker_49_tableListWithPagerWithLinks(place) {
         var server = $.jpoker.getServer('url');
 
         $(place).jpoker('tableList', 'url', {link_pattern: 'http://foo/table/game_id={game_id}'});
-};
+}
 
 function jpoker_49_1_regularTourneyListWithPagerWithLinks(place) {
         setUp();
@@ -845,7 +845,7 @@ function jpoker_49_1_regularTourneyListWithPagerWithLinks(place) {
         var server = $.jpoker.getServer('url');
 
         $(place).jpoker('regularTourneyList', 'url', {link_pattern: 'http://foo/tourney/tourney_serial={tourney_serial}'});
-};
+}
 
 function jpoker_49_2_sitngoTourneyListWithPagerWithLinks(place) {
         setUp();
@@ -870,7 +870,7 @@ function jpoker_49_2_sitngoTourneyListWithPagerWithLinks(place) {
         var server = $.jpoker.getServer('url');
 
         $(place).jpoker('sitngoTourneyList', 'url', {link_pattern: 'http://foo/tourney/tourney_serial={tourney_serial}'});
-};
+}
 
 function jpoker_50_sitOut(place) {
         setUp();
@@ -896,7 +896,7 @@ function jpoker_50_sitOut(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 function jpoker_51_sit(place) {
         setUp();
@@ -923,7 +923,7 @@ function jpoker_51_sit(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 function jpoker_52_inPosition(place) {
         setUp();
@@ -951,7 +951,7 @@ function jpoker_52_inPosition(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 
 function jpoker_53_timeout(place) {
@@ -980,7 +980,7 @@ function jpoker_53_timeout(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 function jpoker_54_sidepot(place) {
         setUp();
@@ -1016,7 +1016,7 @@ function jpoker_54_sidepot(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 function jpoker_55_allWithSidePot(place) {
         setUp();
@@ -1055,7 +1055,7 @@ function jpoker_55_allWithSidePot(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 function jpoker_56_tourneyBreak(place) {
         setUp();
@@ -1090,7 +1090,7 @@ function jpoker_56_tourneyBreak(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 function jpoker_57_stats(place) {
         setUp();
@@ -1124,7 +1124,7 @@ function jpoker_57_stats(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 function jpoker_60_text(place) {
         setUp();
@@ -1152,7 +1152,7 @@ function jpoker_70_userInfo(place) {
         ActiveXObject.prototype.server = new PokerServer();
 
         $(place).jpoker('userInfo', 'url');
-};
+}
 
 function jpoker_80_tourneyDetailsRegistering(place) {
         setUp();
@@ -1178,7 +1178,7 @@ function jpoker_80_tourneyDetailsRegistering(place) {
         var server = $.jpoker.getServer('url');
         server.serial = 10;
         $(place).jpoker('tourneyDetails', 'url', tourney_serial.toString());
-};
+}
 
 function jpoker_81_tourneyDetailsRunning(place) {
         setUp();
@@ -1202,7 +1202,7 @@ function jpoker_81_tourneyDetailsRunning(place) {
         ActiveXObject.prototype.server = new PokerServer();
 
         $(place).jpoker('tourneyDetails', 'url', tourney_serial.toString());
-};
+}
 
 
 function jpoker_82_tourneyDetailsCompleted(place) {
@@ -1227,7 +1227,7 @@ function jpoker_82_tourneyDetailsCompleted(place) {
         ActiveXObject.prototype.server = new PokerServer();
 
         $(place).jpoker('tourneyDetails', 'url', tourney_serial.toString());
-};
+}
 
 function jpoker_83_tourneyDetailsRegisteringWithPager(place) {
         setUp();
@@ -1257,7 +1257,7 @@ function jpoker_83_tourneyDetailsRegisteringWithPager(place) {
         ActiveXObject.prototype.server = new PokerServer();
 
         $(place).jpoker('tourneyDetails', 'url', tourney_serial.toString());
-};
+}
 
 function jpoker_84_tourneyDetailsRunningWithLink(place) {
         setUp();
@@ -1281,7 +1281,7 @@ function jpoker_84_tourneyDetailsRunningWithLink(place) {
         ActiveXObject.prototype.server = new PokerServer();
 
         $(place).jpoker('tourneyDetails', 'url', tourney_serial.toString(), 'tourney1', {link_pattern: 'http://foo.com/tourneytable?game_id={game_id}'});
-};
+}
 
 function jpoker_85_tourneyDetailsRegisteringWithPagerRegister(place) {
         setUp();
@@ -1313,7 +1313,7 @@ function jpoker_85_tourneyDetailsRegisteringWithPagerRegister(place) {
         var server = $.jpoker.getServer('url');
 	server.serial = 666;
         $(place).jpoker('tourneyDetails', 'url', tourney_serial.toString(), 'tourney1');
-};
+}
 
 function jpoker_86_tourneyDetailsRegisteringWithPagerUnregister(place) {
         setUp();
@@ -1345,7 +1345,7 @@ function jpoker_86_tourneyDetailsRegisteringWithPagerUnregister(place) {
         var server = $.jpoker.getServer('url');
 	server.serial = 1;
         $(place).jpoker('tourneyDetails', 'url', tourney_serial.toString(), 'tourney1');
-};
+}
 
 function jpoker_90_tourneyPlaceholder(place) {
         setUp();
@@ -1369,7 +1369,7 @@ function jpoker_90_tourneyPlaceholder(place) {
         ActiveXObject.prototype.server = new PokerServer();
 	
         $(place).jpoker('tourneyPlaceholder', 'url', tourney_serial.toString());
-};
+}
 
 function jpoker_100_places(place) {
         setUp();
@@ -1391,7 +1391,7 @@ function jpoker_100_places(place) {
         var server = $.jpoker.getServer('url');
 	server.serial = 42;
         $(place).jpoker('places', 'url');
-};
+}
 
 function jpoker_101_playerLookup(place) {
         setUp();
@@ -1410,7 +1410,7 @@ function jpoker_101_playerLookup(place) {
 		++i;
 		server.queueIncoming([PLAYER_PLACES_PACKET]);
 	    }).click();
-};
+}
 
 function jpoker_102_placesWithLink(place) {
         setUp();
@@ -1435,7 +1435,7 @@ function jpoker_102_placesWithLink(place) {
 	var table_link_pattern = 'http://foo.com/table?game_id={game_id}';
 	var tourney_link_pattern = 'http://foo.com/tourney?tourney_serial={tourney_serial}';
         $(place).jpoker('places', 'url', {table_link_pattern: table_link_pattern, tourney_link_pattern: tourney_link_pattern});
-};
+}
 
 function jpoker_103_playerLookupWithLink(place) {
         setUp();
@@ -1456,7 +1456,7 @@ function jpoker_103_playerLookupWithLink(place) {
 		++i;
 		server.queueIncoming([PLAYER_PLACES_PACKET]);
 	    }).click();
-};
+}
 
 function jpoker_110_cashier(place) {
         setUp();
@@ -1466,7 +1466,7 @@ function jpoker_110_cashier(place) {
             $(place).append('<hr>');
         }
 
-	var USER_INFO_PACKET = {"rating":1000,"name":"proppy","money":{"X1":[100000,10000,0], "X2":[200000,20000,0]},"affiliate":0,"cookie":"","serial":4,"password":"","type":"PacketPokerUserInfo","email":"","uid__":"jpoker1220102037582"}
+	var USER_INFO_PACKET = {"rating":1000,"name":"proppy","money":{"X1":[100000,10000,0], "X2":[200000,20000,0]},"affiliate":0,"cookie":"","serial":4,"password":"","type":"PacketPokerUserInfo","email":"","uid__":"jpoker1220102037582"};
 
         var PokerServer = function() {};
         PokerServer.prototype = {
@@ -1479,7 +1479,7 @@ function jpoker_110_cashier(place) {
         var server = $.jpoker.getServer('url');
 	server.serial = 42;
 	$(place).jpoker('cashier', 'url');
-};
+}
 
 
 function jpoker_120_level_10(place) {
@@ -1515,7 +1515,7 @@ function jpoker_120_level_10(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 function jpoker_121_level_40(place) {
         setUp();
@@ -1550,7 +1550,7 @@ function jpoker_121_level_40(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 function jpoker_122_level_70(place) {
         setUp();
@@ -1585,7 +1585,7 @@ function jpoker_122_level_70(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 function jpoker_123_level_100(place) {
         setUp();
@@ -1620,7 +1620,7 @@ function jpoker_123_level_100(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 function jpoker_130_chat_scroll(place) {
         setUp();
@@ -1650,7 +1650,7 @@ function jpoker_130_chat_scroll(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 function jpoker_131_chat_no_scroll(place) {
         setUp();
@@ -1680,7 +1680,7 @@ function jpoker_131_chat_no_scroll(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');
-};
+}
 
 function jpoker_141_click_here_to_get_a_seat(place) {
         setUp();
@@ -1693,7 +1693,7 @@ function jpoker_141_click_here_to_get_a_seat(place) {
         var game_id = 100;
         var player_serial = 200;
         var packets = [
-{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 100, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 4, "waiting": 0, "skin": "default", "id": game_id, "type": "PacketPokerTable", "player_timeout": 60},
+{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 100, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 4, "waiting": 0, "skin": "default", "id": game_id, "type": "PacketPokerTable", "player_timeout": 60}
                        ];
         ActiveXObject.prototype.server = {
             outgoing: JSON.stringify(packets),
@@ -1706,5 +1706,5 @@ function jpoker_141_click_here_to_get_a_seat(place) {
 	    $(place).jpoker('table', 'url', game_id, 'ONE');
 	};
         server.sendPacket('ping');	
-};
+}
 
