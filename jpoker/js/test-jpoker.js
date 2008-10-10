@@ -2495,6 +2495,22 @@ test("jpoker.player.sidepot", function(){
 	equals(player.side_pot, undefined, 'side pot reset');
     });
 
+test("jpoker.player.stats", function(){
+	expect(4);
+        var serial = 42;
+        var name = 'username';
+        var url = 'url';
+        var server = jpoker.serverCreate({ url: url });
+	var game_id = 100;
+        var player = new jpoker.player({ url: url }, { serial: serial, name: name });
+	equals(undefined, player.stats);
+	player.handler(server, game_id, {type: 'PacketPokerPlayerStats', serial: serial, rank: 1, percentile: 99, game_id: game_id});
+	equals(99, player.stats.percentile);
+	equals(1, player.stats.rank);
+	player.reset();
+	equals(undefined, player.stats);
+    });
+
 //
 // tableList
 //

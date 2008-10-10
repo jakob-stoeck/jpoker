@@ -1817,6 +1817,7 @@
                 this.bet = 0;
                 this.sit = false;
 		this.side_pot = undefined;
+		this.stats = undefined;
             },
 
             handler: function(server, game_id, packet) {
@@ -1896,6 +1897,7 @@
 		break;
 
 		case 'PacketPokerPlayerStats':
+		this.stats = packet;
 		this.notifyUpdate(packet);
 		break;
                 }
