@@ -1760,10 +1760,10 @@
                     jpoker.message('tourney.handler ' + JSON.stringify(packet));
                 }
 
-                tourney_serial = packet.tourney_serial
+                tourney_serial = packet.tourney_serial;
                 tourney = server.tourneys[tourney_serial];
                 if(!tourney) {
-                    tourney_serial = packet.game_id
+                    tourney_serial = packet.game_id;
                     tourney = server.tourneys[tourney_serial];
                 }
                 if(!tourney) {
@@ -3211,7 +3211,7 @@
 	    server.tourneyRowClick(server, {name: '', game_id: table.tourney_serial});
 	},
 	quit: function(table) {
-	},
+	}
     };
 
     //
