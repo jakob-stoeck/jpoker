@@ -1594,9 +1594,12 @@ test("jpoker.server.reset: call clearTimers", function() {
 	expect(1);
 	var server = jpoker.serverCreate({ url: 'url' });
 	server.clearTimers = function() {
-	    ok(true, "clearTimers called");	    
+	    ok(true, "clearTimers called");
 	};
 	server.reset();
+	server.clearTimers = function() {};
+	server.uninit();
+	cleanup();
     });
 
 //
