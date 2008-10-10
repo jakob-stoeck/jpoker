@@ -5,6 +5,7 @@
 .jpoker_jquery_ui.ui-dialog {
 	background-color: #e6f7d4;
 	border:1px solid #AAAAAA;
+	font-family: "trebuchet MS",arial,helvetica,sans-serif;
 }
 
 .jpoker_jquery_ui .ui-dialog .ui-dialog-titlebar,
@@ -54,7 +55,7 @@
 
 .jpoker_jquery_ui .ui-dialog .ui-dialog-content,
 .jpoker_jquery_ui.ui-dialog .ui-dialog-content {
-	margin: 1.2em;
+	margin: 20px;
 }
 
 .jpoker_jquery_ui .ui-dialog .ui-dialog-buttonpane,

@@ -158,18 +158,11 @@ a.jpoker_tourney_details_tables_goto_table {
 	border:none;
 }
 
-
-
-.viewer .jpoker_tourney_details table, .jpoker_tourney_details table.twtable,
-.viewer .jpoker_tourney_details table th, .jpoker_tourney_details table.twtable th,
-/*
-.viewer .jpoker_tourney_details table thead tr, .jpoker_tourney_details table.twtable thead tr,
-*/
-.viewer .jpoker_tourney_details table thead td, .jpoker_tourney_details table.twtable thead td {
-	border:none;
+.jpoker_tourney_details .pager {
+	text-align:center;
 }
 
-.viewer .jpoker_tourney_details table, .jpoker_tourney_details table.twtable {
-	margin:0;
-}
+
+
+
 

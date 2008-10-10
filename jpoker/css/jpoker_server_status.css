@@ -1,4 +1,7 @@
 .jpoker_server_status {
     padding:2px 5px;
     margin-left: 1.5em;
+    font-size:12px;
+	font-family:"trebuchet MS",arial,helvetica,sans-serif;
+	color:#444;
 }
