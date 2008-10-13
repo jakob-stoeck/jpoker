@@ -4548,7 +4548,7 @@ test("jpoker.plugins.table.chat", function(){
     });
 
 test("jpoker.plugins.table: PokerPlayerArrive/Leave (Self)", function(){
-        expect(17);
+        expect(18);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var player_serial = 1;
@@ -4582,6 +4582,7 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave (Self)", function(){
         equals($("#player_seat0_name" + id).html(), 'click to sit', "username arrive");
         var avatar_image = $("#player_seat0_avatar" + id + " img").attr("src");
 	ok(avatar_image.indexOf("mycustomavatar.png") >= 0, "custom avatar" + avatar_image);
+	equals($("#player_seat0_avatar" + id + " img").attr('alt'), 'username', 'alt of seat0');
         equals(table.seats[0], player_serial, "player 1");
         equals(table.serial2player[player_serial].serial, player_serial, "player 1 in player2serial");
         var names = [ 'check', 'call', 'raise', 'fold' ];
@@ -5130,7 +5131,7 @@ test("jpoker.plugins.player: avatar", function(){
     });
 
 test("jpoker.plugins.player: avatar race condition", function(){
-        expect(2);
+        expect(3);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url', urls : {avatar : 'http://avatar-server/'}});
@@ -5152,13 +5153,15 @@ test("jpoker.plugins.player: avatar race condition", function(){
 	server.ajax = function(options) {
 	    ajax_success.push(options.success);
 	};
-        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
-        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat+1, serial: player_serial+1, game_id: game_id });
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', name: "player1", seat: player_seat, serial: player_serial, game_id: game_id });
+        var player2_name = "player2";
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', name: player2_name, seat: player_seat+1, serial: player_serial+1, game_id: game_id });
 
 	ajax_success[0]('data', 'status');
 	ajax_success[1]('data', 'status');
 	ok($("#player_seat2_avatar" + id).css('background-image').indexOf('/1') >= 0, 'avatar 1');
 	ok($("#player_seat3_avatar" + id + " img").attr('src').indexOf('/2') >= 0, 'avatar 2');
+	equals($("#player_seat3_avatar" + id + " img").attr('alt'), player2_name, 'avatar 2 alt');
 
 	jpoker.plugins.muck.sendAutoMuck = send_auto_muck;
         start_and_cleanup();
