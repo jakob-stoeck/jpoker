@@ -4580,8 +4580,8 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave (Self)", function(){
         equals($("#seat0" + id).css('display'), 'block', "arrive");
         equals($("#sit_seat0" + id).css('display'), 'none', "seat0 hidden");
         equals($("#player_seat0_name" + id).html(), 'click to sit', "username arrive");
-        var background = $("#player_seat0_avatar" + id).css('background-image');
-	ok(background.indexOf("mycustomavatar.png") >= 0, "custom avatar");
+        var avatar_image = $("#player_seat0_avatar" + id + " img").attr("src");
+	ok(avatar_image.indexOf("mycustomavatar.png") >= 0, "custom avatar" + avatar_image);
         equals(table.seats[0], player_serial, "player 1");
         equals(table.serial2player[player_serial].serial, player_serial, "player 1 in player2serial");
         var names = [ 'check', 'call', 'raise', 'fold' ];
@@ -5158,7 +5158,7 @@ test("jpoker.plugins.player: avatar race condition", function(){
 	ajax_success[0]('data', 'status');
 	ajax_success[1]('data', 'status');
 	ok($("#player_seat2_avatar" + id).css('background-image').indexOf('/1') >= 0, 'avatar 1');
-	ok($("#player_seat3_avatar" + id).css('background-image').indexOf('/2') >= 0, 'avatar 2');
+	ok($("#player_seat3_avatar" + id + " img").attr('src').indexOf('/2') >= 0, 'avatar 2');
 
 	jpoker.plugins.muck.sendAutoMuck = send_auto_muck;
         start_and_cleanup();

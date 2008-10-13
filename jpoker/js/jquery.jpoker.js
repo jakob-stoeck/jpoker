@@ -3238,24 +3238,19 @@
             var avatar_element = $('#player_seat' + seat  + '_avatar' + id);
 	    if ((packet.url !== undefined) && (packet.url != 'random')) {
                 avatar_element.removeClass().addClass('jpoker_avatar jpoker_ptable_player_seat' + seat + '_avatar ');
-		avatar_element.css({
-                            'background-image': 'url("' + packet.url + '")',
-			    'display': 'block'
-			    });
+                avatar_element.html('<img src="' + packet.url + '" />');
 	    } else {
                 var avatar = (seat + 1) + (10 * game_id % 2);
                 avatar_element.removeClass().addClass('jpoker_avatar jpoker_ptable_player_seat' + seat + '_avatar jpoker_avatar_default_' + avatar);
-		avatar_element.show();
+		avatar_element.empty();
 	    }
+            avatar_element.show();
 	    var avatar_url = server.urls.avatar+'/'+serial;
 	    server.ajax({url: avatar_url,
 			type: 'GET',
 			global: false,
 			success: function(data, status) {
-			avatar_element.css({
-				'background-image': 'url("' + avatar_url + '")',
-				'display': 'block'
-				});
+                        avatar_element.html('<img src="' + avatar_url + '" />');
 		    }
 		});
 	    avatar_element.hover(function() {
