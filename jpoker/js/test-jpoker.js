@@ -4792,7 +4792,7 @@ test("jpoker.plugins.table: PacketPokerChat", function(){
         equals($(".jpoker_chat_history_dealer").text(), "", "no dealer message");
 	$(".jpoker_chat_history_player").text("");
 
-	var dealer_message = 'Dealer: voila\ntout';
+	var dealer_message = 'Dealer: voila\nDealer: tout\n';
         table.handler(server, game_id, { type: 'PacketPokerChat', message: dealer_message, game_id: game_id, serial: 0 });	
         var chat_history_dealer = $(".jpoker_chat_history_dealer", chat_history);
 	var chat_lines_dealer = $(".jpoker_chat_line", chat_history_dealer);
