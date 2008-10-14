@@ -3147,7 +3147,7 @@
 		}
 		for(var line = 0; line < lines.length; line++) {
 		    var message = lines[line];
-		    if (packet.serial == 0) {
+		    if (packet.serial === 0) {
 			message = message.replace(/^Dealer: /, '');
 		    }
                     chat.prepend('<div class=\'jpoker_chat_line\'><span class=\'jpoker_chat_prefix\'>' + prefix + '</span><span class=\'jpoker_chat_message\'>' + message + '</span></div>');
