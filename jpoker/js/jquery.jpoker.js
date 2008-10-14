@@ -3131,12 +3131,14 @@
 		break;
 
             case 'PacketPokerChat':
-                var lines = packet.message.replace(/\n$/, '').split('\n');
-		var chat_history = $('#chat_history' + id);
+		var message = packet.message;
                 var chat;
                 var prefix = '';
+		var chat_history = $('#chat_history' + id);
 		if (packet.serial === 0) {
 		    chat = $('.jpoker_chat_history_dealer', chat_history);
+		    prefix = 'Dealer: ';
+		    message = message.replace(/^Dealer: /, '');
 		}
 		else {
 		    chat = $('.jpoker_chat_history_player', chat_history);
@@ -3144,6 +3146,7 @@
 			prefix = table.serial2player[packet.serial].name + ': ';
 		    }
 		}
+                var lines = message.replace(/\n$/, '').split('\n');
 		for(var line = 0; line < lines.length; line++) {
                     chat.prepend('<div class=\'jpoker_chat_line\'><span class=\'jpoker_chat_prefix\'>' + prefix + '</span><span class=\'jpoker_chat_message\'>' + lines[line] + '</span></div>');
                 }

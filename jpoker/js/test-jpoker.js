@@ -4760,7 +4760,7 @@ test("jpoker.plugins.table: PacketPokerDealer", function(){
     });
 
 test("jpoker.plugins.table: PacketPokerChat", function(){
-        expect(10);
+        expect(15);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
@@ -4781,19 +4781,26 @@ test("jpoker.plugins.table: PacketPokerChat", function(){
         equals($(".jpoker_chat_history_dealer", chat_history).size(), 1, "chat history DOM element");
         equals($(".jpoker_chat_history_player", chat_history).size(), 1, "chat history DOM element");
         var message = 'voila\ntout';
-
         table.handler(server, game_id, { type: 'PacketPokerChat', message: message, game_id: game_id, serial: player_serial });
-        var content = $(".jpoker_chat_history_player", chat_history).text();
-        equals(content.indexOf(message) >= 0, false, "message is split");
-        equals(content.indexOf('tout') >= 0, true, "message part is displayed");
-        equals(content.indexOf(player_name+': ') >= 0, true, "player_name displayed");
+        var chat_history_player = $(".jpoker_chat_history_player", chat_history);
+	var chat_lines = $(".jpoker_chat_line", chat_history_player);
+	equals(chat_lines.length, 2);
+	equals($(".jpoker_chat_prefix", chat_lines.eq(0)).html(), "username: ");
+	equals($(".jpoker_chat_message", chat_lines.eq(0)).html(), "tout");	
+	equals($(".jpoker_chat_prefix", chat_lines.eq(1)).html(), "username: ");
+	equals($(".jpoker_chat_message", chat_lines.eq(1)).html(), "voila");
         equals($(".jpoker_chat_history_dealer").text(), "", "no dealer message");
-	
 	$(".jpoker_chat_history_player").text("");
-        table.handler(server, game_id, { type: 'PacketPokerChat', message: message, game_id: game_id, serial: 0 });	
-        content = $(".jpoker_chat_history_dealer", chat_history).text();
-        equals(content.indexOf(message) >= 0, false, "message is split");
-        equals(content.indexOf('tout') >= 0, true, "message part is displayed");
+
+	var dealer_message = 'Dealer: voila\ntout';
+        table.handler(server, game_id, { type: 'PacketPokerChat', message: dealer_message, game_id: game_id, serial: 0 });	
+        var chat_history_dealer = $(".jpoker_chat_history_dealer", chat_history);
+	var chat_lines = $(".jpoker_chat_line", chat_history_dealer);
+	equals(chat_lines.length, 2);
+	equals($(".jpoker_chat_prefix", chat_lines.eq(0)).html(), "Dealer: ");
+	equals($(".jpoker_chat_message", chat_lines.eq(0)).html(), "tout");	
+	equals($(".jpoker_chat_prefix", chat_lines.eq(1)).html(), "Dealer: ");
+	equals($(".jpoker_chat_message", chat_lines.eq(1)).html(), "voila");
         equals($(".jpoker_chat_history_player").text(), "", "no player message");
 
         cleanup();
