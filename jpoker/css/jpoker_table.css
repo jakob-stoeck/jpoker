@@ -255,6 +255,17 @@
 	line-height: 1.5em;
 }
 
+
+.jpoker_table .jpoker_powered_by {
+	border: 2px solid #000;
+	font-weight: bold;
+	background: #ddd;
+}
+
+.jpoker_table .jpoker_powered_by a {
+	color: #000;
+}
+
 .jpoker_table a { 
 	color: #fff;
 	font-weight: bold;

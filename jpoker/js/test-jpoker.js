@@ -5087,6 +5087,27 @@ test("jpoker.plugins.table: remove callbacks", function(){
 	equals(table.callbacks.reinit.length, 0, 'table reinitCallback removed');
     });
 
+test("jpoker.plugins.table: powered_by", function(){
+        expect(4);
+	var packet = {"type": "PacketPokerTable", "id": 100, "name": "One", "percent_flop" : 98, "betting_structure": "15-30-no-limit"};
+        var server = jpoker.serverCreate({ url: 'url' });
+	server.tables[packet.id] = new jpoker.table(server, packet);
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+
+        var game_id = 100;
+
+        place.jpoker('table', 'url', game_id);
+
+	var powered_by_element = $('#powered_by'+id);
+	equals(powered_by_element.length, 1, 'table info');
+	ok(powered_by_element.hasClass('jpoker_powered_by'), 'jpoker_powered_by class');
+	equals($('a', powered_by_element).length, 1, 'a');
+	equals($('a span', powered_by_element).length, 1, 'span');
+	cleanup();
+    });
+
+
 //
 // player
 //

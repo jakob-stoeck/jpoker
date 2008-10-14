@@ -2997,6 +2997,8 @@
 		$('<div class=\'jpoker_table_info_level\'>').appendTo(table_info_element);
 	    }
 
+	    $('#powered_by' + id).addClass('jpoker_powered_by').html(this.templates.powered_by);
+
             // it does not matter to register twice as long as the same key is used
             // because the second registration will override the first
             table.registerUpdate(this.update, id, 'table update' + id);
@@ -3137,7 +3139,7 @@
 		var chat_history = $('#chat_history' + id);
 		if (packet.serial === 0) {
 		    chat = $('.jpoker_chat_history_dealer', chat_history);
-		    prefix = 'Dealer: ';
+		    prefix = _("Dealer") + ': ';
 		}
 		else {
 		    chat = $('.jpoker_chat_history_player', chat_history);
@@ -3206,7 +3208,8 @@
 
     jpoker.plugins.table.templates = {
         room: 'expected to be overriden by mockup.js but was not',
-	tourney_break: '<div>{label}</div><div>{date}</div>'
+	tourney_break: '<div>{label}</div><div>{date}</div>',
+	powered_by: '<a title="Powered by Pokersource" onclick="window.open(this.href); return false" href="http://pokersource.info/"><span>Powered by Pokersource</span></a>'
     };
 
     jpoker.plugins.table.callback = {
