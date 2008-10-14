@@ -567,6 +567,8 @@
                 this.queues = {};
                 this.delays = {};
                 this.session = 'name=' + jpoker.url2hash(this.url);
+		this.count = 'count=' + this.incrementSessionCount();
+
 		if (this.urls === undefined) {
 		    this.urls = {};		    
 		}
@@ -592,6 +594,17 @@
             sessionExists: function() {
                 return this.cookie().indexOf(this.sessionName()) >= 0;
             },
+
+	    incrementSessionCount: function() {
+		var session_count_cookie = 'jpoker_count_'+jpoker.url2hash(this.url);
+		var session_count = $.cookie(session_count_cookie);
+		if (session_count === null) {
+		    session_count = 0;
+		}
+		++session_count;
+		$.cookie(session_count_cookie, session_count);
+		return session_count;
+	    },
 
             reset: function() {
                 this.clearTimeout(this.pingTimer);
@@ -707,7 +720,7 @@
                     data: json_data,
                     mode: this.mode,
                     timeout: this.timeout,
-                    url: this.url + '?' + this.session,
+                    url: this.url + '?' + this.session + '&' + this.count,
                     type: 'POST',
                     dataType: 'json',
                     global: false, // do not fire global events
@@ -876,13 +889,6 @@
                 this.serial = 0;
                 this.userInfo = {};
 		this.preferences = new jpoker.preferences(jpoker.url2hash(this.url));
-		var jpoker_serial_cookie = 'jpoker_serial_'+jpoker.url2hash(this.url);
-		var jpoker_serial = $.cookie(jpoker_serial_cookie);
-		if (jpoker_serial === null) {
-		    jpoker_serial = 0;
-		}
-		++jpoker_serial;
-		$.cookie(jpoker_serial_cookie, jpoker_serial);
                 this.registerHandler(0, this.handler);
                 if(jpoker.doReconnect && (this.sessionExists() || this.protocol() == 'file:')) {
                     this.reconnect();

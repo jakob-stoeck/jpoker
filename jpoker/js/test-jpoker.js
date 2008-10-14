@@ -89,7 +89,8 @@ var cleanup = function(id) {
 	   });
     jpoker.uninit();
     $.cookie('jpoker_preferences_'+jpoker.url2hash('url'), null);
-    $.cookie('jpoker_serial_'+jpoker.url2hash('url'), null);
+    $.cookie('jpoker_count_'+jpoker.url2hash('url'), null);
+    $.cookie('jpoker_count_'+jpoker.url2hash('url2'), null);
     $('#jpokerDialog').dialog('close').remove();
     $('#jpokerRebuy').dialog('close').remove();
 };
@@ -435,18 +436,6 @@ test("jpoker.Crypto b32 str", function (){
 //
 // jpoker.server
 //
-
-test("jpoker.server.init increment serial cookie", function() {
-	expect(2);
-	
-	$.cookie('jpoker_serial_'+jpoker.url2hash('url'), null);
-	var server1 = jpoker.serverCreate({ url: 'url' });
-	equals($.cookie('jpoker_serial_'+jpoker.url2hash('url')), 1);
-	var server2 = jpoker.serverCreate({ url: 'url' });
-	equals($.cookie('jpoker_serial_'+jpoker.url2hash('url')), 2);
-	
-	cleanup();
-    });
 
 test("jpoker.server.uninit", function() {
 	expect(4);
@@ -1980,6 +1969,31 @@ test("jpoker.connection:cookie protocol", function() {
 	var connection = new jpoker.connection();
 	equals(connection.cookie(), document.cookie, 'cookie');
 	equals(connection.protocol(), document.location.protocol, 'protocol');
+    });
+
+test("jpoker.connection:increment sessionCount", function() {
+	expect(3);
+	
+	$.cookie('jpoker_count_'+jpoker.url2hash('url'), null);
+	var server1 = new jpoker.connection({ url: 'url' });
+	equals($.cookie('jpoker_count_'+jpoker.url2hash('url')), 1);
+ 	var server2 = new jpoker.connection({ url: 'url' });
+	equals($.cookie('jpoker_count_'+jpoker.url2hash('url')), 2);
+ 	var server3 = new jpoker.connection({ url: 'url2' });
+	equals($.cookie('jpoker_count_'+jpoker.url2hash('url2')), 1);
+	
+	cleanup();
+    });
+
+test("jpoker.connection: ajax arguments", function() {
+	expect(2);
+	var server = new jpoker.connection({ url: 'url' });
+	server.ajax = function(options) {
+	    ok(options.url.indexOf("name=") >= 0, 'name');
+	    ok(options.url.indexOf("count=") >= 0, 'count');
+	};
+	server.sendPacket({});	
+	cleanup();
     });
 
 //
