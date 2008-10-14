@@ -4795,12 +4795,12 @@ test("jpoker.plugins.table: PacketPokerChat", function(){
 	var dealer_message = 'Dealer: voila\ntout';
         table.handler(server, game_id, { type: 'PacketPokerChat', message: dealer_message, game_id: game_id, serial: 0 });	
         var chat_history_dealer = $(".jpoker_chat_history_dealer", chat_history);
-	var chat_lines = $(".jpoker_chat_line", chat_history_dealer);
-	equals(chat_lines.length, 2);
-	equals($(".jpoker_chat_prefix", chat_lines.eq(0)).html(), "Dealer: ");
-	equals($(".jpoker_chat_message", chat_lines.eq(0)).html(), "tout");	
-	equals($(".jpoker_chat_prefix", chat_lines.eq(1)).html(), "Dealer: ");
-	equals($(".jpoker_chat_message", chat_lines.eq(1)).html(), "voila");
+	var chat_lines_dealer = $(".jpoker_chat_line", chat_history_dealer);
+	equals(chat_lines_dealer.length, 2);
+	equals($(".jpoker_chat_prefix", chat_lines_dealer.eq(0)).html(), "Dealer: ");
+	equals($(".jpoker_chat_message", chat_lines_dealer.eq(0)).html(), "tout");	
+	equals($(".jpoker_chat_prefix", chat_lines_dealer.eq(1)).html(), "Dealer: ");
+	equals($(".jpoker_chat_message", chat_lines_dealer.eq(1)).html(), "voila");
         equals($(".jpoker_chat_history_player").text(), "", "no player message");
 
         cleanup();
