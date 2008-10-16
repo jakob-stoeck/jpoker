@@ -103,7 +103,8 @@ class SVG2CSS(SVGParse):
                '../css/images/jpoker_table/timeout_bar.png',
                '../css/images/jpoker_table/chat_input.png',
                '../css/images/jpoker_table/chat_log.png',
-               '../css/images/jpoker_table/muck_options.png'
+               '../css/images/jpoker_table/muck_options.png',
+               '../css/images/jpoker_table/status.png'
                ]
     transforms = []
     def startElementSvg(self, attrs):

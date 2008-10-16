@@ -2977,8 +2977,8 @@
 		    },function(){
 			$(this).removeClass('hover');
 		    }).html('<div class=\'jpoker_quit\'><a href=\'javascript://\'>' + _("Exit") + '</a></div>');
-            $('#chat' + id).html('<input value=\'chat here\' type=\'text\' width=\'100%\' />').hide();
-	    $('#chat_history' + id).html('<div class=\'jpoker_chat_history_player\'></div><div class=\'jpoker_chat_history_dealer\'></div>');
+            var chat_element = $('#chat' + id).html(this.templates.chat);
+	    $('.jpoker_chat_input', chat_element).hide();
             jpoker.plugins.playerSelf.hide(id);
             for(var serial in table.serial2player) {
                 jpoker.plugins.player.create(table, table.serial2player[serial], id);
@@ -3136,13 +3136,13 @@
                 var lines = packet.message.replace(/\n$/, '').split('\n');
                 var chat;
                 var prefix = '';
-		var chat_history = $('#chat_history' + id);
+		var chat_element = $('#chat' + id);
 		if (packet.serial === 0) {
-		    chat = $('.jpoker_chat_history_dealer', chat_history);
+		    chat = $('.jpoker_chat_history_dealer', chat_element);
 		    prefix = _("Dealer") + ': ';
 		}
 		else {
-		    chat = $('.jpoker_chat_history_player', chat_history);
+		    chat = $('.jpoker_chat_history_player', chat_element);
 		    if(packet.serial in table.serial2player) {
 			prefix = table.serial2player[packet.serial].name + ': ';
 		    }
@@ -3209,7 +3209,8 @@
     jpoker.plugins.table.templates = {
         room: 'expected to be overriden by mockup.js but was not',
 	tourney_break: '<div>{label}</div><div>{date}</div>',
-	powered_by: '<a title="Powered by Pokersource" onclick="window.open(this.href); return false" href="http://pokersource.info/"><span>Powered by Pokersource</span></a>'
+	powered_by: '<a title="Powered by Pokersource" onclick="window.open(this.href); return false" href="http://pokersource.info/"><span>Powered by Pokersource</span></a>',
+	chat: '<div class=\'jpoker_chat_input\'><input value=\'chat here\' type=\'text\' width=\'100%\' /></div><div class=\'jpoker_chat_history\'><div class=\'jpoker_chat_history_player\'></div><div class=\'jpoker_chat_history_dealer\'></div></div>'
     };
 
     jpoker.plugins.table.callback = {
@@ -3590,7 +3591,7 @@
             var chat = function() {
                 var server = jpoker.getServer(url);
                 if(server) {
-                    var input = $('#chat' + id + ' input');
+                    var input = $('#chat' + id + ' .jpoker_chat_input input');
                     var message = input.attr('value').replace(/[\'\"]/g, '');
                     server.sendPacket({ 'type': 'PacketPokerChat',
                                 'serial': server.serial,
@@ -3600,7 +3601,7 @@
                     input.attr('value', '');
                 }
             };
-            $('#chat' + id).unbind('keypress').keypress(function(e) {
+            $('#chat' + id + ' .jpoker_chat_input').unbind('keypress').keypress(function(e) {
                     if(e.which == 13) {
                         chat();
                     }
@@ -3654,7 +3655,7 @@
         leave: function(player, packet, id) {
             $('#sitout' + id).hide();
             $('#rebuy' + id).hide();
-            $('#chat' + id).hide();
+            $('#chat' + id + ' .jpoker_chat_input').hide();
         },
 
         updateTable: function(table, what, packet, id) {

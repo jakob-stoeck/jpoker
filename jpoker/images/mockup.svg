@@ -30,8 +30,8 @@
     </rdf:RDF>
   </metadata>
   <sodipodi:namedview
-     inkscape:window-height="768"
-     inkscape:window-width="1024"
+     inkscape:window-height="722"
+     inkscape:window-width="768"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -43,9 +43,9 @@
      id="base"
      inkscape:zoom="1"
      inkscape:cx="418.73109"
-     inkscape:cy="173.06931"
-     inkscape:window-x="4"
-     inkscape:window-y="25"
+     inkscape:cy="187.28218"
+     inkscape:window-x="123"
+     inkscape:window-y="60"
      inkscape:current-layer="game_fixed"
      height="800px"
      width="800px"
@@ -1011,24 +1011,14 @@
     </g>
     <image
        xlink:href="../css/images/jpoker_table/status.png"
-       id="chat_history"
-       inkscape:transform-center-y="137.9562"
-       inkscape:transform-center-x="-51.049944"
-       height="150"
-       width="496.01721"
-       inkscape:label="#image2255"
-       x="154.98279"
-       y="626" />
-    <image
-       xlink:href="../css/images/jpoker_table/status.png"
-       x="154.98279"
        id="chat"
-       inkscape:transform-center-y="82.77372"
+       inkscape:transform-center-y="159.10948"
        inkscape:transform-center-x="-51.049944"
+       height="173"
        width="496.01721"
        inkscape:label="#image2255"
-       height="24"
-       y="600" />
+       x="154.98279"
+       y="603" />
     <image
        xlink:href="../css/images/jpoker_table/button.png"
        y="636.99182"

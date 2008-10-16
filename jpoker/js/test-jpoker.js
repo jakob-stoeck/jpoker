@@ -4532,7 +4532,7 @@ test("jpoker.plugins.table.chat", function(){
         var table = server.tables[game_id];
 
         place.jpoker('table', 'url', game_id);
-        var chat = $("#chat" + id);
+        var chat = $("#chat"+id+" .jpoker_chat_input");
         equals(chat.size(), 1, "chat DOM element");
         equals(chat.is(':hidden'), true, "chat hidden");
         table.handler(server, game_id,
@@ -4776,13 +4776,13 @@ test("jpoker.plugins.table: PacketPokerChat", function(){
         var player_seat = 2;
         var player_name = 'username';
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id, name: player_name });
-	var chat_history = $("#chat_history" + id);
-        equals(chat_history.size(), 1, "chat history DOM element");
-        equals($(".jpoker_chat_history_dealer", chat_history).size(), 1, "chat history DOM element");
-        equals($(".jpoker_chat_history_player", chat_history).size(), 1, "chat history DOM element");
+	var chat_element = $("#chat" + id);
+        equals(chat_element.size(), 1, "chat history DOM element");
+        equals($(".jpoker_chat_history_dealer", chat_element).size(), 1, "chat history DOM element");
+        equals($(".jpoker_chat_history_player", chat_element).size(), 1, "chat history DOM element");
         var message = 'voila\ntout';
         table.handler(server, game_id, { type: 'PacketPokerChat', message: message, game_id: game_id, serial: player_serial });
-        var chat_history_player = $(".jpoker_chat_history_player", chat_history);
+        var chat_history_player = $(".jpoker_chat_history_player", chat_element);
 	var chat_lines = $(".jpoker_chat_line", chat_history_player);
 	equals(chat_lines.length, 2);
 	equals($(".jpoker_chat_prefix", chat_lines.eq(0)).html(), "username: ");
@@ -4794,7 +4794,7 @@ test("jpoker.plugins.table: PacketPokerChat", function(){
 
 	var dealer_message = 'Dealer: voila\nDealer: tout\n';
         table.handler(server, game_id, { type: 'PacketPokerChat', message: dealer_message, game_id: game_id, serial: 0 });	
-        var chat_history_dealer = $(".jpoker_chat_history_dealer", chat_history);
+        var chat_history_dealer = $(".jpoker_chat_history_dealer", chat_element);
 	var chat_lines_dealer = $(".jpoker_chat_line", chat_history_dealer);
 	equals(chat_lines_dealer.length, 2);
 	equals($(".jpoker_chat_prefix", chat_lines_dealer.eq(0)).html(), "Dealer: ");

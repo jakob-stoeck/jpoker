@@ -19,20 +19,29 @@
     line-height: 1.5em;
 }
 
-.jpoker_table .jpoker_ptable_chat {
-	height:auto;
+.jpoker_chat_input {
+	height: auto;
+	background-color: white;
 }
 
 .jpoker_chat_line{
 	padding:0 0.2em;
 }
 
-.jpoker_ptable_chat_history, .jpoker_ptable_chat, .jpoker_ptable_table_info{
+.jpoker_chat_history, .jpoker_chat_input, .jpoker_ptable_table_info{
 	border: 2px solid #000;
 }
 
-.jpoker_table .jpoker_ptable_chat_history{
+.jpoker_chat_input {
+	border-bottom: 0px;
+	width: 100%;
+}
+
+.jpoker_chat_history{
+	position: absolute;
+	top:1.5em;
 	height: 10.5em;
+	width: 100%;
 }
 
 .jpoker_chat_history_dealer{
