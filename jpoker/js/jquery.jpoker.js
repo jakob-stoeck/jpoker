@@ -2441,6 +2441,7 @@
 					});
 				}
 			    }
+			    jpoker.plugins.tourneyDetails.callback.display_done(element);
                         }
                         return true;
                     } else {
@@ -2621,6 +2622,11 @@
 	register : '<div class=\'jpoker_tourney_details_register\'><input type=\'submit\' value=\'{register}\'></div>',
 	table_details : '<div class=\'jpoker_tourney_details_table_details\'>'
     };
+
+    jpoker.plugins.tourneyDetails.callback = {
+	display_done: function(element) {
+	}
+    }
 
     //
     // tourneyPlaceholder

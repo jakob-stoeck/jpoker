@@ -3267,7 +3267,7 @@ test("jpoker.plugins.sitngoTourneyList empty", function(){
 // tourneyDetails
 //
 test("jpoker.plugins.tourneyDetails", function(){
-        expect(8);
+        expect(9);
         stop();
 
         var PokerServer = function() {};
@@ -3293,6 +3293,11 @@ test("jpoker.plugins.tourneyDetails", function(){
         var id = 'jpoker' + jpoker.serial;
         var place = $("#main");
         equals('update' in server.callbacks, false, 'no update registered');
+	var display_done = jpoker.plugins.tourneyDetails.callback.display_done;
+	jpoker.plugins.tourneyDetails.callback.display_done = function(element) {
+	    jpoker.plugins.tourneyDetails.callback.display_done = display_done;
+	    equals($(".jpoker_tourney_details_info", element).length, 1, 'display done called when DOM is done');
+	}
         place.jpoker('tourneyDetails', 'url', tourney_serial.toString());
         equals(server.callbacks.update.length, 1, 'tourneyDetails update registered');
         server.registerUpdate(function(server, what, data) {
