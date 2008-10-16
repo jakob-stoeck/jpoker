@@ -25,11 +25,14 @@
 {
  background-repeat: no-repeat;
  z-index: 1;
+ border: 1px solid #bbb;
 }
 
-.jpoker_table .jpoker_avatar
+.jpoker_table .jpoker_avatar img
 {
-	border: 1px solid #bbb;
+ border: 0;
+ width: 91px;
+ height: 65px;
 }
 
 .jpoker_table .jpoker_avatar_hover
