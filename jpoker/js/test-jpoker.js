@@ -5128,6 +5128,7 @@ test("jpoker.plugins.table: display done callback", function(){
 
 	var display_done = jpoker.plugins.table.callback.display_done;
 	jpoker.plugins.table.callback.display_done = function(element) {
+	    jpoker.plugins.table.callback.display_done = display_done;
 	    equals($(".jpoker_chat_input", element).length, 1);
 	}
         place.jpoker('table', 'url', game_id);
