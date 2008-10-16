@@ -2626,7 +2626,7 @@
     jpoker.plugins.tourneyDetails.callback = {
 	display_done: function(element) {
 	}
-    }
+    };
 
     //
     // tourneyPlaceholder

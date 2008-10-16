@@ -3297,7 +3297,7 @@ test("jpoker.plugins.tourneyDetails", function(){
 	jpoker.plugins.tourneyDetails.callback.display_done = function(element) {
 	    jpoker.plugins.tourneyDetails.callback.display_done = display_done;
 	    equals($(".jpoker_tourney_details_info", element).length, 1, 'display done called when DOM is done');
-	}
+	};
         place.jpoker('tourneyDetails', 'url', tourney_serial.toString());
         equals(server.callbacks.update.length, 1, 'tourneyDetails update registered');
         server.registerUpdate(function(server, what, data) {
@@ -5130,7 +5130,7 @@ test("jpoker.plugins.table: display done callback", function(){
 	jpoker.plugins.table.callback.display_done = function(element) {
 	    jpoker.plugins.table.callback.display_done = display_done;
 	    equals($(".jpoker_chat_input", element).length, 1);
-	}
+	};
         place.jpoker('table', 'url', game_id);
         cleanup(id);
     });
