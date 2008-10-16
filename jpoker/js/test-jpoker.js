@@ -5112,6 +5112,27 @@ test("jpoker.plugins.table: powered_by", function(){
 	cleanup();
     });
 
+test("jpoker.plugins.table: display done callback", function(){
+        expect(1);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var player_serial = 1;
+        server.serial = player_serial; // pretend logged in
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+	var display_done = jpoker.plugins.table.callback.display_done;
+	jpoker.plugins.table.callback.display_done = function(element) {
+	    equals($(".jpoker_chat_input", element).length, 1);
+	}
+        place.jpoker('table', 'url', game_id);
+        cleanup(id);
+    });
 
 //
 // player

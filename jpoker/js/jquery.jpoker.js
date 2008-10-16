@@ -2933,6 +2933,7 @@
 		if(game_id in server.tables) {
 		    var element = document.getElementById(id);
 		    jpoker.plugins.table.create($(element), id, server, game_id);
+		    jpoker.plugins.table.callback.display_done(element);
 		}
 
                 return this;
@@ -3237,6 +3238,8 @@
 	    server.tourneyRowClick(server, {name: '', game_id: table.tourney_serial});
 	},
 	quit: function(table) {
+	},
+	display_done: function(element) {
 	}
     };
 
