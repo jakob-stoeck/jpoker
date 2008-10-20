@@ -767,7 +767,12 @@
                     }, this.pingFrequency - delta);
             },
 
-            pinging: function() { return this.pingTimer >= 0; },
+            //
+            // Accessor for test purposes only
+            //
+            pinging: function() {
+                return this.pingTimer >= 0;
+            }, 
 
             queueIncoming: function(packets) {
                 if(!this.blocked) {
