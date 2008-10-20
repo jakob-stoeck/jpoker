@@ -152,11 +152,18 @@ test("jpoker: get{Server,Table,Player}", function() {
 // jpoker.error
 //
 test("jpoker.error", function() {
-	expect(3);
+        expect(3);
 	var error_reason = "error reason";
-	jpokerMessage = jpoker.message;
+	var jpokerMessage = jpoker.message;
+	var jpokerAlert = jpoker.alert;
+	var jpokerConsole = jpoker.console;
+	jpoker.console = function(reason) {
+	};
 	jpoker.message = function(reason) {
-	    equals(error_reason, reason, "error_reason message");
+	    equals(error_reason, reason, "jpoker.message error_reason message");
+	};
+	jpoker.alert = function(reason) {
+	    ok(false, 'alert not called');
 	};
 	jpokerUninit = jpoker.uninit;
 	jpoker.uninit = function() {
@@ -168,8 +175,28 @@ test("jpoker.error", function() {
 	    equals(reason, error_reason, "error_reason thrown");
 	}
 	jpoker.message = jpokerMessage;
+	jpoker.alert = jpokerAlert;
+	jpoker.console = jpokerConsole;
 	jpoker.uninit = jpokerUninit;
-    });
+});
+
+test("jpoker.error alert", function() {
+        expect(2);
+	var error_reason = "error reason";
+	var jpokerConsole = jpoker.console;
+	jpoker.console = undefined;
+	var jpokerAlert = jpoker.alert;
+	jpoker.alert = function(reason) {
+	    jpoker.alert = jpokerAlert;
+	    equals(error_reason, reason, "jpoker.alert error_reason message");
+	};
+	try {
+	    jpoker.error(error_reason);
+	} catch (reason) {
+	    equals(reason, error_reason, "error_reason thrown");
+	}
+	jpoker.console = jpokerConsole;
+});
 
 //
 // jpoker.watchable
@@ -1575,22 +1602,30 @@ test("jpoker.server.urls", function() {
     });
 
 test("jpoker.server.error: throw correct exception", function() {
-	expect(1);
+        expect(2);
+	var jpokerAlert = jpoker.alert;
+	var jpokerConsole = jpoker.console;	
+	jpoker.console = undefined;
+	jpoker.alert = function(e) {
+	    jpoker.alert = jpokerAlert;
+	    equals(e, 'dummy error');
+	};
 	var server = jpoker.serverCreate({ url: 'url' });
 	server.state = 'unknown';
 	server.registerHandler(0, function() {
-		server.notifyUpdate({});
-	    });
+	    server.notifyUpdate({});
+	});
 	server.registerUpdate(function() {
-		throw 'dummy error';
-	    });
+	    throw 'dummy error';
+	});
 	try {
 	    server.handle(0, {});
 	} catch (e) {
 	    equals(e, 'dummy error');
 	}
+	jpoker.console = jpokerConsole;
 	cleanup();
-    });
+});
 
 test("jpoker.server.init/uninit: state running", function() {
 	expect(2);
@@ -3366,7 +3401,7 @@ test("jpoker.plugins.tourneyDetails refresh should be < 10s", function(){
     });
 
 test("jpoker.plugins.tourneyDetails pager", function(){
-        expect(4);
+        expect(1);
         stop();
 
         var PokerServer = function() {};
@@ -3399,11 +3434,7 @@ test("jpoker.plugins.tourneyDetails pager", function(){
         server.registerUpdate(function(server, what, data) {
                 var element = $("#" + id);
                 if(element.length > 0) {
-		    equals($('.pager', element).length, 1, 'has pager');
-		    equals($('.pager .current', element).length, 1, 'has current page');
-		    ok($('.pager li:last', element).html().indexOf("&gt;&gt;") >= 0, 'has next page');
-		    $('.pager li:last a', element).click();
-		    ok($('.pager li:first', element).html().indexOf("&lt;&lt;") >= 0, 'has previous page');
+		    equals($('.pager', element).length, 0, 'has pager');
                     $("#" + id).remove();
                     return true;
                 } else {
@@ -5193,8 +5224,7 @@ test("jpoker.plugins.player: avatar", function(){
 	    options.success('data', 'status');
 	};
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
-        var background = $("#player_seat2_avatar" + id).css('background-image');
-	ok(background.indexOf('/1') >= 0, 'avatar');
+	ok($("#player_seat2_avatar" + id + " img").attr("src").indexOf('/1') >= 0, 'avatar');
 	jpoker.plugins.muck.sendAutoMuck = send_auto_muck;
         start_and_cleanup();
     });
@@ -5228,7 +5258,7 @@ test("jpoker.plugins.player: avatar race condition", function(){
 
 	ajax_success[0]('data', 'status');
 	ajax_success[1]('data', 'status');
-	ok($("#player_seat2_avatar" + id).css('background-image').indexOf('/1') >= 0, 'avatar 1');
+	ok($("#player_seat2_avatar" + id + " img").attr("src").indexOf('/1') >= 0, 'avatar');
 	ok($("#player_seat3_avatar" + id + " img").attr('src').indexOf('/2') >= 0, 'avatar 2');
 	equals($("#player_seat3_avatar" + id + " img").attr('alt'), player2_name, 'avatar 2 alt');
 
