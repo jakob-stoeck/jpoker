@@ -1604,6 +1604,8 @@ test("jpoker.server.urls", function() {
 test("jpoker.server.error: throw correct exception", function() {
         expect(2);
 	var jpokerAlert = jpoker.alert;
+	var jpokerConsole = jpoker.console;	
+	jpoker.console = undefined;
 	jpoker.alert = function(e) {
 	    jpoker.alert = jpokerAlert;
 	    equals(e, 'dummy error');
@@ -1621,6 +1623,7 @@ test("jpoker.server.error: throw correct exception", function() {
 	} catch (e) {
 	    equals(e, 'dummy error');
 	}
+	jpoker.console = jpokerConsole;
 	cleanup();
 });
 
