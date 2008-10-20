@@ -2491,7 +2491,11 @@
 	
 	packet.tourney.start_time = new Date(packet.tourney.start_time).toLocaleString();
 	packet.tourney.buy_in = packet.tourney.buy_in/100;
-	html.push(t.info.supplant({
+	var tourney_type = 'regular';
+	if (packet.tourney.sit_n_go == 'y') {
+	    tourney_type = 'sitngo';
+	}
+	html.push(t.info[tourney_type].supplant({
 	        'registered_label' : _("players registered."),
 		    'players_quota_label' : _("players max."),
 		    'start_time_label' : _("Start time:"),
@@ -2582,7 +2586,10 @@
 
     jpoker.plugins.tourneyDetails.templates = {
     tname: '<div class=\'jpoker_tourney_name\'>{description_short}</div>',
-	info: '<div class=\'jpoker_tourney_details_info jpoker_tourney_details_{state}\'><div class=\'jpoker_tourney_details_info_description\'>{description_long}</div><div class=\'jpoker_tourney_details_info_registered\'>{registered} {registered_label}</div><div class=\'jpoker_tourney_details_info_players_quota\'>{players_quota} {players_quota_label}</div><div class=\'jpoker_tourney_details_info_start_time\'>{start_time_label} {start_time}</div><div class=\'jpoker_tourney_details_info_buy_in\'>{buy_in_label} {buy_in}</div></div>',
+    info: {
+	regular: '<div class=\'jpoker_tourney_details_info jpoker_tourney_details_{state}\'><div class=\'jpoker_tourney_details_info_description\'>{description_long}</div><div class=\'jpoker_tourney_details_info_registered\'>{registered} {registered_label}</div><div class=\'jpoker_tourney_details_info_players_quota\'>{players_quota} {players_quota_label}</div><div class=\'jpoker_tourney_details_info_start_time\'>{start_time_label} {start_time}</div><div class=\'jpoker_tourney_details_info_buy_in\'>{buy_in_label} {buy_in}</div></div>',
+	sitngo: '<div class=\'jpoker_tourney_details_info jpoker_tourney_details_{state}\'><div class=\'jpoker_tourney_details_info_description\'>{description_long}</div><div class=\'jpoker_tourney_details_info_registered\'>{registered} {registered_label}</div><div class=\'jpoker_tourney_details_info_players_quota\'>{players_quota} {players_quota_label}</div><div class=\'jpoker_tourney_details_info_buy_in\'>{buy_in_label} {buy_in}</div></div>'
+    },
 	players : {
 	    registering : {
 		header : '<table cellspacing=\'0\'><thead><tr class=\'jpoker_thead_caption\'><th>{caption}</th></tr><tr><th>{name}</th></tr></thead><tbody>',
