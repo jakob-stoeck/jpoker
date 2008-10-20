@@ -3483,7 +3483,7 @@ test("jpoker.plugins.tourneyDetails no player no tablesorter", function(){
     });
 
 test("jpoker.plugins.tourneyDetails templates no ranks no moneys", function(){
-	expect(7);
+	expect(10);
 	
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": -1, "table_serial": 606, "name": "user1", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4]}, "type": 149, "tourney": {"registered": 1, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Sit and Go 2 players", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "running", "buy_in": 300000, "add_on_count": 0, "description_short": "Sit and Go 2 players, Holdem", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0}, "type": "PacketPokerTourneyManager"};
 
@@ -3496,6 +3496,9 @@ test("jpoker.plugins.tourneyDetails templates no ranks no moneys", function(){
 	var is_registered = true;
 	$(element).html(tourneyDetails.getHTML(id, packet, is_logged, is_registered));
 
+	var name = $(" .jpoker_tourney_name", element);
+	equals(name.html(), "Sit and Go 2 players, Holdem");
+
 	var info = $(" .jpoker_tourney_details_info", element);
 	var description = $(".jpoker_tourney_details_info_description", info);
 	equals(description.html(), "Sit and Go 2 players");
@@ -3505,6 +3508,13 @@ test("jpoker.plugins.tourneyDetails templates no ranks no moneys", function(){
 
 	var seats_available = $(".jpoker_tourney_details_info_players_quota", info);
 	equals(seats_available.html(), "2 players max.");	
+
+	var start_time = $(".jpoker_tourney_details_info_start_time", info);
+	var date = new Date(packet.tourney.start_time).toLocaleString();
+	equals(start_time.html(), "Start time: "+date);
+
+	var buy_in = $(".jpoker_tourney_details_info_buy_in", info);
+	equals(buy_in.html(), "Buy in: 3000");
 
 	var tr = $(".jpoker_tourney_details_players tr", element);
         // +2 because 1 caption, 2 title
