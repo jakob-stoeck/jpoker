@@ -152,11 +152,18 @@ test("jpoker: get{Server,Table,Player}", function() {
 // jpoker.error
 //
 test("jpoker.error", function() {
-	expect(3);
+        expect(3);
 	var error_reason = "error reason";
-	jpokerMessage = jpoker.message;
+	var jpokerMessage = jpoker.message;
+	var jpokerAlert = jpoker.alert;
+	var jpokerConsole = jpoker.console;
+	jpoker.console = function(reason) {
+	}
 	jpoker.message = function(reason) {
-	    equals(error_reason, reason, "error_reason message");
+	    equals(error_reason, reason, "jpoker.message error_reason message");
+	};
+	jpoker.alert = function(reason) {
+	    ok(false, 'alert not called');
 	};
 	jpokerUninit = jpoker.uninit;
 	jpoker.uninit = function() {
@@ -168,18 +175,20 @@ test("jpoker.error", function() {
 	    equals(reason, error_reason, "error_reason thrown");
 	}
 	jpoker.message = jpokerMessage;
+	jpoker.alert = jpokerAlert;
+	jpoker.console = jpokerConsole;
 	jpoker.uninit = jpokerUninit;
-    });
+});
 
 test("jpoker.error alert", function() {
-	expect(2);
+        expect(2);
 	var error_reason = "error reason";
 	var jpokerConsole = jpoker.console;
 	jpoker.console = undefined;
-	jpokerAlert = jpoker.alert;
+	var jpokerAlert = jpoker.alert;
 	jpoker.alert = function(reason) {
-	    jpoker.alter = jpokerAlert;
-	    equals(error_reason, reason, "error_reason message");
+	    jpoker.alert = jpokerAlert;
+	    equals(error_reason, reason, "jpoker.alert error_reason message");
 	};
 	try {
 	    jpoker.error(error_reason);
@@ -187,7 +196,7 @@ test("jpoker.error alert", function() {
 	    equals(reason, error_reason, "error_reason thrown");
 	}
 	jpoker.console = jpokerConsole;
-    });
+});
 
 //
 // jpoker.watchable
@@ -1593,22 +1602,27 @@ test("jpoker.server.urls", function() {
     });
 
 test("jpoker.server.error: throw correct exception", function() {
-	expect(1);
+        expect(2);
+	var jpokerAlert = jpoker.alert;
+	jpoker.alert = function(e) {
+	    jpoker.alert = jpokerAlert;
+	    equals(e, 'dummy error');
+	}
 	var server = jpoker.serverCreate({ url: 'url' });
 	server.state = 'unknown';
 	server.registerHandler(0, function() {
-		server.notifyUpdate({});
-	    });
+	    server.notifyUpdate({});
+	});
 	server.registerUpdate(function() {
-		throw 'dummy error';
-	    });
+	    throw 'dummy error';
+	});
 	try {
 	    server.handle(0, {});
 	} catch (e) {
 	    equals(e, 'dummy error');
 	}
 	cleanup();
-    });
+});
 
 test("jpoker.server.init/uninit: state running", function() {
 	expect(2);
