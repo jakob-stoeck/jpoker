@@ -2508,7 +2508,7 @@
 	    }
 	}
 
-	if (packet.tourney.state == "running" || packet.tourney.state == "complete") {
+	if (packet.tourney.state == "running" || packet.tourney.state == "complete" || packet.tourney.sit_n_go == "y") {
 	    html.push(t.prizes.header.supplant({
                         'caption': _("Prizes"),
 			'rank': _("Rank"),
