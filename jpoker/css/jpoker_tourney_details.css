@@ -48,6 +48,8 @@
 	float:right;
 	border: 5px solid #009E03;
 	background:#CCFFBF;
+        height:12em;
+        overflow:auto;
 }
 
 .jpoker_tourney_details .jpoker_tourney_details_players table {

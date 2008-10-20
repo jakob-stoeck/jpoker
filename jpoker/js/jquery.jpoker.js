@@ -2412,17 +2412,7 @@
 					packet.tourney.rank2prize[i] /= 100;
 				    });
 			    }
-                            $(element).html(tourneyDetails.getHTML(id, packet, logged, registered, opts.link_pattern));
-			    
-			    var tourney_details_player_element = $('.jpoker_tourney_details_players', element);
-			    if ($('tbody tr', tourney_details_player_element).length > 0) {
-				var t = jpoker.plugins.tourneyDetails.templates.players;
-				var options = {container: $('.pager', element),
-					       positionFixed: false,
-					       previous_label: t.previous_label.supplant({previous_label: _("Previous page")}),
-					       next_label: t.next_label.supplant({next_label: _("Next page")})};
-				$('table', tourney_details_player_element).tablesorter({widgets: ['zebra']}).tablesorterPager(options);
-			    }
+                            $(element).html(tourneyDetails.getHTML(id, packet, logged, registered, opts.link_pattern));			    
 
 			    $('.jpoker_tourney_details_table', element).click(function() {
 				    $('.jpoker_tourney_details_table_details', element).html(tourneyDetails.getHTMLTableDetails(id, packet, $(this).attr('id')));
@@ -2496,7 +2486,6 @@
 		html.push(player_state_template.rows.supplant(player));
 	    }
 	    html.push(player_state_template.footer);
-	    html.push(t.players.pager);
 	    html.push(t.players.footer);
 	}
 	
@@ -2607,7 +2596,6 @@
 		footer : '</tbody></table>'
 	    },
 	    header: '<div class=\'jpoker_tourney_details_players\'>',
-	    pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
 	    next_label: '>>',
 	    previous_label: '<<',
 	    footer: '</div>'

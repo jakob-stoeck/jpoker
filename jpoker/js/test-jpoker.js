@@ -3401,7 +3401,7 @@ test("jpoker.plugins.tourneyDetails refresh should be < 10s", function(){
     });
 
 test("jpoker.plugins.tourneyDetails pager", function(){
-        expect(4);
+        expect(1);
         stop();
 
         var PokerServer = function() {};
@@ -3434,11 +3434,7 @@ test("jpoker.plugins.tourneyDetails pager", function(){
         server.registerUpdate(function(server, what, data) {
                 var element = $("#" + id);
                 if(element.length > 0) {
-		    equals($('.pager', element).length, 1, 'has pager');
-		    equals($('.pager .current', element).length, 1, 'has current page');
-		    ok($('.pager li:last', element).html().indexOf("&gt;&gt;") >= 0, 'has next page');
-		    $('.pager li:last a', element).click();
-		    ok($('.pager li:first', element).html().indexOf("&lt;&lt;") >= 0, 'has previous page');
+		    equals($('.pager', element).length, 0, 'has pager');
                     $("#" + id).remove();
                     return true;
                 } else {
