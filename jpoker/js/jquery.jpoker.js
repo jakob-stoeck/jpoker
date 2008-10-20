@@ -2490,8 +2490,8 @@
 	}
 	
 	html.push(t.info.supplant({
-	        'registered' : _("{registered} players registered."),
-			'players_quota' : _("{players_quota} players max.")
+	        'registered_label' : _("players registered."),
+		    'players_quota_label' : _("players max."),
                        }).supplant(packet.tourney));
 	
 	if (packet.tourney.state == "registering") {	    
@@ -2578,7 +2578,7 @@
 
     jpoker.plugins.tourneyDetails.templates = {
     tname: '<div class=\'jpoker_tourney_name\'>{name}</div>',
-	info: '<div class=\'jpoker_tourney_details_info jpoker_tourney_details_{state}\'><div class=\'jpoker_tourney_details_info_description\'>{description_long}</div><div class=\'jpoker_tourney_details_info_registered\'>{registered}</div><div class=\'jpoker_tourney_details_info_players_quota\'>{players_quota}</div></div>',
+	info: '<div class=\'jpoker_tourney_details_info jpoker_tourney_details_{state}\'><div class=\'jpoker_tourney_details_info_description\'>{description_long}</div><div class=\'jpoker_tourney_details_info_registered\'>{registered} {registered_label}</div><div class=\'jpoker_tourney_details_info_players_quota\'>{players_quota} {players_quota_label}</div></div>',
 	players : {
 	    registering : {
 		header : '<table cellspacing=\'0\'><thead><tr class=\'jpoker_thead_caption\'><th>{caption}</th></tr><tr><th>{name}</th></tr></thead><tbody>',
