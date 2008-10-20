@@ -158,7 +158,7 @@ test("jpoker.error", function() {
 	var jpokerAlert = jpoker.alert;
 	var jpokerConsole = jpoker.console;
 	jpoker.console = function(reason) {
-	}
+	};
 	jpoker.message = function(reason) {
 	    equals(error_reason, reason, "jpoker.message error_reason message");
 	};
@@ -1607,7 +1607,7 @@ test("jpoker.server.error: throw correct exception", function() {
 	jpoker.alert = function(e) {
 	    jpoker.alert = jpokerAlert;
 	    equals(e, 'dummy error');
-	}
+	};
 	var server = jpoker.serverCreate({ url: 'url' });
 	server.state = 'unknown';
 	server.registerHandler(0, function() {
