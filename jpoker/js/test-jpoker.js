@@ -171,6 +171,24 @@ test("jpoker.error", function() {
 	jpoker.uninit = jpokerUninit;
     });
 
+test("jpoker.error alert", function() {
+	expect(2);
+	var error_reason = "error reason";
+	var jpokerConsole = jpoker.console;
+	jpoker.console = undefined;
+	jpokerAlert = jpoker.alert;
+	jpoker.alert = function(reason) {
+	    jpoker.alter = jpokerAlert;
+	    equals(error_reason, reason, "error_reason message");
+	};
+	try {
+	    jpoker.error(error_reason);
+	} catch (reason) {
+	    equals(reason, error_reason, "error_reason thrown");
+	}
+	jpoker.console = jpokerConsole;
+    });
+
 //
 // jpoker.watchable
 //

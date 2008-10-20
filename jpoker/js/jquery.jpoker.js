@@ -117,8 +117,14 @@
 
         uid: function() { return 'jpoker' + $.jpoker.serial++ ; },
 
+	console : window.console,
+
+	alert: function(str) {
+	    alert(str);
+	},
+
         message: function(str) {
-            if(window.console) { window.console.log(str); }
+            if(jpoker.console) { jpoker.console.log(str); }
         },
 
         dialog_options: { width: 'none', height: 'none', autoOpen: false, dialog: true },
@@ -140,7 +146,11 @@
         },
 
         errorHandler: function(reason) {
-            this.message(reason);
+	    if (jpoker.console) {
+		this.message(reason);
+	    } else {
+		this.alert(reason);
+	    }
         },
 
         serverCreate: function(options) {
