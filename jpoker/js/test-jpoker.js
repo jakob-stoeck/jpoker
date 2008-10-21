@@ -3517,8 +3517,8 @@ test("jpoker.plugins.tourneyDetails templates no ranks no moneys", function(){
 	equals(tr.length, 3, 'tourneyDetails players_count');
 
 	var player = tr.eq(2);
-	var name = $("td", player).eq(0);
-	equals(name.html(), "user1");
+	var player_name = $("td", player).eq(0);
+	equals(player_name.html(), "user1");
 
 	var money = $("td", player).eq(1);
 	equals(money.html(), "");
