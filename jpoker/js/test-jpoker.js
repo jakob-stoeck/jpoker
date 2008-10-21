@@ -365,6 +365,32 @@ test("jpoker.dialog", function(){
         cleanup();
     });
 
+test("jpoker.dialog options title", function(){
+        expect(3);
+        var message = 'ZAAAZ';
+	var jpokerDialogOptions = jpoker.dialog_options;
+	jpokerDialogOptions.title = 'foo';
+        jpoker.dialog(message);
+        equals($('#jpokerDialog').text().indexOf(message) >= 0, true, message);
+        equals($('.ui-dialog-container').css('width'), '100%', 'containerWidth 100%');
+	equals($('#jpokerDialog').attr('title'), 'foo', 'dialog title');
+	jpoker.dialog_options = jpokerDialogOptions;
+        cleanup();
+    });
+
+test("jpoker.dialog options title undefined", function(){
+        expect(3);
+        var message = 'ZAAAZ';
+	var jpokerDialogOptions = jpoker.dialog_options;
+	jpokerDialogOptions.title = undefined;
+        jpoker.dialog(message);
+        equals($('#jpokerDialog').text().indexOf(message) >= 0, true, message);
+        equals($('.ui-dialog-container').css('width'), '100%', 'containerWidth 100%');
+	equals($('#jpokerDialog[title]').length, 0, 'no dialog title');
+	jpoker.dialog_options = jpokerDialogOptions;
+        cleanup();
+    });
+
 test("jpoker.dialog msie", function(){
         expect(2);
         jpoker.msie_compatibility();

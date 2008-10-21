@@ -127,13 +127,16 @@
             if(jpoker.console) { jpoker.console.log(str); }
         },
 
-        dialog_options: { width: 'none', height: 'none', autoOpen: false, dialog: true },
+        dialog_options: { width: 'none', height: 'none', autoOpen: false, dialog: true, title: 'jpoker message'},
 
         dialog: function(content) {
             var message = $('#jpokerDialog');
             if(message.size() != 1) {
-                $('body').append('<div id=\'jpokerDialog\' class=\'jpoker_jquery_ui\' title=\'jpoker message\' />');
+                $('body').append('<div id=\'jpokerDialog\' class=\'jpoker_jquery_ui\' />');
                 message = $('#jpokerDialog');
+		if (jpoker.dialog_options.title) {
+		    message.attr('title', jpoker.dialog_options.title);
+		}
                 message.dialog(this.dialog_options);
             }
             message.html(content).dialog('open');
