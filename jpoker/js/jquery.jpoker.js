@@ -2258,6 +2258,7 @@
                 subpacket.game_id = subpacket.serial;
                 subpacket.id = subpacket.game_id + id;
 	    }
+	    subpacket.start_time = new Date(subpacket.start_time).toLocaleString();
 	    if (link_pattern) {
 		var link = t.link.supplant({link: link_pattern.supplant({tourney_serial: subpacket.serial}), name: subpacket.description_short});
 		subpacket.description_short = link;
@@ -2502,9 +2503,17 @@
 	    html.push(t.players.footer);
 	}
 	
-	html.push(t.info.supplant({
-	        'registered' : _("{registered} players registered."),
-			'players_quota' : _("{players_quota} players max.")
+	packet.tourney.start_time = new Date(packet.tourney.start_time).toLocaleString();
+	packet.tourney.buy_in = packet.tourney.buy_in/100;
+	var tourney_type = 'regular';
+	if (packet.tourney.sit_n_go == 'y') {
+	    tourney_type = 'sitngo';
+	}
+	html.push(t.info[tourney_type].supplant({
+	        'registered_label' : _("players registered."),
+		    'players_quota_label' : _("players max."),
+		    'start_time_label' : _("Start time:"),
+		    'buy_in_label' : _("Buy in:")
                        }).supplant(packet.tourney));
 	
 	if (packet.tourney.state == "registering") {	    
@@ -2517,7 +2526,7 @@
 	    }
 	}
 
-	if (packet.tourney.state == "running" || packet.tourney.state == "complete") {
+	if (packet.tourney.state == "running" || packet.tourney.state == "complete" || packet.tourney.sit_n_go == "y") {
 	    html.push(t.prizes.header.supplant({
                         'caption': _("Prizes"),
 			'rank': _("Rank"),
@@ -2590,8 +2599,11 @@
     };
 
     jpoker.plugins.tourneyDetails.templates = {
-    tname: '<div class=\'jpoker_tourney_name\'>{name}</div>',
-	info: '<div class=\'jpoker_tourney_details_info jpoker_tourney_details_{state}\'><div class=\'jpoker_tourney_details_info_description\'>{description_long}</div><div class=\'jpoker_tourney_details_info_registered\'>{registered}</div><div class=\'jpoker_tourney_details_info_players_quota\'>{players_quota}</div></div>',
+    tname: '<div class=\'jpoker_tourney_name\'>{description_short}</div>',
+    info: {
+	regular: '<div class=\'jpoker_tourney_details_info jpoker_tourney_details_{state}\'><div class=\'jpoker_tourney_details_info_description\'>{description_long}</div><div class=\'jpoker_tourney_details_info_registered\'>{registered} {registered_label}</div><div class=\'jpoker_tourney_details_info_players_quota\'>{players_quota} {players_quota_label}</div><div class=\'jpoker_tourney_details_info_start_time\'>{start_time_label} {start_time}</div><div class=\'jpoker_tourney_details_info_buy_in\'>{buy_in_label} {buy_in}</div></div>',
+	sitngo: '<div class=\'jpoker_tourney_details_info jpoker_tourney_details_{state}\'><div class=\'jpoker_tourney_details_info_description\'>{description_long}</div><div class=\'jpoker_tourney_details_info_registered\'>{registered} {registered_label}</div><div class=\'jpoker_tourney_details_info_players_quota\'>{players_quota} {players_quota_label}</div><div class=\'jpoker_tourney_details_info_buy_in\'>{buy_in_label} {buy_in}</div></div>'
+    },
 	players : {
 	    registering : {
 		header : '<table cellspacing=\'0\'><thead><tr class=\'jpoker_thead_caption\'><th>{caption}</th></tr><tr><th>{name}</th></tr></thead><tbody>',
