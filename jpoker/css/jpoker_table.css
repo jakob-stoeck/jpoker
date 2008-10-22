@@ -226,6 +226,10 @@
     line-height:20px;
 }
 
+.jpoker_table .jpoker_raise_label { 
+    display: none;
+}
+
 .jpoker_table .ui-slider-1 {
     margin: 3px 10px;
     width: 70px;

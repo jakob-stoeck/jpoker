@@ -5944,7 +5944,7 @@ function _SelfPlayerSit(game_id, player_serial, money) {
 }
 
 test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function(){
-        expect(89);
+        expect(90);
 
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
@@ -6027,6 +6027,7 @@ test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function()
 
         Z.table.handler(Z.server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
         var raise = $('#raise_range' + id);
+	equals($(".jpoker_raise_label", raise).html(), 'raise', 'raise label');
         equals($(".jpoker_raise_min", raise).html(), Z.table.betLimit.min, 'min');
         equals($(".jpoker_raise_current", raise).html(), Z.table.betLimit.min, 'current');
         equals($(".jpoker_raise_max", raise).html(), Z.table.betLimit.max, 'max');

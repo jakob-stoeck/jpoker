@@ -3842,6 +3842,7 @@
                 if(betLimit.max > betLimit.min) {
                     var raise = $('#raise_range' + id);
                     raise.empty();
+		    raise.append('<div class=\'jpoker_raise_label\'>' + _("raise")  + '</div>');
                     raise.append('<div class=\'jpoker_raise_bound jpoker_raise_min\'>' + jpoker.chips.SHORT(betLimit.min) + '</div> ');
                     raise.append('<div class=\'jpoker_raise_current\' title=\'' + betLimit.min + '\'>' + jpoker.chips.SHORT(betLimit.min) + '</div> ');
                     raise.append('<div class=\'jpoker_raise_bound jpoker_raise_max\'>' + jpoker.chips.SHORT(betLimit.max) + '</div> ');
