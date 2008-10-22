@@ -2605,7 +2605,7 @@
 		rows : '<tr><td>{name}</td><td>{money}</td><td>{rank}</td></tr>',
 		footer : '</tbody></table>'
 	    },
-	    break : {
+	    "break" : {
 		header : '<table cellspacing=\'0\'><thead><tr class=\'jpoker_thead_caption\'><th colspan=\'3\'>{caption}</th></tr><tr><th>{name}</th><th>{money}</th><th>{rank}</th></tr></thead><tbody>',
 		rows : '<tr><td>{name}</td><td>{money}</td><td>{rank}</td></tr>',
 		footer : '</tbody></table>'
