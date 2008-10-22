@@ -3841,12 +3841,7 @@
                 var click;
                 if(betLimit.max > betLimit.min) {
                     var raise = $('#raise_range' + id);
-                    raise.empty();
-		    raise.append('<div class=\'jpoker_raise_label\'>' + _("raise")  + '</div>');
-                    raise.append('<div class=\'jpoker_raise_bound jpoker_raise_min\'>' + jpoker.chips.SHORT(betLimit.min) + '</div> ');
-                    raise.append('<div class=\'jpoker_raise_current\' title=\'' + betLimit.min + '\'>' + jpoker.chips.SHORT(betLimit.min) + '</div> ');
-                    raise.append('<div class=\'jpoker_raise_bound jpoker_raise_max\'>' + jpoker.chips.SHORT(betLimit.max) + '</div> ');
-                    raise.append('<div class=\'ui-slider-1\'><div class=\'ui-slider-handle\'></div></div>');
+                    raise.html(jpoker.plugins.raise.getHTML(betLimit));
                     raise.show(); // must be visible otherwise outerWeight/outerWidth returns 0
 
 		    var raise_input = $('#raise_input' + id);
@@ -3958,6 +3953,21 @@
             }
         }
 
+    };
+
+    //
+    // raise (SelfPlayer plugin helper)
+    //
+    jpoker.plugins.raise = {
+	template: '<div class=\'jpoker_raise_label\'>{raise_label}</div><div class=\'jpoker_raise_bound jpoker_raise_min\'>{raise_min}</div><div class=\'jpoker_raise_current\' title=\'{raise_current_title}\'>{raise_current}</div><div class=\'jpoker_raise_bound jpoker_raise_max\'>{raise_max}</div><div class=\'ui-slider-1\'><div class=\'ui-slider-handle\'></div></div>',
+	getHTML: function(betLimit) {
+	    var t = this.template;
+	    return t.supplant({raise_label: _("raise"),
+						raise_min: jpoker.chips.SHORT(betLimit.min),
+						raise_current_title: betLimit.min,
+						raise_current: jpoker.chips.SHORT(betLimit.min),
+						raise_max: jpoker.chips.SHORT(betLimit.max)});
+	}
     };
 
     //
