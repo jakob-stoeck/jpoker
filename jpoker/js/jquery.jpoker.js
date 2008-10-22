@@ -1720,7 +1720,7 @@
 		    break;
 
 		case 'PacketPokerShowdown':
-		    server.delayQueue(game_id, jpoker.now()+this.delay.showdown);
+		    server.delayQueue(game_id, jpoker.now()+table.delay.showdown);
 		    break;
                 }
 

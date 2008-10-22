@@ -2544,13 +2544,14 @@ test("jpoker.tourney.poll", function() {
     });
 
 test("jpoker.table.handler: PacketPokerShowdown", function(){
-        expect(1);
+        expect(2);
         var server = jpoker.serverCreate({ url: 'url' });
 
         var game_id = 100;
         var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
+	equals(table.delay.showdown, jpoker.table.defaults.delay.showdown);
 
         var packet = { 'type': 'PacketPokerShowdown',
 		       'game_id': game_id
@@ -2559,7 +2560,7 @@ test("jpoker.table.handler: PacketPokerShowdown", function(){
 	jpoker.now = function() {
 	    return 42;
 	};
-	table.handler(server, game_id, packet);
+	table.handler(server, game_id, packet);	
 	equals(server.delays[game_id], 42+jpoker.table.defaults.delay.showdown, 'showdown delay');
 	jpoker.now = jpokerNow;
 	cleanup();
