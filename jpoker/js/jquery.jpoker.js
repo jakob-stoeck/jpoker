@@ -1012,6 +1012,14 @@
                 server.setState(server.RUNNING, 'PacketPokerUserInfo');
                 break;
 
+		case 'PacketPokerPlayerStats':
+		for (id in server.tables) {
+		    packet.game_id = id;
+		    server.tables[id].handler(server, id, packet);		    
+		}
+		delete packet.game_id;		
+		break;
+
                 }
 
                 return true;
