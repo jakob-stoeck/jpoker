@@ -2516,7 +2516,7 @@
 	    }
 	}
 
-	if (packet.tourney.state == "running" || packet.tourney.state == "complete" || packet.tourney.sit_n_go == "y") {
+	if (packet.tourney.state == "running" || packet.tourney.state == "complete" || packet.tourney.state == "break" || packet.tourney.state == "breakwait" || packet.tourney.sit_n_go == "y") {
 	    html.push(t.prizes.header.supplant({
                         'caption': _("Prizes"),
 			'rank': _("Rank"),
@@ -2532,7 +2532,7 @@
 	    }			    
 	    html.push(t.prizes.footer);
 	}
-	if (packet.tourney.state == "running") {
+	if (packet.tourney.state == "running" || packet.tourney.state == "break" || packet.tourney.state == "breakwait") {
 	    html.push(t.tables.header.supplant({
                         'caption': _("Tables"),
 			'table': _("Table"),
@@ -2601,6 +2601,16 @@
 		footer : '</tbody></table>'
 	    },
 	    running : {
+		header : '<table cellspacing=\'0\'><thead><tr class=\'jpoker_thead_caption\'><th colspan=\'3\'>{caption}</th></tr><tr><th>{name}</th><th>{money}</th><th>{rank}</th></tr></thead><tbody>',
+		rows : '<tr><td>{name}</td><td>{money}</td><td>{rank}</td></tr>',
+		footer : '</tbody></table>'
+	    },
+	    break : {
+		header : '<table cellspacing=\'0\'><thead><tr class=\'jpoker_thead_caption\'><th colspan=\'3\'>{caption}</th></tr><tr><th>{name}</th><th>{money}</th><th>{rank}</th></tr></thead><tbody>',
+		rows : '<tr><td>{name}</td><td>{money}</td><td>{rank}</td></tr>',
+		footer : '</tbody></table>'
+	    },
+	    breakwait : {
 		header : '<table cellspacing=\'0\'><thead><tr class=\'jpoker_thead_caption\'><th colspan=\'3\'>{caption}</th></tr><tr><th>{name}</th><th>{money}</th><th>{rank}</th></tr></thead><tbody>',
 		rows : '<tr><td>{name}</td><td>{money}</td><td>{rank}</td></tr>',
 		footer : '</tbody></table>'

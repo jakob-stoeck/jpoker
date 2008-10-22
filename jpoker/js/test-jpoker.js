@@ -3966,6 +3966,45 @@ test("jpoker.plugins.tourneyDetails templates buggy", function(){
 	cleanup();
     });
 
+test("jpoker.plugins.tourneyDetails templates states announced break breakwait", function(){
+	expect(12);
+
+	var TOURNEY_MANAGER_PACKET = {"user2properties":{"X26":{"money":400000,"table_serial":723,"name":"BOTBoSwoi","rank":-1},"X27":{"money":-1,"table_serial":-1,"name":"BOTluhurs","rank":3},"X9":{"money":400000,"table_serial":723,"name":"proppy","rank":-1},"X20":{"money":-1,"table_serial":-1,"name":"proppy2","rank":4}},"length":3,"tourney_serial":24,"table2serials":{"X723":[9,26],"-1":[20,27]},"type":"PacketPokerTourneyManager","tourney":{"breaks_interval":3600,"currency_serial":1,"description_long":"Sit and Go 2 players","rank2prize":[840000,360000],"serial":24,"resthost_serial":0,"rebuy_count":0,"state":"running","buy_in":300000,"add_on_count":0,"description_short":"Sit and Go 2 players, Holdem","registered":4,"players_quota":4,"breaks_first":7200,"add_on":0,"start_time":1222693571,"rake":0,"variant":"holdem","players_min":4,"schedule_serial":1,"betting_structure":"level-15-30-no-limit","add_on_delay":60,"name":"sitngo2","finish_time":0,"prize_min":0,"player_timeout":60,"breaks_duration":300,"seats_per_game":2,"bailor_serial":0,"sit_n_go":"y","rebuy_delay":0},"uid__":"jpoker1222693551093"};
+
+	var id = jpoker.uid();
+	$("#main").append('<div class=\'jpoker_tourney_details\' id=\'' + id + '\'></div>');
+	var tourneyDetails = jpoker.plugins.tourneyDetails;
+	var element = document.getElementById(id);
+	var packet = TOURNEY_MANAGER_PACKET;
+	var logged = true;
+	var registered = false;
+	packet.tourney.state = "announced";
+	packet.tourney.sit_n_go = "n";
+	$(element).html(tourneyDetails.getHTML(id, packet, logged, registered));
+	equals($(".jpoker_tourney_details_tables", element).length, 0, 'tables');
+	equals($(".jpoker_tourney_details_prizes", element).length, 0, 'prizes');
+	equals($(".jpoker_tourney_details_players", element).length, 0, 'players');
+	packet.tourney.state = "canceled";
+	packet.tourney.sit_n_go = "n";
+	$(element).html(tourneyDetails.getHTML(id, packet, logged, registered));
+	equals($(".jpoker_tourney_details_tables", element).length, 0, 'tables');
+	equals($(".jpoker_tourney_details_prizes", element).length, 0, 'prizes');
+	equals($(".jpoker_tourney_details_players", element).length, 0, 'players');
+	packet.tourney.state = "break";
+	packet.tourney.sit_n_go = "n";
+	$(element).html(tourneyDetails.getHTML(id, packet, logged, registered));
+	equals($(".jpoker_tourney_details_tables", element).length, 1, 'tables');
+	equals($(".jpoker_tourney_details_prizes", element).length, 1, 'prizes');
+	equals($(".jpoker_tourney_details_players", element).length, 1, 'players');
+	packet.tourney.state = "breakwait";
+	packet.tourney.sit_n_go = "n";
+	$(element).html(tourneyDetails.getHTML(id, packet, logged, registered));
+	equals($(".jpoker_tourney_details_tables", element).length, 1, 'tables');
+	equals($(".jpoker_tourney_details_prizes", element).length, 1, 'prizes');
+	equals($(".jpoker_tourney_details_players", element).length, 1, 'players');
+	cleanup();
+    });
+
 test("jpoker.plugins.tourneyDetails table details", function(){
         expect(5);
         stop();
