@@ -1694,16 +1694,12 @@
 		case 'PacketPokerMuckRequest':
 		    table.notifyUpdate(packet);
 		    break;
-		    
-		case 'PacketPokerEndRoundLast':
-		    $.each(table.serial2player, function(serial, player) {
-			    player.handler(server, game_id, packet);
-			});
-		    table.notifyUpdate(packet);
-		    break;
 
 		case 'PacketPokerStart':
 		    table.level = packet.level;
+		    $.each(table.serial2player, function(serial, player) {
+			    player.handler(server, game_id, packet);
+			});
 		    table.notifyUpdate(packet);
 		    break;
 
@@ -1887,7 +1883,7 @@
 		this.notifyUpdate(packet);
 		break;
 
-		case 'PacketPokerEndRoundLast':
+		case 'PacketPokerStart':
 		this.action = '';
 		this.notifyUpdate(packet);
 		break;
@@ -3374,7 +3370,7 @@
 	    jpoker.plugins.player.action(player, id);
 	    break;
 
-	    case 'PacketPokerEndRoundLast':
+	    case 'PacketPokerStart':
 	    jpoker.plugins.cards.hide(player.cards, 'card_seat' + player.seat, id);
 	    jpoker.plugins.player.action(player, id);
 	    break;

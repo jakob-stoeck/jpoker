@@ -4634,10 +4634,10 @@ test("jpoker.plugins.table: PacketPokerStart callback.hand_start", function(){
 
         place.jpoker('table', 'url', game_id);
 
-	var jpoker_table_callback = jpoker.plugins.table.callback;
+	var jpoker_table_callback_hand_start = jpoker.plugins.table.callback.hand_start;
 	jpoker.plugins.table.callback.hand_start = function(packet) {
 	    equals(packet.hands_count, 10, 'hand start callback');
-	    jpoker.plugins.table.callback = jpoker_table_callback;
+	    jpoker.plugins.table.callback.hand_start = jpoker_table_callback_hand_start;
 	    start_and_cleanup();
 	};
 	table.handler(server, game_id, { type: 'PacketPokerStart', game_id: game_id, hands_count: 10 });
@@ -5610,7 +5610,7 @@ test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
         start_and_cleanup();
     });
 
-test("jpoker.plugins.player: PacketPokerPlayerCall/Fold/Raise/Check/EndRound", function(){
+test("jpoker.plugins.player: PacketPokerPlayerCall/Fold/Raise/Check/Start", function(){
         expect(7);
         stop();
 
@@ -5644,7 +5644,7 @@ test("jpoker.plugins.player: PacketPokerPlayerCall/Fold/Raise/Check/EndRound", f
 	table.handler(server, game_id, { type: 'PacketPokerCheck', serial: player_serial, game_id: game_id });
 	equals(player_action_element.html(), 'check');
 
-	table.handler(server, game_id, { type: 'PacketPokerEndRoundLast', serial: 0, game_id: game_id });
+	table.handler(server, game_id, { type: 'PacketPokerStart', serial: 0, game_id: game_id });
 	equals(player_action_element.html(), '');
         
         start_and_cleanup();
@@ -5881,7 +5881,7 @@ test("jpoker.plugins.player: side_pot", function(){
         cleanup(id);
     });
 
-test("jpoker.plugins.player: PacketPokerEndRoundLast", function(){
+test("jpoker.plugins.player: PacketPokerStart", function(){
         expect(2);
 	stop();
 
@@ -5906,7 +5906,7 @@ test("jpoker.plugins.player: PacketPokerEndRoundLast", function(){
 	player.handler = function(server, game_id, packet) {
 	    equals(packet.serial, undefined, 'packet serial undefined');
 	};
-	table.handler(server, game_id, { type: 'PacketPokerEndRoundLast', game_id: game_id });	
+	table.handler(server, game_id, { type: 'PacketPokerStart', game_id: game_id });	
 	var card = $("#card_seat" + player_seat + "0" + id);
 	equals(card.is(':hidden'), true, 'card hidden');
 	start_and_cleanup();
