@@ -538,7 +538,7 @@
             mode: 'queue',
             url: '',
             async: true,
-            lagmax: 60,
+            lagmax: 15000,
             dequeueFrequency: 100,
             pingFrequency: 6000,
             timeout: 30000,
@@ -1497,6 +1497,9 @@
     };
 
     jpoker.table.defaults = {
+	delay: {
+	    showdown: 10000
+	}
     };
 
     jpoker.table.prototype = $.extend({}, jpoker.watchable.prototype, {
@@ -1714,6 +1717,10 @@
 		case 'PacketPokerTourneyRank':
 		    table.tourney_rank = packet;
 		    table.notifyUpdate(packet);
+		    break;
+
+		case 'PacketPokerShowdown':
+		    server.delayQueue(game_id, jpoker.now()+this.delay.showdown);
 		    break;
                 }
 

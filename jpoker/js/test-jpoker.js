@@ -2543,6 +2543,28 @@ test("jpoker.tourney.poll", function() {
 	cleanup();
     });
 
+test("jpoker.table.handler: PacketPokerShowdown", function(){
+        expect(1);
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        var game_id = 100;
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        var packet = { 'type': 'PacketPokerShowdown',
+		       'game_id': game_id
+        };
+	var jpokerNow = jpoker.now;
+	jpoker.now = function() {
+	    return 42;
+	};
+	table.handler(server, game_id, packet);
+	equals(server.delays[game_id], 42+jpoker.table.defaults.delay.showdown, 'showdown delay');
+	jpoker.now = jpokerNow;
+	cleanup();
+    });
+
 test("jpoker.tourney.handler: unknown tourney", function(){
         expect(2);
         var server = jpoker.serverCreate({ url: 'url' });
