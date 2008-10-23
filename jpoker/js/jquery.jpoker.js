@@ -1590,7 +1590,7 @@
                     jpoker.message('table.handler ' + JSON.stringify(packet));
                 }
                 
-                table = server.tables[packet.game_id];
+                var table = server.tables[packet.game_id];
                 if(!table) {
                     jpoker.message('unknown table ' + packet.game_id);
                     return true;
