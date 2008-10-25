@@ -2138,6 +2138,7 @@
     jpoker.plugins.tableList.getHTML = function(id, packet, link_pattern) {
         var t = this.templates;
         var html = [];
+	packet.packets = $.grep(packet.packets, function(packet) {return packet.tourney_serial === undefined || packet.tourney_serial === 0;});
         html.push(t.header.supplant({
                         'seats': _("Seats"),
                         'average_pot': _("Average Pot"),
