@@ -258,4 +258,9 @@ jpoker/css/images/jpoker_table/%.png: jpoker/images/%.svg
 	mkdir -p `dirname $@`
 	inkscape --without-gui --export-png=$@ $<
 
-.PHONY: tests sound
+jslint:
+	jslint jpoker/js/jquery.jpoker.js
+	jslint jpoker/js/test-jpoker.js
+	jslint jpoker/js/skin-jpoker.js
+
+.PHONY: tests sound jslint
