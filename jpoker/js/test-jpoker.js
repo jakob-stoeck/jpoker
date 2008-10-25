@@ -6224,6 +6224,7 @@ test("jpoker.plugins.player: rebuy", function(){
         _SelfPlayer(game_id, player_serial);
         var server = jpoker.getServer('url');
         var player = jpoker.getPlayer('url', game_id, player_serial);
+	var table = jpoker.getTable('url', game_id);
 
         // buy in
         var min = 10;
@@ -6315,7 +6316,7 @@ test("jpoker.plugins.player: rebuy if not enough money", function() {
 	rebuy.click(function() {
 		ok(true, 'rebuy clicked');
 	    });
-	table.handler(server, game_id, { type: 'PacketPokerPlayerChips',
+	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerChips',
 		    money: 0,
 		    bet: 0,
 		    serial: player_serial,
@@ -6350,7 +6351,7 @@ test("jpoker.plugins.player: no rebuy in tourney", function() {
 	rebuy.click(function() {
 		ok(false, 'rebuy should not be clicked');
 	    });
-	table.handler(server, game_id, { type: 'PacketPokerPlayerChips',
+	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerChips',
 		    money: 0,
 		    bet: 0,
 		    serial: player_serial,
@@ -6385,7 +6386,7 @@ test("jpoker.plugins.player: no rebuy if money", function() {
 	rebuy.click(function() {
 		ok(false, 'rebuy should not be clicked');
 	    });
-	table.handler(server, game_id, { type: 'PacketPokerPlayerChips',
+	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerChips',
 		    money: 100,
 		    bet: 0,
 		    serial: player_serial,
