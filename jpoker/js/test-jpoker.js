@@ -148,6 +148,16 @@ test("jpoker: get{Server,Table,Player}", function() {
         jpoker.servers = {};
     });
 
+test("jpoker.alert", function() {
+    expect(1);
+    var windowAlert = window.alert;
+    window.alert = function(message) {
+	equals(message, 'foo', 'alert called');
+    };
+    jpoker.alert('foo');
+    window.alert = windowAlert;
+});
+
 //
 // jpoker.error
 //
