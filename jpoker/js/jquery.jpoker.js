@@ -668,13 +668,15 @@
             //     number of the poker game
             // packet: is the packet received from the server
             // 
-            // If the return value is false, the handler is discarded and will not
+            // If the return value of the handler function is false, 
+            // the handler is discarded and will not
             // be called again. If the return value is true, the handler is retained
-            // and will be called when the next packet matching the 'id' paramater
+            // and will be called when the next packet matching the 'id' parameter
             // arrives.
             //
             // If the handler throws an exception, the server will be killed and
-            // all communications interrupted. The handler must *not* call server.error.
+            // all communications interrupted. The handler must NOT call server.error, 
+            // it must throw an exception whenever a fatal error occurs.
             //
             registerHandler: function(id, handler, handler_data, signature) {
                 this.register(id, handler, handler_data, signature);
@@ -690,11 +692,17 @@
                 }
                 if(id in this.callbacks) {
                     delete packet.time__;
-                    packet.uid__ = jpoker.uid();
+                    if(jpoker.verbose > 1) {
+                        //
+                        // For debugging purposes associate a unique ID to each packet in
+                        // order to track it in the log messages.
+                        //
+                        packet.uid__ = jpoker.uid();
+                    }
                     try { 
                         this.notify(id, packet);
                     } catch(e) {
-                        this.error(e);
+                        this.error(e); // delegate exception handling to the error function
                         return false; // error will throw and this statement will never be reached
                     }
                     return true;
@@ -772,7 +780,12 @@
                     }, this.pingFrequency - delta);
             },
 
-            pinging: function() { return this.pingTimer >= 0; },
+            //
+            // Accessor for test purposes only
+            //
+            pinging: function() {
+                return this.pingTimer >= 0;
+            }, 
 
             queueIncoming: function(packets) {
                 if(!this.blocked) {
@@ -1577,7 +1590,7 @@
                     jpoker.message('table.handler ' + JSON.stringify(packet));
                 }
                 
-                table = server.tables[packet.game_id];
+                var table = server.tables[packet.game_id];
                 if(!table) {
                     jpoker.message('unknown table ' + packet.game_id);
                     return true;
