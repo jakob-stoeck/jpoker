@@ -100,7 +100,9 @@ clobber: maintainer-clean
 	rm -fr gems
 	rm -fr jpoker/*.swf
 
-LANG = en fr ja
+LANG_EN=en
+LANG_OTHERS=fr ja
+LANG=${LANG_EN} ${LANG_OTHERS}
 LANG_DIR = jpoker/l10n
 
 STANDALONE_TW = $(LANG:%=jpoker/standalone/index-%.html)
@@ -108,7 +110,7 @@ STANDALONE_TW = $(LANG:%=jpoker/standalone/index-%.html)
 # because english is the default language, it has no
 # associated .json file
 #
-LANG_JSON = $($(patsubst en,,${LANG}):%=${LANG_DIR}/jpoker-%.json)
+LANG_JSON = $(LANG_OTHERS:%=${LANG_DIR}/jpoker-%.json)
 LANG_TW = $(LANG:%=jpoker/index-%.html)
 IMAGES = jpoker/css/images/jpoker_table/avatar.png \
 	 jpoker/css/images/jpoker_table/background.png \
@@ -131,6 +133,7 @@ messages.pot: jpoker/js/jquery.jpoker.js
 ${LANG_DIR}/jpoker-%.po: messages.pot
 	msgmerge -s -U $@ messages.pot
 	touch $@
+	: now edit with kbabel $<
 
 ${LANG_DIR}/%.mo: ${LANG_DIR}/jpoker-%.po
 	msgfmt --check --output-file $@ $<
@@ -138,7 +141,6 @@ ${LANG_DIR}/%.mo: ${LANG_DIR}/jpoker-%.po
 	cp $@ $*/LC_MESSAGES
 
 ${LANG_DIR}/jpoker-%.json: ${LANG_DIR}/%.mo
-	: now edit with kbabel $<
 	python mo2json.py $* > $@
 
 i18n: ${LANG_JSON}
