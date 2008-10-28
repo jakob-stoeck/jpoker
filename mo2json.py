@@ -14,27 +14,24 @@
 import simplejson as enc
 import gettext
 def gettext_json(domain, path, lang = []):
-    try:
-        tr = gettext.translation(domain, path, lang)
-        # for unknown reasons, instead of having plural entries like
-        # key: [sg, pl1...]
-        # tr._catalog has (key, n): pln,
-        keys = tr._catalog.keys()
-        keys.sort()
-        ret = {}
-        for k in keys:
-            if k == '':
-                continue
-            v = tr._catalog[k]
-            if type(k) is tuple:
-                if k[0] not in ret:
-                    ret[k[0]] = []
-                ret[k[0]].append(v)
-            else:
-                ret[k] = v
-        return enc.dumps(ret, ensure_ascii = False)
-    except IOError:
-        return None
+    tr = gettext.translation(domain, path, lang)
+    # for unknown reasons, instead of having plural entries like
+    # key: [sg, pl1...]
+    # tr._catalog has (key, n): pln,
+    keys = tr._catalog.keys()
+    keys.sort()
+    ret = {}
+    for k in keys:
+        if k == '':
+            continue
+        v = tr._catalog[k]
+        if type(k) is tuple:
+            if k[0] not in ret:
+                ret[k[0]] = []
+            ret[k[0]].append(v)
+        else:
+            ret[k] = v
+    return enc.dumps(ret, ensure_ascii = False)
 
 import sys
 print gettext_json(sys.argv[1], '.', [sys.argv[1]]).encode('UTF-8')
