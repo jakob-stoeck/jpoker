@@ -3100,7 +3100,7 @@
 	    var timeout_element = $('#player_seat' + seat + '_timeout' + id);
             if(in_position && in_position.sit === true && in_position.seat == seat) {
 		$('.jpoker_timeout_progress', timeout_element).stop().css({width: ratio*100+'%'}).show().animate({width: '0%'}, {duration: ratio*table.player_timeout*1000, queue: false});
-		timeout_element.attr("pcur", ratio*100).show();
+		timeout_element.attr('pcur', ratio*100).show();
             } else {
 		timeout_element.hide();
             }
