@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jpoker-ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-28 17:09+0100\n"
+"POT-Creation-Date: 2008-10-28 17:45+0100\n"
 "PO-Revision-Date: 2008-08-25 01:58+0200\n"
 "Last-Translator: Loic Dachary <loic@dachary.org>\n"
 "Language-Team: french <fr@li.org>\n"
@@ -401,15 +401,6 @@ msgstr ""
 msgid "Zip code"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:2544 jpoker/js/jquery.jpoker.js:2560
-#: jpoker/js/jquery.jpoker.js:2633
-msgid "break"
-msgstr ""
-
-#: jpoker/js/jquery.jpoker.js:2544 jpoker/js/jquery.jpoker.js:2560
-msgid "breakwait"
-msgstr ""
-
 #: jpoker/js/jquery.jpoker.js:1905 jpoker/js/jquery.jpoker.js:3575
 msgid "call"
 msgstr ""
@@ -420,10 +411,6 @@ msgstr ""
 
 #: jpoker/js/jquery.jpoker.js:3812
 msgid "click to sit"
-msgstr ""
-
-#: jpoker/js/jquery.jpoker.js:2544
-msgid "complete"
 msgstr ""
 
 #: jpoker/js/jquery.jpoker.js:2979
@@ -446,10 +433,6 @@ msgstr ""
 msgid "logout"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:2269
-msgid "n"
-msgstr ""
-
 #: jpoker/js/jquery.jpoker.js:3827
 msgid "not enough money"
 msgstr ""
@@ -457,10 +440,6 @@ msgstr ""
 #: jpoker/js/jquery.jpoker.js:2883
 msgid "password: "
 msgstr "パスワード"
-
-#: jpoker/js/jquery.jpoker.js:3103
-msgid "pcur"
-msgstr ""
 
 #: jpoker/js/jquery.jpoker.js:2782
 msgid "players"
@@ -480,11 +459,7 @@ msgstr ""
 msgid "raise"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:2534
-msgid "registering"
-msgstr ""
-
-#: jpoker/js/jquery.jpoker.js:2544 jpoker/js/jquery.jpoker.js:2560
+#: jpoker/js/jquery.jpoker.js:2560
 msgid "running"
 msgstr ""
 
@@ -526,10 +501,6 @@ msgstr ""
 
 #: jpoker/js/jquery.jpoker.js:855
 msgid "wait for {delay}s for queue {id}"
-msgstr ""
-
-#: jpoker/js/jquery.jpoker.js:2381 jpoker/js/jquery.jpoker.js:2544
-msgid "y"
 msgstr ""
 
 #: jpoker/js/jquery.jpoker.js:1187
