@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jpoker-ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-28 17:45+0100\n"
+"POT-Creation-Date: 2008-10-28 18:01+0100\n"
 "PO-Revision-Date: 2008-08-25 01:58+0200\n"
 "Last-Translator: Loic Dachary <loic@dachary.org>\n"
 "Language-Team: french <fr@li.org>\n"
@@ -140,9 +140,14 @@ msgstr ""
 msgid "Last name"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:2885 jpoker/js/jquery.jpoker.js:4085
+#: jpoker/js/jquery.jpoker.js:2885
 #, fuzzy
 msgid "Login"
+msgstr "ログイン"
+
+#: jpoker/js/jquery.jpoker.js:4085
+#, fuzzy
+msgid "Login name"
 msgstr "ログイン"
 
 #: jpoker/js/jquery.jpoker.js:4316

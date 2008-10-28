@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jpoker-fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-28 17:45+0100\n"
-"PO-Revision-Date: 2008-10-28 17:49+0100\n"
+"POT-Creation-Date: 2008-10-28 18:01+0100\n"
+"PO-Revision-Date: 2008-10-28 18:12+0100\n"
 "Last-Translator: Johan Euphrosine <proppy@aminche.com>\n"
 "Language-Team:  <pokersource-users@gna.org>\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: jpoker/js/jquery.jpoker.js:1205
 msgid " (login name is {name} )"
-msgstr "(nom de l'utilisateur {name} )"
+msgstr "(le nom de l'utilisateur est {name} )"
 
 #: jpoker/js/jquery.jpoker.js:2146 jpoker/js/jquery.jpoker.js:3049
 #, fuzzy
@@ -34,9 +34,8 @@ msgid "Add chips"
 msgstr "Ajouter des jetons"
 
 #: jpoker/js/jquery.jpoker.js:4383
-#, fuzzy
 msgid "Amount"
-msgstr "Temps maximum"
+msgstr "Montant"
 
 #: jpoker/js/jquery.jpoker.js:2144
 msgid "Average Pot"
@@ -98,7 +97,7 @@ msgstr "Croupier"
 
 #: jpoker/js/jquery.jpoker.js:2258 jpoker/js/jquery.jpoker.js:2370
 msgid "Description"
-msgstr "Déscription"
+msgstr "Description"
 
 #: jpoker/js/jquery.jpoker.js:4088
 msgid "Email"
@@ -141,9 +140,14 @@ msgstr "Il est trop tard pour désincrire le joueur {serial} du tournoi {game_id
 msgid "Last name"
 msgstr "Prénom"
 
-#: jpoker/js/jquery.jpoker.js:2885 jpoker/js/jquery.jpoker.js:4085
+#: jpoker/js/jquery.jpoker.js:2885
 msgid "Login"
-msgstr "Utilisateur:"
+msgstr "authentification"
+
+#: jpoker/js/jquery.jpoker.js:4085
+#, fuzzy
+msgid "Login name"
+msgstr "Prénom"
 
 #: jpoker/js/jquery.jpoker.js:4316
 msgid "Look for player"
@@ -221,7 +225,7 @@ msgstr "Le joueur {serial} est deja enregistré dans le tournoi {game_id}"
 
 #: jpoker/js/jquery.jpoker.js:1357
 msgid "Player {serial} is not registered in tournament {game_id}"
-msgstr "Le joueur {serial} n'est pas enregistré dqns le tournoi {game_id}"
+msgstr "Le joueur {serial} n'est pas enregistré dans le tournoi {game_id}"
 
 #: jpoker/js/jquery.jpoker.js:2147 jpoker/js/jquery.jpoker.js:2502
 #: jpoker/js/jquery.jpoker.js:2564
@@ -263,7 +267,7 @@ msgstr "Jetons"
 
 #: jpoker/js/jquery.jpoker.js:2539
 msgid "Register"
-msgstr "S'enregistrer"
+msgstr "Inscription"
 
 #: jpoker/js/jquery.jpoker.js:2267 jpoker/js/jquery.jpoker.js:2379
 msgid "Registered"
@@ -283,7 +287,7 @@ msgstr "Montrer"
 
 #: jpoker/js/jquery.jpoker.js:2884
 msgid "Sign Up"
-msgstr "S'enregistrer"
+msgstr "enregistrement"
 
 #: jpoker/js/jquery.jpoker.js:2266 jpoker/js/jquery.jpoker.js:2378
 msgid "Sit'n'Go"
@@ -349,7 +353,7 @@ msgstr "Ville"
 
 #: jpoker/js/jquery.jpoker.js:2537
 msgid "Unregister"
-msgstr "Se désinscrire"
+msgstr "Désinscription"
 
 #: jpoker/js/jquery.jpoker.js:4100
 msgid "Update personal info"
@@ -450,7 +454,7 @@ msgstr "joueurs enregistrés."
 #: jpoker/js/jquery.jpoker.js:1910 jpoker/js/jquery.jpoker.js:3575
 #: jpoker/js/jquery.jpoker.js:4001
 msgid "raise"
-msgstr "surenchérir"
+msgstr "enchèrir"
 
 #: jpoker/js/jquery.jpoker.js:2560
 msgid "running"
@@ -458,11 +462,11 @@ msgstr "en cours"
 
 #: jpoker/js/jquery.jpoker.js:3627
 msgid "sit in"
-msgstr "S'asseoir"
+msgstr "Présent"
 
 #: jpoker/js/jquery.jpoker.js:3608
 msgid "sit out"
-msgstr "Se lever"
+msgstr "Absent"
 
 #: jpoker/js/jquery.jpoker.js:2785
 msgid "tables"

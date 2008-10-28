@@ -4082,7 +4082,7 @@
         var t = this.templates;
 	var html = [];
 	html.push(t.info.supplant($.extend({
-		    'name_title': _("Login"),
+		    'name_title': _("Login name"),
 		    'password_title': _("Password"),
 		    'password_confirmation_title': _("Password confirmation"),
 		    'email_title': _("Email"),
