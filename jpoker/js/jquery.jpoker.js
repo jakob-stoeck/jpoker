@@ -2143,7 +2143,7 @@
                         'seats': _("Seats"),
                         'average_pot': _("Average Pot"),
                         'hands_per_hour': _("Hands/Hour"),
-                        'percent_flop': _("%Flop"),
+                        'percent_flop': _("% Flop"),
                         'players': _("Players"),
                         'observers': _("Observers"),
                         'waiting': _("Waiting"),
@@ -2877,7 +2877,7 @@
         var t = this.templates;
 	var html = [];
 	if(server.loggedIn()) {
-	    html.push(t.logout.supplant({ 'logout': ("{logname} <a href=\"javascript:;\">" + _("logout") + "</a>").supplant({ 'logname': server.userInfo.name }) }));
+	    html.push(t.logout.supplant({ 'logout': '{logname} <a href=\"javascript:;\">' + _("logout") + '</a>').supplant({ 'logname': server.userInfo.name }) }));
 	} else {
 	    html.push(t.login.supplant({ 'login': _("user: "),
                                          'password': _("password: "),
@@ -4057,7 +4057,7 @@
 					    $('.jpoker_user_info_avatar_preview', element).replaceWith(avatar_preview.clone().css({'background-image': 'url("' + avatar_url + '")',
    			       'display': 'block'}));
 					} else {
-					    $('.jpoker_user_info_avatar_upload_feedback', element).text(_("Uploading failed") + ": " + data);
+					    $('.jpoker_user_info_avatar_upload_feedback', element).text(_("Uploading failed") + ': ' + data);
 					}
 				    }
 				});
