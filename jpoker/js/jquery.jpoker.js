@@ -2507,10 +2507,10 @@
 	    for(var serial in packet.user2properties) {
 		var player = packet.user2properties[serial];
 		if (player.rank == -1) {
-		    player.rank = "";
+		    player.rank = '';
 		}
 		if (player.money == -1) {
-		    player.money = "";
+		    player.money = '';
 		}
 		html.push(player_state_template.rows.supplant(player));
 	    }
@@ -2572,8 +2572,8 @@
 			    id: table,
 			    table: table.substr(1),
 			    players: players.length,
-			    min_money: "",
-			    max_money: ""};
+			    min_money: '',
+			    max_money: ''};
 			var moneys = $.map(players, function(player) {
 				return packet.user2properties['X'+player.toString()].money;
 			    }).sort();
@@ -3647,11 +3647,12 @@
             // chat
             //
 
+	    var re = new RegExp('[\'\"]', 'g');	    
             var chat = function() {
                 var server = jpoker.getServer(url);
                 if(server) {
-                    var input = $('#chat' + id + ' .jpoker_chat_input input');
-                    var message = input.attr('value').replace(/[\'\"]/g, '');
+                    var input = $('#chat' + id + ' .jpoker_chat_input input');		    
+                    var message = input.attr('value').replace(re, '');
                     server.sendPacket({ 'type': 'PacketPokerChat',
                                 'serial': server.serial,
                                 'game_id': table.id,
