@@ -2877,7 +2877,7 @@
         var t = this.templates;
 	var html = [];
 	if(server.loggedIn()) {
-	    html.push(t.logout.supplant({'logout': '{logname} <a href=\"javascript:;\">' + _("logout") + '</a>'}).supplant({ 'logname': server.userInfo.name }) }));
+	    html.push(t.logout.supplant({'logout': '{logname} <a href=\'javascript:;\'>' + _("logout") + '</a>'}).supplant({ 'logname': server.userInfo.name }));
 	} else {
 	    html.push(t.login.supplant({ 'login': _("user: "),
                                          'password': _("password: "),
