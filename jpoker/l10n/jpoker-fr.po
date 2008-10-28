@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jpoker-fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-28 16:35+0100\n"
+"POT-Creation-Date: 2008-10-28 17:09+0100\n"
 "PO-Revision-Date: 2008-08-25 01:56+0200\n"
 "Last-Translator: Loic Dachary <loic@dachary.org>\n"
 "Language-Team: french <fr@li.org>\n"
@@ -23,22 +23,10 @@ msgstr ""
 msgid " (login name is {name} )"
 msgstr "(nom de login {name} )"
 
-#: jpoker/js/jquery.jpoker.js:3049
+#: jpoker/js/jquery.jpoker.js:2146 jpoker/js/jquery.jpoker.js:3049
 #, fuzzy
 msgid "% Flop"
 msgstr "%Flop"
-
-#: jpoker/js/jquery.jpoker.js:2146
-msgid "%Flop"
-msgstr "%Flop"
-
-#: jpoker/js/jquery.jpoker.js:4060
-msgid ": "
-msgstr ""
-
-#: jpoker/js/jquery.jpoker.js:2880
-msgid "</a>"
-msgstr ""
 
 #: jpoker/js/jquery.jpoker.js:3739
 msgid "Add chips"
@@ -549,12 +537,11 @@ msgstr "en attente pour {delay}s dans la file {id}"
 msgid "y"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:2880
-msgid "{logname} <a href=\"javascript:;\">"
-msgstr ""
-
 #: jpoker/js/jquery.jpoker.js:1187
 msgid "{url} attempt to login {name} although serial is {serial} instead of 0"
 msgstr ""
 "{url} tentative d'authentification de {name} bien que le numéro de série "
 "soit {serial} au lieu de 0"
+
+#~ msgid "%Flop"
+#~ msgstr "%Flop"
