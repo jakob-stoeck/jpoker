@@ -3325,10 +3325,11 @@
                         jpoker.plugins.player.avatar.update(player.name, avatar_url, avatar_element);
 		    }
 		});
-	    avatar_element.hover(function() {
-		    jpoker.plugins.player.callback.avatar_hover_enter(player, id);
+	    var seat_element = $('#player_seat' + seat + id)
+	    seat_element.hover(function() {
+		    jpoker.plugins.player.callback.seat_hover_enter(player, id);
 		}, function() {
-		    jpoker.plugins.player.callback.avatar_hover_leave(player, id);
+		    jpoker.plugins.player.callback.seat_hover_leave(player, id);
 		});
 	    var timeout_element = $('#player_seat' + seat  + '_timeout' + id).removeClass().addClass('jpoker_timeout jpoker_ptable_player_seat' + seat + '_timeout').html('<div class=\'jpoker_timeout_progress\'></div>');
 
@@ -3352,7 +3353,7 @@
 
 	    // at the end of player.create: call player_arrive callback
 	    $('#seat' + seat + id).addClass('jpoker_seat jpoker_seat'+seat);
-	    var seat_element = $('#player_seat' + seat + id).addClass('jpoker_player_seat jpoker_player_seat'+seat);
+	    seat_element.addClass('jpoker_player_seat jpoker_player_seat'+seat);
 	    this.callback.player_arrive(seat_element.get(0), serial);
         },
 
@@ -3549,11 +3550,11 @@
         },
 
 	callback: {
-	    avatar_hover_enter: function(player, id) {
-		$('#player_seat' + player.seat  + '_avatar' + id).addClass('jpoker_avatar_hover');
+	    seat_hover_enter: function(player, id) {
+		$('#player_seat' + player.seat  + id).addClass('jpoker_seat_hover');
 	    },	    
-	    avatar_hover_leave: function(player, id) {
-		$('#player_seat' + player.seat  + '_avatar' + id).removeClass('jpoker_avatar_hover');
+	    seat_hover_leave: function(player, id) {
+		$('#player_seat' + player.seat  + id).removeClass('jpoker_seat_hover');
 	    },
 	    player_arrive: function(element, serial) {
 	    }

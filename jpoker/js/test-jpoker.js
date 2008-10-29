@@ -5485,7 +5485,7 @@ test("jpoker.plugins.player: avatar race condition", function(){
         start_and_cleanup();
     });
 
-test("jpoker.plugins.player: avatar hover", function(){
+test("jpoker.plugins.player: seat hover", function(){
         expect(4);
         stop();
 
@@ -5505,25 +5505,25 @@ test("jpoker.plugins.player: avatar hover", function(){
 	var send_auto_muck = jpoker.plugins.muck.sendAutoMuck;
 	jpoker.plugins.muck.sendAutoMuck = function() {};
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
-	var avatar_hover_enter = jpoker.plugins.player.callback.avatar_hover_enter;
-	jpoker.plugins.player.callback.avatar_hover_enter = function(player, jpoker_id) {
-	    equals(player.serial, player_serial, 'avatar hover enter serial');
-	    equals(jpoker_id, id, 'avatar hover enter id');
+	var seat_hover_enter = jpoker.plugins.player.callback.seat_hover_enter;
+	jpoker.plugins.player.callback.seat_hover_enter = function(player, jpoker_id) {
+	    equals(player.serial, player_serial, 'seat hover enter serial');
+	    equals(jpoker_id, id, 'seat hover enter id');
 	};
-	$("#player_seat2_avatar" + id).trigger('mouseenter');
-	jpoker.plugins.player.callback.avatar_hover_enter = avatar_hover_enter;
-	var avatar_hover_leave = jpoker.plugins.player.callback.avatar_hover_leave;
-	jpoker.plugins.player.callback.avatar_hover_leave = function(player, jpoker_id) {
-	    equals(player.serial, player_serial, 'avatar hover leave serial');
-	    equals(jpoker_id, id, 'avatar hover leave id');
+	$("#player_seat2" + id).trigger('mouseenter');
+	jpoker.plugins.player.callback.seat_hover_enter = seat_hover_enter;
+	var seat_hover_leave = jpoker.plugins.player.callback.seat_hover_leave;
+	jpoker.plugins.player.callback.seat_hover_leave = function(player, jpoker_id) {
+	    equals(player.serial, player_serial, 'seat hover leave serial');
+	    equals(jpoker_id, id, 'seat hover leave id');
 	};
-	$("#player_seat2_avatar" + id).trigger('mouseleave');
-	jpoker.plugins.player.callback.avatar_hover_leave = avatar_hover_leave;
+	$("#player_seat2" + id).trigger('mouseleave');
+	jpoker.plugins.player.callback.seat_hover_leave = seat_hover_leave;
 	jpoker.plugins.muck.sendAutoMuck = send_auto_muck;
         start_and_cleanup();
     });
 
-test("jpoker.plugins.player: avatar hover default", function(){	
+test("jpoker.plugins.player: seat hover default", function(){	
 	expect(2);
         stop();
 
@@ -5545,11 +5545,11 @@ test("jpoker.plugins.player: avatar hover default", function(){
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
 	var player = server.tables[game_id].serial2player[player_serial];
 
-	var avatar_element = $('#player_seat2_avatar'+id);
-	jpoker.plugins.player.callback.avatar_hover_enter(player, id);
-	equals(avatar_element.hasClass('jpoker_avatar_hover'), true, 'jpoker_avatar_hover');
-	jpoker.plugins.player.callback.avatar_hover_leave(player, id);
-	equals(avatar_element.hasClass('jpoker_avatar_hover'), false, 'no jpoker_avatar_hover');
+	var seat_element = $('#player_seat2'+id);
+	jpoker.plugins.player.callback.seat_hover_enter(player, id);
+	equals(seat_element.hasClass('jpoker_seat_hover'), true, 'jpoker_seat_hover');
+	jpoker.plugins.player.callback.seat_hover_leave(player, id);
+	equals(seat_element.hasClass('jpoker_seat_hover'), false, 'no jpoker_seat_hover');
 
 	jpoker.plugins.muck.sendAutoMuck = send_auto_muck;
 	start_and_cleanup();
