@@ -35,7 +35,7 @@
  height: 65px;
 }
 
-.jpoker_table .jpoker_avatar_hover
+.jpoker_table .jpoker_seat_hover .jpoker_avatar
 {
  border: 1px solid #fff;
 }
