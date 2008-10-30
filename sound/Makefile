@@ -37,6 +37,6 @@ license:
 %.wav : %.ogg
 	oggdec $<
 
-%.swf : %.wav soundswiff
+%.swf : %.wav 
 #	./soundswiff $< $@
 	wav2swf --samplerate $(shell file $<  | perl -n -e '/(\d+)\sHz/; print $$1;') --output $@ --definesound  $<
