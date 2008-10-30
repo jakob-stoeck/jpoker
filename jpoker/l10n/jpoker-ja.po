@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jpoker-ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-28 18:01+0100\n"
+"POT-Creation-Date: 2008-10-29 18:49+0000\n"
 "PO-Revision-Date: 2008-08-25 01:58+0200\n"
 "Last-Translator: Loic Dachary <loic@dachary.org>\n"
 "Language-Team: french <fr@li.org>\n"
@@ -29,11 +29,11 @@ msgstr "(ログインネームは％sです）"
 msgid "% Flop"
 msgstr "%フロップ"
 
-#: jpoker/js/jquery.jpoker.js:3739
+#: jpoker/js/jquery.jpoker.js:3740
 msgid "Add chips"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:4383
+#: jpoker/js/jquery.jpoker.js:4384
 msgid "Amount"
 msgstr ""
 
@@ -45,7 +45,7 @@ msgstr "アベレージ　ポット"
 msgid "Betting Structure"
 msgstr "ベッティング　ストラクチャー"
 
-#: jpoker/js/jquery.jpoker.js:4099
+#: jpoker/js/jquery.jpoker.js:4100
 msgid "Birthdate"
 msgstr ""
 
@@ -62,7 +62,7 @@ msgid "Breaks Interval"
 msgstr ""
 
 #: jpoker/js/jquery.jpoker.js:2264 jpoker/js/jquery.jpoker.js:2376
-#: jpoker/js/jquery.jpoker.js:3752
+#: jpoker/js/jquery.jpoker.js:3753
 msgid "Buy In"
 msgstr ""
 
@@ -82,12 +82,12 @@ msgstr ""
 msgid "Click to show tourney details"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:4097
+#: jpoker/js/jquery.jpoker.js:4098
 msgid "Country"
 msgstr ""
 
 #: jpoker/js/jquery.jpoker.js:2151 jpoker/js/jquery.jpoker.js:2262
-#: jpoker/js/jquery.jpoker.js:2374 jpoker/js/jquery.jpoker.js:4382
+#: jpoker/js/jquery.jpoker.js:2374 jpoker/js/jquery.jpoker.js:4383
 msgid "Currency"
 msgstr ""
 
@@ -99,7 +99,7 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:4088
+#: jpoker/js/jquery.jpoker.js:4089
 msgid "Email"
 msgstr ""
 
@@ -107,11 +107,11 @@ msgstr ""
 msgid "Exit"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:4090
+#: jpoker/js/jquery.jpoker.js:4091
 msgid "First name"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:4098
+#: jpoker/js/jquery.jpoker.js:4099
 msgid "Gender"
 msgstr ""
 
@@ -128,7 +128,7 @@ msgstr "ハンド／時間"
 msgid "Holdem"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:4384
+#: jpoker/js/jquery.jpoker.js:4385
 msgid "In Game"
 msgstr ""
 
@@ -136,7 +136,7 @@ msgstr ""
 msgid "It is too late to unregister player {serial} from tournament {game_id}"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:4091
+#: jpoker/js/jquery.jpoker.js:4092
 msgid "Last name"
 msgstr ""
 
@@ -145,12 +145,12 @@ msgstr ""
 msgid "Login"
 msgstr "ログイン"
 
-#: jpoker/js/jquery.jpoker.js:4085
+#: jpoker/js/jquery.jpoker.js:4086
 #, fuzzy
 msgid "Login name"
 msgstr "ログイン"
 
-#: jpoker/js/jquery.jpoker.js:4316
+#: jpoker/js/jquery.jpoker.js:4317
 msgid "Look for player"
 msgstr ""
 
@@ -166,15 +166,15 @@ msgstr ""
 msgid "Money"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:3673
+#: jpoker/js/jquery.jpoker.js:3674
 msgid "Muck"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:3695
+#: jpoker/js/jquery.jpoker.js:3696
 msgid "Muck losing"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:3694
+#: jpoker/js/jquery.jpoker.js:3695
 msgid "Muck winning"
 msgstr ""
 
@@ -200,12 +200,12 @@ msgstr ""
 msgid "Observers"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:4086
+#: jpoker/js/jquery.jpoker.js:4087
 #, fuzzy
 msgid "Password"
 msgstr "パスワード"
 
-#: jpoker/js/jquery.jpoker.js:4087
+#: jpoker/js/jquery.jpoker.js:4088
 msgid "Password confirmation"
 msgstr ""
 
@@ -213,7 +213,7 @@ msgstr ""
 msgid "Password confirmation does not match"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:4089
+#: jpoker/js/jquery.jpoker.js:4090
 msgid "Phone Number"
 msgstr ""
 
@@ -240,11 +240,11 @@ msgstr "プレーヤー"
 msgid "Players Quota"
 msgstr "プレーヤー"
 
-#: jpoker/js/jquery.jpoker.js:4385
+#: jpoker/js/jquery.jpoker.js:4386
 msgid "Points"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:3495
+#: jpoker/js/jquery.jpoker.js:3496
 msgid "Pot"
 msgstr ""
 
@@ -265,7 +265,7 @@ msgstr ""
 msgid "Rank"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:3602 jpoker/js/jquery.jpoker.js:3755
+#: jpoker/js/jquery.jpoker.js:3603 jpoker/js/jquery.jpoker.js:3756
 msgid "Rebuy"
 msgstr ""
 
@@ -285,7 +285,7 @@ msgstr ""
 msgid "Seats"
 msgstr "シート"
 
-#: jpoker/js/jquery.jpoker.js:3681
+#: jpoker/js/jquery.jpoker.js:3682
 msgid "Show"
 msgstr ""
 
@@ -310,16 +310,16 @@ msgid "Start time:"
 msgstr ""
 
 #: jpoker/js/jquery.jpoker.js:2263 jpoker/js/jquery.jpoker.js:2375
-#: jpoker/js/jquery.jpoker.js:4096
+#: jpoker/js/jquery.jpoker.js:4097
 #, fuzzy
 msgid "State"
 msgstr "シート"
 
-#: jpoker/js/jquery.jpoker.js:4092
+#: jpoker/js/jquery.jpoker.js:4093
 msgid "Street"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:4093
+#: jpoker/js/jquery.jpoker.js:4094
 msgid "Street (continue)"
 msgstr ""
 
@@ -328,8 +328,8 @@ msgstr ""
 msgid "Table"
 msgstr "テーブル"
 
-#: jpoker/js/jquery.jpoker.js:2562 jpoker/js/jquery.jpoker.js:4181
-#: jpoker/js/jquery.jpoker.js:4289
+#: jpoker/js/jquery.jpoker.js:2562 jpoker/js/jquery.jpoker.js:4182
+#: jpoker/js/jquery.jpoker.js:4290
 #, fuzzy
 msgid "Tables"
 msgstr "テーブル"
@@ -350,11 +350,11 @@ msgstr ""
 msgid "Tournaments is starting at: "
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:4192 jpoker/js/jquery.jpoker.js:4300
+#: jpoker/js/jquery.jpoker.js:4193 jpoker/js/jquery.jpoker.js:4301
 msgid "Tourneys"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:4095
+#: jpoker/js/jquery.jpoker.js:4096
 msgid "Town"
 msgstr ""
 
@@ -362,31 +362,31 @@ msgstr ""
 msgid "Unregister"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:4100
+#: jpoker/js/jquery.jpoker.js:4101
 msgid "Update personal info"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:4042
+#: jpoker/js/jquery.jpoker.js:4043
 msgid "Updated"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:4031
+#: jpoker/js/jquery.jpoker.js:4032
 msgid "Updating..."
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:4105
+#: jpoker/js/jquery.jpoker.js:4106
 msgid "Upload avatar"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:4056
+#: jpoker/js/jquery.jpoker.js:4057
 msgid "Uploaded"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:4060
+#: jpoker/js/jquery.jpoker.js:4061
 msgid "Uploading failed"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:4052
+#: jpoker/js/jquery.jpoker.js:4053
 msgid "Uploading..."
 msgstr ""
 
@@ -402,19 +402,19 @@ msgstr ""
 msgid "Waiting"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:4094
+#: jpoker/js/jquery.jpoker.js:4095
 msgid "Zip code"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:1905 jpoker/js/jquery.jpoker.js:3575
+#: jpoker/js/jquery.jpoker.js:1905 jpoker/js/jquery.jpoker.js:3576
 msgid "call"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:1900 jpoker/js/jquery.jpoker.js:3575
+#: jpoker/js/jquery.jpoker.js:1900 jpoker/js/jquery.jpoker.js:3576
 msgid "check"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:3812
+#: jpoker/js/jquery.jpoker.js:3813
 msgid "click to sit"
 msgstr ""
 
@@ -426,7 +426,7 @@ msgstr ""
 msgid "disconnected"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:1895 jpoker/js/jquery.jpoker.js:3575
+#: jpoker/js/jquery.jpoker.js:1895 jpoker/js/jquery.jpoker.js:3576
 msgid "fold"
 msgstr ""
 
@@ -438,7 +438,7 @@ msgstr ""
 msgid "logout"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:3827
+#: jpoker/js/jquery.jpoker.js:3828
 msgid "not enough money"
 msgstr ""
 
@@ -459,8 +459,8 @@ msgstr "プレーヤー"
 msgid "players registered."
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:1910 jpoker/js/jquery.jpoker.js:3575
-#: jpoker/js/jquery.jpoker.js:4001
+#: jpoker/js/jquery.jpoker.js:1910 jpoker/js/jquery.jpoker.js:3576
+#: jpoker/js/jquery.jpoker.js:4002
 msgid "raise"
 msgstr ""
 
@@ -468,11 +468,11 @@ msgstr ""
 msgid "running"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:3627
+#: jpoker/js/jquery.jpoker.js:3628
 msgid "sit in"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:3608
+#: jpoker/js/jquery.jpoker.js:3609
 msgid "sit out"
 msgstr ""
 
