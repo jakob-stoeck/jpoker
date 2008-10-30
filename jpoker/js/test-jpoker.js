@@ -3662,12 +3662,12 @@ test("jpoker.plugins.tourneyDetails templates regular registering", function(){
 	var packet = TOURNEY_MANAGER_PACKET;
 	var is_logged = true;
 	var is_registered = true;
+	var date = new Date(packet.tourney.start_time).toLocaleString();
 	$(element).html(tourneyDetails.getHTML(id, packet, is_logged, is_registered));
 
 	var info = $(" .jpoker_tourney_details_info", element);
 
 	var start_time = $(".jpoker_tourney_details_info_start_time", info);
-	var date = new Date(packet.tourney.start_time).toLocaleString();
 	equals(start_time.html(), "Start time: "+date);
 
 	cleanup();
@@ -4377,6 +4377,7 @@ test("jpoker.plugins.tourneyPlaceholder", function(){
 
 	var tourney_serial = TOURNEY_MANAGER_PACKET.tourney_serial;
 	var tourney_starttime = TOURNEY_MANAGER_PACKET.tourney.start_time;
+	var tourney_starttime_date = new Date(tourney_starttime*1000);
 	var players_count = 1;
 
         PokerServer.prototype = {
@@ -4401,7 +4402,6 @@ test("jpoker.plugins.tourneyPlaceholder", function(){
 		    ok(element.hasClass('jpoker_tourney_placeholder'), 'jpoker_tourney_placeholder');
 		    equals($('.jpoker_tourney_placeholder_table', element).length, 1, 'table');
 		    equals($('.jpoker_tourney_placeholder_starttime', element).length, 1, 'starttime');		    
-		    var tourney_starttime_date = new Date(tourney_starttime*1000);
 		    ok($('.jpoker_tourney_placeholder_starttime', element).html().indexOf(tourney_starttime_date.toLocaleString()) >= 0, $('.jpoker_tourney_placeholder_starttime', element).html());
                     $("#" + id).remove();
                     return true;
@@ -4761,11 +4761,10 @@ test("jpoker.plugins.table: PacketPokerTourneyBreak callback.tourney_break/resum
         place.jpoker('table', 'url', game_id);
 
 	var resume_time = 1220979087*1000;
-	table.handler(server, game_id, { type: 'PacketPokerTableTourneyBreakBegin', game_id: game_id, resume_time: 1220979087});
-	ok($("#jpokerDialog").parents().is(':visible'), 'jpoker dialog visible');
 	var date = new Date();
 	date.setTime(resume_time);
-	//console.log(date.toLocaleString());
+	table.handler(server, game_id, { type: 'PacketPokerTableTourneyBreakBegin', game_id: game_id, resume_time: 1220979087});
+	ok($("#jpokerDialog").parents().is(':visible'), 'jpoker dialog visible');
 	ok($("#jpokerDialog").html().indexOf(date.toLocaleString()) >= 0, $("#jpokerDialog").html());
 	table.handler(server, game_id, { type: 'PacketPokerTableTourneyBreakDone', game_id: game_id});
 	ok($("#jpokerDialog").parents().is(':hidden'), 'jpoker dialog hidden');
