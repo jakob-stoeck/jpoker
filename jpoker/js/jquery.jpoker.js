@@ -50,6 +50,7 @@
         verbose: 0,
 
         doReconnect: true,
+	doRejoin: true,
 
         msie_compatibility: function() {
             /* 
@@ -1057,7 +1058,9 @@
                     if(packet.type == 'PacketPokerPlayerInfo') {
                         server.setSerial({ type: 'PacketSerial', serial: packet.serial });
                         server.ping();
-                        server.rejoin();
+			if (jpoker.doRejoin) {
+			    server.rejoin();
+			}
                         return false;
                     } else if(packet.type == 'PacketError') {
                         if(packet.other_type != jpoker.packetName2Type.POKER_GET_PLAYER_INFO) {

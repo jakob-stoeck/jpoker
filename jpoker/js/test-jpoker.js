@@ -579,6 +579,29 @@ test("jpoker.server.init reconnect file: protocol", function(){
         cleanup();
     });
 
+test("jpoker.server.init reconnect doReconnect", function(){
+        expect(1);
+	var jpokerDoReconnect = jpoker.doReconnect;
+	jpoker.doReconnect = false;
+        var server = jpoker.serverCreate({ url: 'url',
+					   cookie: function() { return this.sessionName(); } });
+	ok(server.state != server.RECONNECT, 'no reconnection');
+	jpoker.doReconnect = jpokerDoReconnect;
+        cleanup();
+    });
+
+test("jpoker.server.init reconnect doRejoin", function(){
+        expect(1);
+	var jpokerDoRejoin = jpoker.doRejoin;
+	jpoker.doRejoin = false;
+        var server = jpoker.serverCreate({ url: 'url'});
+	server.reconnect();
+	server.handle(0, {type: 'PacketPokerPlayerInfo', serial: 42});
+	ok(server.state != server.MY, 'no rejoin');
+	jpoker.doRejoin = jpokerDoRejoin;
+        cleanup();
+    });
+
 test("jpoker.server.reconnect success", function(){
         expect(5);
         stop();
