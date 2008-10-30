@@ -3330,7 +3330,7 @@
                         jpoker.plugins.player.avatar.update(player.name, avatar_url, avatar_element);
 		    }
 		});
-	    var seat_element = $('#player_seat' + seat + id)
+	    var seat_element = $('#player_seat' + seat + id);
 	    seat_element.hover(function() {
 		    jpoker.plugins.player.callback.seat_hover_enter(player, id);
 		}, function() {
