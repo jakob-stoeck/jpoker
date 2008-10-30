@@ -5087,7 +5087,6 @@ test("jpoker.plugins.table: PacketPokerChat", function(){
 
 test("jpoker.plugins.table: PacketPokerChat code injection", function(){
         expect(0);
-	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
@@ -5110,7 +5109,7 @@ test("jpoker.plugins.table: PacketPokerChat code injection", function(){
         var message = '<script>$.jpoker.injection();</script>';
         table.handler(server, game_id, { type: 'PacketPokerChat', message: message, game_id: game_id, serial: player_serial });
 	delete jpoker.injection;
-        //cleanup();
+        cleanup();
     });
 
 test("jpoker.plugins.table: PacketPokerPosition", function(){
