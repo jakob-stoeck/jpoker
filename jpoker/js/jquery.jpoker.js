@@ -3207,7 +3207,9 @@
 		    if (packet.serial === 0) {
 			message = message.replace(/^Dealer: /, '');
 		    }
-                    chat.prepend('<div class=\'jpoker_chat_line\'><span class=\'jpoker_chat_prefix\'>' + prefix + '</span><span class=\'jpoker_chat_message\'>' + message + '</span></div>');
+		    var chat_line = $('<div class=\'jpoker_chat_line\'>').prependTo(chat);
+		    var chat_prefix = $('<span class=\'jpoker_chat_prefix\'></span>').appendTo(chat_line).text(prefix);
+	            var chat_message = $('<span class=\'jpoker_chat_message\'></span>').appendTo(chat_line).text(message);
                 }
                 break;
 
@@ -3336,7 +3338,7 @@
             jpoker.plugins.player.chips(player, id);
             var name = $('#player_seat' + seat + '_name' + id);
             name.addClass('jpoker_name');
-            name.html(player.name);
+            name.text(player.name);
             if(server.serial == serial) {
                 jpoker.plugins.playerSelf.create(table, packet, id);
             }

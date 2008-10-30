@@ -5062,6 +5062,34 @@ test("jpoker.plugins.table: PacketPokerChat", function(){
         cleanup();
     });
 
+test("jpoker.plugins.table: PacketPokerChat code injection", function(){
+        expect(0);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 1;
+        var player_seat = 2;
+        var player_name = '<script>$.jpoker.injection();</script>';
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id, name: player_name });
+	var chat_element = $("#chat" + id);
+	jpoker.injection = function() {
+	    ok(false, 'code injection');
+	};
+        var message = '<script>$.jpoker.injection();</script>';
+        table.handler(server, game_id, { type: 'PacketPokerChat', message: message, game_id: game_id, serial: player_serial });
+	delete jpoker.injection;
+        //cleanup();
+    });
+
 test("jpoker.plugins.table: PacketPokerPosition", function(){
         expect(12);
         stop();
@@ -5417,6 +5445,32 @@ test("jpoker.plugins.player: PacketPokerPlayerArrive", function(){
 	ok($('#seat2' + id).hasClass('jpoker_seat'), 'jpoker_seat');
 	ok($('#seat2' + id).hasClass('jpoker_seat2'), 'jpoker_seat2');
         
+        start_and_cleanup();
+    });
+
+test("jpoker.plugins.player: PacketPokerPlayerArrive code injection", function(){
+        expect(0);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 1;
+        server.serial = player_serial;
+        var player_seat = 2;
+	jpoker.injection = function() {
+	    ok(false, 'injection');
+	};
+	var player_name = '<script>$.jpoker.injection()</script>';
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, name: player_name, game_id: game_id });
+	delete jpoker.injection;
         start_and_cleanup();
     });
 
