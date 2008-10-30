@@ -50,6 +50,7 @@
         verbose: 0,
 
         doReconnect: true,
+	doRejoin: true,
 
         msie_compatibility: function() {
             /* 
@@ -1057,7 +1058,9 @@
                     if(packet.type == 'PacketPokerPlayerInfo') {
                         server.setSerial({ type: 'PacketSerial', serial: packet.serial });
                         server.ping();
-                        server.rejoin();
+			if (jpoker.doRejoin) {
+			    server.rejoin();
+			}
                         return false;
                     } else if(packet.type == 'PacketError') {
                         if(packet.other_type != jpoker.packetName2Type.POKER_GET_PLAYER_INFO) {
@@ -3207,7 +3210,9 @@
 		    if (packet.serial === 0) {
 			message = message.replace(/^Dealer: /, '');
 		    }
-                    chat.prepend('<div class=\'jpoker_chat_line\'><span class=\'jpoker_chat_prefix\'>' + prefix + '</span><span class=\'jpoker_chat_message\'>' + message + '</span></div>');
+		    var chat_line = $('<div class=\'jpoker_chat_line\'>').prependTo(chat);
+		    var chat_prefix = $('<span class=\'jpoker_chat_prefix\'></span>').appendTo(chat_line).text(prefix);
+	            var chat_message = $('<span class=\'jpoker_chat_message\'></span>').appendTo(chat_line).text(message);
                 }
                 break;
 
@@ -3325,7 +3330,7 @@
                         jpoker.plugins.player.avatar.update(player.name, avatar_url, avatar_element);
 		    }
 		});
-	    var seat_element = $('#player_seat' + seat + id)
+	    var seat_element = $('#player_seat' + seat + id);
 	    seat_element.hover(function() {
 		    jpoker.plugins.player.callback.seat_hover_enter(player, id);
 		}, function() {
@@ -3336,7 +3341,7 @@
             jpoker.plugins.player.chips(player, id);
             var name = $('#player_seat' + seat + '_name' + id);
             name.addClass('jpoker_name');
-            name.html(player.name);
+            name.text(player.name);
             if(server.serial == serial) {
                 jpoker.plugins.playerSelf.create(table, packet, id);
             }
