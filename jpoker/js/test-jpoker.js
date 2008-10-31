@@ -585,7 +585,7 @@ test("jpoker.server.init reconnect doReconnect", function(){
 	jpoker.doReconnect = false;
         var server = jpoker.serverCreate({ url: 'url',
 					   cookie: function() { return this.sessionName(); } });
-	ok(server.state != server.RECONNECT, 'no reconnection');
+	equals(server.state, server.RUNNING, 'no reconnection');
 	jpoker.doReconnect = jpokerDoReconnect;
         cleanup();
     });
@@ -597,7 +597,7 @@ test("jpoker.server.init reconnect doRejoin", function(){
         var server = jpoker.serverCreate({ url: 'url'});
 	server.reconnect();
 	server.handle(0, {type: 'PacketPokerPlayerInfo', serial: 42});
-	ok(server.state != server.MY, 'no rejoin');
+	equals(server.state, server.RUNNING, 'no rejoin');
 	jpoker.doRejoin = jpokerDoRejoin;
         cleanup();
     });
