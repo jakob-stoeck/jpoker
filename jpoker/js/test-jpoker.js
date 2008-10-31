@@ -16,6 +16,14 @@
 //     You should have received a copy of the GNU General Public License
 //     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
+
+var TEST_TABLE_INFO = true;
+var TEST_AVATAR = true;
+var TEST_POWERED_BY = true;
+var TEST_RANK = true;
+var TEST_ACTION = true;
+var TEST_SIDE_POT = true;
+
 module("jpoker");
 
 try {
@@ -4645,6 +4653,7 @@ test("jpoker.plugins.table", function(){
 	content = $("#" + id).text();
     });
 
+if (TEST_TABLE_INFO) {
 test("jpoker.plugins.table: info", function(){
         expect(8);
 	var packet = {"type": "PacketPokerTable", "id": 100, "name": "One", "percent_flop" : 98, "betting_structure": "15-30-no-limit"};
@@ -4693,6 +4702,7 @@ test("jpoker.plugins.table: info tourney", function(){
 
 	cleanup();
     });
+} // TEST_TABLE_INFO
 
 test("jpoker.plugins.table: PacketPokerStart callback.hand_start", function(){
         expect(1);
@@ -4838,6 +4848,7 @@ test("jpoker.plugins.table.chat", function(){
         cleanup(id);
     });
 
+if (TEST_AVATAR) {
 test("jpoker.plugins.table: PokerPlayerArrive/Leave (Self)", function(){
         expect(18);
 
@@ -4885,6 +4896,52 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave (Self)", function(){
         equals(table.seats[0], null, "seat0 again");
         cleanup(id);
     });
+} else { // TEST_AVATAR
+test("jpoker.plugins.table: PokerPlayerArrive/Leave (Self)", function(){
+        expect(16);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var player_serial = 1;
+        server.serial = player_serial; // pretend logged in
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+	
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        $('#jpokerRebuy').remove(); // just in case it pre-existed
+        place.jpoker('table', 'url', game_id);
+        equals($("#seat0" + id).size(), 1, "seat0 DOM element");
+        equals($("#seat0" + id).css('display'), 'none', "seat0 hidden");
+        equals($("#sit_seat0" + id).css('display'), 'block', "sit_seat0 hidden");
+        equals(table.seats[0], null, "seat0 empty");
+        table.handler(server, game_id,
+                      {
+                          type: 'PacketPokerPlayerArrive',
+                              seat: 0,
+                              serial: player_serial,
+                              game_id: game_id,
+                              name: 'username',
+			      url: 'http://mycustomavatar.png'
+                              });
+        equals($("#jpokerSound " + jpoker.sound).attr("src").indexOf('arrive') >= 0, true, 'sound arrive');
+        equals($("#seat0" + id).css('display'), 'block', "arrive");
+        equals($("#sit_seat0" + id).css('display'), 'none', "seat0 hidden");
+        equals($("#player_seat0_name" + id).html(), 'click to sit', "username arrive");
+        equals(table.seats[0], player_serial, "player 1");
+        equals(table.serial2player[player_serial].serial, player_serial, "player 1 in player2serial");
+        var names = [ 'check', 'call', 'raise', 'fold' ];
+        for(var i = 0; i < names.length; i++) {
+            equals($("#" + names[i] + id).text(), names[i]);
+        }
+        table.handler(server, game_id, { type: 'PacketPokerPlayerLeave', seat: 0, serial: player_serial, game_id: game_id });
+        equals($("#seat0" + id).css('display'), 'none', "leave");
+        equals(table.seats[0], null, "seat0 again");
+        cleanup(id);
+    });
+} // TEST_AVATAR
 
 test("jpoker.plugins.table: PacketSerial/PacketLogout", function(){
         expect(4);
@@ -5392,6 +5449,7 @@ test("jpoker.plugins.table: remove callbacks", function(){
 	equals(table.callbacks.reinit.length, 0, 'table reinitCallback removed');
     });
 
+if (TEST_POWERED_BY) {
 test("jpoker.plugins.table: powered_by", function(){
         expect(4);
 	var packet = {"type": "PacketPokerTable", "id": 100, "name": "One", "percent_flop" : 98, "betting_structure": "15-30-no-limit"};
@@ -5411,6 +5469,7 @@ test("jpoker.plugins.table: powered_by", function(){
 	equals($('a span', powered_by_element).length, 1, 'span');
 	cleanup();
     });
+} // TEST_POWERED_BY
 
 test("jpoker.plugins.table: display done callback", function(){
         expect(1);
@@ -5438,6 +5497,7 @@ test("jpoker.plugins.table: display done callback", function(){
 //
 // player
 //
+if (TEST_AVATAR) {
 test("jpoker.plugins.player: PacketPokerPlayerArrive", function(){
         expect(6);
         stop();
@@ -5468,6 +5528,36 @@ test("jpoker.plugins.player: PacketPokerPlayerArrive", function(){
         
         start_and_cleanup();
     });
+} else { // TEST_AVATAR
+test("jpoker.plugins.player: PacketPokerPlayerArrive", function(){
+        expect(5);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 1;
+        server.serial = player_serial;
+        var player_seat = 2;
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+        var player = server.tables[game_id].serial2player[player_serial];
+        equals(player.serial, player_serial, "player_serial");
+
+	ok($('#player_seat2' + id).hasClass('jpoker_player_seat'), 'jpoker_seat');
+	ok($('#player_seat2' + id).hasClass('jpoker_player_seat2'), 'jpoker_seat2');
+	ok($('#seat2' + id).hasClass('jpoker_seat'), 'jpoker_seat');
+	ok($('#seat2' + id).hasClass('jpoker_seat2'), 'jpoker_seat2');
+        
+        start_and_cleanup();
+    });
+} // TEST_AVATAR
 
 test("jpoker.plugins.player: PacketPokerPlayerArrive code injection", function(){
         expect(0);
@@ -5495,6 +5585,7 @@ test("jpoker.plugins.player: PacketPokerPlayerArrive code injection", function()
         start_and_cleanup();
     });
 
+if (TEST_AVATAR) {
 test("jpoker.plugins.player: avatar", function(){
         expect(1);
         stop();
@@ -5559,6 +5650,7 @@ test("jpoker.plugins.player: avatar race condition", function(){
 	jpoker.plugins.muck.sendAutoMuck = send_auto_muck;
         start_and_cleanup();
     });
+} // TEST_AVATAR
 
 test("jpoker.plugins.player: seat hover", function(){
         expect(4);
@@ -5630,6 +5722,7 @@ test("jpoker.plugins.player: seat hover default", function(){
 	start_and_cleanup();
     });
 
+if (TEST_RANK) {
 test("jpoker.plugins.player: rank and level", function(){
         expect(13);
         stop();
@@ -5674,7 +5767,9 @@ test("jpoker.plugins.player: rank and level", function(){
 	ok(seat_element.hasClass('jpoker_player_level_master'), 'player level master');
 	start_and_cleanup();
      });
+} // TEST_RANK
 
+if (TEST_RANK) {
 test("jpoker.plugins.player: rejoin", function(){
 	expect(6);
 
@@ -5699,6 +5794,28 @@ test("jpoker.plugins.player: rejoin", function(){
 	equals($(".jpoker_player_stats", place).length, 1, 'player_stats x1');
 	equals($(".jpoker_player_sidepot", place).length, 1, 'player_sidepot x1');
     });
+} else { // TEST_RANK
+test("jpoker.plugins.player: rejoin", function(){
+	expect(2);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+
+        var player_name = 'username';
+	table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: 1, serial: 11, game_id: game_id, name: player_name});
+	equals($(".jpoker_timeout_progress", place).length, 1, 'timeout_progress added');
+	table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: 1, serial: 12, game_id: game_id, name: player_name});
+	equals($(".jpoker_timeout_progress", place).length, 1, 'timeout_progress x1');
+    });
+} // TEST_RANK
 
 test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
         expect(8);
@@ -5736,6 +5853,7 @@ test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
         start_and_cleanup();
     });
 
+if (TEST_ACTION) {
 test("jpoker.plugins.player: PacketPokerPlayerCall/Fold/Raise/Check/Start", function(){
         expect(7);
         stop();
@@ -5775,6 +5893,7 @@ test("jpoker.plugins.player: PacketPokerPlayerCall/Fold/Raise/Check/Start", func
         
         start_and_cleanup();
     });
+}
 
 test("jpoker.plugins.player: PacketPokerPlayerChips", function(){
         expect(15);
@@ -5970,6 +6089,7 @@ test("jpoker.plugins.player: PokerSit/SitOut PacketPokerAutoFold", function(){
         cleanup(id);
     });
 
+if (TEST_SIDE_POT) {
 test("jpoker.plugins.player: side_pot", function(){
         expect(8);
 
@@ -6006,6 +6126,7 @@ test("jpoker.plugins.player: side_pot", function(){
 	ok(side_pot.is(':hidden'), 'side pot hidden');
         cleanup(id);
     });
+}
 
 test("jpoker.plugins.player: PacketPokerStart", function(){
         expect(2);
