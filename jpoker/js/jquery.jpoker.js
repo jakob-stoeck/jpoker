@@ -1060,6 +1060,8 @@
                         server.ping();
 			if (jpoker.doRejoin) {
 			    server.rejoin();
+			} else {
+			    server.setState(server.RUNNING, 'no rejoin');
 			}
                         return false;
                     } else if(packet.type == 'PacketError') {
