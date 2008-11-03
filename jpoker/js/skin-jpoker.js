@@ -128,7 +128,7 @@ function jpoker_02_join(place) {
         var packets = [
 {"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 100, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 4, "waiting": 0, "skin": "default", "id": game_id, "type": "PacketPokerTable", "player_timeout": 60},
 { type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'verylongusername' },
-{ type: 'PacketPokerPlayerStats', serial: player_serial, game_id: game_id, rank: 1, percentile: 10 }
+{ type: 'PacketPokerPlayerStats', serial: player_serial, game_id: game_id, rank: 1, percentile: 0 }
                        ];
         ActiveXObject.prototype.server = {
             outgoing: JSON.stringify(packets),
@@ -158,7 +158,7 @@ function jpoker_03_joinBuyIn(place) {
         var money = 2;
         for(var i = 0; i < 10; i++) {
             packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
-            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i + 1, percentile: i*10 });
+            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i + 1, percentile: i%4 });
             packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money, bet: 0 });
             money *= 10;
         }
@@ -192,7 +192,7 @@ function jpoker_03_playerBet(place) {
         var bet = 80000;
         for(var i = 0; i < 10; i++) {
             packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
-            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i + 1, percentile: i*10 });
+            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i + 1, percentile: i%4 });
             packets.push({ type: 'PacketPokerSit', serial: player_serial + i, game_id: game_id });
 	    packets.push({ type: 'PacketPokerPlayerCards', serial: player_serial + i, game_id: game_id, cards: [255,255]});
             packets.push({ type: 'PacketPokerRaise', serial: player_serial + i, game_id: game_id });
@@ -230,7 +230,7 @@ function jpoker_04_playerInPosition(place) {
         var money = 2;
         for(var i = 0; i < 10; i++) {
             packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
-	    packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i + 1, percentile: i*10 });
+	    packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i + 1, percentile: i%4 });
             packets.push({ type: 'PacketPokerSit', serial: player_serial + i, game_id: game_id });
 	    packets.push({ type: 'PacketPokerPlayerCards', serial: player_serial + i, game_id: game_id, cards: [255,255]});
             packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money, bet: 0 });
@@ -271,7 +271,7 @@ best:  1000,
 rebuy_min: 1000
 },
 { type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'myself' },
-{ type: 'PacketPokerPlayerStats', serial:player_serial, game_id: game_id, rank: 1, percentile: 10 },
+{ type: 'PacketPokerPlayerStats', serial:player_serial, game_id: game_id, rank: 1, percentile: 0 },
 { type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, money: 0, bet: 0 }
                        ];
         ActiveXObject.prototype.server = {
@@ -301,7 +301,7 @@ function jpoker_06_selfInPosition(place) {
 { type: 'PacketSerial', serial: player_serial },
 { type: 'PacketPokerTable', id: game_id },
 { type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'myself' },
-{ type: 'PacketPokerPlayerStats', serial:player_serial, game_id: game_id, rank: 1, percentile: 10 },
+{ type: 'PacketPokerPlayerStats', serial:player_serial, game_id: game_id, rank: 1, percentile: 0 },
 { type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, money: 1000000, bet: 0 },
 { type: 'PacketPokerSit', serial: player_serial, game_id: game_id },
 { type: 'PacketPokerPlayerCards', serial: player_serial, game_id: game_id, cards: [32, 33]},
@@ -371,7 +371,7 @@ function jpoker_08_all(place) {
             packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money , bet: bet });
             packets.push({ type: 'PacketPokerPlayerCards', serial: player_serial + i, game_id: game_id, cards: [ 13, 14, 15, 16, 17, 18, 19 ] });
 	    packets.push({ type: 'PacketPokerCheck', serial: player_serial + i, game_id: game_id });
-            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i, percentile: i*10 });
+            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i, percentile: i%4 });
             bet *= 10;
             money *= 10;
         }
@@ -1040,7 +1040,7 @@ function jpoker_55_allWithSidePot(place) {
             packets.push({ type: 'PacketPokerPlayerCards', serial: player_serial + i, game_id: game_id, cards: [ 13, 14, 15, 16, 17, 18, 19 ] });
 	    packets.push({ type: 'PacketPokerCheck', serial: player_serial + i, game_id: game_id });
             packets.push({ type: 'PacketPokerPotChips', game_id: game_id, index: i, bet: [ 1, bet ] });
-            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i, percentile: i*10 });
+            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i, percentile: i%4 });
             bet *= 10;
             money *= 10;
         }
@@ -1111,7 +1111,7 @@ function jpoker_57_stats(place) {
             packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
 	    packets.push({ type: 'PacketPokerSit', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
             packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money , bet: bet });
-            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i+1, percentile: i*10 });
+            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i+1, percentile: i%4 });
             bet *= 10;
             money *= 10;
         }
@@ -1673,11 +1673,11 @@ function jpoker_110_cashier(place) {
 }
 
 
-function jpoker_120_level_10(place) {
+function jpoker_120_level_junior(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_120_level_10</b> ');
-            $(place).append('3 players with level 10.');
+            $(place).append('<b>jpoker_120_level_junior</b> ');
+            $(place).append('3 players with level junior.');
             $(place).append('<hr>');
         }
 
@@ -1708,11 +1708,11 @@ function jpoker_120_level_10(place) {
         server.sendPacket('ping');
 }
 
-function jpoker_121_level_40(place) {
+function jpoker_121_level_pro(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_121_level_40</b> ');
-            $(place).append('3 players with level 40.');
+            $(place).append('<b>jpoker_121_level_pro</b> ');
+            $(place).append('3 players with level pro.');
             $(place).append('<hr>');
         }
 
@@ -1726,7 +1726,7 @@ function jpoker_121_level_40(place) {
         for(var i = 0; i < 3; i++) {
             packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
             packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money , bet: bet });
-            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i+1, percentile: 40 });
+            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i+1, percentile: 1 });
         }	
 	packets.push({ type: 'PacketPokerSit', serial: player_serial, game_id: game_id, seat: 0});
 	packets.push({ type: 'PacketPokerSit', serial: player_serial+1, game_id: game_id, seat: 1});
@@ -1743,11 +1743,11 @@ function jpoker_121_level_40(place) {
         server.sendPacket('ping');
 }
 
-function jpoker_122_level_70(place) {
+function jpoker_122_level_expert(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_122_level_70</b> ');
-            $(place).append('3 players with level 70.');
+            $(place).append('<b>jpoker_122_level_expert</b> ');
+            $(place).append('3 players with level expert.');
             $(place).append('<hr>');
         }
 
@@ -1761,7 +1761,7 @@ function jpoker_122_level_70(place) {
         for(var i = 0; i < 3; i++) {
             packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
             packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money , bet: bet });
-            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i+1, percentile: 70 });
+            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i+1, percentile: 2 });
         }	
 	packets.push({ type: 'PacketPokerSit', serial: player_serial, game_id: game_id, seat: 0});
 	packets.push({ type: 'PacketPokerSit', serial: player_serial+1, game_id: game_id, seat: 1});
@@ -1778,11 +1778,11 @@ function jpoker_122_level_70(place) {
         server.sendPacket('ping');
 }
 
-function jpoker_123_level_100(place) {
+function jpoker_123_level_master(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_123_level_100</b> ');
-            $(place).append('3 players with level 100.');
+            $(place).append('<b>jpoker_123_level_master</b> ');
+            $(place).append('3 players with level master.');
             $(place).append('<hr>');
         }
 
@@ -1796,7 +1796,7 @@ function jpoker_123_level_100(place) {
         for(var i = 0; i < 3; i++) {
             packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
             packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money , bet: bet });
-            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i+1, percentile: 100 });
+            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i+1, percentile: 3 });
         }	
 	packets.push({ type: 'PacketPokerSit', serial: player_serial, game_id: game_id, seat: 0});
 	packets.push({ type: 'PacketPokerSit', serial: player_serial+1, game_id: game_id, seat: 1});

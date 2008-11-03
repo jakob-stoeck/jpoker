@@ -3523,13 +3523,13 @@
 	    },
 	    getLevel: function(percentile) {
 		var level;
-		if (percentile >= 75) {
+		if (percentile >= 3) {
 		    level = 'master';
-		} else if (percentile >= 50) {
+		} else if (percentile >= 2) {
 		    level = 'expert';
-		} else if (percentile >= 25) {
+		} else if (percentile >= 1) {
 		    level = 'pro';
-		} else {
+		} else if (percentile >= 0) {
 		    level = 'junior';
 		}
 		return level;
@@ -3537,8 +3537,12 @@
 	    getHTML: function(packet) {
 		var html = [];
 		var t = this.templates;
-		html.push(t.rank.supplant({rank: packet.rank}));
-		html.push(t.level.supplant({level: packet.level}));
+		if (packet.rank != undefined) {
+		    html.push(t.rank.supplant({rank: packet.rank}));
+		}
+		if (packet.level != undefined) {
+		    html.push(t.level.supplant({level: packet.level}));
+		}
 		return html.join('\n');
 	    },
 	    update: function(player, packet, id) {

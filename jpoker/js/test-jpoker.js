@@ -5742,7 +5742,7 @@ test("jpoker.plugins.player: seat hover default", function(){
 
 if (TEST_RANK) {
 test("jpoker.plugins.player: rank and level", function(){
-        expect(13);
+        expect(16);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url', urls : {avatar : 'http://avatar-server/'}});
@@ -5768,19 +5768,23 @@ test("jpoker.plugins.player: rank and level", function(){
 	var seat_element = $("#player_seat2"+id);
 	ok(element.hasClass('jpoker_player_stats'), 'player stats seat class');
 	ok(element.hasClass('jpoker_ptable_player_seat2_stats'), 'player stats seat class');
+	equals(element.html(), '', 'no stats');
+	server.handler(server, 0, {type: 'PacketPokerPlayerStats', serial: player_serial, rank: undefined, percentile: undefined});
+	equals($('.jpoker_player_rank', element).length, 0, 'player rank');
+	equals($('.jpoker_player_level', element).length, 0, 'player level');	
 	server.handler(server, 0, {type: 'PacketPokerPlayerStats', serial: player_serial, rank: 1, percentile: 0});
 	equals($('.jpoker_player_rank', element).length, 1, 'player rank');
 	equals($('.jpoker_player_level', element).length, 1, 'player level');	
 	equals($('.jpoker_player_rank', element).html(), 1, 'player rank 100');
 	ok($('.jpoker_player_level', element).hasClass('jpoker_player_level_junior'), 'player level junior');
 	ok(seat_element.hasClass('jpoker_player_level_junior'), 'player level junior');
-	server.handler(server, 0, {type: 'PacketPokerPlayerStats', serial: player_serial, rank: 1, percentile: 25});
+	server.handler(server, 0, {type: 'PacketPokerPlayerStats', serial: player_serial, rank: 1, percentile: 1});
 	ok($('.jpoker_player_level', element).hasClass('jpoker_player_level_pro'), 'player level pro');
 	ok(seat_element.hasClass('jpoker_player_level_pro'), 'player level pro');
-	server.handler(server, 0, {type: 'PacketPokerPlayerStats', serial: player_serial, rank: 1, percentile: 50});
+	server.handler(server, 0, {type: 'PacketPokerPlayerStats', serial: player_serial, rank: 1, percentile: 2});
 	ok($('.jpoker_player_level', element).hasClass('jpoker_player_level_expert'), 'player level expert');
 	ok(seat_element.hasClass('jpoker_player_level_expert'), 'player level expert');
-	server.handler(server, 0, {type: 'PacketPokerPlayerStats', serial: player_serial, rank: 1, percentile: 75});
+	server.handler(server, 0, {type: 'PacketPokerPlayerStats', serial: player_serial, rank: 1, percentile: 3});
 	ok($('.jpoker_player_level', element).hasClass('jpoker_player_level_master'), 'player level master');
 	ok(seat_element.hasClass('jpoker_player_level_master'), 'player level master');
 	start_and_cleanup();
