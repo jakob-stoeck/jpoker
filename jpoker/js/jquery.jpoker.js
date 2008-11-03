@@ -1733,6 +1733,13 @@
 		    table.notifyUpdate(packet);
 		    break;
 
+		case 'PacketPokerEndRound':
+		    $.each(table.serial2player, function(serial, player) {
+			    player.handler(server, game_id, packet);
+			});
+		    table.notifyUpdate(packet);
+		    break;
+
 		case 'PacketPokerTableTourneyBreakBegin':
 		    table.notifyUpdate(packet);
 		    break;
@@ -1918,6 +1925,11 @@
 		break;
 
 		case 'PacketPokerStart':
+		this.action = '';
+		this.notifyUpdate(packet);
+		break;
+
+		case 'PacketPokerEndRound':
 		this.action = '';
 		this.notifyUpdate(packet);
 		break;
@@ -3412,6 +3424,10 @@
 	    jpoker.plugins.cards.hide(player.cards, 'card_seat' + player.seat, id);
 	    jpoker.plugins.player.action(player, id);
 	    break;
+
+	    case 'PacketPokerEndRound':
+	    jpoker.plugins.player.action(player, id);
+	    break;	    
 
             case 'PacketPokerPlayerChips':
             jpoker.plugins.player.chips(player, id);

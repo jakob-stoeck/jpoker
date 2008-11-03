@@ -5877,7 +5877,7 @@ test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
 
 if (TEST_ACTION) {
 test("jpoker.plugins.player: PacketPokerPlayerCall/Fold/Raise/Check/Start", function(){
-        expect(7);
+        expect(8);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -5900,6 +5900,9 @@ test("jpoker.plugins.player: PacketPokerPlayerCall/Fold/Raise/Check/Start", func
 
         table.handler(server, game_id, { type: 'PacketPokerCall', serial: player_serial, game_id: game_id });
 	equals(player_action_element.html(), 'call');
+
+	table.handler(server, game_id, { type: 'PacketPokerEndRound', serial: 0, game_id: game_id });
+	equals(player_action_element.html(), '');
 
 	table.handler(server, game_id, { type: 'PacketPokerFold', serial: player_serial, game_id: game_id });
 	equals(player_action_element.html(), 'fold');
