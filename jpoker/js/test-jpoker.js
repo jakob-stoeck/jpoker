@@ -216,6 +216,24 @@ test("jpoker.error alert", function() {
 	jpoker.console = jpokerConsole;
 });
 
+test("jpoker.error object", function() {
+        expect(2);
+	var error_reason = {message: "error reason"};
+	var jpokerConsole = jpoker.console;
+	jpoker.console = undefined;
+	var jpokerAlert = jpoker.alert;
+	jpoker.alert = function(reason) {
+	    jpoker.alert = jpokerAlert;
+	    equals(reason, JSON.stringify(error_reason), "jpoker.alert error_reason");
+	};
+	try {
+	    jpoker.error(error_reason);
+	} catch (reason) {
+	    equals(reason.message, error_reason.message, "error_reason thrown");
+	}
+	jpoker.console = jpokerConsole;
+});
+
 //
 // jpoker.watchable
 //

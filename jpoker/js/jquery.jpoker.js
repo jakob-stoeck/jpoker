@@ -150,10 +150,11 @@
         },
 
         errorHandler: function(reason) {
+	    var message = (typeof reason == 'string') ? reason : JSON.stringify(reason);
 	    if (jpoker.console) {
-		this.message(reason);
+		this.message(message);
 	    } else {
-		this.alert(reason);
+		this.alert(message);
 	    }
         },
 
