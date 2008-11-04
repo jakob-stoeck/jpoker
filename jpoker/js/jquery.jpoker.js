@@ -3553,10 +3553,10 @@
 	    getHTML: function(packet) {
 		var html = [];
 		var t = this.templates;
-		if (packet.rank != undefined) {
+		if ((packet.rank !== undefined) && (packet.rank !== null)) {
 		    html.push(t.rank.supplant({rank: packet.rank}));
 		}
-		if (packet.level != undefined) {
+		if ((packet.level !== undefined) && (packet.level !== null)) {
 		    html.push(t.level.supplant({level: packet.level}));
 		}
 		return html.join('\n');
