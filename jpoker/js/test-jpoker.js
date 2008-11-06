@@ -2912,6 +2912,58 @@ test("jpoker.plugins.tableList pager", function(){
             });
     });
 
+test("jpoker.plugins.tableList pager 30 rows per page", function(){
+        expect(2);
+        stop();
+
+        //
+        // Mockup server that will always return TABLE_LIST_PACKET,
+        // whatever is sent to it.
+        //
+        var PokerServer = function() {};
+
+        var average_pot = 1535 / 100;
+        var TABLE_LIST_PACKET = {"players": 4, "type": "PacketPokerTableList", "packets": []};
+	for (var i = 0; i < 200; ++i) {
+	    var name = "Table" + i;
+	    var game_id = 100+i;
+	    var players = i%11;
+	    var packet = {"observers": 0, "name": name, "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": players, "waiting": 0, "skin": "default", "id": game_id,"type": "PacketPokerTable", "player_timeout": 60};
+	    TABLE_LIST_PACKET.packets.push(packet);
+	}
+
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TABLE_LIST_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        jpoker.serverDestroy('url');
+        server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $("#main");
+
+	jpoker.plugins.tableList.templates.pager = '<div class=\'pager\'><input class=\'pagesize\' value=\'30\'></input><ul class=\'pagelinks\'></ul></div>';
+        place.jpoker('tableList', 'url', { delay: 10000 });
+        server.registerUpdate(function(server, what, data) {		
+                var element = $("#" + id);
+                if(element.length > 0) {
+		    equals($('.pager .pagesize', element).val(), 30, 'pagesize');
+		    equals($('table tbody tr', element).length, 30, 'tr count');
+                    $("#" + id).remove();
+                    return true;
+                } else {
+		    start_and_cleanup();
+                    return false;
+                }
+            });
+    });
+
 test("jpoker.plugins.tableList no table no tablesorter", function(){
         expect(1);
         stop();
