@@ -239,9 +239,9 @@
 					
 					var table = this, pager = config.container;
 				
-					$(this).trigger("appendCache");
-					
 					config.size = parseInt($(".pagesize",pager).val());
+
+					$(this).trigger("appendCache");
 					
 					$(config.cssFirst,pager).click(function() {
 						moveToFirstPage(table);
