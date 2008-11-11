@@ -7529,7 +7529,7 @@ test("jpoker.plugins.playerLookup options", function(){
     });
 
 test("jpoker.plugins.cashier", function(){
-        expect(12);
+        expect(13);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -7550,6 +7550,11 @@ test("jpoker.plugins.cashier", function(){
         var place = $('#main');
 
         equals('update' in server.callbacks, false, 'no update registered');
+	var display_done = jpoker.plugins.cashier.callback.display_done;
+	jpoker.plugins.cashier.callback.display_done = function(element) {
+	    jpoker.plugins.cashier.callback.display_done = display_done;
+	    equals($(".jpoker_cashier", $(element).parent()).length, 1, 'display done called when DOM is done');
+	};
         place.jpoker('cashier', 'url');
         equals(server.callbacks.update.length, 1, 'cashier update registered');
 	equals($('.jpoker_cashier').length, 1, 'cashier div');

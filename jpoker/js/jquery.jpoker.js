@@ -4345,6 +4345,7 @@
 				jpoker.plugins.playerLookup.callback.error(packet);
 			    }
 			}
+                        playerLookup.callback.display_done(element);
                         return true;
                     } else {
                         return false;
@@ -4417,7 +4418,10 @@
 
     jpoker.plugins.playerLookup.callback = {
 	error: function(packet) {
-	}
+	},
+        
+        display_done: function(element) {
+        }
     };
 
     //
@@ -4441,6 +4445,7 @@
                     if(element) {
 			if(packet && packet.type == 'PacketPokerUserInfo') {
 			    $(element).html(cashier.getHTML(packet));
+                            cashier.callback.display_done(element);
 			}
                         return true;
                     } else {
@@ -4481,6 +4486,11 @@
 	    header : '<div class=\'jpoker_cashier_currencies\'><table><thead><tr><th>{currency_serial_title}</th><th>{currency_amount_title}</th><th>{currency_ingame_title}</th><th>{currency_points_title}</th></tr></thead><tbody>',
 	    rows : '<tr class=\'jpoker_cashier_currency\'><td>{currency_serial}</td><td>{currency_amount}</td><td>{currency_ingame}</td><td>{currency_points}</td></tr>',
 	    footer : '</tbody></table></div>'
+	}
+    };
+
+    jpoker.plugins.cashier.callback = {
+	display_done: function(element) {
 	}
     };
 
