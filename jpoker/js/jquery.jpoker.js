@@ -4235,6 +4235,7 @@
 				    });
 			    }
 			}
+                        places.callback.display_done(element);
                         return true;
                     } else {
                         return false;
@@ -4290,6 +4291,11 @@
 	    rows : '<tr class=\'jpoker_places_tourney\' id={id}><td>{tourney}</td></tr>',
 	    footer : '</tbody></table></div>',
 	    link: '<a href=\'{link}\'>{name}</a>'
+	}
+    };
+
+    jpoker.plugins.places.callback = {
+	display_done: function(element) {
 	}
     };
 

@@ -7222,7 +7222,7 @@ test("jpoker.plugins.muck", function(){
     });
 
 test("jpoker.plugins.places", function(){
-        expect(8);
+        expect(9);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -7243,6 +7243,11 @@ test("jpoker.plugins.places", function(){
         var place = $('#main');
 
         equals('update' in server.callbacks, false, 'no update registered');
+	var display_done = jpoker.plugins.places.callback.display_done;
+	jpoker.plugins.places.callback.display_done = function(element) {
+	    jpoker.plugins.places.callback.display_done = display_done;
+	    equals($(".jpoker_places", $(element).parent()).length, 1, 'display done called when DOM is done');
+	};
         place.jpoker('places', 'url');
         equals(server.callbacks.update.length, 1, 'places update registered');
 	equals($('.jpoker_places', place).length, 1, 'places div');
