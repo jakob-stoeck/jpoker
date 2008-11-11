@@ -3222,7 +3222,7 @@ test("jpoker.plugins.regularTourneyList pager", function(){
 // sitngoTourneyList
 //
 test("jpoker.plugins.sitngoTourneyList", function(){
-        expect(13);
+        expect(14);
         stop();
 
         //
@@ -3252,6 +3252,11 @@ test("jpoker.plugins.sitngoTourneyList", function(){
         var row_id = TOURNEY_LIST_PACKET.packets[0].serial + id;
         var place = $("#main");
         equals('update' in server.callbacks, false, 'no update registered');
+	var display_done = jpoker.plugins.sitngoTourneyList.callback.display_done;
+	jpoker.plugins.sitngoTourneyList.callback.display_done = function(element) {
+	    jpoker.plugins.sitngoTourneyList.callback.display_done = display_done;
+	    equals($(".jpoker_sitngo_tourney_list", $(element).parent()).length, 1, 'display done called when DOM is done');
+	};
         place.jpoker('sitngoTourneyList', 'url', { delay: 30 });
         equals(server.callbacks.update.length, 1, 'sitngoTourneyList update registered');
         server.registerUpdate(function(server, what, data) {

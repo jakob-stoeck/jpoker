@@ -2376,6 +2376,7 @@
 				$('table', element).tablesorter({widgets: ['zebra'], sortList: [[3, 0]]}).tablesorterPager(options);				
 			    }
                         }
+                        sitngoTourneyList.callback.display_done(element);
                         return true;
                     } else {
 			server.stopRefresh('tourneyList');
@@ -2439,6 +2440,11 @@
 	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
 	next_label: '{next_label} >>>',
 	previous_label: '<<< {previous_label}'	
+    };
+
+    jpoker.plugins.sitngoTourneyList.callback = {
+	display_done: function(element) {
+	}
     };
 
     //
