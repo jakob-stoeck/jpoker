@@ -2133,7 +2133,8 @@
 					       previous_label: t.previous_label.supplant({previous_label: _("Previous page")}),
 					       next_label: t.next_label.supplant({next_label: _("Next page")})};
 				$('table', element).tablesorter({widgets: ['zebra']}).tablesorterPager(options);
-			    }			    
+			    }
+                            tableList.callback.display_done(element);
                         }
                         return true;
                     } else {
@@ -2201,6 +2202,10 @@
 	previous_label: '<<<'
     };
 
+    jpoker.plugins.tableList.callback = {
+	display_done: function(element) {
+	}
+    };
     //
     // regularTourneyList
     //
@@ -2488,7 +2493,7 @@
 					});
 				}
 			    }
-			    jpoker.plugins.tourneyDetails.callback.display_done(element);
+			    tourneyDetails.callback.display_done(element);
                         }
                         return true;
                     } else {

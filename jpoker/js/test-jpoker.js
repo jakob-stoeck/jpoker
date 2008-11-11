@@ -2736,7 +2736,7 @@ test("jpoker.player.stats", function(){
 // tableList
 //
 test("jpoker.plugins.tableList", function(){
-        expect(11);
+        expect(12);
         stop();
 
         //
@@ -2764,6 +2764,11 @@ test("jpoker.plugins.tableList", function(){
         var id = 'jpoker' + jpoker.serial;
         var place = $("#main");
         equals('update' in server.callbacks, false, 'no update registered');
+	var display_done = jpoker.plugins.tableList.callback.display_done;
+	jpoker.plugins.tableList.callback.display_done = function(element) {
+	    jpoker.plugins.tableList.callback.display_done = display_done;
+	    equals($(".jpoker_table_list", $(element).parent()).length, 1, 'display done called when DOM is done');
+	};
         place.jpoker('tableList', 'url', { delay: 30 });
         equals(server.callbacks.update.length, 1, 'tableList update registered');
         server.registerUpdate(function(server, what, data) {		
