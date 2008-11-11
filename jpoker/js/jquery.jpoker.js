@@ -2740,6 +2740,7 @@
                         if(packet && packet.type == 'PacketPokerTourneyManager') {
                             $(element).html(tourneyPlaceholder.getHTML(id, packet));
                         }
+                        tourneyPlaceholder.callback.display_done(element);
                         return true;
                     } else {
 			server.stopRefresh('tourneyDetails');
@@ -2772,6 +2773,11 @@
 	starttime: '<div class=\'jpoker_tourney_placeholder_starttime\'>{tourney_starttime}</div>'
     };
     
+    jpoker.plugins.tourneyPlaceholder.callback = {
+	display_done: function(element) {
+	}
+    };
+
     //
     // serverStatus
     //

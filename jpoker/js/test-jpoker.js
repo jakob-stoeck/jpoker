@@ -4466,7 +4466,7 @@ test("jpoker.plugins.tourneyDetails.unregister", function(){
 // tourneyPlaceholder
 //
 test("jpoker.plugins.tourneyPlaceholder", function(){
-        expect(10);
+        expect(11);
         stop();
 
         var PokerServer = function() {};
@@ -4492,6 +4492,11 @@ test("jpoker.plugins.tourneyPlaceholder", function(){
         var id = 'jpoker' + jpoker.serial;
         var place = $("#main");
         equals('update' in server.callbacks, false, 'no update registered');
+	var display_done = jpoker.plugins.tourneyPlaceholder.callback.display_done;
+	jpoker.plugins.tourneyPlaceholder.callback.display_done = function(element) {
+	    jpoker.plugins.tourneyPlaceholder.callback.display_done = display_done;
+	    equals($(".jpoker_tourney_placeholder", $(element).parent()).length, 1, 'display done called when DOM is done');
+	};
         place.jpoker('tourneyPlaceholder', 'url', tourney_serial.toString());
         equals(server.callbacks.update.length, 1, 'tourneyPlaceholder update registered');
         server.registerUpdate(function(server, what, data) {
