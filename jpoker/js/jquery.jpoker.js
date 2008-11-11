@@ -2908,6 +2908,7 @@
                                     }
                                 });
                         }
+                        login.callback.display_done(element);
                         return true;
                     } else {
                         return false;
@@ -2943,6 +2944,11 @@
     jpoker.plugins.login.templates = {
 	login: '<table>\n<tbody><tr>\n<td class=\'jpoker_login_name_label\'><b>{login}</b></td>\n<td><input type=\'text\' class=\'jpoker_login_name\' size=\'10\'/></td>\n<td><input type=\'submit\' class=\'jpoker_login_submit\' value=\'{go}\' /></td>\n</tr>\n<tr>\n<td class=\'jpoker_login_name_label\'><b>{password}</b></td>\n<td><input type=\'password\' class=\'jpoker_login_password\' size=\'10\'/></td>\n<td><input type=\'submit\' class=\'jpoker_login_signup\' value=\'{signup}\' /></td>\n</tr>\n</tbody></table>',
 	logout: '<div class=\'jpoker_logout\'>{logout}<div>'
+    };
+
+    jpoker.plugins.login.callback = {
+	display_done: function(element) {
+	}
     };
 
     //

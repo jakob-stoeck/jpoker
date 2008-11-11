@@ -4669,12 +4669,17 @@ $.fn.triggerKeydown = function(keyCode) {
 };
 
 test("jpoker.plugins.login", function(){
-        expect(10);
+        expect(11);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
         var id = 'jpoker' + jpoker.serial;
 
+	var display_done = jpoker.plugins.login.callback.display_done;
+	jpoker.plugins.login.callback.display_done = function(element) {
+	    jpoker.plugins.login.callback.display_done = display_done;
+	    equals($(".jpoker_login", $(element).parent()).length, 1, 'display done called when DOM is done');
+	};
 	place.jpoker('login', 'url');
         var content = null;
         
