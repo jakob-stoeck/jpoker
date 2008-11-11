@@ -2798,6 +2798,7 @@
                     var element = document.getElementById(id);
                     if(element) {
                         $(element).html(serverStatus.getHTML(server));
+                        serverStatus.callback.display_done(element);
                         return true;
                     } else {
                         return false;
@@ -2848,6 +2849,11 @@
         players_tourneys: '<div class=\'jpoker_server_status_players_tourneys\'> <span class=\'jpoker_server_status_players_tourneys_count\'>{count}</span> <span class=\'jpoker_server_status_players_tourneys_label\'>{players_tourneys}</span> </div>',
 
         tourneys: '<div class=\'jpoker_server_status_tourneys\'> <span class=\'jpoker_server_status_tourneys_count\'>{count}</span> <span class=\'jpoker_server_status_tourneys_label\'>{tourneys}</span> </div>'
+    };
+
+    jpoker.plugins.serverStatus.callback = {
+	display_done: function(element) {
+	}
     };
 
     //

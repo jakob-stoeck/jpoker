@@ -4612,7 +4612,7 @@ test("jpoker.plugins.featuredTable waiting", function(){
 // serverStatus
 //
 test("jpoker.plugins.serverStatus", function(){
-	expect(8);
+	expect(9);
 
         var server = jpoker.serverCreate({ url: 'url' });
 
@@ -4622,6 +4622,11 @@ test("jpoker.plugins.serverStatus", function(){
         //
         // disconnected
         //
+	var display_done = jpoker.plugins.serverStatus.callback.display_done;
+	jpoker.plugins.serverStatus.callback.display_done = function(element) {
+	    jpoker.plugins.serverStatus.callback.display_done = display_done;
+	    equals($(".jpoker_server_status", $(element).parent()).length, 1, 'display done called when DOM is done');
+	};
 	place.jpoker('serverStatus', 'url');
 	var content = $("#" + id).text();
 	equals(content.indexOf("disconnected") >= 0, true, "disconnected");
