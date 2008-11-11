@@ -2280,8 +2280,8 @@
 					       next_label: t.next_label.supplant({next_label: _("Next page")})};
 				$('table', element).tablesorter({widgets: ['zebra'], sortList: [[4, 0]]}).tablesorterPager(options);
 			    }
+                            regularTourneyList.callback.display_done(element);
                         }
-                        regularTourneyList.callback.display_done(element);
                         return true;
                     } else {
 			server.stopRefresh('tourneyList');
@@ -2398,8 +2398,8 @@
 					       next_label: t.next_label.supplant({next_label: _("Next page")})};
 				$('table', element).tablesorter({widgets: ['zebra'], sortList: [[3, 0]]}).tablesorterPager(options);				
 			    }
+                            sitngoTourneyList.callback.display_done(element);
                         }
-                        sitngoTourneyList.callback.display_done(element);
                         return true;
                     } else {
 			server.stopRefresh('tourneyList');
@@ -2762,8 +2762,8 @@
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTourneyManager') {
                             $(element).html(tourneyPlaceholder.getHTML(id, packet));
+                            tourneyPlaceholder.callback.display_done(element);
                         }
-                        tourneyPlaceholder.callback.display_done(element);
                         return true;
                     } else {
 			server.stopRefresh('tourneyDetails');
@@ -4131,8 +4131,8 @@
 					}
 				    }
 				});
+                            userInfo.callback.display_done(element);
 			}
-                        userInfo.callback.display_done(element);
                         return true;
                     } else {
                         return false;
@@ -4234,8 +4234,8 @@
 					    });
 				    });
 			    }
+                            places.callback.display_done(element);
 			}
-                        places.callback.display_done(element);
                         return true;
                     } else {
                         return false;
@@ -4320,32 +4320,32 @@
 			if(packet) {
 			    if (packet.type == 'PacketPokerPlayerPlaces') {
 				$('.jpoker_player_lookup_result', element).html(playerLookup.getHTML(packet, opts.table_link_pattern, opts.tourney_link_pattern));
-			    if (opts.table_link_pattern === undefined) {
-				$.each(packet.tables, function(i, table) {
-					$('#' + table, element).click(function() {
-						var server = jpoker.getServer(url);
-						if(server) {
-						    server.tableJoin(table);
-						}
-					    });
-				    });
-			    }
-			    if (opts.tourney_link_pattern === undefined) {
-				$.each(packet.tourneys, function(i, tourney) {
-					$('#' + tourney, element).click(function() {
-						var server = jpoker.getServer(url);
-						if(server) {
-						    var packet = {game_id: tourney, name: ''};
-						    server.placeTourneyRowClick(server, packet);
-						}
-					    });
-				    });
-			    }
+                                if (opts.table_link_pattern === undefined) {
+                                    $.each(packet.tables, function(i, table) {
+                                            $('#' + table, element).click(function() {
+                                                    var server = jpoker.getServer(url);
+                                                    if(server) {
+                                                        server.tableJoin(table);
+                                                    }
+                                                });
+                                        });
+                                }
+                                if (opts.tourney_link_pattern === undefined) {
+                                    $.each(packet.tourneys, function(i, tourney) {
+                                            $('#' + tourney, element).click(function() {
+                                                    var server = jpoker.getServer(url);
+                                                    if(server) {
+                                                        var packet = {game_id: tourney, name: ''};
+                                                        server.placeTourneyRowClick(server, packet);
+                                                    }
+                                                });
+                                        });
+                                }
+                                playerLookup.callback.display_done(element);
 			    } else if ((packet.type == 'PacketError') && (packet.other_type == jpoker.packetName2Type.PACKET_POKER_PLAYER_PLACES)) {
-				jpoker.plugins.playerLookup.callback.error(packet);
+				playerLookup.callback.error(packet);
 			    }
 			}
-                        playerLookup.callback.display_done(element);
                         return true;
                     } else {
                         return false;
