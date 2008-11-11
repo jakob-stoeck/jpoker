@@ -4018,6 +4018,42 @@
     };
 
     //
+    // muck (table plugin helper)
+    //
+
+    jpoker.plugins.muck = {
+	AUTO_MUCK_WIN: 1,
+	AUTO_MUCK_LOSE: 2,
+	templates : {
+	    muck_accept: '<div class=\'jpoker_muck jpoker_muck_accept\'><a href=\'javascript://\'>{muck_accept_label}</a></div>',
+	    muck_deny: '<div class=\'jpoker_muck jpoker_muck_deny\'><a href=\'javascript://\'>{muck_deny_label}</a></div>',
+	    auto_muck: '<div class=\'jpoker_auto_muck\'><div class=\'jpoker_auto_muck_win\'><input type=\'checkbox\' name=\'auto_muck_win\' id=\'auto_muck_win{id}\'></input><label for=\'auto_muck_win{id}\'>{auto_muck_win_label}</label></div><div class=\'jpoker_auto_muck_lose\'><input type=\'checkbox\' name=\'auto_muck_lose\' id=\'auto_muck_lose{id}\'></input><label for=\'auto_muck_lose{id}\'>{auto_muck_lose_label}</label></div></div>'
+	},
+	muckRequest: function(server, packet, id) {
+	    if ($.inArray(server.serial, packet.muckable_serials) != -1) {
+		$('#muck_accept' + id).show();
+		$('#muck_deny' + id).show();
+	    }
+	},
+
+	muckRequestTimeout: function(id) {
+	    $('#muck_accept' + id).hide();
+	    $('#muck_deny' + id).hide();
+	},
+	sendAutoMuck: function(server, game_id, id) {
+	    var auto_muck = 0;
+	    if ($('#auto_muck_win' + id).is(':checked')) {
+		auto_muck |= jpoker.plugins.muck.AUTO_MUCK_WIN;
+	    }
+	    if ($('#auto_muck_lose' + id).is(':checked')) {
+		auto_muck |= jpoker.plugins.muck.AUTO_MUCK_LOSE;
+	    }
+	    server.sendPacket({type: 'PacketPokerAutoMuck', serial: server.serial, game_id: game_id, auto_muck: auto_muck});
+	    server.preferences.extend({auto_muck_win: $('#auto_muck_win' + id).is(':checked'), auto_muck_lose: $('#auto_muck_lose' + id).is(':checked')});
+	}
+    };
+
+    //
     // cards (table plugin helper)
     //
     jpoker.plugins.cards = {
@@ -4494,38 +4530,9 @@
 	}
     };
 
-    jpoker.plugins.muck = {
-	AUTO_MUCK_WIN: 1,
-	AUTO_MUCK_LOSE: 2,
-	templates : {
-	    muck_accept: '<div class=\'jpoker_muck jpoker_muck_accept\'><a href=\'javascript://\'>{muck_accept_label}</a></div>',
-	    muck_deny: '<div class=\'jpoker_muck jpoker_muck_deny\'><a href=\'javascript://\'>{muck_deny_label}</a></div>',
-	    auto_muck: '<div class=\'jpoker_auto_muck\'><div class=\'jpoker_auto_muck_win\'><input type=\'checkbox\' name=\'auto_muck_win\' id=\'auto_muck_win{id}\'></input><label for=\'auto_muck_win{id}\'>{auto_muck_win_label}</label></div><div class=\'jpoker_auto_muck_lose\'><input type=\'checkbox\' name=\'auto_muck_lose\' id=\'auto_muck_lose{id}\'></input><label for=\'auto_muck_lose{id}\'>{auto_muck_lose_label}</label></div></div>'
-	},
-	muckRequest: function(server, packet, id) {
-	    if ($.inArray(server.serial, packet.muckable_serials) != -1) {
-		$('#muck_accept' + id).show();
-		$('#muck_deny' + id).show();
-	    }
-	},
-
-	muckRequestTimeout: function(id) {
-	    $('#muck_accept' + id).hide();
-	    $('#muck_deny' + id).hide();
-	},
-	sendAutoMuck: function(server, game_id, id) {
-	    var auto_muck = 0;
-	    if ($('#auto_muck_win' + id).is(':checked')) {
-		auto_muck |= jpoker.plugins.muck.AUTO_MUCK_WIN;
-	    }
-	    if ($('#auto_muck_lose' + id).is(':checked')) {
-		auto_muck |= jpoker.plugins.muck.AUTO_MUCK_LOSE;
-	    }
-	    server.sendPacket({type: 'PacketPokerAutoMuck', serial: server.serial, game_id: game_id, auto_muck: auto_muck});
-	    server.preferences.extend({auto_muck_win: $('#auto_muck_win' + id).is(':checked'), auto_muck_lose: $('#auto_muck_lose' + id).is(':checked')});
-	}
-    };
-
+    //
+    // user preferences
+    //
     jpoker.preferences = function(hash) {
 	    var cookie = 'jpoker_preferences_'+hash;
 	    if ($.cookie(cookie)) {
