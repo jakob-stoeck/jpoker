@@ -440,7 +440,12 @@ test("jpoker.dialog msie", function(){
     });
 
 test("jpoker.copyright", function(){
-        expect(1);
+        expect(2);
+	var display_done = jpoker.copyright_callback.display_done;
+	jpoker.copyright_callback.display_done = function(element) {
+	    jpoker.copyright_callback.display_done = display_done;
+	    equals($("#jpoker_copyright", element).length, 1, 'display done called when DOM is done');
+	};
         var copyright = jpoker.copyright();
         equals(copyright.text().indexOf('GNU') >= 0, true, 'GNU');
         copyright.dialog('destroy');
