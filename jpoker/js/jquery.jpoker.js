@@ -33,6 +33,29 @@
         };
     }
 
+    //
+    // decoration divs to help CSS skining
+    // example $('.jpoker_download', copyright).frame('box1');
+    //
+    $.fn.extend({
+            frame: function(css) {
+                var box = '';
+                var positions = [ 'n', 's', 'w', 'e', 'se', 'sw', 'nw', 'ne' ];
+                for(var i = 0; i < positions.length; i++) {
+                    box += '<div style=\'position: absolute\' class=\'' + css + ' ' + css + '-' + positions[i] + '\'></div>';
+                }
+                var toggle = function() { $(this).toggleClass(css + '-hover'); };
+
+                return this.each(function() {
+                        var $this = $(this);
+                        $this.wrap('<div style=\'position: relative\' class=\'' + css + ' ' + css + '-container\'></div>');
+                        $this.before(box);
+                        $this.parent().hover(toggle, toggle);
+                        return this;
+                    });
+            }
+        });
+
     $.fn.jpoker = function() {
         var args = Array.prototype.slice.call(arguments);
         var name = args.shift();
@@ -2996,29 +3019,6 @@
         string: '',
         compare: function(a, b) { return a && b && b.players - a.players; }
     };
-
-    //
-    // decoration divs to help CSS skining
-    // example $('.jpoker_download', copyright).frame('box1');
-    //
-    $.fn.extend({
-            frame: function(css) {
-                var box = '';
-                var positions = [ 'n', 's', 'w', 'e', 'se', 'sw', 'nw', 'ne' ];
-                for(var i = 0; i < positions.length; i++) {
-                    box += '<div style=\'position: absolute\' class=\'' + css + ' ' + css + '-' + positions[i] + '\'></div>';
-                }
-                var toggle = function() { $(this).toggleClass(css + '-hover'); };
-
-                return this.each(function() {
-                        var $this = $(this);
-                        $this.wrap('<div style=\'position: relative\' class=\'' + css + ' ' + css + '-container\'></div>');
-                        $this.before(box);
-                        $this.parent().hover(toggle, toggle);
-                        return this;
-                    });
-            }
-        });
 
     //
     // table
