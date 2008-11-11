@@ -1,6 +1,3686 @@
-2008-05-29  Loic Dachary  <loic@dachary.org>
+2008-11-11  Loic Dachary <loic@dachary.org>
 
 	* Release 1.0.14
+
+	* jpoker/js/jquery.jpoker.js:
+	move the muck helper together with the chips and cards helper
+	[92de53754cfb] [tip]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/l10n/jpoker-ja.po:
+	display_done must only be called when receiving the packet that
+	triggers display
+	[013e4aafb86d]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	cashier display_done implementation
+	[a0376e0d19a0]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	places display_done implementation
+	[605d71cbcf48]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	userInfo display_done implementation
+	[b5ff610a4a84]
+
+	* jpoker/js/jquery.jpoker.js:
+	move the frame plugin to the beginning of the file, together with
+	supplant
+	[80612e515e4b]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	login display_done implementation
+	[38412289404b]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	serverStatus display_done implementation
+	[9d6c992e6e9e]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	tourneyPlaceholder display_done implementation
+	[dc0ede825376]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	sitngoTourneyList display_done implementation
+	[724bfae1998b]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	regularTourneyList display_done implementation
+	[16068058e47b]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	copyright display_done implementation
+	[1fd178823d13]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	implement jpoker.plugins.tableList.callback
+	[87e010b9c77a]
+
+2008-11-07  Loic Dachary <loic@dachary.org>
+
+	* pager fix
+	[b6c4cf0e6d04]
+
+2008-11-06  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/jquery.tablesorter.pager.js, jpoker/js/test-jpoker.js:
+	fix tablesorter pager .pagesize initialization
+	[c758ea855b63]
+
+2008-11-07  Loic Dachary <loic@dachary.org>
+
+	* merge proppy changes
+	[c779ba0c0bc6]
+
+2008-11-04  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js:
+	jslint
+	[eefb691aeb44]
+
+2008-11-03  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/l10n/jpoker-fr.po, jpoker/l10n/jpoker-ja.po:
+	make build
+	[1343635af8c6]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	/AVATAR is failover is player.url is not defined
+	[6854919bce24]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	reset action when receiving PacketPokerEndRound
+	[d86fe0ee481a]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/skin-jpoker.js, jpoker/js
+	/test-jpoker.js, jpoker/skin.html:
+	fix jpoker percentiles range and do not append rank nor level if
+	undefined
+	[6c206d7c8168]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	JSON.stringify error reason when not a string
+	[2d771913af4e]
+
+2008-11-03  Loic Dachary <loic@dachary.org>
+
+	* merge proppy changes
+	[3bdd81d97a07]
+
+2008-10-31  root  <root@jspoker.pokersource.info>
+
+	* merge no rejoin setState(running)
+	[e5b5559c088c]
+
+	* jpoker/l10n/jpoker-ja.po:
+	sync po
+	[5500baed7c5d]
+
+2008-11-03  Loic Dachary <loic@dachary.org>
+
+	* merge proppy changes
+	[8cf74a1fe1f2]
+
+2008-10-31  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/test-jpoker.js:
+	add conditional testing
+	[6c431246686e]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	no rejoin should setState(server.RUNNING)
+	[280ae1777fb8]
+
+2008-10-30  Loic Dachary <loic@dachary.org>
+
+	* doRejoin
+	[e4088fe999a0]
+
+2008-10-30  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/l10n/jpoker-fr.po, jpoker/l10n/jpoker-ja.po:
+	update-po
+	[67c474e01b83]
+
+	* jpoker/js/test-jpoker.js:
+	fix date l10n issues
+	[412d62aac7c2]
+
+	* jpoker/l10n/jpoker-fr.po, jpoker/l10n/jpoker-ja.po:
+	update po
+	[dcab7f18289c]
+
+	* jpoker/js/jquery.jpoker.js:
+	jslint
+	[88bf30a1c9ff]
+
+	* jpoker/js/test-jpoker.js:
+	unblock PacketPokerChat code injection test
+	[885e57f88955]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	added jpoker.doRejoin
+	[4e8d968c1b11]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	fix code injection using s/.html/.text for name and chat message
+	[6bf792d53bd8]
+
+2008-10-30  Loic Dachary <loic@dachary.org>
+
+	* merge proppy changes
+	[b2a6439f0169]
+
+2008-10-29  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/css/jpoker_table.css:
+	update css avatar hover selector
+	[d130c32d8a75]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	s/avatar_hover/seat_hover/
+	[153e23e5580f]
+
+2008-10-28  Loic Dachary <loic@dachary.org>
+
+	* merge proppy i18n changes
+	[cdbcc2c203d3]
+
+2008-10-28  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/l10n/jpoker-fr.json, jpoker/l10n/jpoker-fr.po:
+	make i18n
+	[10ce203466d2]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/l10n/jpoker-fr.json, jpoker/l10n
+	/jpoker-fr.po, jpoker/l10n/jpoker-ja.po:
+	fix i18n
+	[f59b9917206e]
+
+	* jpoker/l10n/jpoker-fr.json, jpoker/l10n/jpoker-fr.po, jpoker/l10n
+	/jpoker-ja.po:
+	updated fr.po
+	[9b2cac5dbf69]
+
+	* jpoker/js/jquery.jpoker.js:
+	update i18n js string
+	[1d62790b8c21]
+
+	* jpoker/js/jquery.jpoker.js:
+	fix i18n string in js code
+	[4237e859037e]
+
+	* jpoker/l10n/jpoker-fr.json, jpoker/l10n/jpoker-fr.po, jpoker/l10n
+	/jpoker-ja.json, jpoker/l10n/jpoker-ja.po:
+	make i18n
+	[5b1bf1f11df7]
+
+	* jpoker/js/jquery.jpoker.js:
+	fix gettext warning
+	[e95564644777]
+
+	* jpoker/js/jquery.jpoker.js:
+	fix non i18n string
+	[e52dea7ede49]
+
+	* jpoker/js/jquery.jpoker.js:
+	fix non i18n string
+	[787148b7ec9f]
+
+	* jpoker/l10n/jpoker-fr.json, jpoker/l10n/jpoker-fr.po, jpoker/l10n
+	/jpoker-ja.json, jpoker/l10n/jpoker-ja.po:
+	make i18n
+	[5b1135ae20c1]
+
+	* jpoker/js/jquery.jpoker.js:
+	fix gettext warnings
+	[c66371b95311]
+
+	* Makefile:
+	fix LANG_* declaration
+	[9518fa27ecba]
+
+	* mo2json.py:
+	remove try except IOError from mo2json
+	[53f2f2d4fe6d]
+
+2008-10-27  Loic Dachary <loic@dachary.org>
+
+	* debian/control:
+	do not depend on vorbis-tools swftools to rebuild sound
+	[a8f47b10521d]
+
+2008-10-25  Loic Dachary <loic@dachary.org>
+
+	* debian/control, sound/Makefile:
+	add flash generation dependencies + do not generate soundswiff
+	[6879480b8f6f]
+
+2008-10-25  Johan Euphrosine <proppy@aminche.com>
+
+	* Makefile:
+	add jslint target in Makefile
+	[7093f1d37b7a]
+
+	* jpoker/js/test-jpoker.js:
+	add jpoker.alert test: restore 100% coverage
+	[699cedecfdf1]
+
+	* jpoker/js/test-jpoker.js:
+	fix rebuy test depending of global table variable
+	[d7f2255dcec9]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.tableList getHTML should not list tourney table
+	[245aabe5fddd]
+
+	* merge dachary changes
+	[f9cddf3f826f]
+
+2008-10-24  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/example/templates/regularTourneyDetails.html,
+	jpoker/example/templates/sitngoTourneyDetails.html:
+	add example/templates/ tourneyDetails
+	[1c294de6febf]
+
+2008-10-23  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	do not use global table variable because IE fails to assign a value
+	to it
+	[012f05f16522]
+
+2008-10-22  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	proppy changes
+	[7fe82d38f5bc]
+
+2008-10-22  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	dispatch PacketPokerPlayerStats with game_id:0 to all tables
+	[94466b521e6b]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	s/this/table
+	[4e9182de4b4b]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add delay on PacketPokerShowdown
+	[f89b206308b6]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	resetting action/hands on PacketPokerStart instead of
+	PacketPokerEndRoundLast
+	[978e01a50f12]
+
+	* jpoker/js/jquery.jpoker.js:
+	jslint
+	[35300d4aa1ae]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add missing tourney state in tourneyDetails skinning
+	[19b682047255]
+
+	* jpoker/js/jquery.jpoker.js:
+	add jpoker.plugins.raise.template
+	[39a6b5c60f74]
+
+	* jpoker/css/jpoker_table.css, jpoker/js/jquery.jpoker.js, jpoker/js
+	/test-jpoker.js:
+	add jpoker_raise_label
+	[457feeeb6a15]
+
+2008-10-21  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add jpoker.dialog_options.title
+	[2c14c3517b76]
+
+2008-10-21  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	proppy merge
+	[1e05a38fd253]
+
+2008-10-21  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/test-jpoker.js:
+	jslint
+	[77a5ad3f75d6]
+
+2008-10-20  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	convert regular tourney start_time to locale string in
+	regularTourneyList
+	[90a6b77b69f2]
+
+	* jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	add skin cases from regular tournaments tourneyDetails
+	[1f07f19ac32e]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	do not display start_time for sitngo tourneyDetails
+	[e1c4949a4803]
+
+	* jpoker/js/skin-jpoker.js:
+	add prize in jpoker_80_tourneyDetailsRegistering skin case
+	[c437af8bc7ba]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/skin-jpoker.js, jpoker/js
+	/test-jpoker.js, jpoker/skin.html:
+	display prize in tourneyDetails for sitngo registering tournament
+	[cb655f1321c8]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add start_time, buy_in, in info and replace name by desc_short in
+	title
+	[e51fc35765f4]
+
+	* jpoker/js/jquery.jpoker.js:
+	add registered_label players_quota_label to tourneyDetails templates
+	[d91410a48840]
+
+2008-10-20  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	proppy changes
+	[9e830dfcf937]
+
+	* jpoker/js/jquery.jpoker.js:
+	multiline pinging function to not cheat with coverage
+	[90ff4de840d4]
+
+2008-10-20  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/css/jpoker_tourney_details.css, jpoker/js/jquery.jpoker.js,
+	jpoker/js/test-jpoker.js:
+	tourneyDetails pager->scrollbar
+	[47fae4e146b5]
+
+	* jpoker/js/test-jpoker.js:
+	fix avatar test
+	[aa7e1bb38fc9]
+
+	* jpoker/js/test-jpoker.js:
+	fix jpoker.server.error: throw correct exception
+	[fd4c2e607689]
+
+	* jpoker/js/test-jpoker.js:
+	jslint
+	[7e6be0f9e144]
+
+	* jpoker/js/test-jpoker.js:
+	fix jpoker.error tests
+	[c7caf8895176]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.error alert if no console
+	[0322f3714d03]
+
+2008-10-17  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	comment code. Fill uid__ only if in verbose mode.
+	[886cd0075e7d]
+
+2008-10-16  Loic Dachary <loic@dachary.org>
+
+	* jpoker/css/jpoker_table.css, jpoker/js/jquery.jpoker.js, jpoker/js
+	/test-jpoker.js:
+	proppy chat merge
+	[4e8eb02cb587]
+
+2008-10-16  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jslint
+	[c9d2865f10e5]
+
+	* jpoker/js/test-jpoker.js:
+	restore jpoker.plugins.table.callback.display_done
+	[dff02e4583b5]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add jpoker.plugins.table.callback.display.done when DOM display in
+	done
+	[4e88415c9de5]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add jpoker.plugins.tourneyDetails.callback.display_done when DOM is
+	done
+	[eb1efe6d34d8]
+
+	* jpoker/css/jpoker_chat.css, jpoker/css/jpoker_table_layout.css,
+	jpoker/images/mockup.svg, jpoker/js/jquery.jpoker.js,
+	jpoker/js/mockup.js, jpoker/js/test-jpoker.js, svg2html.py:
+	merge chat and chat_history in mockup.svg, add
+	jpoker.plugins.templates.chat
+	[c9290c875567]
+
+2008-10-14  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/css/jpoker.css, jpoker/css/jpoker_table.css,
+	jpoker/css/jpoker_table_layout.css, jpoker/images/mockup.svg,
+	jpoker/js/jquery.jpoker.js, jpoker/js/mockup.js, jpoker/js/test-
+	jpoker.js:
+	add powered by element
+	[2581fb800c25]
+
+	* jpoker/js/jquery.jpoker.js:
+	jslint
+	[c19b11d16b9d]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	s/Dealer :// on every lines of dealer messages
+	[8999eb9cf061]
+
+	* jpoker/js/test-jpoker.js:
+	jslint
+	[1d6f622844ac]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	move Dealer: from jpoker_chat_message to jpoker_chat_prefix
+	[1508cc26c45f]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add count ajax argument s/jpoker_serial/jpoker_count/
+	[56138181367e]
+
+2008-10-13  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add alt to avatar image
+	[c97fe46d2ee4]
+
+	* jpoker/css/jpoker_table.css, jpoker/js/jquery.jpoker.js, jpoker/js
+	/test-jpoker.js:
+	when using a URL for the avatar, set it in a <img> instead of
+	background so that more CSS can be applied to it
+	[1f283e629483]
+
+2008-10-10  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/test-jpoker.js:
+	jslint
+	[5bd3d8e33c3b]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	merge dachary changes
+	[1ca35667bfa9]
+
+	* jpoker/js/test-jpoker.js:
+	fix jpoker.server.reset: call clearTimers
+	[cc939dd21222]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.server.reset: call clearTimers
+	[7299069e2757]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	call jpoker.watchable.prototype.setCallbacks in jpoker.error to get
+	rid of notify update exception override
+	[812677d3edd4]
+
+	* jpoker/js/jquery.jpoker.js:
+	s/tr body/tbody tr/
+	[13308bf2115a]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	fix sitngoTourneyList tr length test before calling tablesorter
+	[2fb349f1d0a5]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add jpoker.player.stats
+	[57fa47262f3a]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add queueRunning when sending table destroy from quit click handler
+	[4fb70190d2c9]
+
+2008-10-10  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	call compat function after all has been defined
+	[3544c02d9662]
+
+	* jpoker/js/jquery.jpoker.js:
+	jslint fixes
+	[43af85b3b2f3]
+
+	* jpoker/js/skin-jpoker.js:
+	jslint skin
+	[386248dc51e5]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	merge proppy callback changes
+	[6090d658414a]
+
+	* jpoker/js/jquery.jpoker.js:
+	do not poll if it is a tourney table
+	[35d7164cb38d]
+
+2008-10-10  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	call jpoker.plugins.table.callback.quit on table destroy
+	[d12a44732586]
+
+2008-10-06  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/skin-jpoker.js:
+	add money to level skin cases
+	[172cb456b022]
+
+	* jpoker/skin.html:
+	rename level skin case link
+	[e1a84e8db0b4]
+
+	* jpoker/JpokerPlugin/JpokerPluginRestOverride.tiddler, jpoker/js
+	/test-jpoker.js:
+	fix jpoker.server.setPersonalInfo password confirmation failed test
+	[bf5a814a2949]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	remove toggle_password and add password_confirmation from
+	jpoker.plugins.userInfo
+	[2446e0f90789]
+
+2008-10-07  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/test-jpoker.js:
+	merge skinning to match tw with skin
+	[df77d85560ea]
+
+2008-10-06  Saq Imtiaz <lewcid@gmail.com>
+
+	* jpoker/css/jpoker_jquery_ui/dialog.css, jpoker/css/jpoker_table.css:
+	styled jpokerRebuy dialog
+	[bf283c629e4b]
+
+2008-10-05  Saq Imtiaz <lewcid@gmail.com>
+
+	* jpoker/tiddlers/StyleSheet.css:
+	commented out unneeded css in StyleSheet.css
+	[c6cdb6701b0c]
+
+	* jpoker/css/jpoker_tourney_details.css,
+	jpoker/tiddlers/StyleSheet.css:
+	move css overrides for TW styles to StyleSheet.css
+	[511128a8fe9b]
+
+	* jpoker/css/jpoker_common.css:
+	css files clean up
+	[b955fad98011]
+
+	* jpoker/css/jpoker_table.css:
+	compared widgets in TW and in skin and made some small tweaks.
+	[e509568689c9]
+
+	* jpoker/css/jpoker.css, jpoker/css/jpoker_regular_tourney_list.css,
+	jpoker/css/jpoker_sitngo_tourney_list.css,
+	jpoker/css/jpoker_table_list.css,
+	jpoker/css/jpoker_tablesorter_pager.css,
+	jpoker/css/jpoker_tourney_details.css,
+	jpoker/tiddlers/StyleSheet.css:
+	moving styling for tableList and tourneyList to external files
+	[1419a078089e]
+
+	* jpoker/js/test-jpoker.js:
+	merge changes from Loic
+	[2c06841845b6]
+
+	* jpoker/css/jpoker_server_status.css:
+	styled server status in external file
+	[a4a005852cb7]
+
+	* jpoker/css/jpoker_login.css, jpoker/js/test-jpoker.js:
+	moving styles for login to external file
+	[c5119dec1fe6]
+
+	* jpoker/css/jpoker.css, jpoker/css/jpoker_login.css,
+	jpoker/tiddlers/StyleSheet.css:
+	moving styles for login to external file
+	[e526ee7b5d6d]
+
+2008-10-06  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	restore 100% coverage
+	[69f78ffcb3fc]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	tourney object persists until TourneyFinish is called instead of
+	killing it when PokerTable arrives
+	[c420b8fcc6c0]
+
+2008-10-06  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	don't call tablesorter if tbody tr == 0
+	[2f91a9a37a7c]
+
+	* jpoker/js/test-jpoker.js:
+	add 'jpoker.plugins.tourneyDetails no player no pager' test
+	[5d0be6c17a94]
+
+2008-10-06  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add missing ; and remove extra ;
+	[8e6715bc5bbf]
+
+	* jpoker/js/test-jpoker.js:
+	do not assume console exists
+	[7c564f27439e]
+
+2008-10-05  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	add jpoker_widget class to all widgets
+	[737282c855ea]
+
+	* jpoker/js/test-jpoker.js:
+	caption added for tourney details
+	[aadbc80e6b0f]
+
+	* jpoker/js/test-jpoker.js:
+	caption added a row to the display of the list of players
+	[098ce984ddb3]
+
+	* jpoker/js/test-jpoker.js:
+	caption added a row to the display of the list of players
+	[10b62de3a56e]
+
+	* jpoker/js/test-jpoker.js:
+	previous and next page are now << and >> respectively
+	[467a936c9b22]
+
+	* jpoker/js/skin-jpoker.js:
+	include the test name in the explanation
+	[8226701a2840]
+
+	* jpoker/images/table.svg:
+	patch size of svg
+	[fb6ac453a615]
+
+2008-10-05  Saq Imtiaz <lewcid@gmail.com>
+
+	* jpoker/css/jpoker_table.css:
+	styled raise text
+	[91578b6afa1d]
+
+	* jpoker/css/jpoker_table.css:
+	style raise input properly
+	[84ed554e4851]
+
+	* jpoker/css/jpoker_jquery_ui/dialog.css:
+	add border for dialog so it doesnt blend with the table background
+	[3ba59bc42b78]
+
+	* jpoker/css/jpoker_table.css:
+	uncomment side pot styles
+	[31ccf69130c9]
+
+	* jpoker/images/seat_position.svg:
+	added new seat image for player in position
+	[2c6311679cd4]
+
+	* jpoker/css/jpoker_table.css:
+	removed super ugly green background for player in position and added
+	different seat image instead
+	[2439ce6351a0]
+
+	* Makefile:
+	modified Makefile to add new image for seat in position
+	[6f0eb06a67ae]
+
+	* jpoker/css/jpoker_table.css:
+	add overflow:hidden for very long usernames
+	[c8b1a9d3f30b]
+
+	* jpoker/css/images/jpoker_table/exit.png,
+	jpoker/css/images/jpoker_table/rebuy.png:
+	edit rebuy and exit button images to remove hardcoded text
+	[fbf1a30d0983]
+
+	* jpoker/css/jpoker_table.css:
+	style text for Rebuy and Exit buttons
+	[5e8ac86bb22b]
+
+	* jpoker/css/jpoker_table.css:
+	remove text-decoration for <a> when not in TW environment
+	[db4d45664ba4]
+
+	* jpoker/css/jpoker_table.css:
+	fixed fontsize for pokersource ptable layout
+	[b840e1e51700]
+
+2008-10-04  Saq Imtiaz <lewcid@gmail.com>
+
+	* jpoker/css/jpoker_tourney_details.css:
+	continued skinning tourney details: tweak text color
+	[7c7878b87983]
+
+	* jpoker/css/jpoker_tourney_details.css:
+	continued skinning tourney details: tweak text color
+	[cbfb5cad5ad9]
+
+	* jpoker/css/jpoker_tourney_details.css:
+	continued skinning tourney details: tweak borders of tables
+	[0601618d9fcd]
+
+	* jpoker/js/jquery.jpoker.js:
+	continued skinning tourney details: tweak borders of tables
+	[2e607b962567]
+
+	* jpoker/css/jpoker_tablesorter_pager.css,
+	jpoker/css/jpoker_tourney_details.css:
+	continued skinning tourney details: tweak borders of tables
+	[dc05f33e4e17]
+
+	* jpoker/css/jpoker_tourney_details.css:
+	continued skinning tourney details: tweak borders of tables
+	[87c1b889d872]
+
+	* jpoker/css/jpoker_tourney_details.css:
+	continued skinning tourney details: tweak borders of tables
+	[0351928eb9bf]
+
+	* jpoker/css/jpoker_table_layout.css,
+	jpoker/css/jpoker_tourney_details.css, jpoker/js/jquery.jpoker.js,
+	jpoker/js/mockup.js:
+	continued skinning tourney details: override inline TW styles
+	[16f455b0442e]
+
+	* jpoker/css/jpoker_tourney_details.css:
+	continued skinning tourney details
+	[ec739ed46ed1]
+
+	* jpoker/css/jpoker_tourney_details.css:
+	continued skinning tourney details
+	[29c483b23b82]
+
+	* jpoker/css/jpoker_tourney_details.css:
+	continued skinning tourney details: styled go to table link
+	[a8592b2ccb84]
+
+	* jpoker/css/jpoker_tourney_details.css:
+	continued skinning tourney details: styled go to table button
+	[ac80e82dc683]
+
+	* jpoker/js/jquery.jpoker.js:
+	continued skinning tourney details: styled pager
+	[dabcf490a90e]
+
+	* jpoker/css/jpoker_tablesorter_pager.css,
+	jpoker/css/jpoker_tourney_details.css, jpoker/js/jquery.jpoker.js:
+	continued skinning tourney details: styled pager
+	[f6427322bded]
+
+	* jpoker/css/jpoker_tourney_details.css, jpoker/js/jquery.jpoker.js:
+	continued skinning tourney details: added cellspacing property to
+	tables
+	[fb87bf35c93f]
+
+	* jpoker/css/jpoker_tourney_details.css, jpoker/js/jquery.jpoker.js:
+	continued skinning tourney details: convert captions to th since
+	captions cannot be reliably skinned cross browser
+	[9523de2826a2]
+
+	* jpoker/css/jpoker_tourney_details.css, jpoker/js/jquery.jpoker.js:
+	continued skinning tourney details
+	[208170dae7de]
+
+	* merged chnages from Loic
+	[d63e7084b3a7]
+
+	* jpoker/css/jpoker_tourney_details.css:
+	continued skinning tourney details
+	[e4beeb5bbf76]
+
+	* merged chnages from Loic
+	[696442722f47]
+
+	* jpoker/css/jpoker_tourney_details.css:
+	started skinning tourney details
+	[f31fedd0520a]
+
+	* merged chnages from Loic that add caption for tables
+	[be2e83f9e05c]
+
+	* jpoker/css/jpoker_tourney_details.css:
+	started skinning tourney details
+	[75b0f5b5c9c7]
+
+2008-10-04  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	div with the tournament name in it
+	[6583c101f4e9]
+
+	* jpoker/js/skin-jpoker.js:
+	show the register button
+	[19f78b35d1f3]
+
+	* jpoker/js/jquery.jpoker.js:
+	no need to have a redundant state variable
+	[a8d57a822960]
+
+	* jpoker/js/jquery.jpoker.js:
+	captions for tourney_details
+	[4e6745420740]
+
+2008-10-03  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add jpoker_tourney_details_{state} to tourney details
+	[6ab38a252e29]
+
+2008-10-02  root  <root@kun>
+
+	* svg2html.py, test-svg2html.py:
+	merge jpoker-letspok changes to svg2html/test
+	[ef6d838d93b3]
+
+2008-09-30  root  <root@kun>
+
+	* jpoker/js/skin-jpoker.js:
+	add dealer to jpoker_03_playerBet
+	[936b4f815568]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.tourneyDetails call
+	server.stopRefresh('tourneyDetails') when element is removed
+	[69e3d92ba3ae]
+
+	* jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	add jpoker_141_click_here_to_get_a_seat
+	[18444494b9da]
+
+	* jpoker/js/skin-jpoker.js:
+	merge upstream changes
+	[232895d28cf8]
+
+	* jpoker/js/skin-jpoker.js:
+	added cards and stats to skin test cases
+	[789048665066]
+
+2008-09-29  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/skin-jpoker.js:
+	do not attempt to reconnect under any circumstances
+	[dd559a4bf03a]
+
+2008-09-29  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.tourneyDetails getHTML ignore buggy
+	tourneymanager.table2serials entries with key == -1
+	[02635d973c17]
+
+	* jpoker/js/skin-jpoker.js:
+	merge upstream changes
+	[4e80e904cffb]
+
+	* jpoker/js/skin-jpoker.js:
+	add buyInLimit and bankroll for jpoker_05_selfPlayer
+	[4045efdd620c]
+
+2008-09-28  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	s/loosing/losing/
+	[618d7eae2c21]
+
+	* jpoker/js/jquery.jpoker.js:
+	reconnect control flag
+	[77445f2d6052]
+
+2008-09-27  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/skin-jpoker.js:
+	set username in chat tests
+	[a58f45561427]
+
+	* jpoker/css/jpoker_table.css, jpoker/js/jquery.jpoker.js:
+	move the margin: 10px out of the code to the CSS
+	[23e838a43a8b]
+
+	* jpoker/css/jpoker_table.css, jpoker/js/jquery.jpoker.js:
+	dialog size is always set to none to allow CSS to override
+	[ea7092394e75]
+
+	* jpoker/css/jpoker_table.css, jpoker/js/jquery.jpoker.js:
+	raise boundaries are enclosed in div instead of span
+	[948a25df97a4]
+
+	* jpoker/js/skin-jpoker.js:
+	user in chat
+	[d56bb91c2f8e]
+
+	* jpoker/js/jquery.jpoker.js:
+	remove hardcoded style
+	[88357c23cf3a]
+
+	* jpoker/js/skin-jpoker.js:
+	show side pots in case 08 and 54
+	[98593a7cd867]
+
+	* jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	chat scroll and no scroll
+	[29a6eb1559bc]
+
+2008-09-26  root  <root@kun>
+
+	* jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	add jpoker_12_selfRebuy skin case
+	[642cbcfa815e]
+
+	* jpoker/JpokerPlugin/JpokerPluginRestOverride.tiddler:
+	reverting jpoker/JpokerPlugin/JpokerPluginRestOverride.tiddler
+	[6d51b68aab38]
+
+	* jpoker/JpokerPlugin/JpokerPluginRestOverride.tiddler,
+	jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add div a to rebuy and quit button to match other buttons structure
+	[53240957a3be]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add text to quit and rebuy button
+	[e69e009cd6d9]
+
+	* jpoker/skin.html:
+	fix stat in jpoker_08_all skin case
+	[cde8a170e6a6]
+
+	* jpoker/js/skin-jpoker.js:
+	add jpoker level skin cases
+	[0774f5b17357]
+
+	* jpoker/js/skin-jpoker.js:
+	fix stat in jpoker_08_all skin case
+	[9ab44573d17f]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add jpoker_player_level class to player_seat
+	[2a642643faa9]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add hover class to jpoker quit button
+	[e27d20183faf]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add hover class to jpoker_button
+	[b6b114b5bb91]
+
+	* jpoker/css/jpoker.css:
+	remove jpoker_sound.css from jpoker.css
+	[662ddf5d1368]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	pingFrequency > pollFrequency
+	[6753e64cb741]
+
+	* jpoker/css/jpoker_sound.css, jpoker/js/jquery.jpoker.js:
+	append jpokerSound to prevent annoying scrolling remove
+	jpoker_sound.css
+	[079ba7dcbae2]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	s/jpoker.connection.pollFrequency/dequeueFrequency/ and default to
+	100ms
+	[f6a5aba2bc52]
+
+2008-09-25  root  <root@kun>
+
+	* jpoker/js/test-jpoker.js:
+	testing jpoker.connection.sentTime after reset
+	[2b8d9d447e9d]
+
+2008-09-25  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	ping and poll frequency defaults are 5s and 5s respectively
+	[a4c2dd599eca]
+
+	* jpoker/js/jquery.jpoker.js:
+	ping and poll frequency defaults are 10s and 5s respectively
+	[fb01798607e7]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	reduce ping frequency
+	[37c073abc3fe]
+
+2008-09-24  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	kill jpoker.tourney.poll when tourney start
+	[1cbdd3509d63]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add jpoker.server.stopRefresh, and stop table/tourney/List/Details
+	refresh when element undefined
+	[4ce25c1ecd10]
+
+2008-09-22  root  <root@kun>
+
+	* jpoker/css/jpoker.css, jpoker/css/jpoker_sound.css:
+	add #jpokerSound css with fixed position to prevent scrolling, on
+	play sound
+	[4f49792dc0b7]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	call tablesorter after attaching click handler, on table/tourneyList
+	[adc5ae25e4f8]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	hide/show sidepot element
+	[a67cabc3868d]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	merge saq&dachary changes
+	[04394e22141a]
+
+2008-09-19  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	trying to reconnection if protocol == file:
+	[4ec8d406d01e]
+
+2008-09-22  Loic Dachary <loic@dachary.org>
+
+	* jpoker/css/jpoker_table.css:
+	font families
+	[408523ec5736]
+
+	* jpoker/css/jpoker_table.css:
+	font should be smaller by default
+	[1e2fb3229272]
+
+	* test-svg2html.py:
+	height is 782
+	[5703afad6071]
+
+	* jpoker/js/jquery.jpoker.js:
+	new skin from saq
+	[5b9ceaff48e3]
+
+2008-09-22  Saq Imtiaz <lewcid@gmail.com>
+
+	* jpoker/css/jpoker_jquery_ui/i/dialog-n.gif:
+	replace another jquery ui image that Loic lost
+	[0a410da59664]
+
+	* jpoker/css/jpoker_table.css:
+	comment sidepot styles for now
+	[ee110901bee5]
+
+	* jpoker/css/jpoker_table_layout.css, jpoker/images/mockup.svg,
+	jpoker/js/mockup.js:
+	changed position of sidepots - thanks proppy
+	[49ca69fc533e]
+
+2008-09-21  Saq Imtiaz <lewcid@gmail.com>
+
+	* jpoker/css/jpoker_jquery_ui/i/dialog-ne.gif,
+	jpoker/css/jpoker_jquery_ui/i/dialog-nw.gif,
+	jpoker/css/jpoker_jquery_ui/i/dialog-title.gif,
+	jpoker/css/jpoker_jquery_ui/i/dialog-titlebar-close-hover.png,
+	jpoker/css/jpoker_jquery_ui/i/dialog-titlebar-close.png:
+	replace jquery ui images that Loic overwrote ;)
+	[df07fcfdef43]
+
+	* jpoker/css/jpoker_table.css, jpoker/css/jpoker_table_layout.css,
+	jpoker/js/jquery.jpoker.js:
+	Further layout tweaks for table
+	[6cfa63a5735c]
+
+	* jpoker/css/images/jpoker_table/call.png,
+	jpoker/css/images/jpoker_table/check.png,
+	jpoker/css/images/jpoker_table/fold.png,
+	jpoker/css/images/jpoker_table/raise.png,
+	jpoker/css/images/jpoker_table/raise_slider_dock.png,
+	jpoker/css/jpoker_chat.css, jpoker/css/jpoker_login.css,
+	jpoker/css/jpoker_table.css, jpoker/css/jpoker_table_layout.css,
+	jpoker/images/mockup.svg, jpoker/index/AdminPageTemplate.html,
+	jpoker/index/MainMenu.tiddler, jpoker/index/PageTemplate.html,
+	jpoker/js/jquery.jpoker.js, jpoker/l10n/jpoker-fr.json, jpoker/l10n
+	/jpoker-fr.po, jpoker/l10n/jpoker-ja.po,
+	jpoker/tiddlers/DropDownMenuPlugin.js,
+	jpoker/tiddlers/DropDownMenuPlugin.js.div,
+	jpoker/tiddlers/FullScreenPlugin.js,
+	jpoker/tiddlers/FullScreenPlugin.js.div,
+	jpoker/tiddlers/PublicViewTemplate.html,
+	jpoker/tiddlers/StyleSheet.css, jpoker/tiddlers/ViewTemplate.html,
+	svg2html.py:
+	Changes to table layout, images and css and tiddlywiki skin
+	[10048671cfc0]
+
+2008-09-21  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jslint fixes
+	[f2e298eebdee]
+
+2008-09-20  Loic Dachary <loic@dachary.org>
+
+	* standalone tiddlywiki implementation
+	[8629b2f9315c]
+
+2008-09-20  Saq Imtiaz <lewcid@gmail.com>
+
+	* Makefile:
+	fix error with tiddlywiki_cp depedency for standalone
+	[4ab6c337fc7b]
+
+	* jpoker/JpokerPlugin/JpokerPluginRestOverride.tiddler,
+	jpoker/JpokerPlugin/JpokerPluginRestOverride.tiddler.div, jpoker
+	/tiddlers-standalone/JpokerPluginRestOverride.tiddler, jpoker
+	/tiddlers-standalone/JpokerPluginRestOverride.tiddler.div:
+	move JpokerPluginRestOverride to JpokerPlugin dir
+	[6575b5c6c8ac]
+
+	* Makefile:
+	tweaked Makefile to ensure better cleanup and make sure lang links
+	in standalones point to correct locations
+	[aa2f90366f48]
+
+	* jpoker/tiddlers-standalone/JpokerPluginRestOverride.tiddler, jpoker
+	/tiddlers-standalone/JpokerPluginRestOverride.tiddler.div:
+	added REST ovverride tiddlers for standalone files
+	[73714044831b]
+
+	* getcss.rb:
+	improved getcss.rb
+	[bdc8312b48e8]
+
+2008-09-19  Saq Imtiaz <lewcid@gmail.com>
+
+	* Makefile:
+	comment makefile changes
+	[c76e665e9c78]
+
+	* Makefile:
+	updated Makefile to generate standalone files
+	[2b98c9666282]
+
+	* jpoker/tiddlers-standalone/LoadJpokerStylesPlugin.js, jpoker
+	/tiddlers-standalone/LoadJpokerStylesPlugin.js.div:
+	Updated LoadJpokerStylesPlugin to correct loading order
+	[4d5862569b0f]
+
+2008-09-18  Saq Imtiaz <lewcid@gmail.com>
+
+	* jpoker/tiddlers-standalone/LoadJpokerStylesPlugin.js, jpoker
+	/tiddlers-standalone/LoadJpokerStylesPlugin.js.div:
+	Added dir for tiddlers for standalone versions. Add plugin for
+	loading JpokerStyleSheet
+	[b608396a6834]
+
+	* getcss.rb:
+	added getcss.rb to recurse and flatten css files
+	[e19ba98022ea]
+
+2008-09-19  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	fix tourneyRowClick argument
+	[f85609b6cae6]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add jpoker.playerLookup.options.dialog = false, call error callback,
+	and clean _result on click
+	[eb27435ebf87]
+
+2008-09-18  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	call tourneyRowClick on
+	PacketPokerTourneyRank+PacketPokerTableDestroy
+	[63b0835f5218]
+
+2008-09-17  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add player_seat class and seat class
+	[21f5845bc077]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add jpoker_seatN class
+	[f53a8ba28f1d]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	send PacketPokerAutoBlindAnte before PacketPokerSit
+	[fc36c70d3a60]
+
+	* jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	add jpoker_57_stats
+	[f263ceb68aa5]
+
+	* jpoker/css/jpoker_table.css, jpoker/css/jpoker_table_layout.css,
+	jpoker/images/mockup.svg, jpoker/js/jquery.jpoker.js,
+	jpoker/js/mockup.js:
+	add player_stats, player_sidepot to mockup.svg
+	[d577f926a52c]
+
+	* jpoker/js/skin-jpoker.js:
+	add PacketPokerSit to sidepot skin case
+	[e0b3c12be949]
+
+	* jpoker/js/test-jpoker.js:
+	test that reproduce player_stats, sidepost duplication
+	[995afb3c08bd]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	use html() instead of appendTo() for jpoker_timeout_progress
+	[32bf981db882]
+
+	* jpoker/js/test-jpoker.js:
+	fix jpoker.plugins.player: side_pot test
+	[45ebee8d54a2]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	do not update sidepot of sitout player
+	[d00f5925feb6]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	using PacketPokerPlayerStats.percentile instead of .level
+	[116ca5f4f3d6]
+
+2008-09-16  root  <root@kun>
+
+	* jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	add tourneyDetails with register/unregister button cases to
+	skin.html
+	[8e6033a40938]
+
+	* jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	adding table/tourney list withPagerWithLinks skin cases
+	[c3b3f45201da]
+
+	* jpoker/js/test-jpoker.js:
+	jslint fixes
+	[8d68e1766a1c]
+
+2008-09-15  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	fix chat preceding whitespace
+	[20e9144e06d2]
+
+	* jpoker/css/jpoker_table.css, jpoker/css/jpoker_table_layout.css,
+	jpoker/images/mockup.svg, jpoker/js/jquery.jpoker.js,
+	jpoker/js/mockup.js, jpoker/js/test-jpoker.js:
+	add sitin button
+	[617c31999725]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.tourneyDetails refresh should be < 10s
+	[e2b6ecacf5df]
+
+	* jpoker/index/PlayerLookup.tiddler,
+	jpoker/index/PlayerLookup.tiddler.div:
+	add missing PlayerLookup tiddler/div
+	[dca11c5e9599]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	hide card on PacketPokerEndRoundLast
+	[b4edd4639b62]
+
+2008-09-12  root  <root@kun>
+
+	* jpoker/js/test-jpoker.js:
+	fix date i18n test issue
+	[7a6ff816225a]
+
+2008-09-11  root  <root@kun>
+
+	* jpoker/js/test-jpoker.js:
+	ensure that update callack are removed in tests cleanup
+	[54605c4e6b4e]
+
+	* jpoker/css/jpoker_regular_tourney_list.css,
+	jpoker/css/jpoker_sitngo_tourney_list.css,
+	jpoker/css/jpoker_table_list.css, jpoker/js/jquery.jpoker.js:
+	fix tableList, tourneyList(s) css
+	[bb47bfa74a85]
+
+	* jpoker/js/jquery.jpoker.js:
+	add enclosing div to tableList and tourneyList(s)
+	[48c7dc7e258b]
+
+	* jpoker/js/test-jpoker.js:
+	add jpoker.server.getPlayerStats waiting to restore 100% coverage
+	[46f88c3a672f]
+
+2008-09-10  root  <root@kun>
+
+	* jpoker/css/jpoker_table.css, jpoker/js/skin-jpoker.js:
+	add skin case for player stat
+	[7367b4521e4d]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add jpoker_player_stats div
+	[d02fe1b8e91e]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add server.getPlayerPlaces
+	[e1b44a91720e]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	remove server.places
+	[730cd36c4e04]
+
+	* jpoker/js/jquery.jpoker.js:
+	jslint fixes
+	[59a712ad3e66]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	fix tourney date localisation
+	[ceb0187e2af2]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add player_arrive callback, and move avatar hover callback to
+	plugins.player.callback
+	[b764984bbe98]
+
+2008-09-09  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js:
+	use toLocaleString for tourney resume date
+	[3a8263bbf291]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/skin-jpoker.js, jpoker/js
+	/test-jpoker.js, jpoker/skin.html:
+	add tourneyBreak resume_time in message, and skin case
+	[288828372dfe]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add jpoker.plugins.table: PacketPokerTourneyBreak
+	callback.tourney_break/resume
+	[bd93ecf13da4]
+
+	* jpoker/js/test-jpoker.js:
+	close/remove dialog in cleanup
+	[e5d1e8807d2f]
+
+	* jpoker/js/test-jpoker.js:
+	fix IE7Bugs testcase
+	[9a2d7419e810]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add jpoker_seat class to player_seat_* element
+	[6779e84f3a21]
+
+	* jpoker/css/jpoker_table.css, jpoker/js/jquery.jpoker.js, jpoker/js
+	/skin-jpoker.js, jpoker/js/test-jpoker.js:
+	change avatar hover default behaviour: display a border around the
+	image
+	[8e771eaececa]
+
+	* jpoker/js/skin-jpoker.js:
+	fix jpoker_55_allWithSidePot desc
+	[1e971b74ecad]
+
+	* jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	add jpoker_55_allWithSidePot
+	[e5a2fb4b7819]
+
+	* jpoker/js/skin-jpoker.js:
+	add last action to all skin case, and restore money
+	[ac21a10f3d57]
+
+	* jpoker/css/jpoker_table.css, jpoker/js/jquery.jpoker.js, jpoker/js
+	/skin-jpoker.js, jpoker/js/test-jpoker.js, jpoker/skin.html:
+	add sidepot skin, and fix PacketPokerPotChips format
+	[7677146046a3]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	only set side_pot if player allin
+	[29f8b5a4e7d0]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	Fix side_pot amount,label,update
+	[c58bcffc34b2]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add per seat class for player sidepot
+	[911b6d1fce3f]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add player/plugins.side_pot handling and remove
+	PacketPokerEndRoundLast serial member
+	[5f78e20792dc]
+
+2008-09-08  root  <root@kun>
+
+	* jpoker/js/jquery.tablesorter.pager.js:
+	fix config global variable in tablesorter.pager
+	[47b3c858267b]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/jquery.tablesorter.pager.js,
+	jpoker/js/test-jpoker.js:
+	add pager next/prev to tableList tourneyList and tourneyDetails
+	[82413b36099b]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/skin-jpoker.js, jpoker/js
+	/test-jpoker.js, jpoker/skin.html:
+	add go to table link in tourneyDetails
+	[d70f9212ca81]
+
+	* jpoker/js/test-jpoker.js:
+	restore jpoker.plugins.tourneyDetails.getHTMLTableDetails
+	implementation after test
+	[c6bfb71e487c]
+
+2008-09-08  root  <root@jpoker.aminche.com>
+
+	* jpoker/example/pokertable.php, jpoker/example/tablelist.php,
+	jpoker/example/tourneydetails.php, jpoker/example/tourneylist.php:
+	update js/css paths for php samples
+	[f71b6dd7cd65]
+
+	* merge php integration sample changesets
+	[df0993e75c91]
+
+	* jpoker/example/pokertable.php, jpoker/example/tablelist.php,
+	jpoker/example/tourneydetails.php, jpoker/example/tourneylist.php,
+	jpoker/pokertable.php, jpoker/tablelist.php,
+	jpoker/tourneydetails.php, jpoker/tourneylist.php:
+	move php integration sample to example directory
+	[7acaeba8c18e]
+
+2008-09-04  root  <root@jpoker.aminche.com>
+
+	* jpoker/tourneydetails.php, jpoker/tourneylist.php:
+	add php integration sample for 'sitngoTourneyList' and
+	'tourneyDetails'
+	[53549c45747f]
+
+	* jpoker/pokertable.php, jpoker/tablelist.php:
+	add php integration sample for 'tableList' and 'table'
+	[f572b59a8188]
+
+2008-09-08  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/skin-jpoker.js, jpoker/js
+	/test-jpoker.js, jpoker/skin.html:
+	add pager to tourneyDetails players list
+	[f516e0c2b996]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	restore 100% coverage and fix plugins.places arguments handling
+	[dec9b432f9f1]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jslint fixes
+	[28a286d482b1]
+
+2008-09-06  root  <root@kun>
+
+	* jpoker/js/test-jpoker.js:
+	fix test
+	[a572a34efb6e]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/skin-jpoker.js, jpoker/js
+	/test-jpoker.js, jpoker/skin.html:
+	add getPlayerPlaces dialog on avatar hover
+	[ffe3adba71d6]
+
+2008-09-05  root  <root@kun>
+
+	* jpoker/css/jpoker.css, jpoker/css/jpoker_tablesorter_pager.css,
+	jpoker/js/jquery.jpoker.js, jpoker/js/jquery.tablesorter.pager.js,
+	jpoker/js/skin-jpoker.js, jpoker/js/test-jpoker.js,
+	jpoker/markup/MarkupPostBody.tiddler, jpoker/skin.html, jpoker/test-
+	jpoker.html, jpoker/tiddlers/Copyright.tiddler:
+	add tablesorterPager to tableList and tourneyList
+	[b47c6a0a1e8f]
+
+2008-09-03  root  <root@kun>
+
+	* jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	add jpoker_10_selfMuck
+	[e6fee3d22a1f]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/skin-jpoker.js, jpoker/js
+	/test-jpoker.js, jpoker/skin.html:
+	add link_pattern to plugins.places and plugins.playerLookup
+	[4cee33cad40d]
+
+	* jpoker/js/skin-jpoker.js:
+	fix skin description strings
+	[31f317fe898e]
+
+	* jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	add regularTourneyListWithLink/sitngoTourneyListWithLink to
+	skin.html
+	[0294926228ef]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add options.link_pattern to regularTourneyList and sitngoTourneyList
+	[1dbb4e70043a]
+
+	* jpoker/js/test-jpoker.js:
+	remove /// tableList header of link_pattern test
+	[03e504e526d0]
+
+	* jpoker/js/jquery.jpoker.js:
+	use opts instead of options
+	[f8b1737b4536]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/skin-jpoker.js, jpoker/js
+	/test-jpoker.js, jpoker/skin.html:
+	add optional tableList link_pattern argument, that add html link on
+	table name
+	[c7fda305f78a]
+
+2008-09-02  root  <root@kun>
+
+	* jpoker/js/test-jpoker.js:
+	jslint fixes
+	[c512a0579a88]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add getPlayerPlacesByname and playerLookup error handling
+	[db1cf46ed760]
+
+2008-09-01  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add per state template for tourneyDetails players
+	[6bbdb15dafe1]
+
+	* jpoker/js/jquery.jpoker.js:
+	use === for null comparaison
+	[226dc65932c6]
+
+	* jpoker/js/jquery.jpoker.js:
+	fix non i18n quoted string
+	[eb62d5a6a48e]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	restore 100% coverage
+	[29189c8168cd]
+
+	* jpoker/js/jquery.jpoker.js:
+	jslint fixes
+	[f4de0a1c804e]
+
+	* jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	add skin jpoker_101_playerLookup
+	[655c021669cd]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/index/MainMenu.tiddler, jpoker/js/jquery.jpoker.js, jpoker/js
+	/test-jpoker.js:
+	add jpoker_player_lookup plugin
+	[11dac071df71]
+
+2008-08-30  root  <root@kun>
+
+	* jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	add jpoker_100_places jpoker_110_cashier
+	[70e1d8649537]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/css/jpoker_tourney_placeholder.css,
+	jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	tourney place holder tiddlywiki integration
+	[f9a23f0572f2]
+
+	* jpoker/css/jpoker.css, jpoker/css/jpoker_tourney_placeholder.css,
+	jpoker/js/jquery.jpoker.js, jpoker/js/skin-jpoker.js, jpoker/js
+	/test-jpoker.js, jpoker/skin.html:
+	added jpoker.plugins.tourneyPlaceholder
+	[faddb208d346]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add in game, and points column in cashier
+	[0a1a9c0ea6a8]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/index/Cashier.tiddler, jpoker/index/Cashier.tiddler.div,
+	jpoker/index/MainMenu.tiddler, jpoker/js/jquery.jpoker.js, jpoker/js
+	/test-jpoker.js:
+	add jpoker.plugins.cashier
+	[b187cb2770e7]
+
+2008-08-28  root  <root@kun>
+
+	* jpoker/css/jpoker_table_layout.css, jpoker/images/mockup.svg,
+	jpoker/js/jquery.jpoker.js, jpoker/js/mockup.js, jpoker/js/skin-
+	jpoker.js, jpoker/js/test-jpoker.js:
+	add table_info with name, flop%, blinds, and level for tournament
+	[5fa24ac12100]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	stop timeout animation before overidding it
+	[9bb731f454a5]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	using EndRoundLast instead of EndRound for broadcasting the end of
+	the round to players
+	[71e7a8e357a6]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	fix PacketPokerEndRound handling, serial not used
+	[70ae3f3f75a8]
+
+	* jpoker/css/jpoker_table.css, jpoker/css/jpoker_table_layout.css,
+	jpoker/images/mockup.svg, jpoker/js/jquery.jpoker.js,
+	jpoker/js/mockup.js, jpoker/js/skin-jpoker.js, jpoker/js/test-
+	jpoker.js:
+	add/update player_seat_action text element with last action
+	[af2aba6abd89]
+
+	* merge dachary changes
+	[fbf6283214c2]
+
+	* jpoker/js/jquery.jpoker.js:
+	jslint fixes
+	[0ec6b75bf335]
+
+	* jpoker/css/jpoker_table.css, jpoker/css/jpoker_table_layout.css,
+	jpoker/images/mockup.svg, jpoker/js/jquery.jpoker.js,
+	jpoker/js/mockup.js, jpoker/js/test-jpoker.js, jpoker/test-
+	jpoker.html:
+	add jpoker_raise_input linked on jpoker_raise slider
+	[181634a3af02]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.server.init increment serial cookie
+	[57bf739e6653]
+
+	* jpoker/js/test-jpoker.js:
+	jslint fix
+	[a91f8f3d4ca3]
+
+2008-08-27  root  <root@kun>
+
+	* jpoker/css/jpoker.css, jpoker/css/jpoker_timeout.css,
+	jpoker/js/jquery.jpoker.js, jpoker/js/jquery.progression.js,
+	jpoker/js/test-jpoker.js, jpoker/markup/MarkupPostBody.tiddler,
+	jpoker/skin.html, jpoker/test-jpoker.html,
+	jpoker/tiddlers/Copyright.tiddler:
+	replace jquery.progression by custom jquery animated div
+	[49a313557118]
+
+	* jpoker/js/skin-jpoker.js:
+	fix buyIn in jpoker_05_selfPlayer skin.html
+	[910b719bfffb]
+
+	* jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	add tourney list to skin.html
+	[7a0166a99eba]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	fix crash when calling tablesorter on empty table
+	[6913671878b8]
+
+2008-08-27  Loic Dachary <loic@dachary.org>
+
+	* merge proppy changes
+	[cb737519109e]
+
+2008-08-26  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js:
+	jslint fixes
+	[b52149e50ba0]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	server.rejoin now use PacketPokerPlayerPlaces and tourneyJoin
+	[2d5239eda312]
+
+	* jpoker/js/test-jpoker.js:
+	add missing cleanup
+	[48b9f9d1bf84]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add jpoker.server.tourneyJoin
+	[18d5a87654c9]
+
+	* jpoker/js/test-jpoker.js:
+	jslint fixes
+	[2db016dc3909]
+
+	* jpoker/js/test-jpoker.js:
+	fix test coverage and sendAutoMuck mockup
+	[b39e33cdf978]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jslint fixes
+	[3b0851c8d232]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add jpoker.tourney
+	[e0f86812f1de]
+
+	* jpoker/js/test-jpoker.js:
+	restore 100% coverage
+	[3113e68c6b39]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jslint fix
+	[d7abf6b74466]
+
+2008-08-26  Loic Dachary <loic@dachary.org>
+
+	* merge proppy changes
+	[b811395d3137]
+
+2008-08-26  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	fix game_id in PacketPokerPoll
+	[69a2d293b2fd]
+
+	* merge upstream changes
+	[d03f5f879b87]
+
+	* jpoker/js/jquery.jpoker.js:
+	pollFrequency = 5000
+	[73ac67cafa61]
+
+2008-08-26  Loic Dachary <loic@dachary.org>
+
+	* merge proppy changes
+	[3428bcf89bfd]
+
+2008-08-26  root  <root@kun>
+
+	* jpoker/js/test-jpoker.js:
+	remove global table_packet
+	[5ee43527f770]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	call jpoker.table.poll after constructing table
+	[94e79eaf8a56]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	fix jpoker.table.poll clearTimeout
+	[5482f2988258]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.server.uninit call jpoker.table.uninit
+	[d456cacb047e]
+
+2008-08-25  Loic Dachary <loic@dachary.org>
+
+	* commit proppy changes
+	[26c2a433710b]
+
+2008-08-25  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.table.clear/setTimeout
+	[0e2ba92c093a]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	remove this.poll() from jpoker.table constructor
+	[098397297de8]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add jpoker.table.poll
+	[f5dc072d2772]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/index/MainMenu.tiddler, jpoker/index/Places.tiddler,
+	jpoker/index/Places.tiddler.div:
+	jpoker.places tiddlywiki integration
+	[177e5c2eff10]
+
+	* jpoker/js/jquery.jpoker.js:
+	Fix jpoker.places.templates.tourney
+	[ab7750254c3d]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add jpoker.plugins.places
+	[8b3022e641cc]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add server.getPlayerPlaces
+	[9730e3812655]
+
+2008-08-25  Loic Dachary <loic@dachary.org>
+
+	* jpoker/l10n/jpoker-fr.po, jpoker/l10n/jpoker-ja.po:
+	convert to UTF-8 for pootle
+	[7d6d0d81a117]
+
+2008-08-21  root  <root@kun>
+
+	* jpoker/js/test-jpoker.js:
+	avatar race condition testcase
+	[22968807f46e]
+
+	* jpoker/css/jpoker_chat.css, jpoker/js/jquery.jpoker.js:
+	add chat_history_dealer background color and remove <hr> separation
+	[1ad144e96540]
+
+	* jpoker/css/jpoker_chat.css, jpoker/js/jquery.jpoker.js:
+	tweak chat_history css and html to increase readability
+	[9d19056c8136]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	hide pocket cards when folding
+	[0d13c0634b96]
+
+2008-08-20  root  <root@kun>
+
+	* jpoker/css/jpoker.css, jpoker/css/jpoker_chat.css,
+	jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	split jpoker_chat dealer message
+	[f337aec8f61d]
+
+	* jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	add jpoker_53_timeout to skin
+	[e855c85ebaa3]
+
+	* jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	add tourneyDetails to skin
+	[15e642a387f2]
+
+	* jpoker/css/jpoker_user_info.css, jpoker/js/skin-jpoker.js,
+	jpoker/skin.html:
+	add jpoker_53_userInfo to skin
+	[589ce2fe0404]
+
+2008-08-19  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.preferences
+	[052cf6deb1b8]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.tourneyDetails templates register
+	[d50073381113]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.tourneyDetails templates ranks shown when running or
+	completed
+	[4086ec59b02e]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add tournament state column to sitngo
+	[642321b1d840]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add tournament state column
+	[39120991a17b]
+
+2008-08-18  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add jpoker.servers.urls to fix testsuite over file://
+	[89bfc97858b0]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add url hash to avatar upload POST url
+	[67e7c03b8736]
+
+2008-08-16  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add jpoker.plugins.preferences initialisation on serverCreate, and
+	url hash suffix
+	[0f151177d01b]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	merge dachary changes
+	[c5d8824e8660]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	remove jpoker.plugins.preferences.defaults
+	[0fe0eeb42d0f]
+
+2008-08-16  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	remove client session control and leave it to the server
+	[16e7e07c784d]
+
+	* debian/README.Debian, debian/apache2/conf.d/jpoker, debian/apache2
+	/sites-available/jpoker:
+	/POKER_REST replaces /REST
+	[44be5e6041c6]
+
+	* jpoker/js/test-jpoker.js:
+	remove explain and roles + restore session name
+	[f4c6574d556d]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/js/jquery.jpoker.js:
+	remove explain + role packets (automatic with /POKER_REST) restore
+	usage of name= for session names that depend on the url of the
+	service
+	[1855e8341033]
+
+2008-08-14  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.preferences defaults values
+	[e2d467859457]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add auto_muck defaults
+	[9464f11fd421]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.preferences defaults
+	[66ffe835b510]
+
+	* jpoker/markup/MarkupPostBody.tiddler:
+	add jquery.cookie.js
+	[20c0e1c76b4e]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	update jpoker.plugins.preferences.auto_muck.*
+	[c631131d434b]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.preferences.auto_muck.*
+	[4fea09ac4777]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.preferences.loaded at startup
+	[115bd00b7d17]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.preferences
+	[038d7a136ba3]
+
+	* jpoker/css/jpoker_table.css, jpoker/js/jquery.jpoker.js, jpoker/js
+	/test-jpoker.js:
+	jpoker muck class and css
+	[160e3838130f]
+
+	* jpoker/js/test-jpoker.js:
+	js lint fixes
+	[4fb29d44fc6a]
+
+	* jpoker/js/test-jpoker.js:
+	fix test suite, using sendAutoMuck mockup
+	[028f10e87939]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	auto_muck default state
+	[094366ca1f34]
+
+	* jpoker/css/jpoker_table_layout.css, jpoker/images/mockup.svg,
+	jpoker/js/jquery.jpoker.js, jpoker/js/mockup.js, jpoker/js/test-
+	jpoker.js:
+	MuckDeny implementation, MuckAccept refactoring
+	[9b9e744f24a3]
+
+	* jpoker/js/jquery.jpoker.js:
+	MuckRequest should be handled by table
+	[97f8b2f796d9]
+
+	* jpoker/css/jpoker_table_layout.css, jpoker/images/mockup.svg,
+	jpoker/js/jquery.jpoker.js, jpoker/js/mockup.js, jpoker/js/test-
+	jpoker.js:
+	add jpoker.plugins.muck, auto_muck
+	[a80554ef1142]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.playerSelf.muckRequest/Timeout
+	[a42a4c62ee48]
+
+2008-08-13  root  <root@kun>
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.connection.prototype.sessionName coverage
+	[8ed17bd257d3]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jslint fixes
+	[1b8ebe860536]
+
+	* jpoker/js/jquery.jpoker.js:
+	add missiong element parameter
+	[05d2537656cb]
+
+	* jpoker/css/jpoker.css, jpoker/css/jpoker_user_info.css,
+	jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add jpoker user info avatar preview
+	[c04765b92189]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add fields to jpoker.plugins.userInfo
+	[f733a164317e]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	Fix setPersonalInfo not updating password
+	[7e65aaf9a201]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	added jpoker.plugins.userInfo avatar upload
+	[bd6f74c51da0]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	set avatar from /AVATAR/player_serial if present
+	[fe70c5901aa3]
+
+	* jpoker/js/jquery.form.js, jpoker/markup/MarkupPostBody.tiddler,
+	jpoker/test-jpoker.html, jpoker/tiddlers/Copyright.tiddler:
+	added jquery form plugin
+	[a3ac57bad3f2]
+
+	* debian/apache2/sites-available/jpoker,
+	jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	switch jpoker to /POKER_REST url
+	[8f0065917217]
+
+2008-08-11  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js:
+	hide timeout text
+	[69f779f2dd33]
+
+	* jpoker/css/jpoker_table.css, jpoker/js/jquery.jpoker.js, jpoker/js
+	/test-jpoker.js:
+	add jpoker_timeout class and z-index
+	[f681e019646c]
+
+	* jpoker/css/jpoker_table_layout.css, jpoker/images/mockup.svg,
+	jpoker/js/jquery.jpoker.js, jpoker/js/mockup.js, jpoker/js/test-
+	jpoker.js:
+	jpoker.plugins.table.timeout
+	[1d2067d8d75b]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	revert timeout plugin
+	[3ef1cba35f13]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.timeout: integration
+	[0e4af7023795]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	refactored jpoker.plugins.timeout in order to be updated from the
+	player
+	[a1ddbd9de56e]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/jquery.progression.js,
+	jpoker/js/test-jpoker.js, jpoker/markup/MarkupPostBody.tiddler,
+	jpoker/test-jpoker.html, jpoker/tiddlers/Copyright.tiddler:
+	add jquery.progression based timeout plugin
+	[136782729132]
+
+2008-08-11  Loic Dachary <loic@dachary.org>
+
+	* proppy merge
+	[f031bfc87c3c]
+
+	* Makefile, debian/control:
+	source dependencies and cope with lack of browser
+	[f0b0aa4317f3]
+
+2008-08-07  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jslint fix
+	[0f6ff829b142]
+
+2008-08-07  Loic Dachary <loic@dachary.org>
+
+	* merge proppy changes
+	[4be1a0f919ca]
+
+2008-08-07  root  <root@kun>
+
+	* jpoker/css/jpoker.css, jpoker/css/jpoker_regular_tourney_list.css,
+	jpoker/css/jpoker_sitngo_tourney_list.css,
+	jpoker/css/jpoker_tourney_details.css, jpoker/js/jquery.jpoker.js,
+	jpoker/js/test-jpoker.js:
+	fix tourney list css add jpoker_tourney_details.css
+	[bddb0ea33d23]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.tourneyDetails packet money update
+	[f70788791cfa]
+
+2008-08-06  Loic Dachary <loic@dachary.org>
+
+	* merge proppy changes
+	[8344f7b3b122]
+
+2008-08-06  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.tourneyDetails templates prizes complete
+	[fdc29c99f9d7]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.tourneyDetails templates prizes
+	[dae140a3bff3]
+
+	* jpoker/js/test-jpoker.js:
+	jslint fix
+	[54b3da569232]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	fix tourneyDetails table_details money bug
+	[4b6f52fc0de9]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.tourneyDetails table details
+	[7a219ea215e9]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.tourneyDetails templates table players
+	[e949e1602711]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	merge dachary changes
+	[1e29d8361ab5]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	adding X prefix to serial in test PACKETS and implementation, add
+	jpoker.plugins.tourneyDetails templates tables registering
+	[c7cf24957b19]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.tourneyDetails templates tables
+	[3de0b6d1ccf9]
+
+	* jpoker/js/jquery.jpoker.js:
+	s/tourneyDetails.t.player/tourneyDetails.t.players/
+	[bf6125acd44c]
+
+2008-07-31  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	fixed broken player auto buyin
+	[05329d27b78e]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.player: no rebuy if money
+	[c5aeebff544e]
+
+2008-07-31  root  <root@kun.lan>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jslintify
+	[72fd230119f6]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add jpoker.plugins.tourneyDetails money and rank
+	[c4577bb022e0]
+
+2008-08-06  Loic Dachary <loic@dachary.org>
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler:
+	orbus url for future reference
+	[de1c75f2526d]
+
+2008-07-31  Loic Dachary <loic@dachary.org>
+
+	* jpoker/css/jpoker.css, jpoker/css/jpoker_table.css,
+	jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	move the cards and default avatars to CSS instead of hardwired
+	background-img
+	[2ba04cc81f03]
+
+2008-07-30  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add .jpoker_tourney_details_info
+	[74407f546257]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	split jpoker_tourney_details_register templates
+	[f875a80a641b]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	tourneyDetails now use TOURNEY_MANAGER_PACKET for refreshing
+	[42716ce05c16]
+
+2008-07-29  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	fix jslint problems
+	[fae946e0dcc5]
+
+	* jpoker/js/test-jpoker.js:
+	remove spurious console.log
+	[b9a30fb7391d]
+
+2008-07-29  root  <root@kun>
+
+	* jpoker/js/test-jpoker.js:
+	restore 100% coverage
+	[9a2ed2a429b3]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	merge upstream changes
+	[2322da87c8c9]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.player: PokerSit/SitOut PacketPokerAutoFold
+	[c732ed12fec6]
+
+2008-07-29  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	Fix IE specific bugs
+	[6c0ad1e53f60]
+
+	* jpoker/jquery/ui/ui.dialog.js:
+	move the msie test before the var self
+	[8c3245f784b4]
+
+	* jpoker/jquery/ui/ui.slider.js:
+	A lot of math in ui.slider is not tested for division by zero and
+	such. These conditions return NaN values which are safely ignored
+	on. Firefox/Safari but causes exceptions on IE.
+	[2b7fcd97b60e]
+
+	* jpoker/jquery/ui/ui.dialog.js:
+	default containerWidth/Height
+	[75e1074bf541]
+
+	* jpoker/jquery/ui/ui.dialog.js:
+	When the uiDialogContainer is set to a width/height of 100% and the
+	widget width is none, IE does not render the widget correctly. To
+	fix this, ability to override containerWidth/Height is required.
+	Pass these in the options.
+	[6ba399eae9bb]
+
+	* jpoker/jquery/ui/ui.dialog.js:
+	IE Compatibility bug: IE does not accept width or height to be set
+	as none, this code fixes the behaviour to be as if the width or
+	height was not set.
+	[568ec09aafd1]
+
+2008-07-28  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.featuredTable does not joinTable i selectTables(my)
+	not empty
+	[309d49893bf0]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	server.selectTables instead of server.refreshTables(opts.string, {
+	delay: null });
+	[73896a07dc35]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	s/selectMyTables/selectTables
+	[7ef3387b2ddd]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.server.selectMyTables
+	[3281a53675e3]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.server.getPersonalInfo not logged
+	[fb4a574658a5]
+
+	* jpoker/js/skin-jpoker.js:
+	fix jpoker_*_table skin
+	[f809afe4c9b1]
+
+	* jpoker/js/skin-jpoker.js:
+	fix jpoker_02_join
+	[be1989739030]
+
+2008-07-24  root  <root@kun>
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.plugins.userInfo coverage
+	[26f38d5d34a2]
+
+	* jpoker/js/jquery.jpoker.js:
+	remove console.log
+	[e9fe7452f459]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	ui.slider coverage
+	[f45f1a579373]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.playerSelf create: in position, rebuy if not money
+	coverage
+	[e4685262a935]
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.plugins.table: remove callbacks coverage
+	[06a5e2036b8c]
+
+	* jpoker/js/test-jpoker.js:
+	fix jpoker.plugins.table: PacketPokerPosition test
+	[9f21f6d2a5f8]
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.plugins.table: remove update callback, + fix type in waiting
+	testcases
+	[5b7d485b88d1]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.table: PacketPokerUserInfo coverage
+	[9df384f4d0e4]
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.plugins.table.position coverage
+	[abb29ea96d00]
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.login.plugins coverage
+	[3136530915be]
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.refresh waiting coverage
+	[3402c4724b90]
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.table.handler coverage
+	[fe680d1f7c00]
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.server.getPersonalInfo waiting
+	[aae47d95e7e8]
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.server.tourney(Un)Register waiting coverage
+	[c6a8ce2cc0b2]
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.server.rejoin waiting
+	[e187e6ec2e94]
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.server.login waiting coverage
+	[14c41696c0fa]
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.server.login error coverage
+	[934457d048e4]
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.server.refresh* coverage
+	[fab2abb2f2d0]
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.server.refresh clearInterval coverage
+	[3ad9d59bca75]
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.server.reconnect waiting coverage
+	[790a55897635]
+
+	* jpoker/js/jquery.jpoker.js:
+	remove whitespace
+	[ea874ac5da28]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	table.buyIn.bankroll coverage
+	[ff00f8f9a5a4]
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.server.setState coverage
+	[f258155199a5]
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.server.setInterval coverage
+	[87dd23d8fe8f]
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.connection handle coverage
+	[56f07824ae62]
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.url2server coverage
+	[632f62b84af1]
+
+	* jpoker/js/test-jpoker.js:
+	interactors in limit coverage
+	[b134b807af8c]
+
+	* jpoker/js/test-jpoker.js:
+	tableList click hover coverage
+	[e05d3ede777a]
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.Crypto b32 str coverage
+	[f44eff294307]
+
+	* jpoker/js/test-jpoker.js:
+	tourneyRowClick and hover coverage
+	[b01465e9667c]
+
+	* jpoker/js/test-jpoker.js:
+	add jpoker.error coverage
+	[d1d6b7581f82]
+
+2008-07-23  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.table.chat: remove \n in input box
+	[0fcc8a9a2eb1]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	table.is_tourney === false
+	[66521060e22b]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.player: no rebuy in tourney
+	[a6426308953f]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.table.is_tourney flag
+	[2a2a5c65c17f]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	spawnTable when receiving POKER_TABLE, table row click call
+	server.tableJoin, fix \n to space conversion in chat test
+	[264f365dca80]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/js/jquery.jpoker.js:
+	revert tourney hack
+	[833298541ec4]
+
+2008-07-22  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	merge dachary changes
+	[bc2a98ca570b]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/js/jquery.jpoker.js:
+	tourney hack
+	[9148bf2cef73]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	adding packet.set_account field to distingish between userInfo
+	display and update
+	[a2dd1c60d293]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	move submit button to plugins.userInfo.template
+	[c419435ea5e4]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.userInfo update feedback
+	[6b4c4aef377d]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add email to userInfo.plugin
+	[da388d338563]
+
+2008-07-21  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.server.setPersonalInfo error
+	[dce69a0bc77f]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.server.setPersonalInfo
+	[e68c8bb0afa5]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.userInfo update
+	[12e6c23015f3]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/index/MainMenu.tiddler, jpoker/index/UserInfo.tiddler,
+	jpoker/index/UserInfo.tiddler.div:
+	userInfo plugin tiddlywiki integration
+	[8943f78e38c0]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.userInfo
+	[bd1ff0e45902]
+
+	* jpoker/js/jquery.jpoker.js:
+	fix queue variable scope issue
+	[74e68d34bc1d]
+
+2008-07-21  Loic Dachary <loic@dachary.org>
+
+	* jpoker/css/jpoker_table.css, jpoker/js/jquery.jpoker.js, jpoker/js
+	/test-jpoker.js:
+	merge proppy changes and move no-repeat to css
+	[829e0f18f935]
+
+	* jpoker/js/jquery.jpoker.js:
+	use javascript:// instead of # in cosmetic hrefs
+	[d80234c255f1]
+
+2008-07-21  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.server.getPersonalInfo
+	[ace2a0cdc464]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	set playeravatar if PokerPlayerArrive.skin_url defined
+	[aaca62bf39e4]
+
+	* jpoker/js/jquery.jpoker.js:
+	FIX: tourney player list grows
+	[ba78ab5cf39a]
+
+2008-07-20  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	hide the sitout button when the player leaves
+	[215ab64cddd8]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	PokerSitOut hides the sitout button
+	[54b9f60fe6ec]
+
+	* jpoker/css/images/jpoker_table/button.png,
+	jpoker/css/jpoker_table.css, jpoker/css/jpoker_table_layout.css,
+	jpoker/images/mockup.svg, jpoker/js/jquery.jpoker.js,
+	jpoker/js/mockup.js, jpoker/js/test-jpoker.js:
+	implement sitout button
+	[2c71227dedc0]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	handle the PokerState packet and associated tests
+	[9176f2ed8a4b]
+
+2008-07-19  root  <root@sd-11801.dedibox.fr>
+
+	* jpoker/js/jquery.jpoker.js:
+	merge dachary changes
+	[e2f5b179b3d0]
+
+2008-07-19  root  <root@kun>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	server.queueRunning(function()
+	{server.timers['tourneyDetails'].request()})
+	[80e646de5084]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.refresh return timerRequest
+	[164cefe77eee]
+
+	* jpoker/js/test-jpoker.js:
+	replay: clean jpoker.dialog mockup
+	[a1259b6fc621]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	revert refresh.tick
+	[cff5bb79f709]
+
+	* jpoker/js/test-jpoker.js:
+	restore jpoker.dialog mockup
+	[721f9d62516b]
+
+	* jpoker/js/jquery.jpoker.js:
+	add refresh.tick
+	[db330adeabc2]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	revert queueRunning(PacketPokerTourneyRequestPlayersList)
+	[84aea350fe27]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	queueRunning(PacketPokerTourneyRequestPlayersList)
+	[8a69986e4537]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	i18n tournament error message
+	[ff393248974c]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.server.tourneyUnregister error
+	[339300a5787d]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.server.tourneyRegister error
+	[ca9f6b69d347]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	s/jpoker/server/.tourneyRegister
+	[9c3618cc4fa1]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.tourneyRegister/Unregister implementation
+	[07990407adf8]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	(Un)Register.click call jpoker.tourney(Un)Register
+	[2fdbf31b0377]
+
+	* jpoker/js/jquery.jpoker.js:
+	merge loic changes
+	[a870f706e452]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/js/jquery.jpoker.js:
+	re-default config.jpoker.restURL to /REST, and remove console.log
+	[a8d7473a192f]
+
+2008-07-19  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	unbind the keypress handler of the login widget so that multiple
+	calls to the widget do not accumulate handlers
+	[d5d808e0b3e4]
+
+	* jpoker/js/jquery.jpoker.js:
+	getUserInfo queued when the login state is entered. when the serial
+	of the user is received, go back to the running state
+	[1dfb7088ff7f]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	tourney list refresh must not refresh the game_id
+	[7099697b835b]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	merge proppy changes
+	[edf951e59a60]
+
+2008-07-17  root  <root@kun>
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/js/jquery.jpoker.js:
+	JpokerPlugin tiddlywiki integratoin
+	[f46e61c3c548]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	game_id from options to args
+	[c69beeb8a2bb]
+
+	* jpoker/css/jpoker_regular_tourney_list.css,
+	jpoker/css/jpoker_sitngo_tourney_list.css,
+	jpoker/js/jquery.jpoker.js:
+	add tournament list hover
+	[a080a0270bc6]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/js/jquery.jpoker.js:
+	add server safeguard
+	[556a388897b1]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	send PacketPokerTourneyRegister/PacketPokerTourneyUnregister
+	[f4f740c0b23e]
+
+	* jpoker/js/test-jpoker.js:
+	remove duplicate equals/checks
+	[205affc82030]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	display register/unregister if player not-registered/registered
+	[a5b191fbda37]
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.plugins.tourneyDetails.unregister
+	[6cbc29e7d4ce]
+
+	* jpoker/js/test-jpoker.js:
+	jpoker.plugins.tourneyDetails.register
+	[b74c345c0e63]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	tourneyDetails register input
+	[04ec164271f3]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.tourneyDetails
+	[3337dfdc4058]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	adding tr id for tourney table entry
+	[d52c1d017917]
+
+2008-07-18  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	workaround IE bugs
+	[b32cf1239fd1]
+
+2008-07-17  Loic Dachary <loic@dachary.org>
+
+	* merge addition of tourney tiddlers
+	[9d68a339d19f]
+
+2008-07-17  root  <root@kun>
+
+	* jpoker/index/RegularTourneys.tiddler,
+	jpoker/index/RegularTourneys.tiddler.div,
+	jpoker/index/SitngoTourneys.tiddler,
+	jpoker/index/SitngoTourneys.tiddler.div:
+	add RegularTourneys, SitngoTourneys tiddlers
+	[27ce4c83aaa3]
+
+2008-07-17  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	rename signin to signup
+	[560a1c74b47b]
+
+2008-07-16  root  <root@kun>
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/css/jpoker_sitngo_tourney_list.css:
+	add missing sitngo tourney list css
+	[3abd7cdf019a]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler:
+	redefault conf.jpoker restURL
+	[bf466d58b856]
+
+	* jpoker/css/jpoker_regular_tourney_list.css,
+	jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js, jpoker/test-
+	jpoker.html:
+	add sorting defaults for regular and sitngo list table
+	[89472e995a02]
+
+	* jpoker/css/jpoker_regular_tourney_list.css:
+	headerSortUp/headerSortDown
+	[a234c06686d1]
+
+	* jpoker/css/jpoker_regular_tourney_list.css,
+	jpoker/js/jquery.jpoker.js:
+	fix tablesorter css issue
+	[b16f1e4bb67d]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/markup/MarkupPostBody.tiddler:
+	include tablesorter
+	[b82e944e687f]
+
+	* jpoker/js/jquery.tablesorter.js:
+	import jquery.tablesorter.js
+	[1e51dddd5384]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler, jpoker/css/jpoker.css,
+	jpoker/css/jpoker_regular_tourney_list.css,
+	jpoker/css/jpoker_tourney_list.css, jpoker/index/MainMenu.tiddler,
+	jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	sitngoTourneyList
+	[9c40ada37b36]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	s/tourney/regularTourney/
+	[2b0f7806d600]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler, jpoker/css/jpoker.css,
+	jpoker/css/jpoker_tourney_list.css:
+	jpoker_tourney_list css
+	[5a485d508ab7]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/index/MainMenu.tiddler, jpoker/js/test-jpoker.js:
+	playersTourneysCount tourneysCount coverage
+	[a8ca95e4606d]
+
+	* jpoker/js/jquery.jpoker.js:
+	add players_tourneys and tourneys, remove table specific code'
+	[704ba1f22862]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	cp plugin.tableList plugin.tourneyList & s/table/tourney
+	[94648ce752bc]
+
+2008-07-15  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	jslint fixes
+	[49fa68061aa7]
+
+	* jpoker/js/jquery.jpoker.js:
+	jslint fixes
+	[a8222d1514ab]
+
+2008-07-14  Loic Dachary <loic@dachary.org>
+
+	* jpoker/tiddlers/AdminMode.tiddler,
+	jpoker/tiddlers/AdminMode.tiddler.div,
+	jpoker/tiddlers/PublicMode.tiddler,
+	jpoker/tiddlers/PublicMode.tiddler.div,
+	jpoker/tiddlers/PublisherPluginBeta.js,
+	jpoker/tiddlers/PublisherPluginBeta.js.div:
+	upgrade PublisherPlugin to avoid duplicate display on reload
+	[f20ec44b7055]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	send SetRole = PLAY before login to avoid duplicate players at the
+	same table
+	[e593cbffe89a]
+
+2008-07-10  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	rework the server_status div for skinning
+	[330e42f6cd1f]
+
+2008-07-09  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	rework the login div for skinning
+	[3046ea0f2ade]
+
+2008-07-08  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	add divs to skin the connecting table state
+	[ab9661d6ae9f]
+
+	* jpoker/js/jquery.jpoker.js:
+	hide table switch when table is created
+	[4c75d6ad59f3]
+
+	* jpoker/js/jquery.jpoker.js:
+	dismiss contains a href to ease skinning
+	[0b4d48698cf6]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	implement jquery frame plugin
+	[bc14bc11a9c2]
+
+2008-07-07  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	Download link is only one a element
+	[3979d976f0b2]
+
+	* jpoker/js/jquery.jpoker.js:
+	first div of copyright is a div that can be used to add an image
+	[e365149c688d]
+
+2008-07-02  Loic Dachary <loic@dachary.org>
+
+	* jpoker/css/jpoker_copyright.css, jpoker/js/jquery.jpoker.js:
+	width and height of the copyright dialog is in the CSS instead of
+	the code
+	[f1246161583c]
+
+	* jpoker/js/jquery.jpoker.js:
+	copyright is resizable
+	[4e7500fdafe9]
+
+	* jpoker/css/jpoker_copyright.css, jpoker/js/jquery.jpoker.js,
+	jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	fix copyright box display bug by adding an enclosing div so that the
+	dialog calculates the outer size properly. Change the class names of
+	skin-jpoker.js setup function to match the new convention. Remove
+	the close button of the copyright popup. Parameterize the copyright
+	display timer.
+	[079d2077ee5b]
+
+2008-07-01  Loic Dachary <loic@dachary.org>
+
+	* Makefile, jpoker/markup/MarkupPostBody.tiddler:
+	include the proper jquery version
+	[f43baa882327]
+
+	* jpoker/jquery/demos/css/real-world.css,
+	jpoker/jquery/demos/css/style.css,
+	jpoker/jquery/demos/functional/css/demo.css,
+	jpoker/jquery/demos/functional/img/bgcode.gif,
+	jpoker/jquery/demos/functional/img/loading.gif,
+	jpoker/jquery/demos/functional/img/puppy.jpg,
+	jpoker/jquery/demos/functional/index.html,
+	jpoker/jquery/demos/functional/js/demo.js,
+	jpoker/jquery/demos/functional/ui.accordion.data.html,
+	jpoker/jquery/demos/functional/ui.accordion.html,
+	jpoker/jquery/demos/functional/ui.dialog.html,
+	jpoker/jquery/demos/functional/ui.draggable.html,
+	jpoker/jquery/demos/functional/ui.droppable.html,
+	jpoker/jquery/demos/functional/ui.droppable.photos.html,
+	jpoker/jquery/demos/functional/ui.resizable.html,
+	jpoker/jquery/demos/functional/ui.selectable.data.html,
+	jpoker/jquery/demos/functional/ui.selectable.html,
+	jpoker/jquery/demos/functional/ui.sortable.ex1.html,
+	jpoker/jquery/demos/functional/ui.sortable.ex2.html,
+	jpoker/jquery/demos/functional/ui.sortable.ex3.html,
+	jpoker/jquery/demos/functional/ui.sortable.html,
+	jpoker/jquery/demos/functional/ui.tabs.ex1.html,
+	jpoker/jquery/demos/functional/ui.tabs.html,
+	jpoker/jquery/demos/functional/ui.tabs.php,
+	jpoker/jquery/demos/images/resizable.jpg, jpoker/jquery/demos/real-
+	world/accordion-drawers/images/caps.gif, jpoker/jquery/demos/real-
+	world/accordion-drawers/images/sideboxlight_bg.gif,
+	jpoker/jquery/demos/real-world/accordion-
+	drawers/images/slider_handlebg.png, jpoker/jquery/demos/real-world
+	/accordion-drawers/index.html, jpoker/jquery/demos/real-world/image-
+	cropper/img/img01.jpg, jpoker/jquery/demos/real-world/image-
+	cropper/img/img02.jpg, jpoker/jquery/demos/real-world/image-
+	cropper/img/img03.jpg, jpoker/jquery/demos/real-world/image-
+	cropper/img/img04.jpg, jpoker/jquery/demos/real-world/image-
+	cropper/img/img05.jpg, jpoker/jquery/demos/real-world/image-
+	cropper/index.html, jpoker/jquery/demos/real-world/layout/demo.css,
+	jpoker/jquery/demos/real-world/layout/demo.js, jpoker/jquery/demos
+	/real-world/layout/index.html, jpoker/jquery/demos/real-
+	world/layout/loader.gif, jpoker/jquery/demos/real-
+	world/layout/loader_bg.gif, jpoker/jquery/demos/real-world/photo-
+	manager/img/P1010020.JPG, jpoker/jquery/demos/real-world/photo-
+	manager/img/P1010036.JPG, jpoker/jquery/demos/real-world/photo-
+	manager/img/P1010039.JPG, jpoker/jquery/demos/real-world/photo-
+	manager/img/P1010044.JPG, jpoker/jquery/demos/real-world/photo-
+	manager/img/P1010050.JPG, jpoker/jquery/demos/real-world/photo-
+	manager/img/P1010055.JPG, jpoker/jquery/demos/real-world/photo-
+	manager/img/P1010058.JPG, jpoker/jquery/demos/real-world/photo-
+	manager/img/P1010059.JPG, jpoker/jquery/demos/real-world/photo-
+	manager/img/P1010061.JPG, jpoker/jquery/demos/real-world/photo-
+	manager/img/P1010063.JPG, jpoker/jquery/demos/real-world/photo-
+	manager/img/thumbs/P1010020.JPG, jpoker/jquery/demos/real-world
+	/photo-manager/img/thumbs/P1010036.JPG, jpoker/jquery/demos/real-
+	world/photo-manager/img/thumbs/P1010039.JPG, jpoker/jquery/demos
+	/real-world/photo-manager/img/thumbs/P1010044.JPG,
+	jpoker/jquery/demos/real-world/photo-
+	manager/img/thumbs/P1010050.JPG, jpoker/jquery/demos/real-world
+	/photo-manager/img/thumbs/P1010055.JPG, jpoker/jquery/demos/real-
+	world/photo-manager/img/thumbs/P1010058.JPG, jpoker/jquery/demos
+	/real-world/photo-manager/img/thumbs/P1010059.JPG,
+	jpoker/jquery/demos/real-world/photo-
+	manager/img/thumbs/P1010061.JPG, jpoker/jquery/demos/real-world
+	/photo-manager/img/thumbs/P1010063.JPG, jpoker/jquery/demos/real-
+	world/photo-manager/index.html, jpoker/jquery/demos/real-world
+	/photo-manager/js/demo.js, jpoker/jquery/demos/real-world/photo-
+	manager/theme/css/screen.css, jpoker/jquery/demos/real-world/photo-
+	manager/theme/img/body_wrap_bg.gif, jpoker/jquery/demos/real-world
+	/photo-manager/theme/img/header_bg.png, jpoker/jquery/demos/real-
+	world/photo-manager/theme/img/photos_gold_32.gif,
+	jpoker/jquery/demos/real-world/photo-
+	manager/theme/img/search_16.gif, jpoker/jquery/demos/real-world
+	/photo-manager/theme/img/side_top.jpg, jpoker/jquery/demos/real-
+	world/photo-manager/theme/img/trash_16.gif, jpoker/jquery/demos
+	/real-world/product-slider/images/pb_airport_express.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_airport_extreme.jpg, jpoker/jquery/demos/real-world
+	/product-slider/images/pb_aperture20080212.jpg, jpoker/jquery/demos
+	/real-world/product-
+	slider/images/pb_apple_remote_desktop_20080115.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_cinema_display20071026.jpg, jpoker/jquery/demos
+	/real-world/product-slider/images/pb_dot_mac_20080115.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_final_cut_express_20080115.jpg, jpoker/jquery/demos
+	/real-world/product-slider/images/pb_final_cut_studio2_20080115.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_ilife_20080115.jpg, jpoker/jquery/demos/real-world
+	/product-slider/images/pb_imac20071026.jpg, jpoker/jquery/demos
+	/real-world/product-slider/images/pb_iwork_20080115.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_keyboards20070807.jpg, jpoker/jquery/demos/real-
+	world/product-slider/images/pb_logic_express_20080115.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_logic_studio_20080115.jpg, jpoker/jquery/demos
+	/real-world/product-slider/images/pb_mac_mini.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_mac_pro_20070622.jpg, jpoker/jquery/demos/real-
+	world/product-slider/images/pb_macbook20071026.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_macbook_pro20071026.jpg, jpoker/jquery/demos/real-
+	world/product-slider/images/pb_macbookair_20080115.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_macosx_20080115.jpg, jpoker/jquery/demos/real-world
+	/product-slider/images/pb_macosx_server20071016.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_mighty_mouse.jpg, jpoker/jquery/demos/real-world
+	/product-slider/images/pb_quicktime.jpg, jpoker/jquery/demos/real-
+	world/product-slider/images/pb_shake_20080115.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_timecapsule_20080115.jpg, jpoker/jquery/demos/real-
+	world/product-slider/images/pb_xsan_20080115.jpg,
+	jpoker/jquery/demos/real-world/product-slider/images/pb_xserve.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/pb_xserve_raid.jpg, jpoker/jquery/demos/real-world
+	/product-slider/images/productbrowser_background_20070622.jpg,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/productbrowser_scrollbar_20070622.png,
+	jpoker/jquery/demos/real-world/product-
+	slider/images/productbrowser_scroller_20080115.png,
+	jpoker/jquery/demos/real-world/product-slider/index.html,
+	jpoker/jquery/demos/real-world/splitpane/css/demo.css,
+	jpoker/jquery/demos/real-world/splitpane/images/bg_gradient.gif,
+	jpoker/jquery/demos/real-world/splitpane/images/icons_2.png,
+	jpoker/jquery/demos/real-world/splitpane/images/splitpane_handle-
+	ew.gif, jpoker/jquery/demos/real-world/splitpane/images
+	/splitpane_handle-sn.gif, jpoker/jquery/demos/real-
+	world/splitpane/index.html, jpoker/jquery/demos/real-
+	world/template.html, jpoker/jquery/demos/ui.accordion.html,
+	jpoker/jquery/demos/ui.datepicker.html,
+	jpoker/jquery/demos/ui.dialog.html,
+	jpoker/jquery/demos/ui.draggable.html,
+	jpoker/jquery/demos/ui.droppable.html,
+	jpoker/jquery/demos/ui.resizable.html,
+	jpoker/jquery/demos/ui.selectable.html,
+	jpoker/jquery/demos/ui.slider.html,
+	jpoker/jquery/demos/ui.sortable.boxes.html,
+	jpoker/jquery/demos/ui.sortable.html,
+	jpoker/jquery/demos/ui.tabs.ahah.html,
+	jpoker/jquery/demos/ui.tabs.html, jpoker/jquery/effects.blind.js,
+	jpoker/jquery/effects.bounce.js, jpoker/jquery/effects.clip.js,
+	jpoker/jquery/effects.core.js, jpoker/jquery/effects.drop.js,
+	jpoker/jquery/effects.explode.js, jpoker/jquery/effects.fade.js,
+	jpoker/jquery/effects.fold.js, jpoker/jquery/effects.highlight.js,
+	jpoker/jquery/effects.pulsate.js, jpoker/jquery/effects.scale.js,
+	jpoker/jquery/effects.shake.js, jpoker/jquery/effects.slide.js,
+	jpoker/jquery/effects.transfer.js, jpoker/jquery/jquery-1.2.4b.js,
+	jpoker/jquery/jquery.ui-all-1.5b4.js, jpoker/jquery/minified-
+	javascript/effects.blind.min.js, jpoker/jquery/minified-
+	javascript/effects.bounce.min.js, jpoker/jquery/minified-
+	javascript/effects.clip.min.js, jpoker/jquery/minified-
+	javascript/effects.core.min.js, jpoker/jquery/minified-
+	javascript/effects.drop.min.js, jpoker/jquery/minified-
+	javascript/effects.explode.min.js, jpoker/jquery/minified-
+	javascript/effects.fade.min.js, jpoker/jquery/minified-
+	javascript/effects.fold.min.js, jpoker/jquery/minified-
+	javascript/effects.highlight.min.js, jpoker/jquery/minified-
+	javascript/effects.pulsate.min.js, jpoker/jquery/minified-
+	javascript/effects.scale.min.js, jpoker/jquery/minified-
+	javascript/effects.shake.min.js, jpoker/jquery/minified-
+	javascript/effects.slide.min.js, jpoker/jquery/minified-
+	javascript/effects.transfer.min.js, jpoker/jquery/minified-
+	javascript/jquery-1.2.4b.min.js, jpoker/jquery/minified-
+	javascript/jquery.ui-all-1.5b4.min.js, jpoker/jquery/minified-
+	javascript/ui.accordion.min.js, jpoker/jquery/minified-
+	javascript/ui.core.min.js, jpoker/jquery/minified-
+	javascript/ui.datepicker.min.js, jpoker/jquery/minified-
+	javascript/ui.dialog.min.js, jpoker/jquery/minified-
+	javascript/ui.draggable.min.js, jpoker/jquery/minified-
+	javascript/ui.droppable.min.js, jpoker/jquery/minified-
+	javascript/ui.resizable.min.js, jpoker/jquery/minified-
+	javascript/ui.selectable.min.js, jpoker/jquery/minified-
+	javascript/ui.slider.min.js, jpoker/jquery/minified-
+	javascript/ui.sortable.min.js, jpoker/jquery/minified-
+	javascript/ui.tabs.min.js, jpoker/jquery/packed-
+	javascript/effects.blind.packed.js, jpoker/jquery/packed-
+	javascript/effects.bounce.packed.js, jpoker/jquery/packed-
+	javascript/effects.clip.packed.js, jpoker/jquery/packed-
+	javascript/effects.core.packed.js, jpoker/jquery/packed-
+	javascript/effects.drop.packed.js, jpoker/jquery/packed-
+	javascript/effects.explode.packed.js, jpoker/jquery/packed-
+	javascript/effects.fade.packed.js, jpoker/jquery/packed-
+	javascript/effects.fold.packed.js, jpoker/jquery/packed-
+	javascript/effects.highlight.packed.js, jpoker/jquery/packed-
+	javascript/effects.pulsate.packed.js, jpoker/jquery/packed-
+	javascript/effects.scale.packed.js, jpoker/jquery/packed-
+	javascript/effects.shake.packed.js, jpoker/jquery/packed-
+	javascript/effects.slide.packed.js, jpoker/jquery/packed-
+	javascript/effects.transfer.packed.js, jpoker/jquery/packed-
+	javascript/jquery-1.2.4b.packed.js, jpoker/jquery/packed-
+	javascript/jquery.ui-all-1.5b4.packed.js, jpoker/jquery/packed-
+	javascript/ui.accordion.packed.js, jpoker/jquery/packed-
+	javascript/ui.core.packed.js, jpoker/jquery/packed-
+	javascript/ui.datepicker.packed.js, jpoker/jquery/packed-
+	javascript/ui.dialog.packed.js, jpoker/jquery/packed-
+	javascript/ui.draggable.packed.js, jpoker/jquery/packed-
+	javascript/ui.droppable.packed.js, jpoker/jquery/packed-
+	javascript/ui.resizable.packed.js, jpoker/jquery/packed-
+	javascript/ui.selectable.packed.js, jpoker/jquery/packed-
+	javascript/ui.slider.packed.js, jpoker/jquery/packed-
+	javascript/ui.sortable.packed.js, jpoker/jquery/packed-
+	javascript/ui.tabs.packed.js, jpoker/jquery/tests/accordion.html,
+	jpoker/jquery/tests/accordion.js, jpoker/jquery/tests/blind.html,
+	jpoker/jquery/tests/bounce.html, jpoker/jquery/tests/clip.html,
+	jpoker/jquery/tests/dimensions.html,
+	jpoker/jquery/tests/draggable.html, jpoker/jquery/tests/drop.html,
+	jpoker/jquery/tests/droppable.html,
+	jpoker/jquery/tests/droppable_trigger.html,
+	jpoker/jquery/tests/explode.html, jpoker/jquery/tests/fade.html,
+	jpoker/jquery/tests/fold.html, jpoker/jquery/tests/highlight.html,
+	jpoker/jquery/tests/images/16x16/folder-drag-accept.png,
+	jpoker/jquery/tests/images/16x16/folder-open.png,
+	jpoker/jquery/tests/images/16x16/folder-visiting.png,
+	jpoker/jquery/tests/images/16x16/folder.png,
+	jpoker/jquery/tests/images/16x16/stock_new.png,
+	jpoker/jquery/tests/images/16x16/text-x-preview.png,
+	jpoker/jquery/tests/images/arrow_right.png,
+	jpoker/jquery/tests/images/bamboo.jpg,
+	jpoker/jquery/tests/images/bg.gif,
+	jpoker/jquery/tests/images/blank.cur,
+	jpoker/jquery/tests/images/click.png,
+	jpoker/jquery/tests/images/clock.png,
+	jpoker/jquery/tests/images/cursor.png, jpoker/jquery/tests/images
+	/custom-bar.gif, jpoker/jquery/tests/images/dot.jpg,
+	jpoker/jquery/tests/images/houses.jpg,
+	jpoker/jquery/tests/images/printer.png, jpoker/jquery/tests/images
+	/progress-bg.gif, jpoker/jquery/tests/images/se-resize.png,
+	jpoker/jquery/tests/images/select-1.jpg,
+	jpoker/jquery/tests/images/select-2.jpg,
+	jpoker/jquery/tests/images/select-3.jpg,
+	jpoker/jquery/tests/images/select-4.jpg,
+	jpoker/jquery/tests/images/select-5.jpg,
+	jpoker/jquery/tests/images/select-6.jpg,
+	jpoker/jquery/tests/images/select-7.jpg,
+	jpoker/jquery/tests/images/select-8.jpg,
+	jpoker/jquery/tests/images/select-9.jpg, jpoker/jquery/tests/images
+	/very-cute-puppy.jpg, jpoker/jquery/tests/images/zoom_bar.png,
+	jpoker/jquery/tests/images/zoom_minus.png,
+	jpoker/jquery/tests/images/zoom_plus.png,
+	jpoker/jquery/tests/pulsate.html,
+	jpoker/jquery/tests/resizable.html,
+	jpoker/jquery/tests/resizable_2581.html,
+	jpoker/jquery/tests/resizable_layout.html,
+	jpoker/jquery/tests/scale.html, jpoker/jquery/tests/selectable.html,
+	jpoker/jquery/tests/selectable_256.html,
+	jpoker/jquery/tests/shake.html, jpoker/jquery/tests/slide.html,
+	jpoker/jquery/tests/slider.html,
+	jpoker/jquery/tests/slider_test.html,
+	jpoker/jquery/tests/slider_test.js,
+	jpoker/jquery/tests/sortable.html,
+	jpoker/jquery/tests/sortable_containment.html,
+	jpoker/jquery/tests/sortable_draggable.html,
+	jpoker/jquery/tests/sortable_droponempty_events.html,
+	jpoker/jquery/tests/sortable_droppable.html,
+	jpoker/jquery/tests/spinner.html, jpoker/jquery/tests/tabs.html,
+	jpoker/jquery/tests/tabs_ahah_1.html,
+	jpoker/jquery/tests/tabs_ahah_2.html,
+	jpoker/jquery/tests/tabs_ahah_3.html,
+	jpoker/jquery/tests/tabs_ext.html,
+	jpoker/jquery/tests/tabs_sleep.php,
+	jpoker/jquery/tests/transfer.html,
+	jpoker/jquery/tests/uiTest.accordion.html,
+	jpoker/jquery/tests/uiTest.accordion.js,
+	jpoker/jquery/tests/uiTest.css,
+	jpoker/jquery/tests/uiTest.dialog.html,
+	jpoker/jquery/tests/uiTest.dialog.js,
+	jpoker/jquery/tests/uiTest.draggable.html,
+	jpoker/jquery/tests/uiTest.draggable.js,
+	jpoker/jquery/tests/uiTest.js,
+	jpoker/jquery/tests/uiTest.resizables.html,
+	jpoker/jquery/tests/uiTest.resizables.js,
+	jpoker/jquery/tests/uiTest.selectable.html,
+	jpoker/jquery/tests/uiTest.selectable.js,
+	jpoker/jquery/tests/uiTest.slider.html,
+	jpoker/jquery/tests/uiTest.slider.js,
+	jpoker/jquery/themes/flora/flora.calendar.css,
+	jpoker/jquery/themes/flora/flora.menu.css,
+	jpoker/jquery/themes/flora/flora.tablesorter.css,
+	jpoker/jquery/themes/flora/flora.toasterLite.css,
+	jpoker/jquery/themes/flora/flora.toolbar.css,
+	jpoker/jquery/themes/flora/i/asc.gif,
+	jpoker/jquery/themes/flora/i/bg.gif,
+	jpoker/jquery/themes/flora/i/desc.gif, jpoker/jquery/themes/flora/i
+	/menu-submenu.gif, jpoker/jquery/themes/flora/i/shadow.png,
+	jpoker/jquery/themes/flora/i/toaster-e.gif,
+	jpoker/jquery/themes/flora/i/toaster-n.gif,
+	jpoker/jquery/themes/flora/i/toaster-ne.gif,
+	jpoker/jquery/themes/flora/i/toaster-nw.gif,
+	jpoker/jquery/themes/flora/i/toaster-s.gif,
+	jpoker/jquery/themes/flora/i/toaster-se.gif,
+	jpoker/jquery/themes/flora/i/toaster-sw.gif,
+	jpoker/jquery/themes/flora/i/toaster-w.gif,
+	jpoker/jquery/themes/flora/i/toolbars-bot-bg.gif,
+	jpoker/jquery/ui.accordion.js, jpoker/jquery/ui.core.js,
+	jpoker/jquery/ui.datepicker.js, jpoker/jquery/ui.dialog.js,
+	jpoker/jquery/ui.draggable.js, jpoker/jquery/ui.droppable.js,
+	jpoker/jquery/ui.resizable.js, jpoker/jquery/ui.selectable.js,
+	jpoker/jquery/ui.slider.js, jpoker/jquery/ui.sortable.js,
+	jpoker/jquery/ui.tabs.js:
+	remove old jquery.ui files
+	[f6fb683b3e54]
+
+	* jpoker/jquery.ui-1.5b4.zip:
+	remove jquery.ui old version
+	[5df146b98a87]
+
+	* jpoker/skin.html:
+	merge
+	[9374e97492ec]
+
+	* jpoker/jquery.ui-1.5.1.zip, jpoker/jquery/jquery-1.2.6.js,
+	jpoker/jquery/themes/flora/flora.accordion.css,
+	jpoker/jquery/themes/flora/flora.all.css,
+	jpoker/jquery/themes/flora/flora.css,
+	jpoker/jquery/themes/flora/flora.datepicker.css,
+	jpoker/jquery/themes/flora/flora.resizable.css,
+	jpoker/jquery/themes/flora/flora.slider.css,
+	jpoker/jquery/themes/flora/flora.tabs.css,
+	jpoker/jquery/themes/ui.datepicker.css,
+	jpoker/jquery/ui/effects.blind.js,
+	jpoker/jquery/ui/effects.bounce.js,
+	jpoker/jquery/ui/effects.clip.js, jpoker/jquery/ui/effects.core.js,
+	jpoker/jquery/ui/effects.drop.js,
+	jpoker/jquery/ui/effects.explode.js,
+	jpoker/jquery/ui/effects.fold.js,
+	jpoker/jquery/ui/effects.highlight.js,
+	jpoker/jquery/ui/effects.pulsate.js,
+	jpoker/jquery/ui/effects.scale.js,
+	jpoker/jquery/ui/effects.shake.js,
+	jpoker/jquery/ui/effects.slide.js,
+	jpoker/jquery/ui/effects.transfer.js,
+	jpoker/jquery/ui/ui.accordion.js, jpoker/jquery/ui/ui.core.js,
+	jpoker/jquery/ui/ui.datepicker.js, jpoker/jquery/ui/ui.dialog.js,
+	jpoker/jquery/ui/ui.draggable.js, jpoker/jquery/ui/ui.droppable.js,
+	jpoker/jquery/ui/ui.resizable.js, jpoker/jquery/ui/ui.selectable.js,
+	jpoker/jquery/ui/ui.slider.js, jpoker/jquery/ui/ui.sortable.js,
+	jpoker/jquery/ui/ui.tabs.js, jpoker/jquery/version.txt,
+	jpoker/js/jquery.jpoker.js, jpoker/js/skin-jpoker.js, jpoker/js
+	/test-jpoker.js, jpoker/skin.html, jpoker/test-jpoker.html:
+	upgrade to jquery-1.2.6 and jquery.ui-1.5.1
+	[6f9f49e664c5]
+
+	* NEWS:
+	avatars comment
+	[ccede3db4000]
+
+2008-06-30  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	text skinning example
+	[66bfdde7228a]
+
+	* jpoker/js/jquery.jpoker.js:
+	fix avatar location
+	[a3362557a0ae]
+
+	* jpoker/markup/MarkupPostBody.tiddler:
+	skin environment not in tw
+	[03f3044ba32f]
+
+2008-06-29  Loic Dachary <loic@dachary.org>
+
+	* avatars/men.xcf, avatars/special.xcf, avatars/standards.xcf,
+	avatars/women.xcf, jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/css/images/jpoker_table/avatar1.png,
+	jpoker/css/images/jpoker_table/avatar10.png,
+	jpoker/css/images/jpoker_table/avatar11.png,
+	jpoker/css/images/jpoker_table/avatar12.png,
+	jpoker/css/images/jpoker_table/avatar13.png,
+	jpoker/css/images/jpoker_table/avatar14.png,
+	jpoker/css/images/jpoker_table/avatar15.png,
+	jpoker/css/images/jpoker_table/avatar16.png,
+	jpoker/css/images/jpoker_table/avatar17.png,
+	jpoker/css/images/jpoker_table/avatar18.png,
+	jpoker/css/images/jpoker_table/avatar19.png,
+	jpoker/css/images/jpoker_table/avatar2.png,
+	jpoker/css/images/jpoker_table/avatar20.png,
+	jpoker/css/images/jpoker_table/avatar3.png,
+	jpoker/css/images/jpoker_table/avatar4.png,
+	jpoker/css/images/jpoker_table/avatar5.png,
+	jpoker/css/images/jpoker_table/avatar6.png,
+	jpoker/css/images/jpoker_table/avatar7.png,
+	jpoker/css/images/jpoker_table/avatar8.png,
+	jpoker/css/images/jpoker_table/avatar9.png,
+	jpoker/css/jpoker_table.css, jpoker/js/jquery.jpoker.js:
+	new avatars
+	[226f75f51679]
+
+2008-06-28  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/skin-jpoker.js:
+	give chips for sit/sitout/position examples
+	[695e52a9210b]
+
+	* jpoker/js/jquery.jpoker.js:
+	add a element to skin interaction buttons
+	[5a13ae0001ab]
+
+	* jpoker/js/jquery.jpoker.js:
+	position and sitout class added at upper seat level to allow
+	skinning each seat element
+	[18bf6c8a2d01]
+
+	* jpoker/js/skin-jpoker.js:
+	show money for position test so that skin can extend to it
+	[8bf6b070978d]
+
+	* Makefile, jpoker/css/jpoker_copyright.css,
+	jpoker/css/jpoker_table.css, jpoker/skin.html,
+	jpoker/skin/AdminPageTemplate.html,
+	jpoker/skin/AdminPageTemplate.html.div,
+	jpoker/skin/MainMenu.tiddler, jpoker/skin/MainMenu.tiddler.div,
+	jpoker/skin/PageTemplate.html, jpoker/skin/PageTemplate.html.div,
+	jpoker/skin/skin.js, jpoker/skin/skin.js.div:
+	simplify skin showcase
+	[c916d80dbb8a]
+
+	* jpoker/js/skin-jpoker.js:
+	login in progress refer to elements with class name instead of
+	obsolete id. comment is only added if the global variable explain is
+	true.
+	[4a58abbd19a1]
+
+2008-06-27  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/skin-jpoker.js, jpoker/markup/MarkupPostBody.tiddler,
+	jpoker/skin/skin.js:
+	cooked pages for skinning purpose isolated in a js file
+	[3cf713ae2a9f]
+
+2008-06-20  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	rename class with underscore, also in tests
+	[78e2bad0b0fc]
+
+	* jpoker/js/test-jpoker.js:
+	use class and change class names to use underscore
+	[87828fc9dd9c]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	avoid using id and use class instead for login HTML
+	[75da0a713d29]
+
+2008-06-19  Loic Dachary <loic@dachary.org>
+
+	* Makefile:
+	rename README
+	[6bb3f438b7d3]
+
+	* jpoker/index/MainMenu.tiddler:
+	add feedback link
+	[db169bb4c0d4]
+
+2008-06-16  Loic Dachary <loic@dachary.org>
+
+	* Makefile, README.binary:
+	README file for binary installation
+	[082816d37290]
+
+2008-06-08  Loic Dachary <loic@dachary.org>
+
+	* NEWS, jpoker/skin/MainMenu.tiddler, jpoker/skin/skin.js:
+	set of skin screens for sit/sitout/inposition
+	[bcec59d59d17]
+
+	* jpoker/css/images/jpoker_table/call.png,
+	jpoker/css/images/jpoker_table/cards/small-2c.png,
+	jpoker/css/images/jpoker_table/cards/small-2d.png,
+	jpoker/css/images/jpoker_table/cards/small-2h.png,
+	jpoker/css/images/jpoker_table/cards/small-2s.png,
+	jpoker/css/images/jpoker_table/cards/small-3c.png,
+	jpoker/css/images/jpoker_table/cards/small-3d.png,
+	jpoker/css/images/jpoker_table/cards/small-3h.png,
+	jpoker/css/images/jpoker_table/cards/small-3s.png,
+	jpoker/css/images/jpoker_table/cards/small-4c.png,
+	jpoker/css/images/jpoker_table/cards/small-4d.png,
+	jpoker/css/images/jpoker_table/cards/small-4h.png,
+	jpoker/css/images/jpoker_table/cards/small-4s.png,
+	jpoker/css/images/jpoker_table/cards/small-5c.png,
+	jpoker/css/images/jpoker_table/cards/small-5d.png,
+	jpoker/css/images/jpoker_table/cards/small-5h.png,
+	jpoker/css/images/jpoker_table/cards/small-5s.png,
+	jpoker/css/images/jpoker_table/cards/small-6c.png,
+	jpoker/css/images/jpoker_table/cards/small-6d.png,
+	jpoker/css/images/jpoker_table/cards/small-6h.png,
+	jpoker/css/images/jpoker_table/cards/small-6s.png,
+	jpoker/css/images/jpoker_table/cards/small-7c.png,
+	jpoker/css/images/jpoker_table/cards/small-7d.png,
+	jpoker/css/images/jpoker_table/cards/small-7h.png,
+	jpoker/css/images/jpoker_table/cards/small-7s.png,
+	jpoker/css/images/jpoker_table/cards/small-8c.png,
+	jpoker/css/images/jpoker_table/cards/small-8d.png,
+	jpoker/css/images/jpoker_table/cards/small-8h.png,
+	jpoker/css/images/jpoker_table/cards/small-8s.png,
+	jpoker/css/images/jpoker_table/cards/small-9c.png,
+	jpoker/css/images/jpoker_table/cards/small-9d.png,
+	jpoker/css/images/jpoker_table/cards/small-9h.png,
+	jpoker/css/images/jpoker_table/cards/small-9s.png,
+	jpoker/css/images/jpoker_table/cards/small-Ac.png,
+	jpoker/css/images/jpoker_table/cards/small-Ah.png,
+	jpoker/css/images/jpoker_table/cards/small-As.png,
+	jpoker/css/images/jpoker_table/cards/small-Ax.png,
+	jpoker/css/images/jpoker_table/cards/small-Jc.png,
+	jpoker/css/images/jpoker_table/cards/small-Jd.png,
+	jpoker/css/images/jpoker_table/cards/small-Jh.png,
+	jpoker/css/images/jpoker_table/cards/small-Js.png,
+	jpoker/css/images/jpoker_table/cards/small-Kc.png,
+	jpoker/css/images/jpoker_table/cards/small-Kd.png,
+	jpoker/css/images/jpoker_table/cards/small-Kh.png,
+	jpoker/css/images/jpoker_table/cards/small-Ks.png,
+	jpoker/css/images/jpoker_table/cards/small-Qc.png,
+	jpoker/css/images/jpoker_table/cards/small-Qd.png,
+	jpoker/css/images/jpoker_table/cards/small-Qh.png,
+	jpoker/css/images/jpoker_table/cards/small-Qs.png,
+	jpoker/css/images/jpoker_table/cards/small-Tc.png,
+	jpoker/css/images/jpoker_table/cards/small-Td.png,
+	jpoker/css/images/jpoker_table/cards/small-Th.png,
+	jpoker/css/images/jpoker_table/cards/small-Ts.png,
+	jpoker/css/images/jpoker_table/cards/small-back.png,
+	jpoker/css/images/jpoker_table/check.png,
+	jpoker/css/images/jpoker_table/exit.png,
+	jpoker/css/images/jpoker_table/fold.png,
+	jpoker/css/images/jpoker_table/get_seat.png,
+	jpoker/css/images/jpoker_table/money.png,
+	jpoker/css/images/jpoker_table/name.png,
+	jpoker/css/images/jpoker_table/raise.png,
+	jpoker/css/images/jpoker_table/raise_slider.png,
+	jpoker/css/images/jpoker_table/raise_slider_dock.png,
+	jpoker/css/images/jpoker_table/rebuy.png,
+	jpoker/css/images/jpoker_table/status.png,
+	jpoker/css/images/jpoker_table/table1_active.png,
+	jpoker/css/images/jpoker_table/table1_normal.png,
+	jpoker/css/images/jpoker_table/table2_active.png,
+	jpoker/css/images/jpoker_table/table2_normal.png,
+	jpoker/css/images/jpoker_table/table3_active.png,
+	jpoker/css/images/jpoker_table/table3_normal.png,
+	jpoker/css/images/jpoker_table/table4_active.png,
+	jpoker/css/images/jpoker_table/table4_normal.png,
+	jpoker/css/images/jpoker_table/table5_active.png,
+	jpoker/css/images/jpoker_table/table5_normal.png,
+	jpoker/css/images/jpoker_table/tables_dock.png,
+	jpoker/css/images/jpoker_table/winner.png,
+	jpoker/css/jpoker_table_layout.css,
+	jpoker/css/jpoker_table_list.css, jpoker/images/call.png,
+	jpoker/images/card_back.png, jpoker/images/cards/small-2c.png,
+	jpoker/images/cards/small-2d.png, jpoker/images/cards/small-2h.png,
+	jpoker/images/cards/small-2s.png, jpoker/images/cards/small-3c.png,
+	jpoker/images/cards/small-3d.png, jpoker/images/cards/small-3h.png,
+	jpoker/images/cards/small-3s.png, jpoker/images/cards/small-4c.png,
+	jpoker/images/cards/small-4d.png, jpoker/images/cards/small-4h.png,
+	jpoker/images/cards/small-4s.png, jpoker/images/cards/small-5c.png,
+	jpoker/images/cards/small-5d.png, jpoker/images/cards/small-5h.png,
+	jpoker/images/cards/small-5s.png, jpoker/images/cards/small-6c.png,
+	jpoker/images/cards/small-6d.png, jpoker/images/cards/small-6h.png,
+	jpoker/images/cards/small-6s.png, jpoker/images/cards/small-7c.png,
+	jpoker/images/cards/small-7d.png, jpoker/images/cards/small-7h.png,
+	jpoker/images/cards/small-7s.png, jpoker/images/cards/small-8c.png,
+	jpoker/images/cards/small-8d.png, jpoker/images/cards/small-8h.png,
+	jpoker/images/cards/small-8s.png, jpoker/images/cards/small-9c.png,
+	jpoker/images/cards/small-9d.png, jpoker/images/cards/small-9h.png,
+	jpoker/images/cards/small-9s.png, jpoker/images/cards/small-Ac.png,
+	jpoker/images/cards/small-Ah.png, jpoker/images/cards/small-As.png,
+	jpoker/images/cards/small-Ax.png, jpoker/images/cards/small-Jc.png,
+	jpoker/images/cards/small-Jd.png, jpoker/images/cards/small-Jh.png,
+	jpoker/images/cards/small-Js.png, jpoker/images/cards/small-Kc.png,
+	jpoker/images/cards/small-Kd.png, jpoker/images/cards/small-Kh.png,
+	jpoker/images/cards/small-Ks.png, jpoker/images/cards/small-Qc.png,
+	jpoker/images/cards/small-Qd.png, jpoker/images/cards/small-Qh.png,
+	jpoker/images/cards/small-Qs.png, jpoker/images/cards/small-Tc.png,
+	jpoker/images/cards/small-Td.png, jpoker/images/cards/small-Th.png,
+	jpoker/images/cards/small-Ts.png, jpoker/images/cards/small-
+	back.png, jpoker/images/check.png, jpoker/images/exit.png,
+	jpoker/images/fold.png, jpoker/images/get_seat.png,
+	jpoker/images/mockup.svg, jpoker/images/money.png,
+	jpoker/images/name.png, jpoker/images/raise.png,
+	jpoker/images/raise_slider.png, jpoker/images/raise_slider_dock.png,
+	jpoker/images/rebuy.png, jpoker/images/status.png,
+	jpoker/images/table1_active.png, jpoker/images/table1_normal.png,
+	jpoker/images/table2_active.png, jpoker/images/table2_normal.png,
+	jpoker/images/table3_active.png, jpoker/images/table3_normal.png,
+	jpoker/images/table4_active.png, jpoker/images/table4_normal.png,
+	jpoker/images/table5_active.png, jpoker/images/table5_normal.png,
+	jpoker/images/tables_dock.png, jpoker/images/winner.png,
+	svg2html.py, test-svg2html.py:
+	image table elements in a CSS subdirectory for theming
+	[c91ea2de14ec]
+
+	* Makefile:
+	make sure directory exists
+	[2c6422369905]
+
+	* jpoker/css/jpoker_table_layout.css, svg2html.py, test-svg2html.py:
+	images are now in a css/images subdir
+	[cd8ac11c041a]
+
+	* Makefile, jpoker/css/jpoker.css,
+	jpoker/css/jpoker_jquery_ui/all.css,
+	jpoker/css/jpoker_jquery_ui/dialog.css,
+	jpoker/css/jpoker_jquery_ui/i/dialog-e.gif,
+	jpoker/css/jpoker_jquery_ui/i/dialog-n.gif,
+	jpoker/css/jpoker_jquery_ui/i/dialog-ne.gif,
+	jpoker/css/jpoker_jquery_ui/i/dialog-nw.gif,
+	jpoker/css/jpoker_jquery_ui/i/dialog-s.gif,
+	jpoker/css/jpoker_jquery_ui/i/dialog-se.gif,
+	jpoker/css/jpoker_jquery_ui/i/dialog-sw.gif,
+	jpoker/css/jpoker_jquery_ui/i/dialog-title.gif,
+	jpoker/css/jpoker_jquery_ui/i/dialog-titlebar-close-hover.png,
+	jpoker/css/jpoker_jquery_ui/i/dialog-titlebar-close.png,
+	jpoker/css/jpoker_jquery_ui/i/dialog-w.gif,
+	jpoker/css/jpoker_jquery_ui/i/resizable-e.gif,
+	jpoker/css/jpoker_jquery_ui/i/resizable-n.gif,
+	jpoker/css/jpoker_jquery_ui/i/resizable-ne.gif,
+	jpoker/css/jpoker_jquery_ui/i/resizable-nw.gif,
+	jpoker/css/jpoker_jquery_ui/i/resizable-s.gif,
+	jpoker/css/jpoker_jquery_ui/i/resizable-se.gif,
+	jpoker/css/jpoker_jquery_ui/i/resizable-sw.gif,
+	jpoker/css/jpoker_jquery_ui/i/resizable-w.gif,
+	jpoker/css/jpoker_jquery_ui/i/slider-bg-1.png,
+	jpoker/css/jpoker_jquery_ui/i/slider-bg-2.png,
+	jpoker/css/jpoker_jquery_ui/i/slider-handle.gif,
+	jpoker/css/jpoker_jquery_ui/resizable.css,
+	jpoker/css/jpoker_jquery_ui/slider.css,
+	jpoker/css/jpoker_table_layout.css, jpoker/images/avatar.png,
+	jpoker/images/background.png, jpoker/images/bet.png,
+	jpoker/images/dealer.png, jpoker/images/pot.png,
+	jpoker/images/seat.png, jpoker/images/table.png,
+	jpoker/js/jquery.jpoker.js, jpoker/markup/MarkupPreHead.tiddler,
+	svg2html.py, test-svg2html.py:
+	reorganize images used in CSS to be in the CSS directory
+	[3f5fc8c8bfff]
+
+	* jpoker/css/jpoker.css, jpoker/css/jpoker_copyright.css,
+	jpoker/css/jpoker_table_layout.css, svg2html.py, test-svg2html.py:
+	copyright has its own CSS file. .jpoker_table selector added to all
+	table layouts
+	[8cc4e6c84ac2]
+
+	* jpoker/css/jpoker_table_list.css, jpoker/css/jpoker_tablelist.css:
+	filename typo
+	[4bdbafe1e436]
+
+	* Makefile, jpoker/css/jpoker.css, jpoker/css/jpoker_login.css,
+	jpoker/css/jpoker_server_status.css, jpoker/css/jpoker_table.css,
+	jpoker/css/jpoker_table_layout.css, jpoker/css/jpoker_tablelist.css,
+	jpoker/css/mockup.css, jpoker/css/tablelist.css,
+	jpoker/js/jquery.jpoker.js, jpoker/markup/MarkupPreHead.tiddler:
+	normalize css names and files
+	[9c2c9f08a83c]
+
+	* jpoker/css/jpoker.css:
+	prefix all CSS class selector with the widget class selector
+	[2dcb97aeeee2]
+
+	* Makefile:
+	add css to binary tar
+	[5bc2ab96536c]
+
+	* Makefile, jpoker/css/jpoker.css, jpoker/css/mockup.css,
+	jpoker/css/tablelist.css, jpoker/js/jpoker.css,
+	jpoker/js/mockup.css, jpoker/js/tablelist.css,
+	jpoker/markup/MarkupPreHead.tiddler:
+	move css to a separate subdirectory
+	[4874f6157791]
+
+	* Makefile:
+	sound is a phony target
+	[71c2316bc933]
+
+2008-06-03  Loic Dachary <loic@dachary.org>
+
+	* jpoker/skin/MainMenu.tiddler, jpoker/skin/skin.js:
+	table list
+	[b14620bd4ecd]
+
+	* jpoker/skin/MainMenu.tiddler, jpoker/skin/skin.js:
+	enumerate all graphical elements for skinning
+	[20490a54e811]
+
+	* jpoker/skin/MainMenu.tiddler, jpoker/skin/PageTemplate.html,
+	jpoker/skin/skin.js:
+	fix layout display problems in skin inventory. show all elements in
+	a single display
+	[f7f6f80ce390]
+
+	* Makefile, jpoker/skin/MainMenu.tiddler:
+	white space to allow wrapping in skin list
+	[eb5c62532ed5]
+
+	* jpoker/js/jquery.jpoker.js:
+	move the embed sound up in the body, add pluginspage attribute
+	although it does not seem to help
+	[6dbe1271705c]
+
+2008-06-02  Loic Dachary <loic@dachary.org>
+
+	* Makefile:
+	do not attempt to build sound by default
+	[b51b5ad5f499]
+
+	* Makefile, debian/control, sound/Makefile:
+	lower requirements on swf tools to facilitate backporting
+	[f00fdd4d6e01]
+
+2008-06-01  Loic Dachary <loic@dachary.org>
+
+	* Makefile:
+	install in jpoker not in a subdir
+	[638a73c9bcb1]
+
+	* debian/control, debian/jpoker.install, debian/rules:
+	use the new makefile rules, fix the native package bug, do not
+	include the hg repository nor the debian directory in the source
+	tarbal
+	[7af0d67ac6e3]
+
+	* Makefile:
+	organize targets in a fedora / jquery friendly way, create the idea
+	of a binary release that is much smaller than the full release
+	[67f73d59f37a]
+
+	* jpoker/js/deferred.js, jpoker/js/jquery.jpoker.js, jpoker/js/test-
+	jpoker.js:
+	use sound notification when a player arrives or is in position
+	[71938eb1d7e7]
+
+	* sound/Makefile, sound/copyright.txt, sound/player_arrive.ogg,
+	sound/player_hand.ogg, sound/soundswiff.c:
+	sound notifications
+	[117073171a40]
+
+2008-05-29  Loic Dachary <loic@dachary.org>
+
+	* ChangeLog, NEWS, debian/changelog:
+	bump version
+	[2d8d1335d261]
+
+	* jpoker/js/jpoker.css:
+	add software version
+	[c4734d0b9f2f]
+
+	* jpoker/js/jquery.jpoker.js:
+	add software version
+	[aeaa861b4af6]
+
+	* Makefile, jpoker/index/MainMenu.tiddler,
+	jpoker/index/MainMenu.tiddler.div,
+	jpoker/markup/MarkupPostBody.tiddler,
+	jpoker/skin/AdminPageTemplate.html,
+	jpoker/skin/AdminPageTemplate.html.div,
+	jpoker/skin/MainMenu.tiddler, jpoker/skin/MainMenu.tiddler.div,
+	jpoker/skin/PageTemplate.html, jpoker/skin/PageTemplate.html.div,
+	jpoker/skin/skin.js, jpoker/skin/skin.js.div,
+	jpoker/tiddlers/MainMenu.tiddler,
+	jpoker/tiddlers/MainMenu.tiddler.div:
+	skinning slide show
+	[4c52ac11eaf1]
+
+2008-05-28  Loic Dachary <loic@dachary.org>
+
+	* debian/README.Debian, debian/apache2/sites-available/jpoker:
+	default location is pokersource.eu/REST because it is more stable
+	[0bacfa04413e]
 
 2008-05-27  Loic Dachary <loic@dachary.org>
 
@@ -61,7 +3741,7 @@
 	disable keepalive on /REST, not on the jpoker directory
 	[775afeb44dbd]
 
-2008-05-21  loic  <loic@pokerdev.call.tld>
+2008-05-21  Loic Dachary <loic@dachary.org>
 
 	* jpoker/js/jquery.jpoker.js:
 	use handler instead of notify
@@ -1195,7 +4875,7 @@
 	implement board card display
 	[a8403ed8d83b]
 
-2008-04-14  saq  <saq@saq-laptop>
+2008-04-14  Saq Imtiaz <lewcid@gmail.com>
 
 	* jpoker/js/jquery.jpoker.js, jpoker/js/tablelist.css:
 	added row hover color changes and pointing cursor to TableList
