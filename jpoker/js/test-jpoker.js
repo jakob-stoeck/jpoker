@@ -3035,7 +3035,7 @@ test("jpoker.plugins.tableList getHTML should not list tourney table", function(
 // regularTourneyList
 //
 test("jpoker.plugins.regularTourneyList", function(){
-        expect(13);
+        expect(14);
         stop();
 
         //
@@ -3065,6 +3065,11 @@ test("jpoker.plugins.regularTourneyList", function(){
         var row_id = TOURNEY_LIST_PACKET.packets[1].serial + id;
         var place = $("#main");
         equals('update' in server.callbacks, false, 'no update registered');
+	var display_done = jpoker.plugins.regularTourneyList.callback.display_done;
+	jpoker.plugins.regularTourneyList.callback.display_done = function(element) {
+	    jpoker.plugins.regularTourneyList.callback.display_done = display_done;
+	    equals($(".jpoker_regular_tourney_list", $(element).parent()).length, 1, 'display done called when DOM is done');
+	};
         place.jpoker('regularTourneyList', 'url', { delay: 30 });
         equals(server.callbacks.update.length, 1, 'regularTourneyList update registered');
         server.registerUpdate(function(server, what, data) {
