@@ -6743,7 +6743,7 @@ test("jpoker.plugins.player: no rebuy if money", function() {
 
 
 test("jpoker.plugins.userInfo", function(){
-        expect(22);
+        expect(23);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -6766,6 +6766,11 @@ test("jpoker.plugins.userInfo", function(){
         var place = $('#main');
 
         equals('update' in server.callbacks, false, 'no update registered');
+	var display_done = jpoker.plugins.userInfo.callback.display_done;
+	jpoker.plugins.userInfo.callback.display_done = function(element) {
+	    jpoker.plugins.userInfo.callback.display_done = display_done;
+	    equals($(".jpoker_user_info", $(element).parent()).length, 1, 'display done called when DOM is done');
+	};
         place.jpoker('userInfo', 'url');
         equals(server.callbacks.update.length, 1, 'userInfo update registered');
 	equals($('.jpoker_user_info').length, 1, 'user info div');
