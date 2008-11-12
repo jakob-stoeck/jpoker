@@ -3035,7 +3035,8 @@
 
                 var id = jpoker.uid();
 
-                $this.append('<span class=\'jpoker_widget jpoker_table\' id=\'' + id + '\'><div class=\'jpoker_connecting\'><div class=\'jpoker_connecting_message\'>' + _("connecting to table {name}").supplant({ 'name': name }) + '</div><div class=\'jpoker_connecting_image\'></div></div></span>');
+                var placeholder = jpoker.plugins.table.templates.placeholder.supplant({ 'name': name });
+                $this.append('<span class=\'jpoker_widget jpoker_table\' id=\'' + id + '\'><div class=\'jpoker_connecting\'><div class=\'jpoker_connecting_message\'>' + placeholder + '</div><div class=\'jpoker_connecting_image\'></div></div></span>');
                 	       
 		if(game_id in server.tables) {
 		    var element = document.getElementById(id);
@@ -3328,7 +3329,8 @@
         room: 'expected to be overriden by mockup.js but was not',
 	tourney_break: '<div>{label}</div><div>{date}</div>',
 	powered_by: '<a title=\'Powered by Pokersource\' onclick=\'window.open(this.href); return false\' href=\'http://pokersource.info/\'><span>Powered by Pokersource</span></a>',
-	chat: '<div class=\'jpoker_chat_input\'><input value=\'chat here\' type=\'text\' width=\'100%\' /></div><div class=\'jpoker_chat_history\'><div class=\'jpoker_chat_history_player\'></div><div class=\'jpoker_chat_history_dealer\'></div></div>'
+	chat: '<div class=\'jpoker_chat_input\'><input value=\'chat here\' type=\'text\' width=\'100%\' /></div><div class=\'jpoker_chat_history\'><div class=\'jpoker_chat_history_player\'></div><div class=\'jpoker_chat_history_dealer\'></div></div>',
+        placeholder: _("connecting to table {name}")
     };
 
     jpoker.plugins.table.callback = {
