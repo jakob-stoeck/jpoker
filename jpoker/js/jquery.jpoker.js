@@ -174,20 +174,27 @@
         },
 
         error: function(reason) {
-            this.errorHandler(reason);
+            var str = reason;
+            if (str.xhr) {
+                // We need to give stringify a whitelist so that it doesn't throw an error if it's called on a 
+                // XMLHttpRequest object, and we can't really detect it with instanceof... so let's assume all .xhr
+                // are XMLHttpRequest objects
+                str.xhr = JSON.stringify(str.xhr, ['status', 'responseText', 'readyState']);
+            }
+            str = JSON.stringify(str) + '\n\n' + jpoker.printStackTrace().slice(2).join('\n');
             this.uninit();
+            this.errorHandler(reason, str);
+        },
+
+        errorHandler: function(reason, str) {
+            if (jpoker.console) {
+                this.message(str);
+	    } else {
+		this.alert(str);
+	    }
             throw reason;
         },
-
-        errorHandler: function(reason) {
-	    var message = (typeof reason == 'string') ? reason : JSON.stringify(reason);
-	    if (jpoker.console) {
-		this.message(message);
-	    } else {
-		this.alert(message);
-	    }
-        },
-
+        
         serverCreate: function(options) {
             this.servers[options.url] = new jpoker.server(options);
             return this.servers[options.url];
@@ -790,6 +797,7 @@
                         } else {
                             $this.error({ xhr: xhr,
                                           status: status,
+                                          url: this.url,
                                           error: error
                                 });
                         }
