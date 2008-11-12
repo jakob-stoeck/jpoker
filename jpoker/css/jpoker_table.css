@@ -273,6 +273,24 @@
 	color: #000;
 }
 
+.jpoker_table .jpoker_powered_by .jpoker_powered_by_info {
+	display: none;
+}
+
+.jpoker_table .jpoker_powered_by a:hover .jpoker_powered_by_info {
+    position: absolute;
+    background: #ddd;
+    left: 10px;
+    bottom: 10px;
+    border: 2px solid #f44;
+    display: block;
+    z-index: 5;
+}
+
+.jpoker_table .jpoker_powered_by .jpoker_explain {
+    display: none;
+}
+
 .jpoker_table a { 
 	color: #fff;
 	font-weight: bold;
