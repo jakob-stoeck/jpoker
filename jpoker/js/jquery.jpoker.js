@@ -3302,11 +3302,11 @@
     jpoker.plugins.table.destroy = function(table, what, dummy, id) {
         // it is enough to destroy the DOM elements, even for players
         jpoker.message('plugins.table.destroy ' + id + ' game: ' + table.game_id);
+	jpoker.plugins.table.callback.quit(table);
         $('#game_window' + id).remove();
 	if (table.tourney_rank !== undefined) {
 	    jpoker.plugins.table.callback.tourney_end(table);
 	}
-	jpoker.plugins.table.callback.quit(table);
         return false;
     };
 
