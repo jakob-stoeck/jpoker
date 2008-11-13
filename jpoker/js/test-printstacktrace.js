@@ -212,17 +212,33 @@ test("guessFunctionName", function() {
 	equals(p.guessFunctionName(file, 2), 'a');
     });
 
-test("guessFunctions", function() {
-	expect(1);
-	var p = new printStackTrace.implementation();	
-	var f2 = function() {
-	    try {
-		(0)();
-	    } catch (e) {
-		var result = p.run();
-		var resultWithFunctions = p.guessFunctions(result);
-		equals(resultWithFunctions[0].indexOf('f2'), 0);
-	    }
-	};
-	f2();
+test("guessFunctions firefox", function() {
+ 	expect(1);
+	var p = new printStackTrace.implementation();
+	p.mode = function() {return 'firefox';};
+	var file = 'file:///test';
+	p.sourceCache[file] = ['var f2 = function() {', 'var b = 2;', '};'];
+	var result = ['{anonymous}()@'+file+':2'];
+	var resultWithFunctions = p.guessFunctions(result);
+	equals(resultWithFunctions[0].indexOf('f2'), 0);
+    });
+
+test("guessFunctions opera", function() {
+ 	expect(1);
+	var p = new printStackTrace.implementation();
+	p.mode = function() {return 'opera';};
+	var file = 'file:///test';
+	p.sourceCache[file] = ['var f2 = function() {', 'var b = 2;', '};'];
+	var result = ['{anonymous}()@'+file+':2'];
+	equals(p.guessFunctions(result)[0].indexOf('{anonymous}'), 0);
+    });
+
+test("guessFunctions other", function() {
+ 	expect(1);
+	var p = new printStackTrace.implementation();
+	p.mode = function() {return 'other';};
+	var file = 'file:///test';
+	p.sourceCache[file] = ['var f2 = function() {', 'var b = 2;', '};'];
+	var result = ['{anonymous}()@'+file+':2'];
+	equals(p.guessFunctions(result)[0].indexOf('{anonymous}'), 0);
     });

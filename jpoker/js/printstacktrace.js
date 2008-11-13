@@ -140,6 +140,9 @@ printStackTrace.implementation.prototype = {
     },
 
     guessFunctions : function(stack) {
+	if (this.mode() != 'firefox') {
+	    return stack;
+	}
 	for (var i = 0; i < stack.length; ++i) {
 	    const reStack = /{anonymous}\(.*\)@(.*):(\d+)$/;
 	    var frame = stack[i];
