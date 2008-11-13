@@ -96,7 +96,7 @@ test("firefox", function() {
 test("opera", function() {
         var mode = printStackTrace.implementation.prototype.mode();
         var e = [];
-        e.push({ message: 'discarded\ndiscarded\ndiscarded\ndiscarded\nLine 40 in http://site.com in function f1\n      info f1\nLine 44 in http://site.com\n 	info f2\ndiscarded\ndiscarded'});
+        e.push({ message: 'ignored\nignored\nignored\nignored\nLine 40 of linked script http://site.com: in function f1\n      discarded()\nLine 44 of linked script http://site.com\n 	f1(1, "abc")\nignored\nignored'});
         if(mode == 'opera') {
             function discarded() {
                 try {(0)()} catch (exception) {
@@ -111,14 +111,16 @@ test("opera", function() {
             };
             f2();
         }
-        expect(3 * e.length);
+        expect(5 * e.length);
         for(var i = 0; i < e.length; i++) {
             var message = printStackTrace.implementation.prototype.opera(e[i]);
             var message_string = message.join("\n");
             //equals(message_string, '', 'debug');
-            equals(message_string.indexOf('discarded'), -1, 'discarded');
-            equals(message[0].indexOf('f1()@http://site.com:40 -- info f1') >= 0, true, 'f1');
-            equals(message[1].indexOf('{anonymous}http://site.com:44 -- info f2') >= 0, true, 'f2 anonymous');
+            equals(message_string.indexOf('ignored'), -1, 'ignored');
+            equals(message[0].indexOf('f1()') >= 0, true, 'f1 function name');
+            equals(message[0].indexOf('discarded()') >= 0, true, 'f1 statement');
+            equals(message[1].indexOf('{anonymous}') >= 0, true, 'f2 is anonymous');
+            equals(message[1].indexOf('f1(1, "abc")') >= 0, true, 'f2 statement');
         }
     });
 
