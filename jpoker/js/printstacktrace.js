@@ -5,20 +5,24 @@
 //                  Johan Euphrosine <proppy@aminche.com> (2008)
 // http://pastie.org/253058
 //
-var printStackTrace = function(e, mode) {
-    if(!mode) {
-        mode = this.mode();
-    }
-    if(mode != 'other') {
-        try {(0)()} catch (e) {
-            return this[mode](e);
-        }
-    } else {
-        return this.other();
-    }
+function printStackTrace() {
+    return (new printStackTrace.implementation()).run();
 };
 
-printStackTrace.prototype = {
+printStackTrace.implementation = function() {};
+
+printStackTrace.implementation.prototype = {
+    run: function() {
+        mode = this.mode();
+        if(mode != 'other') {
+            try {(0)()} catch (e) {
+                return this[mode](e);
+            }
+        } else {
+            return this.other(arguments.callee);
+        }
+    },
+
     mode: function() {
         var mode;
         try {(0)()} catch (e) {
@@ -43,7 +47,7 @@ printStackTrace.prototype = {
         for (i=4,j=0,len=lines.length; i<len; i+=2) {
             if (lineRE.test(lines[i])) {
                 lines[j++] = (RegExp.$3 ?
-                              RegExp.$3 + '()@' + RegExp.$2 + RegExp.$1 :
+                              RegExp.$3 + '()@' + RegExp.$2 + ':' + RegExp.$1 :
                               ANON + RegExp.$2 + ':' + RegExp.$1) +
                     ' -- ' + lines[i+1].replace(/^\s+/,'');
             }
@@ -53,36 +57,24 @@ printStackTrace.prototype = {
         return lines;
     },
 
-    other: function() {
-        var curr  = arguments.callee.caller,
-        FUNC  = 'function', ANON = "{anonymous}",
+    other: function(curr) {
+        var ANON = "{anonymous}",
         fnRE  = /function\s*([\w\-$]+)?\s*\(/i,
-        quoteRE = new RegExp('\"', 'g'),
         stack = [],j=0,
-        fn,args,i;
+        fn,args;
+
+        var replacer = function(key, value) {
+            if(typeof this[key] == 'function') {
+                return 'function';
+            } else {
+                return value;
+            }
+        };
 
         while (curr) {
             fn    = fnRE.test(curr.toString()) ? RegExp.$1 || ANON : ANON;
             args  = Array.prototype.slice.call(curr.arguments);
-            i     = args.length;
-
-            while (i--) {
-                switch (typeof args[i]) {
-                case 'string'  : 
-                    args[i] = '"'+args[i].replace(quoteRE,'\\"')+'"'; 
-                    break;
-                case 'function': 
-                    args[i] = FUNC;
-                    break;
-                }
-            }
-
-            if (args && typeof args == 'array') {
-                args = args.join();
-            } else {
-                args = JSON.stringify(args);
-            }
-            stack[j++] = fn + '(' + args + ')';
+            stack[j++] = fn + '(' + JSON.stringify(args, replacer) + ')';
             curr = curr.caller;
         }
 
