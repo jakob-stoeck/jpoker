@@ -124,7 +124,6 @@ test("opera", function() {
 
 test("other", function() {
         var mode = printStackTrace.implementation.prototype.mode();
-        var e = [];
         var frame = function(args, fun, caller) {
             this.arguments = args;
             this.caller = caller;
@@ -134,22 +133,23 @@ test("other", function() {
         function f10() {};
         var frame_f2 = new frame({key: 'no array arg is stringified'}, 'nofunction', undefined);
         var frame_f1 = new frame([1, 'a"bc', f10], 'FUNCTION f1  (a,b,c)', frame_f2);
-        e.push(frame_f1);
+	expect(mode == 'other' ? 4 : 2);
+	var message = printStackTrace.implementation.prototype.other(frame_f1);
+	var message_string = message.join("\n");
+	// equals(message_string, '', 'debug');
+	equals(message[0].indexOf('f1([1,"a\\"bc","function"])') >= 0, true, 'f1');
+	equals(message[1].indexOf('{anonymous}([])') >= 0, true, 'f2 anonymous');
         if(mode == 'other') {
             function f1(arg1, arg2) {
-                e.push(arguments.callee);
+		var message = printStackTrace.implementation.prototype.other(arguments.callee);
+		var message_string = message.join("\n");
+		// equals(message_string, '', 'debug');
+		equals(message[0].indexOf('f1([1,"a\\"bc","function"])') >= 0, true, 'f1');
+		equals(message[1].indexOf('{anonymous}([])') >= 0, true, 'f2 anonymous');
             };
             var f2 = function() {
                 f1(1, 'a"bc', f10);
             };
             f2();
-        }
-        expect(2 * e.length);
-        for(var i = 0; i < e.length; i++) {
-            var message = printStackTrace.implementation.prototype.other(e[i]);
-            var message_string = message.join("\n");
-            // equals(message_string, '', 'debug');
-            equals(message[0].indexOf('f1([1,"a\\"bc","function"])') >= 0, true, 'f1');
-            equals(message[1].indexOf('{anonymous}([])') >= 0, true, 'f2 anonymous');
         }
     });
