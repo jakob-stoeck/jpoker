@@ -63,18 +63,25 @@ printStackTrace.implementation.prototype = {
         stack = [],j=0,
         fn,args;
 
+	var index = 1;
+	var values = {};
         var replacer = function(key, value) {
             if(typeof this[key] == 'function') {
                 return 'function';
             } else {
+		if(values[value]) {
+		    return '#' + values[values];
+		} else {
+		    values[value] = index++;
+		}
                 return value;
             }
         };
 
         while (curr) {
             fn    = fnRE.test(curr.toString()) ? RegExp.$1 || ANON : ANON;
-            args  = Array.prototype.slice.call(curr.arguments);
-            stack[j++] = fn + '(' + JSON.stringify(args, replacer) + ')';
+	    args  = Array.prototype.slice.call(curr.arguments);
+	    stack[j++] = fn + '(' + JSON.stringify(args, replacer) + ')';
             curr = curr.caller;
         }
 
