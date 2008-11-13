@@ -166,9 +166,10 @@ test("other", function() {
 
 
 test("guessFunctionNameFromLines", function() {
-	expect(2);
+	expect(3);
 	equals(printStackTrace.implementation.prototype.guessFunctionNameFromLines(2, ['var a = function() {', 'var b = 2;', '};']), 'a');
 	equals(printStackTrace.implementation.prototype.guessFunctionNameFromLines(2, ['function a() {', 'var b = 2;', '};']), 'a');
+	equals(printStackTrace.implementation.prototype.guessFunctionNameFromLines(2, ['var a = 1;', 'var b = 2;', 'var c = 3;']), '(?)');
     });
 
 test("getSource cache miss", function() {
