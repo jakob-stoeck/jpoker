@@ -160,7 +160,8 @@ test("guess anonymous function name", function() {
 	stop();
 	const reFunctionArgNames = /function ([^(]*)\(([^)]*)\)/;
 	const reGuessFunction = /['"]?([0-9A-Za-z_]+)['"]?\s*[:=]\s*(function|eval|new Function)/;
-	const reStack = /{anonymous}\(.*\)@(.*):(\d+)$/;	
+	const reStack = /{anonymous}\(.*\)@(.*):(\d+)$/;
+	const reFile = /(file:\/\/\/)?(http:\/\/)?.*\/(.*\.js)$/;
 	var guessFunctionName = function(url, lineNo, callback)
 	    {
 		$.get(url, function(data) {
@@ -198,8 +199,8 @@ test("guess anonymous function name", function() {
 		var m = reStack.exec(result[1]);
 		var file = m[1];
 		var line = m[2];
-		equals(file.indexOf('file:///'), 0);
-		equals(line, 197);
+		equals(reFile.exec(file)[3], 'test-printstacktrace.js');
+		equals(line, 198);
 		guessFunctionName(file, line, function(name) {
 			equals(name, 'f2');
 			start();
