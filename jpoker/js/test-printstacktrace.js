@@ -153,3 +153,58 @@ test("other", function() {
             equals(message[1].indexOf('{anonymous}([])') >= 0, true, 'f2 anonymous');
         }
     });
+
+
+test("guess anonymous function name", function() {
+	expect(3);
+	stop();
+	const reFunctionArgNames = /function ([^(]*)\(([^)]*)\)/;
+	const reGuessFunction = /['"]?([0-9A-Za-z_]+)['"]?\s*[:=]\s*(function|eval|new Function)/;
+	const reStack = /{anonymous}\(.*\)@(.*):(\d+)$/;	
+	var guessFunctionName = function(url, lineNo, callback)
+	    {
+		$.get(url, function(data) {
+			var source = data.split("\n");
+			callback(guessFunctionNameFromLines(lineNo, source));
+		    });
+	    };
+	
+	var guessFunctionNameFromLines = function(lineNo, source) {
+	    // Walk backwards from the first line in the function until we find the line which
+	    // matches the pattern above, which is the function definition
+	    var line = "";
+	    for (var i = 0; i < 20; ++i)
+		{
+		    line = source[lineNo-i] + line;
+		    console.log(line);
+		    if (line != undefined)
+			{
+			    var m = reGuessFunction.exec(line);
+			    if (m)
+				return m[1];
+			    else
+				m = reFunctionArgNames.exec(line);
+			    if (m && m[1])
+				return m[1];
+			}
+		}
+	    return "(?)";
+	};
+	var f2 = function() {
+	    try {
+		(0)();
+	    } catch (e) {
+		var result = printStackTrace();
+		var m = reStack.exec(result[1]);
+		var file = m[1];
+		var line = m[2];
+		equals(file.indexOf('file:///'), 0);
+		equals(line, 197);
+		guessFunctionName(file, line, function(name) {
+			equals(name, 'f2');
+			start();
+		});
+	    }
+	};
+	f2();
+    });
