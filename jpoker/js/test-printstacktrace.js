@@ -21,7 +21,17 @@ module("printstacktrace");
 test("printStackTrace", function() {
         expect(1);
         var r = printStackTrace();
-        equals(typeof r, 'object', 'printStackTrace returns a string');
+        equals(typeof r, 'object', 'printStackTrace returns an array');
+    });
+
+test("printStackTrace options", function() {
+        expect(1);
+	var guessFunctions = printStackTrace.implementation.prototype.guessFunctions;
+	printStackTrace.implementation.prototype.guessFunctions = function() {
+	    printStackTrace.implementation.prototype.guessFunctions = guessFunctions;
+	    ok(true, 'guessFunctions called');
+	};
+	var r = printStackTrace({guess: true});
     });
 
 test("mode", function() {
@@ -155,56 +165,63 @@ test("other", function() {
     });
 
 
-test("guess anonymous function name", function() {
+test("guessFunctionNameFromLines", function() {
+	expect(2);
+	equals(printStackTrace.implementation.prototype.guessFunctionNameFromLines(2, ['var a = function() {', 'var b = 2;', '};']), 'a');
+	equals(printStackTrace.implementation.prototype.guessFunctionNameFromLines(2, ['function a() {', 'var b = 2;', '};']), 'a');
+    });
+
+test("getSource cache miss", function() {
 	expect(3);
-	stop();
-	const reFunctionArgNames = /function ([^(]*)\(([^)]*)\)/;
-	const reGuessFunction = /['"]?([0-9A-Za-z_]+)['"]?\s*[:=]\s*(function|eval|new Function)/;
-	const reStack = /{anonymous}\(.*\)@(.*):(\d+)$/;
-	const reFile = /(file:\/\/\/)?(http:\/\/)?.*\/(.*\.js)$/;
-	var guessFunctionName = function(url, lineNo, callback)
-	    {
-		$.get(url, function(data) {
-			var source = data.split("\n");
-			callback(guessFunctionNameFromLines(lineNo, source));
-		    });
-	    };
-	
-	var guessFunctionNameFromLines = function(lineNo, source) {
-	    // Walk backwards from the first line in the function until we find the line which
-	    // matches the pattern above, which is the function definition
-	    var line = "";
-	    for (var i = 0; i < 20; ++i)
-		{
-		    line = source[lineNo-i] + line;
-		    console.log(line);
-		    if (line != undefined)
-			{
-			    var m = reGuessFunction.exec(line);
-			    if (m)
-				return m[1];
-			    else
-				m = reFunctionArgNames.exec(line);
-			    if (m && m[1])
-				return m[1];
-			}
-		}
-	    return "(?)";
+        var p = new printStackTrace.implementation();
+	var file = 'file:///test';
+	p.ajax = function(fileArg, callback) {
+	    equals(fileArg, file, 'cache miss');
+	    return 'line0\nline1\n';
 	};
+	var lines = p.getSource(file);
+	equals(lines[0], 'line0');
+	equals(lines[1], 'line1');
+    });
+
+test("getSource cache hit", function() {
+	expect(2);
+        var p = new printStackTrace.implementation();
+	var file = 'file:///test';
+	p.ajax = function(fileArg, callback) {
+	    ok(false, 'not called');
+	};
+	p.sourceCache[file] = ['line0', 'line1'];
+	var lines = p.getSource(file);
+	equals(lines[0], 'line0');
+	equals(lines[1], 'line1');
+    });
+
+test("sync ajax", function() {
+	expect(1);
+	var p = new printStackTrace.implementation();
+	var data = p.ajax(document.url);
+	ok(data.indexOf('printstacktrace') >= 0, 'synchronous get');
+    });
+
+test("guessFunctionName", function() {
+	expect(1);
+	var p = new printStackTrace.implementation();
+	var file = 'file:///test';
+	p.sourceCache[file] = ['var a = function() {', 'var b = 2;', '};'];
+	equals(p.guessFunctionName(file, 2), 'a');
+    });
+
+test("guessFunctions", function() {
+	expect(1);
+	var p = new printStackTrace.implementation();	
 	var f2 = function() {
 	    try {
 		(0)();
 	    } catch (e) {
-		var result = printStackTrace();
-		var m = reStack.exec(result[1]);
-		var file = m[1];
-		var line = m[2];
-		equals(reFile.exec(file)[3], 'test-printstacktrace.js');
-		equals(line, 198);
-		guessFunctionName(file, line, function(name) {
-			equals(name, 'f2');
-			start();
-		});
+		var result = p.run();
+		var resultWithFunctions = p.guessFunctions(result);
+		equals(resultWithFunctions[0].indexOf('f2'), 0);
 	    }
 	};
 	f2();
