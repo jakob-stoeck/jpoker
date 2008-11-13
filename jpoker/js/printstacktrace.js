@@ -41,13 +41,13 @@ printStackTrace.implementation.prototype = {
     opera: function(e) {
         var lines = e.message.split("\n"),
         ANON = '{anonymous}',
-        lineRE = /Line\s+(\d+).*?in\s+(http\S+)(?:.*?in\s+function\s+(\S+))?/i,
+        lineRE = /Line\s+(\d+).*?script\s+(http\S+)(?:.*?in\s+function\s+(\S+))?/i,
         i,j,len;
 
         for (i=4,j=0,len=lines.length; i<len; i+=2) {
             if (lineRE.test(lines[i])) {
                 lines[j++] = (RegExp.$3 ?
-                              RegExp.$3 + '()@' + RegExp.$2 + ':' + RegExp.$1 :
+                              RegExp.$3 + '()@' + RegExp.$2 + RegExp.$1 :
                               ANON + RegExp.$2 + ':' + RegExp.$1) +
                     ' -- ' + lines[i+1].replace(/^\s+/,'');
             }
