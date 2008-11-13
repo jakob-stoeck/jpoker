@@ -214,14 +214,31 @@ test("guessFunctionName", function() {
     });
 
 test("guessFunctions firefox", function() {
- 	expect(1);
+	var results = [];
+
+        var mode = printStackTrace.implementation.prototype.mode();
+
 	var p = new printStackTrace.implementation();
 	p.mode = function() {return 'firefox';};
 	var file = 'file:///test';
 	p.sourceCache[file] = ['var f2 = function() {', 'var b = 2;', '};'];
-	var result = ['{anonymous}()@'+file+':2'];
-	var resultWithFunctions = p.guessFunctions(result);
-	equals(resultWithFunctions[0].indexOf('f2'), 0);
+	results.push(['{anonymous}()@'+file+':2']);
+	    
+	if (mode == 'firefox') {
+	    var f2 = function() {
+		try {
+		    (0)();
+		} catch(e) {
+		    results.push(p.run());
+		}
+	    };
+	    f2();
+	}
+	
+	expect(results.length * 1);
+	for (var i = 0; i < results.length; ++i) {	    
+	    equals(p.guessFunctions(results[i])[0].indexOf('f2'), 0, 'f2');
+	}
     });
 
 test("guessFunctions opera", function() {
