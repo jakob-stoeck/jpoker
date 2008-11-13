@@ -181,7 +181,7 @@
                 // are XMLHttpRequest objects
                 str.xhr = JSON.stringify(str.xhr, ['status', 'responseText', 'readyState']);
             }
-            str = JSON.stringify(str) + '\n\n' + jpoker.printStackTrace().slice(2).join('\n');
+            str = JSON.stringify(str) + '\n\n' + printStackTrace().slice(2).join('\n');
             this.uninit();
             this.errorHandler(reason, str);
         },

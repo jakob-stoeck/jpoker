@@ -177,8 +177,8 @@ test("jpoker.error", function() {
 	var jpokerConsole = jpoker.console;
 	jpoker.console = function(reason) {
 	};
-	jpoker.message = function(reason) {
-	    equals(error_reason, reason, "jpoker.message error_reason message");
+	jpoker.message = function(string) {
+	    equals(string.indexOf('{anonymous}') >= 0, true, "jpoker.message stack trace message");
 	};
 	jpoker.alert = function(reason) {
 	    ok(false, 'alert not called');
@@ -204,9 +204,9 @@ test("jpoker.error alert", function() {
 	var jpokerConsole = jpoker.console;
 	jpoker.console = undefined;
 	var jpokerAlert = jpoker.alert;
-	jpoker.alert = function(reason) {
+	jpoker.alert = function(string) {
 	    jpoker.alert = jpokerAlert;
-	    equals(error_reason, reason, "jpoker.alert error_reason message");
+	    equals(string.indexOf('{anonymous}') >= 0, true, "jpoker.alert stack trace message");
 	};
 	try {
 	    jpoker.error(error_reason);
@@ -224,7 +224,7 @@ test("jpoker.error object", function() {
 	var jpokerAlert = jpoker.alert;
 	jpoker.alert = function(reason) {
 	    jpoker.alert = jpokerAlert;
-	    equals(reason, JSON.stringify(error_reason), "jpoker.alert error_reason");
+	    equals(reason.indexOf(JSON.stringify(error_reason)) >= 0, true, "jpoker.alert error_reason");
 	};
 	try {
 	    jpoker.error(error_reason);
@@ -1698,7 +1698,7 @@ test("jpoker.server.error: throw correct exception", function() {
 	jpoker.console = undefined;
 	jpoker.alert = function(e) {
 	    jpoker.alert = jpokerAlert;
-	    equals(e, 'dummy error');
+	    equals(e.indexOf('dummy error') >= 0, true, 'dummy error');
 	};
 	var server = jpoker.serverCreate({ url: 'url' });
 	server.state = 'unknown';
