@@ -98,7 +98,7 @@ test("firefox", function() {
             //            equals(message_string, '', 'debug');
             equals(message_string.indexOf('discarded'), -1, 'discarded');
             equals(message[0].indexOf('f1(1,"abc")') >= 0, true, 'f1');
-            equals(message[1].indexOf('{anonymous}()') >= 0, true, 'f2 anonymous');
+            equals(message[1].indexOf('{anonymous}()@') >= 0, true, 'f2 anonymous');
             equals(message[2].indexOf('@:0'), -1, '@:0 discarded');
         }
     });
@@ -129,7 +129,7 @@ test("opera", function() {
             equals(message_string.indexOf('ignored'), -1, 'ignored');
             equals(message[0].indexOf('f1()') >= 0, true, 'f1 function name');
             equals(message[0].indexOf('discarded()') >= 0, true, 'f1 statement');
-            equals(message[1].indexOf('{anonymous}') >= 0, true, 'f2 is anonymous');
+            equals(message[1].indexOf('{anonymous}()@') >= 0, true, 'f2 is anonymous');
             equals(message[1].indexOf('f1(1, "abc")') >= 0, true, 'f2 statement');
         }
     });
@@ -256,8 +256,8 @@ test("guessFunctions opera", function() {
 	};
 	var file = 'file:///test';
 	p.sourceCache[file] = ['var f2 = function() {', 'var b = 2;', '};'];
-	results.push(['{anonymous}()@'+file+':2']);
-	    
+	results.push(['{anonymous}()@'+file+':2 -- code']);
+	
 	if (mode == 'opera') {
 	    var f2 = function() {
 		try {

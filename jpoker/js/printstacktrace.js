@@ -89,7 +89,7 @@ printStackTrace.implementation.prototype = {
             if (lineRE.test(lines[i])) {
                 lines[j++] = (RegExp.$3 ?
                               RegExp.$3 + '()@' + RegExp.$2 + RegExp.$1 :
-                              ANON + RegExp.$2 + ':' + RegExp.$1) +
+                              ANON + '()@' + RegExp.$2 + ':' + RegExp.$1) +
                     ' -- ' + lines[i+1].replace(/^\s+/,'');
             }
         }
@@ -148,7 +148,7 @@ printStackTrace.implementation.prototype = {
 
     guessFunctions : function(stack) {
 	for (var i = 0; i < stack.length; ++i) {
-	    var reStack = /{anonymous}\(.*\)@(.*):(\d+)$/;
+	    var reStack = /{anonymous}\(.*\)@(.*):(\d+)/;
 	    var frame = stack[i];
 	    var m = reStack.exec(frame);
 	    if (m) {
