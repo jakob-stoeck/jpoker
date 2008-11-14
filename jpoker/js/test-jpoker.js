@@ -444,11 +444,11 @@ test("jpoker.compatibility other", function() {
 	var other = jpoker.other_compatibility;
 	jpoker.other_compatibility = function() {
 	    ok(true, 'other_compatibility called');
-	}
+	};
 	var msie = jpoker.msie_compatibility;
 	jpoker.msie_compatibility = function() {
 	    ok(false, 'msie_compatibility not called');
-	}
+	};
 	jpoker.compatibility(false);
 	jpoker.other_compatibility = other;
 	jpoker.msie_compatibility = msie;
@@ -459,11 +459,11 @@ test("jpoker.compatibility msie", function() {
 	var other = jpoker.other_compatibility;
 	jpoker.other_compatibility = function() {
 	    ok(false, 'other_compatibility not called');
-	}
+	};
 	var msie = jpoker.msie_compatibility;
 	jpoker.msie_compatibility = function() {
 	    ok(true, 'msie_compatibility called');
-	}
+	};
 	jpoker.compatibility(true);
 	jpoker.other_compatibility = other;
 	jpoker.msie_compatibility = msie;
