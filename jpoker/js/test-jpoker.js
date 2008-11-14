@@ -397,7 +397,7 @@ test("jpoker.dialog", function(){
         var message = 'ZAAAZ';
         jpoker.dialog(message);
         equals($('#jpokerDialog').text().indexOf(message) >= 0, true, message);
-        equals($('.ui-dialog-container').css('width'), '100%', 'containerWidth 100%');
+        equals($('.ui-dialog-container').css('width'), jpoker.dialog_options.containerWidth, 'containerWidth');
         cleanup();
     });
 
@@ -408,7 +408,7 @@ test("jpoker.dialog options title", function(){
 	jpokerDialogOptions.title = 'foo';
         jpoker.dialog(message);
         equals($('#jpokerDialog').text().indexOf(message) >= 0, true, message);
-        equals($('.ui-dialog-container').css('width'), '100%', 'containerWidth 100%');
+        equals($('.ui-dialog-container').css('width'), jpoker.dialog_options.containerWidth, 'containerWidth');
 	equals($('#jpokerDialog').attr('title'), 'foo', 'dialog title');
 	jpoker.dialog_options = jpokerDialogOptions;
         cleanup();
@@ -421,7 +421,7 @@ test("jpoker.dialog options title undefined", function(){
 	jpokerDialogOptions.title = undefined;
         jpoker.dialog(message);
         equals($('#jpokerDialog').text().indexOf(message) >= 0, true, message);
-        equals($('.ui-dialog-container').css('width'), '100%', 'containerWidth 100%');
+        equals($('.ui-dialog-container').css('width'), jpoker.dialog_options.containerWidth, 'containerWidth 100%');
 	equals($('#jpokerDialog[title]').length, 0, 'no dialog title');
 	jpoker.dialog_options = jpokerDialogOptions;
         cleanup();
@@ -437,6 +437,36 @@ test("jpoker.dialog msie", function(){
         $('#jpokerDialog').dialog('close');
         jpoker.other_compatibility();
         cleanup();
+    });
+
+test("jpoker.compatibility other", function() {
+	expect(1);
+	var other = jpoker.other_compatibility;
+	jpoker.other_compatibility = function() {
+	    ok(true, 'other_compatibility called');
+	}
+	var msie = jpoker.msie_compatibility;
+	jpoker.msie_compatibility = function() {
+	    ok(false, 'msie_compatibility not called');
+	}
+	jpoker.compatibility(false);
+	jpoker.other_compatibility = other;
+	jpoker.msie_compatibility = msie;
+    });
+
+test("jpoker.compatibility msie", function() {
+	expect(1);
+	var other = jpoker.other_compatibility;
+	jpoker.other_compatibility = function() {
+	    ok(false, 'other_compatibility not called');
+	}
+	var msie = jpoker.msie_compatibility;
+	jpoker.msie_compatibility = function() {
+	    ok(true, 'msie_compatibility called');
+	}
+	jpoker.compatibility(true);
+	jpoker.other_compatibility = other;
+	jpoker.msie_compatibility = msie;
     });
 
 test("jpoker.copyright", function(){

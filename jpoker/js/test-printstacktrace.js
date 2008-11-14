@@ -143,7 +143,7 @@ test("other", function() {
         };
         frame.prototype.toString = function() { return JSON.stringify(this); };
         function f10() {}
-        var frame_f2 = new frame({key: 'no array arg is stringified'}, 'nofunction', undefined);
+        var frame_f2 = new frame([], 'nofunction', undefined);
         var frame_f1 = new frame([1, 'a"bc', f10], 'FUNCTION f1  (a,b,c)', frame_f2);
 	expect(mode == 'other' ? 4 : 2);
 	var message = printStackTrace.implementation.prototype.other(frame_f1);

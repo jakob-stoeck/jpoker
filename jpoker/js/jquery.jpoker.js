@@ -4562,6 +4562,13 @@
 	auto_muck_lose: true
     };
 
-    if($.browser.msie) { jpoker.msie_compatibility(); } // no coverage
+    jpoker.compatibility = function(msie) {
+	if(msie) {
+	    jpoker.msie_compatibility();
+	} else {
+	    jpoker.other_compatibility();
+	}
+    };
 
+    jpoker.compatibility($.browser.msie); // no coverage
 })(jQuery);
