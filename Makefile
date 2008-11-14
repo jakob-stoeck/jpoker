@@ -264,5 +264,7 @@ jslint:
 	jslint jpoker/js/jquery.jpoker.js
 	jslint jpoker/js/test-jpoker.js
 	jslint jpoker/js/skin-jpoker.js
+	jslint jpoker/js/printstacktrace.js
+	jslint jpoker/js/test-printstacktrace.js
 
 .PHONY: tests sound jslint

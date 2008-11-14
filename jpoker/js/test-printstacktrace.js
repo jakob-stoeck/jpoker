@@ -21,7 +21,17 @@ module("printstacktrace");
 test("printStackTrace", function() {
         expect(1);
         var r = printStackTrace();
-        equals(typeof r, 'object', 'printStackTrace returns a string');
+        equals(typeof r, 'object', 'printStackTrace returns an array');
+    });
+
+test("printStackTrace options", function() {
+        expect(1);
+	var guessFunctions = printStackTrace.implementation.prototype.guessFunctions;
+	printStackTrace.implementation.prototype.guessFunctions = function() {
+	    printStackTrace.implementation.prototype.guessFunctions = guessFunctions;
+	    ok(true, 'guessFunctions called');
+	};
+	var r = printStackTrace({guess: true});
     });
 
 test("mode", function() {
@@ -32,34 +42,34 @@ test("mode", function() {
 test("run mode", function() {
         expect(1);
         var p = new printStackTrace.implementation();
-        p.other = p.firefox = p.opera = function() { equals(1,1,'called'); }
+        p.other = p.firefox = p.opera = function() { equals(1,1,'called'); };
         p.run();
     });
 
 test("run firefox", function() {
         expect(1);
         var p = new printStackTrace.implementation();
-        p.mode = function() { return 'firefox'; }
-        p.other = p.opera = function() { equals(1,0,'must not be called'); }
-        p.firefox = function() { equals(1,1,'called'); }
+        p.mode = function() { return 'firefox'; };
+        p.other = p.opera = function() { equals(1,0,'must not be called'); };
+        p.firefox = function() { equals(1,1,'called'); };
         p.run();
     });
 
 test("run opera", function() {
         expect(1);
         var p = new printStackTrace.implementation();
-        p.mode = function() { return 'opera'; }
-        p.other = p.firefox = function() { equals(1,0,'must not be called'); }
-        p.opera = function() { equals(1,1,'called'); }
+        p.mode = function() { return 'opera'; };
+        p.other = p.firefox = function() { equals(1,0,'must not be called'); };
+        p.opera = function() { equals(1,1,'called'); };
         p.run();
     });
 
 test("run other", function() {
         expect(1);
         var p = new printStackTrace.implementation();
-        p.mode = function() { return 'other'; }
-        p.opera = p.firefox = function() { equals(1,0,'must not be called'); }
-        p.other = function() { equals(1,1,'called'); }
+        p.mode = function() { return 'other'; };
+        p.opera = p.firefox = function() { equals(1,0,'must not be called'); };
+        p.other = function() { equals(1,1,'called'); };
         p.run();
     });
 
@@ -69,13 +79,13 @@ test("firefox", function() {
         e.push({ stack: 'discarded()...\nf1(1,"abc")@file.js:40\n()@file.js:41\n@:0  \nf44()@file.js:494'});
         if(mode == 'firefox') {
             function discarded() {
-                try {(0)()} catch (exception) {
+                try {(0)();} catch (exception) {
                     e.push(exception);
                 }
-            };
+            }
             function f1(arg1, arg2) {
                 discarded();
-            };
+            }
             var f2 = function() {
                 f1(1, "abc");
             };
@@ -96,16 +106,16 @@ test("firefox", function() {
 test("opera", function() {
         var mode = printStackTrace.implementation.prototype.mode();
         var e = [];
-        e.push({ message: 'ignored\nignored\nignored\nignored\nLine 40 of linked script http://site.com: in function f1\n      discarded()\nLine 44 of linked script http://site.com\n 	f1(1, "abc")\nignored\nignored'});
+        e.push({ message: 'ignored\nignored\nignored\nignored\nLine 40 of linked script http://site.com: in function f1\n      discarded()\nLine 44 of linked script http://site.com\n \tf1(1, "abc")\nignored\nignored'});
         if(mode == 'opera') {
             function discarded() {
-                try {(0)()} catch (exception) {
+                try {(0)();} catch (exception) {
                     e.push(exception);
                 }
-            };
+            }
             function f1(arg1, arg2) {
                 discarded();
-            };
+            }
             var f2 = function() {
                 f1(1, "abc");
             };
@@ -127,12 +137,12 @@ test("opera", function() {
 test("other", function() {
         var mode = printStackTrace.implementation.prototype.mode();
         var frame = function(args, fun, caller) {
-            this.arguments = args;
+            this['arguments'] = args;
             this.caller = caller;
             this.fun = fun;
         };
-        frame.prototype.toString = function() { return JSON.stringify(this); }
-        function f10() {};
+        frame.prototype.toString = function() { return JSON.stringify(this); };
+        function f10() {}
         var frame_f2 = new frame({key: 'no array arg is stringified'}, 'nofunction', undefined);
         var frame_f1 = new frame([1, 'a"bc', f10], 'FUNCTION f1  (a,b,c)', frame_f2);
 	expect(mode == 'other' ? 4 : 2);
@@ -148,10 +158,107 @@ test("other", function() {
 		// equals(message_string, '', 'debug');
 		equals(message[0].indexOf('f1([1,"a\\"bc","function"])') >= 0, true, 'f1');
 		equals(message[1].indexOf('{anonymous}([])') >= 0, true, 'f2 anonymous');
-            };
+            }
             var f2 = function() {
                 f1(1, 'a"bc', f10);
             };
             f2();
         }
+    });
+
+
+test("guessFunctionNameFromLines", function() {
+	expect(3);
+	equals(printStackTrace.implementation.prototype.guessFunctionNameFromLines(2, ['var a = function() {', 'var b = 2;', '};']), 'a');
+	equals(printStackTrace.implementation.prototype.guessFunctionNameFromLines(2, ['function a() {', 'var b = 2;', '};']), 'a');
+	equals(printStackTrace.implementation.prototype.guessFunctionNameFromLines(2, ['var a = 1;', 'var b = 2;', 'var c = 3;']), '(?)');
+    });
+
+test("getSource cache miss", function() {
+	expect(3);
+        var p = new printStackTrace.implementation();
+	var file = 'file:///test';
+	p.ajax = function(fileArg, callback) {
+	    equals(fileArg, file, 'cache miss');
+	    return 'line0\nline1\n';
+	};
+	var lines = p.getSource(file);
+	equals(lines[0], 'line0');
+	equals(lines[1], 'line1');
+    });
+
+test("getSource cache hit", function() {
+	expect(2);
+        var p = new printStackTrace.implementation();
+	var file = 'file:///test';
+	p.ajax = function(fileArg, callback) {
+	    ok(false, 'not called');
+	};
+	p.sourceCache[file] = ['line0', 'line1'];
+	var lines = p.getSource(file);
+	equals(lines[0], 'line0');
+	equals(lines[1], 'line1');
+    });
+
+test("sync ajax", function() {
+	expect(1);
+	var p = new printStackTrace.implementation();
+	var data = p.ajax(document.url);
+	ok(data.indexOf('printstacktrace') >= 0, 'synchronous get');
+    });
+
+test("guessFunctionName", function() {
+	expect(1);
+	var p = new printStackTrace.implementation();
+	var file = 'file:///test';
+	p.sourceCache[file] = ['var a = function() {', 'var b = 2;', '};'];
+	equals(p.guessFunctionName(file, 2), 'a');
+    });
+
+test("guessFunctions firefox", function() {
+	var results = [];
+
+        var mode = printStackTrace.implementation.prototype.mode();
+
+	var p = new printStackTrace.implementation();
+	p.mode = function() {return 'firefox';};
+	var file = 'file:///test';
+	p.sourceCache[file] = ['var f2 = function() {', 'var b = 2;', '};'];
+	results.push(['{anonymous}()@'+file+':2']);
+	    
+	if (mode == 'firefox') {
+	    var f2 = function() {
+		try {
+		    (0)();
+		} catch(e) {
+		    results.push(p.run());
+		}
+	    };
+	    f2();
+	}
+	
+	expect(results.length * 1);
+	for (var i = 0; i < results.length; ++i) {	    
+	    equals(p.guessFunctions(results[i])[0].indexOf('f2'), 0, 'f2');
+	}
+    });
+
+test("guessFunctions opera", function() {
+ 	expect(1);
+	var p = new printStackTrace.implementation();
+	p.mode = function() {return 'opera';};
+	var file = 'file:///test';
+	p.sourceCache[file] = ['var f2 = function() {', 'var b = 2;', '};'];
+	var result = ['{anonymous}()@'+file+':2'];
+	equals(p.guessFunctions(result)[0].indexOf('{anonymous}'), 0);
+    });
+
+test("guessFunctions other", function() {
+ 	expect(1);
+	var p = new printStackTrace.implementation();
+	p.mode = function() {return 'other';};
+	var file = 'file:///test';
+	p.sourceCache[file] = ['var f2 = function() {', 'var b = 2;', '};'];
+	var result = ['{anonymous}()@'+file+':2'];
+	equals(p.guessFunctions(result)[0].indexOf('{anonymous}'), 0);
     });
