@@ -42,34 +42,34 @@ test("mode", function() {
 test("run mode", function() {
         expect(1);
         var p = new printStackTrace.implementation();
-        p.other = p.firefox = p.opera = function() { equals(1,1,'called'); }
+        p.other = p.firefox = p.opera = function() { equals(1,1,'called'); };
         p.run();
     });
 
 test("run firefox", function() {
         expect(1);
         var p = new printStackTrace.implementation();
-        p.mode = function() { return 'firefox'; }
-        p.other = p.opera = function() { equals(1,0,'must not be called'); }
-        p.firefox = function() { equals(1,1,'called'); }
+        p.mode = function() { return 'firefox'; };
+        p.other = p.opera = function() { equals(1,0,'must not be called'); };
+        p.firefox = function() { equals(1,1,'called'); };
         p.run();
     });
 
 test("run opera", function() {
         expect(1);
         var p = new printStackTrace.implementation();
-        p.mode = function() { return 'opera'; }
-        p.other = p.firefox = function() { equals(1,0,'must not be called'); }
-        p.opera = function() { equals(1,1,'called'); }
+        p.mode = function() { return 'opera'; };
+        p.other = p.firefox = function() { equals(1,0,'must not be called'); };
+        p.opera = function() { equals(1,1,'called'); };
         p.run();
     });
 
 test("run other", function() {
         expect(1);
         var p = new printStackTrace.implementation();
-        p.mode = function() { return 'other'; }
-        p.opera = p.firefox = function() { equals(1,0,'must not be called'); }
-        p.other = function() { equals(1,1,'called'); }
+        p.mode = function() { return 'other'; };
+        p.opera = p.firefox = function() { equals(1,0,'must not be called'); };
+        p.other = function() { equals(1,1,'called'); };
         p.run();
     });
 
@@ -79,13 +79,13 @@ test("firefox", function() {
         e.push({ stack: 'discarded()...\nf1(1,"abc")@file.js:40\n()@file.js:41\n@:0  \nf44()@file.js:494'});
         if(mode == 'firefox') {
             function discarded() {
-                try {(0)()} catch (exception) {
+                try {(0)();} catch (exception) {
                     e.push(exception);
                 }
-            };
+            }
             function f1(arg1, arg2) {
                 discarded();
-            };
+            }
             var f2 = function() {
                 f1(1, "abc");
             };
@@ -106,16 +106,16 @@ test("firefox", function() {
 test("opera", function() {
         var mode = printStackTrace.implementation.prototype.mode();
         var e = [];
-        e.push({ message: 'discarded\ndiscarded\ndiscarded\ndiscarded\nLine 40 in http://site.com in function f1\n      info f1\nLine 44 in http://site.com\n 	info f2\ndiscarded\ndiscarded'});
+        e.push({ message: 'discarded\ndiscarded\ndiscarded\ndiscarded\nLine 40 in http://site.com in function f1\n      info f1\nLine 44 in http://site.com\n \tinfo f2\ndiscarded\ndiscarded'});
         if(mode == 'opera') {
             function discarded() {
-                try {(0)()} catch (exception) {
+                try {(0)();} catch (exception) {
                     e.push(exception);
                 }
-            };
+            }
             function f1(arg1, arg2) {
                 discarded();
-            };
+            }
             var f2 = function() {
                 f1(1, "abc");
             };
@@ -136,19 +136,19 @@ test("other", function() {
         var mode = printStackTrace.implementation.prototype.mode();
         var e = [];
         var frame = function(args, fun, caller) {
-            this.arguments = args;
+            this['arguments'] = args;
             this.caller = caller;
             this.fun = fun;
         };
-        frame.prototype.toString = function() { return JSON.stringify(this); }
-        function f10() {};
+        frame.prototype.toString = function() { return JSON.stringify(this); };
+        function f10() {}
         var frame_f2 = new frame({key: 'no array arg is stringified'}, 'nofunction', undefined);
         var frame_f1 = new frame([1, 'a"bc', f10], 'FUNCTION f1  (a,b,c)', frame_f2);
         e.push(frame_f1);
         if(mode == 'other') {
             function f1(arg1, arg2) {
                 e.push(arguments.callee);
-            };
+            }
             var f2 = function() {
                 f1(1, 'a"bc', f10);
             };
