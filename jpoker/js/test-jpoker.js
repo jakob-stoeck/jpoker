@@ -178,7 +178,7 @@ test("jpoker.error", function() {
 	jpoker.console = function(reason) {
 	};
 	jpoker.message = function(string) {
-	    equals(string.indexOf('{anonymous}') >= 0, true, "jpoker.message stack trace message");
+	    equals(string.indexOf('(?)') >= 0, true, "jpoker.message stack trace message");
 	};
 	jpoker.alert = function(reason) {
 	    ok(false, 'alert not called');
@@ -206,7 +206,7 @@ test("jpoker.error alert", function() {
 	var jpokerAlert = jpoker.alert;
 	jpoker.alert = function(string) {
 	    jpoker.alert = jpokerAlert;
-	    equals(string.indexOf('{anonymous}') >= 0, true, "jpoker.alert stack trace message");
+	    equals(string.indexOf('(?)') >= 0, true, "jpoker.alert stack trace message");
 	};
 	try {
 	    jpoker.error(error_reason);
