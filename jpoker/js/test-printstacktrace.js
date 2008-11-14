@@ -221,7 +221,9 @@ test("guessFunctions firefox", function() {
         var mode = printStackTrace.implementation.prototype.mode();
 
 	var p = new printStackTrace.implementation();
-	p.mode = function() {return 'firefox';};
+	p.mode = function() {
+	    return 'firefox';
+	};
 	var file = 'file:///test';
 	p.sourceCache[file] = ['var f2 = function() {', 'var b = 2;', '};'];
 	results.push(['{anonymous}()@'+file+':2']);
@@ -238,27 +240,67 @@ test("guessFunctions firefox", function() {
 	}
 	
 	expect(results.length * 1);
-	for (var i = 0; i < results.length; ++i) {	    
+	for (var i = 0; i < results.length; ++i) {
 	    equals(p.guessFunctions(results[i])[0].indexOf('f2'), 0, 'f2');
 	}
     });
 
 test("guessFunctions opera", function() {
- 	expect(1);
+	var results = [];
+
+        var mode = printStackTrace.implementation.prototype.mode();
+
 	var p = new printStackTrace.implementation();
-	p.mode = function() {return 'opera';};
+	p.mode = function() {
+	    return 'opera';
+	};
 	var file = 'file:///test';
 	p.sourceCache[file] = ['var f2 = function() {', 'var b = 2;', '};'];
-	var result = ['{anonymous}()@'+file+':2'];
-	equals(p.guessFunctions(result)[0].indexOf('{anonymous}'), 0);
+	results.push(['{anonymous}()@'+file+':2']);
+	    
+	if (mode == 'opera') {
+	    var f2 = function() {
+		try {
+		    (0)();
+		} catch(e) {
+		    results.push(p.run());
+		}
+	    };
+	    f2();
+	}
+	
+	expect(results.length * 1);
+	for (var i = 0; i < results.length; ++i) {
+	    equals(p.guessFunctions(results[i])[0].indexOf('f2'), 0, 'f2');
+	}
     });
 
 test("guessFunctions other", function() {
- 	expect(1);
+	var results = [];
+
+        var mode = printStackTrace.implementation.prototype.mode();
+
 	var p = new printStackTrace.implementation();
-	p.mode = function() {return 'other';};
+	p.mode = function() {
+	    return 'other';
+	};
 	var file = 'file:///test';
 	p.sourceCache[file] = ['var f2 = function() {', 'var b = 2;', '};'];
-	var result = ['{anonymous}()@'+file+':2'];
-	equals(p.guessFunctions(result)[0].indexOf('{anonymous}'), 0);
+	results.push(['{anonymous}()']);
+	   
+	if (mode == 'other') {
+	    var f2 = function() {
+		try {
+		    (0)();
+		} catch(e) {
+		    results.push(p.run());
+		}
+	    };
+	    f2();
+	}
+	
+	expect(results.length * 1);
+	for (var i = 0; i < results.length; ++i) {
+	    equals(p.guessFunctions(results[i])[0].indexOf('{anonymous}'), 0, 'no file and line number on other');
+	}
     });
