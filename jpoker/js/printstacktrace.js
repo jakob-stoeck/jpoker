@@ -48,7 +48,7 @@ function printStackTrace(options) {
 	return p.guessFunctions(result);
     }
     return (new printStackTrace.implementation()).run();
-};
+}
 
 printStackTrace.implementation = function() {};
 
@@ -56,7 +56,7 @@ printStackTrace.implementation.prototype = {
     run: function() {
         mode = this.mode();
         if(mode != 'other') {
-            try {(0)()} catch (e) {
+            try {(0)();} catch (e) {
                 return this[mode](e);
             }
         } else {
@@ -66,7 +66,7 @@ printStackTrace.implementation.prototype = {
 
     mode: function() {
         var mode;
-        try {(0)()} catch (e) {
+        try {(0)();} catch (e) {
             mode = e.stack ? 'firefox' : window.opera ? 'opera' : 'other';
         }
         return mode;
@@ -114,7 +114,7 @@ printStackTrace.implementation.prototype = {
 
         while (curr) {
             fn    = fnRE.test(curr.toString()) ? RegExp.$1 || ANON : ANON;
-            args  = Array.prototype.slice.call(curr.arguments);
+            args  = Array.prototype.slice.call(curr['arguments']);
             stack[j++] = fn + '(' + JSON.stringify(args, replacer) + ')';
             curr = curr.caller;
         }
@@ -144,7 +144,7 @@ printStackTrace.implementation.prototype = {
 	    return stack;
 	}
 	for (var i = 0; i < stack.length; ++i) {
-	    const reStack = /{anonymous}\(.*\)@(.*):(\d+)$/;
+	    var reStack = /{anonymous}\(.*\)@(.*):(\d+)$/;
 	    var frame = stack[i];
 	    var m = reStack.exec(frame);
 	    if (m) {
@@ -166,8 +166,8 @@ printStackTrace.implementation.prototype = {
     },
 
     guessFunctionNameFromLines : function(lineNo, source) {
-	const reFunctionArgNames = /function ([^(]*)\(([^)]*)\)/;
-	const reGuessFunction = /['"]?([0-9A-Za-z_]+)['"]?\s*[:=]\s*(function|eval|new Function)/;
+	var reFunctionArgNames = /function ([^(]*)\(([^)]*)\)/;
+	var reGuessFunction = /['"]?([0-9A-Za-z_]+)['"]?\s*[:=]\s*(function|eval|new Function)/;
 	// Walk backwards from the first line in the function until we find the line which
 	// matches the pattern above, which is the function definition
 	var line = "";
@@ -175,19 +175,18 @@ printStackTrace.implementation.prototype = {
 	for (var i = 0; i < maxLines; ++i)
 	    {
 		line = source[lineNo-i] + line;
-		if (line != undefined)
+		if (line !== undefined)
 		    {
 			var m = reGuessFunction.exec(line);
-			if (m)
+			if (m) {
 			    return m[1];
-			else
+			} else {
 			    m = reFunctionArgNames.exec(line);
-			if (m && m[1])
+			} if (m && m[1]) {
 			    return m[1];
+			}
 		    }
 	    }
 	return "(?)";
-    },
+    }
 };
-
-
