@@ -1,6 +1,6 @@
 //
 // Domain Public by Eric Wendelin http://eriwen.com/
-//                  Luke Smith
+//                  Luke Smith http://lucassmith.name/
 //                  Loic Dachary <loic@dachary.org> (2008)
 //                  Johan Euphrosine <proppy@aminche.com> (2008)
 // http://pastie.org/253058
