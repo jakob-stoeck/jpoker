@@ -1563,7 +1563,7 @@
 
     jpoker.table.defaults = {
 	delay: {
-	    showdown: 10000
+	    showdown: 5000
 	}
     };
 
