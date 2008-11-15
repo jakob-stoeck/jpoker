@@ -1,9 +1,14 @@
 //
-// Domain Public by Eric Wendelin http://eriwen.com/
-//                  Luke Smith http://lucassmith.name/
+// Domain Public by Eric Wendelin http://eriwen.com/ (2008)
+//                  Luke Smith http://lucassmith.name/ (2008)
 //                  Loic Dachary <loic@dachary.org> (2008)
 //                  Johan Euphrosine <proppy@aminche.com> (2008)
+//
+// Information and discussions
+// http://jspoker.pokersource.info/skin/test-printstacktrace.html
+// http://eriwen.com/javascript/js-stack-trace/
 // http://pastie.org/253058
+// http://browsershots.org/http://jspoker.pokersource.info/skin/test-printstacktrace.html
 //
 
 //
