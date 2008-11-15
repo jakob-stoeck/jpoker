@@ -1920,7 +1920,6 @@
                 this.cards = [ null, null, null, null, null, null, null ];
                 this.money = 0;
                 this.bet = 0;
-                this.sit = false;
 		this.side_pot = undefined;
 		this.stats = undefined;
             },
@@ -3415,7 +3414,7 @@
             if(server.serial == serial) {
                 jpoker.plugins.playerSelf.create(table, packet, id);
             }
-            if(player.sit) {
+            if(player.sit && !player.auto) {
                 jpoker.plugins.player.sit(player, id);
             } else {
                 jpoker.plugins.player.sitOut(player, id);

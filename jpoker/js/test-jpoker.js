@@ -5630,9 +5630,8 @@ test("jpoker.plugins.table: display done callback", function(){
 //
 // player
 //
-if (TEST_AVATAR) {
 test("jpoker.plugins.player: PacketPokerPlayerArrive", function(){
-        expect(6);
+        expect(TEST_AVATAR ? 13 : 12);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -5648,49 +5647,49 @@ test("jpoker.plugins.player: PacketPokerPlayerArrive", function(){
         var player_serial = 1;
         server.serial = player_serial;
         var player_seat = 2;
+        //
+        // player arrives and is sitout
+        //
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
         var player = server.tables[game_id].serial2player[player_serial];
         equals(player.serial, player_serial, "player_serial");
 
-        var avatar = $("#player_seat2_avatar" + id);
-        equals(avatar.hasClass('jpoker_avatar_default_3'), true, 'default avatar 3');
+        if (TEST_AVATAR) {
+            var avatar = $("#player_seat2_avatar" + id);
+            equals(avatar.hasClass('jpoker_avatar_default_3'), true, 'default avatar 3');
+        }
 	ok($('#player_seat2' + id).hasClass('jpoker_player_seat'), 'jpoker_seat');
+	ok($('#player_seat2' + id).hasClass('jpoker_sit_out'), 'player is initialy sitout by default');
 	ok($('#player_seat2' + id).hasClass('jpoker_player_seat2'), 'jpoker_seat2');
 	ok($('#seat2' + id).hasClass('jpoker_seat'), 'jpoker_seat');
 	ok($('#seat2' + id).hasClass('jpoker_seat2'), 'jpoker_seat2');
-        
-        start_and_cleanup();
-    });
-} else { // TEST_AVATAR
-test("jpoker.plugins.player: PacketPokerPlayerArrive", function(){
-        expect(5);
-        stop();
 
-        var server = jpoker.serverCreate({ url: 'url' });
-        var place = $("#main");
-        var id = 'jpoker' + jpoker.serial;
-        var game_id = 100;
-
-        var table_packet = { id: game_id };
-        server.tables[game_id] = new jpoker.table(server, table_packet);
-        var table = server.tables[game_id];
-
-        place.jpoker('table', 'url', game_id);
-        var player_serial = 1;
-        server.serial = player_serial;
-        var player_seat = 2;
-        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+        //
+        // player arrives and is sit
+        //
+        player_serial++;
+        player_seat++;
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id, sit: true, auto: false });
         var player = server.tables[game_id].serial2player[player_serial];
         equals(player.serial, player_serial, "player_serial");
 
-	ok($('#player_seat2' + id).hasClass('jpoker_player_seat'), 'jpoker_seat');
-	ok($('#player_seat2' + id).hasClass('jpoker_player_seat2'), 'jpoker_seat2');
-	ok($('#seat2' + id).hasClass('jpoker_seat'), 'jpoker_seat');
-	ok($('#seat2' + id).hasClass('jpoker_seat2'), 'jpoker_seat2');
+	ok($('#player_seat' + player_seat + id).hasClass('jpoker_player_seat' + player_seat), 'jpoker_seat' + player_seat);
+	equals($('#player_seat' + player_seat + id).hasClass('jpoker_sit_out'), false, 'jpoker is sit because sit is set in player arrive packet');
+        
+        //
+        // player arrives and is sit but also in auto mode
+        //
+        player_serial++;
+        player_seat++;
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id, sit: true, auto: true });
+        var player = server.tables[game_id].serial2player[player_serial];
+        equals(player.serial, player_serial, "player_serial");
+
+	ok($('#player_seat' + player_seat + id).hasClass('jpoker_player_seat' + player_seat), 'jpoker_seat' + player_seat);
+	ok($('#player_seat' + player_seat + id).hasClass('jpoker_sit_out'), 'jpoker is sitout because sit is set in player arrive packet but auto is also set meaning the user cannot act');
         
         start_and_cleanup();
     });
-} // TEST_AVATAR
 
 test("jpoker.plugins.player: PacketPokerPlayerArrive code injection", function(){
         expect(0);
