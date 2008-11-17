@@ -5670,7 +5670,7 @@ test("jpoker.plugins.player: PacketPokerPlayerArrive", function(){
         player_serial++;
         player_seat++;
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id, sit_out: false, auto: false });
-        var player = server.tables[game_id].serial2player[player_serial];
+        player = server.tables[game_id].serial2player[player_serial];
         equals(player.serial, player_serial, "player_serial");
 
 	ok($('#player_seat' + player_seat + id).hasClass('jpoker_player_seat' + player_seat), 'jpoker_seat' + player_seat);
@@ -5682,7 +5682,7 @@ test("jpoker.plugins.player: PacketPokerPlayerArrive", function(){
         player_serial++;
         player_seat++;
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id, sit_out: false, auto: true });
-        var player = server.tables[game_id].serial2player[player_serial];
+        player = server.tables[game_id].serial2player[player_serial];
         equals(player.serial, player_serial, "player_serial");
 
 	ok($('#player_seat' + player_seat + id).hasClass('jpoker_player_seat' + player_seat), 'jpoker_seat' + player_seat);
