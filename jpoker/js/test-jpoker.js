@@ -922,7 +922,7 @@ test("jpoker.server.stopRefresh clearInterval", function(){
     });
 
 test("jpoker.server.login", function(){
-        expect(9);
+        expect(10);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -941,6 +941,9 @@ test("jpoker.server.login", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var logname = "name";
+	server.setLocale = function() {
+	    ok(true, 'setLocale called');
+	};
         server.login(logname, "password");
         server.registerUpdate(function(server, what, packet) {
                 switch(packet.type) {
@@ -960,6 +963,40 @@ test("jpoker.server.login", function(){
 
                 default:
                     throw "unexpected packet type " + packet.type;
+                }
+            });
+    });
+
+test("jpoker.server.login no lang", function(){
+        expect(0);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+	server.lang = undefined;
+
+        var packets = [];
+        var PokerServer = function() {};
+
+        PokerServer.prototype = {
+            outgoing: '[{"type": "PacketAuthOk"}, {"type": "PacketSerial", "serial": 1}]',
+
+            handle: function(packet) { packets.push(packet); }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var logname = "name";
+	server.setLocale = function() {
+	    ok(false, 'setLocale not called');
+	};
+        server.login(logname, "password");
+        server.registerUpdate(function(server, what, packet) {
+                switch(packet.type) {
+                case "PacketSerial":
+                    start_and_cleanup();
+                    return false;
+		default:
+		    return true;
                 }
             });
     });
@@ -1677,6 +1714,82 @@ test("jpoker.server.setPersonalInfo error", function(){
         server.setPersonalInfo({firstname: 'John',
 		    lastname: 'Doe'
 		    });
+    });
+
+test("jpoker.server.setLocale", function() {
+        expect(4);
+	stop();
+
+        var serial = 42;
+
+	var server = jpoker.serverCreate({ url: 'url' });
+       
+        server.serial = serial;
+	
+	var locale = 'fr_FR.UTF-8';
+        server.sendPacket = function(packet) {
+	    equals(server.getState(), server.LOCALE);
+	    equals(packet.type, 'PacketPokerSetLocale');
+            equals(packet.serial, serial, 'player serial');
+            equals(packet.locale, locale, 'fr locale');
+	    server.queueIncoming([{'type': 'PacketAck'}]);
+        };
+        server.registerUpdate(function(server, what, packet) {
+		if (packet.type == 'PacketAck') {
+		    server.queueRunning(start_and_cleanup);
+		    return false;
+		}
+		return true;
+	    });
+	server.setLocale(locale);
+    });
+
+test("jpoker.server.setLocale error", function() {
+        expect(5);
+	stop();
+
+        var serial = 42;
+
+	var server = jpoker.serverCreate({ url: 'url' });
+       
+        server.serial = serial;
+
+	var locale = 'ja_JP.UTF-8';
+	var ERROR_PACKET = {'type': 'PacketError', 'message': 'no ja translation', 'other_type': jpoker.packetName2Type.PACKET_POKER_SET_LOCALE};
+        server.sendPacket = function(packet) {
+	    equals(server.getState(), server.LOCALE);
+	    equals(packet.type, 'PacketPokerSetLocale');
+            equals(packet.serial, serial, 'player serial');
+            equals(packet.locale, locale, 'ja locale');
+	    server.queueIncoming([ERROR_PACKET]);
+        };
+	dialog = jpoker.dialog;
+	jpoker.dialog = function(message) {
+	    equals(message, ERROR_PACKET.message);
+	    jpoker.dialog = dialog;
+	};
+        server.registerUpdate(function(server, what, packet) {
+		if (packet.type == 'PacketError') {
+		    server.queueRunning(start_and_cleanup);
+		    return false;
+		}
+		return true;
+	    });
+	server.setLocale(locale);
+    });
+
+test("jpoker.server.setLocale waiting", function(){
+        expect(2);
+	
+        var server = jpoker.serverCreate({ url: 'url' });
+	var game_id = 100;
+	server.callbacks[0] = [];
+	server.setLocale('fr_FR.UTF-8');
+	equals(server.callbacks[0].length, 1, 'setLocale callbacks[0] registered');
+	var callback = server.callbacks[0][0];
+	server.notify(0, {type: 'PacketPing'});
+	equals(server.callbacks[0][0], callback, 'setLocale callback still in place');
+	cleanup();
     });
 
 test("jpoker.server.setInterval", function(){
