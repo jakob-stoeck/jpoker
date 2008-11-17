@@ -1895,6 +1895,7 @@
     };
 
     jpoker.player.defaults = {
+        sit_out: true
     };
 
     jpoker.player.prototype = $.extend({}, jpoker.watchable.prototype, {
@@ -1978,22 +1979,22 @@
                 break;
 
                 case 'PacketPokerSit':
-                this.sit = true;
+                this.sit_out = false;
                 this.notifyUpdate(packet);
                 break;
 
                 case 'PacketPokerSitOut':
-                this.sit = false;
+                this.sit_out = true;
                 this.notifyUpdate(packet);
                 break;
 
                 case 'PacketPokerAutoFold':
-                this.sit = false;
+                this.sit_out = true;
                 this.notifyUpdate(packet);
                 break;
 
 		case 'PacketPokerPotChips':
-		if (this.sit && (this.side_pot === undefined) && (this.money === 0)) {
+		if (!this.sit_out && (this.side_pot === undefined) && (this.money === 0)) {
 		    this.side_pot = {bet: jpoker.chips.chips2value(packet.bet),
 				     index: packet.index};
 		}
@@ -2024,8 +2025,8 @@
         this.init();
     };
 
-    jpoker.playerSelf.defaults = {
-    };
+    jpoker.playerSelf.defaults = $.extend(jpoker.player.defaults, {
+    });
 
     jpoker.playerSelf.prototype = $.extend({}, jpoker.player.prototype, {
             init: function() {
@@ -3151,7 +3152,7 @@
         var in_position = table.serial2player[serial_in_position];
         for(var seat = 0; seat < table.seats.length; seat++) {
             var seat_element = $('#player_seat' + seat + id);
-            if(in_position && in_position.sit === true && in_position.seat == seat) {
+            if(in_position && in_position.sit_out === false && in_position.seat == seat) {
                 if(!seat_element.hasClass('jpoker_position')) {
                     seat_element.addClass('jpoker_position');
                 }
@@ -3167,7 +3168,7 @@
         var in_position = table.serial2player[serial_in_position];
         for(var seat = 0; seat < table.seats.length; seat++) {
 	    var timeout_element = $('#player_seat' + seat + '_timeout' + id);
-            if(in_position && in_position.sit === true && in_position.seat == seat) {
+            if(in_position && in_position.sit_out === false && in_position.seat == seat) {
 		$('.jpoker_timeout_progress', timeout_element).stop().css({width: ratio*100+'%'}).show().animate({width: '0%'}, {duration: ratio*table.player_timeout*1000, queue: false});
 		timeout_element.attr('pcur', ratio*100).show();
             } else {
@@ -3414,7 +3415,7 @@
             if(server.serial == serial) {
                 jpoker.plugins.playerSelf.create(table, packet, id);
             }
-            if(player.sit && !player.auto) {
+            if(!player.sit_out && !player.auto) {
                 jpoker.plugins.player.sit(player, id);
             } else {
                 jpoker.plugins.player.sitOut(player, id);

@@ -2725,9 +2725,9 @@ test("jpoker.player.sidepot", function(){
 	player2.handler(server, game_id, {'type': 'PacketPokerPlayerChips', 'money': 0, 'bet': 10000});
 	var player3 = new jpoker.player({ url: url }, { serial: serial+2, name: name+'2' });
 	player3.handler(server, game_id, {'type': 'PacketPokerPlayerChips', 'money': 100000, 'bet': 10000});
-	player.sit = true;
-	player2.sit = true;
-	player3.sit = true;
+	player.sit_out = false;
+	player2.sit_out = false;
+	player3.sit_out = false;
 
 	var packet = {'type': 'PacketPokerPotChips', 'index': 1, 'bet': [1, 20000]};
 	player.handler(server, game_id, packet);
@@ -2743,7 +2743,7 @@ test("jpoker.player.sidepot", function(){
 	player.handler(server, game_id, {'type': 'PacketPokerChipsPotReset'});
 	equals(player.side_pot, undefined, 'side pot reset');
 
-	player.sit = false;
+	player.sit_out = true;
 	player.handler(server, game_id, {'type': 'PacketPokerPotChips', 'index': 2, 'bet': [1, 40000]});
 	equals(player.side_pot, undefined, 'side pot reset');
     });
@@ -5319,7 +5319,7 @@ test("jpoker.plugins.table: PacketPokerPosition", function(){
         var player_name = 'username';
         for(var i = 1; i <= 3; i++) {
             table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: i, serial: i * 10, game_id: game_id, name: player_name + i });
-            table.serial2player[i * 10].sit = true;
+            table.serial2player[i * 10].sit_out = false;
         }
 
         place.jpoker('table', 'url', game_id);
@@ -5360,7 +5360,7 @@ test("jpoker.plugins.table.timeout", function(){
         var player_name = 'username';
         for(var i = 1; i <= 3; i++) {
             table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: i, serial: i * 10, game_id: game_id, name: player_name + i });
-            table.serial2player[i * 10].sit = true;
+            table.serial2player[i * 10].sit_out = false;
         }
 
         place.jpoker('table', 'url', game_id);
@@ -5669,24 +5669,24 @@ test("jpoker.plugins.player: PacketPokerPlayerArrive", function(){
         //
         player_serial++;
         player_seat++;
-        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id, sit: true, auto: false });
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id, sit_out: false, auto: false });
         var player = server.tables[game_id].serial2player[player_serial];
         equals(player.serial, player_serial, "player_serial");
 
 	ok($('#player_seat' + player_seat + id).hasClass('jpoker_player_seat' + player_seat), 'jpoker_seat' + player_seat);
-	equals($('#player_seat' + player_seat + id).hasClass('jpoker_sit_out'), false, 'jpoker is sit because sit is set in player arrive packet');
+	equals($('#player_seat' + player_seat + id).hasClass('jpoker_sit_out'), false, 'jpoker is sit because sit_out is false in player arrive packet');
         
         //
         // player arrives and is sit but also in auto mode
         //
         player_serial++;
         player_seat++;
-        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id, sit: true, auto: true });
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id, sit_out: false, auto: true });
         var player = server.tables[game_id].serial2player[player_serial];
         equals(player.serial, player_serial, "player_serial");
 
 	ok($('#player_seat' + player_seat + id).hasClass('jpoker_player_seat' + player_seat), 'jpoker_seat' + player_seat);
-	ok($('#player_seat' + player_seat + id).hasClass('jpoker_sit_out'), 'jpoker is sitout because sit is set in player arrive packet but auto is also set meaning the user cannot act');
+	ok($('#player_seat' + player_seat + id).hasClass('jpoker_sit_out'), 'jpoker is sitout because sit_out is false in player arrive packet but auto is also set meaning the user cannot act');
         
         start_and_cleanup();
     });
@@ -6277,7 +6277,7 @@ test("jpoker.plugins.player: side_pot", function(){
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', name: player_name, seat: player_seat, serial: player_serial, game_id: game_id });
         var player = server.tables[game_id].serial2player[player_serial];
         player.money = 100;
-	player.sit = true;
+	player.sit_out = false;
 	var side_pot = $('#player_seat2_sidepot' + id);
 	equals(side_pot.length, 1, 'side pot element');
 	ok(side_pot.hasClass('jpoker_player_sidepot'), 'side pot class');
@@ -6393,7 +6393,7 @@ function _SelfPlayerSit(game_id, player_serial, money) {
     equals(Z.player.money, money, 'player money');
     // sit
     Z.table.handler(Z.server, game_id, { type: 'PacketPokerSit', serial: player_serial, game_id: game_id });
-    equals(Z.player.sit, true, 'player is sit');
+    equals(Z.player.sit_out, false, 'player is sit');
 }
 
 test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function(){
