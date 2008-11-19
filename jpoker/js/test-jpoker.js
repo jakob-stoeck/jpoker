@@ -7395,8 +7395,8 @@ test("jpoker.plugins.places", function(){
 		var element = $('#' + id);
 		if(element.length > 0) {
 		    if (data.type == 'PacketPokerPlayerPlaces') {
-			equals($('.jpoker_places_table', element).length, 3, 'jpoker_places_table');
-			equals($('.jpoker_places_tourney', element).length, 2, 'jpoker_places_tourney');
+			equals($('tbody .jpoker_places_table', element).length, 3, 'jpoker_places_table');
+			equals($('tbody .jpoker_places_tourney', element).length, 2, 'jpoker_places_tourney');
 			server.tableJoin = function(id) {
 			    equals(id, PLAYER_PLACES_PACKET.tables[0], 'tableJoin called');
 			};
