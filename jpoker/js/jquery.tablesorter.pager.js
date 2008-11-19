@@ -30,7 +30,7 @@
 					var page = range.page[i];
 					var label = range.label[i];
 					var li = $('<li></li>').appendTo(pagelinks);
-					var pagelink = $('<a href=\'javascript://\'></a>').appendTo(li).html(label).click(function() {c.page=page-1;moveToPage(table);});
+					var pagelink = $('<a href=\'javascript://\'></a>').appendTo(li).text(label).click(function() {c.page=page-1;moveToPage(table);});
 					if (page == (c.page+1)) {
 					    li.addClass('current');
 					}
@@ -177,44 +177,40 @@
 			    var last = count;
 			    var left = current - size;
 			    var right = current + size;
-			    var begin = [];
 			    var page = [];
 			    var label = [];
-			    var end = [];
 			    var opts = $.extend({}, options);
-			    if (first == count) {
+			    if (first == last) {
 				return {label: [], page: []}
 			    }
 			    if (left < first) {
-				left = 1;
-				right = left + size + size;
+				left = 1;				
+				right = Math.min(left + size + size, last);
 			    }
 			    if (right > last) {
 				right = last;
-				left = right - size - size;
+				left = Math.max(right - size - size, first);
 			    }
-			    if (left < 0)
-				left = 1;
-			    if (right > count)
-				right = count;
 			    for (var i = left; i <= right; ++i) {
 				page.push(i);
+				label.push(i.toString());
 			    }
 			    if (left != 1) {
 				page.unshift(first);
+				var first_label = first.toString();
+				if (first+1 < page[1]) {
+				    first_label += '...';
+				}
+				label.unshift(first_label);
 			    }
 			    if (right != last) {		
 				page.push(last);
-			    }
-			    for (var i = 0; i < page.length; ++i) {
-				label.push(page[i].toString());
-			    }
-			    if (first+1 < page[1]) {
-				label[0] = label[0] + '...';
-			    }
-			    var end = page.length-1;
-			    if (page[end-1]+1 < last) {
-				label[end] = '...' + label[end];
+				var last_label = last.toString();
+				var end = page.length-1;
+				if (page[end-1]+1 < last) {
+				    last_label = '...' + last_label;
+				}
+				label.push(last_label);
 			    }
 			    if (opts.previous_label) {
 				if (current > first) {

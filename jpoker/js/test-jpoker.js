@@ -3046,9 +3046,9 @@ test("jpoker.plugins.tableList pager", function(){
                 if(element.length > 0) {
 		    equals($('.pager', element).length, 1, 'has pager');
 		    equals($('.pager .current', element).length, 1, 'has current page');
-		    ok($('.pager li:last', element).html().indexOf("&gt;&gt;") >= 0, 'has next page');
+		    ok($('.pager li:last a', element).text().indexOf('>>>') >= 0, 'has next page');
 		    $('.pager li:last a', element).click();
-		    ok($('.pager li:first', element).html().indexOf("&lt;&lt;") >= 0, 'has previous page');
+		    ok($('.pager li:first a', element).text().indexOf('<<<') >= 0, 'has previous page');
 		    var row_id = TABLE_LIST_PACKET.packets[10].id + id;
 		    var row = $("#" + row_id, place);
 		    equals(row.length, 1, 'row element');
@@ -3343,9 +3343,9 @@ test("jpoker.plugins.regularTourneyList pager", function(){
                 if(element.length > 0) {
 		    equals($('.pager', element).length, 1, 'has pager');
 		    equals($('.pager .current', element).length, 1, 'has current page');
-		    ok($('.pager li:last', element).html().indexOf("&gt;&gt;") >= 0, 'has next page');
+		    ok($('.pager li:last', element).text().indexOf(">>>") >= 0, 'has next page');
 		    $('.pager li:last a', element).click();
-		    ok($('.pager li:first', element).html().indexOf("&lt;&lt;") >= 0, 'has previous page');
+		    ok($('.pager li:first', element).text().indexOf("<<<") >= 0, 'has previous page');
 		    var row = $('table tr', place).eq(1);
 		    equals(row.length, 1, 'row element');
 		    server.tourneyRowClick = function(server, subpacket) {
@@ -3530,9 +3530,9 @@ test("jpoker.plugins.sitngoTourneyList pager", function(){
                 if(element.length > 0) {
 		    equals($('.pager', element).length, 1, 'has pager');
 		    equals($('.pager .current', element).length, 1, 'has current page');
-		    ok($('.pager li:last', element).html().indexOf("&gt;&gt;") >= 0, 'has next page');
+		    ok($('.pager li:last', element).text().indexOf(">>>") >= 0, 'has next page');
 		    $('.pager li:last a', element).click();
-		    ok($('.pager li:first', element).html().indexOf("&lt;&lt;") >= 0, 'has previous page');
+		    ok($('.pager li:first', element).text().indexOf("<<<") >= 0, 'has previous page');
 		    var row = $('table tr', place).eq(1);
 		    equals(row.length, 1, 'row element');
 		    server.tourneyRowClick = function(server, subpacket) {
