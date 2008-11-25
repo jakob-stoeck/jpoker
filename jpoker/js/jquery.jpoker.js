@@ -2363,7 +2363,7 @@
                 subpacket.game_id = subpacket.serial;
                 subpacket.id = subpacket.game_id + id;
 	    }
-	    subpacket.start_time = new Date(subpacket.start_time).toLocaleString();
+	    subpacket.start_time = new Date(subpacket.start_time*1000).toLocaleString();
 	    if (link_pattern) {
 		var link = t.link.supplant({link: link_pattern.supplant({tourney_serial: subpacket.serial}), name: subpacket.description_short});
 		subpacket.description_short = link;
@@ -2619,7 +2619,7 @@
 	    html.push(t.players.footer);
 	}
 	
-	packet.tourney.start_time = new Date(packet.tourney.start_time).toLocaleString();
+	packet.tourney.start_time = new Date(packet.tourney.start_time*1000).toLocaleString();
 	packet.tourney.buy_in = packet.tourney.buy_in/100;
 	var tourney_type = 'regular';
 	if (packet.tourney.sit_n_go == 'y') {
