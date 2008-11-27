@@ -21,6 +21,29 @@ config.options.chkSinglePagePermalink = false;
 
 $.jpoker.server.defaults.spawnTable = function(server, packet) {
     var title = " Table " + packet.name;
+    var lang2locale = { da: 'da_DK.UTF-8',
+			de: 'de_DE.UTF-8',
+			en_CA: 'en_CA.UTF-8',
+			en: 'en_US.UTF-8',
+			en_US: 'en_US.UTF-8',
+			es: 'es_ES.UTF-8',
+			fi: 'fi_FI.UTF-8',
+			fr_BE: 'fr_BE.UTF-8',
+			fr_CA: 'fr_CA.UTF-8',
+			fr_FX: 'fr_FX.UTF-8',
+			fr: 'fr_FR.UTF-8',
+			it: 'it_IT.UTF-8',
+			ja: 'ja_JP.UTF-8',
+			nb: 'nb_NO.UTF-8',
+			nl: 'nl_NL.UTF-8',
+			pt: 'pt_PT.UTF-8',
+			sv: 'sv_SE.UTF-8'};
+    var lang = $("html").attr("lang");
+    var locale = lang;
+    if (lang in lang2locale) {
+	locale = lang2locale[lang];
+    }
+    server.setLocale(locale, packet.game_id);
     config.shadowTiddlers[title] = "<<jpokerTable '" + server.url + "' " + packet.game_id + " '" + packet.name + "'>>";
     story.displayTiddler(null, title, 1);
 };

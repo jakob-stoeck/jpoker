@@ -606,6 +606,17 @@ test("jpoker.server.handler PacketPokerMessage/GameMessage ", function(){
         cleanup();
     });
 
+test("jpoker.server.handler PacketPokerTable ", function(){
+        expect(1);
+	
+        var server = jpoker.serverCreate({ url: 'url' });
+	server.spawnTable = function() {
+	    ok(true, 'spawnTable called');	    
+	}
+        server.handler(server, 0, { type: 'PacketPokerTable', id: 42 });	
+        cleanup();
+    });
+
 test("jpoker.server.{de,}queueRunning", function(){
         expect(5);
         var server = jpoker.serverCreate({ url: 'url'});
@@ -934,7 +945,7 @@ test("jpoker.server.stopRefresh clearInterval", function(){
     });
 
 test("jpoker.server.login", function(){
-        expect(10);
+        expect(9);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -953,9 +964,6 @@ test("jpoker.server.login", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var logname = "name";
-	server.setLocale = function() {
-	    ok(true, 'setLocale called');
-	};
         server.login(logname, "password");
         server.registerUpdate(function(server, what, packet) {
                 switch(packet.type) {
@@ -975,40 +983,6 @@ test("jpoker.server.login", function(){
 
                 default:
                     throw "unexpected packet type " + packet.type;
-                }
-            });
-    });
-
-test("jpoker.server.login no lang", function(){
-        expect(0);
-        stop();
-
-        var server = jpoker.serverCreate({ url: 'url' });
-	server.lang = undefined;
-
-        var packets = [];
-        var PokerServer = function() {};
-
-        PokerServer.prototype = {
-            outgoing: '[{"type": "PacketAuthOk"}, {"type": "PacketSerial", "serial": 1}]',
-
-            handle: function(packet) { packets.push(packet); }
-        };
-
-        ActiveXObject.prototype.server = new PokerServer();
-
-        var logname = "name";
-	server.setLocale = function() {
-	    ok(false, 'setLocale not called');
-	};
-        server.login(logname, "password");
-        server.registerUpdate(function(server, what, packet) {
-                switch(packet.type) {
-                case "PacketSerial":
-                    start_and_cleanup();
-                    return false;
-		default:
-		    return true;
                 }
             });
     });
@@ -1729,10 +1703,11 @@ test("jpoker.server.setPersonalInfo error", function(){
     });
 
 test("jpoker.server.setLocale", function() {
-        expect(4);
+        expect(5);
 	stop();
 
         var serial = 42;
+	var game_id = 12;
 
 	var server = jpoker.serverCreate({ url: 'url' });
        
@@ -1744,6 +1719,7 @@ test("jpoker.server.setLocale", function() {
 	    equals(packet.type, 'PacketPokerSetLocale');
             equals(packet.serial, serial, 'player serial');
             equals(packet.locale, locale, 'fr locale');
+            equals(packet.game_id, game_id, 'game_id');
 	    server.queueIncoming([{'type': 'PacketAck'}]);
         };
         server.registerUpdate(function(server, what, packet) {
@@ -1753,7 +1729,7 @@ test("jpoker.server.setLocale", function() {
 		}
 		return true;
 	    });
-	server.setLocale(locale);
+	server.setLocale(locale, game_id);
     });
 
 test("jpoker.server.setLocale error", function() {
