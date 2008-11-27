@@ -73,12 +73,6 @@ class GenerateLangTiddlersRunTestCase(unittest.TestCase):
             self.assertEquals(lang != 'fr', os.path.exists(fake_translation_tiddler_div))
             if lang != 'fr':
                 self.assertEquals('title="FakeTranslation" modifier="script" created="%s" changecount="1" tags="systemConfig"' % time, open(fake_translation_tiddler_div).read())
-        markup_tiddler = self.path + '/markup/MarkupPreHead.tiddler'
-        markup_tiddler_div = markup_tiddler + '.div'
-        content = open(markup_tiddler).read()
-        self.assertEquals(True, 'generateLangTiddlers.py' in  content)
-        for lang in self.langs: self.assertEquals(True, lang in content)
-        self.assertEquals('title="MarkupPreHead" modifier="script" created="%s" changecount="1"' % time, open(markup_tiddler_div).read())
 
 if __name__ == '__main__':
     unittest.main()

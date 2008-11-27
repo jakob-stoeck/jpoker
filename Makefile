@@ -219,6 +219,7 @@ newlang:
 	msginit -l fr_FR -o fr.po -i messages.pot
 	python generateLangTiddlers.py
 	# add the generate json file to jpoker/markup/MarkupPreHead.tiddler
+	# add the generate locale to jpoker/JpokerPlugin/JpokerPlugin.tiddler lang2locale
 #	msginit -l ja_JP -o jp.po -i messages.pot
 
 check:
