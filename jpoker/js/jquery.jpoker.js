@@ -176,6 +176,7 @@
         },
 
         error: function(reason) {
+	    var str;
             if (reason.xhr) {
                 // We need to give stringify a whitelist so that it doesn't throw an error if it's called on a 
                 // XMLHttpRequest object, and we can't really detect it with instanceof... so let's assume all .xhr
@@ -185,9 +186,9 @@
                     copy[key] = reason[key];
                 }
                 copy.xhr = JSON.stringify(copy.xhr, ['status', 'responseText', 'readyState']);
-                var str = JSON.stringify(copy);
+                str = JSON.stringify(copy);
             } else {
-                var str = JSON.stringify(reason);
+                str = JSON.stringify(reason);
             }
             str += '\n\n' + printStackTrace({guess:true}).slice(2).join('\n');
             this.uninit();
@@ -950,6 +951,7 @@
             spawnTable: function(server, packet) {},
 	    placeTourneyRowClick: function(server, id) {},
             tourneyRowClick: function(server, packet) {},
+	    reconnectFinish: function(server) {},
             setInterval: function(cb, delay) { return window.setInterval(cb, delay); },
             clearInterval: function(id) { return window.clearInterval(id); }
         }, jpoker.connection.defaults);
@@ -1327,6 +1329,7 @@
                             server.tourneyJoin(tourney_serial);
                         }
                         server.getUserInfo();
+			server.queueRunning(function(server) { server.reconnectFinish(server); });
                         server.setState(server.RUNNING, 'rejoin');
                         return false;
                     }

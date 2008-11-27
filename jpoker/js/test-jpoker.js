@@ -805,8 +805,15 @@ test("jpoker.server.refreshTourneyDetails waiting", function(){
     });
 
 test("jpoker.server.rejoin", function(){
-        expect(5);
+        expect(6);
         stop();
+
+	var reconnectFinish = jpoker.server.defaults.reconnectFinish;
+        jpoker.server.defaults.reconnectFinish = function(server) {
+	    jpoker.server.defaults.reconnectFinish = reconnectFinish;
+	    ok(true, 'reconnectFinish called');
+	    start_and_cleanup();
+	};
 
         var server = jpoker.serverCreate({ url: 'url' });
         var id = 'jpoker' + jpoker.serial;
@@ -852,7 +859,6 @@ test("jpoker.server.rejoin", function(){
                     if(expected == server.MY) {
                         expected = server.RUNNING;
                     } else if(expected == server.RUNNING) {
-                        start_and_cleanup();
 			return false;
                     }
                 }
