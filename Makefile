@@ -78,7 +78,7 @@ maintainer-clean:
 	rm -fr tests
 	rm -f messages.pot 
 	rm -f jpoker/{index,poker}.html ${LANG_TW}
-	rm -fr ${LANG:%=%/} jpoker/l10n/*.mo
+	rm -fr ${LINGUAS:%=%/} jpoker/l10n/*.mo
 	rm -f jpoker/index.200* jpoker/index-fr.200* jpoker/poker.200* 
 	rm -f jpoker/mockup.html
 	rm -f jpoker/images/mockup_plain.svg
@@ -100,18 +100,16 @@ clobber: maintainer-clean
 	rm -fr gems
 	rm -fr jpoker/*.swf
 
-LANG_EN=en
-LANG_OTHERS=fr ja
-LANG=${LANG_EN} ${LANG_OTHERS}
+LINGUAS = $(shell grep -v ^\# jpoker/l10n/LINGUAS)
 LANG_DIR = jpoker/l10n
 
-STANDALONE_TW = $(LANG:%=jpoker/standalone/index-%.html)
+STANDALONE_TW = $(LINGUAS:%=jpoker/standalone/index-%.html)
 # 
 # because english is the default language, it has no
 # associated .json file
 #
-LANG_JSON = $(LANG_OTHERS:%=${LANG_DIR}/jpoker-%.json)
-LANG_TW = $(LANG:%=jpoker/index-%.html)
+LANG_JSON = $(LINGUAS:%=${LANG_DIR}/jpoker-%.json)
+LANG_TW = $(LINGUAS:%=jpoker/index-%.html)
 IMAGES = jpoker/css/images/jpoker_table/avatar.png \
 	 jpoker/css/images/jpoker_table/background.png \
 	 jpoker/css/images/jpoker_table/bet.png \
@@ -218,11 +216,14 @@ cook:	jpoker/poker.html ${LANG_TW} jpoker/index.html standalone
 # mimic when a new lang shows
 newlang:
 	msginit -l fr_FR -o fr.po -i messages.pot
+	python generateLangTiddlers.py
+	# add the generate json file to jpoker/markup/MarkupPreHead.tiddler
 #	msginit -l ja_JP -o jp.po -i messages.pot
 
 check:
 	python test-svg2html.py
 	python test-svgflatten.py
+	python test-generateLangTiddlers.py
 	-rm -fr tests ; jscoverage jpoker tests
 	-cd tests ; x-www-browser jscoverage.html?test-jpoker.html # replace with jaxer when http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=474050 closed
 
