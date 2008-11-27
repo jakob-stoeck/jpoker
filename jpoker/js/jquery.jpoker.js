@@ -499,8 +499,8 @@
             this.setCallbacks();
         },
 
-        uninit: function() {
-            this.notifyDestroy();
+        uninit: function(arg) {
+            this.notifyDestroy(arg);
             this.setCallbacks();
         },
 
@@ -1610,8 +1610,8 @@
                 this.reset();
             },
 
-            uninit: function() {
-                jpoker.watchable.prototype.uninit.call(this);
+            uninit: function(arg) {
+                jpoker.watchable.prototype.uninit.call(this, arg);
                 for(var serial in this.serial2player) {
                     this.serial2player[serial].uninit();
                 }
@@ -1690,7 +1690,7 @@
 
                 case 'PacketPokerTableMove':
                 case 'PacketPokerTableDestroy':
-                    table.uninit();
+                    table.uninit(packet);
                     delete server.tables[game_id];
                     break;
 
@@ -3345,12 +3345,12 @@
         }
     };
 
-    jpoker.plugins.table.destroy = function(table, what, dummy, id) {
+    jpoker.plugins.table.destroy = function(table, what, packet, id) {
         // it is enough to destroy the DOM elements, even for players
         if(jpoker.verbose) {
             jpoker.message('plugins.table.destroy ' + id + ' game: ' + table.game_id);
         }
-	jpoker.plugins.table.callback.quit(table);
+	jpoker.plugins.table.callback.quit(table, packet);
         $('#game_window' + id).remove();
 	if (table.tourney_rank !== undefined) {
 	    jpoker.plugins.table.callback.tourney_end(table);

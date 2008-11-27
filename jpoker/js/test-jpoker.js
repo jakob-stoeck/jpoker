@@ -5271,8 +5271,8 @@ test("jpoker.plugins.table: PacketPokerTableQuit", function(){
         cleanup(id);
     });
 
-test("jpoker.plugins.table: quit callback", function(){
-	expect(1);
+test("jpoker.plugins.table: quit callback PacketPokerTableDestroy", function(){
+	expect(2);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -5285,14 +5285,41 @@ test("jpoker.plugins.table: quit callback", function(){
         var table = server.tables[game_id];
 
 	var callback = jpoker.plugins.table.callback.quit;
-	jpoker.plugins.table.callback.quit = function(table) {
+	jpoker.plugins.table.callback.quit = function(table, packet) {
 	    jpoker.plugins.table.callback.quit = callback;
 	    equals(game_id, table.id, 'callback called');
+	    equals(packet.type, 'PacketPokerTableDestroy', 'packet arg');
 	    start_and_cleanup();
 	};
 	
 	place.jpoker('table', 'url', game_id);
-        $("#quit" + id).click();       	
+        $("#quit" + id).click();
+    });
+
+test("jpoker.plugins.table: quit callback PacketPokerTableMove", function(){
+	expect(2);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+	var callback = jpoker.plugins.table.callback.quit;
+	jpoker.plugins.table.callback.quit = function(table, packet) {
+	    jpoker.plugins.table.callback.quit = callback;
+	    equals(game_id, table.id, 'callback called');
+	    equals(packet.type, 'PacketPokerTableMove', 'packet arg');
+	    start_and_cleanup();
+	};
+	
+	place.jpoker('table', 'url', game_id);
+        table.handler(server, game_id, { type: 'PacketPokerTableMove', game_id: game_id });
+        $("#quit" + id).click();
     });
 
 test("jpoker.plugins.table: quit non running", function(){
