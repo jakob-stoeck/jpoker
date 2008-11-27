@@ -612,7 +612,7 @@ test("jpoker.server.handler PacketPokerTable ", function(){
         var server = jpoker.serverCreate({ url: 'url' });
 	server.spawnTable = function() {
 	    ok(true, 'spawnTable called');	    
-	}
+	};
         server.handler(server, 0, { type: 'PacketPokerTable', id: 42 });	
         cleanup();
     });
