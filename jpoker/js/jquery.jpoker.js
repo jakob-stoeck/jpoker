@@ -64,7 +64,13 @@
 
     $.jpoker = {
 
-        VERSION: '1.0.14',
+        jpoker_version: '1.0.14',
+
+        jpoker_sources: 'http://jspoker.pokersource.info/packaging-farm/jpoker/gnulinux/debian/lenny/src/jpoker_{jpoker-version}.orig.tar.gz',
+
+        poker_network_version: '1.7.0',
+
+        poker_network_sources: 'http://farmpoker.pokersource.info/packaging-farm/poker-network/gnulinux/debian/lenny/src/poker-network_{poker-network-version}.orig.tar.gz',
 
         sound: 'embed width=\'1\' height=\'1\' pluginspage=\'http://getgnash.org/\' type=\'application/x-shockwave-flash\' ',
 
@@ -111,14 +117,16 @@
 
         copyright_options: { width: 'none', height: 'none' },
 
-        copyright_text: '<div id=\'jpoker_copyright\'><div class=\'jpoker_copyright_image\'></div><div class=\'jpoker_software\'>jpoker-{version}</div><div class=\'jpoker_authors\'><div><span>Copyright 2008 </span><a onclick=\'window.open(this.href); return false\' href=\'mailto:loic@dachary.org\'>Loic Dachary</a>, <a onclick=\'window.open(this.href); return false\' href=\'mailto:proppy@aminche.com\'>Johan Euphrosine</a></div></div><div class=\'jpoker_explain\'>jpoker runs on this web browser and is Free Software. You may use jpoker to run a business without asking the authors permissions. You may give a copy to your friends. However, the authors do not want jpoker to be used with proprietary software.</div><div class=\'jpoker_license\'>This program is free software: you can redistribute it and/or modify it under the terms of the <a onclick=\'window.open(this.href); return false\' href=\'http://www.fsf.org/licensing/licenses/gpl.txt\'>GNU General Public License</a> as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</div> <div class=\'jpoker_full_copyright\'>Read the full <a onclick=\'window.open(this.href); return false\' href=\'http://jspoker.pokersource.info/jpoker/#Copyright\'>copyright information page.</a></div><div class=\'jpoker_download\'>Download <a onclick=\'window.open(this.href); return false\' href=\'http://upstream.jspoker.pokersource.info/file/tip/jpoker/js/jquery.jpoker.js\'>jpoker sources.</a></div>',
+        copyright_template: '<div id=\'jpoker_copyright\'><div class=\'jpoker_copyright_image\'></div><div class=\'jpoker_software\'>jpoker-{jpoker-version} and poker-network-{poker-network-version}</div><div class=\'jpoker_authors\'><div><span>Copyright 1993-2008 Loic Dachary, Johan Euphrosine and <a onclick=\'window.open(this.href); return false\' href=\'http://pokersource.eu/#Copyright\'>al.</a></div></div><div class=\'jpoker_license\'>This program is free software: you can redistribute it and/or modify it under the terms of the <a onclick=\'window.open(this.href); return false\' href=\'http://www.fsf.org/licensing/licenses/gpl.txt\'>GNU General Public License</a> and <a onclick=\'window.open(this.href); return false\' href=\'http://www.fsf.org/licensing/licenses/agpl.txt\'>GNU Affero General Public License</a> as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</div> <div class=\'jpoker_download\'>Download <a onclick=\'window.open(this.href); return false\' href=\'{jpoker-sources}\'>jpoker sources</a> and <a onclick=\'window.open(this.href); return false\' href=\'{poker-network-sources}\'>poker-network sources</a><div class=\'jpoker_outflop_image\'></div><div class=\'jpoker_outflop\'>OutFlop provides services and software to create and operate multiplayer online poker rooms. Our expertise ranges from web based solutions well suited to local businesses up to large scale, international operations. Learn more about <a onclick=\'window.open(this.href); return false\' href=\'http://outflop.me\'>OutFlop poker software</a></div></div>',
+
+        copyright_text: 'replaced by copyright_template with substitutions',
 
         copyright: function() {
             /*
              * On IE7, css('margin') returns 'auto' instead of the actual margin value unless
 	     * the  margin is set explicitly. This causes ui.dialog to throw exceptions.
              */
-            var copyright = $('<div style=\'margin:0px\'>' + this.copyright_text.supplant({ version: this.VERSION }) + '<div class=\'jpoker_dismiss\'><a href=\'javascript://\'>Dismiss</a></div></div>').dialog(this.copyright_options); 
+            var copyright = $('<div style=\'margin:0px\'>' + this.copyright_text + '<div class=\'jpoker_dismiss\'><a href=\'javascript://\'>Dismiss</a></div></div>').dialog(this.copyright_options); 
             this.copyright_callback.display_done(copyright);
             $('.ui-dialog-titlebar', copyright.parents('.ui-dialog-container')).hide();
             var close = function() { copyright.dialog('destroy'); };
@@ -3157,7 +3165,13 @@
 		$('<div class=\'jpoker_table_info_level\'>').appendTo(table_info_element);
 	    }
 
-	    $('#powered_by' + id).addClass('jpoker_powered_by').html(this.templates.powered_by);
+            $('.jpoker_table', element).append(jpoker.copyright_text);
+
+	    $('#powered_by' + id).addClass('jpoker_powered_by').html(this.templates.powered_by).hover(function(){
+                    $('.jpoker_copyright', element).addClass('hover');
+                },function(){
+                    $('.jpoker_copyright', element).removeClass('hover');
+                });
 
             // it does not matter to register twice as long as the same key is used
             // because the second registration will override the first
@@ -3373,7 +3387,7 @@
     jpoker.plugins.table.templates = {
         room: 'expected to be overriden by mockup.js but was not',
 	tourney_break: '<div>{label}</div><div>{date}</div>',
-	powered_by: '<a title=\'Powered by Pokersource\' href=\'javascript://\' ><span>Powered by Pokersource</span><span class=\'jpoker_powered_by_info\'>' + jpoker.copyright_text.supplant({ version: jpoker.VERSION }) + '</span></a>',
+	powered_by: '<a title=\'Powered by Pokersource\' href=\'javascript://\' >Powered by Pokersource</a>',
 	chat: '<div class=\'jpoker_chat_input\'><input value=\'chat here\' type=\'text\' width=\'100%\' /></div><div class=\'jpoker_chat_history\'><div class=\'jpoker_chat_history_player\'></div><div class=\'jpoker_chat_history_dealer\'></div></div>',
         placeholder: _("connecting to table {name}")
     };
@@ -4606,4 +4620,7 @@
     };
 
     jpoker.compatibility($.browser.msie); // no coverage
+
+    jpoker.copyright_text = jpoker.copyright_template.supplant({ 'jpoker-sources': this.jpoker_sources, 'poker-network-sources': this.poker_network_sources }).supplant({ 'jpoker-version': this.jpoker_version, 'poker-network-version': this.poker_network_version });
+
 })(jQuery);
