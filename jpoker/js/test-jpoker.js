@@ -166,6 +166,12 @@ test("jpoker.alert", function() {
     window.alert = windowAlert;
 });
 
+test("jpoker.gettext", function() {
+    expect(2);
+    equals(_("login"), "test_gettext_override");
+    equals(jpoker.gettext("login"), "login");
+});
+
 //
 // jpoker.error
 //
@@ -1216,7 +1222,7 @@ test("jpoker.server.tourneyRegister error", function(){
         };
 	dialog = jpoker.dialog;
 	jpoker.dialog = function(message) {
-	    equals(message, _("Player {serial} already registered in tournament {game_id}").supplant({game_id:game_id, serial:serial}));
+	    equals(message, "Player {serial} already registered in tournament {game_id}".supplant({game_id:game_id, serial:serial}));
 	    jpoker.dialog = dialog;
 	};
         server.registerUpdate(function(server, what, packet) {
@@ -1297,7 +1303,7 @@ test("jpoker.server.tourneyUnregister error", function(){
         };
 	dialog = jpoker.dialog;
 	jpoker.dialog = function(message) {
-	    equals(message, _("It is too late to unregister player {serial} from tournament {game_id}").supplant({game_id:game_id, serial:serial}));
+	    equals(message, "It is too late to unregister player {serial} from tournament {game_id}".supplant({game_id:game_id, serial:serial}));
 	    jpoker.dialog = dialog;
 	};
         server.registerUpdate(function(server, what, packet) {
@@ -7030,7 +7036,7 @@ test("jpoker.plugins.userInfo update", function(){
 				    server.registerUpdate(function(server, what, data) {
 					    var element = $('#' + id);
 					    if (element.length > 0) {
-						equals($(".jpoker_user_info_feedback", element).text(), _("Updated"));
+						equals($(".jpoker_user_info_feedback", element).text(), "Updated");
 						setTimeout(function() {
 							$('#' + id).remove();
 							server.notifyUpdate({});
@@ -7043,7 +7049,7 @@ test("jpoker.plugins.userInfo update", function(){
 				}, 0);
 			};			
 			$('.jpoker_user_info_submit', element).click(function() {
-				equals($(".jpoker_user_info_feedback", element).text(), _("Updating..."));
+				equals($(".jpoker_user_info_feedback", element).text(), "Updating...");
 			    }).click();
 			return false;
 		    }
@@ -7072,7 +7078,7 @@ test("jpoker.plugins.userInfo avatar upload succeed", function(){
 	    ajaxFormCallback = function() {
 		var element = $('#' + id);
 		options.beforeSubmit();
-		equals($(".jpoker_user_info_avatar_upload_feedback", element).text(), _("Uploading..."));
+		equals($(".jpoker_user_info_avatar_upload_feedback", element).text(), "Uploading...");
 		$(".jpoker_user_info_avatar_preview", element).css("background-image", "none");
 		options.success('<pre>image uploaded</pre>');
 		equals($(".jpoker_user_info_avatar_upload_feedback", element).text(), "Uploaded");

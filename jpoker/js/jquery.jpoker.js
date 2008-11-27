@@ -18,6 +18,7 @@
 //
 
 (function($) {
+    var _ = $.gt.gettext;
 
     if(!String.prototype.supplant) {
         //
@@ -269,8 +270,9 @@
                 this.url2hashCache[url] = jpoker.Crypto.hexSha1Str(url);
             }
             return this.url2hashCache[url];
-        }
-        
+        },
+
+	gettext: _
     };
 
     var jpoker = $.jpoker;
