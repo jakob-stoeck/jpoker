@@ -3,7 +3,7 @@
 # Traductions franÃ§aises du paquet PACKAGE.
 # Copyright (C) 2008 Loic Dachary <loic@dachary.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Loic Dachary <loic@dachary.org>, 2008.
 # Johan Euphrosine <proppy@aminche.com>, 2008.
 # Skyrock Network
@@ -15,8 +15,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jpoker VERSION\n"
-"Report-Msgid-Bugs-To: <pokersource-users@gna.org>\n"
-"POT-Creation-Date: 2008-11-26 10:52-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-11-27 01:06+0000\n"
 "PO-Revision-Date: 2008-11-25 16:30+0200\n"
 "Last-Translator: devteam <devteam@orbus.fr>\n"
 "Language-Team: <pokersource-users@gna.org>\n"
