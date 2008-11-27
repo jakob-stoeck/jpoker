@@ -150,6 +150,7 @@ update_gems:
 # retry at most 4 times if there is an error because gem randomly fails
 gems/bin/tiddlywiki_cp: 
 	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp
+	patch -d gems/gems/tiddlywiki_cp-0.5.3 -p1 < tiddlywiki_cp_locale2lang.patch
 
 jpoker/index-%.html: gems/bin/tiddlywiki_cp 
 jpoker/index.html: gems/bin/tiddlywiki_cp 
