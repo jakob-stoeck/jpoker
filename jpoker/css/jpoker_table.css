@@ -263,33 +263,40 @@
 }
 
 
-.jpoker_table .jpoker_powered_by {
-	border: 2px solid #000;
-	font-weight: bold;
-	background: #ddd;
+.jpoker_table .jpoker_copyright {
+    display: none;
 }
 
-.jpoker_table .jpoker_powered_by a {
-	color: #000;
-}
-
-.jpoker_table .jpoker_powered_by .jpoker_powered_by_info {
-	display: none;
-}
-
-.jpoker_table .jpoker_powered_by a:hover .jpoker_powered_by_info {
+.jpoker_table .jpoker_copyright.hover {
+    display: block;
     position: absolute;
     background: #ddd;
     left: 10px;
     bottom: 10px;
     border: 2px solid #f44;
-    display: block;
     z-index: 5;
 }
 
-.jpoker_table .jpoker_powered_by .jpoker_explain {
-    display: none;
+.jpoker_table .jpoker_copyright {
+	border: 2px solid #000;
+	font-weight: bold;
+	background: #ddd;
 }
+
+.jpoker_table .jpoker_copyright a {
+	color: #000;
+}
+
+.jpoker_table .jpoker_copyright ul {
+    margin: 0;
+    list-style-type: none;
+}
+
+.jpoker_table .jpoker_powered_by {
+ 	border: 2px solid #000;
+ 	font-weight: bold;
+ 	background: #ddd;
+ }
 
 .jpoker_table a { 
 	color: #fff;
