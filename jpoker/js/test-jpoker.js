@@ -2385,6 +2385,21 @@ test("jpoker.table.poll", function() {
 	cleanup();
     });
 
+test("jpoker.table.poll server undefined", function() {
+	expect(0);
+	var server = jpoker.serverCreate({ url: 'url' });
+	var table = new jpoker.table(server, {"type": "PacketPokerTable", "id": 101, "betting_structure": "15-30-no-limit"});
+	var jpokerGetServer = jpoker.getServer;
+	jpoker.getServer = function() {
+	    jpoker.getServer = jpokerGetServer;
+	    return undefined;
+	};
+	table.setTimeout = function() {
+	    ok(false, 'poll cancelled');
+	};
+	table.poll();
+    });
+
 test("jpoker.table.handler: PacketPokerState", function(){
         expect(1);
 
@@ -2736,6 +2751,21 @@ test("jpoker.tourney.poll", function() {
 	tourney.uninit();
 	equals(tourney.pollTimer, -1, 'pollTimer cleared by uninit');
 	cleanup();
+    });
+
+test("jpoker.tourney.poll server undefined", function() {
+	expect(0);
+	var server = jpoker.serverCreate({ url: 'url' });
+	var tourney = new jpoker.tourney(server, 101);
+	var jpokerGetServer = jpoker.getServer;
+	jpoker.getServer = function() {
+	    jpoker.getServer = jpokerGetServer;
+	    return undefined;
+	};
+	tourney.setTimeout = function() {
+	    ok(false, 'poll cancelled');
+	};
+	tourney.poll();
     });
 
 test("jpoker.table.handler: PacketPokerShowdown", function(){
