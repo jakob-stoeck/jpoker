@@ -109,29 +109,28 @@ printStackTrace.implementation.prototype = {
         stack = [],j=0,
         fn,args;
 
-	var index = 1;
-	var values = {};
-        var replacer = function(key, value) {
-            if(typeof this[key] == 'function') {
-                return 'function';
-            } else {
-		if(values[value]) {
-		    return '#' + values[values];
-		} else {
-		    values[value] = index++;
-		}
-                return value;
-            }
-        };
-
         while (curr) {
             fn    = fnRE.test(curr.toString()) ? RegExp.$1 || ANON : ANON;
             args  = Array.prototype.slice.call(curr['arguments']);
-            stack[j++] = fn + '(' + JSON.stringify(args, replacer) + ')';
+            stack[j++] = fn + '(' + printStackTrace.implementation.prototype.stringifyArguments(args) + ')';
             curr = curr.caller;
         }
 
         return stack;
+    },
+
+    stringifyArguments : function(arguments) {
+	for (var i = 0; i < arguments.length; ++i) {
+	    var argument = arguments[i];
+	    if (typeof argument  == 'object') {
+		arguments[i] = '#object';
+	    } else if (typeof argument == 'function') {
+		arguments[i] = '#function';
+	    } else if (typeof argument == 'string') {
+		arguments[i] = '"'+argument+'"';
+	    }
+	}
+	return arguments.join(',');
     },
     
     sourceCache : {},

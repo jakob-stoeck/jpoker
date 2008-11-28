@@ -141,31 +141,37 @@ test("other", function() {
             this.caller = caller;
             this.fun = fun;
         };
-        frame.prototype.toString = function() { return JSON.stringify(this); };
+        frame.prototype.toString = function() { return 'function '+this.fun +'() {}' };
         function f10() {}
-        var frame_f2 = new frame([], 'nofunction', undefined);
-        var frame_f1 = new frame([1, 'a"bc', f10], 'FUNCTION f1  (a,b,c)', frame_f2);
+        var frame_f2 = new frame([], '', undefined);
+        var frame_f1 = new frame([1, 'abc', f10, {1: {2: {3: 4} } }], 'FUNCTION f1  (a,b,c)', frame_f2);
 	expect(mode == 'other' ? 4 : 2);
 	var message = printStackTrace.implementation.prototype.other(frame_f1);
 	var message_string = message.join("\n");
-	// equals(message_string, '', 'debug');
-	equals(message[0].indexOf('f1([1,"a\\"bc","function"])') >= 0, true, 'f1');
-	equals(message[1].indexOf('{anonymous}([])') >= 0, true, 'f2 anonymous');
+	//equals(message_string, '', 'debug');
+	equals(message[0].indexOf('f1(1,"abc",#function,#object)') >= 0, true, 'f1');
+	equals(message[1].indexOf('{anonymous}()') >= 0, true, 'f2 anonymous');
         if(mode == 'other') {
             function f1(arg1, arg2) {
 		var message = printStackTrace.implementation.prototype.other(arguments.callee);
 		var message_string = message.join("\n");
-		// equals(message_string, '', 'debug');
-		equals(message[0].indexOf('f1([1,"a\\"bc","function"])') >= 0, true, 'f1');
-		equals(message[1].indexOf('{anonymous}([])') >= 0, true, 'f2 anonymous');
+		//equals(message_string, '', 'debug');
+		equals(message[0].indexOf('f1(1,"abc",#function,#object)') >= 0, true, 'f1');
+		equals(message[1].indexOf('{anonymous}()') >= 0, true, 'f2 anonymous');
             }
             var f2 = function() {
-                f1(1, 'a"bc', f10);
+                f1(1, 'abc', f10, {1: {2: {3: 4} } });
             };
             f2();
         }
     });
 
+test("stringify", function() {
+        expect(3);
+	equals(printStackTrace.implementation.prototype.stringifyArguments(["a", 1, {}, function() {}]), '"a",1,#object,#function');
+	equals(printStackTrace.implementation.prototype.stringifyArguments([1, 2, 3]), '1,2,3');
+	equals(printStackTrace.implementation.prototype.stringifyArguments([]), '');
+    });
 
 test("guessFunctionNameFromLines", function() {
 	expect(3);
