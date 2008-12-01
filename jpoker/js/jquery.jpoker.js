@@ -1699,6 +1699,8 @@
                     break;
 
                 case 'PacketPokerTableMove':
+		    break;
+
                 case 'PacketPokerTableDestroy':
                     table.uninit(packet);
                     delete server.tables[game_id];
