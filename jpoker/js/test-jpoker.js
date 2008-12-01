@@ -5585,6 +5585,98 @@ test("jpoker.plugins.table.timeout", function(){
         start_and_cleanup();
     });
 
+test("jpoker.plugins.table.timeout issues", function(){
+        expect(29);
+
+	equals($.jpoker.timerOptions.position, "vertical", "timerOptions defaults");
+	equals($.jpoker.timerOptions.fill, "fill", "timerOptions defaults");
+	var timerOptions_position = $.jpoker.timerOptions.position;
+	var timerOptions_fill = $.jpoker.timerOptions.fill;
+	var jquery_animate = jQuery.fn.animate;
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        var player_name = 'username';
+        for(var i = 1; i <= 3; i++) {
+            table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: i, serial: i * 10, game_id: game_id, name: player_name + i });
+            table.serial2player[i * 10].sit_out = false;
+        }
+        place.jpoker('table', 'url', game_id);	
+
+	var timeout_element = $("#player_seat2_timeout" + id);
+
+	$.jpoker.timerOptions.position = "vertical";
+	$.jpoker.timerOptions.fill = "empty";
+	jQuery.fn.animate = function(options) {
+	    equals(options.width, "0%");
+	    return this;
+	};
+
+	var width = timeout_element.css("width");
+	var top = timeout_element.css("top");
+	var left = timeout_element.css("left");
+
+        table.handler(server, game_id, { type: 'PacketPokerPosition', serial: 20, game_id: game_id });
+	equals($(".jpoker_timeout_progress", timeout_element).css("height"), "100%", "vertical timeout position");
+        table.handler(server, game_id, { type: 'PacketPokerTimeoutWarning', serial: 20, game_id: game_id });
+	equals($(".jpoker_timeout_progress", timeout_element).css("height"), "50%", "vertical timeout warning");
+        table.handler(server, game_id, { type: 'PacketPokerTimeoutNotice', serial: 20, game_id: game_id });
+	equals($(".jpoker_timeout_progress", timeout_element).css("height"), "0%", "vertical timeout notice");
+
+	equals(width, timeout_element.css("width"));
+	equals(top, timeout_element.css("top"));
+	equals(left, timeout_element.css("left"));
+
+	$.jpoker.timerOptions.position = "vertical";
+	$.jpoker.timerOptions.fill = "fill";
+	jQuery.fn.animate = function(options) {
+	    equals(options.width, "0%");
+	    return this;
+	};
+        table.handler(server, game_id, { type: 'PacketPokerPosition', serial: 20, game_id: game_id });
+	equals($(".jpoker_timeout_progress", timeout_element).css("height"), "100%", "vertical timeout position");
+        table.handler(server, game_id, { type: 'PacketPokerTimeoutWarning', serial: 20, game_id: game_id });
+	equals($(".jpoker_timeout_progress", timeout_element).css("height"), "50%", "vertical timeout warning");
+        table.handler(server, game_id, { type: 'PacketPokerTimeoutNotice', serial: 20, game_id: game_id });
+	equals($(".jpoker_timeout_progress", timeout_element).css("height"), "0%", "vertical timeout notice");
+
+	$.jpoker.timerOptions.position = "horizontal";
+	$.jpoker.timerOptions.fill = "empty";
+	jQuery.fn.animate = function(options) {
+	    equals(options.width, "0%");
+	    return this;
+	};
+        table.handler(server, game_id, { type: 'PacketPokerPosition', serial: 20, game_id: game_id });
+	equals($(".jpoker_timeout_progress", timeout_element).css("width"), "100%", "horizontal timeout position");
+        table.handler(server, game_id, { type: 'PacketPokerTimeoutWarning', serial: 20, game_id: game_id });
+	equals($(".jpoker_timeout_progress", timeout_element).css("width"), "50%", "horizontal timeout warning");
+        table.handler(server, game_id, { type: 'PacketPokerTimeoutNotice', serial: 20, game_id: game_id });
+	equals($(".jpoker_timeout_progress", timeout_element).css("width"), "0%", "horizontal timeout notice");
+
+	$.jpoker.timerOptions.position = "horizontal";
+	$.jpoker.timerOptions.fill = "fill";
+	jQuery.fn.animate = function(options) {
+	    equals(options.width, "100%");
+	    return this;
+	};
+        table.handler(server, game_id, { type: 'PacketPokerPosition', serial: 20, game_id: game_id });
+	equals($(".jpoker_timeout_progress", timeout_element).css("width"), "0%", "horizontal timeout position");
+        table.handler(server, game_id, { type: 'PacketPokerTimeoutWarning', serial: 20, game_id: game_id });
+	equals($(".jpoker_timeout_progress", timeout_element).css("width"), "50%", "horizontal timeout warning");
+        table.handler(server, game_id, { type: 'PacketPokerTimeoutNotice', serial: 20, game_id: game_id });
+	equals($(".jpoker_timeout_progress", timeout_element).css("width"), "100%", "horizontal timeout notice");
+
+	$.jpoker.timerOptions.position = timerOptions_position;
+	$.jpoker.timerOptions.fill = timerOptions_fill;
+    });
+
 test("jpoker.plugins.table: PacketPokerPotChips/Reset", function(){
         expect(9);
         stop();
