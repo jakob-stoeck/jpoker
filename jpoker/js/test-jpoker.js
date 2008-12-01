@@ -5500,7 +5500,7 @@ test("jpoker.plugins.table: PacketPokerPosition", function(){
     });
 
 test("jpoker.plugins.table.timeout", function(){
-        expect(23);
+        expect(31);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -5539,6 +5539,30 @@ test("jpoker.plugins.table.timeout", function(){
         equals($("#player_seat1_timeout" + id).is(":hidden"), true, "seat 1 timeout hidden");
         equals($("#player_seat2_timeout" + id).is(":visible"), true, "seat 2 timeout visible");
         equals($("#player_seat2_timeout" + id).attr("pcur"), 100, "seat 2 timeout 100");
+	
+	$.jpoker.timerOptions.position = "horizontal";
+	table.handler(server, game_id, { type: 'PacketPokerPosition', serial: 10, game_id: game_id });
+	equals($("#player_seat2_timeout" + id).css("height"), "0px", "horizontal timer");
+	equals($('.jpoker_timeout_progress',"#player_seat2_timeout" + id).css("width"), "auto", "timer filling up");
+	
+	$.jpoker.timerOptions.position = "horizontal";
+	$.jpoker.timerOptions.fill = "empty";
+	table.handler(server, game_id, { type: 'PacketPokerPosition', serial: 20, game_id: game_id });
+	equals($("#player_seat2_timeout" + id).css("height"), "0px", "horizontal timer");
+	equals($('.jpoker_timeout_progress',"#player_seat2_timeout" + id).css("width"), "100%", "timer emptying");
+	
+	$.jpoker.timerOptions.position = "vertical";
+	$.jpoker.timerOptions.fill = "fill";
+	table.handler(server, game_id, { type: 'PacketPokerPosition', serial: 20, game_id: game_id });
+	equals($("#player_seat2_timeout" + id).css("width"), "2.80636px", "horizontal timer");
+	equals($('.jpoker_timeout_progress',"#player_seat2_timeout" + id).css("height"), "0px", "timer filling up");
+	
+	$.jpoker.timerOptions.position = "vertical";
+	$.jpoker.timerOptions.fill = "empty";
+	table.handler(server, game_id, { type: 'PacketPokerPosition', serial: 20, game_id: game_id });
+	equals($("#player_seat2_timeout" + id).css("width"), "2.80636px", "horizontal timer");
+	equals($('.jpoker_timeout_progress',"#player_seat2_timeout" + id).css("height"), "75px", "timer emptying");
+
 
 	var jquery_stop = jQuery.fn.stop;
 	jQuery.fn.stop = function() {

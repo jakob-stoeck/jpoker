@@ -81,6 +81,10 @@
 
         doReconnect: true,
 	doRejoin: true,
+	timerOptions:{
+	    position:"vertical",
+	    fill:"fill",
+	},
 
         msie_compatibility: function() {
             /* 
@@ -3219,7 +3223,18 @@
         for(var seat = 0; seat < table.seats.length; seat++) {
 	    var timeout_element = $('#player_seat' + seat + '_timeout' + id);
             if(in_position && in_position.sit_out === false && in_position.seat == seat) {
-		$('.jpoker_timeout_progress', timeout_element).stop().css({width: ratio*100+'%'}).show().animate({width: '0%'}, {duration: ratio*table.player_timeout*1000, queue: false});
+		if ($.jpoker.timerOptions.position == "horizontal") {
+		    start_pos = ($.jpoker.timerOptions.fill == "fill")? "0%" : ratio*100+"%";
+		    stop_pos = ($.jpoker.timerOptions.fill == "fill")? ratio*100+"%" : "0%";
+		    $('.jpoker_timeout_progress', timeout_element).stop().css({width: start_pos}).show().animate({width: stop_pos}, {duration: ratio*table.player_timeout*1000, queue: false});
+		} else {
+		    timeout_top = parseFloat($('.jpoker_ptable_player_seat' + seat +'_background').css("top")) + 8  + "px";
+		    timeout_left = parseFloat($('.jpoker_ptable_player_seat' + seat +'_background').css("left")) + 1 + "px";
+		    start_pos = ($.jpoker.timerOptions.fill == "fill")? "0px": "75px";
+		    stop_pos  = ($.jpoker.timerOptions.fill == "fill")? "75px": "0px";
+		    timeout_element.css({height:start_pos, width:"2.8063638px", top:timeout_top, left:timeout_left});
+		    $('.jpoker_timeout_progress', timeout_element).stop().css({height: start_pos}).show().animate({height: stop_pos}, {duration: ratio*table.player_timeout*1000, queue: false});
+		}
 		timeout_element.attr('pcur', ratio*100).show();
             } else {
 		timeout_element.hide();
