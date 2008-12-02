@@ -136,7 +136,7 @@ printStackTrace.implementation.prototype = {
     sourceCache : {},
 
     ajax : function(url) {
-	return $.ajax({
+	return jQuery.ajax({
 		url: url,
 		async: false
 	    }).responseText;	
