@@ -1695,6 +1695,8 @@
                     break;
 
                 case 'PacketPokerTableMove':
+		    break;
+
                 case 'PacketPokerTableDestroy':
                     table.uninit(packet);
                     delete server.tables[game_id];
@@ -3905,11 +3907,11 @@
             appendTo(button);
             $('.ui-slider-1', rebuy).slider({
                     min: limits[0],
-                        startValue: limits[1],
-                        max: limits[2],
+                        startValue: limits[1]*100,
+                        max: limits[2]*100,
                         stepping: 1,
                         change: function(event, ui) {
-                        $('.jpoker_rebuy_current').html(ui.value);
+                        $('.jpoker_rebuy_current').html(ui.value/100.0);
                     }
                 });
             return rebuy;
@@ -4021,20 +4023,20 @@
 
                     $('.ui-slider-1', raise).slider({
                             min: betLimit.min,
-                                startValue: betLimit.min,
-                                max: betLimit.max,
+                                startValue: betLimit.min*100,
+                                max: betLimit.max*100,
                                 axis: 'horizontal',
-                                stepping: betLimit.step,
+                                stepping: betLimit.step*100,
                                 change: function(event, ui) {
                                 var current = $('.jpoker_raise_current', ui.element);
-                                current.html(jpoker.chips.SHORT(ui.value));
+                                current.html(jpoker.chips.SHORT(ui.value/100.0));
                                 current.attr('title', ui.value);
-				$('.jpoker_raise_input', raise_input).val(jpoker.chips.SHORT(ui.value));
+				$('.jpoker_raise_input', raise_input).val(jpoker.chips.SHORT(ui.value/100.0));
                             }
                         });
 
 		    $('.jpoker_raise_input', raise_input).change(function() {
-			    $('.ui-slider-1', raise).slider('moveTo', $(this).val());
+			    $('.ui-slider-1', raise).slider('moveTo', $(this).val()*100);
 			});
 
                     click = function() {
@@ -4043,7 +4045,7 @@
                             server.sendPacket({ 'type': 'PacketPokerRaise',
                                         'serial': serial,
                                         'game_id': game_id,
-                                        'amount': parseInt($('.jpoker_raise_current', raise).attr('title'), 10) * 100
+                                        'amount': parseInt($('.jpoker_raise_current', raise).attr('title'), 10)
                                         });
                         }
                     };
