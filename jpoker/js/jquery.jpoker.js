@@ -1053,7 +1053,7 @@
                     server.tables[packet.id].reinit(packet);
                 } else {
                     var table = new jpoker.table(server, packet);
-                    if(!table.tourney_serial) {
+                    if(!table.tourney_serial || !(table.tourney_serial in server.tourneys)) {
                         table.poll();
                     }
 		    server.tables[packet.id] = table;

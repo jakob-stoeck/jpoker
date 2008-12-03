@@ -617,6 +617,18 @@ test("jpoker.server.handler PacketPokerTable ", function(){
         cleanup();
     });
 
+test("jpoker.server.handler PacketPokerTable + tourney_serial unknown", function(){
+        expect(2);
+	
+        var server = jpoker.serverCreate({ url: 'url' });
+        var tourney_serial = 100;
+        equals(tourney_serial in server.tourneys, false, tourney_serial + ' must not be in server.tourneys');
+        var game_id = 42;
+        server.handler(server, 0, { type: 'PacketPokerTable', id: game_id, tourney_serial: tourney_serial });
+        equals(server.tables[game_id].pollTimer > 0, true, 'poll timer > 0');
+        cleanup();
+    });
+
 test("jpoker.server.{de,}queueRunning", function(){
         expect(5);
         var server = jpoker.serverCreate({ url: 'url'});
