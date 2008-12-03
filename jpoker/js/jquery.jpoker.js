@@ -69,7 +69,7 @@
 
         jpoker_sources: 'http://jspoker.pokersource.info/packaging-farm/jpoker/gnulinux/debian/lenny/src/jpoker_{jpoker-version}.orig.tar.gz',
 
-        poker_network_version: '1.7.0',
+        poker_network_version: '1.7.1',
 
         poker_network_sources: 'http://farmpoker.pokersource.info/packaging-farm/poker-network/gnulinux/debian/lenny/src/poker-network_{poker-network-version}.orig.tar.gz',
 
