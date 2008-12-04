@@ -1661,16 +1661,16 @@
 		break;
 		case 3:
 		this.seats_left = [2, 7, 5];
-		break
+		break;
 		case 4:
 		this.seats_left = [1, 6, 3, 8];
-		break
+		break;
 		case 5:
 		this.seats_left = [0, 2, 4, 6, 8];
-		break
+		break;
 		case 6:
 		this.seats_left = [0, 2, 4, 5, 7, 9];
-		break
+		break;
 		case 7:
 		this.seats_left = [0, 2, 3, 5, 6, 8, 9];
 		break;

@@ -119,18 +119,18 @@ printStackTrace.implementation.prototype = {
         return stack;
     },
 
-    stringifyArguments : function(arguments) {
-	for (var i = 0; i < arguments.length; ++i) {
-	    var argument = arguments[i];
+    stringifyArguments : function(args) {
+	for (var i = 0; i < args.length; ++i) {
+	    var argument = args[i];
 	    if (typeof argument  == 'object') {
-		arguments[i] = '#object';
+		args[i] = '#object';
 	    } else if (typeof argument == 'function') {
-		arguments[i] = '#function';
+		args[i] = '#function';
 	    } else if (typeof argument == 'string') {
-		arguments[i] = '"'+argument+'"';
+		args[i] = '"'+argument+'"';
 	    }
 	}
-	return arguments.join(',');
+	return args.join(',');
     },
     
     sourceCache : {},
