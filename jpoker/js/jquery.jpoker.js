@@ -1596,6 +1596,11 @@
 	} else {
 	    this.is_tourney = false;
 	}
+	if (packet.seats) {
+	    this.max_players = packet.seats;
+	} else {
+	    this.max_players = 10;
+	}	  
         this.url = server.url;
         this.init();
         server.registerHandler(packet.id, this.handler);
@@ -1636,6 +1641,7 @@
                 this.serial2player = {};
                 this.seats = [ null, null, null, null, null, 
                                null, null, null, null, null ];
+		this.resetSeatsLeft();		
                 this.board = [ null, null, null, null, null ];
                 this.pots = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
                 this.buyIn = { min: 1000000000, max: 1000000000, best: 1000000000, bankroll: 0 };
@@ -1647,6 +1653,41 @@
 		this.pollFrequency = 5000;
 		this.tourney_rank = undefined;
             },
+
+	    resetSeatsLeft: function() {
+		switch (this.max_players) {
+		case 2:
+		this.seats_left = [2, 7];
+		break;
+		case 3:
+		this.seats_left = [2, 7, 5];
+		break;
+		case 4:
+		this.seats_left = [1, 6, 3, 8];
+		break;
+		case 5:
+		this.seats_left = [0, 2, 4, 6, 8];
+		break;
+		case 6:
+		this.seats_left = [0, 2, 4, 5, 7, 9];
+		break;
+		case 7:
+		this.seats_left = [0, 2, 3, 5, 6, 8, 9];
+		break;
+		case 8:
+		this.seats_left = [1, 2, 3, 4, 5, 6, 7, 8];
+		break;
+		case 9:
+		this.seats_left = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+		break;
+		case 10:
+		this.seats_left = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+		break;
+		default:
+		this.seats_left = [];
+		break;
+		}
+	    },
 
             clearTimeout: function(id) { return window.clearTimeout(id); },
             setTimeout: function(cb, delay) { return window.setTimeout(cb, delay); },
@@ -3601,7 +3642,7 @@
                 $('#sit_seat' + seat + id).hide();
             } else {            
                 $('#seat' + seat + id).hide();
-                if(server.loggedIn()) {
+                if(server.loggedIn() && ($.inArray(seat, table.seats_left) != -1)) {
                     var sit = $('#sit_seat' + seat + id);
                     sit.show();
                     sit.click(function() {

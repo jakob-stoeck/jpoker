@@ -141,7 +141,7 @@ test("other", function() {
             this.caller = caller;
             this.fun = fun;
         };
-        frame.prototype.toString = function() { return 'function '+this.fun +'() {}' };
+        frame.prototype.toString = function() { return 'function '+this.fun +'() {}'; };
         function f10() {}
         var frame_f2 = new frame([], '', undefined);
         var frame_f1 = new frame([1, 'abc', f10, {1: {2: {3: 4} } }], 'FUNCTION f1  (a,b,c)', frame_f2);
