@@ -223,14 +223,16 @@ test("jpoker.error alert", function() {
 });
 
 test("jpoker.error object", function() {
-        expect(2);
-	var error_reason = {message: "error reason"};
+        expect(4);
+	var error_reason = {message: "error reason", "xhr": {status: 500, foo: 'bar'}};
 	var jpokerConsole = jpoker.console;
 	jpoker.console = undefined;
 	var jpokerAlert = jpoker.alert;
 	jpoker.alert = function(reason) {
 	    jpoker.alert = jpokerAlert;
-	    equals(reason.indexOf(JSON.stringify(error_reason)) >= 0, true, "jpoker.alert error_reason");
+	    equals(reason.indexOf('error reason') >= 0, true, "jpoker.alert error reason");
+	    equals(reason.indexOf('status') >= 0, true, "jpoker.alert status not filtered");
+	    equals(reason.indexOf('foo') >= 0, false, "jpoker.alert foo filtered");
 	};
 	try {
 	    jpoker.error(error_reason);
@@ -2769,6 +2771,15 @@ test("jpoker.table.handler: unknown table", function(){
 	jpoker.verbose = 0;
 	table.handler(server, game_id, packet);
 	jpoker.verbose = verbose;
+    });
+
+test("jpoker.table: max_player", function() {
+        var server = jpoker.serverCreate({ url: 'url' });
+        var table = new jpoker.table(server, {id: 42});
+	equals(table.max_players, 10, 'max_players default');
+        table = new jpoker.table(server, {id: 42, seats: 5});
+	equals(table.max_players, 5, 'max_players frmo packet');
+	cleanup();
     });
 
 //
@@ -5355,10 +5366,10 @@ test("jpoker.plugins.table: PacketSerial/PacketLogout", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        var table_packet = { id: game_id };
+        var table_packet = { id: game_id, seats: 5 };
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
-	equals(table.max_players, 10, 'default max_players');
+	equals(table.max_players, 5, 'max_players');
 	for (var i = 2; i <= 10; ++i) {
 	    table.max_players = i;
 	    table.resetSeatsLeft();

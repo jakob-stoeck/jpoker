@@ -3225,11 +3225,7 @@
 
             $('.jpoker_table', element).append(jpoker.copyright_text);
 
-	    $('#powered_by' + id).addClass('jpoker_powered_by').html(this.templates.powered_by).hover(function(){
-                    $('.jpoker_copyright', element).addClass('hover');
-                },function(){
-                    $('.jpoker_copyright', element).removeClass('hover');
-                });
+	    $('#powered_by' + id).addClass('jpoker_powered_by').html(this.templates.powered_by);
 
             // it does not matter to register twice as long as the same key is used
             // because the second registration will override the first
