@@ -2,6 +2,7 @@
 //     Copyright (C) 2008 Loic Dachary <loic@dachary.org>
 //     Copyright (C) 2008 Johan Euphrosine <proppy@aminche.com>
 //     Copyright (C) 2008 Saq Imtiaz <lewcid@gmail.com>
+//     Copyright (C) 2008 Frank Denis <fdenis@skyrock.com>
 //
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU General Public License as published by
