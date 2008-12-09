@@ -599,6 +599,7 @@
             dequeueFrequency: 100,
             pingFrequency: 6000,
             timeout: 30000,
+	    retryCount: 10,
             clearTimeout: function(id) { return window.clearTimeout(id); },
             setTimeout: function(cb, delay) { return window.setTimeout(cb, delay); },
             ajax: function(o) { return jQuery.ajax(o); },
@@ -794,6 +795,7 @@
                 if(jpoker.verbose > 0) {
                     jpoker.message('sendPacket ' + json_data);
                 }
+		var retry = 0;
                 var args = {
                     async: this.async,
                     data: json_data,
@@ -814,11 +816,22 @@
                             $this.setConnectionState('disconnected');
                             $this.reset();
                         } else {
-                            $this.error({ xhr: xhr,
-                                          status: status,
-                                          url: this.url,
-                                          error: error
-                                });
+			    switch (xhr.status) {
+			    case 12152:
+			    case 12030:
+			    case 12031:
+			    ++retry;
+			    if (retry < $this.retryCount) {
+				return false; // retry
+			    }
+			    error = 'ajax retry count exceeded: '+ retry;
+			    break;
+			    }			    
+			    $this.error({ xhr: xhr,
+					  status: status,
+					  url: $this.url,
+					  error: error
+				});
                         }
                     }
                 };

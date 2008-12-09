@@ -100,12 +100,24 @@ $(function(){
 			}
 			return pendingRequests[port] = ajax.apply(this, arguments);
 		case "queue": 
-			var _old = settings.complete;
-			settings.complete = function(){
-                                if ( _old ) {
-					_old.apply( this, arguments );
+			var _error = settings.error;
+			settings.error = function(){
+			        var result;
+                                if ( _error ) {
+					result = _error.apply( this, arguments );
                                 }
-				jQuery([ajax]).dequeue("ajax" + port );;
+				if (result === undefined) {
+				        jQuery([ajax]).dequeue("ajax" + port );
+				} else {
+				        ajax( settings );
+				}
+			};
+			var _success = settings.success;
+			settings.success = function(){
+                                if ( _success ) {
+					_success.apply( this, arguments );
+                                }
+				jQuery([ajax]).dequeue("ajax" + port );
 			};
 		
 			jQuery([ ajax ]).queue("ajax" + port, function(){

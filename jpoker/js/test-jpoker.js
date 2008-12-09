@@ -1967,6 +1967,135 @@ test("jpoker.connection:sendPacket error 500", function(){
         ActiveXObject.defaults.status = 200;
     });
 
+test("jpoker.connection:sendPacket retry 12152", function(){
+        expect(2);
+        stop();
+        var self = new jpoker.connection(); 
+	var _ajax = self.ajax;
+        var jpokerError = jpoker.error;
+        jpoker.error = function(reason) {
+            ok(false, 'jpoker error not called');
+        };
+	self.ajax = function(settings) {
+	    var _error = settings.error;
+	    settings.error = function(xhr, status, error) {
+		var result = _error(xhr, status, error);
+		ActiveXObject.defaults.status = 200;
+		ok(true, 'error');
+		return result;
+	    };
+	    settings.success = function() {
+		ok(true, 'retry success');
+		jpoker.error = jpokerError;
+		start_and_cleanup();
+	    };
+	    _ajax(settings);
+	};
+        ActiveXObject.defaults.status = 12152;
+        self.sendPacket({type: 'type'});
+    });
+
+test("jpoker.connection:sendPacket retry 12030", function(){
+        expect(2);
+        stop();
+        var self = new jpoker.connection(); 
+	var _ajax = self.ajax;
+        var jpokerError = jpoker.error;
+        jpoker.error = function(reason) {
+            ok(false, 'jpoker error not called');
+        };
+	self.ajax = function(settings) {
+	    var _error = settings.error;
+	    settings.error = function(xhr, status, error) {
+		var result = _error(xhr, status, error);
+		ActiveXObject.defaults.status = 200;
+		ok(true, 'error');
+		return result;
+	    };
+	    settings.success = function() {
+		ok(true, 'retry success');
+		jpoker.error = jpokerError;
+		start_and_cleanup();
+	    };
+	    _ajax(settings);
+	};
+        ActiveXObject.defaults.status = 12152;
+        self.sendPacket({type: 'type'});
+    });
+
+test("jpoker.connection:sendPacket retry 12031", function(){
+        expect(2);
+        stop();
+        var self = new jpoker.connection(); 
+	var _ajax = self.ajax;
+        var jpokerError = jpoker.error;
+        jpoker.error = function(reason) {
+            ok(false, 'jpoker error not called');
+        };
+	self.ajax = function(settings) {
+	    var _error = settings.error;
+	    settings.error = function(xhr, status, error) {
+		var result = _error(xhr, status, error);
+		ActiveXObject.defaults.status = 200;
+		ok(true, 'error');
+		return result;
+	    };
+	    settings.success = function() {
+		ok(true, 'retry success');
+		jpoker.error = jpokerError;
+		start_and_cleanup();
+	    };
+	    _ajax(settings);
+	};
+        ActiveXObject.defaults.status = 12152;
+        self.sendPacket({type: 'type'});
+    });
+
+test("jpoker.connection:sendPacket retry count", function(){
+        expect(3);
+        stop();
+        var self = new jpoker.connection();
+	self.retryCount = 42;
+        
+        var error = jpoker.error;
+        jpoker.error = function(reason) {
+            jpoker.error = error;
+            equals(reason.xhr.status, 12152);
+	    ok(reason.error.indexOf('retry') >= 0, 'retry error');
+	    ok(reason.error.indexOf(self.retryCount) >= 0, 'retryCount');
+	    ActiveXObject.defaults.status = 200;
+            start_and_cleanup();
+        };
+        ActiveXObject.defaults.status = 12152;
+        self.sendPacket({type: 'type'});
+    });
+
+test("jquery ajaxQueue retry", function() {
+	expect(3);
+	stop();
+	var ajaxQueue = $.ajax_queue;
+	var retry = false;
+	var settings = {
+	    mode: "queue",
+	    error: function() {
+		ActiveXObject.defaults.status = 200;
+		retry = true;
+		return false; // retry
+	    },
+	    success: function() {
+		ok(retry, 'retry');
+		equals(jQuery([$.ajax_queue]).queue('ajaxundefined').length, 1, 'queue not cleared');
+		setTimeout(function() {
+			equals(jQuery([$.ajax_queue]).queue('ajaxundefined').length, 0, 'queue cleared');
+			start_and_cleanup();
+		    }, 0);
+	    },
+	    data: 'foo'
+	};
+        ActiveXObject.defaults.status = 500;
+	$.ajax(settings);
+    });
+
 test("jpoker.connection:sendPacket timeout", function(){
         expect(1);
         stop();
