@@ -1967,67 +1967,6 @@ test("jpoker.connection:sendPacket error 500", function(){
         ActiveXObject.defaults.status = 200;
     });
 
-test("jpoker.connection:sendPacket retry 12152", function(){
-        expect(1);
-        stop();
-        var self = new jpoker.connection();        
-	var sendPacket = self.sendPacket;
-	self.sendPacket = function(packet) {
-	    equals(packet.type, 'type', 'retry');
-	    start();
-	};
-        ActiveXObject.defaults.status = 12152;
-        sendPacket.apply(self, [{type: 'type'}]);
-        ActiveXObject.defaults.status = 200;
-    });
-
-test("jpoker.connection:sendPacket retry 12030", function(){
-        expect(1);
-        stop();
-        var self = new jpoker.connection();        
-	var sendPacket = self.sendPacket;
-	self.sendPacket = function(packet) {
-	    equals(packet.type, 'type', 'retry');
-	    start();
-	};
-        ActiveXObject.defaults.status = 12030;
-        sendPacket.apply(self, [{type: 'type'}]);
-        ActiveXObject.defaults.status = 200;
-    });
-
-test("jpoker.connection:sendPacket retry 12031", function(){
-        expect(1);
-        stop();
-        var self = new jpoker.connection();        
-	var sendPacket = self.sendPacket;
-	self.sendPacket = function(packet) {
-	    equals(packet.type, 'type', 'retry');
-	    start();
-	};
-        ActiveXObject.defaults.status = 12031;
-        sendPacket.apply(self, [{type: 'type'}]);
-        ActiveXObject.defaults.status = 200;
-    });
-
-test("jpoker.connection:sendPacket retry count", function(){
-        expect(3);
-        stop();
-        var self = new jpoker.connection();
-	self.retryCount = 42;
-        
-        var error = jpoker.error;
-        jpoker.error = function(reason) {
-            jpoker.error = error;
-            equals(reason.xhr.status, 12031);
-	    ok(reason.error.indexOf('retry') >= 0, 'retry error');
-	    ok(reason.error.indexOf(self.retryCount) >= 0, 'retryCount');
-	    ActiveXObject.defaults.status = 200;
-            start();
-        };
-        ActiveXObject.defaults.status = 12031;
-        self.sendPacket({type: 'type'});
-    });
-
 test("jpoker.connection:sendPacket timeout", function(){
         expect(1);
         stop();
