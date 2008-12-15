@@ -17,12 +17,12 @@
 //     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-TEST_TABLE_INFO = TEST_TABLE_INFO === undefined ? true : TEST_TABLE_INFO;
-TEST_AVATAR = TEST_AVATAR === undefined ? true : TEST_AVATAR;
-TEST_POWERED_BY = TEST_POWERED_BY === undefined ? true : TEST_POWERED_BY;
-TEST_RANK = TEST_RANK === undefined ? true : TEST_RANK;
-TEST_ACTION = TEST_ACTION === undefined ? true : TEST_ACTION;
-TEST_SIDE_POT = TEST_SIDE_POT === undefined ? true : TEST_SIDE_POT;
+var TEST_TABLE_INFO = TEST_TABLE_INFO === undefined ? true : TEST_TABLE_INFO;
+var TEST_AVATAR = TEST_AVATAR === undefined ? true : TEST_AVATAR;
+var TEST_POWERED_BY = TEST_POWERED_BY === undefined ? true : TEST_POWERED_BY;
+var TEST_RANK = TEST_RANK === undefined ? true : TEST_RANK;
+var TEST_ACTION = TEST_ACTION === undefined ? true : TEST_ACTION;
+var TEST_SIDE_POT = TEST_SIDE_POT === undefined ? true : TEST_SIDE_POT;
 
 module("jpoker");
 
