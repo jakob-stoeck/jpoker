@@ -17,12 +17,12 @@
 //     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-var TEST_TABLE_INFO = true;
-var TEST_AVATAR = true;
-var TEST_POWERED_BY = true;
-var TEST_RANK = true;
-var TEST_ACTION = true;
-var TEST_SIDE_POT = true;
+if(TEST_TABLE_INFO === undefined) { var TEST_TABLE_INFO = true; }
+if(TEST_AVATAR === undefined) { var TEST_AVATAR = true; }
+if(TEST_POWERED_BY === undefined) { var TEST_POWERED_BY = true; }
+if(TEST_RANK === undefined) { var TEST_RANK = true; }
+if(TEST_ACTION === undefined) { var TEST_ACTION = true; }
+if(TEST_SIDE_POT === undefined) { var TEST_SIDE_POT = true; }
 
 module("jpoker");
 
