@@ -82,7 +82,6 @@ function setUp() {
 
     $('.skinclean').empty();
     $('#table').empty();
-    $('#place').empty();
     $('#text').hide();
 
     $('#jpoker_copyright').dialog('destroy');
@@ -118,10 +117,10 @@ function jpokerTableList(place) {
 function jpoker_02_join(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_02_join</b> ');
-            $(place).append('A player just arrived at the table, he is sit out and has no money in front of him.');
-            $(place).append('The player name can be 50 characters at most.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_02_join</b> ');
+            $('#explain').append('A player just arrived at the table, he is sit out and has no money in front of him.');
+            $('#explain').append('The player name can be 50 characters at most.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -146,9 +145,9 @@ function jpoker_02_join(place) {
 function jpoker_03_joinBuyIn(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_03_joinBuyIn</b> ');
-            $(place).append('A player arrived at the table, he is sit out he brings money at the table.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_03_joinBuyIn</b> ');
+            $('#explain').append('A player arrived at the table, he is sit out he brings money at the table.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -179,9 +178,9 @@ function jpoker_03_joinBuyIn(place) {
 function jpoker_03_playerBet(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_03_playerBet</b> ');
-            $(place).append('A player is sit, with money at the table, cards, and a bet.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_03_playerBet</b> ');
+            $('#explain').append('A player is sit, with money at the table, cards, and a bet.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -218,9 +217,9 @@ function jpoker_03_playerBet(place) {
 function jpoker_04_playerInPosition(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_04_playerInPosition</b> ');
-            $(place).append('The player username0 is to act / is in position.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_04_playerInPosition</b> ');
+            $('#explain').append('The player username0 is to act / is in position.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -254,9 +253,9 @@ function jpoker_04_playerInPosition(place) {
 function jpoker_05_selfPlayer(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_05_selfPlayer</b> ');
-            $(place).append('The logged in player is sit at the table, buy in dialog shows.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_05_selfPlayer</b> ');
+            $('#explain').append('The logged in player is sit at the table, buy in dialog shows.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -291,9 +290,9 @@ rebuy_min: 1000
 function jpoker_06_selfInPosition(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_06_selfInPosition</b> ');
-            $(place).append('The logged in player is in position.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_06_selfInPosition</b> ');
+            $('#explain').append('The logged in player is in position.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -343,9 +342,9 @@ function jpoker_06_selfInPosition(place) {
 function jpoker_07_joining(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_07_joining</b> ');
-            $(place).append('A request to join the table was sent to the poker server and the HTML element where the table is going to be displayed has been created, with a message showing the table description is expected to arrive from the server.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_07_joining</b> ');
+            $('#explain').append('A request to join the table was sent to the poker server and the HTML element where the table is going to be displayed has been created, with a message showing the table description is expected to arrive from the server.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -355,9 +354,9 @@ function jpoker_07_joining(place) {
 function jpoker_08_all(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_08_all</b> ');
-            $(place).append('All community cards and all pots are displayed.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_08_all</b> ');
+            $('#explain').append('All community cards and all pots are displayed.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -395,9 +394,9 @@ function jpoker_08_all(place) {
 function jpoker_09_dialog(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_09_dialog</b> ');
-            $(place).append('Dialog box used for various game messages and notifications.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_09_dialog</b> ');
+            $('#explain').append('Dialog box used for various game messages and notifications.');
+            $('#explain').append('<hr>');
         }
 
         $.jpoker.dialog('Dialog box used for various game messages and notifications.');
@@ -406,9 +405,9 @@ function jpoker_09_dialog(place) {
 function jpoker_10_selfMuck(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_10_selfMuck</b> ');
-            $(place).append('The logged in player is sit at the table, if muck checkbox are unchecked, muck button will be shown.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_10_selfMuck</b> ');
+            $('#explain').append('The logged in player is sit at the table, if muck checkbox are unchecked, muck button will be shown.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -447,9 +446,9 @@ function jpoker_10_selfMuck(place) {
 function jpoker_11_avatarHover(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_11_avatarHover</b> ');
-            $(place).append('Hovering the avatar show a border around the image by default.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_11_avatarHover</b> ');
+            $('#explain').append('Hovering the avatar show a border around the image by default.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -484,9 +483,9 @@ function jpoker_11_avatarHover(place) {
 function jpoker_12_selfRebuy(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_12_selfRebuy</b> ');
-            $(place).append('player has less than betlimit money he is able to rebuy.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_12_selfRebuy</b> ');
+            $('#explain').append('player has less than betlimit money he is able to rebuy.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -522,9 +521,9 @@ function jpoker_12_selfRebuy(place) {
 function jpoker_20_login(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_20_login</b> ');
-            $(place).append('Player is logged out.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_20_login</b> ');
+            $('#explain').append('Player is logged out.');
+            $('#explain').append('<hr>');
         }
 
         $(place).jpoker('login', 'url');
@@ -535,9 +534,9 @@ function jpoker_20_login(place) {
 function jpoker_21_loginProgress(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_21_loginProgress</b> ');
-            $(place).append('Login request was sent, waiting for answer.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_21_loginProgress</b> ');
+            $('#explain').append('Login request was sent, waiting for answer.');
+            $('#explain').append('<hr>');
         }
 
         var server = $.jpoker.getServer('url');
@@ -554,9 +553,9 @@ function jpoker_21_loginProgress(place) {
 function jpoker_22_logout(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_22_logout</b> ');
-            $(place).append('User is logged in, one choice only : logout.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_22_logout</b> ');
+            $('#explain').append('User is logged in, one choice only : logout.');
+            $('#explain').append('<hr>');
         }
 
         var server = $.jpoker.getServer('url');
@@ -568,9 +567,9 @@ function jpoker_22_logout(place) {
 function jpoker_30_statusDisconnected(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_30_statusDisconnected</b> ');
-            $(place).append('disconnected from server.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_30_statusDisconnected</b> ');
+            $('#explain').append('disconnected from server.');
+            $('#explain').append('<hr>');
         }
 
         $(place).jpoker('serverStatus', 'url');
@@ -579,9 +578,9 @@ function jpoker_30_statusDisconnected(place) {
 function jpoker_31_connectedTables(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_31_connectedTables</b> ');
-            $(place).append('connected to server, with tables and no players.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_31_connectedTables</b> ');
+            $('#explain').append('connected to server, with tables and no players.');
+            $('#explain').append('<hr>');
         }
 
         var server = $.jpoker.getServer('url');
@@ -594,9 +593,9 @@ function jpoker_31_connectedTables(place) {
 function jpoker_32_connectedTablesPlayers(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_32_connectedTablesPlayers</b> ');
-            $(place).append('connected to server, with tables and players.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_32_connectedTablesPlayers</b> ');
+            $('#explain').append('connected to server, with tables and players.');
+            $('#explain').append('<hr>');
         }
 
         var server = $.jpoker.getServer('url');
@@ -610,9 +609,9 @@ function jpoker_32_connectedTablesPlayers(place) {
 function jpoker_40_tableList(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_40_tableList</b> ');
-            $(place).append('List of poker tables available on the server.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_40_tableList</b> ');
+            $('#explain').append('List of poker tables available on the server.');
+            $('#explain').append('<hr>');
         }
 
         var packets = [ {"players": 4, "type": "PacketPokerTableList", "packets": [{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 100, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 4, "waiting": 0, "skin": "default", "id": 100, "type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Two", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 101,"type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Three", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-pot-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 102,"type": "PacketPokerTable", "player_timeout": 60}]} ];
@@ -629,9 +628,9 @@ function jpoker_40_tableList(place) {
 function jpoker_41_regularTourneyList(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_41_regularTourneyList</b> ');
-            $(place).append('List of poker regular tourney available on the server.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_41_regularTourneyList</b> ');
+            $('#explain').append('List of poker regular tourney available on the server.');
+            $('#explain').append('<hr>');
         }
 
 	var packets = [{"players": 0, "packets": [{"players_quota": 2, "breaks_first": 7200, "name": "sitngo2", "description_short" : "Sit and Go 2 players, Holdem", "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 1, "sit_n_go": "y", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll 1", "start_time": 1216201024, "breaks_interval" : 60, "variant": "holdem", "currency_serial": 1, "state": "registering", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 39, "sit_n_go": "n", "registered": 789}, {"players_quota": 2000, "breaks_first" : 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll 2", "start_time": 1216201025, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 40, "sit_n_go": "n", "registered": 0}, {"players_quota": 3000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll 3", "start_time": 1216201026, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial" : 41, "sit_n_go": "n", "registered": 0}, {"players_quota": 4000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll 4", "start_time": 1216201027, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 42, "sit_n_go": "n", "registered": 0}], "tourneys": 5, "type": "PacketPokerTourneyList"}];
@@ -648,9 +647,9 @@ function jpoker_41_regularTourneyList(place) {
 function jpoker_42_sitngoTourneyList(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_42_sitngoTourneyList</b> ');
-            $(place).append('List of poker regular tourney available on the server.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_42_sitngoTourneyList</b> ');
+            $('#explain').append('List of poker regular tourney available on the server.');
+            $('#explain').append('<hr>');
         }
 
 	var packets = [{"players": 0, "packets": [{"players_quota": 2, "breaks_first": 7200, "name": "sitngo2", "description_short" : "Sit and Go 2 players, Holdem 1", "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 100000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 1, "sit_n_go": "y", "registered": 1}, {"players_quota": 2, "breaks_first": 7200, "name": "sitngo2", "description_short" : "Sit and Go 2 players, Holdem 2", "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 1, "sit_n_go": "y", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll 1", "start_time": 1216201024, "breaks_interval" : 60, "variant": "holdem", "currency_serial": 1, "state": "registering", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 39, "sit_n_go": "n", "registered": 789}, {"players_quota": 2000, "breaks_first" : 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll 2", "start_time": 1216201025, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 40, "sit_n_go": "n", "registered": 0}, {"players_quota": 3000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll 3", "start_time": 1216201026, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial" : 41, "sit_n_go": "n", "registered": 0}, {"players_quota": 4000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll 4", "start_time": 1216201027, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 42, "sit_n_go": "n", "registered": 0}], "tourneys": 5, "type": "PacketPokerTourneyList"}];
@@ -667,9 +666,9 @@ function jpoker_42_sitngoTourneyList(place) {
 function jpoker_43_tableListWithLink(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_43_tableListWithLink</b> ');
-            $(place).append('List of poker tables available on the server, with html link on name');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_43_tableListWithLink</b> ');
+            $('#explain').append('List of poker tables available on the server, with html link on name');
+            $('#explain').append('<hr>');
         }
 
         var packets = [ {"players": 4, "type": "PacketPokerTableList", "packets": [{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 100, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 4, "waiting": 0, "skin": "default", "id": 100, "type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Two", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 101,"type": "PacketPokerTable", "player_timeout": 60}, {"observers": 0, "name": "Three", "percent_flop": 0, "average_pot": 0, "seats": 10, "variant": "holdem", "hands_per_hour": 0, "betting_structure": "10-20-pot-limit", "currency_serial": 1, "muck_timeout": 5, "players": 0, "waiting": 0, "skin": "default", "id": 102,"type": "PacketPokerTable", "player_timeout": 60}]} ];
@@ -686,9 +685,9 @@ function jpoker_43_tableListWithLink(place) {
 function jpoker_44_regularTourneyListWithLink(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_44_regularTourneyListWithLink</b> ');
-            $(place).append('List of poker regular tourney available on the server, with html link on description.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_44_regularTourneyListWithLink</b> ');
+            $('#explain').append('List of poker regular tourney available on the server, with html link on description.');
+            $('#explain').append('<hr>');
         }
 
 	var packets = [{"players": 0, "packets": [{"players_quota": 2, "breaks_first": 7200, "name": "sitngo2", "description_short" : "Sit and Go 2 players, Holdem", "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 1, "sit_n_go": "y", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll 1", "start_time": 1216201024, "breaks_interval" : 60, "variant": "holdem", "currency_serial": 1, "state": "registering", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 39, "sit_n_go": "n", "registered": 789}, {"players_quota": 2000, "breaks_first" : 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll 2", "start_time": 1216201025, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 40, "sit_n_go": "n", "registered": 0}, {"players_quota": 3000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll 3", "start_time": 1216201026, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial" : 41, "sit_n_go": "n", "registered": 0}, {"players_quota": 4000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll 4", "start_time": 1216201027, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 42, "sit_n_go": "n", "registered": 0}], "tourneys": 5, "type": "PacketPokerTourneyList"}];
@@ -705,9 +704,9 @@ function jpoker_44_regularTourneyListWithLink(place) {
 function jpoker_45_sitngoTourneyListWithLink(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_45_sitngoTourneyListWithLink</b> ');
-            $(place).append('List of poker regular tourney available on the server, with html link on description.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_45_sitngoTourneyListWithLink</b> ');
+            $('#explain').append('List of poker regular tourney available on the server, with html link on description.');
+            $('#explain').append('<hr>');
         }
 
 	var packets = [{"players": 0, "packets": [{"players_quota": 2, "breaks_first": 7200, "name": "sitngo2", "description_short" : "Sit and Go 2 players, Holdem 1", "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 100000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 1, "sit_n_go": "y", "registered": 1}, {"players_quota": 2, "breaks_first": 7200, "name": "sitngo2", "description_short" : "Sit and Go 2 players, Holdem 2", "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 1, "sit_n_go": "y", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll 1", "start_time": 1216201024, "breaks_interval" : 60, "variant": "holdem", "currency_serial": 1, "state": "registering", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 39, "sit_n_go": "n", "registered": 789}, {"players_quota": 2000, "breaks_first" : 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll 2", "start_time": 1216201025, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 40, "sit_n_go": "n", "registered": 0}, {"players_quota": 3000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll 3", "start_time": 1216201026, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial" : 41, "sit_n_go": "n", "registered": 0}, {"players_quota": 4000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll 4", "start_time": 1216201027, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 42, "sit_n_go": "n", "registered": 0}], "tourneys": 5, "type": "PacketPokerTourneyList"}];
@@ -724,9 +723,9 @@ function jpoker_45_sitngoTourneyListWithLink(place) {
 function jpoker_46_tableListWithPager(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_46_tableListWithPager</b> ');
-            $(place).append('List of poker tables available on the server.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_46_tableListWithPager</b> ');
+            $('#explain').append('List of poker tables available on the server.');
+            $('#explain').append('<hr>');
         }
 
         var packets = [ {"players": 4, "type": "PacketPokerTableList", "packets": []} ];
@@ -750,9 +749,9 @@ function jpoker_46_tableListWithPager(place) {
 function jpoker_47_regularTourneyListWithPager(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_47_regularTourneyListWithPager</b> ');
-            $(place).append('List of poker tables available on the server.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_47_regularTourneyListWithPager</b> ');
+            $('#explain').append('List of poker tables available on the server.');
+            $('#explain').append('<hr>');
         }
 
 	var packets = [{"players": 0, "packets": [], "tourneys": 5, "type": "PacketPokerTourneyList"}];
@@ -775,9 +774,9 @@ function jpoker_47_regularTourneyListWithPager(place) {
 function jpoker_48_sitngoTourneyListWithPager(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_48_sitngoTourneyListWithPager</b> ');
-            $(place).append('List of poker tables available on the server.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_48_sitngoTourneyListWithPager</b> ');
+            $('#explain').append('List of poker tables available on the server.');
+            $('#explain').append('<hr>');
         }
 
 	var packets = [{"players": 0, "packets": [], "tourneys": 5, "type": "PacketPokerTourneyList"}];
@@ -800,9 +799,9 @@ function jpoker_48_sitngoTourneyListWithPager(place) {
 function jpoker_49_tableListWithPagerWithLinks(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_49_tableListWithPagerWithLinks</b> ');
-            $(place).append('List of poker tables available on the server.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_49_tableListWithPagerWithLinks</b> ');
+            $('#explain').append('List of poker tables available on the server.');
+            $('#explain').append('<hr>');
         }
 
         var packets = [ {"players": 4, "type": "PacketPokerTableList", "packets": []} ];
@@ -826,9 +825,9 @@ function jpoker_49_tableListWithPagerWithLinks(place) {
 function jpoker_49_1_regularTourneyListWithPagerWithLinks(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_49_1_regularTourneyListWithPagerWithLinks</b> ');
-            $(place).append('List of poker regular tourneys available on the server.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_49_1_regularTourneyListWithPagerWithLinks</b> ');
+            $('#explain').append('List of poker regular tourneys available on the server.');
+            $('#explain').append('<hr>');
         }
 
 	var packets = [{"players": 0, "packets": [], "tourneys": 5, "type": "PacketPokerTourneyList"}];
@@ -851,9 +850,9 @@ function jpoker_49_1_regularTourneyListWithPagerWithLinks(place) {
 function jpoker_49_2_sitngoTourneyListWithPagerWithLinks(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_49_2_sitngoTourneyListWithPagerWithLinks</b> ');
-            $(place).append('List of poker sitngo tourneys available on the server.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_49_2_sitngoTourneyListWithPagerWithLinks</b> ');
+            $('#explain').append('List of poker sitngo tourneys available on the server.');
+            $('#explain').append('<hr>');
         }
 
 	var packets = [{"players": 0, "packets": [], "tourneys": 5, "type": "PacketPokerTourneyList"}];
@@ -876,9 +875,9 @@ function jpoker_49_2_sitngoTourneyListWithPagerWithLinks(place) {
 function jpoker_50_sitOut(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_50_sitOut</b> ');
-            $(place).append('A player is sit out, meaning he occupies a site but does not participate in the game.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_50_sitOut</b> ');
+            $('#explain').append('A player is sit out, meaning he occupies a site but does not participate in the game.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -902,9 +901,9 @@ function jpoker_50_sitOut(place) {
 function jpoker_51_sit(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_51_sit</b> ');
-            $(place).append('A player is sit, meaning he participates in the game.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_51_sit</b> ');
+            $('#explain').append('A player is sit, meaning he participates in the game.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -929,9 +928,9 @@ function jpoker_51_sit(place) {
 function jpoker_52_inPosition(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_52_inPosition</b> ');
-            $(place).append('A player is in position, meaning he participates in the game and must act. This is associated with a sound notification.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_52_inPosition</b> ');
+            $('#explain').append('A player is in position, meaning he participates in the game and must act. This is associated with a sound notification.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -958,9 +957,9 @@ function jpoker_52_inPosition(place) {
 function jpoker_53_timeout(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_53_timeout</b> ');
-            $(place).append('A descending progress bar shows how much time is left for the player to act.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_53_timeout</b> ');
+            $('#explain').append('A descending progress bar shows how much time is left for the player to act.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -986,9 +985,9 @@ function jpoker_53_timeout(place) {
 function jpoker_54_sidepot(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_54_sidepot</b> ');
-            $(place).append('A label show side pot attribution to allin player.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_54_sidepot</b> ');
+            $('#explain').append('A label show side pot attribution to allin player.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -1022,9 +1021,9 @@ function jpoker_54_sidepot(place) {
 function jpoker_55_allWithSidePot(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_55_allWithSidePot</b> ');
-            $(place).append('All player pots are displayed.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_55_allWithSidePot</b> ');
+            $('#explain').append('All player pots are displayed.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -1061,9 +1060,9 @@ function jpoker_55_allWithSidePot(place) {
 function jpoker_56_tourneyBreak(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_56_tourneyBreak</b> ');
-            $(place).append('Tournaments is on break, resume time is displayed.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_56_tourneyBreak</b> ');
+            $('#explain').append('Tournaments is on break, resume time is displayed.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -1096,9 +1095,9 @@ function jpoker_56_tourneyBreak(place) {
 function jpoker_57_stats(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_57_stats</b> ');
-            $(place).append('All player pots are displayed.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_57_stats</b> ');
+            $('#explain').append('All player pots are displayed.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -1135,9 +1134,9 @@ function jpoker_60_text(place) {
 function jpoker_70_userInfo(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_70_userInfo</b> ');
-            $(place).append('Personal informations of the current logged user.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_70_userInfo</b> ');
+            $('#explain').append('Personal informations of the current logged user.');
+            $('#explain').append('<hr>');
         } 
 
         var server = $.jpoker.getServer('url');
@@ -1158,9 +1157,9 @@ function jpoker_70_userInfo(place) {
 function jpoker_80_tourneyDetailsRegistering(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_80_tourneyDetailsRegistering</b> ');
-            $(place).append('Details of a sitngo registering tournament.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_80_tourneyDetailsRegistering</b> ');
+            $('#explain').append('Details of a sitngo registering tournament.');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": 140, "table_serial": 606, "name": "user1", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4]}, "type": 149, "tourney": {"registered": 1, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Sit and Go 2 players", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "registering", "buy_in": 300000, "add_on_count": 0, "description_short": "Sit and Go 2 players, Holdem", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0, "rank2prize": [1000000, 100000]}, "type": "PacketPokerTourneyManager"};
@@ -1184,9 +1183,9 @@ function jpoker_80_tourneyDetailsRegistering(place) {
 function jpoker_80_1_tourneyDetailsRegularRegistering(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_80_1_tourneyDetailsRegularRegistering</b> ');
-            $(place).append('Details of a regular registering tournament.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_80_1_tourneyDetailsRegularRegistering</b> ');
+            $('#explain').append('Details of a regular registering tournament.');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": 140, "table_serial": 606, "name": "user1", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4]}, "type": 149, "tourney": {"registered": 1, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Regular tournament long description", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "registering", "buy_in": 300000, "add_on_count": 0, "description_short": "Regular tournament", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 2000, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 0}, "type": "PacketPokerTourneyManager"};
@@ -1210,9 +1209,9 @@ function jpoker_80_1_tourneyDetailsRegularRegistering(place) {
 function jpoker_81_tourneyDetailsRunning(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_81_tourneyDetailsRunning</b> ');
-            $(place).append('Details of a sitngo running tournament.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_81_tourneyDetailsRunning</b> ');
+            $('#explain').append('Details of a sitngo running tournament.');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": 100000, "table_serial": 606, "name": "user1", "rank": -1}, "X5": {"money": 100000, "table_serial": 606, "name": "user2", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4,5]}, "type": 149, "tourney": {"registered": 2, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Sit and Go 2 players", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "running", "buy_in": 300000, "add_on_count": 0, "description_short": "Sit and Go 2 players, Holdem", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0, "rank2prize": [1000000, 100000]}, "type": "PacketPokerTourneyManager"};
@@ -1234,9 +1233,9 @@ function jpoker_81_tourneyDetailsRunning(place) {
 function jpoker_81_1_tourneyDetailsRegularRunning(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_81_1_tourneyDetailsRegularRunning</b> ');
-            $(place).append('Details of a regular running tournament.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_81_1_tourneyDetailsRegularRunning</b> ');
+            $('#explain').append('Details of a regular running tournament.');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": 100000, "table_serial": 606, "name": "user1", "rank": -1}, "X5": {"money": 100000, "table_serial": 606, "name": "user2", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4,5]}, "type": 149, "tourney": {"registered": 2, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Regular tournament long description", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "running", "buy_in": 300000, "add_on_count": 0, "description_short": "Regular tournament", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 0, "rank2prize": [1000000, 100000]}, "type": "PacketPokerTourneyManager"};
@@ -1258,9 +1257,9 @@ function jpoker_81_1_tourneyDetailsRegularRunning(place) {
 function jpoker_82_tourneyDetailsCompleted(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_82_tourneyDetailsCompleted</b> ');
-            $(place).append('Details of a sitngo completed tournament.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_82_tourneyDetailsCompleted</b> ');
+            $('#explain').append('Details of a sitngo completed tournament.');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": -1, "table_serial": 606, "name": "user1", "rank": 1}, "X5": {"money": -1, "table_serial": 606, "name": "user2", "rank": 2}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4,5]}, "type": 149, "tourney": {"registered": 2, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Sit and Go 2 players", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "complete", "buy_in": 300000, "add_on_count": 0, "description_short": "Sit and Go 2 players, Holdem", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0, "rank2prize": [1000000, 100000]}, "type": "PacketPokerTourneyManager"};
@@ -1282,9 +1281,9 @@ function jpoker_82_tourneyDetailsCompleted(place) {
 function jpoker_82_1_tourneyDetailsRegularCompleted(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_82_1_tourneyDetailsRegularCompleted</b> ');
-            $(place).append('Details of a regular completed tournament.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_82_1_tourneyDetailsRegularCompleted</b> ');
+            $('#explain').append('Details of a regular completed tournament.');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": -1, "table_serial": 606, "name": "user1", "rank": 1}, "X5": {"money": -1, "table_serial": 606, "name": "user2", "rank": 2}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4,5]}, "type": 149, "tourney": {"registered": 2, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Regular tournament long description", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "complete", "buy_in": 300000, "add_on_count": 0, "description_short": "Regular tournament", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 0, "rank2prize": [1000000, 100000]}, "type": "PacketPokerTourneyManager"};
@@ -1306,9 +1305,9 @@ function jpoker_82_1_tourneyDetailsRegularCompleted(place) {
 function jpoker_83_tourneyDetailsRegisteringWithPager(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_83_tourneyDetailsRegisteringWithPager</b> ');
-            $(place).append('Details of a sitngo registering tournament.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_83_tourneyDetailsRegisteringWithPager</b> ');
+            $('#explain').append('Details of a sitngo registering tournament.');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4]}, "type": 149, "tourney": {"registered": 1, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Sit and Go 2 players", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "registering", "buy_in": 300000, "add_on_count": 0, "description_short": "Sit and Go 2 players, Holdem", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0}, "type": "PacketPokerTourneyManager"};
@@ -1336,9 +1335,9 @@ function jpoker_83_tourneyDetailsRegisteringWithPager(place) {
 function jpoker_83_1_tourneyDetailsRegularRegisteringWithPager(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_83_1_tourneyDetailsRegularRegisteringWithPager</b> ');
-            $(place).append('Details of a regular registering tournament.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_83_1_tourneyDetailsRegularRegisteringWithPager</b> ');
+            $('#explain').append('Details of a regular registering tournament.');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4]}, "type": 149, "tourney": {"registered": 1, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Regular tournament long description", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "registering", "buy_in": 300000, "add_on_count": 0, "description_short": "Regular tournament", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 0}, "type": "PacketPokerTourneyManager"};
@@ -1366,9 +1365,9 @@ function jpoker_83_1_tourneyDetailsRegularRegisteringWithPager(place) {
 function jpoker_84_tourneyDetailsRunningWithLink(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_84_tourneyDetailsRunningWithLink</b> ');
-            $(place).append('Details of a sitngo running tournament.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_84_tourneyDetailsRunningWithLink</b> ');
+            $('#explain').append('Details of a sitngo running tournament.');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": 100000, "table_serial": 606, "name": "user1", "rank": -1}, "X5": {"money": 100000, "table_serial": 606, "name": "user2", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4,5]}, "type": 149, "tourney": {"registered": 2, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Sit and Go 2 players", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "running", "buy_in": 300000, "add_on_count": 0, "description_short": "Sit and Go 2 players, Holdem", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0, "rank2prize": [1000000, 100000]}, "type": "PacketPokerTourneyManager"};
@@ -1390,9 +1389,9 @@ function jpoker_84_tourneyDetailsRunningWithLink(place) {
 function jpoker_84_1_tourneyDetailsRegularRunningWithLink(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_84_1_tourneyDetailsRegularRunningWithLink</b>');
-            $(place).append('Details of a regular running tournament.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_84_1_tourneyDetailsRegularRunningWithLink</b>');
+            $('#explain').append('Details of a regular running tournament.');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": 100000, "table_serial": 606, "name": "user1", "rank": -1}, "X5": {"money": 100000, "table_serial": 606, "name": "user2", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4,5]}, "type": 149, "tourney": {"registered": 2, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Regular tournament long description", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "running", "buy_in": 300000, "add_on_count": 0, "description_short": "Regular tournament", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 0, "rank2prize": [1000000, 100000]}, "type": "PacketPokerTourneyManager"};
@@ -1414,9 +1413,9 @@ function jpoker_84_1_tourneyDetailsRegularRunningWithLink(place) {
 function jpoker_85_tourneyDetailsRegisteringWithPagerRegister(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_85_tourneyDetailsRegisteringWithPagerRegister</b> ');
-            $(place).append('Details of a sitngo registering tournament with 200 players, when player is logged and not registered');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_85_tourneyDetailsRegisteringWithPagerRegister</b> ');
+            $('#explain').append('Details of a sitngo registering tournament with 200 players, when player is logged and not registered');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4]}, "type": 149, "tourney": {"registered": 1, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Sit and Go 2 players", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "registering", "buy_in": 300000, "add_on_count": 0, "description_short": "Sit and Go 2 players, Holdem", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0}, "type": "PacketPokerTourneyManager"};
@@ -1446,9 +1445,9 @@ function jpoker_85_tourneyDetailsRegisteringWithPagerRegister(place) {
 function jpoker_85_1_tourneyDetailsRegularRegisteringWithPagerRegister(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_85_tourneyDetailsRegularRegisteringWithPagerRegister</b> ');
-            $(place).append('Details of a regular registering tournament with 200 players, when player is logged and not registered');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_85_tourneyDetailsRegularRegisteringWithPagerRegister</b> ');
+            $('#explain').append('Details of a regular registering tournament with 200 players, when player is logged and not registered');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4]}, "type": 149, "tourney": {"registered": 1, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Regular tournament long description", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "registering", "buy_in": 300000, "add_on_count": 0, "description_short": "Regular tournament", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 0}, "type": "PacketPokerTourneyManager"};
@@ -1478,9 +1477,9 @@ function jpoker_85_1_tourneyDetailsRegularRegisteringWithPagerRegister(place) {
 function jpoker_86_tourneyDetailsRegisteringWithPagerUnregister(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_86_tourneyDetailsRegisteringWithPagerUnregister</b> ');
-            $(place).append('Details of a sitngo registering tournament with 200 players, when player is logged and registered');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_86_tourneyDetailsRegisteringWithPagerUnregister</b> ');
+            $('#explain').append('Details of a sitngo registering tournament with 200 players, when player is logged and registered');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4]}, "type": 149, "tourney": {"registered": 1, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Sit and Go 2 players", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "registering", "buy_in": 300000, "add_on_count": 0, "description_short": "Sit and Go 2 players, Holdem", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0}, "type": "PacketPokerTourneyManager"};
@@ -1510,9 +1509,9 @@ function jpoker_86_tourneyDetailsRegisteringWithPagerUnregister(place) {
 function jpoker_86_1_tourneyDetailsRegularRegisteringWithPagerUnregister(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_86_1_tourneyDetailsRegularRegisteringWithPagerUnregister</b> ');
-            $(place).append('Details of a regular registering tournament with 200 players, when player is logged and registered');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_86_1_tourneyDetailsRegularRegisteringWithPagerUnregister</b> ');
+            $('#explain').append('Details of a regular registering tournament with 200 players, when player is logged and registered');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4]}, "type": 149, "tourney": {"registered": 1, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Regular tournament long description", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "registering", "buy_in": 300000, "add_on_count": 0, "description_short": "Regular tournament", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 0}, "type": "PacketPokerTourneyManager"};
@@ -1542,9 +1541,9 @@ function jpoker_86_1_tourneyDetailsRegularRegisteringWithPagerUnregister(place) 
 function jpoker_87_tourneyDetailsBreak(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_87_tourneyDetailsBreak</b> ');
-            $(place).append('Details of a sitngo break tournament.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_87_tourneyDetailsBreak</b> ');
+            $('#explain').append('Details of a sitngo break tournament.');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": 100000, "table_serial": 606, "name": "user1", "rank": -1}, "X5": {"money": 100000, "table_serial": 606, "name": "user2", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4,5]}, "type": 149, "tourney": {"registered": 2, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Sit and Go 2 players", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "break", "buy_in": 300000, "add_on_count": 0, "description_short": "Sit and Go 2 players, Holdem", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0, "rank2prize": [1000000, 100000]}, "type": "PacketPokerTourneyManager"};
@@ -1566,9 +1565,9 @@ function jpoker_87_tourneyDetailsBreak(place) {
 function jpoker_87_1_tourneyDetailsRegularBreak(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_87_1_tourneyDetailsRegularBreak</b> ');
-            $(place).append('Details of a regular break tournament.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_87_1_tourneyDetailsRegularBreak</b> ');
+            $('#explain').append('Details of a regular break tournament.');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": 100000, "table_serial": 606, "name": "user1", "rank": -1}, "X5": {"money": 100000, "table_serial": 606, "name": "user2", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4,5]}, "type": 149, "tourney": {"registered": 2, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Regular tournament long description", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "break", "buy_in": 300000, "add_on_count": 0, "description_short": "Regular tournament", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 0, "rank2prize": [1000000, 100000]}, "type": "PacketPokerTourneyManager"};
@@ -1590,9 +1589,9 @@ function jpoker_87_1_tourneyDetailsRegularBreak(place) {
 function jpoker_88_tourneyDetailsBreakWait(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_88_tourneyDetailsBreakWait</b> ');
-            $(place).append('Details of a sitngo breakwait tournament.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_88_tourneyDetailsBreakWait</b> ');
+            $('#explain').append('Details of a sitngo breakwait tournament.');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": 100000, "table_serial": 606, "name": "user1", "rank": -1}, "X5": {"money": 100000, "table_serial": 606, "name": "user2", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4,5]}, "type": 149, "tourney": {"registered": 2, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Sit and Go 2 players", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "breakwait", "buy_in": 300000, "add_on_count": 0, "description_short": "Sit and Go 2 players, Holdem", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0, "rank2prize": [1000000, 100000]}, "type": "PacketPokerTourneyManager"};
@@ -1614,9 +1613,9 @@ function jpoker_88_tourneyDetailsBreakWait(place) {
 function jpoker_88_1_tourneyDetailsRegularBreakWait(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_88_1_tourneyDetailsRegularBreakWait</b> ');
-            $(place).append('Details of a regular breakwait tournament.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_88_1_tourneyDetailsRegularBreakWait</b> ');
+            $('#explain').append('Details of a regular breakwait tournament.');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": 100000, "table_serial": 606, "name": "user1", "rank": -1}, "X5": {"money": 100000, "table_serial": 606, "name": "user2", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4,5]}, "type": 149, "tourney": {"registered": 2, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Regular tournament long description", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "breakwait", "buy_in": 300000, "add_on_count": 0, "description_short": "Regular tournament", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 0, "rank2prize": [1000000, 100000]}, "type": "PacketPokerTourneyManager"};
@@ -1638,9 +1637,9 @@ function jpoker_88_1_tourneyDetailsRegularBreakWait(place) {
 function jpoker_89_tourneyDetailsAnnounced(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_80_tourneyDetailsAnnounced</b> ');
-            $(place).append('Details of a sitngo announced tournament.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_80_tourneyDetailsAnnounced</b> ');
+            $('#explain').append('Details of a sitngo announced tournament.');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {}, "length": 3, "tourney_serial": 1, "table2serials": {}, "tourney": {"registered": 0, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Regular tournament long description", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "announced", "buy_in": 300000, "add_on_count": 0, "description_short": "Regular tournament", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 2000, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0}, "type": "PacketPokerTourneyManager"};
@@ -1664,9 +1663,9 @@ function jpoker_89_tourneyDetailsAnnounced(place) {
 function jpoker_89_1_tourneyDetailsRegularAnnounced(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_80_1_tourneyDetailsRegularAnnounced</b> ');
-            $(place).append('Details of a regular announced tournament.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_80_1_tourneyDetailsRegularAnnounced</b> ');
+            $('#explain').append('Details of a regular announced tournament.');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {}, "length": 3, "tourney_serial": 1, "table2serials": {}, "tourney": {"registered": 0, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Regular tournament long description", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "announced", "buy_in": 300000, "add_on_count": 0, "description_short": "Regular tournament", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 2000, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 0}, "type": "PacketPokerTourneyManager"};
@@ -1690,9 +1689,9 @@ function jpoker_89_1_tourneyDetailsRegularAnnounced(place) {
 function jpoker_89_2_tourneyDetailsCanceled(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_80_tourneyDetailsCanceled</b> ');
-            $(place).append('Details of a sitngo canceled tournament.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_80_tourneyDetailsCanceled</b> ');
+            $('#explain').append('Details of a sitngo canceled tournament.');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {}, "length": 3, "tourney_serial": 1, "table2serials": {}, "tourney": {"registered": 0, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Regular tournament long description", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "canceled", "buy_in": 300000, "add_on_count": 0, "description_short": "Regular tournament", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 2000, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0}, "type": "PacketPokerTourneyManager"};
@@ -1716,9 +1715,9 @@ function jpoker_89_2_tourneyDetailsCanceled(place) {
 function jpoker_89_3_tourneyDetailsRegularCanceled(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_80_1_tourneyDetailsRegularCanceled</b> ');
-            $(place).append('Details of a regular canceled tournament.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_80_1_tourneyDetailsRegularCanceled</b> ');
+            $('#explain').append('Details of a regular canceled tournament.');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {}, "length": 3, "tourney_serial": 1, "table2serials": {}, "tourney": {"registered": 0, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Regular tournament long description", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "canceled", "buy_in": 300000, "add_on_count": 0, "description_short": "Regular tournament", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 2000, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 0}, "type": "PacketPokerTourneyManager"};
@@ -1742,9 +1741,9 @@ function jpoker_89_3_tourneyDetailsRegularCanceled(place) {
 function jpoker_90_tourneyPlaceholder(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_90_tourneyPlaceholder</b> ');
-            $(place).append('Placeholder table for a registering tournament.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_90_tourneyPlaceholder</b> ');
+            $('#explain').append('Placeholder table for a registering tournament.');
+            $('#explain').append('<hr>');
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": 140, "table_serial": 606, "name": "user1", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4]}, "type": 149, "tourney": {"registered": 1, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Sit and Go 2 players", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "registering", "buy_in": 300000, "add_on_count": 0, "description_short": "Sit and Go 2 players, Holdem", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 1220102053, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0}, "type": "PacketPokerTourneyManager"};
@@ -1766,8 +1765,8 @@ function jpoker_90_tourneyPlaceholder(place) {
 function jpoker_100_places(place) {
         setUp();
         if(explain) {
-            $(place).append('Tables showing the table and tournaments the player is currently connected to.');
-            $(place).append('<hr>');
+            $('#explain').append('Tables showing the table and tournaments the player is currently connected to.');
+            $('#explain').append('<hr>');
         }
 
 	var PLAYER_PLACES_PACKET = {type: 'PacketPokerPlayerPlaces', serial: 42, tables: [11, 12, 13], tourneys: [21, 22]};
@@ -1788,9 +1787,9 @@ function jpoker_100_places(place) {
 function jpoker_101_playerLookup(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_101_playerLookup</b> ');
-            $(place).append('Form for searching where is a player.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_101_playerLookup</b> ');
+            $('#explain').append('Form for searching where is a player.');
+            $('#explain').append('<hr>');
         }	
 	
         var server = $.jpoker.getServer('url');
@@ -1807,9 +1806,9 @@ function jpoker_101_playerLookup(place) {
 function jpoker_102_placesWithLink(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_102_placesWithLink</b> ');
-            $(place).append('Tables showing the table and tournaments the player is currently connected to, with html link on name and description');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_102_placesWithLink</b> ');
+            $('#explain').append('Tables showing the table and tournaments the player is currently connected to, with html link on name and description');
+            $('#explain').append('<hr>');
         }
 
 	var PLAYER_PLACES_PACKET = {type: 'PacketPokerPlayerPlaces', serial: 42, tables: [11, 12, 13], tourneys: [21, 22]};
@@ -1832,9 +1831,9 @@ function jpoker_102_placesWithLink(place) {
 function jpoker_103_playerLookupWithLink(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_103_playerLookupWithLink</b> ');
-            $(place).append('Form for searching where is a player, with html link on name and description.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_103_playerLookupWithLink</b> ');
+            $('#explain').append('Form for searching where is a player, with html link on name and description.');
+            $('#explain').append('<hr>');
         }	
 	
         var server = $.jpoker.getServer('url');
@@ -1853,9 +1852,9 @@ function jpoker_103_playerLookupWithLink(place) {
 function jpoker_110_cashier(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_110_cashier</b> ');
-            $(place).append('Cashier showing player bankroll for each currency.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_110_cashier</b> ');
+            $('#explain').append('Cashier showing player bankroll for each currency.');
+            $('#explain').append('<hr>');
         }
 
 	var USER_INFO_PACKET = {"rating":1000,"name":"proppy","money":{"X1":[100000,10000,0], "X2":[200000,20000,0]},"affiliate":0,"cookie":"","serial":4,"password":"","type":"PacketPokerUserInfo","email":"","uid__":"jpoker1220102037582"};
@@ -1877,9 +1876,9 @@ function jpoker_110_cashier(place) {
 function jpoker_120_level_junior(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_120_level_junior</b> ');
-            $(place).append('3 players with level junior.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_120_level_junior</b> ');
+            $('#explain').append('3 players with level junior.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -1912,9 +1911,9 @@ function jpoker_120_level_junior(place) {
 function jpoker_121_level_pro(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_121_level_pro</b> ');
-            $(place).append('3 players with level pro.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_121_level_pro</b> ');
+            $('#explain').append('3 players with level pro.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -1947,9 +1946,9 @@ function jpoker_121_level_pro(place) {
 function jpoker_122_level_expert(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_122_level_expert</b> ');
-            $(place).append('3 players with level expert.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_122_level_expert</b> ');
+            $('#explain').append('3 players with level expert.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -1982,9 +1981,9 @@ function jpoker_122_level_expert(place) {
 function jpoker_123_level_master(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_123_level_master</b> ');
-            $(place).append('3 players with level master.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_123_level_master</b> ');
+            $('#explain').append('3 players with level master.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -2017,9 +2016,9 @@ function jpoker_123_level_master(place) {
 function jpoker_130_chat_scroll(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_130_chat_scroll</b> ');
-            $(place).append('The logged in player is in position and the chat shows.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_130_chat_scroll</b> ');
+            $('#explain').append('The logged in player is in position and the chat shows.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -2047,9 +2046,9 @@ function jpoker_130_chat_scroll(place) {
 function jpoker_131_chat_no_scroll(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_131_chat_no_scroll</b> ');
-            $(place).append('The logged in player is in position and the chat shows.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_131_chat_no_scroll</b> ');
+            $('#explain').append('The logged in player is in position and the chat shows.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
@@ -2077,9 +2076,9 @@ function jpoker_131_chat_no_scroll(place) {
 function jpoker_141_click_here_to_get_a_seat(place) {
         setUp();
         if(explain) {
-            $(place).append('<b>jpoker_141_click_here_to_get_a_seat</b> ');
-            $(place).append('The logged in player is asked which seat he wants to take.');
-            $(place).append('<hr>');
+            $('#explain').append('<b>jpoker_141_click_here_to_get_a_seat</b> ');
+            $('#explain').append('The logged in player is asked which seat he wants to take.');
+            $('#explain').append('<hr>');
         }
 
         var game_id = 100;
