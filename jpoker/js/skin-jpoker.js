@@ -80,6 +80,7 @@ $.jpoker.doReconnect = false;
 function setUp() {
     $.jpoker.verbose = 1;
 
+    $('.skinclean').empty();
     $('#table').empty();
     $('#place').empty();
     $('#text').hide();
