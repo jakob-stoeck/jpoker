@@ -339,6 +339,58 @@ function jpoker_06_selfInPosition(place) {
         
 }
 
+function jpoker_06_1_selfInPositionCheck(place) {
+        setUp();
+        if(explain) {
+            $(place).append('<b>jpoker_06_1_selfInPositionCheck</b> ');
+            $(place).append('The logged in player is in position, and is offered to check.');
+            $(place).append('<hr>');
+        }
+
+        var game_id = 100;
+        var player_serial = 200;
+        var packets = [
+{ type: 'PacketSerial', serial: player_serial },
+{ type: 'PacketPokerTable', id: game_id },
+{ type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'myself' },
+{ type: 'PacketPokerPlayerStats', serial:player_serial, game_id: game_id, rank: 1, percentile: 0 },
+{ type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, money: 1000000, bet: 0 },
+{ type: 'PacketPokerSit', serial: player_serial, game_id: game_id },
+{ type: 'PacketPokerPlayerCards', serial: player_serial, game_id: game_id, cards: [32, 33]},
+{ type: 'PacketPokerBetLimit',
+                       game_id: game_id,
+                       min:   500,
+                       max: 20000,
+                       step:  100,
+                       call: 0,
+                       allin:4000,
+                       pot:  2000
+},
+{ type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id },
+{ type: 'one' },
+{ type: 'two' },
+{ type: 'three' }
+                       ];
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
+        server.registerHandler(0, function(server, dummy, packet) {
+                if(packet.type == 'two') {
+                } else if(packet.type == 'three') {
+                    server.notifyUpdate();
+                    return false;
+                }
+                return true;
+            });
+        
+}
+
 function jpoker_07_joining(place) {
         setUp();
         if(explain) {
