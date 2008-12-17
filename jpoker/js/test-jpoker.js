@@ -6906,6 +6906,43 @@ test("jpoker.plugins.player: slider decimal", function() {
 	$('#raise' + id).click();
     });
 
+test("jpoker.plugins.player: ignore non numeric raise entry", function() {
+        expect(8);
+
+        var id = 'jpoker' + jpoker.serial;
+        var player_serial = 1;
+        var game_id = 100;
+        var money = 1000;
+        _SelfPlayerSit(game_id, player_serial, money);
+
+        var Z = jpoker.getServerTablePlayer('url', game_id, player_serial);
+        Z.table.handler(Z.server, game_id, { type: 'PacketPokerBetLimit',
+		    game_id: game_id,
+		    min: 100,
+		    max: 200,
+		    step:  1,
+		    call: 1,
+		    allin: 2,
+		    pot: 2
+		    });
+        Z.table.handler(Z.server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
+
+        var raise = $('#raise_range' + id);
+	var raise_input = $('#raise_input' + id);
+        var slider = $('.ui-slider-1', raise);
+	$('.jpoker_raise_input', raise_input).val('0.2').change();
+	equals(slider.slider('value', 0), 20);
+	$('.jpoker_raise_input', raise_input).val('0,3').change();
+	equals(slider.slider('value', 0), 30);
+	$('.jpoker_raise_input', raise_input).val('abc').change();
+	equals(slider.slider('value', 0), 30);
+	equals($('.jpoker_raise_input', raise_input).val(), '0.3');
+	Z.server.sendPacket = function(packet) {
+	    equals(packet.amount, 30, 'raise 30 cents');
+	};
+	$('#raise' + id).click();
+    });
+
 test("jpoker.plugins.player: hover button", function(){
 	expect(33);
         var id = 'jpoker' + jpoker.serial;

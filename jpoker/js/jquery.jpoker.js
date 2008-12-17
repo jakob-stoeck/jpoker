@@ -4090,7 +4090,13 @@
                         });
 
 		    $('.jpoker_raise_input', raise_input).change(function() {
-			    $('.ui-slider-1', raise).slider('moveTo', $(this).val()*100);
+			    var value = parseFloat($(this).val().replace(',', '.'));
+			    if (isNaN(value)) {
+				var value = $('.ui-slider-1', raise).slider('value', 0);
+				$(this).val(jpoker.chips.SHORT(value/100.0));
+			    } else {
+				$('.ui-slider-1', raise).slider('moveTo', value*100);
+			    }
 			});
 
                     click = function() {
