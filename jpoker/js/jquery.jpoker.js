@@ -199,6 +199,7 @@
                 str = JSON.stringify(reason);
             }
             str += '\n\n' + printStackTrace({guess:true}).slice(2).join('\n');
+	    str += '\n\n' + navigator.userAgent;
             this.uninit();
             this.errorHandler(reason, str);
         },

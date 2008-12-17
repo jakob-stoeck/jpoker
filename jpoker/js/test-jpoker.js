@@ -176,7 +176,7 @@ test("jpoker.gettext", function() {
 // jpoker.error
 //
 test("jpoker.error", function() {
-        expect(3);
+        expect(4);
 	var error_reason = "error reason";
 	var jpokerMessage = jpoker.message;
 	var jpokerAlert = jpoker.alert;
@@ -185,6 +185,7 @@ test("jpoker.error", function() {
 	};
 	jpoker.message = function(string) {	    
 	    ok(/\(.*\)/.exec(string) ,"jpoker.message stack trace message");
+	    ok(string.indexOf(navigator.userAgent) >=0 ,"jpoker.message userAgent");
 	};
 	jpoker.alert = function(reason) {
 	    ok(false, 'alert not called');
@@ -205,7 +206,7 @@ test("jpoker.error", function() {
 });
 
 test("jpoker.error alert", function() {
-        expect(2);
+        expect(3);
 	var error_reason = "error reason";
 	var jpokerConsole = jpoker.console;
 	jpoker.console = undefined;
@@ -213,6 +214,7 @@ test("jpoker.error alert", function() {
 	jpoker.alert = function(string) {
 	    jpoker.alert = jpokerAlert;
 	    ok(/\(.*\)/.exec(string) ,"jpoker.message stack trace message");
+	    ok(string.indexOf(navigator.userAgent) >=0 ,"jpoker.message userAgent");
 	};
 	try {
 	    jpoker.error(error_reason);
