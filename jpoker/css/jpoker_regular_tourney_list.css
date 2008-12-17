@@ -11,6 +11,12 @@
 .jpoker_regular_tourney_list tr {
 	cursor:pointer;
 }
+.jpoker_regular_tourney_list tr.jpoker_tourney_state_announced {
+	cursor:default;
+}
+.jpoker_regular_tourney_list tr.jpoker_tourney_state_canceled {
+	cursor:default;
+}
 .jpoker_regular_tourney_list .odd {
 	background:#CCFFBF;
 }

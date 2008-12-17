@@ -2372,16 +2372,18 @@
 				for(var i = 0; i < packet.packets.length; i++) {
 				    (function(){
 					var subpacket = packet.packets[i];
-					$('#' + subpacket.id).click(function() {
-						var server = jpoker.getServer(url);
-						if(server) {
-						    server.tourneyRowClick(server, subpacket);
-						}
-					    }).hover(function(){
-						    $(this).addClass('hover');
-						},function(){
-						    $(this).removeClass('hover');
-						});
+					if (subpacket.state != 'announced' && subpacket.state != 'canceled') {
+					    $('#' + subpacket.id).click(function() {
+						    var server = jpoker.getServer(url);
+						    if(server) {
+							server.tourneyRowClick(server, subpacket);
+						    }});
+					}
+					$('#' + subpacket.id).hover(function(){
+						$(this).addClass('hover');
+					    },function(){
+						$(this).removeClass('hover');
+					    });
 				    })();
 				}
 			    }
@@ -2439,7 +2441,7 @@
                 subpacket.id = subpacket.game_id + id;
 	    }
 	    subpacket.start_time = new Date(subpacket.start_time*1000).toLocaleString();
-	    if (link_pattern) {
+	    if (link_pattern && subpacket.state != 'announced' && subpacket.state != 'canceled') {
 		var link = t.link.supplant({link: link_pattern.supplant({tourney_serial: subpacket.serial}), name: subpacket.description_short});
 		subpacket.description_short = link;
 	    }
@@ -2452,7 +2454,7 @@
 
     jpoker.plugins.regularTourneyList.templates = {
         header : '<table><thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th><th>{start_time}</th><th>{state}</th></tr></thead><tbody>',
-        rows : '<tr id=\'{id}\' title=\'' + _("Click to show tourney details") + '\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{start_time}</td><td>{state}</td></tr>',
+        rows : '<tr id=\'{id}\' title=\'' + _("Click to show tourney details") + '\' class=\'jpoker_tourney_state_{state}\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{start_time}</td><td>{state}</td></tr>',
         footer : '</tbody></table>',
 	link: '<a href=\'{link}\'>{name}</a>',
 	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
@@ -2570,7 +2572,7 @@
 
     jpoker.plugins.sitngoTourneyList.templates = {
         header : '<table><thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th><th>{state}</th></tr></thead><tbody>',
-        rows : '<tr id=\'{id}\' title=\'' + _("Click to show tourney details") + '\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{state}</td></tr>',
+        rows : '<tr id=\'{id}\' title=\'' + _("Click to show tourney details") + '\' class=\'jpoker_tourney_state_{state}\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{state}</td></tr>',
         footer : '</tbody></table>',
 	link: '<a href=\'{link}\'>{name}</a>',
 	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
