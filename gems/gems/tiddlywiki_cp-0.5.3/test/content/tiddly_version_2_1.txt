@@ -1,1 +1,0 @@
-var version = {major: 2, minor: 1, revision: 3, date: new Date("Nov 3, 2006"), extensions: {}};
