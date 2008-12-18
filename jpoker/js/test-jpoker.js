@@ -8089,7 +8089,7 @@ test("$.fn.frame", function(){
         var element = $("<div id='PID'><div id='ID'></div></div>").appendTo(document.body);
         $('#ID', element).frame('FRAME');
         equals($('#PID > .FRAME > .FRAME-s').size(), 1, 'south div');
-        equals($('#PID > .FRAME > #ID').size(), 1, 'ID');
+        equals($('#PID > .FRAME-container > .FRAME-inner > #ID').size(), 1, 'ID');
         $('#PID > .FRAME').trigger('mouseenter');
         equals($('#PID > .FRAME-hover').size(), 1, 'class FRAME-hover added');
         $('#PID > .FRAME').trigger('mouseleave');

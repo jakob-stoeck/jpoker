@@ -2682,12 +2682,13 @@
 
     jpoker.plugins.tourneyDetails.getHTML = function(id, packet, logged, registered, link_pattern) {
         var t = this.templates;
-        var html = [];
+        var html_map = {};
 
-	html.push(t.tname.supplant(packet.tourney));
+	html_map.tname = t.tname.supplant(packet.tourney);
 	
 	var player_state_template = t.players[packet.tourney.state];
 	if (player_state_template) {
+	    var html = [];
 	    html.push(t.players.header);
 	    html.push(player_state_template.header.supplant({
                         'caption': _("Players"),
@@ -2707,6 +2708,9 @@
 	    }
 	    html.push(player_state_template.footer);
 	    html.push(t.players.footer);
+	    html_map.players = html.join('\n');
+	} else {
+	    html_map.players = '';
 	}
 	
 	packet.tourney.start_time = new Date(packet.tourney.start_time*1000).toLocaleString();
@@ -2715,24 +2719,26 @@
 	if (packet.tourney.sit_n_go == 'y') {
 	    tourney_type = 'sitngo';
 	}
-	html.push(t.info[tourney_type].supplant({
+	html_map.info = t.info[tourney_type].supplant({
 	        'registered_label' : _("players registered."),
 		    'players_quota_label' : _("players max."),
 		    'start_time_label' : _("Start time:"),
 		    'buy_in_label' : _("Buy in:")
-                       }).supplant(packet.tourney));
+                       }).supplant(packet.tourney);
 	
+	html_map.register = '';
 	if (packet.tourney.state == 'registering') {	    
 	    if (logged) {
 		if (registered) {
-		    html.push(t.register.supplant({'register': _("Unregister")}));
+		    html_map.register = t.register.supplant({'register': _("Unregister")});
 		} else {
-		    html.push(t.register.supplant({'register': _("Register")}));
+		    html_map.register = t.register.supplant({'register': _("Register")});
 		}
 	    }
 	}
 
 	if (packet.tourney.state == 'running' || packet.tourney.state == 'complete' || packet.tourney.state == 'break' || packet.tourney.state == 'breakwait' || packet.tourney.sit_n_go == 'y') {
+	    var html = [];
 	    html.push(t.prizes.header.supplant({
                         'caption': _("Prizes"),
 			'rank': _("Rank"),
@@ -2747,8 +2753,12 @@
 		    });
 	    }			    
 	    html.push(t.prizes.footer);
+	    html_map.prizes = html.join('\n');
+	} else {
+	    html_map.prizes = '';
 	}
 	if (packet.tourney.state == "running" || packet.tourney.state == 'break' || packet.tourney.state == 'breakwait') {
+	    var html = [];
 	    html.push(t.tables.header.supplant({
                         'caption': _("Tables"),
 			'table': _("Table"),
@@ -2781,10 +2791,13 @@
 		    }
 		});
 	    html.push(t.tables.footer);
-	}	
+	    html_map.tables = html.join('\n');
+	} else {
+	    html_map.tables = '';
+	}
 
-	html.push(t.table_details);
-        return html.join('\n');
+	html_map.table_details = t.table_details;
+        return t.layout.supplant(html_map);
     };
 
     jpoker.plugins.tourneyDetails.getHTMLTableDetails = function(id, packet, table) {
@@ -2805,6 +2818,7 @@
     };
 
     jpoker.plugins.tourneyDetails.templates = {
+	layout: '{tname}{players}{info}{register}{prizes}{tables}{table_details}', // layout of the templates defined below
 	tname: '<div class=\'jpoker_tourney_name\'>{description_short}</div>',
 	info: {
 	    regular: '<div class=\'jpoker_tourney_details_info jpoker_tourney_details_{state}\'><div class=\'jpoker_tourney_details_info_description\'>{description_long}</div><div class=\'jpoker_tourney_details_info_registered\'>{registered} {registered_label}</div><div class=\'jpoker_tourney_details_info_players_quota\'>{players_quota} {players_quota_label}</div><div class=\'jpoker_tourney_details_info_start_time\'>{start_time_label} {start_time}</div><div class=\'jpoker_tourney_details_info_buy_in\'>{buy_in_label} {buy_in}</div></div>',
