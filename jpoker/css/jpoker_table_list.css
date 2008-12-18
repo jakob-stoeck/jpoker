@@ -6,7 +6,7 @@
 	padding: 0.5em 1em;
 }
 
-.jpoker_table_list tr.evenRow {
+.jpoker_table_list tr.odd {
 	background:#CCFFBF;
 }
 
