@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+begin
+  require 'rubygems'
+rescue LoadError
+  # no rubygems to load, so we fail silently
+end
+
+require 'tiddlywiki_cp'
+
+module TiddlywikiCp
+  TiddlyWikiCp.new.main(ARGV)
+end

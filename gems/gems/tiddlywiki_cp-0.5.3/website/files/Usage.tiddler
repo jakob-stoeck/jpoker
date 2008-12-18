@@ -1,0 +1,69 @@
+{{{
+Usage: tiddlywiki_cp [options] FROM [FROM ...] TO|-
+
+    -r, --[no-]recursive             recurse into directories and tiddlywikies
+    -t, --[no-]times                 preserve modification time
+    -a, --all                        implies -rt
+    -i, --include REGEX              all files,directories or tiddlers must match regex.
+                                         If specified multiple times, 
+                                         must match at least one of the regex.
+                                         Includes are tested after excludes.
+        --exclude REGEX              all files,directories or tiddlers must NOT match regex.
+                                         If specified multiple times, 
+                                         exclude if matches at least one of the regex.
+                                         Includes are tested after excludes.
+    -v, --[no-]verbose               run verbosely
+    -n, --[no-]dry-run               show what would have been transferred
+        --version                    show version
+        --help                       show command usage
+
+Examples:
+
+  mkdir /tmp/a ; tiddlywiki_cp -a http://tiddlywiki.com/index.html /tmp/a
+       copies index.html tiddlers in separate files and preserve times.
+       For each tiddler, a .div file contains the meta information.
+       The files are named after their content:
+       /tmp/a/HelloThere.tiddler
+       /tmp/a/HelloThere.tiddler.div
+       /tmp/a/Plugin.js
+       /tmp/a/Plugin.js.div
+       /tmp/a/OwnStyle.css
+       /tmp/a/OwnStyle.css.div
+       ...
+
+  tiddlywiki_cp 'http://tiddlylab.bidix.info/#WebDAVSavingPlugin' tiddlywiki.html
+       copies the WebDAVSavingPlugin tiddler in the existing tiddlywiki.html
+
+  tiddlywiki_cp http://tiddlywiki.com/index.html /tmp/i.html
+       copies to a local file 
+
+  tiddlywiki_cp -t myplugin.js tiddlywiki.html
+       copies the tiddler in the existing tiddlywiki.html tiddlywiki
+       and use file system modification time
+
+  tiddlywiki_cp 'http://tiddlylab.bidix.info/#WebDAVSavingPlugin' WebDAVSavingPlugin.js
+       get a local copy of the WebDAVSavingPlugin tiddler
+
+  mkdir A ; tiddlywiki_cp -a --include 'WebDAV' --include 'RSS' 'http://tiddlylab.bidix.info/' A
+       copy all tiddlers with WebDAV or RSS in the url
+
+  mkdir A ; tiddlywiki_cp -a --exclude 'SEX' 'http://tiddlylab.bidix.info/' A
+       copy all tiddlers except those with SEX in the url
+
+  tiddlywiki_cp -a A B C tiddlywiki.html
+       copy all tiddlers found in the A B and C directories to tiddlywiki.html
+
+MarkupPreHead, MarkupPostHead, MarkupPreBody, MarkupPostBody tiddlers:
+
+  When copying to a tiddlywiki file, the content of these tiddlers 
+  are copied to the corresponding HTML zones.
+
+translations, i18n, l10n, linguo:
+
+  If a translation plugin such as the one found at 
+  http://trac.tiddlywiki.org/wiki/Translations
+  is present, the tiddlywiki to which tiddlers are copied
+  will have its lang and xml:lang attributes updated.
+  Saving the tiddlywiki manually does the same.
+
+}}}

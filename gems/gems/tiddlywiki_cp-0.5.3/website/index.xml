@@ -1,0 +1,646 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+<channel>
+<title>tiddlywiki_cp</title>
+<link>http://www.tiddlywiki.com/</link>
+<description>copy tiddlers to files and vice versa</description>
+<language>en-us</language>
+<copyright>Copyright 2008 loic</copyright>
+<pubDate>Sun, 30 Mar 2008 21:17:31 GMT</pubDate>
+<lastBuildDate>Sun, 30 Mar 2008 21:17:31 GMT</lastBuildDate>
+<docs>http://blogs.law.harvard.edu/tech/rss</docs>
+<generator>TiddlyWiki 2.2.4</generator>
+<item>
+<title>ChangeLog</title>
+<description>&lt;pre&gt;changeset:   59:6751afe5b8e2
+tag:         tip
+user:        root@dachary.org
+date:        Sun Mar 30 20:58:00 2008 +0000
+summary:     tw 2.3 to 2.9 compatibility
+
+changeset:   58:ae33b65eec70
+user:        loic@dachary.org
+date:        Thu Aug 23 08:27:13 2007 +0000
+summary:     apt-get install mercurial
+
+changeset:   57:e76698c86930
+user:        loic@dachary.org
+date:        Thu Aug 23 08:27:05 2007 +0000
+summary:     housekeeping
+
+changeset:   56:d37c72580486
+user:        root@dachary.org
+date:        Tue Jul 31 13:01:15 2007 +0000
+summary:     submit r4tw patches to Saq and Simon for review
+
+changeset:   55:830b78e265e1
+user:        root@dachary.org
+date:        Tue Jul 31 12:22:17 2007 +0000
+summary:     svn SimonBaird repository
+
+changeset:   54:2ebeba135963
+user:        loic@dachary.org
+date:        Tue Jul 31 12:16:31 2007 +0000
+summary:     apt-get install subversion
+
+changeset:   53:ee9dd972c4a0
+user:        root@dachary.org
+date:        Tue Jul 24 13:57:00 2007 +0000
+summary:     get rid of generated files
+
+changeset:   52:180404d89a80
+user:        loic@dachary.org
+date:        Tue Jul 24 13:55:42 2007 +0000
+summary:     apt-get install rsync
+
+changeset:   51:204669ec790d
+user:        root@dachary.org
+date:        Tue Jul 24 13:53:48 2007 +0000
+summary:     remove coverage
+
+changeset:   50:8b54c966d79d
+user:        loic@dachary.org
+date:        Tue Jul 24 13:51:11 2007 +0000
+summary:     apt-get install rcov
+
+changeset:   49:25afb105a749
+user:        root@dachary.org
+date:        Tue Jul 24 13:50:09 2007 +0000
+summary:     fix 2.1 recognition problem
+
+changeset:   48:7f071baa6f7e
+user:        root@dachary.org
+date:        Mon Jul 23 16:10:09 2007 +0000
+summary:     no PAM auth
+
+changeset:   47:7cd73c771bfd
+user:        root@dachary.org
+date:        Mon Jul 23 15:56:13 2007 +0000
+summary:     invite luc.milland@laposte.net
+
+changeset:   46:909759621db1
+user:        loic@dachary.org
+date:        Mon Jul 23 15:51:14 2007 +0000
+summary:     apt-get install openssh-server
+
+changeset:   45:7cdd19be13fc
+user:        root@dachary.org
+date:        Mon Jul 23 14:58:36 2007 +0000
+summary:     remove temporary files
+
+changeset:   44:74731615b9cd
+user:        loic@dachary.org
+date:        Mon Jul 23 14:58:13 2007 +0000
+summary:     apt-get install sudo
+
+changeset:   43:cddc2c771e88
+user:        loic@dachary.org
+date:        Mon Jul 23 14:56:05 2007 +0000
+summary:     apt-get install rake
+
+changeset:   42:7bf44ccba11e
+user:        loic@dachary.org
+date:        Mon Jul 23 14:42:44 2007 +0000
+summary:     apt-get install emacs21-nox
+
+changeset:   41:ea928f83e078
+user:        root@dachary.org
+date:        Mon Jul 23 14:42:09 2007 +0000
+summary:     command history created
+
+changeset:   40:0f775ff2e6fe
+user:        loic@dachary.org
+date:        Mon Jul 23 14:38:27 2007 +0000
+summary:     apt-get install rubygems
+
+changeset:   39:5b0d6b85f533
+user:        root@dachary.org
+date:        Mon Jul 23 14:36:08 2007 +0000
+summary:     import rubyforge private settings intentionaly made public
+
+changeset:   38:7d97e5f6b9c5
+user:        root@dachary.org
+date:        Mon Jul 23 14:29:56 2007 +0000
+summary:     link to generated tiddlywikicp home page
+
+changeset:   37:e9faf96cb6e2
+user:        root@dachary.org
+date:        Mon Jul 23 14:27:15 2007 +0000
+summary:     link to generated tiddlywikicp home page
+
+changeset:   36:acf78c0f0c57
+user:        root@dachary.org
+date:        Mon Jul 23 14:26:36 2007 +0000
+summary:     do not use stock tiddlywiki home page
+
+changeset:   35:b7d341c0d93e
+parent:      4:924d89ad7a19
+parent:      34:dbddfebc9385
+user:        root@dachary.org
+date:        Mon Jul 23 14:25:23 2007 +0000
+summary:     pull tiddlywikicp development environment
+
+changeset:   34:dbddfebc9385
+user:        root@dachary.org
+date:        Mon Jul 23 16:21:52 2007 +0200
+summary:     move to home/www subdir
+
+changeset:   33:5b7599029492
+user:        root@dachary.org
+date:        Sun Jul 22 21:27:19 2007 +0200
+summary:     add changelog to website
+
+changeset:   32:4fe4a301fdfb
+user:        root@dachary.org
+date:        Sun Jul 22 21:18:22 2007 +0200
+summary:     fix major HTML escaping logic problem
+
+changeset:   31:fdcd8116f513
+user:        root@dachary.org
+date:        Sat Jul 21 19:31:23 2007 +0200
+summary:     first package published
+
+changeset:   30:6225c5fb1bf2
+user:        root@dachary.org
+date:        Sat Jul 21 18:39:21 2007 +0200
+summary:     Introduction
+
+changeset:   29:ae6e7e676ca3
+user:        root@dachary.org
+date:        Sat Jul 21 18:33:02 2007 +0200
+summary:     stub site
+
+changeset:   28:c20e9a96ebaa
+user:        root@dachary.org
+date:        Sat Jul 21 18:32:46 2007 +0200
+summary:     implement ignore backupfiles and SCM files
+
+changeset:   27:f97c46f9b77a
+user:        root@dachary.org
+date:        Sat Jul 21 18:13:53 2007 +0200
+summary:     tiddler2tiddlywiki implementation and tests
+
+changeset:   26:409f079da1eb
+user:        root@dachary.org
+date:        Sat Jul 21 18:13:37 2007 +0200
+summary:     tiddlywiki website
+
+changeset:   25:a23a9405c616
+user:        root@dachary.org
+date:        Sat Jul 21 17:21:19 2007 +0200
+summary:     complete usage and aliases for tiddler type to file
+
+changeset:   24:293b94b6c938
+user:        root@dachary.org
+date:        Sat Jul 21 16:22:01 2007 +0200
+summary:     implement --all
+
+changeset:   23:f6063aa4247c
+user:        root@dachary.org
+date:        Sat Jul 21 16:17:38 2007 +0200
+summary:     implement time preservation
+
+changeset:   22:1a95e161bde8
+user:        root@dachary.org
+date:        Sat Jul 21 15:43:46 2007 +0200
+summary:     do not clear the cache each time read_uri is called
+
+changeset:   21:78cbb71abc07
+user:        root@dachary.org
+date:        Sat Jul 21 15:31:47 2007 +0200
+summary:     test against argv &amp;gt; 2 is done after expansion
+
+changeset:   20:c4a68e334122
+user:        root@dachary.org
+date:        Sat Jul 21 15:07:23 2007 +0200
+summary:     use string functions to split url fragments
+
+changeset:   19:4a67be41486a
+user:        root@dachary.org
+date:        Sat Jul 21 14:06:11 2007 +0200
+summary:     first implementation 100% tested
+
+changeset:   18:36dfc330051c
+user:        root@dachary.org
+date:        Sat Jul 21 12:25:18 2007 +0200
+summary:     implement args2from with tests
+
+changeset:   17:9fdd8158d09e
+user:        root@dachary.org
+date:        Sat Jul 21 11:00:14 2007 +0200
+summary:     test helpers are included instead of inherited
+
+changeset:   16:3e6d6b581c56
+user:        root@dachary.org
+date:        Sat Jul 21 10:36:41 2007 +0200
+summary:     test helpers are included instead of inherited
+
+changeset:   15:c34230f8508b
+user:        root@dachary.org
+date:        Sat Jul 21 02:56:45 2007 +0200
+summary:     75% tests
+
+changeset:   14:671418aee5c3
+user:        root@dachary.org
+date:        Fri Jul 20 22:59:00 2007 +0200
+summary:     fix to compile and run test stubs
+
+changeset:   13:e7130c15d293
+user:        root@dachary.org
+date:        Thu Jul 19 23:06:01 2007 +0200
+summary:     draft implementation
+
+changeset:   12:76bfb609451a
+user:        root@dachary.org
+date:        Thu Jul 19 11:54:58 2007 +0200
+summary:     test puts action
+
+changeset:   11:7ba8ec638385
+user:        root@dachary.org
+date:        Thu Jul 19 11:35:29 2007 +0200
+summary:     test puts action
+
+changeset:   10:6b2ca1329232
+user:        root@dachary.org
+date:        Thu Jul 19 10:37:28 2007 +0200
+summary:     upgrade to GPLv3
+
+changeset:   9:508ab2e4b392
+user:        root@dachary.org
+date:        Thu Jul 19 01:31:17 2007 +0200
+summary:     options parsing and tiddlywiki predicate
+
+changeset:   8:68dd181ffa42
+user:        root@dachary.org
+date:        Wed Jul 18 21:27:52 2007 +0200
+summary:     import http://simonbaird.com/r4tw/
+
+changeset:   7:3171d10560d3
+user:        root@dachary.org
+date:        Wed Jul 18 21:27:23 2007 +0200
+summary:     define project tiddlywiki_cp
+
+changeset:   6:f7bb93667109
+user:        root@dachary.org
+date:        Wed Jul 18 19:28:02 2007 +0200
+summary:     import http://simonbaird.com/r4tw/
+
+changeset:   5:5bc877af0761
+parent:      -1:000000000000
+user:        root@dachary.org
+date:        Wed Jul 18 18:21:06 2007 +0200
+summary:     ruby /var/lib/gems/1.8/gems/newgem-0.11.0/bin/newgem -t test::unit tiddlywiki_cp
+
+changeset:   4:924d89ad7a19
+user:        root@dachary.org
+date:        Mon Jul 23 13:35:49 2007 +0000
+summary:     enable dav_fs
+
+changeset:   3:a0699ee4f5f2
+user:        root@dachary.org
+date:        Mon Jul 23 13:33:45 2007 +0000
+summary:     DAV Tiddlywiki home page
+
+changeset:   2:5790349fdcbf
+user:        loic@dachary.org
+date:        Mon Jul 23 13:33:41 2007 +0000
+summary:     apt-get install patch
+
+changeset:   1:f64648ebc657
+user:        loic@dachary.org
+date:        Mon Jul 23 13:33:38 2007 +0000
+summary:     apt-get install apache2
+
+changeset:   0:023c80002a6d
+user:        root@dachary.org
+date:        Mon Jul 23 12:20:46 2007 +0000
+summary:     initial
+
+&lt;/pre&gt;</description>
+<link>http://www.tiddlywiki.com/#ChangeLog</link>
+<pubDate>Sun, 30 Mar 2008 21:06:00 GMT</pubDate>
+</item>
+<item>
+<title>Usage</title>
+<description>&lt;pre&gt;Usage: tiddlywiki_cp [options] FROM [FROM ...] TO|-
+
+    -r, --[no-]recursive             recurse into directories and tiddlywikies
+    -t, --[no-]times                 preserve modification time
+    -a, --all                        implies -rt
+    -i, --include REGEX              all files,directories or tiddlers must match regex.
+                                         If specified multiple times, 
+                                         must match at least one of the regex.
+                                         Includes are tested after excludes.
+        --exclude REGEX              all files,directories or tiddlers must NOT match regex.
+                                         If specified multiple times, 
+                                         exclude if matches at least one of the regex.
+                                         Includes are tested after excludes.
+    -v, --[no-]verbose               run verbosely
+    -n, --[no-]dry-run               show what would have been transferred
+        --version                    show version
+        --help                       show command usage
+
+Examples:
+
+  mkdir /tmp/a ; tiddlywiki_cp -a http://tiddlywiki.com/index.html /tmp/a
+       copies index.html tiddlers in separate files and preserve times.
+       For each tiddler, a .div file contains the meta information.
+       The files are named after their content:
+       /tmp/a/HelloThere.tiddler
+       /tmp/a/HelloThere.tiddler.div
+       /tmp/a/Plugin.js
+       /tmp/a/Plugin.js.div
+       /tmp/a/OwnStyle.css
+       /tmp/a/OwnStyle.css.div
+       ...
+
+  tiddlywiki_cp 'http://tiddlylab.bidix.info/#WebDAVSavingPlugin' tiddlywiki.html
+       copies the WebDAVSavingPlugin tiddler in the existing tiddlywiki.html
+
+  tiddlywiki_cp http://tiddlywiki.com/index.html /tmp/i.html
+       copies to a local file 
+
+  tiddlywiki_cp -t myplugin.js tiddlywiki.html
+       copies the tiddler in the existing tiddlywiki.html tiddlywiki
+       and use file system modification time
+
+  tiddlywiki_cp 'http://tiddlylab.bidix.info/#WebDAVSavingPlugin' WebDAVSavingPlugin.js
+       get a local copy of the WebDAVSavingPlugin tiddler
+
+  mkdir A ; tiddlywiki_cp -a --include 'WebDAV' --include 'RSS' 'http://tiddlylab.bidix.info/' A
+       copy all tiddlers with WebDAV or RSS in the url
+
+  mkdir A ; tiddlywiki_cp -a --exclude 'SEX' 'http://tiddlylab.bidix.info/' A
+       copy all tiddlers except those with SEX in the url
+
+  tiddlywiki_cp -a A B C tiddlywiki.html
+       copy all tiddlers found in the A B and C directories to tiddlywiki.html
+&lt;/pre&gt;</description>
+<link>http://www.tiddlywiki.com/#Usage</link>
+<pubDate>Sun, 30 Mar 2008 21:06:00 GMT</pubDate>
+</item>
+<item>
+<title>Introduction</title>
+<description>a ruby gem (&lt;a target=&quot;_blank&quot; title=&quot;External link to http://rubyforge.org/projects/tiddlywikicp/&quot; href=&quot;http://rubyforge.org/projects/tiddlywikicp/&quot; class=&quot;externalLink&quot;&gt;http://rubyforge.org/projects/tiddlywikicp/&lt;/a&gt;) providing a library and a command line interface to copy &lt;a target=&quot;_blank&quot; title=&quot;External link to http://tiddlywiki.com/&quot; href=&quot;http://tiddlywiki.com/&quot; class=&quot;externalLink&quot;&gt;tiddlywiki&lt;/a&gt; tiddlers to files and vice versa.&lt;br&gt;&lt;br&gt;Development is discussed at irc.freenode.net#tiddlywiki &lt;br&gt;&lt;br&gt;This tiddlywiki was created using the following commands:&lt;br&gt;&lt;pre&gt;tiddlywiki_cp 'http://tiddlylab.bidix.info/#WebDAVSavingPlugin' website/index.html
+tiddlywiki_cp -a website/index.html website/files
+( echo '{{''{' ; RUBYLIB=lib ruby bin/tiddlywiki_cp --help ; echo '}}''}' ) &amp;gt; website/files/Usage
+tiddlywiki_cp -a website/files website/index.html
+&lt;/pre&gt;Loic Dachary &amp;lt;&lt;a target=&quot;_blank&quot; title=&quot;External link to mailto:loic@dachary.org&quot; href=&quot;mailto:loic@dachary.org&quot; class=&quot;externalLink&quot;&gt;mailto:loic@dachary.org&lt;/a&gt;&amp;gt;&lt;br&gt;</description>
+<link>http://www.tiddlywiki.com/#Introduction</link>
+<pubDate>Mon, 23 Jul 2007 14:24:00 GMT</pubDate>
+</item>
+<item>
+<title>SiteTitle</title>
+<description>tiddlywiki_cp</description>
+<link>http://www.tiddlywiki.com/#SiteTitle</link>
+<pubDate>Mon, 23 Jul 2007 14:24:00 GMT</pubDate>
+</item>
+<item>
+<title>SiteSubtitle</title>
+<description>copy tiddlers to files and vice versa</description>
+<link>http://www.tiddlywiki.com/#SiteSubtitle</link>
+<pubDate>Mon, 23 Jul 2007 14:24:00 GMT</pubDate>
+</item>
+<item>
+<title>MainMenu</title>
+<description>&lt;a tiddlylink=&quot;Introduction&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Introduction&quot; href=&quot;http://www.tiddlywiki.com/#Introduction&quot; class=&quot;externalLink&quot;&gt;Introduction&lt;/a&gt;&lt;br&gt;&lt;a tiddlylink=&quot;Usage&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Usage&quot; href=&quot;http://www.tiddlywiki.com/#Usage&quot; class=&quot;externalLink&quot;&gt;Usage&lt;/a&gt;&lt;br&gt;&lt;a tiddlylink=&quot;ChangeLog&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#ChangeLog&quot; href=&quot;http://www.tiddlywiki.com/#ChangeLog&quot; class=&quot;externalLink&quot;&gt;ChangeLog&lt;/a&gt;&lt;br&gt;</description>
+<link>http://www.tiddlywiki.com/#MainMenu</link>
+<pubDate>Mon, 23 Jul 2007 14:24:00 GMT</pubDate>
+</item>
+<item>
+<title>DefaultTiddlers</title>
+<description>Introduction&lt;br&gt;Usage</description>
+<link>http://www.tiddlywiki.com/#DefaultTiddlers</link>
+<pubDate>Mon, 23 Jul 2007 14:24:00 GMT</pubDate>
+</item>
+<item>
+<title>WebDAVSavingPlugin</title>
+<description>&lt;table class=&quot;twtable&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Name:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;WebDAVSavingPlugin&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Description:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Saves on a WebDAV server without the need of any ServerSide script.&lt;br&gt;When TiddlyWiki is accessed over http, this plugin permits to save back to the server, using http PUT.&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Version:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;0.2.1&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Date:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Apr 21, 2007&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Source:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tiddlywiki.bidix.info/#WebDAVSavingPlugin&quot; href=&quot;http://tiddlywiki.bidix.info/#WebDAVSavingPlugin&quot; class=&quot;externalLink&quot;&gt;http://tiddlywiki.bidix.info/#WebDAVSavingPlugin&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Author:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;BidiX (BidiX (at) bidix (dot) info)&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;License:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D &quot; href=&quot;http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D%20&quot; class=&quot;externalLink&quot;&gt;BSD open source license&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;CoreVersion:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;2.2.0 (Beta 5)&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;pre&gt;version.extensions.WebDAVSavingPlugin = {
+	major: 0, minor: 2, revision: 1, 
+	date: new Date(&quot;Apr 21, 2007&quot;),
+	source: 'http://tiddlywiki.bidix.info/#WebDAVSavingPlugin',
+	author: 'BidiX (BidiX (at) bidix (dot) info',
+	license: '[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D]]',
+	coreVersion: '2.2.0 (Beta 5)'
+};
+
+if (!window.bidix) window.bidix = {};
+bidix.WebDAVSaving = {
+	orig_saveChanges: saveChanges,
+	defaultFilename: 'index.html',
+	messages: {
+		loadOriginalHttpDavError: &quot;Original file can't be loaded&quot;,
+		optionsMethodError: &quot;The OPTIONS method can't be used on this ressource : %0&quot;,
+		webDavNotEnabled: &quot;WebDAV is not enabled on this ressource : %0&quot;,
+		notHTTPUrlError: &quot;WebDAV saving can be used for http viewed TiddlyWiki only&quot;,
+		aboutToSaveOnHttpDav: 'About to save on %0 ...'		,
+		folderCreated: &quot;Remote folder '%0' created&quot;
+	}
+};
+
+// Save this tiddlywiki with the pending changes
+saveChanges = function(onlyIfDirty,tiddlers)
+{
+	var originalPath = document.location.toString();
+	if (originalPath.substr(0,5) == &quot;file:&quot;)
+		return bidix.WebDAVSaving.orig_saveChanges(onlyIfDirty,tiddlers);
+	else
+		return bidix.WebDAVSaving.saveChanges(onlyIfDirty,tiddlers);
+}
+
+bidix.WebDAVSaving.saveChanges = function(onlyIfDirty,tiddlers)
+{
+	var callback = function(status,params,original,url,xhr) {
+			url = (url.indexOf(&quot;nocache=&quot;) &amp;lt; 0 ? url : url.substring(0,url.indexOf(&quot;nocache=&quot;)-1));
+		if (!status)
+			displayMessage(bidix.WebDAVSaving.messages.optionsMethodError.format([url]));
+		else {
+			if (!xhr.getResponseHeader(&quot;DAV&quot;))
+				alert(bidix.WebDAVSaving.messages.webDavNotEnabled.format([url]));
+			else
+				bidix.WebDAVSaving.doSaveChanges();
+		}
+	}	
+	if(onlyIfDirty &amp;amp;&amp;amp; !store.isDirty())
+		return;
+	clearMessage();
+	var originalPath = document.location.toString();
+	// Check we were loaded from a HTTP or HTTPS URL
+	if(originalPath.substr(0,4) != &quot;http&quot;) {
+		alert(bidix.WebDAVSaving.messages.notHTTPUrlError);
+		return;
+	}	
+	// is the server WebDAV enabled ?
+	var r = doHttp(&quot;OPTIONS&quot;,originalPath,null,null,null,null,callback,null,null);
+	if (typeof r == &quot;string&quot;)
+		alert(r);
+}
+	
+bidix.WebDAVSaving.doSaveChanges = function()
+{
+	var callback = function(status,params,original,url,xhr) {
+		if (!status) {
+			alert(config.messages.loadOriginalHttpDavError);
+			return;
+		}
+		url = (url.indexOf(&quot;nocache=&quot;) &amp;lt; 0 ? url : url.substring(0,url.indexOf(&quot;nocache=&quot;)-1));
+		// Locate the storeArea div's 
+		var posDiv = locateStoreArea(original);
+		if((posDiv[0] == -1) || (posDiv[1] == -1)) {
+			alert(config.messages.invalidFileError.format([localPath]));
+			return;
+		}
+		bidix.WebDAVSaving.mkbackupfolder(null,null,params,original,posDiv);
+	};
+	// get original
+	var originalPath = document.location.toString();
+	if (originalPath.charAt(originalPath.length-1) == &quot;/&quot;)
+		originalPath = originalPath + bidix.WebDAVSaving.defaultFilename;
+	displayMessage(bidix.WebDAVSaving.messages.aboutToSaveOnHttpDav.format([originalPath]));
+	doHttp(&quot;GET&quot;,originalPath,null,null,null,null,callback,originalPath,null);
+};
+
+bidix.WebDAVSaving.mkbackupfolder = function(root,dirs,url,original,posDiv) {
+	if (!root || !dirs) {
+		root = bidix.dirname(url);
+		if (config.options.txtBackupFolder == &quot;&quot;)
+			dirs = null;
+		else
+			dirs = config.options.txtBackupFolder.split('/');
+	}
+	if (config.options.chkSaveBackups &amp;amp;&amp;amp; dirs &amp;amp;&amp;amp; (dirs.length &amp;gt; 0)) 
+		bidix.WebDAVSaving.mkdir(root,dirs.shift(),dirs,url,original,posDiv);
+	else
+		bidix.WebDAVSaving.saveBackup(url,original,posDiv);
+};
+
+bidix.WebDAVSaving.saveBackup = function(url,original,posDiv)
+{
+	var callback = function(status,params,responseText,url,xhr) {
+		if (!status) {
+			alert(config.messages.backupFailed);
+			return;
+		}
+		url = (url.indexOf(&quot;nocache=&quot;) &amp;lt; 0 ? url : url.substring(0,url.indexOf(&quot;nocache=&quot;)-1));
+		displayMessage(config.messages.backupSaved,url);
+		bidix.WebDAVSaving.saveRss(params[0],params[1],params[2]);
+	};
+	if(config.options.chkSaveBackups) {
+		var backupPath = getBackupPath(url);
+		bidix.httpPut(backupPath,original,callback,Array(url,original,posDiv));
+	} else {
+		bidix.WebDAVSaving.saveRss(url,original,posDiv);
+	}
+}
+
+bidix.WebDAVSaving.saveRss = function(url,original,posDiv) 
+{
+	var callback = function(status,params,responseText,url,xhr) {
+		if (!status) {
+			alert(config.messages.rssFailed);
+			return;
+		}
+		url = (url.indexOf(&quot;nocache=&quot;) &amp;lt; 0 ? url : url.substring(0,url.indexOf(&quot;nocache=&quot;)-1));
+		displayMessage(config.messages.rssSaved,url);
+		bidix.WebDAVSaving.saveEmpty(params[0],params[1],params[2]);
+	};
+	if(config.options.chkGenerateAnRssFeed) {
+		var rssPath = url.substr(0,url.lastIndexOf(&quot;.&quot;)) + &quot;.xml&quot;;
+		bidix.httpPut(rssPath,convertUnicodeToUTF8(generateRss()),callback,Array(url,original,posDiv));
+	} else {
+		bidix.WebDAVSaving.saveEmpty(url,original,posDiv);
+	}
+}
+
+bidix.WebDAVSaving.saveEmpty = function(url,original,posDiv) 
+{
+	var callback = function(status,params,responseText,url,xhr) {
+		if (!status) {
+			alert(config.messages.emptyFailed);
+			return;
+		}
+		url = (url.indexOf(&quot;nocache=&quot;) &amp;lt; 0 ? url : url.substring(0,url.indexOf(&quot;nocache=&quot;)-1));
+		displayMessage(config.messages.emptySaved,url);
+		bidix.WebDAVSaving.saveMain(params[0],params[1],params[2]);
+	};
+	if(config.options.chkSaveEmptyTemplate) {
+		var emptyPath,p;
+		if((p = url.lastIndexOf(&quot;/&quot;)) != -1)
+			emptyPath = url.substr(0,p) + &quot;/empty.html&quot;;
+		else
+			emptyPath = url + &quot;.empty.html&quot;;
+		var empty = original.substr(0,posDiv[0] + startSaveArea.length) + original.substr(posDiv[1]);
+		bidix.httpPut(emptyPath,empty,callback,Array(url,original,posDiv));
+	} else {
+		bidix.WebDAVSaving.saveMain(url,original,posDiv);
+	}
+}
+
+bidix.WebDAVSaving.saveMain = function(url,original,posDiv) 
+{
+	var callback = function(status,params,responseText,url,xhr) {
+		if(status) {
+			url = (url.indexOf(&quot;nocache=&quot;) &amp;lt; 0 ? url : url.substring(0,url.indexOf(&quot;nocache=&quot;)-1));
+			displayMessage(config.messages.mainSaved,url);
+			store.setDirty(false);
+		} else 
+			alert(config.messages.mainFailed);
+	};	
+	// Save new file
+	var revised = updateOriginal(original,posDiv);
+	bidix.httpPut(url,revised,callback,null);
+}
+
+// asynchronous mkdir
+bidix.WebDAVSaving.mkdir = function(root,dir,dirs,url,original,posDiv) {
+	var callback = function(status,params,responseText,url,xhr) {
+		url = (url.indexOf(&quot;nocache=&quot;) &amp;lt; 0 ? url : url.substring(0,url.indexOf(&quot;nocache=&quot;)-1));
+		if (status == null) {
+			alert(&quot;Error in mkdir&quot;);
+			return;
+		}
+		if (xhr.status == httpStatus.ContentCreated) {
+			displayMessage(bidix.WebDAVSaving.messages.folderCreated.format([url]),url);
+			bidix.WebDAVSaving.mkbackupfolder(url,params[1],params[2],params[3],params[4]);
+		} else {
+			if (xhr.status == httpStatus.NotFound)
+				bidix.http('MKCOL',url,null,callback,params);
+			else
+				bidix.WebDAVSaving.mkbackupfolder(url,params[1],params[2],params[3],params[4]);
+		}
+	};
+	if (root.charAt(root.length) != '/')
+		root = root +'/';
+	bidix.http('HEAD',root+dir,null,callback,Array(root,dirs,url,original,posDiv));
+}
+
+bidix.httpPut = function(url,data,callback,params)
+{
+	return bidix.http(&quot;PUT&quot;,url,data,callback,params);
+}
+
+bidix.http = function(type,url,data,callback,params)
+{
+	var r = doHttp(type,url,data,null,null,null,callback,params,null);
+	if (typeof r == &quot;string&quot;)
+		alert(r);
+	return r;
+}
+
+bidix.dirname = function (filePath) {
+	if (!filePath) 
+		return;
+	var lastpos;
+	if ((lastpos = filePath.lastIndexOf(&quot;/&quot;)) != -1) {
+		return filePath.substring(0, lastpos);
+	} else {
+		return filePath.substring(0, filePath.lastIndexOf(&quot;\\&quot;));
+	}
+};
+&lt;/pre&gt;</description>
+<category>systemConfig</category>
+<link>http://www.tiddlywiki.com/#WebDAVSavingPlugin</link>
+<pubDate>Mon, 23 Jul 2007 14:24:00 GMT</pubDate>
+</item>
+</channel>
+</rss>

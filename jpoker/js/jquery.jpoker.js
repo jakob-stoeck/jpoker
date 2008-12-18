@@ -2304,13 +2304,13 @@
         html.push(t.header.supplant({
 		    'seats': _("Seats"),
                         'average_pot': _("Average Pot"),
-                        'average_pot_abrev': _("AvPot"),
+                        'average_pot_abbrev': _("AvPot"),
                         'hands_per_hour': _("Hands/Hour"),
-                        'hands_per_hour_abrev': _("H"),
+                        'hands_per_hour_abbrev': _("H"),
                         'percent_flop': _("% Flop"),
-                        'percent_flop_abrev': _("%F"),
+                        'percent_flop_abbrev': _("%F"),
                         'players': _("Players"),
-			'players_abrev': _("Play."),
+			'players_abbrev': _("Play."),
 			'observers': _("Observers"),
                         'waiting': _("Waiting"),
                         'player_timeout': _("Timeout"),
@@ -2327,7 +2327,6 @@
                 subpacket.id = subpacket.game_id + id;
                 subpacket.average_pot /= 100;
             }
-            subpacket['class'] = i%2 ? 'evenRow' : 'oddRow';
 	    if (link_pattern) {
 		var link = t.link.supplant({link: link_pattern.supplant({game_id: subpacket.game_id}), name: subpacket.name});
 		subpacket.name = link;
@@ -2341,7 +2340,7 @@
 
     jpoker.plugins.tableList.templates = {
         header : '<table><thead><tr><th>{name}</th><th>{players}</th><th>{seats}</th><th>{betting_structure}</th><th>{average_pot}</th><th>{hands_per_hour}</th><th>{percent_flop}</th></tr></thead><tbody>',
-        rows : '<tr class=\'{class}\' id=\'{id}\' title=\'' + _("Click to join the table") + '\'><td>{name}</td><td>{players}</td><td>{seats}</td><td>{betting_structure}</td><td>{average_pot}</td><td>{hands_per_hour}</td><td>{percent_flop}</td></tr>',
+        rows : '<tr id=\'{id}\' title=\'' + _("Click to join the table") + '\'><td>{name}</td><td>{players}</td><td>{seats}</td><td>{betting_structure}</td><td>{average_pot}</td><td>{hands_per_hour}</td><td>{percent_flop}</td></tr>',
         footer : '</tbody></table>',
 	link: '<a href=\'{link}\'>{name}</a>',
 	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
@@ -2543,19 +2542,23 @@
         var t = this.templates;
         var html = [];
         html.push(t.header.supplant({
-                        'players_quota': _("Players Quota"),
-                        'breaks_first': _("Breaks First"),
+		    'players_quota': _("Players Quota"),
+                        'players_abbrev': _("Play."),
+                        'breaks_first': _("Break First"),
                         'name': _("Name"),
                         'description_short': _("Description"),
                         'start_time': _("Start Time"),
                         'breaks_interval': _("Breaks Interval"),
-                        'variant': _("Holdem"),
+                        'breaks_interval_abbrev': _("Brk."),
+                        'variant': _("Variant"),
                         'currency_serial': _("Currency"),
                         'state': _("State"),
                         'buy_in': _("Buy In"),
                         'breaks_duration': _("Breaks Duration"),
                         'sit_n_go': _("Sit'n'Go"),
-                        'registered': _("Registered")
+			'registered': _("Registered"),
+			'player_timeout': _("Player Timeout"),
+                        'player_timeout_abbrev': _("Time")
                         }));
 	var sitngoPackets = $.grep(packet.packets, function(p, i) {return p.sit_n_go == 'y';});
         for(var i = 0; i < sitngoPackets.length; i++) {
