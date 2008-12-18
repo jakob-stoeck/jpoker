@@ -2424,19 +2424,23 @@
         var t = this.templates;
         var html = [];
         html.push(t.header.supplant({
-                        'players_quota': _("Players Quota"),
-                        'breaks_first': _("Breaks First"),
+		    'players_quota': _("Players Quota"),
+                        'players_abbrev': _("Play."),
+                        'breaks_first': _("Break First"),
                         'name': _("Name"),
                         'description_short': _("Description"),
                         'start_time': _("Start Time"),
                         'breaks_interval': _("Breaks Interval"),
-                        'variant': _("Holdem"),
+                        'breaks_interval_abbrev': _("Brk."),
+                        'variant': _("Variant"),
                         'currency_serial': _("Currency"),
                         'state': _("State"),
                         'buy_in': _("Buy In"),
                         'breaks_duration': _("Breaks Duration"),
                         'sit_n_go': _("Sit'n'Go"),
-                        'registered': _("Registered")
+			'registered': _("Registered"),
+			'player_timeout': _("Player Timeout"),
+                        'player_timeout_abbrev': _("Time")
                         }));
 	var regularPackets = $.grep(packet.packets, function(p, i) {return p.sit_n_go == 'n';});
         for(var i = 0; i < regularPackets.length; i++) {
