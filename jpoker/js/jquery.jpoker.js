@@ -42,7 +42,7 @@
     $.fn.extend({
             frame: function(css) {
                 var box = '';
-                var positions = [ 'n', 's', 'w', 'e', 'se', 'sw', 'nw', 'ne' ];
+                var positions = [ 'n', 'e', 's', 'w', 'se', 'sw', 'nw', 'ne' ];
                 for(var i = 0; i < positions.length; i++) {
                     box += '<div style=\'position: absolute\' class=\'' + css + ' ' + css + '-' + positions[i] + '\'></div>';
                 }
@@ -51,8 +51,9 @@
                 return this.each(function() {
                         var $this = $(this);
                         $this.wrap('<div style=\'position: relative\' class=\'' + css + ' ' + css + '-container\'></div>');
-                        $this.before(box);
                         $this.parent().hover(toggle, toggle);
+                        $this.after(box);
+			$this.wrap('<div class=\'' + css + ' ' + css + '-inner\'></div>');
                         return this;
                     });
             }
@@ -2300,12 +2301,16 @@
         var html = [];
 	packet.packets = $.grep(packet.packets, function(packet) {return packet.tourney_serial === undefined || packet.tourney_serial === 0;});
         html.push(t.header.supplant({
-                        'seats': _("Seats"),
+		    'seats': _("Seats"),
                         'average_pot': _("Average Pot"),
+                        'average_pot_abrev': _("AvPot"),
                         'hands_per_hour': _("Hands/Hour"),
+                        'hands_per_hour_abrev': _("H"),
                         'percent_flop': _("% Flop"),
+                        'percent_flop_abrev': _("%F"),
                         'players': _("Players"),
-                        'observers': _("Observers"),
+			'players_abrev': _("Play."),
+			'observers': _("Observers"),
                         'waiting': _("Waiting"),
                         'player_timeout': _("Timeout"),
                         'currency_serial': _("Currency"),
