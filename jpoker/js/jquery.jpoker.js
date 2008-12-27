@@ -2739,7 +2739,7 @@
 	    }
 	}
 
-	if (packet.tourney.state == 'running' || packet.tourney.state == 'complete' || packet.tourney.state == 'break' || packet.tourney.state == 'breakwait' || packet.tourney.sit_n_go == 'y') {
+	if (packet.tourney.state != 'canceled' && packet.tourney.state != 'announced' ) {
 	    var html = [];
 	    html.push(t.prizes.header.supplant({
                         'caption': _("Prizes"),
