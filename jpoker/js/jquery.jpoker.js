@@ -2684,13 +2684,14 @@
     jpoker.plugins.tourneyDetails.getHTML = function(id, packet, logged, registered, link_pattern) {
         var t = this.templates;
         var html_map = {};
+        var html = [];
 	var i = 0;
 
 	html_map.tname = t.tname.supplant(packet.tourney);
 	
 	var player_state_template = t.players[packet.tourney.state];
 	if (player_state_template) {
-	    var html = [];
+            html = [];
 	    html.push(t.players.header);
 	    html.push(player_state_template.header.supplant({
                         'caption': _("Players"),
@@ -2742,7 +2743,7 @@
 	}
 
 	if (packet.tourney.state != 'canceled' && packet.tourney.state != 'announced' ) {
-	    var html = [];
+	    html = [];
 	    html.push(t.prizes.header.supplant({
                         'caption': _("Prizes"),
 			'rank': _("Rank"),
@@ -2763,7 +2764,7 @@
 	    html_map.prizes = '';
 	}
 	if (packet.tourney.state == "running" || packet.tourney.state == 'break' || packet.tourney.state == 'breakwait') {
-	    var html = [];
+	    html = [];
 	    html.push(t.tables.header.supplant({
                         'caption': _("Tables"),
 			'table': _("Table"),
@@ -2934,7 +2935,7 @@
 	var date = new Date();
 	date.setTime(packet.tourney.start_time*1000);
 	html.push(t.starttime.supplant({tourney_starttime:
-		    _("Tournaments is starting at: ")+date.toLocaleString()}));
+		    _("Tournament is starting at: ")+date.toLocaleString()}));
         return html.join('\n');
     };
     
@@ -3964,11 +3965,11 @@
                 rebuy = $('#jpokerRebuy');
                 rebuy.dialog(this.rebuy_options);
             }
-            rebuy.empty();
-            rebuy.append('<div class=\'jpoker_rebuy_bound jpoker_rebuy_min\'>' + limits[0] + '</div>');
-            rebuy.append('<div class=\'ui-slider-1\'><div class=\'ui-slider-handle\'></div></div>');
-            rebuy.append('<div class=\'jpoker_rebuy_current\'>' + limits[1] + '</div>');
-            rebuy.append('<div class=\'jpoker_rebuy_bound jpoker_rebuy_max\'>' + limits[2] + '</div>');
+            rebuy.html(this.templates.rebuy.supplant({
+                        'min': limits[0],
+                        'current': limits[1],
+                        'max': limits[2]
+                    }));
             var packet_type;
             var label;
             if(player.state == 'buyin') {
@@ -4126,7 +4127,7 @@
 		    $('.jpoker_raise_input', raise_input).change(function() {
 			    var value = parseFloat($(this).val().replace(',', '.'));
 			    if (isNaN(value)) {
-				var value = $('.ui-slider-1', raise).slider('value', 0);
+				value = $('.ui-slider-1', raise).slider('value', 0);
 				$(this).val(jpoker.chips.SHORT(value/100.0));
 			    } else {
 				$('.ui-slider-1', raise).slider('moveTo', value*100);
@@ -4174,6 +4175,10 @@
 
         destroy: function(player, dummy, id) {
             jpoker.plugins.playerSelf.hide(id);
+        },
+
+        templates: {
+            rebuy: '<div class=\'jpoker_rebuy_bound jpoker_rebuy_min\'>{min}</div><div class=\'ui-slider-1\'><div class=\'ui-slider-handle\'></div></div><div class=\'jpoker_rebuy_current\'>{current}</div><div class=\'jpoker_rebuy_bound jpoker_rebuy_max\'>{max}</div>'
         }
     };
 
