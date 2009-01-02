@@ -2634,7 +2634,9 @@
                             $(element).html(tourneyDetails.getHTML(id, packet, logged, registered, opts.link_pattern));			    
 
 			    $('.jpoker_tourney_details_table', element).click(function() {
-				    $('.jpoker_tourney_details_table_details', element).html(tourneyDetails.getHTMLTableDetails(id, packet, $(this).attr('id')));
+				    var table_details = $('.jpoker_tourney_details_table_details', element);
+                                    table_details.html(tourneyDetails.getHTMLTableDetails(id, packet, $(this).attr('id')));
+                                    tourneyDetails.callback.table_players_display_done(table_details);
 				}).hover(function(){
 					$(this).addClass('hover');
 				    },function(){
@@ -2814,7 +2816,7 @@
 	var players = packet.table2serials[table];
 	$.each(players, function(i, serial) {
 		var player = packet.user2properties['X'+serial];
-		html.push(t.table_players.rows.supplant(player));
+		html.push(t.table_players.rows.supplant(player).replace(/{oddEven}/g, i%2 ? 'odd' : 'even'));
 	    });
 	html.push(t.table_players.footer);
 	return html.join('\n');
@@ -2879,6 +2881,8 @@
 
     jpoker.plugins.tourneyDetails.callback = {
 	display_done: function(element) {
+	},
+	table_players_display_done: function(element) {
 	}
     };
 
