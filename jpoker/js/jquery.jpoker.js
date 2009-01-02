@@ -3965,11 +3965,6 @@
                 rebuy = $('#jpokerRebuy');
                 rebuy.dialog(this.rebuy_options);
             }
-            rebuy.html(this.templates.rebuy.supplant({
-                        'min': limits[0],
-                        'current': limits[1],
-                        'max': limits[2]
-                    }));
             var packet_type;
             var label;
             if(player.state == 'buyin') {
@@ -3979,10 +3974,13 @@
                 packet_type = 'PacketPokerRebuy';
                 label = _("Rebuy");
             }
-            var button = $('<div class=\'ui-dialog-buttonpane\'/>').appendTo(rebuy);
-            $(document.createElement('button')).
-            text(label).
-            click(function() {
+            rebuy.html(this.templates.rebuy.supplant({
+                        'min': limits[0],
+                        'current': limits[1],
+                        'max': limits[2],
+                        'label': label
+                    }));
+            $('.jpoker_rebuy_action', rebuy).click(function() {
                     var server = jpoker.getServer(url);
                     if(server) {
                         server.sendPacket({ 'type': packet_type,
@@ -3992,8 +3990,7 @@
                                     });
                     }
                     rebuy.dialog('close');
-                }).
-            appendTo(button);
+                });
             $('.ui-slider-1', rebuy).slider({
                     min: limits[0],
                         startValue: limits[1]*100,
@@ -4178,7 +4175,7 @@
         },
 
         templates: {
-            rebuy: '<div class=\'jpoker_rebuy_bound jpoker_rebuy_min\'>{min}</div><div class=\'ui-slider-1\'><div class=\'ui-slider-handle\'></div></div><div class=\'jpoker_rebuy_current\'>{current}</div><div class=\'jpoker_rebuy_bound jpoker_rebuy_max\'>{max}</div>'
+            rebuy: '<div class=\'jpoker_rebuy_bound jpoker_rebuy_min\'>{min}</div><div class=\'ui-slider-1\'><div class=\'ui-slider-handle\'></div></div><div class=\'jpoker_rebuy_current\'>{current}</div><div class=\'jpoker_rebuy_bound jpoker_rebuy_max\'>{max}</div><div class=\'ui-dialog-buttonpane\'/><button class=\'jpoker_rebuy_action\'>{label}</button></div>'
         }
     };
 
