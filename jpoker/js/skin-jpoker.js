@@ -95,6 +95,7 @@ function setUp() {
     // disable ping logic by setting a very large frequency
     ///
     $.jpoker.serverCreate({ url: 'url', pingFrequency: 20000000 });
+    window.scrollTo(0,0);
 }
 
 function jpoker_01_copyright(place) {
