@@ -4417,7 +4417,7 @@ test("jpoker.plugins.tourneyDetails templates prizes regular registering", funct
 	var registered = true;
 	$(element).html(tourneyDetails.getHTML(id, packet, logged, registered));
 
-	equals($(".jpoker_tourney_details_prizes", element).length, 0);
+	equals($(".jpoker_tourney_details_prizes", element).length, 1);
         equals($('.jpoker_tourney_details_info', element).hasClass('jpoker_tourney_details_registering'), true, 'details_registering');
 
 	cleanup();
