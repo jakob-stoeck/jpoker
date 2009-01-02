@@ -3056,7 +3056,10 @@ test("jpoker.player.stats", function(){
 // tableList
 //
 test("jpoker.plugins.tableList", function(){
-        expect(12);
+        var expected = 11;
+        var test_average_pot = jpoker.plugins.tableList.templates.rows.indexOf('{average_pot}');
+        if(test_average_pot) expected++;
+        expect(expected);
         stop();
 
         //
@@ -3096,7 +3099,9 @@ test("jpoker.plugins.tableList", function(){
                 if(element.length > 0) {
                     var tr = $("#" + id + " tr", place);
                     equals(tr.length, 4);
-                    equals($('td:nth-child(5)', tr[1]).text(), average_pot, 'average pot');
+                    if(test_average_pot) {
+                        ok($(tr[1]).text().indexOf(average_pot) >= 0, 'average pot');
+                    }
 		    var row_id = TABLE_LIST_PACKET.packets[1].id + id;
 		    var row = $("#" + row_id, place);
 		    server.tableJoin = function(id) {
