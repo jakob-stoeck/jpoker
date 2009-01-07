@@ -29,13 +29,13 @@ Install
 
 1) unpack the archive 
 2) edit the index.html page, look for config.jpoker and make sure only
-   config.jpoker = { restURL : 'http://pokersource.eu/REST' };
+   config.jpoker = { restURL : 'http://pokersource.eu/POKER_REST' };
    is uncommented
 4) if you have firebug installed, go to the Net tab, then Options and
    disable network monitoring
 3) open file:///index.html with iceweasel or firefox (version 2 or 3)
    do not open it from a locally installed web server otherwise you will
-   be forbiden to access the http://pokersource.eu/REST server because of
+   be forbiden to access the http://pokersource.eu/POKER_REST server because of
    cross browser restrictions
 
 Loic Dachary <loic@dachary.org>
