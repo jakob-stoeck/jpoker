@@ -1,5 +1,5 @@
 //
-//     Copyright (C) 2008 Loic Dachary <loic@dachary.org>
+//     Copyright (C) 2008, 2009 Loic Dachary <loic@dachary.org>
 //     Copyright (C) 2008 Johan Euphrosine <proppy@aminche.com>
 //     Copyright (C) 2008 Saq Imtiaz <lewcid@gmail.com>
 //
@@ -66,11 +66,11 @@
 
     $.jpoker = {
 
-        jpoker_version: '1.0.14',
+        jpoker_version: '1.0.15',
 
         jpoker_sources: 'http://jspoker.pokersource.info/packaging-farm/jpoker/gnulinux/debian/lenny/src/jpoker_{jpoker-version}.orig.tar.gz',
 
-        poker_network_version: '1.7.1',
+        poker_network_version: '1.7.4',
 
         poker_network_sources: 'http://farmpoker.pokersource.info/packaging-farm/poker-network/gnulinux/debian/lenny/src/poker-network_{poker-network-version}.orig.tar.gz',
 
@@ -2355,9 +2355,75 @@
     // regularTourneyList
     //
     jpoker.plugins.regularTourneyList = function(url, options) {
-
+        
         var regularTourneyList = jpoker.plugins.regularTourneyList;
+        regularTourneyList.defaults.templates = regularTourneyList.templates;
+        regularTourneyList.defaults.callback = regularTourneyList.callback;
         var opts = $.extend({}, regularTourneyList.defaults, options);
+        return jpoker.plugins.tourneyList.call(this, url, opts);
+    };
+
+    jpoker.plugins.regularTourneyList.templates = {
+        header : '<table><thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th><th>{start_time}</th><th>{state}</th></tr></thead><tbody>',
+        rows : '<tr id=\'{id}\' title=\'' + _("Click to show tourney details") + '\' class=\'jpoker_tourney_state_{state}\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{start_time}</td><td>{state}</td></tr>',
+        footer : '</tbody></table>',
+	link: '<a href=\'{link}\'>{name}</a>',
+	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
+	next_label: '{next_label} >>>',
+	previous_label: '<<< {previous_label}'
+    };
+
+    jpoker.plugins.regularTourneyList.callback = {
+	display_done: function(element) {
+	}
+    };
+
+    jpoker.plugins.regularTourneyList.defaults = $.extend({
+            sortList: [[4, 0]],
+            string: '\tn', // PacketTourneySelect : any currency\nregular
+            css_tag: 'regular_'
+        }, jpoker.refresh.defaults, jpoker.defaults);
+
+    //
+    // sitngoTourneyList
+    //
+    jpoker.plugins.sitngoTourneyList = function(url, options) {
+        
+        var sitngoTourneyList = jpoker.plugins.sitngoTourneyList;
+        sitngoTourneyList.defaults.templates = sitngoTourneyList.templates;
+        sitngoTourneyList.defaults.callback = sitngoTourneyList.callback;
+        var opts = $.extend({}, sitngoTourneyList.defaults, options);
+        return jpoker.plugins.tourneyList.call(this, url, opts);
+    };
+
+    jpoker.plugins.sitngoTourneyList.templates = {
+        header : '<table><thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th><th>{state}</th></tr></thead><tbody>',
+        rows : '<tr id=\'{id}\' title=\'' + _("Click to show tourney details") + '\' class=\'jpoker_tourney_state_{state}\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{state}</td></tr>',
+        footer : '</tbody></table>',
+	link: '<a href=\'{link}\'>{name}</a>',
+	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
+	next_label: '{next_label} >>>',
+	previous_label: '<<< {previous_label}'	
+    };
+
+    jpoker.plugins.sitngoTourneyList.callback = {
+	display_done: function(element) {
+	}
+    };
+
+    jpoker.plugins.sitngoTourneyList.defaults = $.extend({
+            sortList: [[3, 0]],
+            string: '\ty', // PacketTourneySelect : any currency\nsit&go,
+            css_tag: 'sitngo_'
+        }, jpoker.refresh.defaults, jpoker.defaults);
+
+    //
+    // tourneyList
+    //
+    jpoker.plugins.tourneyList = function(url, options) {
+
+        var tourneyList = jpoker.plugins.tourneyList;
+        var opts = $.extend({}, tourneyList.defaults, options);
         var server = jpoker.url2server({ url: url });
 
         return this.each(function() {
@@ -2365,13 +2431,13 @@
 
                 var id = jpoker.uid();
 		
-                $this.append('<div class=\'jpoker_widget jpoker_regular_tourney_list\' id=\'' + id + '\'></table>');
+                $this.append('<div class=\'jpoker_widget jpoker_' + opts.css_tag + 'tourney_list\' id=\'' + id + '\'></table>');
 
                 var updated = function(server, what, packet) {
                     var element = document.getElementById(id);
                     if(element) {
                         if(packet && packet.type == 'PacketPokerTourneyList') {
-                            $(element).html(regularTourneyList.getHTML(id, packet, opts.link_pattern));
+                            $(element).html(tourneyList.getHTML(id, packet, opts));
 			    if (opts.link_pattern === undefined) {
 				for(var i = 0; i < packet.packets.length; i++) {
 				    (function(){
@@ -2392,14 +2458,14 @@
 				}
 			    }
  			    if ($('tbody tr', element).length > 0) {
-				var t = jpoker.plugins.regularTourneyList.templates;
+				var t = opts.templates;
 				var options = {container: $('.pager', element),
 					       positionFixed: false,
 					       previous_label: t.previous_label.supplant({previous_label: _("Previous page")}),
 					       next_label: t.next_label.supplant({next_label: _("Next page")})};
-				$('table', element).tablesorter({widgets: ['zebra'], sortList: [[4, 0]]}).tablesorterPager(options);
+				$('table', element).tablesorter({widgets: ['zebra'], sortList: opts.sortList}).tablesorterPager(options);
 			    }
-                            regularTourneyList.callback.display_done(element);
+                            opts.callback.display_done(element);
                         }
                         return true;
                     } else {
@@ -2408,19 +2474,16 @@
                     }
                 };
 
-                server.registerUpdate(updated, null, 'regularTourneyList' + id);
+                server.registerUpdate(updated, null, 'tourneyList' + id);
 
                 server.refreshTourneys(opts.string, opts);
                 return this;
             });
     };
 
-    jpoker.plugins.regularTourneyList.defaults = $.extend({
-        string: ''
-        }, jpoker.refresh.defaults, jpoker.defaults);
-
-    jpoker.plugins.regularTourneyList.getHTML = function(id, packet, link_pattern) {
-        var t = this.templates;
+    jpoker.plugins.tourneyList.getHTML = function(id, packet, options) {
+        var link_pattern = options.link_pattern;
+        var t = options.templates;
         var html = [];
         html.push(t.header.supplant({
 		    'players_quota': _("Players Quota"),
@@ -2441,12 +2504,13 @@
 			'player_timeout': _("Player Timeout"),
                         'player_timeout_abbrev': _("Time")
                         }));
-	var regularPackets = $.grep(packet.packets, function(p, i) {return p.sit_n_go == 'n';});
-        for(var i = 0; i < regularPackets.length; i++) {
-            var subpacket = regularPackets[i];
+	var packets = packet.packets;
+        for(var i = 0; i < packets.length; i++) {
+            var subpacket = packets[i];
             if(!('game_id' in subpacket)) {
                 subpacket.game_id = subpacket.serial;
                 subpacket.id = subpacket.game_id + id;
+                subpacket.buy_in /= 100;
 	    }
 	    subpacket.start_time = new Date(subpacket.start_time*1000).toLocaleString();
 	    if (link_pattern && subpacket.state != 'announced' && subpacket.state != 'canceled') {
@@ -2460,142 +2524,23 @@
         return html.join('\n');
     };
 
-    jpoker.plugins.regularTourneyList.templates = {
-        header : '<table><thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th><th>{start_time}</th><th>{state}</th></tr></thead><tbody>',
-        rows : '<tr id=\'{id}\' title=\'' + _("Click to show tourney details") + '\' class=\'jpoker_tourney_state_{state}\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{start_time}</td><td>{state}</td></tr>',
-        footer : '</tbody></table>',
-	link: '<a href=\'{link}\'>{name}</a>',
-	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
-	next_label: '{next_label} >>>',
-	previous_label: '<<< {previous_label}'
-    };
-
-    jpoker.plugins.regularTourneyList.callback = {
-	display_done: function(element) {
-	}
-    };
-
-    //
-    // sitngoTourneyList
-    //
-    jpoker.plugins.sitngoTourneyList = function(url, options) {
-
-        var sitngoTourneyList = jpoker.plugins.sitngoTourneyList;
-        var opts = $.extend({}, sitngoTourneyList.defaults, options);
-        var server = jpoker.url2server({ url: url });
-
-        return this.each(function() {
-                var $this = $(this);
-
-                var id = jpoker.uid();
-
-                $this.append('<div class=\'jpoker_widget jpoker_sitngo_tourney_list\' id=\'' + id + '\'></table>');
-
-                var updated = function(server, what, packet) {
-                    var element = document.getElementById(id);
-                    if(element) {
-                        if(packet && packet.type == 'PacketPokerTourneyList') {
-                            $(element).html(sitngoTourneyList.getHTML(id, packet, opts.link_pattern));
-			    if (opts.link_pattern === undefined) {
-				for(var i = 0; i < packet.packets.length; i++) {
-				    (function(){
-					var subpacket = packet.packets[i];
-					$('#' + subpacket.id).click(function() {
-						var server = jpoker.getServer(url);
-						if(server) {
-						    server.tourneyRowClick(server, subpacket);
-						}
-					    }).hover(function(){
-						    $(this).addClass('hover');
-						},function(){
-						    $(this).removeClass('hover');
-						});
-				    })();
-				}
-			    }
-			    if ($('tbody tr', element).length > 0) {
-				var t = jpoker.plugins.sitngoTourneyList.templates;
-				var options = {container: $('.pager', element),
-					       positionFixed: false,
-					       previous_label: t.previous_label.supplant({previous_label: _("Previous page")}),
-					       next_label: t.next_label.supplant({next_label: _("Next page")})};
-				$('table', element).tablesorter({widgets: ['zebra'], sortList: [[3, 0]]}).tablesorterPager(options);				
-			    }
-                            sitngoTourneyList.callback.display_done(element);
-                        }
-                        return true;
-                    } else {
-			server.stopRefresh('tourneyList');
-                        return false;
-                    }
-                };
-
-                server.registerUpdate(updated, null, 'sitngoTourneyList' + id);
-
-                server.refreshTourneys(opts.string, opts);
-                return this;
-            });
-    };
-
-    jpoker.plugins.sitngoTourneyList.defaults = $.extend({
-        string: ''
+    jpoker.plugins.tourneyList.defaults = $.extend({
+            sortList: [[1, 0]],
+            string: '',
+            templates: {
+                header : '<table><thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th><th>{start_time}</th><th>{state}</th></tr></thead><tbody>',
+                rows : '<tr id=\'{id}\' title=\'' + _("Click to show tourney details") + '\' class=\'jpoker_tourney_state_{state}\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{start_time}</td><td>{state}</td></tr>',
+                footer : '</tbody></table>',
+                link: '<a href=\'{link}\'>{name}</a>',
+                pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
+                next_label: '{next_label} >>>',
+                previous_label: '<<< {previous_label}'
+            },
+            callback: {
+                display_done: function(element) {
+                }
+            }
         }, jpoker.refresh.defaults, jpoker.defaults);
-
-    jpoker.plugins.sitngoTourneyList.getHTML = function(id, packet, link_pattern) {
-        var t = this.templates;
-        var html = [];
-        html.push(t.header.supplant({
-		    'players_quota': _("Players Quota"),
-                        'players_abbrev': _("Play."),
-                        'breaks_first': _("Break First"),
-                        'name': _("Name"),
-                        'description_short': _("Description"),
-                        'start_time': _("Start Time"),
-                        'breaks_interval': _("Breaks Interval"),
-                        'breaks_interval_abbrev': _("Brk."),
-                        'variant': _("Variant"),
-                        'currency_serial': _("Currency"),
-                        'state': _("State"),
-                        'buy_in': _("Buy In"),
-                        'breaks_duration': _("Breaks Duration"),
-                        'sit_n_go': _("Sit'n'Go"),
-			'registered': _("Registered"),
-			'player_timeout': _("Player Timeout"),
-                        'player_timeout_abbrev': _("Time")
-                        }));
-	var sitngoPackets = $.grep(packet.packets, function(p, i) {return p.sit_n_go == 'y';});
-        for(var i = 0; i < sitngoPackets.length; i++) {
-            var subpacket = sitngoPackets[i];
-            if(!('game_id' in subpacket)) {
-                subpacket.game_id = subpacket.serial;
-                subpacket.id = subpacket.game_id + id;
-                subpacket.buy_in /= 100;
-	    }
-	    if (link_pattern) {
-		var link = t.link.supplant({link: link_pattern.supplant({tourney_serial: subpacket.serial}), name: subpacket.description_short});
-		subpacket.description_short = link;
-	    }
-            html.push(t.rows.supplant(subpacket));
-        }
-        html.push(t.footer);
-	html.push(t.pager);
-        return html.join('\n');
-    };
-
-    jpoker.plugins.sitngoTourneyList.templates = {
-        header : '<table><thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th><th>{state}</th></tr></thead><tbody>',
-        rows : '<tr id=\'{id}\' title=\'' + _("Click to show tourney details") + '\' class=\'jpoker_tourney_state_{state}\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{state}</td></tr>',
-        footer : '</tbody></table>',
-	link: '<a href=\'{link}\'>{name}</a>',
-	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
-	next_label: '{next_label} >>>',
-	previous_label: '<<< {previous_label}'	
-    };
-
-    jpoker.plugins.sitngoTourneyList.callback = {
-	display_done: function(element) {
-	}
-    };
 
     //
     // tourneyDetails
