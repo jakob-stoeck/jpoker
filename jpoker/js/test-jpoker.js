@@ -223,6 +223,21 @@ test("jpoker.error alert", function() {
 	jpoker.console = jpokerConsole;
 });
 
+test("jpoker.error printStackTrace throw", function() {
+        expect(1);
+        var handler = jpoker.errorHandler;
+        var p = printStackTrace;
+        printStackTrace = function(args) {
+            throw 'simulate printStackTrace error';
+        };
+        jpoker.errorHandler = function(reason, str) {
+            ok(str.indexOf('stringify failed') >= 0);
+        };
+        jpoker.error({});
+        jpoker.errorHandler = handler;
+        printStackTrace = p;
+    });
+
 test("jpoker.error object", function() {
         expect(4);
 	var error_reason = {message: "error reason", "xhr": {status: 500, foo: 'bar'}};

@@ -199,10 +199,10 @@
                 } else {
                     str = JSON.stringify(reason);
                 }
-                //                str += '\n\n' + printStackTrace({guess:true}).slice(2).join('\n');
+                str += '\n\n' + printStackTrace({guess:true}).slice(2).join('\n');
                 str += '\n\n' + navigator.userAgent;
             } catch(e) {
-                str += 'attempt to stringify exception failed';
+                str += 'attempt to stringify failed with exception';
             }
             this.uninit();
             this.errorHandler(reason, str);
