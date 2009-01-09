@@ -178,7 +178,7 @@ test("jpoker.plugins.regularTourneyList pager", function(){
         var PokerServer = function() {};
 
 	var TOURNEY_LIST_PACKET = {"players": 0, "packets": [], "tourneys": 5, "type": "PacketPokerTourneyList"};
-	for (var i = 0; i < 200; ++i) {
+	for (var i = 0; i < 30; ++i) {
 	    var name = "Tourney" + i;
 	    var serial = 100+i;
 	    var players = i%11;
@@ -369,7 +369,7 @@ test("jpoker.plugins.sitngoTourneyList pager", function(){
         var PokerServer = function() {};
 
 	var TOURNEY_LIST_PACKET = {"players": 0, "packets": [], "tourneys": 5, "type": "PacketPokerTourneyList"};
-	for (var i = 0; i < 200; ++i) {
+	for (var i = 0; i < 30; ++i) {
 	    var name = "Tourney" + i;
 	    var players = i%11;
 	    var serial = i + 100;

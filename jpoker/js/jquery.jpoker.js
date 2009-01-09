@@ -2529,8 +2529,9 @@
     };
 
     jpoker.plugins.tourneyList.defaults = $.extend({
-            sortList: [[1, 0]],
+            sortList: [[0, 0]],
             string: '',
+            css_tag: '',
             templates: {
                 header : '<table><thead><tr><th>{description_short}</th><th>{registered}</th><th>{players_quota}</th><th>{buy_in}</th><th>{start_time}</th><th>{state}</th></tr></thead><tbody>',
                 rows : '<tr id=\'{id}\' title=\'' + _("Click to show tourney details") + '\' class=\'jpoker_tourney_state_{state}\'><td>{description_short}</td><td>{registered}</td><td>{players_quota}</td><td>{buy_in}</td><td>{start_time}</td><td>{state}</td></tr>',
