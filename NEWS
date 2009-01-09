@@ -1,3 +1,10 @@
+Release 1.0.15
+
+* Merged $.jpoker.plugins.regularTourneyList and 
+         $.jpoker.plugins.sitngoTourneyList
+
+* error function catches when printStackTrace throws. 
+
 Release 1.0.14
 
 * Sound notifications

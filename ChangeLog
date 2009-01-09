@@ -1,6 +1,913 @@
-2008-11-11  Loic Dachary <loic@dachary.org>
+2009-01-09  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	error function catches when printStackTrace throws : add test that
+	covers the case
+	[33e56a871445] [tip]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker-backward.js,
+	jpoker/js/test-jpoker.js:
+	Rework tests to reflect the structural changes (factorization of
+	{sitngo,regular}tourneList.
+	[2b317c6a51a1]
+
+	* jpoker/js/test-jpoker-backward.js, jpoker/js/test-jpoker.js, jpoker
+	/test-jpoker.html:
+	Some tests moved to the new test-jpoker-backward.js file designed to
+	archive tests that are not necessary to ensure the stability of the
+	code base but help maintain backward compatibility. Restore the
+	original template to prevent failure in later tests.
+	[5190e321932a]
+
+	* jpoker/js/jquery.jpoker.js:
+	Catch errors in the error handler when trying to display an
+	informative error message and fallback to an obscure error message,
+	which is much better than a stack trace within the error handler
+	that would hide the real problem.
+	[1afce25b687d]
+
+2009-01-07  Loic Dachary <loic@dachary.org>
+
+	* README.binary:
+	REST became POKER_REST
+	[6ebfb6726a07]
+
+	* jpoker/js/test-jpoker.js:
+	Minimal fixes to regularTourneyList and sitngoTourneyList tests to
+	accomodate the refactoring.
+	[d69868debd79]
+
+	* jpoker/js/jquery.jpoker.js:
+	Refactor jpoker.plugins.sitngoTourneyList and
+	jpoker.plugins.regularTourneyList into jpoker.plugins.tourneyList.
+	Keep the previous interface for backward compatibility and
+	convenience. Bump version to 1.0.15. Fix buy_in bug on regular
+	tournaments (was not / 100).
+	[a32b031635d0]
+
+2009-01-02  Loic Dachary <loic@dachary.org>
 
 	* Release 1.0.14
+
+	* jpoker/js/test-jpoker.js:
+	in tableList test for average pot in the first row (never mind the
+	actual cell) and only if {average_pot} is found in the template
+	[14e0c348372b]
+
+	* jpoker/js/jquery.jpoker.js:
+	rebuy button is now part of the template
+	[5d2be1662d50]
+
+	* jpoker/js/jquery.jpoker.js:
+	rebuy is a template
+	[5c5f22a5b82a]
+
+	* jpoker/js/jquery.jpoker.js:
+	allow for skinning of tourney table player list
+	[f17904f2344e]
+
+	* jpoker/js/test-jpoker.js:
+	prizes show always
+	[e4f9b9e214a7]
+
+	* jpoker/js/skin-jpoker.js:
+	merge saq changes
+	[09087f7062f4]
+
+2009-01-02  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/js/skin-jpoker.js:
+	Saq:added scrollig to top after clicking on new state in mockup
+	[ab44ccee67a0]
+
+2009-01-02  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/skin-jpoker.js:
+	add more than one table to skin
+	[68f00f76c8b0]
+
+2008-12-27  Loic Dachary <loic@dachary.org>
+
+	* jpoker/skin.html:
+	jpoker_83_1 function name typo fixed
+	[7f171160659e]
+
+	* jpoker/js/jquery.jpoker.js:
+	prizes are available for all tournaments except if in canceled or
+	announced state as of poker-network 1.7.3
+	[b125758fc68c]
+
+	* AUTHORS, jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	sort Frank Denis contribution. Implement odd/even class attribute.
+	[a69397dd25ef]
+
+2008-12-18  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	tourneyDetails now has a
+	jpoker.plugins.tourneyDetails.templates.layout template that can be
+	used to structure the divs that were previously joined together. The
+	default value matches the existing convention for backward
+	compatiblity :
+	{tname}{players}{info}{register}{prizes}{tables}{table_details}
+	[bb4ca627b306]
+
+	* jpoker/js/jquery.jpoker.js:
+	cosmetic indent
+	[8e56e58105e2]
+
+	* jpoker/js/jquery.jpoker.js:
+	add substitution patters to regular tourney list
+	[9bf43c53ec23]
+
+	* jpoker/css/jpoker_table_list.css:
+	evenRow and oddRow and redundant and obsolete
+	[a78405cecd04]
+
+	* da/LC_MESSAGES/da.mo, de/LC_MESSAGES/de.mo, en/LC_MESSAGES/en.mo,
+	en_CA/LC_MESSAGES/en_CA.mo, en_US/LC_MESSAGES/en_US.mo,
+	es/LC_MESSAGES/es.mo, fi/LC_MESSAGES/fi.mo, fr/LC_MESSAGES/fr.mo,
+	fr_BE/LC_MESSAGES/fr_BE.mo, fr_CA/LC_MESSAGES/fr_CA.mo,
+	fr_FX/LC_MESSAGES/fr_FX.mo, gems/bin/tiddlywiki_cp,
+	gems/cache/tiddlywiki_cp-0.5.3.gem,
+	gems/gems/tiddlywiki_cp-0.5.3/COPYING,
+	gems/gems/tiddlywiki_cp-0.5.3/History.txt,
+	gems/gems/tiddlywiki_cp-0.5.3/Manifest.txt,
+	gems/gems/tiddlywiki_cp-0.5.3/README.txt,
+	gems/gems/tiddlywiki_cp-0.5.3/Rakefile,
+	gems/gems/tiddlywiki_cp-0.5.3/bin/tiddlywiki_cp,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/converters.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/file2file.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/file2tiddler.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/r4tw.rb, gems/gems/t
+	iddlywiki_cp-0.5.3/lib/tiddlywiki_cp/tiddler2directory.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/tiddler2file.rb, gem
+	s/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/tiddler2tiddlywiki.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/tiddler_css.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/tiddler_html.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/tiddler_js.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/tiddlywiki2file.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/version.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/scripts/txt2html,
+	gems/gems/tiddlywiki_cp-0.5.3/setup.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/2.3.0.html,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/a,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/a.div,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/b,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/d/CVS,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/e,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/e.div,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/html_entities.html,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/ignored#,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/test_fetch.html,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/tiddly_version_2_1.txt,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/tiddly_version_2_2.txt,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/tiddly_version_2_3.txt,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/universe.html,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/addtag.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/all.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/createfrom.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/empties/2.1.3.html,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/empties/2.2.0.beta5.html,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/fromremote.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/fromurl.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/shadows.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/tiddler.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/tiddlerfromurl.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/tiddlywiki.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/utils.rb, gems/gems/tiddlywi
+	ki_cp-0.5.3/test/r4tw/withcontent/2.2.0.beta5.html,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/withcontent/22b5index.html,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/withcontent/empty2.html,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/withcontent/nothing.js,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/write_all_tiddlers_to.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/test_all.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/test_helper.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/test_tiddler_css.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/test_tiddler_html.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/test_tiddler_js.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/test_tiddlywiki_cp.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/ChangeLog.tiddler,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/ChangeLog.tiddler.div,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/DefaultTiddlers.tiddler,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/DefaultTiddlers.tiddler.
+	div,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/Introduction.tiddler, ge
+	ms/gems/tiddlywiki_cp-0.5.3/website/files/Introduction.tiddler.div,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/MainMenu.tiddler,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/MainMenu.tiddler.div,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/SiteSubtitle.tiddler, ge
+	ms/gems/tiddlywiki_cp-0.5.3/website/files/SiteSubtitle.tiddler.div,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/SiteTitle.tiddler,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/SiteTitle.tiddler.div,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/Usage.tiddler,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/Usage.tiddler.div,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/WebDavPlugin.js,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/WebDavPlugin.js.div,
+	gems/gems/tiddlywiki_cp-0.5.3/website/index.html,
+	gems/gems/tiddlywiki_cp-0.5.3/website/index.xml,
+	gems/specifications/tiddlywiki_cp-0.5.3.gemspec,
+	it/LC_MESSAGES/it.mo, ja/LC_MESSAGES/ja.mo, jpoker-
+	binary-1.0.14/README, messages.pot, nb/LC_MESSAGES/nb.mo,
+	nl/LC_MESSAGES/nl.mo, pt/LC_MESSAGES/pt.mo, sv/LC_MESSAGES/sv.mo:
+	remove files commited by error
+	[94b5088aef59]
+
+2008-12-18  Loic Dachary <loic@dachary.org>
+
+	* da/LC_MESSAGES/da.mo, de/LC_MESSAGES/de.mo, en/LC_MESSAGES/en.mo,
+	en_CA/LC_MESSAGES/en_CA.mo, en_US/LC_MESSAGES/en_US.mo,
+	es/LC_MESSAGES/es.mo, fi/LC_MESSAGES/fi.mo, fr/LC_MESSAGES/fr.mo,
+	fr_BE/LC_MESSAGES/fr_BE.mo, fr_CA/LC_MESSAGES/fr_CA.mo,
+	fr_FX/LC_MESSAGES/fr_FX.mo, gems/bin/tiddlywiki_cp,
+	gems/cache/tiddlywiki_cp-0.5.3.gem,
+	gems/gems/tiddlywiki_cp-0.5.3/COPYING,
+	gems/gems/tiddlywiki_cp-0.5.3/History.txt,
+	gems/gems/tiddlywiki_cp-0.5.3/Manifest.txt,
+	gems/gems/tiddlywiki_cp-0.5.3/README.txt,
+	gems/gems/tiddlywiki_cp-0.5.3/Rakefile,
+	gems/gems/tiddlywiki_cp-0.5.3/bin/tiddlywiki_cp,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/converters.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/file2file.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/file2tiddler.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/r4tw.rb, gems/gems/t
+	iddlywiki_cp-0.5.3/lib/tiddlywiki_cp/tiddler2directory.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/tiddler2file.rb, gem
+	s/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/tiddler2tiddlywiki.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/tiddler_css.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/tiddler_html.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/tiddler_js.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/tiddlywiki2file.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/lib/tiddlywiki_cp/version.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/scripts/txt2html,
+	gems/gems/tiddlywiki_cp-0.5.3/setup.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/2.3.0.html,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/a,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/a.div,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/b,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/d/CVS,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/e,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/e.div,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/html_entities.html,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/ignored#,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/test_fetch.html,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/tiddly_version_2_1.txt,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/tiddly_version_2_2.txt,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/tiddly_version_2_3.txt,
+	gems/gems/tiddlywiki_cp-0.5.3/test/content/universe.html,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/addtag.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/all.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/createfrom.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/empties/2.1.3.html,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/empties/2.2.0.beta5.html,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/fromremote.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/fromurl.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/shadows.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/tiddler.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/tiddlerfromurl.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/tiddlywiki.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/utils.rb, gems/gems/tiddlywi
+	ki_cp-0.5.3/test/r4tw/withcontent/2.2.0.beta5.html,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/withcontent/22b5index.html,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/withcontent/empty2.html,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/withcontent/nothing.js,
+	gems/gems/tiddlywiki_cp-0.5.3/test/r4tw/write_all_tiddlers_to.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/test_all.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/test_helper.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/test_tiddler_css.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/test_tiddler_html.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/test_tiddler_js.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/test/test_tiddlywiki_cp.rb,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/ChangeLog.tiddler,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/ChangeLog.tiddler.div,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/DefaultTiddlers.tiddler,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/DefaultTiddlers.tiddler.
+	div,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/Introduction.tiddler, ge
+	ms/gems/tiddlywiki_cp-0.5.3/website/files/Introduction.tiddler.div,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/MainMenu.tiddler,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/MainMenu.tiddler.div,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/SiteSubtitle.tiddler, ge
+	ms/gems/tiddlywiki_cp-0.5.3/website/files/SiteSubtitle.tiddler.div,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/SiteTitle.tiddler,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/SiteTitle.tiddler.div,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/Usage.tiddler,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/Usage.tiddler.div,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/WebDavPlugin.js,
+	gems/gems/tiddlywiki_cp-0.5.3/website/files/WebDavPlugin.js.div,
+	gems/gems/tiddlywiki_cp-0.5.3/website/index.html,
+	gems/gems/tiddlywiki_cp-0.5.3/website/index.xml,
+	gems/specifications/tiddlywiki_cp-0.5.3.gemspec,
+	it/LC_MESSAGES/it.mo, ja/LC_MESSAGES/ja.mo, jpoker-
+	binary-1.0.14/README, jpoker/js/jquery.jpoker.js, jpoker/l10n
+	/jpoker-da.po, jpoker/l10n/jpoker-de.po, jpoker/l10n/jpoker-en.po,
+	jpoker/l10n/jpoker-en_CA.po, jpoker/l10n/jpoker-en_US.po,
+	jpoker/l10n/jpoker-es.po, jpoker/l10n/jpoker-fi.po, jpoker/l10n
+	/jpoker-fr.po, jpoker/l10n/jpoker-fr_BE.po, jpoker/l10n/jpoker-
+	fr_CA.po, jpoker/l10n/jpoker-fr_FX.po, jpoker/l10n/jpoker-it.po,
+	jpoker/l10n/jpoker-ja.po, jpoker/l10n/jpoker-nb.po, jpoker/l10n
+	/jpoker-nl.po, jpoker/l10n/jpoker-pt.po, jpoker/l10n/jpoker-sv.po,
+	messages.pot, nb/LC_MESSAGES/nb.mo, nl/LC_MESSAGES/nl.mo,
+	pt/LC_MESSAGES/pt.mo, sv/LC_MESSAGES/sv.mo:
+	apt-get install tidy
+	[d4a6b55229a1]
+
+2008-12-18  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	merge proppy changes
+	[afccfbbaaaba]
+
+	* jpoker/js/jquery.jpoker.js:
+	Abreviations for table list. Rework frame.
+	[1ad30ab43020]
+
+2008-12-17  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	merge
+	[5d567c4d2f69]
+
+2008-12-17  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	add jpoker_06_1_selfInPositionCheck
+	[eb9d4e4a976f]
+
+2008-12-16  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	separate explanation from body of test
+	[32476a52b792]
+
+	* jpoker/js/skin-jpoker.js:
+	empty all elements with class skinclean
+	[40627c07eeaf]
+
+2008-12-17  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/test-jpoker.js:
+	merge proppy changes
+	[52f72fb32eba]
+
+2008-12-17  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add userAgent to error message
+	[d886efb56f38]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	ignore non numeric raise entry
+	[2fea86c56db5]
+
+	* jpoker/css/jpoker_regular_tourney_list.css,
+	jpoker/js/jquery.jpoker.js, jpoker/js/skin-jpoker.js, jpoker/js
+	/test-jpoker.js:
+	regularTourneyList: disable link/click of canceled announced tourney
+	tourneyList: add tournament state in tr css class
+	[59af59ef86fe]
+
+2008-12-15  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/test-jpoker.js:
+	var is needed otherwise the test fails
+	[0dd80c1920fc]
+
+	* jpoker/js/test-jpoker.js:
+	TEST_* default values
+	[5603d4d6c4f8]
+
+	* jpoker/js/test-jpoker.js:
+	TEST_* variables can be overriden by the caller.
+	[fb213ff28907]
+
+2008-12-09  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	restore 100% coverage
+	[28a642886fe8]
+
+	* jpoker/js/jquery.ajaxQueue.js, jpoker/js/jquery.jpoker.js, jpoker/js
+	/test-jpoker.js:
+	add ajaxQueue retry on error 12xxx
+	[e5a17607e403]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	revert error 12xxx commit
+	[d04831d730fe]
+
+	* AUTHORS, jpoker/js/jquery.jpoker.js,
+	jpoker/tiddlers/Copyright.tiddler:
+	add Frank Denis to Copyright & Authors
+	[c8600ff82b50]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	merge jedisct1 chat direction patch
+	[10d2f5c2abb1]
+
+2008-12-05  Johan Euphrosine <proppy@aminche.com>
+
+	* merge dachary changes
+	[9e000a847138]
+
+	* jpoker/l10n/jpoker-da.po, jpoker/l10n/jpoker-de.po, jpoker/l10n
+	/jpoker-en.po, jpoker/l10n/jpoker-en_CA.po, jpoker/l10n/jpoker-
+	en_US.po, jpoker/l10n/jpoker-es.po, jpoker/l10n/jpoker-fi.po,
+	jpoker/l10n/jpoker-fr.po, jpoker/l10n/jpoker-fr_BE.po, jpoker/l10n
+	/jpoker-fr_CA.po, jpoker/l10n/jpoker-fr_FX.po, jpoker/l10n/jpoker-
+	it.po, jpoker/l10n/jpoker-ja.po, jpoker/l10n/jpoker-nb.po,
+	jpoker/l10n/jpoker-nl.po, jpoker/l10n/jpoker-pt.po, jpoker/l10n
+	/jpoker-sv.po:
+	updat epo
+	[6739414fe8d2]
+
+2008-12-04  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	add announced and canceled skin cases
+	[bab359dea054]
+
+2008-12-04  bkuhn  <bkuhn@ebb.org>
+
+	* Merged in: jpoker copyright page now includes all copyright notices
+	for all of PokerSource.
+	[2f219ee5230e]
+
+2008-12-03  bkuhn  <bkuhn@ebb.org>
+
+	* jpoker/tiddlers/Copyright.tiddler:
+	jpoker copyright page now includes all copyright notices for all of
+	PokerSource.
+
+	In default deployments, the user uses PokerSource as a single unit;
+	it's useful to tell the user the copyright information for the whole
+	systems.
+
+	Deployments of jpoker without poker-network, etc. should change this
+	file lest the user is confused.
+	[ba07ed36b485]
+
+2008-12-04  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	merge proppy changes
+	[665c39fa77e5]
+
+2008-12-04  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/skin-jpoker.js, jpoker/skin.html:
+	add tourneyDetailsBreak and tourneyDetailsBreakWait skin case
+	[a81b58360be4]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/printstacktrace.js, jpoker/js
+	/test-printstacktrace.js:
+	jslint
+	[bd0fb12438b9]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add seats_left and max_player, and only show available seats
+	[0c1a16b854aa]
+
+2008-12-03  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js, jpoker/l10n
+	/jpoker-da.po, jpoker/l10n/jpoker-de.po, jpoker/l10n/jpoker-en.po,
+	jpoker/l10n/jpoker-en_CA.po, jpoker/l10n/jpoker-en_US.po,
+	jpoker/l10n/jpoker-es.po, jpoker/l10n/jpoker-fi.po, jpoker/l10n
+	/jpoker-fr.po, jpoker/l10n/jpoker-fr_BE.po, jpoker/l10n/jpoker-
+	fr_CA.po, jpoker/l10n/jpoker-fr_FX.po, jpoker/l10n/jpoker-it.po,
+	jpoker/l10n/jpoker-ja.po, jpoker/l10n/jpoker-nb.po, jpoker/l10n
+	/jpoker-nl.po, jpoker/l10n/jpoker-pt.po, jpoker/l10n/jpoker-sv.po:
+	poll table when tourney serial does not match a tourney known to
+	jpoker
+	[1eca6c36d807]
+
+	* jpoker/js/jquery.jpoker.js:
+	update poker-network version number
+	[0db63f613b04]
+
+2008-12-02  Loic Dachary <loic@dachary.org>
+
+	* merge proppy changes
+	[8f9713894ed7]
+
+2008-12-02  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	revert timeout changes
+	[137763730b96]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	ui-slider use cents unit to enable decimal handling
+	[92a4fe4e37bf]
+
+2008-12-01  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	disable PacketPokerTableMove handling
+	[cbfdd35eab70]
+
+	* jpoker/js/test-jpoker.js:
+	add test case for timeout issues
+	[ae2f354ab193]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	merge tomfmason changes
+	[15902cd7d985]
+
+2008-11-29  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler:
+	server.setLocale(lang) instead of
+	server.setLocale(fully_qualified_locale)
+	[baa26f19f60a]
+
+2008-12-02  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/printstacktrace.js:
+	use jQuery instead of $
+	[5db511e4227f]
+
+2008-11-28  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	proppy fixes
+	[16bbaa8ffd2a]
+
+2008-11-28  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	cancel *.poll with undefined server
+	[2d58df353805]
+
+	* jpoker/js/printstacktrace.js, jpoker/js/test-printstacktrace.js,
+	jpoker/test-printstacktrace.html:
+	replace printstacktrace JSON.stringify with native non-recursive
+	stringifyArguments
+	[2c49b993a53f]
+
+2008-11-27  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	powered_by rework
+	[24216d0dbd40]
+
+2008-11-27  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/test-jpoker.js:
+	jslint
+	[75b750b5e899]
+
+	* jpoker/JpokerPlugin/JpokerPlugin.tiddler,
+	jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	setLocale game_id arg, and move setLocale to default spawnTable
+	implementation
+	[983d8ac069dd]
+
+	* Makefile, generateLangTiddlers.py,
+	jpoker/markup/MarkupPreHead.tiddler, test-generateLangTiddlers.py:
+	remove MarkupPreHead generation
+	[eb034549c4f9]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js, jpoker/test-
+	jpoker.html:
+	bind _ to gettext in jpoker closure
+	[4a4d32dddab6]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add packet argument to table.callback.quit
+	[6a221bc6d3b8]
+
+2008-11-27  Loic Dachary <loic@dachary.org>
+
+	* jpoker/css/jpoker_table.css, jpoker/js/jquery.jpoker.js:
+	rework the copyright notice
+	[716dc34337eb]
+
+2008-11-27  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.server.defaults.reconnectFinish
+	[bec7af0ffcc8]
+
+	* Makefile, tiddlywiki_cp_locale2lang.patch:
+	patch tiddlywiki_cp_locale2lang locally to allow xx_XX locale
+	[e0c7933db650]
+
+	* .hgignore:
+	hgignore .orig
+	[1f47cb72450f]
+
+	* jpoker/l10n/jpoker-fr.po.orig, jpoker/l10n/jpoker-ja.po.orig:
+	remove .po.orig
+	[04c56deeafad]
+
+	* jpoker/index-da/FakeTranslation.tiddler, jpoker/index-
+	da/FakeTranslation.tiddler.div, jpoker/index-da/lang.tiddler, jpoker
+	/index-da/lang.tiddler.div, jpoker/index-da/skin-lang.tiddler,
+	jpoker/index-da/skin-lang.tiddler.div, jpoker/index-
+	de/FakeTranslation.tiddler, jpoker/index-
+	de/FakeTranslation.tiddler.div, jpoker/index-de/lang.tiddler, jpoker
+	/index-de/lang.tiddler.div, jpoker/index-de/skin-lang.tiddler,
+	jpoker/index-de/skin-lang.tiddler.div, jpoker/index-en/lang.tiddler,
+	jpoker/index-en/lang.tiddler.div, jpoker/index-en/skin-lang.tiddler,
+	jpoker/index-en/skin-lang.tiddler.div, jpoker/index-
+	en_CA/FakeTranslation.tiddler, jpoker/index-
+	en_CA/FakeTranslation.tiddler.div, jpoker/index-en_CA/lang.tiddler,
+	jpoker/index-en_CA/lang.tiddler.div, jpoker/index-en_CA/skin-
+	lang.tiddler, jpoker/index-en_CA/skin-lang.tiddler.div, jpoker
+	/index-en_US/FakeTranslation.tiddler, jpoker/index-
+	en_US/FakeTranslation.tiddler.div, jpoker/index-en_US/lang.tiddler,
+	jpoker/index-en_US/lang.tiddler.div, jpoker/index-en_US/skin-
+	lang.tiddler, jpoker/index-en_US/skin-lang.tiddler.div, jpoker
+	/index-es/FakeTranslation.tiddler, jpoker/index-
+	es/FakeTranslation.tiddler.div, jpoker/index-es/lang.tiddler, jpoker
+	/index-es/lang.tiddler.div, jpoker/index-es/skin-lang.tiddler,
+	jpoker/index-es/skin-lang.tiddler.div, jpoker/index-
+	fi/FakeTranslation.tiddler, jpoker/index-
+	fi/FakeTranslation.tiddler.div, jpoker/index-fi/lang.tiddler, jpoker
+	/index-fi/lang.tiddler.div, jpoker/index-fi/skin-lang.tiddler,
+	jpoker/index-fi/skin-lang.tiddler.div, jpoker/index-fr/lang.tiddler,
+	jpoker/index-fr/lang.tiddler.div, jpoker/index-fr/skin-lang.tiddler,
+	jpoker/index-fr/skin-lang.tiddler.div, jpoker/index-
+	fr_BE/FakeTranslation.tiddler, jpoker/index-
+	fr_BE/FakeTranslation.tiddler.div, jpoker/index-fr_BE/lang.tiddler,
+	jpoker/index-fr_BE/lang.tiddler.div, jpoker/index-fr_BE/skin-
+	lang.tiddler, jpoker/index-fr_BE/skin-lang.tiddler.div, jpoker
+	/index-fr_CA/FakeTranslation.tiddler, jpoker/index-
+	fr_CA/FakeTranslation.tiddler.div, jpoker/index-fr_CA/lang.tiddler,
+	jpoker/index-fr_CA/lang.tiddler.div, jpoker/index-fr_CA/skin-
+	lang.tiddler, jpoker/index-fr_CA/skin-lang.tiddler.div, jpoker
+	/index-fr_FX/FakeTranslation.tiddler, jpoker/index-
+	fr_FX/FakeTranslation.tiddler.div, jpoker/index-fr_FX/lang.tiddler,
+	jpoker/index-fr_FX/lang.tiddler.div, jpoker/index-fr_FX/skin-
+	lang.tiddler, jpoker/index-fr_FX/skin-lang.tiddler.div, jpoker
+	/index-it/FakeTranslation.tiddler, jpoker/index-
+	it/FakeTranslation.tiddler.div, jpoker/index-it/lang.tiddler, jpoker
+	/index-it/lang.tiddler.div, jpoker/index-it/skin-lang.tiddler,
+	jpoker/index-it/skin-lang.tiddler.div, jpoker/index-ja/lang.tiddler,
+	jpoker/index-ja/lang.tiddler.div, jpoker/index-ja/skin-lang.tiddler,
+	jpoker/index-ja/skin-lang.tiddler.div, jpoker/index-
+	nb/FakeTranslation.tiddler, jpoker/index-
+	nb/FakeTranslation.tiddler.div, jpoker/index-nb/lang.tiddler, jpoker
+	/index-nb/lang.tiddler.div, jpoker/index-nb/skin-lang.tiddler,
+	jpoker/index-nb/skin-lang.tiddler.div, jpoker/index-
+	nl/FakeTranslation.tiddler, jpoker/index-
+	nl/FakeTranslation.tiddler.div, jpoker/index-nl/lang.tiddler, jpoker
+	/index-nl/lang.tiddler.div, jpoker/index-nl/skin-lang.tiddler,
+	jpoker/index-nl/skin-lang.tiddler.div, jpoker/index-
+	pt/FakeTranslation.tiddler, jpoker/index-
+	pt/FakeTranslation.tiddler.div, jpoker/index-pt/lang.tiddler, jpoker
+	/index-pt/lang.tiddler.div, jpoker/index-pt/skin-lang.tiddler,
+	jpoker/index-pt/skin-lang.tiddler.div, jpoker/index-
+	sv/FakeTranslation.tiddler, jpoker/index-
+	sv/FakeTranslation.tiddler.div, jpoker/index-sv/lang.tiddler, jpoker
+	/index-sv/lang.tiddler.div, jpoker/index-sv/skin-lang.tiddler,
+	jpoker/index-sv/skin-lang.tiddler.div,
+	jpoker/markup/MarkupPreHead.tiddler,
+	jpoker/markup/MarkupPreHead.tiddler.div:
+	run python generateLangTiddlers.py
+	[e95a49c90a7d]
+
+	* Makefile:
+	update Makefile LANG variable, use LINGUAS file, and do not clash
+	with env
+	[061bb7836e0b]
+
+	* generateLangTiddlers.py, test-generateLangTiddlers.py:
+	add generateLangTiddlers and test
+	[95c7b5e9b95a]
+
+	* jpoker/l10n/LINGUAS, jpoker/l10n/jpoker-da.json, jpoker/l10n/jpoker-
+	de.json, jpoker/l10n/jpoker-en.json, jpoker/l10n/jpoker-en_CA.json,
+	jpoker/l10n/jpoker-en_US.json, jpoker/l10n/jpoker-es.json,
+	jpoker/l10n/jpoker-fi.json, jpoker/l10n/jpoker-fr.json, jpoker/l10n
+	/jpoker-fr.po, jpoker/l10n/jpoker-fr.po.orig, jpoker/l10n/jpoker-
+	fr_BE.json, jpoker/l10n/jpoker-fr_CA.json, jpoker/l10n/jpoker-
+	fr_FX.json, jpoker/l10n/jpoker-it.json, jpoker/l10n/jpoker-ja.po,
+	jpoker/l10n/jpoker-ja.po.orig, jpoker/l10n/jpoker-nb.json,
+	jpoker/l10n/jpoker-nl.json, jpoker/l10n/jpoker-pt.json, jpoker/l10n
+	/jpoker-sv.json:
+	generate json files for new locales
+	[460a1db77535]
+
+	* jpoker/js/jquery.jpoker.js:
+	merge upstream changes and locales
+	[e29a5aa7624e]
+
+2008-11-26  bkuhn  <bkuhn@ebb.org>
+
+	* jpoker/l10n/HOWTO_IMPORT_MIXED_PO_FILES, jpoker/l10n/jpoker-da.po,
+	jpoker/l10n/jpoker-de.po, jpoker/l10n/jpoker-en.po, jpoker/l10n
+	/jpoker-en_CA.po, jpoker/l10n/jpoker-en_US.po, jpoker/l10n/jpoker-
+	es.po, jpoker/l10n/jpoker-fi.po, jpoker/l10n/jpoker-fr.po,
+	jpoker/l10n/jpoker-fr_BE.po, jpoker/l10n/jpoker-fr_CA.po,
+	jpoker/l10n/jpoker-fr_FX.po, jpoker/l10n/jpoker-it.po, jpoker/l10n
+	/jpoker-nb.po, jpoker/l10n/jpoker-nl.po, jpoker/l10n/jpoker-pt.po,
+	jpoker/l10n/jpoker-sv.po:
+	Merged in donated locale changes and added tutorial on how to do it
+	in future.
+	[447611dbb0a6]
+
+2008-11-25  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	fix regularTourneyList and tourneyDetails date (*1000)
+	[e1e336e3dfca]
+
+2008-11-20  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	do not modify the reason object for formatting purposes
+	[63b299595806]
+
+2008-11-19  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/test-jpoker.js:
+	fix jpoker player places test selector safari issue
+	[61ef6e33bbad]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/jquery.tablesorter.pager.js,
+	jpoker/js/test-jpoker.js:
+	fix tablesorter pager safari bugs
+	[e16ac0243898]
+
+2008-11-17  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	send setLocale packet on login
+	[ae0a805fca5b]
+
+	* jpoker/js/test-jpoker.js:
+	jslint
+	[4dfd4b8943c0]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.player.sit -> jpoker.player.sit_out transition
+	[3b88c7950c6d]
+
+2008-11-15  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	a player must not be sit if auto flag is set
+	[0519a0a83248]
+
+	* jpoker/js/jquery.jpoker.js:
+	default showdown delay is 5 seconds instead of 10
+	[be3a242d07a5]
+
+	* jpoker/js/printstacktrace.js:
+	archive relevant urls
+	[705c4db258a4]
+
+	* jpoker/js/printstacktrace.js:
+	Luke Smith url
+	[f698f5aa267a]
+
+2008-11-14  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/printstacktrace.js, jpoker/js/test-printstacktrace.js:
+	add @() and fix guessFunction regexp for opera
+	[b903b18310b6]
+
+	* jpoker/js/printstacktrace.js, jpoker/js/test-jpoker.js, jpoker/js
+	/test-printstacktrace.js:
+	enable guessFunction on opera and other, proper test for
+	jpoker.error stacktrace
+	[387bbd844e2b]
+
+	* jpoker/js/test-jpoker.js:
+	jslint
+	[9f6dd58377a6]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.error call printStackTrace with guess:true
+	[70f5f0611b6a]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js, jpoker/js
+	/test-printstacktrace.js:
+	add jpoker.compatibility and fix ie bugs
+	[dab4515b62a7]
+
+	* jpoker/js/printstacktrace.js, jpoker/js/test-printstacktrace.js:
+	merge heads
+	[967dcf558711]
+
+	* jpoker/js/test-printstacktrace.js:
+	merge upstream changes
+	[6636a6394160]
+
+	* Makefile, jpoker/js/printstacktrace.js, jpoker/js/test-
+	printstacktrace.js:
+	jslint
+	[43c86438e9aa]
+
+2008-11-13  Johan Euphrosine <proppy@aminche.com>
+
+	* jpoker/js/test-printstacktrace.js:
+	test printStackTrace.guessFunctions use real exception if mode ==
+	'firefox'
+	[841dad15c10f]
+
+	* jpoker/js/test-printstacktrace.js:
+	printStackTrace.implementation.prototype.guessFunctionNameFromLines
+	(?)
+	[2b801c433cdd]
+
+	* jpoker/js/printstacktrace.js, jpoker/js/test-printstacktrace.js:
+	disable printStackTrace guessFunctions if mode != firefox
+	[891725e1c0fa]
+
+	* jpoker/js/printstacktrace.js, jpoker/js/test-printstacktrace.js:
+	printStackTrace guess function options implementation
+	[8015e7b6db36]
+
+	* jpoker/js/test-printstacktrace.js:
+	fix file:/// dependend test-printstacktrace
+	[a8933286f9cf]
+
+	* jpoker/js/test-printstacktrace.js:
+	printstacktrace: proof of concept for guess anonymous function name
+	using firebug guessFunctionName
+	[9192d70d5045]
+
+2008-11-13  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/test-printstacktrace.js:
+	rework opera tests in the light of the actual message contents
+	[919a9e3f00f2]
+
+	* jpoker/js/printstacktrace.js:
+	opera does not need an extra : at end of script URL and needs
+	"script" instead of "in" before the script URL
+	[c4634301b924]
+
+	* jpoker/js/test-printstacktrace.js:
+	call the tests in context because arguments.callee cannot be
+	deepcopied convienently
+	[19d8a6926728]
+
+	* jpoker/js/printstacktrace.js:
+	protect from recursion in IE
+	[840a93e05c29]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js, jpoker/l10n
+	/jpoker-fr.po, jpoker/l10n/jpoker-ja.po,
+	jpoker/markup/MarkupPostBody.tiddler, jpoker/skin.html, jpoker/test-
+	jpoker.html:
+	use printstacktrace for error reporting
+	[601448e2991c]
+
+	* jpoker/js/printstacktrace.js, jpoker/js/test-printstacktrace.js:
+	printstacktrace coverage
+	[f9f03aa0e08f]
+
+2008-11-12  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/printstacktrace.js, jpoker/js
+	/test-printstacktrace.js, jpoker/l10n/jpoker-fr.po, jpoker/l10n
+	/jpoker-ja.po, jpoker/test-printstacktrace.html:
+	preliminary integration of printstacktrace
+	[d9e11e07327e]
+
+	* jpoker/css/jpoker_table.css:
+	display copyright when hovering on powered by
+	[77f6348a5a20]
+
+	* jpoker/css/jpoker_copyright.css:
+	display copyright when hovering on powered by
+	[0232367a2fb1]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	each link of the copyright text has a onclick
+	[e3e179bd5200]
+
+	* jpoker/js/jquery.jpoker.js:
+	display copyright notice when hovering on powered by
+	[c4297bfd0b75]
+
+	* jpoker/js/jquery.jpoker.js:
+	table placeholder is now in
+	jpoker.plugins.table.templates.placeholder instead of being
+	hardwired in the code
+	[735b4eb4a68d]
+
+	* jpoker/js/json2.js:
+	update http://www.JSON.org/json2.js 2008-10-31
+	[72eb7c920318]
+
+	* jpoker/js/jquery.jpoker.js:
+	message only in verbose mode
+	[3e29bd346c21]
+
+	* jpoker/js/jquery.jpoker.js:
+	quit callback called before removal of the table element to avoid
+	visual artifact when the quit callback redirects to another page
+	[00e29c5ded77]
+
+2008-11-11  Loic Dachary <loic@dachary.org>
 
 	* jpoker/js/jquery.jpoker.js:
 	move the muck helper together with the chips and cards helper
