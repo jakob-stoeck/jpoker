@@ -3824,6 +3824,7 @@ test("jpoker.plugins.sitngoTourneyList empty", function(){
                     $("#" + id).remove();
                     return true;
                 } else {
+                    jpoker.plugins.sitngoTourneyList.templates.header = template;
                     window.setTimeout(function() {
                             start_and_cleanup();
                         }, 30);
