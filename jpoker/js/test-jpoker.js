@@ -25,10 +25,6 @@ var TEST_SIDE_POT = TEST_SIDE_POT === undefined ? true : TEST_SIDE_POT;
 
 module("jpoker");
 
-try {
-    console.profile();
-} catch(e) {}
-
 if(!window.ActiveXObject) {
     window.ActiveXObject = true;
 }
@@ -7896,12 +7892,6 @@ test("jpoker.preferences in jpoker.server", function() {
 	var server = jpoker.serverCreate({ url:'url' });
 	equals(server.preferences.a, 1, 'server.preferences.a');
 	cleanup();
-    });
-
-test("profileEnd", function(){
-        try {
-            console.profileEnd();
-        } catch(e) {}
     });
 
 test("$.fn.frame", function(){
