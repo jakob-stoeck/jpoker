@@ -71,8 +71,8 @@
     jpoker.plugins.tourneyAdminList.update = function(url, id, tourney, options) {
         var element = $('#admin' + tourney.id);
         if(element.length > 0) {
-            var inputs = $('input', element);
             var setters = [];
+            var inputs = $('input', element);
             for(var i = 0; i < inputs.length; i++) {
                 var name = $.attr(inputs[i], 'name');
                 var value = $.attr(inputs[i], 'value');
@@ -80,6 +80,13 @@
                     setters.push(name + ' = \'' + value.toString() + '\'');
                 }
             }
+            $('select', element).each(function() {
+                    var name = $(this).attr('name');
+                    var value = $('option:selected', this).val();
+                    if(tourney[name] != value) {
+                        setters.push(name + ' = \'' + value.toString() + '\'');
+                    }
+                });
 
             if(setters.length == 0) {
                 return undefined;
@@ -131,7 +138,10 @@
                             tourneyAdminList.update(url, id, tourney, options);
                         }
                     });
-                                
+                $('select', row).each(function() {
+                        var name = $(this).attr('name');
+                        $(this).val(tourney[name]);
+                    }); 
             })();
         }
         if(tourneys.length > 0) {
@@ -173,12 +183,17 @@
                 tourney.id = tourney.game_id + id;
                 tourney.buy_in /= 100;
 	    }
-	    tourney.start_time = new Date(tourney.start_time*1000).toLocaleString();
+	    tourney.start_time_string = new Date(tourney.start_time*1000).toLocaleString();
             html.push(t.rows.supplant(tourney).replace(/{oddEven}/g, i%2 ? 'odd' : 'even'));
         }
         html.push(t.footer);
         html.push(t.pager);
         return html.join('\n');
+    };
+
+    jpoker.plugins.tourneyAdminList.snippets = {
+        'variants': '<select name=\'variant\'><option value=\'holdem\'>Holdem</option><option value=\'omaha\'>Omaha</option><option value=\'omaha8\'>Omaha High/Low</option></select>',
+        'betting_structure': '<select name=\'betting_structure\'><option value=\'level-001\'>10 minutes</option></select>'
     };
 
     jpoker.plugins.tourneyAdminList.defaults = $.extend({
@@ -187,8 +202,8 @@
             string: '',
             css_tag: '',
             templates: {
-                header : '<table><thead><tr><th>{description_short}</th><th>{variant}</th><th>{betting_structure}</th><th>{players_quota}</th><th>{buy_in}</th><th>{start_time}</th></tr></thead><tbody>',
-                rows : '<tr id=\'admin{id}\' title=\'Click to show tourney details\' class=\'{oddEven}\'><td><input name=\'description_short\' value=\'{description_short}\' /></td><td><input name=\'variant\' value=\'{variant}\' /></td><td><input name=\'betting_structure\' value=\'{betting_structure}\' /></td><td>{players_quota}</td><td>{buy_in}</td><td>{start_time}</td></tr>',
+                header : '<table><thead><tr><th>{description_short}</th><th>{variant}</th><th>{players_quota}</th><th>{buy_in}</th><th>{start_time}</th></tr></thead><tbody>',
+                rows : '<tr id=\'admin{id}\' class=\'{oddEven}\'><td><input name=\'description_short\' title=\'Short description of the tournament. It will be displayed on each line of the tournament list.\' value=\'{description_short}\' /></td><td>' + jpoker.plugins.tourneyAdminList.snippets.variants + '</td><td>{players_quota}</td><td>{buy_in}</td><td>{start_time}</td></tr>',
                 footer : '</tbody></table>',
                 link: '<a href=\'{link}\'>{name}</a>',
                 pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
