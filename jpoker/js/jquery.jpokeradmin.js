@@ -21,14 +21,14 @@
         $(selector).jpoker('tourneyAdminList', '', {})
     };
 
-    jpoker.tourneyAdminEdit = function(url, tourney) {
+    jpoker.tourneyAdminEdit = function(url, tourney, options) {
         var message = $('#jpokerAdminEdit');
         if(message.size() != 1) {
             $('body').append('<div id=\'jpokerAdminEdit\' class=\'jpoker_jquery_ui\' />');
             message = $('#jpokerAdminEdit');
             message.dialog({ width: 'none', height: 'none', autoOpen: false, dialog: true, title: 'edit tournament'});
         }
-        message.jpoker('tourneyAdminEdit', url, tourney, {});
+        message.jpoker('tourneyAdminEdit', url, tourney, options);
         message.dialog('open');
     };
 
@@ -60,6 +60,7 @@
             }
             if(tourney[name] != value) {
                 setters.push(name + ' = \'' + value.toString() + '\'');
+                tourney[name] = value;
             }
         }
         $('select', element).each(function() {
@@ -67,6 +68,7 @@
                 var value = $('option:selected', this).val();
                 if(tourney[name] != value) {
                     setters.push(name + ' = \'' + value.toString() + '\'');
+                    tourney[name] = value;
                 }
             });
 
@@ -86,6 +88,7 @@
             if(rowcount != 1) {
                 throw 'expected ' + params.query + ' to modify exactly one row but it modified ' + rowcount.toString() + ' rows instead';
             }
+            options.callback.updated(tourney);
         };
 
         options.ajax({
@@ -144,6 +147,8 @@
             },
             callback: {
                 display_done: function(element) {
+                },
+                updated: function(tourney) {
                 }
             },
             ajax: function(o) { return jQuery.ajax(o); }
@@ -163,7 +168,7 @@
 
                 var id = jpoker.uid();
 		
-                $this.append('<div class=\'jpoker_widget jpoker_admin_' + opts.css_tag + 'tourney_list\' id=\'' + id + '\'></table>');
+                $this.append('<div class=\'jpoker_widget\' id=\'' + id + '\'></table>');
                 var error = function(xhr, status, error) {
                     throw error;
                 };
@@ -176,7 +181,11 @@
                             (function(){
                                 var tourney = tourneys[i];
                                 $('#admin' + tourney.id + ' .jpoker_admin_edit a').click(function() {
-                                        jpoker.tourneyAdminEdit(url, tourney);
+                                        var edit_options = $.extend({}, opts.tourneyEdit);
+                                        edit_options.callback.updated = function(tourney) {
+                                            tourneyAdminList.tourneyUpdated(tourney, opts);
+                                        };
+                                        jpoker.tourneyAdminEdit(url, tourney, edit_options);
                                     });
                                 $('#admin' + tourney.id).hover(function(){
                                         $(this).addClass('hover');
@@ -253,12 +262,15 @@
         return html.join('\n');
     };
 
+    jpoker.plugins.tourneyAdminList.tourneyUpdated = function(tourney, options) {
+        $('#admin' + tourney.id).replaceWith(options.templates.rows.supplant(tourney));
+    };
+
     jpoker.plugins.tourneyAdminList.defaults = $.extend({
             sortList: [[0, 0]],
             date_format: '%Y/%m/%d-%H:%M',
             path: '/cgi-bin/poker-network/pokersql',
             string: '',
-            css_tag: '',
             templates: {
                 header : '<table><thead><tr><th class=\'jpoker_admin_new\'><a href=\'javascript://\'>New</a></th><th>{description_short}</th><th>{variant}</th><th>{players_quota}</th><th>{buy_in}</th></tr></thead><tbody>',
                 rows : '<tr id=\'admin{id}\' title=\'Click to edit\'><td class=\'jpoker_admin_edit\'><a href=\'javascript://\'>Edit</a></td><td>{description_short}</td><td>{variant}</td><td>{players_quota}</td><td>{buy_in}</td></tr>',
@@ -272,6 +284,7 @@
                 display_done: function(element) {
                 }
             },
+            tourneyEdit: $.extend({}, jpoker.plugins.tourneyAdminEdit.defaults),
             ajax: function(o) { return jQuery.ajax(o); }
         }, jpoker.defaults);
 

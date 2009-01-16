@@ -12,6 +12,7 @@
   cursor: default;
   background: #c8d0d4;
   font-family: tahoma,verdana,sans-serif;
+  z-index: 2000;
 }
 
 .calendar table {
@@ -200,7 +201,7 @@
   background: #d8e0e4;
   font-size: 90%;
   padding: 1px;
-  z-index: 100;
+  z-index: 3000;
 }
 
 .calendar .combo .label,

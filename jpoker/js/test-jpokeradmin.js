@@ -83,7 +83,7 @@ $.fn.triggerKeypress = function(keyCode) {
 // tourneyAdminList
 //
 test("jpoker.plugins.tourneyAdminList", function(){
-        expect(4);
+        expect(6);
 
         var PokerSQL = function() {};
 
@@ -109,12 +109,23 @@ test("jpoker.plugins.tourneyAdminList", function(){
         };
         place.jpoker('tourneyAdminList', 'url');
 
+        var updated = $.jpoker.plugins.tourneyAdminList.tourneyUpdated;
+        $.jpoker.plugins.tourneyAdminList.tourneyUpdated = function(tourney, options) {
+            equals(tourney.serial, tourney_serial);
+            equals('TEST' in tourney, true, 'TEST');
+        }
+        
         var edit = $.jpoker.tourneyAdminEdit;
-        $.jpoker.tourneyAdminEdit = function(url, tourney) {
+        $.jpoker.tourneyAdminEdit = function(url, tourney, options) {
             equals(url.indexOf('pokersql') >= 0, true, url);
             equals(tourney.serial, tourney_serial);
+            tourney.TEST = true;
+            options.callback.updated(tourney);
         };
+
         $('tbody tr:eq(0) .jpoker_admin_edit a', place).click();
+
+        $.jpoker.plugins.tourneyAdminList.tourneyUpdated = updated;
         $.jpoker.tourneyAdminEdit = edit;
         cleanup();
     });
@@ -160,8 +171,8 @@ test("jpoker.plugins.tourneyAdminEdit update", function(){
         //
         // the pokersql webservice returns an unepxected number of modified rows, throw
         //
-        $('input[name=description_short]', place).attr('value', 'TEXT');
         try {
+            $('input[name=description_short]', place).attr('value', 'TEXT0');
             ajax = function(params) {
                 equals(params.url.indexOf('description_short') >= 0, true, 'name description_short');
                 equals(params.url.indexOf('TEXT') >= 0, true, 'value description_short');
@@ -177,6 +188,7 @@ test("jpoker.plugins.tourneyAdminEdit update", function(){
         // the XHR request fails, throws
         //
         try {
+            $('input[name=description_short]', place).attr('value', 'TEXT1');
             ajax = function(params) {
                 params.error('xhr', 'status', 'ERROR');
             };
@@ -189,6 +201,7 @@ test("jpoker.plugins.tourneyAdminEdit update", function(){
         //
         // the update succeeds
         //
+        $('input[name=description_short]', place).attr('value', 'TEXT2');
         ajax = function(params) {
             params.success(1, 'status');
         };
