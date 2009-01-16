@@ -76,6 +76,9 @@
             for(var i = 0; i < inputs.length; i++) {
                 var name = $.attr(inputs[i], 'name');
                 var value = $.attr(inputs[i], 'value');
+                if(name == 'start_time' || name == 'register_time') {
+                    value = Date.parseDate(value, options.date_format).valueOf() / 1000;
+                }
                 if(tourney[name] != value) {
                     setters.push(name + ' = \'' + value.toString() + '\'');
                 }
@@ -142,6 +145,15 @@
                         var name = $(this).attr('name');
                         $(this).val(tourney[name]);
                     }); 
+                $('input[name=start_time],input[name=register_time]', row).dynDateTime({
+                        showsTime: true,
+                            ifFormat: options.date_format,
+                            align: "TL",
+                            electric: false,
+                            singleClick: false,
+                            button: ".next()" //next sibling
+                            });
+
             })();
         }
         if(tourneys.length > 0) {
@@ -183,7 +195,7 @@
                 tourney.id = tourney.game_id + id;
                 tourney.buy_in /= 100;
 	    }
-	    tourney.start_time_string = new Date(tourney.start_time*1000).toLocaleString();
+	    tourney.start_time_string = new Date(tourney.start_time*1000).print(options.date_format);
             html.push(t.rows.supplant(tourney).replace(/{oddEven}/g, i%2 ? 'odd' : 'even'));
         }
         html.push(t.footer);
@@ -193,17 +205,19 @@
 
     jpoker.plugins.tourneyAdminList.snippets = {
         'variants': '<select name=\'variant\'><option value=\'holdem\'>Holdem</option><option value=\'omaha\'>Omaha</option><option value=\'omaha8\'>Omaha High/Low</option></select>',
-        'betting_structure': '<select name=\'betting_structure\'><option value=\'level-001\'>10 minutes</option></select>'
+        'betting_structure': '<select name=\'betting_structure\'><option value=\'level-001\'>10 minutes</option></select>',
+        'start_time': '<input type=\'text\' value=\'{start_time_string}\' name=\'start_time\'/><button type=\'button\'>pick</button>'
     };
 
     jpoker.plugins.tourneyAdminList.defaults = $.extend({
             sortList: [[0, 0]],
+            date_format: '%Y/%m/%d-%H:%M',
             path: '/cgi-bin/poker-network/pokersql',
             string: '',
             css_tag: '',
             templates: {
                 header : '<table><thead><tr><th>{description_short}</th><th>{variant}</th><th>{players_quota}</th><th>{buy_in}</th><th>{start_time}</th></tr></thead><tbody>',
-                rows : '<tr id=\'admin{id}\' class=\'{oddEven}\'><td><input name=\'description_short\' title=\'Short description of the tournament. It will be displayed on each line of the tournament list.\' value=\'{description_short}\' /></td><td>' + jpoker.plugins.tourneyAdminList.snippets.variants + '</td><td>{players_quota}</td><td>{buy_in}</td><td>{start_time}</td></tr>',
+                rows : '<tr id=\'admin{id}\' class=\'{oddEven}\'><td><input name=\'description_short\' title=\'Short description of the tournament. It will be displayed on each line of the tournament list.\' value=\'{description_short}\' /></td><td>' + jpoker.plugins.tourneyAdminList.snippets.variants + '</td><td>{players_quota}</td><td>{buy_in}</td><td>' + jpoker.plugins.tourneyAdminList.snippets.start_time + '</td></tr>',
                 footer : '</tbody></table>',
                 link: '<a href=\'{link}\'>{name}</a>',
                 pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',

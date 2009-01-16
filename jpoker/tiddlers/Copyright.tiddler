@@ -33,6 +33,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 jpoker includes a number of smaller components from others:
 
   Copyright for:
+        js/jquery.dynDateTime.js
+
+   (c) 2008 thetoolman@gmail.com
+       Licensed under LGPLv3+
+
+  Copyright for:
         mo2json.py jpoker/jquery.gettext.js jpoker/jquery.printf.js 
 
    (c) 2008 Sabin Iacob (m0n5t3r) <iacobs@m0n5t3r.info>
