@@ -1,5 +1,5 @@
 #
-#     Copyright (C) 2008 Loic Dachary <loic@dachary.org>
+#     Copyright (C) 2008, 2009 Loic Dachary <loic@dachary.org>
 #
 #     This program is free software: you can redistribute it and/or modify
 #     it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-VERSION=1.0.14
+VERSION=1.0.15
 
 SHELL = /bin/bash
 
