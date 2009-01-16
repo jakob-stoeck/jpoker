@@ -21,6 +21,134 @@
         $(selector).jpoker('tourneyAdminList', '', {})
     };
 
+    jpoker.tourneyAdminEdit = function(url, tourney) {
+        var message = $('#jpokerAdminEdit');
+        if(message.size() != 1) {
+            $('body').append('<div id=\'jpokerAdminEdit\' class=\'jpoker_jquery_ui\' />');
+            message = $('#jpokerAdminEdit');
+            message.dialog({ width: 'none', height: 'none', autoOpen: false, dialog: true, title: 'edit tournament'});
+        }
+        message.jpoker('tourneyAdminEdit', url, tourney, {});
+        message.dialog('open');
+    };
+
+    //
+    // tourneyAdminEdit
+    //
+    jpoker.plugins.tourneyAdminEdit = function(url, tourney, options) {
+
+        var tourneyAdminEdit = jpoker.plugins.tourneyAdminEdit;
+        var opts = $.extend({}, tourneyAdminEdit.defaults, options);
+
+        return this.each(function() {
+                var $this = $(this);
+
+                $this.html(tourneyAdminEdit.getHTML(tourney, opts));
+                tourneyAdminEdit.decorate(url, $this, tourney, opts);
+                return this;
+            });
+    };
+
+    jpoker.plugins.tourneyAdminEdit.update = function(url, element, tourney, options) {
+        var setters = [];
+        var inputs = $('input', element);
+        for(var i = 0; i < inputs.length; i++) {
+            var name = $.attr(inputs[i], 'name');
+            var value = $.attr(inputs[i], 'value');
+            if(name == 'start_time' || name == 'register_time') {
+                value = Date.parseDate(value, options.date_format).valueOf() / 1000;
+            }
+            if(tourney[name] != value) {
+                setters.push(name + ' = \'' + value.toString() + '\'');
+            }
+        }
+        $('select', element).each(function() {
+                var name = $(this).attr('name');
+                var value = $('option:selected', this).val();
+                if(tourney[name] != value) {
+                    setters.push(name + ' = \'' + value.toString() + '\'');
+                }
+            });
+
+        if(setters.length == 0) {
+            return undefined;
+        }
+            
+        var params = {
+            'query': 'UPDATE tourneys_schedule SET ' + setters.join(',') + ' WHERE serial = ' + tourney.serial.toString()
+        };
+
+        var error = function(xhr, status, error) {
+            throw error;
+        };
+
+        var success = function(rowcount, status) {
+            if(rowcount != 1) {
+                throw 'expected ' + params.query + ' to modify exactly one row but it modified ' + rowcount.toString() + ' rows instead';
+            }
+        };
+
+        options.ajax({
+                async: false,
+                    mode: 'queue',
+                    timeout: 30000,
+                    url: url + '?' + $.param(params),
+                    type: 'GET',
+                    dataType: 'json',
+                    global: false,
+                    success: success,
+                    error: error
+                    });
+        return true;
+    };
+
+    jpoker.plugins.tourneyAdminEdit.decorate = function(url, element, tourney, options) {
+
+        var tourneyAdminEdit = jpoker.plugins.tourneyAdminEdit;
+
+        element.keypress(function(event) {
+                if(event.which == 13) {
+                    tourneyAdminEdit.update(url, element, tourney, options);
+                }
+            });
+        $('select', element).each(function() {
+                var name = $(this).attr('name');
+                $(this).val(tourney[name]);
+            }); 
+        $('input[name=start_time],input[name=register_time]', element).dynDateTime({
+                showsTime: true,
+                    ifFormat: options.date_format,
+                    align: "TL",
+                    electric: false,
+                    singleClick: false,
+                    button: ".next()" //next sibling
+                    });
+
+    };
+
+    jpoker.plugins.tourneyAdminEdit.getHTML = function(tourney, options) {
+        tourney.start_time_string = new Date(tourney.start_time*1000).print(options.date_format);
+        var html = options.templates.layout.supplant(options.templates);
+        return html.supplant(tourney);
+    };
+
+    jpoker.plugins.tourneyAdminEdit.defaults = $.extend({
+            date_format: '%Y/%m/%d-%H:%M',
+            path: '/cgi-bin/poker-network/pokersql',
+            templates: {
+                layout: '{serial}{reshost_serial}{name}{description_short}{description_long}{players_quota}{players_min}{variant}{betting_structure}{seats_per_game}{player_timeout}{currency_serial}{prizes_min}{bailor_serial}{buy_in}{rake}{sit_n_go}{breaks_first}{breaks_interval}{breaks_duration}{start_time}{register_time}{active}{respawn}',
+                variant: '<div class=\'jpoker_admin_variant\'><select name=\'variant\'><option value=\'holdem\'>Holdem</option><option value=\'omaha\'>Omaha</option><option value=\'omaha8\'>Omaha High/Low</option></select></div>',
+                betting_structure: '<div class=\'jpoker_admin_betting_structure\'><select name=\'betting_structure\'><option value=\'level-001\'>10 minutes</option></select></div>',
+                start_time: '<div class=\'jpoker_admin_start_time\'><input type=\'text\' size=\'14\' value=\'{start_time_string}\' name=\'start_time\'/><button type=\'button\'>pick</button></div>',
+                description_short: '<div class=\'jpoker_admin_description_short\'><input name=\'description_short\' title=\'Short description of the tournament. It will be displayed on each line of the tournament list.\' value=\'{description_short}\' /></div>'
+            },
+            callback: {
+                display_done: function(element) {
+                }
+            },
+            ajax: function(o) { return jQuery.ajax(o); }
+        }, jpoker.defaults);
+
     //
     // tourneyAdminList
     //
@@ -44,7 +172,28 @@
                     var element = document.getElementById(id);
                     if(element) {
                         $(element).html(tourneyAdminList.getHTML(id, tourneys, opts));
-                        tourneyAdminList.decorate(url, id, tourneys, opts);
+                        for(var i = 0; i < tourneys.length; i++) {
+                            (function(){
+                                var tourney = tourneys[i];
+                                $('#admin' + tourney.id + ' .jpoker_admin_edit a').click(function() {
+                                        jpoker.tourneyAdminEdit(url, tourney);
+                                    });
+                                $('#admin' + tourney.id).hover(function(){
+                                        $(this).addClass('hover');
+                                    },function(){
+                                        $(this).removeClass('hover');
+                                    });
+                            })();
+                        }
+                        if(tourneys.length > 0) {
+                            var t = opts.templates;
+                            var params = {
+                                container: $('.pager', element),
+                                positionFixed: false,
+                                previous_label: t.previous_label.supplant({previous_label: "Previous page"}),
+                                next_label: t.next_label.supplant({next_label: "Next page"})};
+                            $('table', element).tablesorter({widgets: ['zebra'], sortList: opts.sortList}).tablesorterPager(params);
+                        }
                         opts.callback.display_done(element);
                     }
                 };
@@ -66,105 +215,6 @@
                     });
                 return this;
             });
-    };
-
-    jpoker.plugins.tourneyAdminList.update = function(url, id, tourney, options) {
-        var element = $('#admin' + tourney.id);
-        if(element.length > 0) {
-            var setters = [];
-            var inputs = $('input', element);
-            for(var i = 0; i < inputs.length; i++) {
-                var name = $.attr(inputs[i], 'name');
-                var value = $.attr(inputs[i], 'value');
-                if(name == 'start_time' || name == 'register_time') {
-                    value = Date.parseDate(value, options.date_format).valueOf() / 1000;
-                }
-                if(tourney[name] != value) {
-                    setters.push(name + ' = \'' + value.toString() + '\'');
-                }
-            }
-            $('select', element).each(function() {
-                    var name = $(this).attr('name');
-                    var value = $('option:selected', this).val();
-                    if(tourney[name] != value) {
-                        setters.push(name + ' = \'' + value.toString() + '\'');
-                    }
-                });
-
-            if(setters.length == 0) {
-                return undefined;
-            }
-            
-            var params = {
-                'query': 'UPDATE tourneys_schedule SET ' + setters.join(',') + ' WHERE serial = ' + tourney.serial.toString()
-            };
-
-            var error = function(xhr, status, error) {
-                throw error;
-            };
-
-            var success = function(rowcount, status) {
-                if(rowcount != 1) {
-                    throw 'expected ' + params.query + ' to modify exactly one row but it modified ' + rowcount.toString() + ' rows instead';
-                }
-            };
-
-            options.ajax({
-                    async: false,
-                        mode: 'queue',
-                        timeout: 30000,
-                        url: url + '?' + $.param(params),
-                        type: 'GET',
-                        dataType: 'json',
-                        global: false,
-                        success: success,
-                        error: error
-                        });
-            return true;
-        } else {
-            return false;
-        }
-    };
-
-    jpoker.plugins.tourneyAdminList.decorate = function(url, id, tourneys, options) {
-
-        var element = document.getElementById(id);
-        var tourneyAdminList = jpoker.plugins.tourneyAdminList;
-
-        for(var i = 0; i < tourneys.length; i++) {
-            (function(){
-                var tourney = tourneys[i];
-                var row = $('#admin' + tourney.id);
-                row.keypress(function(event) {
-                        if(event.which == 13) {
-                            var element = document.getElementById(id);
-                            tourneyAdminList.update(url, id, tourney, options);
-                        }
-                    });
-                $('select', row).each(function() {
-                        var name = $(this).attr('name');
-                        $(this).val(tourney[name]);
-                    }); 
-                $('input[name=start_time],input[name=register_time]', row).dynDateTime({
-                        showsTime: true,
-                            ifFormat: options.date_format,
-                            align: "TL",
-                            electric: false,
-                            singleClick: false,
-                            button: ".next()" //next sibling
-                            });
-
-            })();
-        }
-        if(tourneys.length > 0) {
-            var t = options.templates;
-            var params = {
-                container: $('.pager', element),
-                positionFixed: false,
-                previous_label: t.previous_label.supplant({previous_label: "Previous page"}),
-                next_label: t.next_label.supplant({next_label: "Next page"})};
-            $('table', element).tablesorter({widgets: ['zebra'], sortList: options.sortList}).tablesorterPager(params);
-        }
     };
 
     jpoker.plugins.tourneyAdminList.getHTML = function(id, tourneys, options) {
@@ -203,12 +253,6 @@
         return html.join('\n');
     };
 
-    jpoker.plugins.tourneyAdminList.snippets = {
-        'variants': '<select name=\'variant\'><option value=\'holdem\'>Holdem</option><option value=\'omaha\'>Omaha</option><option value=\'omaha8\'>Omaha High/Low</option></select>',
-        'betting_structure': '<select name=\'betting_structure\'><option value=\'level-001\'>10 minutes</option></select>',
-        'start_time': '<input type=\'text\' value=\'{start_time_string}\' name=\'start_time\'/><button type=\'button\'>pick</button>'
-    };
-
     jpoker.plugins.tourneyAdminList.defaults = $.extend({
             sortList: [[0, 0]],
             date_format: '%Y/%m/%d-%H:%M',
@@ -216,8 +260,8 @@
             string: '',
             css_tag: '',
             templates: {
-                header : '<table><thead><tr><th>{description_short}</th><th>{variant}</th><th>{players_quota}</th><th>{buy_in}</th><th>{start_time}</th></tr></thead><tbody>',
-                rows : '<tr id=\'admin{id}\' class=\'{oddEven}\'><td><input name=\'description_short\' title=\'Short description of the tournament. It will be displayed on each line of the tournament list.\' value=\'{description_short}\' /></td><td>' + jpoker.plugins.tourneyAdminList.snippets.variants + '</td><td>{players_quota}</td><td>{buy_in}</td><td>' + jpoker.plugins.tourneyAdminList.snippets.start_time + '</td></tr>',
+                header : '<table><thead><tr><th class=\'jpoker_admin_new\'><a href=\'javascript://\'>New</a></th><th>{description_short}</th><th>{variant}</th><th>{players_quota}</th><th>{buy_in}</th></tr></thead><tbody>',
+                rows : '<tr id=\'admin{id}\' title=\'Click to edit\'><td class=\'jpoker_admin_edit\'><a href=\'javascript://\'>Edit</a></td><td>{description_short}</td><td>{variant}</td><td>{players_quota}</td><td>{buy_in}</td></tr>',
                 footer : '</tbody></table>',
                 link: '<a href=\'{link}\'>{name}</a>',
                 pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
