@@ -56,7 +56,7 @@
             var name = $.attr(inputs[i], 'name');
             var value = $.attr(inputs[i], 'value');
             if(name == 'start_time' || name == 'register_time') {
-                value = Date.parseDate(value, options.date_format).valueOf() / 1000;
+                value = Date.parseDate(value, options.dateFormat).valueOf() / 1000;
             }
             if(tourney[name] != value) {
                 setters.push(name + ' = \'' + value.toString() + '\'');
@@ -120,7 +120,7 @@
             }); 
         $('input[name=start_time],input[name=register_time]', element).dynDateTime({
                 showsTime: true,
-                    ifFormat: options.date_format,
+                    ifFormat: options.dateFormat,
                     align: "TL",
                     electric: false,
                     singleClick: false,
@@ -130,13 +130,13 @@
     };
 
     jpoker.plugins.tourneyAdminEdit.getHTML = function(tourney, options) {
-        tourney.start_time_string = new Date(tourney.start_time*1000).print(options.date_format);
+        tourney.start_time_string = new Date(tourney.start_time*1000).print(options.dateFormat);
         var html = options.templates.layout.supplant(options.templates);
         return html.supplant(tourney);
     };
 
     jpoker.plugins.tourneyAdminEdit.defaults = $.extend({
-            date_format: '%Y/%m/%d-%H:%M',
+            dateFormat: '%Y/%m/%d-%H:%M',
             path: '/cgi-bin/poker-network/pokersql',
             templates: {
                 layout: '{serial}{reshost_serial}{name}{description_short}{description_long}{players_quota}{players_min}{variant}{betting_structure}{seats_per_game}{player_timeout}{currency_serial}{prizes_min}{bailor_serial}{buy_in}{rake}{sit_n_go}{breaks_first}{breaks_interval}{breaks_duration}{start_time}{register_time}{active}{respawn}',
@@ -181,11 +181,11 @@
                             (function(){
                                 var tourney = tourneys[i];
                                 $('#admin' + tourney.id + ' .jpoker_admin_edit a').click(function() {
-                                        var edit_options = $.extend({}, opts.tourneyEdit);
+                                        var edit_options = $.extend(true, {}, opts.tourneyEditOptions);
                                         edit_options.callback.updated = function(tourney) {
                                             tourneyAdminList.tourneyUpdated(tourney, opts);
                                         };
-                                        jpoker.tourneyAdminEdit(url, tourney, edit_options);
+                                        opts.tourneyEdit(url, tourney, edit_options);
                                     });
                                 $('#admin' + tourney.id).hover(function(){
                                         $(this).addClass('hover');
@@ -254,7 +254,7 @@
                 tourney.id = tourney.game_id + id;
                 tourney.buy_in /= 100;
 	    }
-	    tourney.start_time_string = new Date(tourney.start_time*1000).print(options.date_format);
+	    tourney.start_time_string = new Date(tourney.start_time*1000).print(options.dateFormat);
             html.push(t.rows.supplant(tourney).replace(/{oddEven}/g, i%2 ? 'odd' : 'even'));
         }
         html.push(t.footer);
@@ -268,7 +268,7 @@
 
     jpoker.plugins.tourneyAdminList.defaults = $.extend({
             sortList: [[0, 0]],
-            date_format: '%Y/%m/%d-%H:%M',
+            dateFormat: '%Y/%m/%d-%H:%M',
             path: '/cgi-bin/poker-network/pokersql',
             string: '',
             templates: {
@@ -284,7 +284,8 @@
                 display_done: function(element) {
                 }
             },
-            tourneyEdit: $.extend({}, jpoker.plugins.tourneyAdminEdit.defaults),
+            tourneyEditOptions: $.extend({}, jpoker.plugins.tourneyAdminEdit.defaults),
+            tourneyEdit: jpoker.tourneyAdminEdit,
             ajax: function(o) { return jQuery.ajax(o); }
         }, jpoker.defaults);
 

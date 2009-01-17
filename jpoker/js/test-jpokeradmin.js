@@ -107,7 +107,6 @@ test("jpoker.plugins.tourneyAdminList", function(){
             var tr = $('tbody tr', element);
             equals(tr.length, 5, 'number of rows');
         };
-        place.jpoker('tourneyAdminList', 'url');
 
         var updated = $.jpoker.plugins.tourneyAdminList.tourneyUpdated;
         $.jpoker.plugins.tourneyAdminList.tourneyUpdated = function(tourney, options) {
@@ -115,18 +114,18 @@ test("jpoker.plugins.tourneyAdminList", function(){
             equals('TEST' in tourney, true, 'TEST');
         }
         
-        var edit = $.jpoker.tourneyAdminEdit;
-        $.jpoker.tourneyAdminEdit = function(url, tourney, options) {
+        var edit = function(url, tourney, options) {
             equals(url.indexOf('pokersql') >= 0, true, url);
             equals(tourney.serial, tourney_serial);
             tourney.TEST = true;
             options.callback.updated(tourney);
         };
 
+        place.jpoker('tourneyAdminList', 'url', { tourneyEdit: edit });
+
         $('tbody tr:eq(0) .jpoker_admin_edit a', place).click();
 
         $.jpoker.plugins.tourneyAdminList.tourneyUpdated = updated;
-        $.jpoker.tourneyAdminEdit = edit;
         cleanup();
     });
 
