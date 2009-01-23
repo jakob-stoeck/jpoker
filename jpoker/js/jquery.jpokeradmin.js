@@ -22,14 +22,15 @@
     };
 
     jpoker.tourneyAdminEdit = function(url, tourney, options) {
-        var message = $('#jpokerAdminEdit');
-        if(message.size() != 1) {
+        var dialog = $('#jpokerAdminEdit');
+        if(dialog.size() != 1) {
             $('body').append('<div id=\'jpokerAdminEdit\' class=\'jpoker_jquery_ui\' />');
-            message = $('#jpokerAdminEdit');
-            message.dialog({ width: 'none', height: 'none', autoOpen: false, dialog: true, title: 'edit tournament'});
+            dialog = $('#jpokerAdminEdit');
+            dialog.dialog({ width: '500px', height: '500px', autoOpen: false, dialog: true, title: 'edit tournament'});
         }
-        message.jpoker('tourneyAdminEdit', url, tourney, options);
-        message.dialog('open');
+        dialog.jpoker('tourneyAdminEdit', url, tourney, options);
+        dialog.dialog('open');
+        return dialog;
     };
 
     //
