@@ -166,7 +166,7 @@
             callback: {
                 display_done: function(element) {
                 },
-                updated: function(tourney) {
+                created: function() {
                 }
             },
             ajax: function(o) { return jQuery.ajax(o); }
@@ -187,68 +187,76 @@
                 var id = jpoker.uid();
 		
                 $this.append('<div class=\'jpoker_widget\' id=\'' + id + '\'></table>');
-                var error = function(xhr, status, error) {
-                    throw error;
-                };
-
-                var success = function(tourneys, status) {
-                    var element = document.getElementById(id);
-                    if(element) {
-                        $(element).html(tourneyAdminList.getHTML(id, tourneys, opts));
-			$('.jpoker_admin_new a').click(function() {
-				var create_options = $.extend(true, {}, opts.tourneyCreateOptions);
-				create_options.callback.created = function(tourney) {
-				    tourneyAdminList.tourneyCreated(tourney, opts);
-				};
-				opts.tourneyCreate(url, create_options);
-			    });
-                        for(var i = 0; i < tourneys.length; i++) {
-                            (function(){
-                                var tourney = tourneys[i];
-                                $('#admin' + tourney.id + ' .jpoker_admin_edit a').click(function() {
-                                        var edit_options = $.extend(true, {}, opts.tourneyEditOptions);
-                                        edit_options.callback.updated = function(tourney) {
-                                            tourneyAdminList.tourneyUpdated(tourney, opts);
-                                        };
-                                        opts.tourneyEdit(url, tourney, edit_options);
-                                    });
-                                $('#admin' + tourney.id).hover(function(){
-                                        $(this).addClass('hover');
-                                    },function(){
-                                        $(this).removeClass('hover');
-                                    });
-                            })();
-                        }
-                        if(tourneys.length > 0) {
-                            var t = opts.templates;
-                            var params = {
-                                container: $('.pager', element),
-                                positionFixed: false,
-                                previous_label: t.previous_label.supplant({previous_label: "Previous page"}),
-                                next_label: t.next_label.supplant({next_label: "Next page"})};
-                            $('table', element).tablesorter({widgets: ['zebra'], sortList: opts.sortList}).tablesorterPager(params);
-                        }
-                        opts.callback.display_done(element);
-                    }
-                };
-
-                var params = {
-                    'query': 'SELECT * FROM tourneys_schedule WHERE active = \'n\'',
-                    'output': 'rows'
-                };
-                opts.ajax({
-                        async: false,
-                            mode: 'queue',
-                            timeout: 30000,
-                            url: url + '?' + $.param(params),
-                            type: 'GET',
-                            dataType: 'json',
-                            global: false,
-                            success: success,
-                            error: error
-                    });
+		
+		tourneyAdminList.refresh(url, id, opts);
+		
                 return this;
             });
+    };
+
+    jpoker.plugins.tourneyAdminList.refresh = function(url, id, opts) {
+	var tourneyAdminList = jpoker.plugins.tourneyAdminList;
+
+	var error = function(xhr, status, error) {
+	    throw error;
+	};
+	
+	var success = function(tourneys, status) {
+	    var element = document.getElementById(id);
+	    if(element) {
+		$(element).html(tourneyAdminList.getHTML(id, tourneys, opts));
+		$('.jpoker_admin_new a').click(function() {
+			var create_options = $.extend(true, {}, opts.tourneyCreateOptions);
+			create_options.callback.created = function() {
+			    tourneyAdminList.tourneyCreated(url, id, opts);
+			};
+			opts.tourneyCreate(url, create_options);
+		    });
+		for(var i = 0; i < tourneys.length; i++) {
+		    (function(){
+			var tourney = tourneys[i];
+			$('#admin' + tourney.id + ' .jpoker_admin_edit a').click(function() {
+				var edit_options = $.extend(true, {}, opts.tourneyEditOptions);
+				edit_options.callback.updated = function(tourney) {
+				    tourneyAdminList.tourneyUpdated(tourney, opts);
+				};
+				opts.tourneyEdit(url, tourney, edit_options);
+			    });
+			$('#admin' + tourney.id).hover(function(){
+				$(this).addClass('hover');
+			    },function(){
+				$(this).removeClass('hover');
+			    });
+		    })();
+		}
+		if(tourneys.length > 0) {
+		    var t = opts.templates;
+		    var params = {
+			container: $('.pager', element),
+			positionFixed: false,
+			previous_label: t.previous_label.supplant({previous_label: "Previous page"}),
+			next_label: t.next_label.supplant({next_label: "Next page"})};
+		    $('table', element).tablesorter({widgets: ['zebra'], sortList: opts.sortList}).tablesorterPager(params);
+		}
+		opts.callback.display_done(element);
+	    }
+	};
+	
+	var params = {
+	    'query': 'SELECT * FROM tourneys_schedule WHERE active = \'n\'',
+	    'output': 'rows'
+	};
+	opts.ajax({
+		async: false,
+		    mode: 'queue',
+		    timeout: 30000,
+		    url: url + '?' + $.param(params),
+		    type: 'GET',
+		    dataType: 'json',
+		    global: false,
+		    success: success,
+		    error: error
+                    });
     };
 
     jpoker.plugins.tourneyAdminList.getHTML = function(id, tourneys, options) {
@@ -289,6 +297,10 @@
 
     jpoker.plugins.tourneyAdminList.tourneyUpdated = function(tourney, options) {
         $('#admin' + tourney.id).replaceWith(options.templates.rows.supplant(tourney));
+    };
+
+    jpoker.plugins.tourneyAdminList.tourneyCreated = function(url, id, options) {
+	jpoker.plugins.tourneyAdminList.refresh(url, id, options);
     };
 
     jpoker.plugins.tourneyAdminList.defaults = $.extend({
