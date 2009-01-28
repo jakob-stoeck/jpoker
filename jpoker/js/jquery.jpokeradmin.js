@@ -115,6 +115,9 @@
                     tourneyAdminEdit.update(url, element, tourney, options);
                 }
             });
+	$(".jpoker_admin_update button").click(function() {
+		tourneyAdminEdit.update(url, element, tourney, options);
+	    });
         $('select', element).each(function() {
                 var name = $(this).attr('name');
                 $(this).val(tourney[name]);
