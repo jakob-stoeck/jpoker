@@ -90,7 +90,7 @@ test("jpoker.plugins.tourneyAdminList", function(){
 	var state = TOURNEY_LIST[1].state;
 
 	var ajax = function(params) {
-	    equals(params.url.indexOf('FROM+tourneys_schedule') >= 0, true, url);
+	    equals(params.url.indexOf('FROM+tourneys_schedule') >= 0, true, params.url);
             params.success(TOURNEY_LIST, 'status');
         };
 	
@@ -129,7 +129,7 @@ test("jpoker.plugins.tourneyAdminList create", function(){
 	var state = TOURNEY_LIST[1].state;
 
 	var ajax = function(params) {
-	    equals(params.url.indexOf('FROM+tourneys_schedule') >= 0, true, url);
+	    equals(params.url.indexOf('FROM+tourneys_schedule') >= 0, true, params.url);
             params.success(TOURNEY_LIST, 'status');
         };
 
@@ -159,9 +159,10 @@ test("jpoker.plugins.tourneyAdminList create", function(){
     });
 
 test("jpoker.tourneyAdminList.tourneyCreate", function() {
-	expect(2);
+	expect(3);
 	var ajax = function(params) {
-	    equals(params.url.indexOf('INSERT+INTO+tourneys_schedule') >= 0, true, url);
+	    equals(params.url.indexOf('INSERT+INTO+tourneys_schedule') >= 0, true, params.url);
+	    equals(params.url.indexOf('SET+active+%3D+\'n\'') >= 0, true, params.url);
 	    params.success(1, 'status');
 	};	
 	$.jpoker.plugins.tourneyAdminList.tourneyCreate('url', {ajax: ajax}, function() {

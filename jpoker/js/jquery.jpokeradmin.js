@@ -282,7 +282,7 @@
 
     jpoker.plugins.tourneyAdminList.tourneyCreate = function(url, options, callback) {
         var params = {
-            'query': 'INSERT INTO tourneys_schedule VALUES ()'
+            'query': 'INSERT INTO tourneys_schedule SET active = \'n\''
         };
 
         var error = function(xhr, status, error) {
