@@ -204,6 +204,7 @@
 				var edit_options = $.extend(true, {}, opts.tourneyEditOptions);
 				edit_options.callback.updated = function(tourney) {
 				    tourneyAdminList.tourneyUpdated(tourney, opts);
+				    jpoker.plugins.tourneyAdminList.refresh(url, id, opts);
 				};
 				opts.tourneyEdit(url, tourney, edit_options);
 			    });
