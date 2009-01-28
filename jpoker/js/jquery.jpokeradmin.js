@@ -203,7 +203,6 @@
 			$('#admin' + tourney.id + ' .jpoker_admin_edit a').click(function() {
 				var edit_options = $.extend(true, {}, opts.tourneyEditOptions);
 				edit_options.callback.updated = function(tourney) {
-				    tourneyAdminList.tourneyUpdated(tourney, opts);
 				    jpoker.plugins.tourneyAdminList.refresh(url, id, opts);
 				};
 				opts.tourneyEdit(url, tourney, edit_options);
@@ -284,10 +283,6 @@
         html.push(t.footer);
         html.push(t.pager);
         return html.join('\n');
-    };
-
-    jpoker.plugins.tourneyAdminList.tourneyUpdated = function(tourney, options) {
-        $('#admin' + tourney.id).replaceWith(options.templates.rows.supplant(tourney));
     };
 
     jpoker.plugins.tourneyAdminList.tourneyCreate = function(url, options, callback) {
