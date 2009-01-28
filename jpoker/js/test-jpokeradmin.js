@@ -197,7 +197,7 @@ test("jpoker.plugins.tourneyAdminList delete", function(){
         cleanup();
     });
 
-test("jpoker.tourneyAdminList.tourneyCreate", function() {
+test("jpoker.plugins.tourneyAdminList.tourneyCreate", function() {
 	expect(3);
 	var ajax = function(params) {
 	    equals(params.url.indexOf('INSERT+INTO+tourneys_schedule') >= 0, true, params.url);
@@ -209,7 +209,7 @@ test("jpoker.tourneyAdminList.tourneyCreate", function() {
 	    });
     });
 
-test("jpoker.tourneyAdminList.tourneyDelete", function() {
+test("jpoker.plugins.tourneyAdminList.tourneyDelete", function() {
 	expect(3);
 	var ajax = function(params) {
 	    equals(params.url.indexOf('DELETE+FROM+tourneys_schedule') >= 0, true, params.url);
