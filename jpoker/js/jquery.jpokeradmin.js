@@ -190,7 +190,7 @@
 		$(element).html(tourneyAdminList.getHTML(id, tourneys, opts));
 		$('.jpoker_admin_new a').click(function() {			
 			tourneyAdminList.tourneyCreate(url, opts, function() {
-				jpoker.plugins.tourneyAdminList.refresh(url, id, opts);				
+				jpoker.plugins.tourneyAdminList.refresh(url, id, opts);
 			    });
 		    });
 		for(var i = 0; i < tourneys.length; i++) {
@@ -202,6 +202,11 @@
 				    tourneyAdminList.tourneyUpdated(tourney, opts);
 				};
 				opts.tourneyEdit(url, tourney, edit_options);
+			    });
+			$('#admin' + tourney.id + ' .jpoker_admin_delete a').click(function() {
+				tourneyAdminList.tourneyDelete(url, tourney.id, opts, function() {
+					jpoker.plugins.tourneyAdminList.refresh(url, id, opts);
+				    });
 			    });
 			$('#admin' + tourney.id).hover(function(){
 				$(this).addClass('hover');
@@ -309,6 +314,36 @@
                     });
         return true;	
     };
+
+    jpoker.plugins.tourneyAdminList.tourneyDelete = function(url, tourney_serial, options, callback) {
+        var params = {
+            'query': 'DELETE FROM tourneys_schedule WHERE serial = \''+tourney_serial+'\''
+        };
+
+        var error = function(xhr, status, error) {
+            throw error;
+        };
+
+        var success = function(rowcount, status) {
+            if(rowcount != 1) {
+                throw 'expected ' + params.query + ' to modify exactly one row but it modified ' + rowcount.toString() + ' rows instead';
+            }
+	    callback();
+        };
+
+        options.ajax({
+                async: false,
+                    mode: 'queue',
+                    timeout: 30000,
+                    url: url + '?' + $.param(params),
+                    type: 'GET',
+                    dataType: 'json',
+                    global: false,
+                    success: success,
+                    error: error
+                    });
+        return true;	
+    };
     
     jpoker.plugins.tourneyAdminList.defaults = $.extend({
             sortList: [[0, 0]],
@@ -317,7 +352,7 @@
             string: '',
             templates: {
                 header : '<table><thead><tr><th class=\'jpoker_admin_new\'><a href=\'javascript://\'>New</a></th><th>{description_short}</th><th>{variant}</th><th>{players_quota}</th><th>{buy_in}</th></tr></thead><tbody>',
-                rows : '<tr id=\'admin{id}\' title=\'Click to edit\'><td class=\'jpoker_admin_edit\'><a href=\'javascript://\'>Edit</a></td><td>{description_short}</td><td>{variant}</td><td>{players_quota}</td><td>{buy_in}</td></tr>',
+                rows : '<tr id=\'admin{id}\' title=\'Click to edit\'><td class=\'jpoker_admin_edit\'><a href=\'javascript://\'>Edit</a></td><td class=\'jpoker_admin_delete\'><a href=\'javascript://\'>Delete</a></td><td>{description_short}</td><td>{variant}</td><td>{players_quota}</td><td>{buy_in}</td></tr>',
                 footer : '</tbody></table>',
                 link: '<a href=\'{link}\'>{name}</a>',
                 pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
