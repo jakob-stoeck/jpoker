@@ -188,8 +188,10 @@
 	    var element = document.getElementById(id);
 	    if(element) {
 		$(element).html(tourneyAdminList.getHTML(id, tourneys, opts));
-		$('.jpoker_admin_new a').click(function() {
-			tourneyAdminList.tourneyCreate(url, id, opts);
+		$('.jpoker_admin_new a').click(function() {			
+			tourneyAdminList.tourneyCreate(url, opts, function() {
+				jpoker.plugins.tourneyAdminList.refresh(url, id, opts);				
+			    });
 		    });
 		for(var i = 0; i < tourneys.length; i++) {
 		    (function(){
@@ -278,14 +280,36 @@
         $('#admin' + tourney.id).replaceWith(options.templates.rows.supplant(tourney));
     };
 
-    jpoker.plugins.tourneyAdminList.tourneyCreate = function(url, id, options) {
-	
+    jpoker.plugins.tourneyAdminList.tourneyCreate = function(url, options, callback) {
+        var params = {
+            'query': 'INSERT INTO tourneys_schedule VALUES ()'
+        };
+
+        var error = function(xhr, status, error) {
+            throw error;
+        };
+
+        var success = function(rowcount, status) {
+            if(rowcount != 1) {
+                throw 'expected ' + params.query + ' to modify exactly one row but it modified ' + rowcount.toString() + ' rows instead';
+            }
+	    callback();
+        };
+
+        options.ajax({
+                async: false,
+                    mode: 'queue',
+                    timeout: 30000,
+                    url: url + '?' + $.param(params),
+                    type: 'GET',
+                    dataType: 'json',
+                    global: false,
+                    success: success,
+                    error: error
+                    });
+        return true;	
     };
     
-    jpoker.plugins.tourneyAdminList.tourneyCreated = function(url, id, options) {
-	jpoker.plugins.tourneyAdminList.refresh(url, id, options);
-    };
-
     jpoker.plugins.tourneyAdminList.defaults = $.extend({
             sortList: [[0, 0]],
             dateFormat: '%Y/%m/%d-%H:%M',

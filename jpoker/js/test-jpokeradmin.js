@@ -137,24 +137,36 @@ test("jpoker.plugins.tourneyAdminList create", function(){
         $.jpoker.plugins.tourneyAdminList.defaults.callback.display_done = function(element) {
             var tr = $('tbody tr', element);
             equals(tr.length, 5, 'number of rows');
-        };
-        
-	var tourneyCreate = $.jpoker.plugins.tourneyAdminList.tourneyCreate;
-        $.jpoker.plugins.tourneyAdminList.tourneyCreate = function(url, id, options) {
-	    $.jpoker.plugins.tourneyAdminList.tourneyCreate = tourneyCreate;
-            equals(url.indexOf('pokersql') >= 0, true, url);
-	    TOURNEY_LIST.push({"players_quota": 2, "breaks_first": 7200, "name": "sitngo2", "description_short" : "Sit and Go 2 players, Holdem", "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": tourney_serial+1, "sit_n_go": "y", "registered": 0});
-	    $.jpoker.plugins.tourneyAdminList.tourneyCreated(url, id, options);
-        };
+        };       
 
-        place.jpoker('tourneyAdminList', 'url', { ajax: ajax });
+        place.jpoker('tourneyAdminList', 'url', {ajax: ajax});
         $.jpoker.plugins.tourneyAdminList.defaults.callback.display_done = function(element) {
             var tr = $('tbody tr', element);
             equals(tr.length, 6, 'number of rows');
         };
+
+	var tourneyCreate = $.jpoker.plugins.tourneyAdminList.tourneyCreate;
+        $.jpoker.plugins.tourneyAdminList.tourneyCreate = function(url, options, callback) {
+	    $.jpoker.plugins.tourneyAdminList.tourneyCreate = tourneyCreate;
+            equals(url.indexOf('pokersql') >= 0, true, url);
+	    TOURNEY_LIST.push({"players_quota": 2, "breaks_first": 7200, "name" : "sitngo2", "description_short" : "Sit and Go 2 players, Holdem", "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": tourney_serial+1, "sit_n_go": "y", "registered": 0});
+	    callback();
+        };
+
         $('thead .jpoker_admin_new a', place).click();
 
         cleanup();
+    });
+
+test("jpoker.tourneyAdminList.tourneyCreate", function() {
+	expect(2);
+	var ajax = function(params) {
+	    equals(params.url.indexOf('INSERT+INTO+tourneys_schedule') >= 0, true, url);
+	    params.success(1, 'status');
+	};	
+	$.jpoker.plugins.tourneyAdminList.tourneyCreate('url', {ajax: ajax}, function() {
+		ok(true, 'callback called');
+	    });
     });
 
 test("jpoker.tourneyAdminEdit", function(){
