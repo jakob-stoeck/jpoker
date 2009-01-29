@@ -110,7 +110,7 @@
         }
         var selector = options.templates.selector.supplant({ options: option_elements.join('') }); 
         element.html(options.templates.layout.supplant({ selector: selector }));
-        $('select[name=serial]', element).val(prize_serial).change(function() {
+        $('select[name=prize_serial]', element).val(prize_serial).change(function() {
 		var old_prize_serial = prize_serial;
 		prize_serial = $(this).val();
                 jpoker.plugins.tourneyAdminEditPrizes.update(url, element, tourney, old_prize_serial, prize_serial, options);
@@ -125,7 +125,7 @@
         $('.jpoker_prize', element).html(html.supplant(serial2prize[new_prize_serial]));
         
         if(old_prize_serial != new_prize_serial) {
-            $('select[name=serial]', element).val(new_prize_serial);
+            $('select[name=prize_serial]', element).val(new_prize_serial);
             var params = {
                 'query': 'INSERT tourneys_schedule2prizes SET prize_serial = ' + new_prize_serial.toString() + ', tourneys_schedule_serial = ' + tourney.serial.toString() + ' ON DUPLICATE KEY UPDATE prize_serial = ' + new_prize_serial.toString()
             };
@@ -158,7 +158,7 @@
     jpoker.plugins.tourneyAdminEditPrizes.defaults = $.extend({
             templates: {
                 layout: '{selector}<div class=\'jpoker_prize\'>prize descriptions</div>',
-                selector: '<select name=\'serial\'>{options}</select></div>',
+                selector: '<select name=\'prize_serial\'>{options}</select></div>',
                 option: '<option value=\'{serial}\'>{name}</option>',
                 prize: '{name}{description}{image}{points}',
                 image: '<a href=\'{link_url}\'><img src=\'{image_url}\' /></a>'

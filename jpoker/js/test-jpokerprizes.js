@@ -112,7 +112,7 @@ test("jpoker.tourneyAdminEditPrizes no serial defined", function(){
     });
 
 test("jpoker.tourneyAdminEditPrizes update", function(){
-        expect(2);
+        expect(4);
         var tourney_serial = 1111;
 	var tourney = {"players_quota": 2, "breaks_first": 7200, "name": "sitngo2", "description_short" : "Sit and Go 2 players, Holdem", "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "betting_structure": "level-001", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": tourney_serial, "sit_n_go": "y", "registered": 0};
 
@@ -128,6 +128,7 @@ test("jpoker.tourneyAdminEditPrizes update", function(){
 	    callback : {
 		updated: function(tourney) {
 		    equals(tourney.serial, tourney_serial, 'updated');
+		    equals(tourney.prize_serial, undefined, 'prize serial should not be set in tourney object');
 		}
 	    }	    
 	};

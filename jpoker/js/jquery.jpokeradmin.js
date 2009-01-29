@@ -53,7 +53,7 @@
 
     jpoker.plugins.tourneyAdminEdit.update = function(url, element, tourney, options) {
         var setters = [];
-        var inputs = $('input', element);
+        var inputs = $('.jpoker_admin_tourney_params input', element);
         for(var i = 0; i < inputs.length; i++) {
             var name = $.attr(inputs[i], 'name');
             var value = $.attr(inputs[i], 'value');
@@ -65,7 +65,7 @@
                 tourney[name] = value;
             }
         }
-        $('select', element).each(function() {
+        $('.jpoker_admin_tourney_params select', element).each(function() {
                 var name = $(this).attr('name');
                 var value = $('option:selected', this).val();
                 if(tourney[name] != value) {
@@ -119,7 +119,7 @@
 	$(".jpoker_admin_update button").click(function() {
 		tourneyAdminEdit.update(url, element, tourney, options);
 	    });
-        $('select', element).each(function() {
+        $('.jpoker_admin_tourney_params select', element).each(function() {
                 var name = $(this).attr('name');
                 $(this).val(tourney[name]);
             }); 
@@ -144,7 +144,7 @@
             dateFormat: '%Y/%m/%d-%H:%M',
             path: '/cgi-bin/poker-network/pokersql',
             templates: {
-                layout: '{serial}{reshost_serial}{name}{description_short}{description_long}{players_quota}{players_min}{variant}{betting_structure}{seats_per_game}{player_timeout}{currency_serial}{prizes_min}{bailor_serial}{buy_in}{rake}{sit_n_go}{breaks_first}{breaks_interval}{breaks_duration}{start_time}{register_time}{active}{respawn}{update}',
+                layout: '<div class=\'jpoker_admin_tourney_params\'>{serial}{reshost_serial}{name}{description_short}{description_long}{players_quota}{players_min}{variant}{betting_structure}{seats_per_game}{player_timeout}{currency_serial}{prizes_min}{bailor_serial}{buy_in}{rake}{sit_n_go}{breaks_first}{breaks_interval}{breaks_duration}{start_time}{register_time}{active}{respawn}</div>{update}',
                 variant: '<div class=\'jpoker_admin_variant\'><select name=\'variant\'><option value=\'holdem\'>Holdem</option><option value=\'omaha\'>Omaha</option><option value=\'omaha8\'>Omaha High/Low</option></select></div>',
                 betting_structure: '<div class=\'jpoker_admin_betting_structure\'><select name=\'betting_structure\'><option value=\'level-001\'>10 minutes</option></select></div>',
                 start_time: '<div class=\'jpoker_admin_start_time\'><input type=\'text\' size=\'14\' value=\'{start_time_string}\' name=\'start_time\'/><button type=\'button\'>pick</button></div>',
