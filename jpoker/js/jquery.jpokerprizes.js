@@ -101,10 +101,11 @@
     jpoker.plugins.tourneyAdminEditPrizes.populate = function(url, element, tourney, prize_serial, options) {
         var option_elements = [];
         var serial2prize = jpoker.plugins.tourneyAdminEditPrizes.serial2prize;
+	var old_prize_serial = prize_serial;
         for(serial in serial2prize) {
             if(prize_serial == undefined) {
-                prize_serial = serial;
-            }
+		prize_serial = serial;
+	    }
             option_elements.push(options.templates.option.supplant(serial2prize[serial]));
         }
         var selector = options.templates.selector.supplant({ options: option_elements.join('') }); 
@@ -115,7 +116,7 @@
                 jpoker.plugins.tourneyAdminEditPrizes.update(url, element, tourney, old_prize_serial, prize_serial, options);
             });
 	options.callback.display_done(element);
-        jpoker.plugins.tourneyAdminEditPrizes.update(url, element, tourney, prize_serial, prize_serial, options);
+        jpoker.plugins.tourneyAdminEditPrizes.update(url, element, tourney, old_prize_serial, prize_serial, options);
     };
 
     jpoker.plugins.tourneyAdminEditPrizes.update = function(url, element, tourney, old_prize_serial, new_prize_serial, options) {
