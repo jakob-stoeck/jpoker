@@ -58,9 +58,9 @@ test("jpoker.tourneyAdminEditPrizes", function(){
 	    },
 	    callback: {
 		display_done: function(e) {
-		    equals($('select[name=serial] option', e).length, 2);
-		    equals($('select[name=serial] option', e).eq(0).text(), 'prize 1');
-		    equals($('select[name=serial] option', e).eq(1).text(), 'prize 2');
+		    equals($('select[name=prize_serial] option', e).length, 2);
+		    equals($('select[name=prize_serial] option', e).eq(0).text(), 'prize 1');
+		    equals($('select[name=prize_serial] option', e).eq(1).text(), 'prize 2');
 		}
 	    }
 	};
@@ -68,9 +68,9 @@ test("jpoker.tourneyAdminEditPrizes", function(){
 	$.jpoker.tourneyAdminEditPrizes('URL', tourney, options);
 	equals($('#jpokerAdminEdit').length, 1, 'admin edit dialog');
 	equals($('#jpokerAdminEditPrizes').length, 1, 'admin edit prizes');
-	$('#jpokerAdminEditPrizes select[name=serial]').val('2').change();
+	$('#jpokerAdminEditPrizes select[name=prize_serial]').val('2').change();
 	equals($('#jpokerAdminEditPrizes .jpoker_prize img').attr('src'),  'url2');
-	$('#jpokerAdminEditPrizes select[name=serial]').val('1').change();
+	$('#jpokerAdminEditPrizes select[name=prize_serial]').val('1').change();
 	equals($('#jpokerAdminEditPrizes .jpoker_prize img').attr('src'),  'url1');
 	
 	cleanup();
@@ -94,9 +94,9 @@ test("jpoker.tourneyAdminEditPrizes no serial defined", function(){
 	    },
 	    callback: {
 		display_done: function(e) {
-		    equals($('select[name=serial] option', e).length, 2);
-		    equals($('select[name=serial] option', e).eq(0).text(), 'prize 1');
-		    equals($('select[name=serial] option', e).eq(1).text(), 'prize 2');
+		    equals($('select[name=prize_serial] option', e).length, 2);
+		    equals($('select[name=prize_serial] option', e).eq(0).text(), 'prize 1');
+		    equals($('select[name=prize_serial] option', e).eq(1).text(), 'prize 2');
 		}
 	    }
 	};
@@ -105,7 +105,7 @@ test("jpoker.tourneyAdminEditPrizes no serial defined", function(){
 	equals($('#jpokerAdminEdit').length, 1, 'admin edit dialog');
 	equals($('#jpokerAdminEditPrizes').length, 1, 'admin edit prizes');
 	equals($('#jpokerAdminEditPrizes .jpoker_prize img').attr('src'),  'url1');
-	$('#jpokerAdminEditPrizes select[name=serial]').val('2').change();
+	$('#jpokerAdminEditPrizes select[name=prize_serial]').val('2').change();
 	equals($('#jpokerAdminEditPrizes .jpoker_prize img').attr('src'),  'url2');
 	
 	cleanup();
