@@ -134,8 +134,8 @@
             };
 
             var success = function(rowcount, status) {
-                if(rowcount != 2) {
-                    throw 'expected ' + params.query + ' to modify exactly one row but it modified ' + rowcount.toString() + ' rows instead';
+                if(rowcount < 1) {
+                    throw 'expected ' + params.query + ' to modify at least one row but it modified ' + rowcount.toString() + ' rows instead';
                 }
                 options.callback.updated(tourney);
             };

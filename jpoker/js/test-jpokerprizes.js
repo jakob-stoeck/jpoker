@@ -48,7 +48,7 @@ test("jpoker.tourneyAdminEditPrizes", function(){
 	var prizes = [{"serial": 1, "name": "prize 1", "image_url": "url1"}, {"serial": 2, "name": "prize 2", "image_url": "url2"}];
 
 	var expected = ['SELECT+*+FROM+prizes', 'SELECT+p.serial+FROM+prizes', 'ON+DUPLICATE+KEY+UPDATE', 'ON+DUPLICATE+KEY+UPDATE'];
-	var results = [prizes, [{"serial":1}], 2, 2];
+	var results = [prizes, [{"serial":1}], 1, 2];
 
 	var options = {
 	    ajax: function(params) {
