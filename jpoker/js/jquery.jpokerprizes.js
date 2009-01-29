@@ -19,9 +19,9 @@
 
     jpoker.tourneyAdminEditPrizes = function(url, tourney, options) {
         var dialog = jpoker.tourneyAdminEdit(url, tourney, options);
-        dialog.prepend('<div id=\'jpokerAdminEditPrize\' />');
+        dialog.prepend('<div id=\'jpokerAdminEditPrizes\' />');
         jpoker.plugins.tourneyAdminEditPrizes.getPrizes(url, options);
-        $('#jpokerAdminEditPrize').jpoker('tourneyAdminEditPrizes', url, tourney, options);
+        $('#jpokerAdminEditPrizes').jpoker('tourneyAdminEditPrizes', url, tourney, options);
     };
 
     //
@@ -99,7 +99,7 @@
 
     jpoker.plugins.tourneyAdminEditPrizes.populate = function(element, tourney, prize_serial, options) {
         var option_elements = [];
-        var serial2prize = jpoker.plugins.tourneyAdminEditPrizes;
+        var serial2prize = jpoker.plugins.tourneyAdminEditPrizes.serial2prize;
         for(serial in serial2prize) {
             if(prize_serial == undefined) {
                 prize_serial = serial;
@@ -109,8 +109,9 @@
         var selector = options.templates.selector.supplant({ options: option_elements.join('') }); 
         element.html(options.templates.layout.supplant({ selector: selector }));
         $('select[name=serial]', element).val(prize_serial).change(function() {
-                jpoker.plugins.tourneyAdminEditPrizes.update(element, tourney, prize_serial, this.val(), options);
+                jpoker.plugins.tourneyAdminEditPrizes.update(element, tourney, prize_serial, $(this).val(), options);
             });
+	options.callback.display_done(element);
         jpoker.plugins.tourneyAdminEditPrizes.update(element, tourney, prize_serial, prize_serial, options);
     };
 
