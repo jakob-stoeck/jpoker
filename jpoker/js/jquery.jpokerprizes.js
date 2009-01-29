@@ -43,7 +43,7 @@
                 var success = function(prize_serials, status) {
                     var prize_serial;
                     if(prize_serials.length > 0) {
-                        prize_serial = prize_serials[0];
+                        prize_serial = prize_serials[0].serial;
                     } else {
                         prize_serial = undefined;
                     }
@@ -110,7 +110,9 @@
         var selector = options.templates.selector.supplant({ options: option_elements.join('') }); 
         element.html(options.templates.layout.supplant({ selector: selector }));
         $('select[name=serial]', element).val(prize_serial).change(function() {
-                jpoker.plugins.tourneyAdminEditPrizes.update(url, element, tourney, prize_serial, $(this).val(), options);
+		var old_prize_serial = prize_serial;
+		prize_serial = $(this).val();
+                jpoker.plugins.tourneyAdminEditPrizes.update(url, element, tourney, old_prize_serial, prize_serial, options);
             });
 	options.callback.display_done(element);
         jpoker.plugins.tourneyAdminEditPrizes.update(url, element, tourney, prize_serial, prize_serial, options);
@@ -124,7 +126,7 @@
         if(old_prize_serial != new_prize_serial) {
             $('select[name=serial]', element).val(new_prize_serial);
             var params = {
-                'query': 'UPDATE tourneys_schedule2prizes SET prize_serial = ' + new_prize_serial.toString() + ' WHERE tourneys_schedule_serial = ' + tourney.serial.toString()
+                'query': 'INSERT tourneys_schedule2prizes SET prize_serial = ' + new_prize_serial.toString() + ', tourneys_schedule_serial = ' + tourney.serial.toString() + ' ON DUPLICATE KEY UPDATE prize_serial = ' + new_prize_serial.toString()
             };
 
             var error = function(xhr, status, error) {
@@ -132,7 +134,7 @@
             };
 
             var success = function(rowcount, status) {
-                if(rowcount != 1) {
+                if(rowcount != 2) {
                     throw 'expected ' + params.query + ' to modify exactly one row but it modified ' + rowcount.toString() + ' rows instead';
                 }
                 options.callback.updated(tourney);
