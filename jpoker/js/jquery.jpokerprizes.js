@@ -1,5 +1,6 @@
 //
 //     Copyright (C) 2009 Loic Dachary <loic@dachary.org>
+//     Copyright (C) 2009 Johan Euphrosine <proppy@aminche.com>
 //
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU General Public License as published by
@@ -30,7 +31,7 @@
     jpoker.plugins.tourneyAdminEditPrizes = function(url, tourney, options) {
 
         var tourneyAdminEditPrizes = jpoker.plugins.tourneyAdminEditPrizes;
-        var opts = $.extend({}, tourneyAdminEditPrizes.defaults, options);
+        var opts = $.extend(true, {}, tourneyAdminEditPrizes.defaults, options);
 	opts.templates = tourneyAdminEditPrizes.defaults.templates;
 
         return this.each(function() {
@@ -46,7 +47,7 @@
                     } else {
                         prize_serial = undefined;
                     }
-                    tourneyAdminEditPrizes.populate($this, tourney, prize_serial, opts);
+                    tourneyAdminEditPrizes.populate(url, $this, tourney, prize_serial, opts);
                 };
                 var params = {
                     'query': 'SELECT p.serial FROM prizes AS p,tourneys_schedule2prizes AS t WHERE p.serial = t.prize_serial AND t.tourneys_schedule_serial = '+tourney.serial,
@@ -97,7 +98,7 @@
                     });
     };
 
-    jpoker.plugins.tourneyAdminEditPrizes.populate = function(element, tourney, prize_serial, options) {
+    jpoker.plugins.tourneyAdminEditPrizes.populate = function(url, element, tourney, prize_serial, options) {
         var option_elements = [];
         var serial2prize = jpoker.plugins.tourneyAdminEditPrizes.serial2prize;
         for(serial in serial2prize) {
@@ -109,15 +110,15 @@
         var selector = options.templates.selector.supplant({ options: option_elements.join('') }); 
         element.html(options.templates.layout.supplant({ selector: selector }));
         $('select[name=serial]', element).val(prize_serial).change(function() {
-                jpoker.plugins.tourneyAdminEditPrizes.update(element, tourney, prize_serial, $(this).val(), options);
+                jpoker.plugins.tourneyAdminEditPrizes.update(url, element, tourney, prize_serial, $(this).val(), options);
             });
 	options.callback.display_done(element);
-        jpoker.plugins.tourneyAdminEditPrizes.update(element, tourney, prize_serial, prize_serial, options);
+        jpoker.plugins.tourneyAdminEditPrizes.update(url, element, tourney, prize_serial, prize_serial, options);
     };
 
-    jpoker.plugins.tourneyAdminEditPrizes.update = function(element, tourney, old_prize_serial, new_prize_serial, options) {
+    jpoker.plugins.tourneyAdminEditPrizes.update = function(url, element, tourney, old_prize_serial, new_prize_serial, options) {
         var html = options.templates.prize.supplant(options.templates);
-        var serial2prize = jpoker.plugins.tourneyAdminEditPrizes;
+        var serial2prize = jpoker.plugins.tourneyAdminEditPrizes.serial2prize;
         $('.jpoker_prize', element).html(html.supplant(serial2prize[new_prize_serial]));
         
         if(old_prize_serial != new_prize_serial) {

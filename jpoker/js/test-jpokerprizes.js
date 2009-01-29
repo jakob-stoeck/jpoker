@@ -42,24 +42,25 @@ test("jpoker.tourneyAdminEditPrizes.getPrizes", function(){
     });
 
 test("jpoker.tourneyAdminEditPrizes", function(){
-        expect(7);
+        expect(12);
         var tourney_serial = 1111;
 	var tourney = {"players_quota": 2, "breaks_first": 7200, "name": "sitngo2", "description_short" : "Sit and Go 2 players, Holdem", "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "betting_structure": "level-001", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": tourney_serial, "sit_n_go": "y", "registered": 0};
 	var prizes = [{"serial": 1, "name": "prize 1", "image_url": "url1"}, {"serial": 2, "name": "prize 2", "image_url": "url2"}];
 
-	var expected = ['SELECT+*+FROM+prizes', 'SELECT+p.serial+FROM+prizes'];
-	var results = [prizes, [1]];
+	var expected = ['SELECT+*+FROM+prizes', 'SELECT+p.serial+FROM+prizes', 'UPDATE'];
+	var results = [prizes, [1], 1];
 
 	var options = {
 	    ajax: function(params) {
+		equals(params.url.indexOf('URL'), 0, params.url);
 		ok(params.url.indexOf(expected.shift()) >= 0, params.url);
 		params.success(results.shift(), 'success');
 	    },
 	    callback: {
 		display_done: function(e) {
-		    equals($('select option', e).length, 2);
-		    equals($('select option', e).eq(0).text(), 'prize 1');
-		    equals($('select option', e).eq(1).text(), 'prize 2');
+		    equals($('select[name=serial] option', e).length, 2);
+		    equals($('select[name=serial] option', e).eq(0).text(), 'prize 1');
+		    equals($('select[name=serial] option', e).eq(1).text(), 'prize 2');
 		}
 	    }
 	};
@@ -67,6 +68,8 @@ test("jpoker.tourneyAdminEditPrizes", function(){
 	$.jpoker.tourneyAdminEditPrizes('URL', tourney, options);
 	equals($('#jpokerAdminEdit').length, 1, 'admin edit dialog');
 	equals($('#jpokerAdminEditPrizes').length, 1, 'admin edit prizes');
+	$('#jpokerAdminEditPrizes select[name=serial]').val('2').change();
+	equals($('#jpokerAdminEditPrizes .jpoker_prize img').attr('src'),  'url2');
 	
 	cleanup();
     });
