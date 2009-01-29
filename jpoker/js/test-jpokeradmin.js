@@ -242,15 +242,15 @@ test("jpoker.tourneyAdminEdit update", function(){
 		params.success(1, 'status');
 	    },
 	    callback : {
-		updated: function() {
-		    ok(true, 'updated');
+		updated: function(tourney) {
+		    equals(tourney.serial, tourney_serial, 'updated');
 		}
 	    }	    
 	};
 
         $.jpoker.tourneyAdminEdit('URL', tourney, options);
+	equals($("#jpokerAdminEdit .jpoker_admin_update button").length, 1);
 	$('#jpokerAdminEdit input[name=description_short]').attr('value', 'TEXT2');
-	equals($("#jpokerAdminEdit .jpoker_admin_update button").length, 1);	
 	$("#jpokerAdminEdit .jpoker_admin_update button").click();
     });
 

@@ -110,3 +110,30 @@ test("jpoker.tourneyAdminEditPrizes no serial defined", function(){
 	
 	cleanup();
     });
+
+test("jpoker.tourneyAdminEditPrizes update", function(){
+        expect(2);
+        var tourney_serial = 1111;
+	var tourney = {"players_quota": 2, "breaks_first": 7200, "name": "sitngo2", "description_short" : "Sit and Go 2 players, Holdem", "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "betting_structure": "level-001", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": tourney_serial, "sit_n_go": "y", "registered": 0};
+
+
+	var prizes = [{"serial": 1, "name": "prize 1", "image_url": "url1"}, {"serial": 2, "name": "prize 2", "image_url": "url2"}];
+	var results = [prizes, [], 1, 1];
+
+	var options = {
+	    ajax: function(params) {
+		var result = results.shift();
+		params.success(result, 'status');
+	    },
+	    callback : {
+		updated: function(tourney) {
+		    equals(tourney.serial, tourney_serial, 'updated');
+		}
+	    }	    
+	};
+
+        $.jpoker.tourneyAdminEditPrizes('URL', tourney, options);
+	$('#jpokerAdminEdit input[name=description_short]').attr('value', 'TEXT2');
+	$("#jpokerAdminEdit .jpoker_admin_update button").click();
+	cleanup();
+    });
