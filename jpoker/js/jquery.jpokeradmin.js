@@ -111,7 +111,7 @@
 
         var tourneyAdminEdit = jpoker.plugins.tourneyAdminEdit;
 
-        element.keypress(function(event) {
+        element.unbind('keypress').keypress(function(event) {
                 if(event.which == 13) {
                     tourneyAdminEdit.update(url, element, tourney, options);
                 }
@@ -166,7 +166,7 @@
     jpoker.plugins.tourneyAdminList = function(url, options) {
 
         var tourneyAdminList = jpoker.plugins.tourneyAdminList;
-        var opts = $.extend({}, tourneyAdminList.defaults, options);
+        var opts = $.extend(true, {}, tourneyAdminList.defaults, options);
         url = url + opts.path;
 
         return this.each(function() {

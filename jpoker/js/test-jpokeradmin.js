@@ -223,6 +223,38 @@ test("jpoker.plugins.tourneyAdminList.tourneyDelete", function() {
 	    });
     });
 
+test("jpoker.plugins.tourneyAdminList multiple edit", function(){
+        expect(3);
+
+        var tourney_serial = 1111;
+	var TOURNEY_LIST = [{"players_quota": 2, "breaks_first": 7200, "name": "sitngo2", "description_short" : "AAA Sit and Go 2 players, Holdem", "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": tourney_serial, "sit_n_go": "y", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval" : 60, "variant": "holdem", "currency_serial": 1, "state": "registering", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 39, "sit_n_go": "n", "registered": 0}, {"players_quota": 1000, "breaks_first" : 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "announced", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 40, "sit_n_go": "n", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial" : 41, "sit_n_go": "n", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 42, "sit_n_go": "n", "registered": 0}];
+	var state = TOURNEY_LIST[1].state;
+	
+	var expected = ['SELECT', 'UPDATE', 'SELECT'];
+	var results = [TOURNEY_LIST, 1, TOURNEY_LIST];
+
+	var ajax = function(params) {
+	    equals(params.url.indexOf(expected.shift()) >= 0, true, params.url);
+            params.success(results.shift(), 'status');
+        };
+	
+        var place = $("#main");
+
+	$.jpoker.plugins.tourneyAdminList.defaults.callback.display_done = function(element) {};
+	
+        place.jpoker('tourneyAdminList', 'url', {ajax: ajax, tourneyEditOptions: {ajax: ajax}});
+
+        $('tbody tr:eq(0) .jpoker_admin_edit a', place).click();
+	$('#jpokerAdminEdit input[name=description_short]').attr('value', 'TEXT1');
+        $('tbody tr:eq(1) .jpoker_admin_edit a', place).click();
+	$('#jpokerAdminEdit input[name=description_short]').attr('value', 'TEXT1');
+        $('tbody tr:eq(2) .jpoker_admin_edit a', place).click();
+	$('#jpokerAdminEdit input[name=description_short]').attr('value', 'TEXT1');
+	$('#jpokerAdminEdit').triggerKeypress(13);
+		
+        cleanup();
+    });
+
 test("jpoker.tourneyAdminEdit", function(){
         expect(1);
         var tourney_serial = 1111;
