@@ -187,8 +187,6 @@
 	var success = function(tourney2prizes, status) {
 	    for (var i in tourney2prizes) {
 		var tourney2prize = tourney2prizes[i];
-		console.log(tourney2prize);
-		console.log(element);
 		$('#admin' + tourney2prize.tourneys_schedule_serial + id + ' .jpoker_tourney_prize', element).html(tourney2prize.name);
 	    }
 	};
