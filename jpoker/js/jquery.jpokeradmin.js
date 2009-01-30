@@ -254,6 +254,7 @@
         var t = options.templates;
         var html = [];
         html.push(t.header.supplant({
+		    'serial': 'Serial',
 		    'players_quota': "Players Quota",
                         'players_abbrev':"Play.",
                         'breaks_first':"Break First",
@@ -352,8 +353,8 @@
             path: '/cgi-bin/poker-network/pokersql',
             string: '',
             templates: {
-                header : '<table><thead><tr><th>{description_short}</th><th>{variant}</th><th>{players_quota}</th><th>{buy_in}</th><th class=\'jpoker_admin_edit_header\'></th><th class=\'jpoker_admin_new\'><a href=\'javascript://\'>New</a></th></tr></thead><tbody>',
-                rows : '<tr id=\'admin{id}\' title=\'Click to edit\'><td>{description_short}</td><td>{variant}</td><td>{players_quota}</td><td>{buy_in}</td><td class=\'jpoker_admin_edit\'><a href=\'javascript://\'>Edit</a></td><td class=\'jpoker_admin_delete\'><a href=\'javascript://\'>Delete</a></td></tr>',
+                header : '<table><thead><tr><th>{serial}</th><th>{description_short}</th><th>{variant}</th><th>{players_quota}</th><th>{buy_in}</th><th class=\'jpoker_admin_edit_header\'></th><th class=\'jpoker_admin_new\'><a href=\'javascript://\'>New</a></th></tr></thead><tbody>',
+                rows : '<tr id=\'admin{id}\' title=\'Click to edit\'><td>{serial}</td><td>{description_short}</td><td>{variant}</td><td>{players_quota}</td><td>{buy_in}</td><td class=\'jpoker_admin_edit\'><a href=\'javascript://\'>Edit</a></td><td class=\'jpoker_admin_delete\'><a href=\'javascript://\'>Delete</a></td></tr>',
                 footer : '</tbody></table>',
                 link: '<a href=\'{link}\'>{name}</a>',
                 pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
