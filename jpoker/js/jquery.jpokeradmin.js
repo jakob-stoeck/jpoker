@@ -229,7 +229,7 @@
 			next_label: t.next_label.supplant({next_label: "Next page"})};
 		    $('table', element).tablesorter({widgets: ['zebra'], sortList: opts.sortList}).tablesorterPager(params);
 		}
-		opts.callback.display_done(element);
+		opts.callback.display_done(element, url, id, opts);
 	    }
 	};
 	
@@ -352,7 +352,7 @@
             path: '/cgi-bin/poker-network/pokersql',
             string: '',
             templates: {
-                header : '<table><thead><tr><th>{description_short}</th><th>{variant}</th><th>{players_quota}</th><th>{buy_in}</th><th></th><th class=\'jpoker_admin_new\'><a href=\'javascript://\'>New</a></th></tr></thead><tbody>',
+                header : '<table><thead><tr><th>{description_short}</th><th>{variant}</th><th>{players_quota}</th><th>{buy_in}</th><th class=\'jpoker_admin_edit_header\'></th><th class=\'jpoker_admin_new\'><a href=\'javascript://\'>New</a></th></tr></thead><tbody>',
                 rows : '<tr id=\'admin{id}\' title=\'Click to edit\'><td>{description_short}</td><td>{variant}</td><td>{players_quota}</td><td>{buy_in}</td><td class=\'jpoker_admin_edit\'><a href=\'javascript://\'>Edit</a></td><td class=\'jpoker_admin_delete\'><a href=\'javascript://\'>Delete</a></td></tr>',
                 footer : '</tbody></table>',
                 link: '<a href=\'{link}\'>{name}</a>',

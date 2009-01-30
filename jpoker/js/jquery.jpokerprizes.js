@@ -102,7 +102,7 @@
         var option_elements = [];
         var serial2prize = jpoker.plugins.tourneyAdminEditPrizes.serial2prize;
 	var old_prize_serial = prize_serial;
-        for(serial in serial2prize) {
+        for(var serial in serial2prize) {
             if(prize_serial == undefined) {
 		prize_serial = serial;
 	    }
@@ -173,5 +173,40 @@
         }, jpoker.defaults);
 
     jpoker.plugins.tourneyAdminList.defaults.tourneyEdit = jpoker.tourneyAdminEditPrizes;
+    jpoker.plugins.tourneyAdminList.defaults.callback.display_done = function(element, url, id, options) {
+	var template = {
+	    prize_header: '<th>Prize</th>',
+	    prize: '<td class=\'jpoker_tourney_prize\'></td>'
+	};
+	$('.jpoker_admin_edit_header', element).before(template.prize_header);
+	$('.jpoker_admin_edit', element).before(template.prize);
+
+	var error = function(xhr, status, error) {
+	    throw error;
+	};
+	var success = function(tourney2prizes, status) {
+	    for (var i in tourney2prizes) {
+		var tourney2prize = tourney2prizes[i];
+		console.log(tourney2prize);
+		console.log(element);
+		$('#admin' + tourney2prize.tourneys_schedule_serial + id + ' .jpoker_tourney_prize', element).html(tourney2prize.name);
+	    }
+	};
+	var params = {
+	    'query': ' SELECT t.tourneys_schedule_serial, p.name FROM prizes AS p, tourneys_schedule2prizes AS t WHERE p.serial = prize_serial',
+	    'output': 'rows'
+	};
+	options.ajax({
+		async: false,
+		    mode: 'queue',
+		    timeout: 30000,
+		    url: url + '?' + $.param(params),
+		    type: 'GET',
+		    dataType: 'json',
+		    global: false,
+		    success: success,
+		    error: error
+                    });	
+    };
 
 })(jQuery);

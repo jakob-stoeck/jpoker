@@ -138,3 +138,36 @@ test("jpoker.tourneyAdminEditPrizes update", function(){
 	$("#jpokerAdminEdit .jpoker_admin_update button").click();
 	cleanup();
     });
+
+test("jpoker.plugins.tourneyAdminList with prizes", function(){
+        expect(7);
+
+        var tourney_serial = 1111;
+	var TOURNEY_LIST = [{"players_quota": 2, "breaks_first": 7200, "name": "sitngo2", "description_short" : "AAA Sit and Go 2 players, Holdem", "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": tourney_serial, "sit_n_go": "y", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval" : 60, "variant": "holdem", "currency_serial": 1, "state": "registering", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 39, "sit_n_go": "n", "registered": 0}, {"players_quota": 1000, "breaks_first" : 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "announced", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 40, "sit_n_go": "n", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial" : 41, "sit_n_go": "n", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 42, "sit_n_go": "n", "registered": 0}];
+	var state = TOURNEY_LIST[1].state;
+	var prizes = [{tourneys_schedule_serial:tourney_serial, name:'prize A'}];       
+
+	var excepted = ['FROM+tourneys_schedule', 'FROM+prizes'];
+	var results = [TOURNEY_LIST, prizes];
+
+	var ajax = function(params) {
+	    equals(params.url.indexOf(excepted.shift()) >= 0, true, params.url);
+            params.success(results.shift(), 'status');
+        };
+	
+        var place = $("#main");
+	
+        place.jpoker('tourneyAdminList', 'url', {ajax: ajax});
+
+	var tr = $('tbody tr', place);
+	equals(tr.length, 5, 'number of rows');
+	var th = $('thead tr:nth-child(1) th', place);
+	equals(th.length, 7, 'number of column');
+	var td = $('tbody tr:nth-child(1) td', place);
+	equals(td.length, 7, 'number of column');
+	var prize = $('tbody tr:nth-child(1) .jpoker_tourney_prize', place);
+	equals(prize.length, 1, 'prize, element');
+	equals(prize.text(), 'prize A');
+	
+        cleanup();
+    });
