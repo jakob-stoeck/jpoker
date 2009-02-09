@@ -36,7 +36,7 @@
 	};
 	$("form", dialog).validate({
 		ignoreTitle: true,
-		rules: {
+		    rules: {
 		    players_min: {
 			min: 2
 			    },
@@ -44,7 +44,14 @@
 			min: 2,
 			    greaterOrEqual: '.jpoker_admin_players_min input'
 			    },
-			},
+			seats_per_game: {
+			min: 2
+			    },
+			player_timeout: {
+			min: 30,
+			    max: 120
+			    },
+		},
 		    messages: {
 		    players_quota: {
 			greaterOrEqual: 'Player quota should be greater or equal to player min.'
