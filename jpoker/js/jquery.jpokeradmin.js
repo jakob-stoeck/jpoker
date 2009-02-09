@@ -155,6 +155,8 @@
 		breaks_first: '<div class=\'jpoker_admin_breaks_first\'><input name=\'breaks_first\' title=\'Tourney first break delay\' value=\'{breaks_first}\' /></div>',
 		breaks_interval: '<div class=\'jpoker_admin_breaks_interval\'><input name=\'breaks_interval\' title=\'Tourney break interval\' value=\'{breaks_interval}\' /></div>',
 		breaks_duration: '<div class=\'jpoker_admin_breaks_duration\'><input name=\'breaks_duration\' title=\'Tourney break duration\' value=\'{breaks_duration}\' /></div>',
+		name: '<div class=\'jpoker_admin_name\'><input name=\'name\' title=\'Tourney name\' value=\'{name}\' /></div>',
+		currency_serial: '<div class=\'jpoker_admin_currency_serial\'><input name=\'currency_serial\' title=\'Tourney currency serial\' value=\'{currency_serial}\' /></div>',
 		update: '<div class=\'jpoker_admin_update\'><button>Update tourney</button></div>'		
             },
             callback: {
