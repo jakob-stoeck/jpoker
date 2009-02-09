@@ -96,3 +96,9 @@ Copyright for:
 
 Public domain:
         http://www.JSON.org/js.html 2008 jpoker/js/json2.js
+
+Copyright for:
+	  jpoker/jpoker/js/jquery.validate.js
+
+   (c) 2006 - 2008 Jörn Zaefferer
+        licensed under the MIT
