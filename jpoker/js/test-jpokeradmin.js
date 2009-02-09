@@ -246,7 +246,7 @@ test("jpoker.plugins.tourneyAdminList multiple edit", function(){
     });
 
 test("jpoker.tourneyAdminEdit", function(){
-        expect(4);
+        expect(8);
         var tourney_serial = 1111;
 	var tourney = {"players_quota": 2, "players_min": 2, "breaks_first": 7200, "name": "sitngo2", "description_short" : "Sit and Go 2 players, Holdem", "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "betting_structure": "level-001", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": tourney_serial, "sit_n_go": "y", "registered": 0};
 
@@ -255,6 +255,10 @@ test("jpoker.tourneyAdminEdit", function(){
         equals($('#jpokerAdminEdit .jpoker_admin_description_short input').length, 1);
         equals($('#jpokerAdminEdit .jpoker_admin_players_quota input').length, 1);
         equals($('#jpokerAdminEdit .jpoker_admin_players_min input').length, 1);
+        equals($('#jpokerAdminEdit .jpoker_admin_buy_in input').length, 1);
+        equals($('#jpokerAdminEdit .jpoker_admin_breaks_first input').length, 1);
+        equals($('#jpokerAdminEdit .jpoker_admin_breaks_interval input').length, 1);
+        equals($('#jpokerAdminEdit .jpoker_admin_breaks_duration input').length, 1);
     });
 
 test("jpoker.tourneyAdminEdit update", function(){

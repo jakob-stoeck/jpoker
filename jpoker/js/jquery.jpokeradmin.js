@@ -151,6 +151,10 @@
                 description_short: '<div class=\'jpoker_admin_description_short\'><input name=\'description_short\' title=\'Short description of the tournament. It will be displayed on each line of the tournament list.\' value=\'{description_short}\' /></div>',
 		players_quota: '<div class=\'jpoker_admin_players_quota\'><input name=\'players_quota\' title=\'Maximum number of players\' value=\'{players_quota}\' /></div>',
 		players_min: '<div class=\'jpoker_admin_players_min\'><input name=\'players_min\' title=\'Minimum number of players\' value=\'{players_min}\' /></div>',
+		buy_in: '<div class=\'jpoker_admin_buy_in\'><input name=\'buy_in\' title=\'Tourney buy in\' value=\'{buy_in}\' /></div>',
+		breaks_first: '<div class=\'jpoker_admin_breaks_first\'><input name=\'breaks_first\' title=\'Tourney first break delay\' value=\'{breaks_first}\' /></div>',
+		breaks_interval: '<div class=\'jpoker_admin_breaks_interval\'><input name=\'breaks_interval\' title=\'Tourney break interval\' value=\'{breaks_interval}\' /></div>',
+		breaks_duration: '<div class=\'jpoker_admin_breaks_duration\'><input name=\'breaks_duration\' title=\'Tourney break duration\' value=\'{breaks_duration}\' /></div>',
 		update: '<div class=\'jpoker_admin_update\'><button>Update tourney</button></div>'		
             },
             callback: {
