@@ -244,7 +244,7 @@ test("jpoker.plugins.tourneyAdminList multiple edit", function(){
     });
 
 test("jpoker.tourneyAdminEdit", function(){
-        expect(13);
+        expect(14);
         var tourney_serial = 1111;
 	var tourney = {"register_time": 1233135597, "betting_structure": "level-001", "currency_serial": 1, "description_long": "Holdem No Limit Freeroll", "breaks_interval": 60, "serial": tourney_serial, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "111 asdasdasdasd", "player_timeout": 60, "players_quota": 1000, "rake": 0, "add_on": 1, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 3, "active": "n", "add_on_delay": 60, "name": "regular1", "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 30};
 
@@ -262,6 +262,7 @@ test("jpoker.tourneyAdminEdit", function(){
         equals($('#jpokerAdminEdit .jpoker_admin_player_timeout input').length, 1);
         equals($('#jpokerAdminEdit .jpoker_admin_seats_per_game input').length, 1);
         equals($('#jpokerAdminEdit .jpoker_admin_sit_n_go input').length, 2);
+        equals($('#jpokerAdminEdit .jpoker_admin_betting_structure option').length, 5);
     });
 
 test("jpoker.tourneyAdminEdit validation", function(){
@@ -272,41 +273,41 @@ test("jpoker.tourneyAdminEdit validation", function(){
         $.jpoker.tourneyAdminEdit('URL', tourney);
 
 	$('#jpokerAdminEdit .jpoker_admin_players_min input').focus().val('0').blur();
-	ok($('#jpokerAdminEdit .jpoker_admin_players_min label').is(':visible'), 'error label shown');
-	equals($('#jpokerAdminEdit .jpoker_admin_players_min label').text(), 'Please enter a value greater than or equal to 2.');
+	ok($('#jpokerAdminEdit .jpoker_admin_players_min label.error').is(':visible'), 'error label shown');
+	equals($('#jpokerAdminEdit .jpoker_admin_players_min label.error').text(), 'Please enter a value greater than or equal to 2.');
 	$('#jpokerAdminEdit .jpoker_admin_players_min input').focus().val('3').blur();
-	ok($('#jpokerAdminEdit .jpoker_admin_players_min label').is(':hidden'), 'error label hidden');
+	ok($('#jpokerAdminEdit .jpoker_admin_players_min label.error').is(':hidden'), 'error label hidden');
 
 	$('#jpokerAdminEdit .jpoker_admin_players_min input').focus().val('0').blur();
 
 	$('#jpokerAdminEdit .jpoker_admin_players_quota input').focus().val('0').blur();
-	ok($('#jpokerAdminEdit .jpoker_admin_players_quota label').is(':visible'), 'error label shown');
-	equals($('#jpokerAdminEdit .jpoker_admin_players_quota label').text(), 'Please enter a value greater than or equal to 2.');
+	ok($('#jpokerAdminEdit .jpoker_admin_players_quota label.error').is(':visible'), 'error label shown');
+	equals($('#jpokerAdminEdit .jpoker_admin_players_quota label.error').text(), 'Please enter a value greater than or equal to 2.');
 	$('#jpokerAdminEdit .jpoker_admin_players_quota input').focus().val('3').blur();
-	ok($('#jpokerAdminEdit .jpoker_admin_players_quota label').is(':hidden'), 'error label hidden');
+	ok($('#jpokerAdminEdit .jpoker_admin_players_quota label.error').is(':hidden'), 'error label hidden');
 
 	$('#jpokerAdminEdit .jpoker_admin_players_min input').focus().val('10').blur();
 
-	ok($('#jpokerAdminEdit .jpoker_admin_players_quota label').is(':hidden'), 'error label hidden');
+	ok($('#jpokerAdminEdit .jpoker_admin_players_quota label.error').is(':hidden'), 'error label hidden');
 	$('#jpokerAdminEdit .jpoker_admin_players_quota input').focus().val('5').blur();
-	ok($('#jpokerAdminEdit .jpoker_admin_players_quota label').is(':visible'), 'error label shown');
-	equals($('#jpokerAdminEdit .jpoker_admin_players_quota label').text(), 'Player quota should be greater or equal to player min.');
+	ok($('#jpokerAdminEdit .jpoker_admin_players_quota label.error').is(':visible'), 'error label shown');
+	equals($('#jpokerAdminEdit .jpoker_admin_players_quota label.error').text(), 'Player quota should be greater or equal to player min.');
 	$('#jpokerAdminEdit .jpoker_admin_players_quota input').focus().val('20').blur();
-	ok($('#jpokerAdminEdit .jpoker_admin_players_quota label').is(':hidden'), 'error label hidden');
+	ok($('#jpokerAdminEdit .jpoker_admin_players_quota label.error').is(':hidden'), 'error label hidden');
 
 	$('#jpokerAdminEdit .jpoker_admin_seats_per_game input').focus().val('0').blur();
-	ok($('#jpokerAdminEdit .jpoker_admin_seats_per_game label').is(':visible'), 'error label shown');
-	equals($('#jpokerAdminEdit .jpoker_admin_seats_per_game label').text(), 'Please enter a value greater than or equal to 2.');
+	ok($('#jpokerAdminEdit .jpoker_admin_seats_per_game label.error').is(':visible'), 'error label shown');
+	equals($('#jpokerAdminEdit .jpoker_admin_seats_per_game label.error').text(), 'Please enter a value greater than or equal to 2.');
 	$('#jpokerAdminEdit .jpoker_admin_seats_per_game input').focus().val('3').blur();
-	ok($('#jpokerAdminEdit .jpoker_admin_seats_per_game label').is(':hidden'), 'error label hidden');
+	ok($('#jpokerAdminEdit .jpoker_admin_seats_per_game label.error').is(':hidden'), 'error label hidden');
 
 	$('#jpokerAdminEdit .jpoker_admin_player_timeout input').focus().val('0').blur();
-	ok($('#jpokerAdminEdit .jpoker_admin_player_timeout label').is(':visible'), 'error label shown');
-	equals($('#jpokerAdminEdit .jpoker_admin_player_timeout label').text(), 'Please enter a value greater than or equal to 30.');
+	ok($('#jpokerAdminEdit .jpoker_admin_player_timeout label.error').is(':visible'), 'error label shown');
+	equals($('#jpokerAdminEdit .jpoker_admin_player_timeout label.error').text(), 'Please enter a value greater than or equal to 30.');
 	$('#jpokerAdminEdit .jpoker_admin_player_timeout input').focus().val('200').blur();
-	equals($('#jpokerAdminEdit .jpoker_admin_player_timeout label').text(), 'Please enter a value less than or equal to 120.');
+	equals($('#jpokerAdminEdit .jpoker_admin_player_timeout label.error').text(), 'Please enter a value less than or equal to 120.');
 	$('#jpokerAdminEdit .jpoker_admin_player_timeout input').focus().val('100').blur();
-	ok($('#jpokerAdminEdit .jpoker_admin_player_timeout label').is(':hidden'), 'error label hidden');
+	ok($('#jpokerAdminEdit .jpoker_admin_player_timeout label.error').is(':hidden'), 'error label hidden');
     });
 
 test("jpoker.tourneyAdminEdit update", function(){
@@ -328,11 +329,11 @@ test("jpoker.tourneyAdminEdit update", function(){
 	};
 
         $.jpoker.tourneyAdminEdit('URL', tourney, options);
-	equals($("#jpokerAdminEdit .jpoker_admin_update button").length, 1);
-	equals($("#jpoker_admin_regular_radio").is(":checked"), true);
+	equals($('#jpokerAdminEdit .jpoker_admin_update button').length, 1);
+	equals($('.jpoker_admin_sit_n_go input[type=radio]').eq(1).is(":checked"), true);
 	$('#jpokerAdminEdit input[name=description_short]').attr('value', 'TEXT2');
-	$('#jpoker_admin_sitngo_radio').click();
-	$("#jpokerAdminEdit .jpoker_admin_update button").click();
+	$('.jpoker_admin_sit_n_go input[type=radio]').eq(0).click();
+	$('#jpokerAdminEdit .jpoker_admin_update button').click();
     });
 
 test("jpoker.plugins.tourneyAdminEdit", function(){
