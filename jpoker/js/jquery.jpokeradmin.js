@@ -53,7 +53,7 @@
 
     jpoker.plugins.tourneyAdminEdit.update = function(url, element, tourney, options) {
         var setters = [];
-        var inputs = $('.jpoker_admin_tourney_params input', element);
+        var inputs = $('.jpoker_admin_tourney_params input[type=text]', element);
         for(var i = 0; i < inputs.length; i++) {
             var name = $.attr(inputs[i], 'name');
             var value = $.attr(inputs[i], 'value');
@@ -65,6 +65,11 @@
                 tourney[name] = value;
             }
         }
+	if ($('#jpoker_admin_sitngo_radio')[0].checked) {
+	    tourney['sit_n_go'] = 'y';
+	} else if ($('#jpoker_admin_regular_radio')[0].checked) {
+	    tourney['sit_n_go'] = 'n';
+	}
         $('.jpoker_admin_tourney_params select', element).each(function() {
                 var name = $(this).attr('name');
                 var value = $('option:selected', this).val();
@@ -123,6 +128,11 @@
                 var name = $(this).attr('name');
                 $(this).val(tourney[name]);
             }); 
+	if (tourney.sit_n_go == 'y') {
+	    $("#jpoker_admin_sitngo_radio")[0].checked = true;
+	} else {
+	    $("#jpoker_admin_regular_radio")[0].checked = true;
+	}
         $('input[name=start_time],input[name=register_time]', element).dynDateTime({
                 showsTime: true,
                     ifFormat: options.dateFormat,
@@ -157,7 +167,10 @@
 		breaks_duration: '<div class=\'jpoker_admin_breaks_duration\'><input name=\'breaks_duration\' title=\'Tourney break duration\' value=\'{breaks_duration}\' /></div>',
 		name: '<div class=\'jpoker_admin_name\'><input name=\'name\' title=\'Tourney name\' value=\'{name}\' /></div>',
 		currency_serial: '<div class=\'jpoker_admin_currency_serial\'><input name=\'currency_serial\' title=\'Tourney currency serial\' value=\'{currency_serial}\' /></div>',
-		update: '<div class=\'jpoker_admin_update\'><button>Update tourney</button></div>'		
+		player_timeout: '<div class=\'jpoker_admin_player_timeout\'><input name=\'player_timeout\' title=\'Player timeout delay\' value=\'{player_timeout}\' /></div>',	
+		seats_per_game: '<div class=\'jpoker_admin_seats_per_game\'><input name=\'seats_per_game\' title=\'Player seats per game\' value=\'{seats_per_game}\' /></div>',
+		sit_n_go: '<div class=\'jpoker_admin_sit_n_go\'><input name=\'sit_n_go\' title=\'Tourney type\' value=\'y\' type=\'radio\' id=\'jpoker_admin_sitngo_radio\'/><label for=\'jpoker_admin_sitngo_radio\'>sit and go</label><input name=\'sit_n_go\' title=\'Tourney type\' value=\'n\' type=\'radio\' id=\'jpoker_admin_regular_radio\'/><label for=\'jpoker_admin_regular_radio\'>regular</label></div>',
+		update: '<div class=\'jpoker_admin_update\'><button>Update tourney</button></div>'
             },
             callback: {
                 display_done: function(element) {
