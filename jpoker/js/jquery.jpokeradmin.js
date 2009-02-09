@@ -31,6 +31,26 @@
         }
         dialog.jpoker('tourneyAdminEdit', url, tourney, options);
         dialog.dialog('open');
+	$.validator.methods.greaterOrEqual = function(value, element, param) {
+	    return parseInt(value) >= parseInt($(param).val());
+	};
+	$("form", dialog).validate({
+		ignoreTitle: true,
+		rules: {
+		    players_min: {
+			min: 2
+			    },
+			players_quota: {
+			min: 2,
+			    greaterOrEqual: '.jpoker_admin_players_min input'
+			    },
+			},
+		    messages: {
+		    players_quota: {
+			greaterOrEqual: 'Player quota should be greater or equal to player min.'
+			    }
+		}
+	    });
         return dialog;
     };
 
@@ -154,7 +174,7 @@
             dateFormat: '%Y/%m/%d-%H:%M',
             path: '/cgi-bin/poker-network/pokersql',
             templates: {
-                layout: '<div class=\'jpoker_admin_tourney_params\'>{serial}{reshost_serial}{name}{description_short}{description_long}{players_quota}{players_min}{variant}{betting_structure}{seats_per_game}{player_timeout}{currency_serial}{prizes_min}{bailor_serial}{buy_in}{rake}{sit_n_go}{breaks_first}{breaks_interval}{breaks_duration}{start_time}{register_time}{active}{respawn}</div>{update}',
+                layout: '<form action=\'javascript://\'><div class=\'jpoker_admin_tourney_params\'>{serial}{reshost_serial}{name}{description_short}{description_long}{players_quota}{players_min}{variant}{betting_structure}{seats_per_game}{player_timeout}{currency_serial}{prizes_min}{bailor_serial}{buy_in}{rake}{sit_n_go}{breaks_first}{breaks_interval}{breaks_duration}{start_time}{register_time}{active}{respawn}</div>{update}</form>',
                 variant: '<div class=\'jpoker_admin_variant\'><select name=\'variant\'><option value=\'holdem\'>Holdem</option><option value=\'omaha\'>Omaha</option><option value=\'omaha8\'>Omaha High/Low</option></select></div>',
                 betting_structure: '<div class=\'jpoker_admin_betting_structure\'><select name=\'betting_structure\'><option value=\'level-001\'>10 minutes</option></select></div>',
                 start_time: '<div class=\'jpoker_admin_start_time\'><input type=\'text\' size=\'14\' value=\'{start_time_string}\' name=\'start_time\'/><button type=\'button\'>pick</button></div>',
@@ -165,7 +185,7 @@
 		breaks_first: '<div class=\'jpoker_admin_breaks_first\'><input name=\'breaks_first\' title=\'Tourney first break delay\' value=\'{breaks_first}\' /></div>',
 		breaks_interval: '<div class=\'jpoker_admin_breaks_interval\'><input name=\'breaks_interval\' title=\'Tourney break interval\' value=\'{breaks_interval}\' /></div>',
 		breaks_duration: '<div class=\'jpoker_admin_breaks_duration\'><input name=\'breaks_duration\' title=\'Tourney break duration\' value=\'{breaks_duration}\' /></div>',
-		name: '<div class=\'jpoker_admin_name\'><input name=\'name\' title=\'Tourney name\' value=\'{name}\' /></div>',
+		name: '<div class=\'jpoker_admin_name\'><input name=\'name\' title=\'Tourney name\' value=\'{name}\'/></div>',
 		currency_serial: '<div class=\'jpoker_admin_currency_serial\'><input name=\'currency_serial\' title=\'Tourney currency serial\' value=\'{currency_serial}\' /></div>',
 		player_timeout: '<div class=\'jpoker_admin_player_timeout\'><input name=\'player_timeout\' title=\'Player timeout delay\' value=\'{player_timeout}\' /></div>',	
 		seats_per_game: '<div class=\'jpoker_admin_seats_per_game\'><input name=\'seats_per_game\' title=\'Player seats per game\' value=\'{seats_per_game}\' /></div>',
