@@ -181,7 +181,7 @@
             dateFormat: '%Y/%m/%d-%H:%M',
             path: '/cgi-bin/poker-network/pokersql',
             templates: {
-                layout: '<form action=\'javascript://\'><div class=\'jpoker_admin_tourney_params\'>{sit_n_go}{start_time}{register_time}{serial}{resthost_serial}{name}{description_short}{description_long}{players_min}{players_quota}{seats_per_game}{variant}{betting_structure}{player_timeout}{currency_serial}{currency_serial_from_date_format}{buy_in}{rake}{prize_min}{bailor_serial}{breaks_first}{breaks_interval}{breaks_duration}{respawn}{active}</div>{update}</form>',
+                layout: '<form action=\'javascript://\'><div class=\'jpoker_admin_tourney_params\'>{sit_n_go}{start_time}{register_time}{resthost_serial}{name}{description_short}{description_long}{players_min}{players_quota}{seats_per_game}{variant}{betting_structure}{player_timeout}{currency_serial}{currency_serial_from_date_format}{buy_in}{rake}{prize_min}{bailor_serial}{breaks_first}{breaks_interval}{breaks_duration}{respawn}{active}{serial}</div>{update}</form>',
 		serial: '<div class=\'jpoker_admin_serial\'><label>Serial<input name=\'serial\' title=\'Serial of the tournament.\' value=\'{serial}\' readonly=\'true\'  maxlength=\'5\' size=\'5\' /></label></div>',
 		resthost_serial: '<div class=\'jpoker_admin_resthost_serial\'><label>Rest host serial<input name=\'resthost_serial\' title=\'Serial of the server.\' value=\'{resthost_serial}\' /></label></div>',
                 variant: '<div class=\'jpoker_admin_variant\'><label>Variant<select name=\'variant\'><option value=\'holdem\'>Holdem</option><option value=\'omaha\'>Omaha</option><option value=\'omaha8\'>Omaha High/Low</option></select></label></div>',
