@@ -293,6 +293,8 @@
         var opts = $.extend(true, {}, tourneyAdminList.defaults, options);
         url = url + opts.path;
 
+	jpoker.plugins.tourneyAdminList.getResthost(url, opts);
+
         return this.each(function() {
                 var $this = $(this);
 
@@ -497,7 +499,7 @@
 
     jpoker.plugins.tourneyAdminList.resthost = [];
 
-    jpoker.plugins.tourneyAdminList.getResthost = function(options) {
+    jpoker.plugins.tourneyAdminList.getResthost = function(url, options) {
         var error = function(xhr, status, error) {
             throw error;
         };
