@@ -69,6 +69,12 @@
         var tourneyAdminEdit = jpoker.plugins.tourneyAdminEdit;
         var opts = $.extend({}, tourneyAdminEdit.defaults, options);
 
+	for (key in tourney) {
+	    if (tourney[key] == null) {
+		tourney[key] = '';
+	    }
+	}
+
         return this.each(function() {
                 var $this = $(this);
 
@@ -80,7 +86,7 @@
 
     jpoker.plugins.tourneyAdminEdit.update = function(url, element, tourney, options) {
         var setters = [];
-        var inputs = $('.jpoker_admin_tourney_params input[type=text]', element);
+        var inputs = $('.jpoker_admin_tourney_params input[type=text]', element).not('input[readonly]');
         for(var i = 0; i < inputs.length; i++) {
             var name = $.attr(inputs[i], 'name');
             var value = $.attr(inputs[i], 'value');
@@ -173,6 +179,7 @@
 
     jpoker.plugins.tourneyAdminEdit.getHTML = function(tourney, options) {
         tourney.start_time_string = new Date(tourney.start_time*1000).print(options.dateFormat);
+        tourney.register_time_string = new Date(tourney.register_time*1000).print(options.dateFormat);
         var html = options.templates.layout.supplant(options.templates);
         return html.supplant(tourney);
     };
@@ -186,8 +193,8 @@
 		resthost_serial: '<div class=\'jpoker_admin_resthost_serial\'><label>Rest host serial<input name=\'resthost_serial\' title=\'Serial of the server.\' value=\'{resthost_serial}\' /></label></div>',
                 variant: '<div class=\'jpoker_admin_variant\'><label>Variant<select name=\'variant\'><option value=\'holdem\'>Holdem</option><option value=\'omaha\'>Omaha</option><option value=\'omaha8\'>Omaha High/Low</option></select></label></div>',
                 betting_structure: '<div class=\'jpoker_admin_betting_structure\'><label>Betting structure<select name=\'betting_structure\'><option value=\'level-001\'>No limit tournament</option><option value=\'level-10-15-pot-limit\'>Pot limit 10/15</option><option value=\'level-10-20-no-limit\'>No limit 10/20</option><option value=\'level-15-30-no-limit\'>No limit 15/30</option><option value=\'level-2-4-limit\'>Limit 2/4</option></select></label></div>',
-                start_time: '<div class=\'jpoker_admin_start_time\'><label>Start time<input type=\'text\' size=\'14\' value=\'{start_time_string}\' name=\'start_time\' title=\'Time and date of the tournament start.\' maxlength=\'10\' size=\'10\' /><button type=\'button\'>pick</button></label></div>',
-		register_time: '<div class=\'jpoker_admin_register_time\'><label>Register time<input name=\'register_time\' title=\'Time and date of the registration start.\' value=\'{register_time}\' maxlength=\'10\' size=\'10\' /></label></div>',
+                start_time: '<div class=\'jpoker_admin_start_time\'><label>Start time<input type=\'text\' size=\'14\' maxlength=\'14\' value=\'{start_time_string}\' name=\'start_time\' title=\'Time and date of the tournament start.\' /><button type=\'button\'>pick</button></label></div>',
+                register_time: '<div class=\'jpoker_admin_register_time\'><label>Register time<input type=\'text\' size=\'14\' maxlength=\'14\' value=\'{register_time_string}\' name=\'register_time\' title=\'Time and date of the registration.\' /><button type=\'button\'>pick</button></label></div>',
                 description_short: '<div class=\'jpoker_admin_description_short\'><label>Description short<input name=\'description_short\' title=\'Short description of the tournament. It will be displayed on each line of the tournament list.\' value=\'{description_short}\' maxlength=\'20\' size=\'20\' /></label></div>',
                 description_long: '<div class=\'jpoker_admin_description_long\'><label>Description long<textarea name=\'description_long\' title=\'Description that will be shown on a detailed page about the tournament.\' value=\'{description_long}\' /></label></div>',
 		players_quota: '<div class=\'jpoker_admin_players_quota\'><label>Player quota<input name=\'players_quota\' title=\'The maximum number of players allowed to register in the tournament\' value=\'{players_quota}\' maxlength=\'4\' size=\'4\' /></label></div>',
@@ -201,7 +208,7 @@
 		breaks_duration: '<div class=\'jpoker_admin_breaks_duration\'><label>Breaks duration<input name=\'breaks_duration\' title=\'Number of seconds of each break.\' value=\'{breaks_duration}\' maxlength=\'5\' size=\'5\' /></label></div>',
 		name: '<div class=\'jpoker_admin_name\'><label>Name<input name=\'name\' title=\'Tourney name\' value=\'{name}\' maxlength=\'10\' size=\'10\' /></label></div>',
 		currency_serial: '<div class=\'jpoker_admin_currency_serial\'><label>Currency serial<input name=\'currency_serial\' title=\'Serial of the currency required to pay the buyin.\' value=\'{currency_serial}\' /></label></div>',
-		currency_serial_from_date_format: '<div class=\'jpoker_admin_currency_serial_from_date_format\'><label>Currency serial from date format<input name=\'currency_serial_from_date_format\' title=\'Format string to override currency serial from date.\' value=\'{currency_serial_from_date_format}\' maxlength=\'8\' size=\'8\' /></label></div>',
+		currency_serial_from_date_format: '<div class=\'jpoker_admin_currency_serial_from_date_format\'><label>Currency serial from date format<input name=\'currency_serial_from_date_format\' title=\'Format string to override currency serial from date.\' value=\'{currency_serial_from_date_format}\' maxlength=\'8\' size=\'8\' readonly=\'true\' /></label></div>',
 		player_timeout: '<div class=\'jpoker_admin_player_timeout\'><label>Player timeout<input name=\'player_timeout\' title=\'Maximum number of seconds before a player times out when in position.\' value=\'{player_timeout}\' maxlength=\'4\' size=\'4\' /></label></div>',
 		seats_per_game: '<div class=\'jpoker_admin_seats_per_game\'><label>Seats per game<input name=\'seats_per_game\' title=\'Number of seats, in the range 2 and 10 included.\' value=\'{seats_per_game}\' maxlength=\'2\' size=\'2\' /></label></div>',
 		sit_n_go: '<div class=\'jpoker_admin_sit_n_go\'><label><input name=\'sit_n_go\' title=\'Tourney type\' value=\'y\' type=\'radio\' />Sit and go</label><label><input name=\'sit_n_go\' title=\'Tourney type\' value=\'n\' type=\'radio\' />Regular</label></div>',
@@ -338,6 +345,7 @@
                 tourney.buy_in /= 100;
 	    }
 	    tourney.start_time_string = new Date(tourney.start_time*1000).print(options.dateFormat);
+	    tourney.register_time_string = new Date(tourney.register_time*1000).print(options.dateFormat);
             html.push(t.rows.supplant(tourney).replace(/{oddEven}/g, i%2 ? 'odd' : 'even'));
         }
         html.push(t.footer);
