@@ -69,6 +69,12 @@
         var tourneyAdminEdit = jpoker.plugins.tourneyAdminEdit;
         var opts = $.extend({}, tourneyAdminEdit.defaults, options);
 
+	for (var k in tourney) {
+	    if (tourney[k] == null) {
+		tourney[k] = '';
+	    }
+	}
+
         return this.each(function() {
                 var $this = $(this);
 
@@ -106,16 +112,40 @@
                 tourney[name] = value;
             }
         }
+	var name = 'sit_n_go';
+	var value;
 	if ($('.jpoker_admin_sit_n_go input[type=radio]')[0].checked) {
-	    tourney['sit_n_go'] = 'y';
+	    value = 'y';
 	} else if ($('.jpoker_admin_sit_n_go input[type=radio]')[1].checked) {
-	    tourney['sit_n_go'] = 'n';
+	    value = 'n';
+	}
+	if (tourney[name] != value) {
+	    tourney[name] = value;
+	    setters.push(name + ' = \'' + value + '\'');
 	}
 
+	var name = 'respawn';
+	var value;
 	if ($('.jpoker_admin_respawn input[type=checkbox]')[0].checked) {
-	    tourney['respawn'] = 'y';
+	    value = 'y';
 	} else {
-	    tourney['respawn'] = 'n';
+	    value = 'n';
+	}
+	if (tourney[name] != value) {
+	    tourney[name] = value;
+	    setters.push(name + ' = \'' + value + '\'');
+	}
+
+	var name = 'active';
+	var value;
+	if ($('.jpoker_admin_active input[type=checkbox]')[0].checked) {
+	    value = 'y';
+	} else {
+	    value = 'n';
+	}
+	if (tourney[name] != value) {
+	    tourney[name] = value;
+	    setters.push(name + ' = \'' + value + '\'');
 	}
 
         $('.jpoker_admin_tourney_params select', element).each(function() {
@@ -186,6 +216,11 @@
 	} else {
 	    $('.jpoker_admin_respawn input[type=checkbox]')[0].checked = false;
 	}
+	if (tourney.active == 'y') {
+	    $('.jpoker_admin_active input[type=checkbox]')[0].checked = true;
+	} else {
+	    $('.jpoker_admin_active input[type=checkbox]')[0].checked = false;
+	}
         $('input[name=start_time],input[name=register_time]', element).dynDateTime({
                 showsTime: true,
                     ifFormat: options.dateFormat,
@@ -232,8 +267,8 @@
 		player_timeout: '<div class=\'jpoker_admin_player_timeout\'><label>Player timeout<input name=\'player_timeout\' title=\'Maximum number of seconds before a player times out when in position.\' value=\'{player_timeout}\' maxlength=\'4\' size=\'4\' /></label></div>',
 		seats_per_game: '<div class=\'jpoker_admin_seats_per_game\'><label>Seats per game<input name=\'seats_per_game\' title=\'Number of seats, in the range 2 and 10 included.\' value=\'{seats_per_game}\' maxlength=\'2\' size=\'2\' /></label></div>',
 		sit_n_go: '<div class=\'jpoker_admin_sit_n_go\'><label><input name=\'sit_n_go\' title=\'Tourney type\' value=\'y\' type=\'radio\' />Sit and go</label><label><input name=\'sit_n_go\' title=\'Tourney type\' value=\'n\' type=\'radio\' />Regular</label></div>',
-		active: '<div class=\'jpoker_admin_active\'><label>Active<input name=\'active\' title=\'Control if the tournament is considered by the server.\' value=\'{active}\'></label></div>',
-		respawn: '<div class=\'jpoker_admin_respawn\'><label>Respawn<input name=\'respawn\' type=\'checkbox\' title=\'Control if the tournament restarts when complete.\'></label></div>',
+		active: '<div class=\'jpoker_admin_active\'><label><input name=\'active\' type=\'checkbox\' title=\'Control if the tournament is considered by the server.\'>Active</label></div>',
+		respawn: '<div class=\'jpoker_admin_respawn\'><label><input name=\'respawn\' type=\'checkbox\' title=\'Control if the tournament restarts when complete.\'>Respawn</label></div>',
 		update: '<div class=\'jpoker_admin_update\'><button>Update tourney</button></div>'
             },
             callback: {
