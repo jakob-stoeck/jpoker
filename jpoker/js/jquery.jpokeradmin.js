@@ -45,7 +45,7 @@
 			    greaterOrEqual: '.jpoker_admin_players_min input'
 			    },
 			seats_per_game: {
-			min: 2
+			range: [2, 10]
 			    },
 			player_timeout: {
 			min: 30,
