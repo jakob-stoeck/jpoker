@@ -1,0 +1,27 @@
+.jpoker_admin_serial, .jpoker_admin_name {
+    float: left;
+}
+
+.jpoker_admin_players_min, .jpoker_admin_players_quota {
+    float: left;
+}
+
+.jpoker_admin_variant {
+    float: left;
+}
+
+.jpoker_admin_currency_serial {
+    float: left;
+}
+
+.jpoker_admin_buy_in, .jpoker_admin_rake, .jpoker_admin_prize_min { 
+    float: left
+}
+
+.jpoker_admin_breaks_first, .jpoker_admin_breaks_interval {
+    float: left;
+}
+
+.jpoker_admin_start_time {
+    float: left;
+}
