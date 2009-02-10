@@ -111,6 +111,13 @@
 	} else if ($('.jpoker_admin_sit_n_go input[type=radio]')[1].checked) {
 	    tourney['sit_n_go'] = 'n';
 	}
+
+	if ($('.jpoker_admin_respawn input[type=checkbox]')[0].checked) {
+	    tourney['respawn'] = 'y';
+	} else {
+	    tourney['respawn'] = 'n';
+	}
+
         $('.jpoker_admin_tourney_params select', element).each(function() {
                 var name = $(this).attr('name');
                 var value = $('option:selected', this).val();
@@ -174,6 +181,11 @@
 	} else {
 	    $('.jpoker_admin_sit_n_go input[type=radio]')[1].checked = true;
 	}
+	if (tourney.respawn == 'y') {
+	    $('.jpoker_admin_respawn input[type=checkbox]')[0].checked = true;
+	} else {
+	    $('.jpoker_admin_respawn input[type=checkbox]')[0].checked = false;
+	}
         $('input[name=start_time],input[name=register_time]', element).dynDateTime({
                 showsTime: true,
                     ifFormat: options.dateFormat,
@@ -221,7 +233,7 @@
 		seats_per_game: '<div class=\'jpoker_admin_seats_per_game\'><label>Seats per game<input name=\'seats_per_game\' title=\'Number of seats, in the range 2 and 10 included.\' value=\'{seats_per_game}\' maxlength=\'2\' size=\'2\' /></label></div>',
 		sit_n_go: '<div class=\'jpoker_admin_sit_n_go\'><label><input name=\'sit_n_go\' title=\'Tourney type\' value=\'y\' type=\'radio\' />Sit and go</label><label><input name=\'sit_n_go\' title=\'Tourney type\' value=\'n\' type=\'radio\' />Regular</label></div>',
 		active: '<div class=\'jpoker_admin_active\'><label>Active<input name=\'active\' title=\'Control if the tournament is considered by the server.\' value=\'{active}\'></label></div>',
-		respawn: '<div class=\'jpoker_admin_respawn\'><label>Respawn<input name=\'respawn\' title=\'Control if the tournament restarts when complete.\' value=\'{respawn}\'></label></div>',
+		respawn: '<div class=\'jpoker_admin_respawn\'><label>Respawn<input name=\'respawn\' type=\'checkbox\' title=\'Control if the tournament restarts when complete.\'></label></div>',
 		update: '<div class=\'jpoker_admin_update\'><button>Update tourney</button></div>'
             },
             callback: {
