@@ -106,20 +106,6 @@
                 var $this = $(this);
 
                 $this.html(tourneyAdminEdit.getHTML(tourney, opts));
-		var sitngo = $('.jpoker_admin_sit_n_go input[type=radio]', $this).eq(0);
-		var regular = $('.jpoker_admin_sit_n_go input[type=radio]', $this).eq(1);
-		var times = $('.jpoker_admin_register_time, .jpoker_admin_start_time', $this);
-		sitngo.click(function() {
-			times.hide();
-		    });
-		regular.click(function() {
-			times.show();
-		    });
-		if (tourney.sit_n_go == 'y') {
-		    sitngo.click();
-		} else {
-		    regular.click();
-		}
                 tourneyAdminEdit.decorate(url, $this, tourney, opts);
                 return this;
             });
@@ -256,7 +242,20 @@
                     singleClick: false,
                     button: ".next()" //next sibling
                     });
-
+	var sitngo = $('.jpoker_admin_sit_n_go input[type=radio]', element).eq(0);
+	var regular = $('.jpoker_admin_sit_n_go input[type=radio]', element).eq(1);
+	var times = $('.jpoker_admin_register_time, .jpoker_admin_start_time', element);
+	sitngo.click(function() {
+		times.hide();
+	    });
+	regular.click(function() {
+		times.show();
+	    });
+	if (tourney.sit_n_go == 'y') {
+	    sitngo.click();
+	} else {
+	    regular.click();
+	}
     };
 
     jpoker.plugins.tourneyAdminEdit.getHTML = function(tourney, options) {
