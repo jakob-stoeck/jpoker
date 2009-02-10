@@ -73,6 +73,21 @@
                 var $this = $(this);
 
                 $this.html(tourneyAdminEdit.getHTML(tourney, opts));
+		var sitngo = function() {
+		    $('.jpoker_admin_register_time', $this).hide();
+		    $('.jpoker_admin_start_time', $this).hide();
+		};
+		var regular = function() {
+		    $('.jpoker_admin_register_time', $this).show();
+		    $('.jpoker_admin_start_time', $this).show();
+		};
+		if (tourney.sit_n_go == 'y') {
+		    sitngo();
+		} else {
+		    regular();
+		}
+		$('.jpoker_admin_sit_n_go input[type=radio]').eq(0).click(sitngo);
+		$('.jpoker_admin_sit_n_go input[type=radio]').eq(1).click(regular);
                 tourneyAdminEdit.decorate(url, $this, tourney, opts);
                 return this;
             });

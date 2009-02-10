@@ -300,7 +300,7 @@ test("jpoker.tourneyAdminEdit validation", function(){
 
 	$('#jpokerAdminEdit .jpoker_admin_seats_per_game input').focus().val('0').blur();
 	ok($('#jpokerAdminEdit .jpoker_admin_seats_per_game label.error').is(':visible'), 'error label shown');
-	equals($('#jpokerAdminEdit .jpoker_admin_seats_per_game label.error').text(), 'Please enter a value greater than or equal to 2.');
+	equals($('#jpokerAdminEdit .jpoker_admin_seats_per_game label.error').text(), 'Please enter a value between 2 and 10.');
 	$('#jpokerAdminEdit .jpoker_admin_seats_per_game input').focus().val('3').blur();
 	ok($('#jpokerAdminEdit .jpoker_admin_seats_per_game label.error').is(':hidden'), 'error label hidden');
 
@@ -337,6 +337,20 @@ test("jpoker.tourneyAdminEdit update", function(){
 	$('#jpokerAdminEdit input[name=description_short]').attr('value', 'TEXT2');
 	$('.jpoker_admin_sit_n_go input[type=radio]').eq(0).click();
 	$('#jpokerAdminEdit .jpoker_admin_update button').click();
+    });
+
+test("jpoker.tourneyAdminEdit sitngo hide/show", function(){
+        expect(4);
+        var tourney_serial = 1111;
+	var tourney = {"register_time": 1233135597, "betting_structure": "level-001", "currency_serial": 1, "description_long": "Holdem No Limit Freeroll", "breaks_interval": 60, "serial": tourney_serial, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "111 asdasdasdasd", "player_timeout": 60, "players_quota": 1000, "rake": 0, "add_on": 1, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 3, "active": "n", "add_on_delay": 60, "name": "regular1", "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 30};
+
+        $.jpoker.tourneyAdminEdit('URL', tourney);
+	ok($('.jpoker_admin_register_time').is(':hidden'), 'register_time hidden');
+	ok($('.jpoker_admin_start_time').is(':hidden'), 'start_time hidden');
+	$('.jpoker_admin_sit_n_go input[type=radio]').eq(1).click(); // regular
+	ok($('.jpoker_admin_register_time').is(':visible'), 'register_time visible');
+	ok($('.jpoker_admin_start_time').is(':visible'), 'start_time visible');
+
     });
 
 test("jpoker.plugins.tourneyAdminEdit", function(){
