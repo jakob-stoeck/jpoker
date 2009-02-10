@@ -113,8 +113,11 @@ test("jpoker.tourneyAdminEditPrizes no serial defined", function(){
 
 test("jpoker.tourneyAdminEditPrizes update", function(){
         expect(4);
+
+	$.jpoker.plugins.tourneyAdminList.resthost = [{"host": "server1.com", "path": "/REST", "serial": 1, "name": "server1", "port": 1111}, {"host": "server2.com", "path": "/REST2", "serial": 2, "name": "server2", "port": 2222}];
+
         var tourney_serial = 1111;
-	var tourney = {"register_time": 1233135597, "betting_structure": "level-001", "currency_serial": 1, "description_long": "Holdem No Limit Freeroll", "breaks_interval": 60, "serial": tourney_serial, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "111 asdasdasdasd", "player_timeout": 60, "players_quota": 1000, "rake": 0, "add_on": 1, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 3, "active": "n", "add_on_delay": 60, "name": "regular1", "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 30};
+	var tourney = {"register_time": 1233135597, "betting_structure": "level-001", "currency_serial": 1, "description_long": "Holdem No Limit Freeroll", "breaks_interval": 60, "serial": tourney_serial, "resthost_serial": 1, "buy_in": 0, "respawn_interval": 0, "description_short": "111 asdasdasdasd", "player_timeout": 60, "players_quota": 1000, "rake": 0, "add_on": 1, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 3, "active": "n", "add_on_delay": 60, "name": "regular1", "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 30};
 
 	var prizes = [{"serial": 1, "name": "prize 1", "image_url": "url1"}, {"serial": 2, "name": "prize 2", "image_url": "url2"}];
 	var results = [prizes, [], 1, 1];
@@ -140,6 +143,11 @@ test("jpoker.tourneyAdminEditPrizes update", function(){
 
 test("jpoker.plugins.tourneyAdminList with prizes", function(){
         expect(7);
+
+	var getResthost = $.jpoker.plugins.tourneyAdminList.getResthost;
+	$.jpoker.plugins.tourneyAdminList.getResthost = function() {
+	    $.jpoker.plugins.tourneyAdminList.getResthost = getResthost;
+	}
 
         var tourney_serial = 1111;
 	var TOURNEY_LIST = [{"register_time": 1233135597, "betting_structure": "level-001", "currency_serial": 1, "description_long": "Holdem No Limit Freeroll", "breaks_interval": 60, "serial": tourney_serial, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "111 asdasdasdasd", "player_timeout": 60, "players_quota": 1000, "rake": 0, "add_on": 1, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 3, "active": "n", "add_on_delay": 60, "name": "regular1", "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 30}, {"register_time": 0, "betting_structure": "level-001", "currency_serial": null, "description_long": null, "breaks_interval": 3600, "serial": tourney_serial+1, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "zzz abc80 test", "player_timeout": 60, "players_quota": 10, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "active": "n", "add_on_delay": 60, "name": null, "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0}, {"register_time": 0, "betting_structure": "level-001", "currency_serial": null, "description_long": null, "breaks_interval": 3600, "serial": tourney_serial+2, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "blablabla 21", "player_timeout": 60, "players_quota": 10, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "active": "n", "add_on_delay": 60, "name": null, "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0}];
