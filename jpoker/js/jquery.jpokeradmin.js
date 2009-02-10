@@ -18,35 +18,8 @@
 (function($) {
     var jpoker = $.jpoker;
 
-    
     jpoker.admin = function(selector) {	
         $(selector).jpoker('tourneyAdminList', '', {})
-	jpoker.admin.getResthost({ajax: jQuery.ajax});
-    };
-
-    jpoker.admin.resthost = [];
-    jpoker.admin.getResthost = function(options) {
-        var error = function(xhr, status, error) {
-            throw error;
-        };
-        var success = function(resthost, status) {
-	    jpoker.admin.resthost = resthost;
-        };
-        var params = {
-            'query': 'SELECT * FROM resthost',
-            'output': 'rows'
-        };
-        options.ajax({
-		async: false,
-                    mode: 'queue',
-                    timeout: 30000,
-                    url: url + '?' + $.param(params),
-                    type: 'GET',
-                    dataType: 'json',
-                    global: false,
-                    success: success,
-                    error: error
-                    });	
     };
 
     jpoker.tourneyAdminEdit = function(url, tourney, options) {
@@ -75,8 +48,7 @@
 			range: [2, 10]
 			    },
 			player_timeout: {
-			min: 30,
-			    max: 120
+			range: [30, 120]
 			    },
 		},
 		    messages: {
@@ -261,7 +233,12 @@
     jpoker.plugins.tourneyAdminEdit.getHTML = function(tourney, options) {
         tourney.start_time_string = new Date(tourney.start_time*1000).print(options.dateFormat);
         tourney.register_time_string = new Date(tourney.register_time*1000).print(options.dateFormat);
-        var html = options.templates.layout.supplant(options.templates);
+	var resthost_html = [];
+	for (var i in jpoker.plugins.tourneyAdminList.resthost) {
+	    resthost_html.push(options.templates.resthost_serial_option.supplant(jpoker.plugins.tourneyAdminList.resthost[i]));
+	}
+	var resthost_serial_select = options.templates.resthost_serial_select.supplant({options: resthost_html.join('')});
+        var html = options.templates.layout.supplant({resthost_serial_select: resthost_serial_select}).supplant(options.templates);
         return html.supplant(tourney);
     };
 
@@ -269,9 +246,10 @@
             dateFormat: '%Y/%m/%d-%H:%M',
             path: '/cgi-bin/poker-network/pokersql',
             templates: {
-                layout: '<form action=\'javascript://\'><div class=\'jpoker_admin_tourney_params\'>{sit_n_go}{start_time}{register_time}{resthost_serial}{name}{description_short}{description_long}{players_min}{players_quota}{seats_per_game}{variant}{betting_structure}{player_timeout}{currency_serial}{currency_serial_from_date_format}{buy_in}{rake}{prize_min}{bailor_serial}{breaks_first}{breaks_interval}{breaks_duration}{respawn}{active}{serial}</div>{update}</form>',
+                layout: '<form action=\'javascript://\'><div class=\'jpoker_admin_tourney_params\'>{sit_n_go}{start_time}{register_time}{resthost_serial_select}{name}{description_short}{description_long}{players_min}{players_quota}{seats_per_game}{variant}{betting_structure}{player_timeout}{currency_serial}{currency_serial_from_date_format}{buy_in}{rake}{prize_min}{bailor_serial}{breaks_first}{breaks_interval}{breaks_duration}{respawn}{active}{serial}</div>{update}</form>',
 		serial: '<div class=\'jpoker_admin_serial\'><label>Serial<input name=\'serial\' title=\'Serial of the tournament.\' value=\'{serial}\' readonly=\'true\'  maxlength=\'5\' size=\'5\' /></label></div>',
-		resthost_serial: '<div class=\'jpoker_admin_resthost_serial\'><label>Rest host serial<input name=\'resthost_serial\' title=\'Serial of the server.\' value=\'{resthost_serial}\' /></label></div>',
+		resthost_serial_select: '<div class=\'jpoker_admin_resthost_serial\'><label>Rest host serial<select name=\'resthost_serial\' title=\'Serial of the server.\'>{options}</select></label></div>',
+		resthost_serial_option: '<option value=\'{serial}\'>{host}:{port}{path}</option>',
                 variant: '<div class=\'jpoker_admin_variant\'><label>Variant<select name=\'variant\'><option value=\'holdem\'>Holdem</option><option value=\'omaha\'>Omaha</option><option value=\'omaha8\'>Omaha High/Low</option></select></label></div>',
                 betting_structure: '<div class=\'jpoker_admin_betting_structure\'><label>Betting structure<select name=\'betting_structure\'><option value=\'level-001\'>No limit tournament</option><option value=\'level-10-15-pot-limit\'>Pot limit 10/15</option><option value=\'level-10-20-no-limit\'>No limit 10/20</option><option value=\'level-15-30-no-limit\'>No limit 15/30</option><option value=\'level-2-4-limit\'>Limit 2/4</option></select></label></div>',
                 start_time: '<div class=\'jpoker_admin_start_time\'><label>Start time<input type=\'text\' size=\'14\' value=\'{start_time_string}\' name=\'start_time\' title=\'Time and date of the tournament start.\' /><button type=\'button\'>pick</button></label></div>',
@@ -516,5 +494,31 @@
             tourneyEdit: jpoker.tourneyAdminEdit,
             ajax: function(o) { return jQuery.ajax(o); }
         }, jpoker.defaults);
+
+    jpoker.plugins.tourneyAdminList.resthost = [];
+
+    jpoker.plugins.tourneyAdminList.getResthost = function(options) {
+        var error = function(xhr, status, error) {
+            throw error;
+        };
+        var success = function(resthost, status) {
+	    jpoker.plugins.tourneyAdminList.resthost = resthost;
+        };
+        var params = {
+            'query': 'SELECT * FROM resthost',
+            'output': 'rows'
+        };
+        options.ajax({
+		async: false,
+                    mode: 'queue',
+                    timeout: 30000,
+                    url: url + '?' + $.param(params),
+                    type: 'GET',
+                    dataType: 'json',
+                    global: false,
+                    success: success,
+                    error: error
+                    });	
+    };
 
 })(jQuery);
