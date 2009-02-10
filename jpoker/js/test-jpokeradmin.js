@@ -431,3 +431,13 @@ test("jpoker.plugins.tourneyAdminEdit update", function(){
 
         cleanup();
     });
+
+test("jpoker.admin.getResthost", function() {
+	expect(3);
+	$.jpoker.admin.getResthost({ajax: function(params) {
+		    ok(params.url.indexOf('SELECT') >= 0, params.url);
+		    ok(params.url.indexOf('resthost') >= 0, params.url);
+		    params.success([{"host": "server1.com", "path": "/REST", "serial": 1, "name": "server1", "port": 1111}, {"host": "server2.com", "path": "/REST2", "serial": 2, "name": "server2", "port": 2222}], 'status');
+		}});
+	equals($.jpoker.admin.resthost.length, 2);
+    });

@@ -18,8 +18,35 @@
 (function($) {
     var jpoker = $.jpoker;
 
-    jpoker.admin = function(selector) {
+    
+    jpoker.admin = function(selector) {	
         $(selector).jpoker('tourneyAdminList', '', {})
+	jpoker.admin.getResthost({ajax: jQuery.ajax});
+    };
+
+    jpoker.admin.resthost = [];
+    jpoker.admin.getResthost = function(options) {
+        var error = function(xhr, status, error) {
+            throw error;
+        };
+        var success = function(resthost, status) {
+	    jpoker.admin.resthost = resthost;
+        };
+        var params = {
+            'query': 'SELECT * FROM resthost',
+            'output': 'rows'
+        };
+        options.ajax({
+		async: false,
+                    mode: 'queue',
+                    timeout: 30000,
+                    url: url + '?' + $.param(params),
+                    type: 'GET',
+                    dataType: 'json',
+                    global: false,
+                    success: success,
+                    error: error
+                    });	
     };
 
     jpoker.tourneyAdminEdit = function(url, tourney, options) {
