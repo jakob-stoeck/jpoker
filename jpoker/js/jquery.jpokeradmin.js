@@ -233,12 +233,16 @@
     jpoker.plugins.tourneyAdminEdit.getHTML = function(tourney, options) {
         tourney.start_time_string = new Date(tourney.start_time*1000).print(options.dateFormat);
         tourney.register_time_string = new Date(tourney.register_time*1000).print(options.dateFormat);
-	var resthost_html = [];
-	for (var i in jpoker.plugins.tourneyAdminList.resthost) {
-	    resthost_html.push(options.templates.resthost_serial_option.supplant(jpoker.plugins.tourneyAdminList.resthost[i]));
-	}
-	var resthost_serial_select = options.templates.resthost_serial_select.supplant({options: resthost_html.join('')});
-        var html = options.templates.layout.supplant({resthost_serial_select: resthost_serial_select}).supplant(options.templates);
+	var resthost_html = $.map(jpoker.plugins.tourneyAdminList.resthost, function(host, i) {
+		return options.templates.resthost_serial_option.supplant(host);
+	    }).join('');
+	var currencies_html = $.map(jpoker.plugins.tourneyAdminList.currencies, function(currency, i) {
+		return options.templates.currency_serial_option.supplant(currency);
+	    }).join('');
+	var resthost_serial_select = options.templates.resthost_serial_select.supplant({options: resthost_html});
+	var currency_serial_select = options.templates.currency_serial_select.supplant({options: currencies_html});
+        var html = options.templates.layout.supplant({resthost_serial_select: resthost_serial_select,
+						      currency_serial_select: currency_serial_select}).supplant(options.templates);
         return html.supplant(tourney);
     };
 
@@ -246,7 +250,7 @@
             dateFormat: '%Y/%m/%d-%H:%M',
             path: '/cgi-bin/poker-network/pokersql',
             templates: {
-                layout: '<form action=\'javascript://\'><div class=\'jpoker_admin_tourney_params\'>{sit_n_go}{start_time}{register_time}{resthost_serial_select}{name}{description_short}{description_long}{players_min}{players_quota}{seats_per_game}{variant}{betting_structure}{player_timeout}{currency_serial}{currency_serial_from_date_format}{buy_in}{rake}{prize_min}{bailor_serial}{breaks_first}{breaks_interval}{breaks_duration}{respawn}{active}{serial}</div>{update}</form>',
+                layout: '<form action=\'javascript://\'><div class=\'jpoker_admin_tourney_params\'>{sit_n_go}{start_time}{register_time}{resthost_serial_select}{name}{description_short}{description_long}{players_min}{players_quota}{seats_per_game}{variant}{betting_structure}{player_timeout}{currency_serial_select}{currency_serial_from_date_format}{buy_in}{rake}{prize_min}{bailor_serial}{breaks_first}{breaks_interval}{breaks_duration}{respawn}{active}{serial}</div>{update}</form>',
 		serial: '<div class=\'jpoker_admin_serial\'><label>Serial<input name=\'serial\' title=\'Serial of the tournament.\' value=\'{serial}\' readonly=\'true\'  maxlength=\'5\' size=\'5\' /></label></div>',
 		resthost_serial_select: '<div class=\'jpoker_admin_resthost_serial\'><label>Rest host serial<select name=\'resthost_serial\' title=\'Serial of the server.\'>{options}</select></label></div>',
 		resthost_serial_option: '<option value=\'{serial}\'>{host}:{port}{path}</option>',
@@ -266,7 +270,8 @@
 		breaks_interval: '<div class=\'jpoker_admin_breaks_interval\'><label>Breaks interval<input name=\'breaks_interval\' title=\'Number of seconds between breaks after the first break.\' value=\'{breaks_interval}\' maxlength=\'5\' size=\'5\' /></label></div>',
 		breaks_duration: '<div class=\'jpoker_admin_breaks_duration\'><label>Breaks duration<input name=\'breaks_duration\' title=\'Number of seconds of each break.\' value=\'{breaks_duration}\' maxlength=\'5\' size=\'5\' /></label></div>',
 		name: '<div class=\'jpoker_admin_name\'><label>Name<input name=\'name\' title=\'Tourney name\' value=\'{name}\' maxlength=\'10\' size=\'10\' /></label></div>',
-		currency_serial: '<div class=\'jpoker_admin_currency_serial\'><label>Currency serial<input name=\'currency_serial\' title=\'Serial of the currency required to pay the buyin.\' value=\'{currency_serial}\' /></label></div>',
+		currency_serial_select: '<div class=\'jpoker_admin_currency_serial\'><label>Currency serial<select name=\'currency_serial\' title=\'Serial of the currency required to pay the buyin.\'>{options}<option value=\'from_date_format\'>from date format</option></select></label></div>',
+		currency_serial_option: '<option value=\'{serial}\'>{name}</option>',
 		currency_serial_from_date_format: '<div class=\'jpoker_admin_currency_serial_from_date_format\'><label>Currency serial from date format<input name=\'currency_serial_from_date_format\' title=\'Format string to override currency serial from date.\' value=\'{currency_serial_from_date_format}\' maxlength=\'8\' size=\'8\' readonly=\'true\' /></label></div>',
 		player_timeout: '<div class=\'jpoker_admin_player_timeout\'><label>Player timeout<input name=\'player_timeout\' title=\'Maximum number of seconds before a player times out when in position.\' value=\'{player_timeout}\' maxlength=\'4\' size=\'4\' /></label></div>',
 		seats_per_game: '<div class=\'jpoker_admin_seats_per_game\'><label>Seats per game<input name=\'seats_per_game\' title=\'Number of seats, in the range 2 and 10 included.\' value=\'{seats_per_game}\' maxlength=\'2\' size=\'2\' /></label></div>',
@@ -294,6 +299,7 @@
         url = url + opts.path;
 
 	jpoker.plugins.tourneyAdminList.getResthost(url, opts);
+	jpoker.plugins.tourneyAdminList.getCurrencies(url, opts);
 
         return this.each(function() {
                 var $this = $(this);
@@ -508,6 +514,32 @@
         };
         var params = {
             'query': 'SELECT * FROM resthost',
+            'output': 'rows'
+        };
+        options.ajax({
+		async: false,
+                    mode: 'queue',
+                    timeout: 30000,
+                    url: url + '?' + $.param(params),
+                    type: 'GET',
+                    dataType: 'json',
+                    global: false,
+                    success: success,
+                    error: error
+                    });	
+    };
+
+    jpoker.plugins.tourneyAdminList.currencies = [];
+
+    jpoker.plugins.tourneyAdminList.getCurrencies = function(url, options) {
+        var error = function(xhr, status, error) {
+            throw error;
+        };
+        var success = function(currencies, status) {
+	    jpoker.plugins.tourneyAdminList.currencies = currencies;
+        };
+        var params = {
+            'query': 'SELECT * FROM currencies',
             'output': 'rows'
         };
         options.ajax({
