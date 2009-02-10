@@ -69,12 +69,6 @@
         var tourneyAdminEdit = jpoker.plugins.tourneyAdminEdit;
         var opts = $.extend({}, tourneyAdminEdit.defaults, options);
 
-	for (key in tourney) {
-	    if (tourney[key] == null) {
-		tourney[key] = '';
-	    }
-	}
-
         return this.each(function() {
                 var $this = $(this);
 
@@ -193,8 +187,8 @@
 		resthost_serial: '<div class=\'jpoker_admin_resthost_serial\'><label>Rest host serial<input name=\'resthost_serial\' title=\'Serial of the server.\' value=\'{resthost_serial}\' /></label></div>',
                 variant: '<div class=\'jpoker_admin_variant\'><label>Variant<select name=\'variant\'><option value=\'holdem\'>Holdem</option><option value=\'omaha\'>Omaha</option><option value=\'omaha8\'>Omaha High/Low</option></select></label></div>',
                 betting_structure: '<div class=\'jpoker_admin_betting_structure\'><label>Betting structure<select name=\'betting_structure\'><option value=\'level-001\'>No limit tournament</option><option value=\'level-10-15-pot-limit\'>Pot limit 10/15</option><option value=\'level-10-20-no-limit\'>No limit 10/20</option><option value=\'level-15-30-no-limit\'>No limit 15/30</option><option value=\'level-2-4-limit\'>Limit 2/4</option></select></label></div>',
-                start_time: '<div class=\'jpoker_admin_start_time\'><label>Start time<input type=\'text\' size=\'14\' maxlength=\'14\' value=\'{start_time_string}\' name=\'start_time\' title=\'Time and date of the tournament start.\' /><button type=\'button\'>pick</button></label></div>',
-                register_time: '<div class=\'jpoker_admin_register_time\'><label>Register time<input type=\'text\' size=\'14\' maxlength=\'14\' value=\'{register_time_string}\' name=\'register_time\' title=\'Time and date of the registration.\' /><button type=\'button\'>pick</button></label></div>',
+                start_time: '<div class=\'jpoker_admin_start_time\'><label>Start time<input type=\'text\' size=\'14\' value=\'{start_time_string}\' name=\'start_time\' title=\'Time and date of the tournament start.\' /><button type=\'button\'>pick</button></label></div>',
+                register_time: '<div class=\'jpoker_admin_register_time\'><label>Register time<input type=\'text\' size=\'14\' value=\'{register_time_string}\' name=\'register_time\' title=\'Time and date of the registration.\' /><button type=\'button\'>pick</button></label></div>',
                 description_short: '<div class=\'jpoker_admin_description_short\'><label>Description short<input name=\'description_short\' title=\'Short description of the tournament. It will be displayed on each line of the tournament list.\' value=\'{description_short}\' maxlength=\'20\' size=\'20\' /></label></div>',
                 description_long: '<div class=\'jpoker_admin_description_long\'><label>Description long<textarea name=\'description_long\' title=\'Description that will be shown on a detailed page about the tournament.\' value=\'{description_long}\' /></label></div>',
 		players_quota: '<div class=\'jpoker_admin_players_quota\'><label>Player quota<input name=\'players_quota\' title=\'The maximum number of players allowed to register in the tournament\' value=\'{players_quota}\' maxlength=\'4\' size=\'4\' /></label></div>',
