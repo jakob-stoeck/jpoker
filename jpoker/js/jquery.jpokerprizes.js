@@ -20,7 +20,7 @@
 
     jpoker.tourneyAdminEditPrizes = function(url, tourney, options) {
         var dialog = jpoker.tourneyAdminEdit(url, tourney, options);
-        dialog.prepend('<div id=\'jpokerAdminEditPrizes\' />');
+        dialog.append('<div id=\'jpokerAdminEditPrizes\' />');
         jpoker.plugins.tourneyAdminEditPrizes.getPrizes(url, options);
         $('#jpokerAdminEditPrizes').jpoker('tourneyAdminEditPrizes', url, tourney, options);
     };
@@ -77,7 +77,13 @@
         var success = function(prizes, status) {
             serial2prize = {}
             for(var i = 0; i < prizes.length; i++) {
-                serial2prize[prizes[i].serial] = prizes[i]
+		var prize = prizes[i];
+		for (k in prize) {
+		    if (prize[k] == null) {
+			prize[k] = '';
+		    }
+		}
+                serial2prize[prize.serial] = prize;
             }
             jpoker.plugins.tourneyAdminEditPrizes.serial2prize = serial2prize
         };
@@ -110,6 +116,7 @@
         }
         var selector = options.templates.selector.supplant({ options: option_elements.join('') }); 
         element.html(options.templates.layout.supplant({ selector: selector }));
+	
         $('select[name=prize_serial]', element).val(prize_serial).change(function() {
 		var old_prize_serial = prize_serial;
 		prize_serial = $(this).val();
@@ -157,11 +164,13 @@
 
     jpoker.plugins.tourneyAdminEditPrizes.defaults = $.extend({
             templates: {
-                layout: '{selector}<div class=\'jpoker_prize\'>prize descriptions</div>',
-                selector: '<select name=\'prize_serial\'>{options}</select></div>',
+                layout: '<form action=\'javascript://\'><fieldset><legend>Prizes</legend>{selector}<div class=\'jpoker_prize\'>prize descriptions</div></fieldset></form>',
+                selector: '<select name=\'prize_serial\'>{options}</select>',
                 option: '<option value=\'{serial}\'>{name}</option>',
-                prize: '{name}{description}{image}{points}',
-                image: '<a href=\'{link_url}\'><img src=\'{image_url}\' /></a>'
+                prize: '{image}{description}{points}',
+		description: '<div class=\'jpoker_prize_description\'><label for=\'jpoker_prize_description_input=\'>Description</label><input id=\'jpoker_prize_description_input\' readonly=\'yes\' value=\'{description}\' /></div>',
+		points: '<div class=\'jpoker_prize_points\'><label for=\'jpoker_prize_points_input\'>Points</label><input id=\'jpoker_prize_points_input\' readonly=\'yes\' value=\'{points}\' /></div>',
+                image: '<div class=\'jpoker_prize_image\'><a href=\'{link_url}\'><img src=\'{image_url}\' alt=\'prize image\' /></a></div>'
             },
             callback: {
                 display_done: function(element) {

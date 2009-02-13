@@ -27,7 +27,7 @@
         if(dialog.size() != 1) {
             $('body').append('<div id=\'jpokerAdminEdit\' class=\'jpoker_jquery_ui\' />');
             dialog = $('#jpokerAdminEdit');
-            dialog.dialog({ width: '800px', height: '500px', autoOpen: false, dialog: true, title: 'edit tournament'});
+            dialog.dialog({ width: '800px', height: '600px', autoOpen: false, dialog: true, title: 'edit tournament'});
         }
         dialog.jpoker('tourneyAdminEdit', url, tourney, options);
         dialog.dialog('open');

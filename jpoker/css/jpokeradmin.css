@@ -17,3 +17,19 @@ label {
 .jpoker_admin_description_long textarea {
     width: 530px;
 }
+
+.jpoker_prize_image {
+    float: left;
+    width: 350px;    
+    height: 50px;
+}
+
+.jpoker_prize_image a {
+    text-decoration: none;
+    line-height: 50px;
+}
+
+.jpoker_prize_image img {
+    border: none;
+    height: 50px;
+}

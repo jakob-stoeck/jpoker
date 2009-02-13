@@ -42,10 +42,10 @@ test("jpoker.tourneyAdminEditPrizes.getPrizes", function(){
     });
 
 test("jpoker.tourneyAdminEditPrizes", function(){
-        expect(15);
+        expect(21);
         var tourney_serial = 1111;
 	var tourney = {"register_time": 1233135597, "betting_structure": "level-001", "currency_serial": 1, "description_long": "Holdem No Limit Freeroll", "breaks_interval": 60, "serial": tourney_serial, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "111 asdasdasdasd", "player_timeout": 60, "players_quota": 1000, "rake": 0, "add_on": 1, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 3, "active": "n", "add_on_delay": 60, "name": "regular1", "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 30};
-	var prizes = [{"serial": 1, "name": "prize 1", "image_url": "url1"}, {"serial": 2, "name": "prize 2", "image_url": "url2"}];
+	var prizes = [{"serial": 1, "name": "prize 1", "image_url": "url1", description: null, link_url: null, points: 100}, {"serial": 2, "name": "prize 2", "image_url": "url2", description: null, link_url: null, points: 200}];
 
 	var expected = ['SELECT+*+FROM+prizes', 'SELECT+p.serial+FROM+prizes', 'ON+DUPLICATE+KEY+UPDATE', 'ON+DUPLICATE+KEY+UPDATE'];
 	var results = [prizes, [{"serial":1}], 1, 2];
@@ -68,6 +68,12 @@ test("jpoker.tourneyAdminEditPrizes", function(){
 	$.jpoker.tourneyAdminEditPrizes('URL', tourney, options);
 	equals($('#jpokerAdminEdit').length, 1, 'admin edit dialog');
 	equals($('#jpokerAdminEditPrizes').length, 1, 'admin edit prizes');
+	equals($('#jpokerAdminEditPrizes form').length, 1, 'admin edit prizes form');
+	equals($('#jpokerAdminEditPrizes form fieldset').length, 1, 'admin edit prizes from fieldset');
+	equals($('#jpokerAdminEditPrizes form fieldset input[readonly]').length, 2, 'admin edit prizes from fieldset input');
+	equals($('.jpoker_prize_description input').val(), '');
+	equals($('.jpoker_prize_image a').attr('href'), '');
+	equals($('.jpoker_prize_points input').val(), 100);
 	$('#jpokerAdminEditPrizes select[name=prize_serial]').val('2').change();
 	equals($('#jpokerAdminEditPrizes .jpoker_prize img').attr('src'),  'url2');
 	$('#jpokerAdminEditPrizes select[name=prize_serial]').val('1').change();
@@ -81,7 +87,7 @@ test("jpoker.tourneyAdminEditPrizes no serial defined", function(){
         expect(15);
         var tourney_serial = 1111;
 	var tourney = {"register_time": 1233135597, "betting_structure": "level-001", "currency_serial": 1, "description_long": "Holdem No Limit Freeroll", "breaks_interval": 60, "serial": tourney_serial, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "111 asdasdasdasd", "player_timeout": 60, "players_quota": 1000, "rake": 0, "add_on": 1, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 3, "active": "n", "add_on_delay": 60, "name": "regular1", "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 30};
-	var prizes = [{"serial": 1, "name": "prize 1", "image_url": "url1"}, {"serial": 2, "name": "prize 2", "image_url": "url2"}];
+	var prizes = [{"serial": 1, "name": "prize 1", "image_url": "url1", description: null, link_url: null}, {"serial": 2, "name": "prize 2", "image_url": "url2", description: null, link_url: null}];
 
 	var expected = ['SELECT+*+FROM+prizes', 'SELECT+p.serial+FROM+prizes', 'ON+DUPLICATE+KEY+UPDATE', 'ON+DUPLICATE+KEY+UPDATE'];
 	var results = [prizes, [], 1, 2];
