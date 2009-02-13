@@ -80,6 +80,9 @@ $.fn.triggerKeypress = function(keyCode) {
     return this.trigger("keypress", [$.event.fix({event:"keypress", keyCode: keyCode, target: this[0]})]);
 };
 
+$.jpoker.plugins.tourneyAdminList.resthost = [{"host": "server1.com", "path": "/REST", "serial": 1, "name": "server1", "port": 1111}, {"host": "server2.com", "path": "/REST2", "serial": 2, "name": "server2", "port": 2222}];
+$.jpoker.plugins.tourneyAdminList.currencies = [{"url": "http://currency-server/", "cash_out": 0, "serial": 1, "symbol": "P", "name": "playmoney"}, {"url": "http://currency-server-euros/", "cash_out": 0, "serial": 2, "symbol": "E", "name": "euros"}];
+
 //
 // tourneyAdminList
 //
@@ -285,8 +288,6 @@ test("jpoker.tourneyAdminEdit", function(){
         var tourney_serial = 1111;
 	var tourney = {"register_time": 1233135540, "betting_structure": "level-001", "currency_serial": 1, "description_long": "Holdem No Limit Freeroll", "breaks_interval": 60, "serial": tourney_serial, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "111 asdasdasdasd", "player_timeout": 60, "players_quota": 1000, "rake": 0, "add_on": 1, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 3, "active": "n", "add_on_delay": 60, "name": "regular1", "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 30};
 	
-	$.jpoker.plugins.tourneyAdminList.resthost = [{"host": "server1.com", "path": "/REST", "serial": 1, "name": "server1", "port": 1111}, {"host": "server2.com", "path": "/REST2", "serial": 2, "name": "server2", "port": 2222}];
-	$.jpoker.plugins.tourneyAdminList.currencies = [{"url": "http://currency-server/", "cash_out": 0, "serial": 1, "symbol": "P", "name": "playmoney"}, {"url": "http://currency-server-euros/", "cash_out": 0, "serial": 2, "symbol": "E", "name": "euros"}]
         $.jpoker.tourneyAdminEdit('URL', tourney);
         equals($('#jpokerAdminEdit .jpoker_admin_serial input').val(), tourney_serial);
         equals($('#jpokerAdminEdit .jpoker_admin_resthost_serial option').length, 2);
@@ -351,6 +352,46 @@ test("jpoker.tourneyAdminEdit validation", function(){
 	equals($('#jpokerAdminEdit .jpoker_admin_player_timeout label.error').text(), 'Please enter a value between 30 and 120.');
 	$('#jpokerAdminEdit .jpoker_admin_player_timeout input').focus().val('100').blur();
 	ok($('#jpokerAdminEdit .jpoker_admin_player_timeout label.error').is(':hidden'), 'error label hidden');
+    });
+
+test("jpoker.tourneyAdminEdit currency serial", function(){
+        expect(7);
+
+        var tourney_serial = 1111;
+	var tourney = {"register_time": 1233135540, "betting_structure": "level-001", "currency_serial": 1, "description_long": "Holdem No Limit Freeroll", "breaks_interval": 60, "serial": tourney_serial, "resthost_serial": 1, "buy_in": 0, "respawn_interval": 0, "description_short": "111 asdasdasdasd", "player_timeout": 60, "players_quota": 1000, "rake": 0, "add_on": 1, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 3, "active": "n", "add_on_delay": 60, "name": "regular1", "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 30};
+
+	
+	var expected = [function(params) {
+		ok(params.url.indexOf('currency_serial+') == -1, 'currency_serial not updated:'+params.url);
+		ok(params.url.indexOf('currency_serial_from_date_format') >= 0, 'currency_serial_from_date_format updated:'+params.url);
+	    },
+	    function (params) {
+		ok(params.url.indexOf('currency_serial+') >= 0, 'currency_serial updated:'+params.url);
+		ok(params.url.indexOf('currency_serial_from_date_format') == -1, 'currency_serial_from_date_format not updated:'+params.url);		
+	    }];
+
+	var options = {
+	    ajax: function(params) {
+		params.success(1, 'status');
+		expected.shift()(params);
+	    },
+	    callback : {
+		updated: function(tourney) {
+		}
+	    }	    
+	};
+
+        $.jpoker.tourneyAdminEdit('URL', tourney, options);
+	equals($('#jpokerAdminEdit .jpoker_admin_currency_serial_from_date_format input').attr('readonly'), true, 'readonly');
+
+	$('#jpokerAdminEdit .jpoker_admin_currency_serial select').val('from_date_format').change();
+	equals($('#jpokerAdminEdit .jpoker_admin_currency_serial_from_date_format input').attr('readonly'), false, 'readonly');	
+	$('#jpokerAdminEdit .jpoker_admin_currency_serial_from_date_format input').val('%Y%m');
+	$('#jpokerAdminEdit .jpoker_admin_update button').click();
+
+	$('#jpokerAdminEdit .jpoker_admin_currency_serial select').val('euros').change();
+	equals($('#jpokerAdminEdit .jpoker_admin_currency_serial_from_date_format input').attr('readonly'), true, 'readonly');
+	$('#jpokerAdminEdit .jpoker_admin_update button').click();
     });
 
 test("jpoker.tourneyAdminEdit update", function(){

@@ -136,10 +136,12 @@
         $('.jpoker_admin_tourney_params select', element).each(function() {
                 var name = $(this).attr('name');
                 var value = $('option:selected', this).val();
-                if(tourney[name] != value) {
-                    setters.push(name + ' = \'' + value.toString() + '\'');
-                    tourney[name] = value;
-                }
+		if (value != 'from_date_format') {
+		    if (tourney[name] != value) {
+			setters.push(name + ' = \'' + value.toString() + '\'');
+			tourney[name] = value;
+		    }
+		}
             });
 
         if(setters.length == 0) {
@@ -228,6 +230,10 @@
 	} else {
 	    regular.click();
 	}
+	$('.jpoker_admin_currency_serial select', element).change(function() {
+		var enabled = $(this).val() != 'from_date_format';
+		$('.jpoker_admin_currency_serial_from_date_format input', element).attr('readonly', enabled);
+	    });
     };
 
     jpoker.plugins.tourneyAdminEdit.getHTML = function(tourney, options) {
