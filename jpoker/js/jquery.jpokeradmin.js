@@ -85,7 +85,7 @@
 
     jpoker.plugins.tourneyAdminEdit.update = function(url, element, tourney, options) {
         var setters = [];
-        var inputs = $('.jpoker_admin_tourney_params input[type=text]', element).not('input[readonly]');
+        var inputs = $('.jpoker_admin_tourney_params input[type=text]', element);
         for(var i = 0; i < inputs.length; i++) {
             var name = $.attr(inputs[i], 'name');
             var value = $.attr(inputs[i], 'value');
@@ -230,9 +230,13 @@
 	} else {
 	    regular.click();
 	}
+	if (tourney.currency_serial_from_date_format.length > 0) {
+	    $('.jpoker_admin_currency_serial select', element).val('from_date_format');
+	    $('.jpoker_admin_currency_serial_from_date_format input', element).attr('readonly', false);
+	}
 	$('.jpoker_admin_currency_serial select', element).change(function() {
 		var enabled = $(this).val() != 'from_date_format';
-		$('.jpoker_admin_currency_serial_from_date_format input', element).attr('readonly', enabled);
+		$('.jpoker_admin_currency_serial_from_date_format input', element).val('').attr('readonly', enabled);
 	    });
     };
 
