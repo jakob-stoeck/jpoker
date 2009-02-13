@@ -9,9 +9,19 @@ label {
     float: none;
 }
 
-.jpoker_admin_name, .jpoker_admin_start_time, .jpoker_admin_variant, .jpoker_admin_currency_serial, .jpoker_admin_buy_in, .jpoker_admin_prize_min, .jpoker_admin_players_min, .jpoker_admin_seats_per_game, .jpoker_admin_breaks_first, .jpoker_admin_respawn {
+.jpoker_admin_name, .jpoker_admin_start_time, .jpoker_admin_resthost_serial, .jpoker_admin_variant, .jpoker_admin_currency_serial, .jpoker_admin_buy_in, .jpoker_admin_prize_min, .jpoker_admin_players_min, .jpoker_admin_seats_per_game, .jpoker_admin_breaks_first {
     float: left;
     width: 350px;
+}
+
+.jpoker_admin_respawn {
+    float: left;
+    width: 350px;
+}
+
+.jpoker_admin_active {
+    float: left;
+    width: 200px;
 }
 
 .jpoker_admin_description_long textarea {
