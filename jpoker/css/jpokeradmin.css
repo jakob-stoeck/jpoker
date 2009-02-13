@@ -1,27 +1,19 @@
-.jpoker_admin_name {
+label {
+    width: 130px;
+    display: block;
     float: left;
 }
 
-.jpoker_admin_players_min, .jpoker_admin_players_quota {
-    float: left;
+.jpoker_admin_sit_n_go label, .jpoker_admin_active label, .jpoker_admin_respawn label {
+    display: inline;
+    float: none;
 }
 
-.jpoker_admin_variant {
+.jpoker_admin_name, .jpoker_admin_start_time, .jpoker_admin_variant, .jpoker_admin_currency_serial, .jpoker_admin_buy_in, .jpoker_admin_prize_min, .jpoker_admin_players_min, .jpoker_admin_seats_per_game, .jpoker_admin_breaks_first, .jpoker_admin_respawn {
     float: left;
+    width: 350px;
 }
 
-.jpoker_admin_currency_serial {
-    float: left;
-}
-
-.jpoker_admin_buy_in, .jpoker_admin_rake, .jpoker_admin_prize_min { 
-    float: left
-}
-
-.jpoker_admin_breaks_first, .jpoker_admin_breaks_interval {
-    float: left;
-}
-
-.jpoker_admin_start_time {
-    float: left;
+.jpoker_admin_description_long textarea {
+    width: 530px;
 }
