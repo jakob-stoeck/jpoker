@@ -1,10 +1,11 @@
 <html>
 <head>
 <style>
-label {
+#good label {
+display: block;
 width: 150px;
-display: inline-block;
-}  
+float: left;
+}
 </style>
 </head>
 <body>
@@ -12,10 +13,10 @@ display: inline-block;
   <div><label>Foo foo<input name="foo"></input></label></div>
   <div><label>Bar<input name="bar"></input></label></div>
   </form>
-
+  
   <form id="good">
-  <div><label for="foo">Foo foo</label><input name="foo" id="foo"></input></div>
-  <div><label for="bar">Bar</label><input name="bar" id="bar"></input></div>
+    <div><label for="foo">Foo foo</label><input name="foo" id="foo"></input></div>
+    <div><label for="bar">Bar</label><input name="bar" id="bar"></input></div>
   </form>
 </body>
 </html>
