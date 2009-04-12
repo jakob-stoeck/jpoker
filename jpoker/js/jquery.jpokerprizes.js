@@ -32,7 +32,7 @@
 
         var tourneyAdminEditPrizes = jpoker.plugins.tourneyAdminEditPrizes;
         var opts = $.extend(true, {}, tourneyAdminEditPrizes.defaults, options);
-	opts.templates = tourneyAdminEditPrizes.defaults.templates;
+	opts.templates = tourneyAdminEditPrizes.defaults.templates; // FIXME : this function must be called with a proper options arg
 
         return this.each(function() {
                 var $this = $(this);
