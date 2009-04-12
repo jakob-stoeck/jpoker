@@ -96,7 +96,7 @@ maintainer-clean:
 # the command is run a second time).
 #
 clobber: maintainer-clean
-	rm -fr jpoker-binary-${VERSION}
+	rm -fr jpoker-binary-${VERSION}*
 	rm -fr gems
 	rm -fr jpoker/*.swf
 

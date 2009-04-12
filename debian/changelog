@@ -1,8 +1,9 @@
 jpoker (1.0.15-1) unstable; urgency=low
 
   * New upstream version.
+  * tiddlywiki_cp is shipped as part of the sources (Closes: #477027).
 
- -- Loic Dachary (OuoU) <loic@debian.org>  Wed, 14 Jan 2009 15:22:13 +0100
+ -- Loic Dachary (OuoU) <loic@debian.org>  Sun, 12 Apr 2009 17:30:28 +0200
 
 jpoker (1.0.14-1) unstable; urgency=low
 
