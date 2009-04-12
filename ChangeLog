@@ -1,3 +1,367 @@
+2009-04-12  Loic Dachary <loic@dachary.org>
+
+	* Release 1.0.15
+
+	* Makefile, debian/changelog, debian/control, jpoker/l10n/jpoker-
+	da.json, jpoker/l10n/jpoker-da.po, jpoker/l10n/jpoker-de.json,
+	jpoker/l10n/jpoker-de.po, jpoker/l10n/jpoker-en.json, jpoker/l10n
+	/jpoker-en.po, jpoker/l10n/jpoker-en_CA.json, jpoker/l10n/jpoker-
+	en_CA.po, jpoker/l10n/jpoker-en_US.json, jpoker/l10n/jpoker-
+	en_US.po, jpoker/l10n/jpoker-es.json, jpoker/l10n/jpoker-es.po,
+	jpoker/l10n/jpoker-fi.json, jpoker/l10n/jpoker-fi.po, jpoker/l10n
+	/jpoker-fr.json, jpoker/l10n/jpoker-fr.po, jpoker/l10n/jpoker-
+	fr_BE.json, jpoker/l10n/jpoker-fr_BE.po, jpoker/l10n/jpoker-
+	fr_CA.json, jpoker/l10n/jpoker-fr_CA.po, jpoker/l10n/jpoker-
+	fr_FX.json, jpoker/l10n/jpoker-fr_FX.po, jpoker/l10n/jpoker-it.json,
+	jpoker/l10n/jpoker-it.po, jpoker/l10n/jpoker-ja.po, jpoker/l10n
+	/jpoker-nb.json, jpoker/l10n/jpoker-nb.po, jpoker/l10n/jpoker-
+	nl.json, jpoker/l10n/jpoker-nl.po, jpoker/l10n/jpoker-pt.json,
+	jpoker/l10n/jpoker-pt.po, jpoker/l10n/jpoker-sv.json, jpoker/l10n
+	/jpoker-sv.po:
+	remove binary tarbal
+	[0e3e08958e2b] [tip]
+
+	* jpoker/js/jquery.jpokerprizes.js:
+	add FIXME
+	[a66be2950891]
+
+2009-02-13  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/css/jpokeradmin.css, jpoker/js/jquery.jpokeradmin.js:
+	fix max length and font-size in jpokeradmin
+	[2aed4bc652d9]
+
+	* jpoker/css/jpokeradmin.css, jpoker/js/jquery.jpokeradmin.js:
+	better jpoker_admin edit layout
+	[a062cd75fa39]
+
+	* jpoker/css/jpokeradmin.css, jpoker/js/jquery.jpokeradmin.js,
+	jpoker/js/jquery.jpokerprizes.js, jpoker/js/test-jpokerprizes.js:
+	skin jpoker admin prizes
+	[9fa6e2d8fc2c]
+
+	* jpoker/css/jpokeradmin.css, jpoker/js/jquery.jpokeradmin.js, jpoker
+	/test-css.html:
+	nicer css layout
+	[c9918e166e35]
+
+	* jpoker/test-css.html:
+	use display:block + float instead of inline-block
+	[c048d4d9c6f5]
+
+	* jpoker/test-css.html:
+	add inline-block to css test case
+	[aa1494815625]
+
+	* jpoker/test-css.html:
+	add <label><input> to css test case
+	[a7390ea7276e]
+
+	* jpoker/test-css.html:
+	add css test case
+	[195cbea8c6fc]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	reset jpoker_admin_currency_serial_from_date_format when changing
+	jpoker_admin_currency_serial select
+	[0a21a6b55e2e]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	make .jpoker_admin_currency_serial_from_date_format writable when
+	currency_serial == 'from_date_format'
+	[61417bb0c2d5]
+
+2009-02-10  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js,
+	jpoker/js/test-jpokerprizes.js:
+	getCurrencies fill currency_serial_select options
+	[39aba06ff832]
+
+	* jpoker/js/test-jpokerprizes.js:
+	mockup jpoker.plugins.tourneyAdminList.getResthost in prizes test
+	[acf0d896a87b]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	mockup jpoker.plugins.tourneyAdminList.getResthost
+	[50193847a44d]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	jpoker.plugins.tourneyAdminList.getResthost
+	[f64240a6f17f]
+
+	* jpoker/js/jquery.jpokeradmin.js:
+	move sitngo/regular logic in decorate
+	[f8b342daee34]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	jpoker.admin.getRestHost
+	[4b2d1cd1a715]
+
+	* jpoker/test-jpokerprizes.html:
+	add jquery validate to test-jpokerprizes
+	[2d4be72aa69f]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	add active checkbox, and check that checkbox state update sql query
+	[27854ced3eab]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	jpoker_admin_respawn checkbox
+	[c434839e4a1a]
+
+	* jpoker/js/jquery.jpokeradmin.js:
+	refactor sitngo regular hide/show
+	[86dbbcfce424]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	jpoker.tourneyAdminEdit sitngo hide/show
+	[b0f821daa5ec]
+
+	* jpoker/js/jquery.jpokeradmin.js:
+	add range constraint on seats_per_game
+	[88a98fb219de]
+
+	* jpoker/js/jquery.jpokeradmin.js:
+	remove maxlength from _time input, do not clean tourney null field
+	yet
+	[6b498e8597b9]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	fix test suite
+	[554ea6517bfa]
+
+	* jpoker/css/jpokeradmin.css, jpoker/js/jquery.jpokeradmin.js:
+	fix layout
+	[811d9ca2b2ba]
+
+	* jpoker/css/jpokeradmin.css, jpoker/jpokeradmin.html,
+	jpoker/js/jquery.jpokeradmin.js:
+	fix jpokeradmin layout
+	[909b492dd8b8]
+
+2009-02-09  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	add missing label, failing test for null default field
+	[3b10737cdd8d]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	fix jpoker_admin_edit tourney params title and lables
+	[f6c8e81c1a7e]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	add validation for seats_per_game and player_timeout
+	[224dd79881eb]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	add jquery.validate plugin
+	[283c6d61ddac]
+
+	* COPYRIGHT/summary.txt, jpoker/jpokeradmin.html,
+	jpoker/js/jquery.validate.js, jpoker/test-jpokeradmin.html:
+	add jquery.validate plugin
+	[02723f863b2d]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	add player_timeout, seats_per_game, sit_n_go inputs for jpoker_admin
+	[3e3f4938e865]
+
+	* jpoker/js/test-jpokeradmin.js, jpoker/js/test-jpokerprizes.js:
+	update TOURNEY_LIST packets in jpokeradmin tests
+	[09610e9b3b9f]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	add jpoker_admin_name and jpoker_admin_currency_serial input
+	[bd2707a98cc9]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	add jpoker_admin_buy_in and jpoker_admin_breaks inputs
+	[438f98c67ea3]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	add input for players_quota and players_min
+	[52f9f0226672]
+
+2009-01-30  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js,
+	jpoker/js/test-jpokerprizes.js:
+	fix display done override, and tourney ordering
+	[c132fd521ccd]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	reproduce and fix jpokeradmin multi edit bug
+	[20c4c8d6ffff]
+
+	* jpoker/js/jquery.jpokerprizes.js:
+	remove console.log
+	[b4a7c2f43771]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/jquery.jpokerprizes.js,
+	jpoker/js/test-jpokerprizes.js:
+	jpoker.plugins.tourneyAdminList with prizes
+	[416196efbdfc]
+
+2009-01-29  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/js/test-jpokerprizes.js:
+	s/serial/prize_serial
+	[bc54bc702cf7]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/jquery.jpokerprizes.js,
+	jpoker/js/test-jpokerprizes.js:
+	fix jpoker.plugins.tourneyAdminEdit.update serial field overwrite
+	[389f8f1a29fe]
+
+	* jpoker/js/test-jpokeradmin.js, jpoker/js/test-jpokerprizes.js:
+	reproduce jpoker.tourneyAdminEditPrizes update bug
+	[7bc52573c433]
+
+	* jpoker/js/jquery.jpokerprizes.js, jpoker/js/test-jpokerprizes.js:
+	fix initial prizes selection
+	[c8d9d16a6358]
+
+	* jpoker/js/jquery.jpokerprizes.js, jpoker/js/test-jpokerprizes.js:
+	prizes: INSERT ON DUPLICATE KEY UPDATE modify at least 1 row
+	[ed54462d881d]
+
+	* jpoker/js/jquery.jpokerprizes.js, jpoker/js/test-jpokerprizes.js:
+	test and fix prize selection
+	[703afd9ee72a]
+
+	* jpoker/js/jquery.jpokerprizes.js, jpoker/js/test-jpokerprizes.js:
+	fix jpokerprizes implementation
+	[697f587c26ef]
+
+	* jpoker/js/jquery.jpokerprizes.js, jpoker/js/test-jpokerprizes.js:
+	fix jpoker.plugins.tourneyAdminEditPrizes.populate
+	[b7468aab2a9f]
+
+	* jpoker/jpokeradmin.html, jpoker/js/jquery.jpokerprizes.js, jpoker/js
+	/test-jpokerprizes.js:
+	repair pokerprizes
+	[1f0edd999182]
+
+2009-01-28  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	add proppy copyright to jpokeradmin
+	[c9076bd82482]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	fix jpokeradmin column layout
+	[719629dbfe52]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	remove jpoker.plugins.tourneyAdminList.tourneyUpdated
+	[0aea12388517]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	fix jpokeradmin double edit bug
+	[d07eb71ff9f8]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	jpoker.tourneyAdminEdit update button click
+	[06427fd9925c]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	add #jpokerAdminEdit .jpoker_admin_update button
+	[f9f4fcd8bef9]
+
+	* jpoker/js/test-jpokeradmin.js:
+	fix typo in test name
+	[15f0318f0420]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	tourneyAdminList.tourneyDelete
+	[5d88b501d4e5]
+
+2009-01-28  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	jpoker.tourneyAdminList.tourneyCreate SET active = 'n'
+	[9095306aed20]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	jpoker.tourneyAdminList.tourneyCreate
+	[23c788b1ecb9]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	remove jpoker.plugins.tourneyAdminCreate
+	[2d8bee47aa7a]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	jpoker.plugins.tourneyAdminList.tourneyCreated call
+	poker.plugins.tourneyAdminList.refresh
+	[5c298a4552e2]
+
+	* jpoker/js/test-jpokeradmin.js:
+	replace PokerSQL mockup by ajax mockup
+	[489f70ba3e70]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	jpoker.plugins.tourneyAdminList create
+	[a595946afb8c]
+
+2009-01-23  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/jquery.jpokerprizes.js,
+	jpoker/js/test-jpokerprizes.js, jpoker/test-jpokeradmin.html, jpoker
+	/test-jpokerprizes.html:
+	admin and link with prizes
+	[a16b3f92e75d]
+
+2009-01-17  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	normalize option names, deep copy when necessary
+	[c9b86b232eb2]
+
+2009-01-16  Loic Dachary <loic@dachary.org>
+
+	* jpoker/css/calendar-win2k-cold-1.css,
+	jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js:
+	fix date picker z-index, update list when row is modified
+	[4400147e9011]
+
+	* jpoker/js/jquery.jpokeradmin.js, jpoker/js/test-jpokeradmin.js,
+	jpoker/test-jpokeradmin.html:
+	restructure to move edition functions to a dialog
+	[9478c7d32663]
+
+	* Makefile:
+	version 1.0.15
+	[f9346c09eb55]
+
+	* jpoker/css/calendar-win2k-cold-1.css, jpoker/jpokeradmin.html,
+	jpoker/js/calendar-en.js, jpoker/js/jquery.dynDateTime.js,
+	jpoker/js/jquery.jpokeradmin.js, jpoker/tiddlers/Copyright.tiddler:
+	add datetime picker for start_time / register_time
+	[e60c8ca91b89]
+
+	* jpoker/js/jquery.jpokeradmin.js:
+	define variant and betting structure as select
+	[0f4c5750dd1e]
+
+2009-01-15  Loic Dachary <loic@dachary.org>
+
+	* jpoker/jpokeradmin.html, jpoker/js/jquery.jpokeradmin.js, jpoker/js
+	/test-jpoker.js, jpoker/js/test-jpokeradmin.js, jpoker/test-
+	jpokeradmin.html:
+	first version of tournament manager, updating tournaments
+	[fd05439350bb]
+
+2009-01-14  Loic Dachary <loic@dachary.org>
+
+	* jpoker/tiddlers/Copyright.tiddler:
+	update copyright notice dates
+	[68674ee8eed7]
+
+	* debian/changelog:
+	bump 1.0.15
+	[37d684984930]
+
 2009-01-09  Loic Dachary <loic@dachary.org>
 
 	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
