@@ -291,7 +291,9 @@ test("jpoker.tourneyAdminEdit", function(){
         equals($('#jpokerAdminEdit .jpoker_admin_serial input').val(), tourney_serial);
         equals($('#jpokerAdminEdit .jpoker_admin_resthost_serial option').length, 2);
         equals($('#jpokerAdminEdit .jpoker_admin_currency_serial option').length, 3);
-        equals($('#jpokerAdminEdit .jpoker_admin_register_time input').val(), '2009/01/28-10:39');
+        var register_time = $('#jpokerAdminEdit .jpoker_admin_register_time input').val();
+        var expected = '2009/01/28';
+        equals(register_time.indexOf(expected) >= 0, true, register_time + ' does not contain ' + expected);
         equals($('#jpokerAdminEdit .jpoker_admin_currency_serial_from_date_format input').val(), '');
         equals($('#jpokerAdminEdit .jpoker_admin_description_short input').length, 1);
         equals($('#jpokerAdminEdit .jpoker_admin_players_quota input').length, 1);
