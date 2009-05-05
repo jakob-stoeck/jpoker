@@ -8,7 +8,7 @@ Build-Depends: debhelper (>= 5), cdbs, gettext, python, python-simplejson, pytho
 
 Package: jpoker
 Architecture: all
-Depends: apache2
+Depends: ${misc:Depends}, apache2
 Suggests: python-poker-network
 Description: javascript online poker client
  http://jspoker.pokersource.info/jpoker/ is a javascript client for
