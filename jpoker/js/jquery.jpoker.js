@@ -2103,7 +2103,7 @@
 
 		case 'PacketPokerPotChips':
 		if (!this.sit_out && (this.side_pot === undefined) && (this.money === 0)) {
-		    this.side_pot = {bet: jpoker.chips.chips2value(packet.bet),
+		    this.side_pot = {bet: jpoker.chips.SHORT(jpoker.chips.chips2value(packet.bet)),
 				     index: packet.index};
 		}
 		this.notifyUpdate(packet);
@@ -4670,6 +4670,6 @@
 
     jpoker.compatibility($.browser.msie); // no coverage
 
-    jpoker.copyright_text = jpoker.copyright_template.supplant({ 'jpoker-sources': this.jpoker_sources, 'poker-network-sources': this.poker_network_sources }).supplant({ 'jpoker-version': this.jpoker_version, 'poker-network-version': this.poker_network_version });
+    jpoker.copyright_text = jpoker.copyright_template.supplant({ 'jpoker-sources': jpoker.jpoker_sources, 'poker-network-sources': jpoker.poker_network_sources }).supplant({ 'jpoker-version': jpoker.jpoker_version, 'poker-network-version': jpoker.poker_network_version });
 
 })(jQuery);
