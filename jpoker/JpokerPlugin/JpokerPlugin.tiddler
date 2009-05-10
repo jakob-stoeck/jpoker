@@ -41,7 +41,9 @@ $.jpoker.server.defaults.placeTourneyRowClick = function(server, id) {
 
 $.jpoker.verbose = 6;
 
-$.jpoker.copyright();
+$(document).ready(function() {
+  $.jpoker.copyright();
+});
 
 config.macros.jpokerTable = {
     handler: function(place, macroName, params, wikifier, paramString, tiddler) {
