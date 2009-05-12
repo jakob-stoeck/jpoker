@@ -6469,7 +6469,7 @@ test("jpoker.plugins.player: side_pot", function(){
 
 	player.money = 0;
 	table.handler(server, game_id, { type: 'PacketPokerPotChips', game_id: game_id, index: 1, bet: [1,100000] });
-	equals(side_pot.html(), 'Pot 1: 1000');
+	equals(side_pot.html(), 'Pot 1: 1.0K');
 	ok(side_pot.is(':visible'), 'side pot visible');
 	table.handler(server, game_id, { type: 'PacketPokerChipsPotReset', game_id: game_id });
 	equals(side_pot.html(),  '');
