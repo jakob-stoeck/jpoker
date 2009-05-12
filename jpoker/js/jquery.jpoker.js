@@ -66,7 +66,7 @@
 
     $.jpoker = {
 
-        jpoker_version: '1.0.15',
+        jpoker_version: '1.0.16',
 
         jpoker_sources: 'http://jspoker.pokersource.info/packaging-farm/jpoker/gnulinux/debian/lenny/src/jpoker_{jpoker-version}.orig.tar.gz',
 
