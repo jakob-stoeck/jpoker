@@ -66,7 +66,7 @@
 
     $.jpoker = {
 
-        jpoker_version: '1.0.15',
+        jpoker_version: '1.0.16',
 
         jpoker_sources: 'http://jspoker.pokersource.info/packaging-farm/jpoker/gnulinux/debian/lenny/src/jpoker_{jpoker-version}.orig.tar.gz',
 
@@ -2384,7 +2384,7 @@
 
     jpoker.plugins.regularTourneyList.defaults = $.extend({
             sortList: [[4, 0]],
-            string: '\tn', // PacketTourneySelect : any currency\nregular
+            string: '\tregular', // PacketTourneySelect : any currency\nregular
             css_tag: 'regular_'
         }, jpoker.refresh.defaults, jpoker.defaults);
 
@@ -2417,7 +2417,7 @@
 
     jpoker.plugins.sitngoTourneyList.defaults = $.extend({
             sortList: [[3, 0]],
-            string: '\ty', // PacketTourneySelect : any currency\nsit&go,
+            string: '\tsit_n_go', // PacketTourneySelect : any currency\nsit&go,
             css_tag: 'sitngo_'
         }, jpoker.refresh.defaults, jpoker.defaults);
 

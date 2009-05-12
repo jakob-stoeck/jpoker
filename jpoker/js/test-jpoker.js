@@ -3602,13 +3602,14 @@ test("jpoker.plugins.tourneyList empty", function(){
 // sitngoTourneyList
 //
 test("jpoker.plugins.sitngoTourneyList", function(){
-        expect(3);
+        expect(4);
         jpoker.plugins.sitngoTourneyList.callback.marker_for_test = true;
         var tourneyList = jpoker.plugins.tourneyList
         jpoker.plugins.tourneyList = function(url, options) {
             equals(options.templates.header, jpoker.plugins.sitngoTourneyList.templates.header, 'header');
             ok('marker_for_test' in options.callback, 'callback');
             equals(options.css_tag, jpoker.plugins.sitngoTourneyList.defaults.css_tag, 'header');
+            equals(options.string.split('\t')[1], 'sit_n_go', 'string');
         };
         var server = jpoker.serverCreate({ url: 'url' });
         $("#main").jpoker('sitngoTourneyList', 'url');
@@ -3620,13 +3621,14 @@ test("jpoker.plugins.sitngoTourneyList", function(){
 // regularTourneyList
 //
 test("jpoker.plugins.regularTourneyList", function(){
-        expect(3);
+        expect(4);
         jpoker.plugins.regularTourneyList.callback.marker_for_test = true;
         var tourneyList = jpoker.plugins.tourneyList
         jpoker.plugins.tourneyList = function(url, options) {
             equals(options.templates.header, jpoker.plugins.regularTourneyList.templates.header, 'header');
             ok('marker_for_test' in options.callback, 'callback');
             equals(options.css_tag, jpoker.plugins.regularTourneyList.defaults.css_tag, 'header');
+            equals(options.string.split('\t')[1], 'regular', 'string');
         };
         var server = jpoker.serverCreate({ url: 'url' });
         $("#main").jpoker('regularTourneyList', 'url');
@@ -6469,7 +6471,7 @@ test("jpoker.plugins.player: side_pot", function(){
 
 	player.money = 0;
 	table.handler(server, game_id, { type: 'PacketPokerPotChips', game_id: game_id, index: 1, bet: [1,100000] });
-	equals(side_pot.html(), 'Pot 1: 1000');
+	equals(side_pot.html(), 'Pot 1: 1.0K');
 	ok(side_pot.is(':visible'), 'side pot visible');
 	table.handler(server, game_id, { type: 'PacketPokerChipsPotReset', game_id: game_id });
 	equals(side_pot.html(),  '');
