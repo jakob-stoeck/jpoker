@@ -3616,6 +3616,48 @@ test("jpoker.plugins.sitngoTourneyList", function(){
         cleanup();
     });
 
+test("jpoker.plugins.sitngoTourneyList filter", function(){
+        expect(1);
+        stop();
+
+        //
+        // Mockup server that will always return TOURNEY_LIST_PACKET,
+        // whatever is sent to it.
+        //
+        var PokerServer = function() {};
+
+	var TOURNEY_LIST_PACKET = {"players": 0, "packets": [{"players_quota": 2, "breaks_first": 7200, "name": "sitngo2", "description_short" : "Sit and Go 2 players, Holdem", "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 1111, "sit_n_go": "y", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval" : 60, "variant": "holdem", "currency_serial": 1, "state": "registering", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 39, "sit_n_go": "n", "registered": 0}, {"players_quota": 1000, "breaks_first" : 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "announced", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 40, "sit_n_go": "n", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial" : 41, "sit_n_go": "n", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 42, "sit_n_go": "n", "registered": 0}], "tourneys": 5, "type": "PacketPokerTourneyList"};
+
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TOURNEY_LIST_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $("#main");
+        place.jpoker('sitngoTourneyList', 'url');
+        server.registerUpdate(function(server, what, data) {
+                var element = $("#" + id);
+                if(element.length > 0) {
+                    var tr = $("#" + id + " tbody tr", place);
+                    equals(tr.length, 1);
+                    $("#" + id).remove();
+                    return true;
+                } else {
+                    window.setTimeout(function() {
+                            start_and_cleanup();
+                        }, 30);
+                    return false;
+                }
+            });
+    });
+
 //
 // regularTourneyList
 //
@@ -3633,6 +3675,49 @@ test("jpoker.plugins.regularTourneyList", function(){
         jpoker.plugins.tourneyList = tourneyList;
         cleanup();
     });
+
+test("jpoker.plugins.regularTourneyList filter", function(){
+        expect(1);
+        stop();
+
+        //
+        // Mockup server that will always return TOURNEY_LIST_PACKET,
+        // whatever is sent to it.
+        //
+        var PokerServer = function() {};
+
+	var TOURNEY_LIST_PACKET = {"players": 0, "packets": [{"players_quota": 2, "breaks_first": 7200, "name": "sitngo2", "description_short" : "Sit and Go 2 players, Holdem", "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 1111, "sit_n_go": "y", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval" : 60, "variant": "holdem", "currency_serial": 1, "state": "registering", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 39, "sit_n_go": "n", "registered": 0}, {"players_quota": 1000, "breaks_first" : 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "announced", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 40, "sit_n_go": "n", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial" : 41, "sit_n_go": "n", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 42, "sit_n_go": "n", "registered": 0}], "tourneys": 5, "type": "PacketPokerTourneyList"};
+
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TOURNEY_LIST_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $("#main");
+        place.jpoker('regularTourneyList', 'url');
+        server.registerUpdate(function(server, what, data) {
+                var element = $("#" + id);
+                if(element.length > 0) {
+                    var tr = $("#" + id + " tbody tr", place);
+                    equals(tr.length, 4);
+                    $("#" + id).remove();
+                    return true;
+                } else {
+                    window.setTimeout(function() {
+                            start_and_cleanup();
+                        }, 30);
+                    return false;
+                }
+            });
+    });
+
 
 //
 // tourneyDetails
