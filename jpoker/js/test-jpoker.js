@@ -3365,7 +3365,7 @@ test("jpoker.plugins.tableList getHTML should not list tourney table", function(
 // tourneyList
 //
 test("jpoker.plugins.tourneyList", function(){
-        expect(18);
+        expect(20);
         stop();
 
         //
@@ -3412,6 +3412,8 @@ test("jpoker.plugins.tourneyList", function(){
                     var tr = $("#" + id + " tr", place);
                     var row = $("#" + row_id, place);
                     equals(tr.length, 5+1);
+		    equals($('tr.jpoker_sitngo_tourney').length, 1);
+		    equals($('tr.jpoker_regular_tourney').length, 4);
                     equals($('td:nth-child(5)', row).text(), start_time, 'start_time');
 		    equals($('td:nth-child(6)', row).text(), state, 'state');
 		    equals($('.headerSortDown', tr[0]).text(), 'Description', "headerSortDown");
@@ -3645,7 +3647,7 @@ test("jpoker.plugins.sitngoTourneyList filter", function(){
         server.registerUpdate(function(server, what, data) {
                 var element = $("#" + id);
                 if(element.length > 0) {
-                    var tr = $("#" + id + " tbody tr", place);
+                    var tr = $("#" + id + " tbody tr:visible", place);
                     equals(tr.length, 1);
                     $("#" + id).remove();
                     return true;
@@ -3705,7 +3707,7 @@ test("jpoker.plugins.regularTourneyList filter", function(){
         server.registerUpdate(function(server, what, data) {
                 var element = $("#" + id);
                 if(element.length > 0) {
-                    var tr = $("#" + id + " tbody tr", place);
+                    var tr = $("#" + id + " tbody tr:visible", place);
                     equals(tr.length, 4);
                     $("#" + id).remove();
                     return true;
