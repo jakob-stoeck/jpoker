@@ -48,7 +48,7 @@ test("jpoker.plugins.regularTourneyList", function(){
 
             handle: function(packet) {
                 if(packet.indexOf('PacketPokerTourneySelect') >= 0) {
-                    equals(packet.indexOf('tn"') >0, true, JSON.stringify(packet));
+                    equals(packet.indexOf('regular') >0, true, JSON.stringify(packet));
                 }
             }
         };
@@ -248,7 +248,7 @@ test("jpoker.plugins.sitngoTourneyList", function(){
 
             handle: function(packet) {
                 if(packet.indexOf('PacketPokerTourneySelect') >= 0) {
-                    equals(packet.indexOf('ty"') >0, true, JSON.stringify(packet));
+                    equals(packet.indexOf('sit_n_go') >0, true, JSON.stringify(packet));
                 }
             }
         };
