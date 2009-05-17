@@ -694,6 +694,17 @@ test("jpoker.server.init reconnect doReconnect", function(){
         cleanup();
     });
 
+test("jpoker.server.init reconnect doReconnectAlways", function(){
+        expect(1);
+	var jpokerDoReconnectAlways = jpoker.doReconnectAlways;
+        jpoker.doReconnectAlways = true;
+        var server = jpoker.serverCreate({ url: 'url',
+					   cookie: function() { return 'NO'; } });
+	equals(server.state, server.RECONNECT, 'reconnect even though no cookie');
+	jpoker.doReconnectAlways = jpokerDoReconnectAlways;
+        cleanup();
+    });
+
 test("jpoker.server.init reconnect doRejoin", function(){
         expect(1);
 	var jpokerDoRejoin = jpoker.doRejoin;

@@ -81,6 +81,7 @@
         verbose: 0,
 
         doReconnect: true,
+        doReconnectAlways: false,
 	doRejoin: true,
 
         msie_compatibility: function() {
@@ -994,7 +995,7 @@
                 this.userInfo = {};
 		this.preferences = new jpoker.preferences(jpoker.url2hash(this.url));
                 this.registerHandler(0, this.handler);
-                if(jpoker.doReconnect && (this.sessionExists() || this.protocol() == 'file:')) {
+                if(jpoker.doReconnect && (jpoker.doReconnectAlways || this.sessionExists() || this.protocol() == 'file:')) {
                     this.reconnect();
                 }
             },
