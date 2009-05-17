@@ -3887,6 +3887,7 @@
             if(serial == table.serial_in_position) {
                 jpoker.plugins.playerSelf.inPosition(player, id);
             }
+            $('#game_window' + id).removeClass().addClass('jpoker_self');
         },
 
         leave: function(player, packet, id) {
@@ -4107,11 +4108,13 @@
                 }
                 $('#raise' + id).unbind('click').click(click).show();
                 $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_hand.swf\' />');
+               $('#game_window' + id).addClass('jpoker_self_in_position');
             }
         },
 
         lostPosition: function(player, packet, id) {
             jpoker.plugins.playerSelf.hide(id);
+           $('#game_window' + id).removeClass('jpoker_self_in_position');
         },
 
         names: [ 'fold', 'call', 'check', 'raise', 'raise_range', 'raise_input', 'rebuy' ],

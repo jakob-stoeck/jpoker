@@ -6593,7 +6593,7 @@ function _SelfPlayerSit(game_id, player_serial, money) {
 }
 
 test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function(){
-        expect(91);
+        expect(93);
 
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
@@ -6675,6 +6675,7 @@ test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function()
         interactors([ 'fold', 'check', 'raise' ], [ 'call' ], 'can check');
 
         Z.table.handler(Z.server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
+        ok($("#game_window" + id).hasClass('jpoker_self_in_position'), 'jpoker_self_in_position is set');
         var raise = $('#raise_range' + id);
 	equals($(".jpoker_raise_label", raise).html(), 'raise', 'raise label');
         equals($(".jpoker_raise_min", raise).html(), Z.table.betLimit.min, 'min');
@@ -6697,6 +6698,7 @@ test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function()
         //        $('.ui-slider-handle', raise).parent().triggerKeydown("38");
         // equals($(".jpokerRaiseCurrent", raise).attr('title'), Z.table.betLimit.min, 'value changed');
         Z.table.handler(Z.server, game_id, { type: 'PacketPokerSelfLostPosition', serial: 333, game_id: game_id });
+        equals($("#game_window" + id).hasClass('jpoker_self_in_position'), false, 'jpoker_self_in_position not set');
 	equals(raise.is(':hidden'), true, 'raise range hidden');
 	equals($('#raise_input' + id).is(':hidden'), true, 'raise input hidden');
 
@@ -6854,6 +6856,16 @@ test("jpoker.plugins.player: text button", function(){
 	equals($('div a', element).html(), 'Exit', 'exit label');
 	element = $('#rebuy' + id);
 	equals($('div a', element).html(), 'Rebuy', 'rebuy label');
+    });
+
+test("jpoker.plugins.player: jpoker_self class", function(){
+        expect(2);
+
+        var id = 'jpoker' + jpoker.serial;
+        var player_serial = 1;
+        var game_id = 100;
+        _SelfPlayer(game_id, player_serial);
+        ok($("#game_window" + id).hasClass('jpoker_self'), 'jpoker_self is set');
     });
 
 test("jpoker.plugins.player: rebuy", function(){
