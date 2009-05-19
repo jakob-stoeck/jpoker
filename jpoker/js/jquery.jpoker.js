@@ -3887,7 +3887,7 @@
             if(serial == table.serial_in_position) {
                 jpoker.plugins.playerSelf.inPosition(player, id);
             }
-            $('#game_window' + id).removeClass().addClass('jpoker_self');
+            $('#game_window' + id).removeClass('jpoker_self').addClass('jpoker_self');
         },
 
         leave: function(player, packet, id) {
