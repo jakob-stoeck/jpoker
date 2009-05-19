@@ -6687,7 +6687,7 @@ test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function()
 	equals(raise_input.is(':visible'), true, 'raise input visible');
 	equals($('.jpoker_raise_input', raise_input).length, 1, 'raise input');
         var slider = $('.ui-slider-1', raise);
-	equals($('.jpoker_raise_current', raise).attr("title"), 5, "title = raise amount");
+	equals($('.jpoker_raise_current', raise).attr("title"), 500, "title = raise amount");
 	equals($('.jpoker_raise_input', raise_input).val(), 5, 'raise input value = raise amount');
 	slider.slider("moveTo", 600, 0);
 	equals(slider.slider("value", 0), 600, "slider value updated");
@@ -6739,9 +6739,10 @@ test("jpoker.plugins.player: slider decimal", function() {
 	    equals(packet.amount, 20, 'raise 20 cents');
 	};
 	$('#raise' + id).click();
+        cleanup(id);
     });
 
-test("jpoker.plugins.player: raise bug", function() {
+test("jpoker.plugins.player: raise bug: default raise_current title should be in cents", function() {
         expect(7);
 
         var id = 'jpoker' + jpoker.serial;
@@ -6776,6 +6777,7 @@ test("jpoker.plugins.player: raise bug", function() {
 	    equals(packet.amount, 200, 'raise 200 cents');
 	};
 	$('#raise' + id).click();
+        cleanup(id);
     });
 
 test("jpoker.plugins.player: ignore non numeric raise entry", function() {
@@ -6813,6 +6815,47 @@ test("jpoker.plugins.player: ignore non numeric raise entry", function() {
 	    equals(packet.amount, 30, 'raise 30 cents');
 	};
 	$('#raise' + id).click();
+        cleanup(id);
+    });
+
+test("jpoker.plugins.player: raise NaN should trigger an error", function() {
+        expect(5);
+
+        var id = 'jpoker' + jpoker.serial;
+        var player_serial = 1;
+        var game_id = 100;
+        var money = 1000;
+        _SelfPlayerSit(game_id, player_serial, money);
+
+        var Z = jpoker.getServerTablePlayer('url', game_id, player_serial);
+        Z.table.handler(Z.server, game_id, { type: 'PacketPokerBetLimit',
+		    game_id: game_id,
+		    min: 100,
+		    max: 200,
+		    step:  1,
+		    call: 1,
+		    allin: 2,
+		    pot: 2
+		    });
+        Z.table.handler(Z.server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
+
+        var raise = $('#raise_range' + id);
+	var raise_input = $('#raise_input' + id);
+	var sent = false;
+	Z.server.sendPacket = function(packet) {
+	    sent = true;
+	};
+	var jpokerError = jpoker.error;
+	var reason;
+	jpoker.error = function(r) {
+	    reason = r;
+	}
+
+	$('.jpoker_raise_current', raise).attr('title', 'abc');
+	$('#raise' + id).click();
+	equals(sent, false, 'no packet sent');
+	equals(reason, 'raise with NaN amount: abc', 'error');
+        cleanup(id);
     });
 
 test("jpoker.plugins.player: hover button", function(){
@@ -6984,7 +7027,7 @@ test("jpoker.plugins.player: rebuy", function(){
         cleanup(id);
     });
 
-test("jpoker.plugins.player: rebuy bug", function(){
+test("jpoker.plugins.player: rebuy bug: low buy in limits should not be truncated", function(){
         expect(6);
 
         var id = 'jpoker' + jpoker.serial;
@@ -7024,7 +7067,7 @@ test("jpoker.plugins.player: rebuy bug", function(){
         cleanup(id);
     });
 
-test("jpoker.plugins.player: rebuy bug 2", function(){
+test("jpoker.plugins.player: rebuy bug: high buy in limit should be formatted", function(){
         expect(6);
 
         var id = 'jpoker' + jpoker.serial;
@@ -7063,6 +7106,48 @@ test("jpoker.plugins.player: rebuy bug 2", function(){
         equals(sent, true, 'BuyIn packet sent');
         equals(rebuy.parents().is(':hidden'), true, 'dialog hidden');
         cleanup(id);
+    });
+
+test("jpoker.plugins.player: rebuy NaN should trigger an error", function(){
+        expect(3);
+
+        var id = 'jpoker' + jpoker.serial;
+        var player_serial = 1;
+        var game_id = 100;
+        _SelfPlayer(game_id, player_serial);
+        var server = jpoker.getServer('url');
+        var player = jpoker.getPlayer('url', game_id, player_serial);
+	var table = jpoker.getTable('url', game_id);
+
+        // buy in
+        var min = 100;
+        var best = 200;
+        var max = 300;
+        var rebuy_min = 100;
+        table.handler(server, game_id, { type: 'PacketPokerBuyInLimits', game_id: game_id, min: min * 100, max: max * 100, best: best * 100, rebuy_min: rebuy_min });
+
+        $("#rebuy" + id).click();
+        $(".jpoker_rebuy_current", rebuy).attr('title', 'abc'); // NaN amount
+
+        var sent;
+        sent = false;
+        server.sendPacket = function(packet) {
+            sent = true 
+        };
+
+	var reason;
+	var jpokerError = jpoker.error;
+	jpoker.error = function(r) {
+	    jpoker.error = jpokerError;
+	    reason = r;
+	}
+
+        var rebuy = $("#jpokerRebuy");
+        $("button", rebuy).click();
+
+        equals(sent, false, 'BuyIn packet not sent');
+        equals(reason, 'rebuy with NaN amount: abc', 'error');
+	cleanup(id);
     });
 
 test("jpoker.plugins.player: rebuy if not enough money", function() {

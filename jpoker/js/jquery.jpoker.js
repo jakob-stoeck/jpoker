@@ -3937,11 +3937,16 @@
             $('.jpoker_rebuy_action', rebuy).click(function() {
                     var server = jpoker.getServer(url);
                     if(server) {
-                        server.sendPacket({ 'type': packet_type,
-                                    'serial': server.serial,
-                                    'game_id': table.id,
-                                    'amount': parseInt($('.jpoker_rebuy_current', rebuy).attr('title'), 10)
-                                    });
+			var amount = parseInt($('.jpoker_rebuy_current', rebuy).attr('title'), 10);
+			if (!isNaN(amount)) {
+			    server.sendPacket({ 'type': packet_type,
+					'serial': server.serial,
+					'game_id': table.id,
+					'amount': parseInt($('.jpoker_rebuy_current', rebuy).attr('title'), 10)
+					});
+			} else {
+			    jpoker.error('rebuy with NaN amount: ' + $('.jpoker_rebuy_current', rebuy).attr('title'));
+			}
                     }
                     rebuy.dialog('close');
                 });
@@ -4089,11 +4094,16 @@
                     click = function() {
                         var server = jpoker.getServer(url);
                         if(server) {
-                            server.sendPacket({ 'type': 'PacketPokerRaise',
-                                        'serial': serial,
-                                        'game_id': game_id,
-                                        'amount': parseInt($('.jpoker_raise_current', raise).attr('title'), 10)
-                                        });
+			    var amount = parseInt($('.jpoker_raise_current', raise).attr('title'), 10);
+			    if (!isNaN(amount)) {
+				server.sendPacket({ 'type': 'PacketPokerRaise',
+					    'serial': serial,
+					    'game_id': game_id,
+					    'amount': parseInt($('.jpoker_raise_current', raise).attr('title'), 10)
+					    });
+			    } else {
+				jpoker.error('raise with NaN amount: ' + $('.jpoker_raise_current', raise).attr('title'));
+			    }
                         }
                     };
                 } else {
