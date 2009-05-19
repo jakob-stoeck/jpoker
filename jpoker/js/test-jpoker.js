@@ -220,14 +220,15 @@ test("jpoker.error alert", function() {
 });
 
 test("jpoker.error printStackTrace throw", function() {
-        expect(1);
+        expect(2);
         var handler = jpoker.errorHandler;
         var p = printStackTrace;
         printStackTrace = function(args) {
             throw 'simulate printStackTrace error';
         };
         jpoker.errorHandler = function(reason, str) {
-            ok(str.indexOf('stringify failed') >= 0);
+            ok(str.indexOf('stringify failed') >= 0, 'errorHandler');
+            ok(str.indexOf('simulate printStackTrace error') >= 0, 'errorReason');
         };
         jpoker.error({});
         jpoker.errorHandler = handler;
