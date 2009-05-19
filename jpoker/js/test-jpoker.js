@@ -6593,7 +6593,7 @@ function _SelfPlayerSit(game_id, player_serial, money) {
 }
 
 test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function(){
-        expect(93);
+        expect(95);
 
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
@@ -6676,6 +6676,7 @@ test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function()
 
         Z.table.handler(Z.server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
         ok($("#game_window" + id).hasClass('jpoker_self_in_position'), 'jpoker_self_in_position is set');
+	ok($("#game_window" + id).hasClass('jpoker_ptable'), 'jpoker_ptable');
         var raise = $('#raise_range' + id);
 	equals($(".jpoker_raise_label", raise).html(), 'raise', 'raise label');
         equals($(".jpoker_raise_min", raise).html(), Z.table.betLimit.min, 'min');
@@ -6699,6 +6700,7 @@ test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function()
         // equals($(".jpokerRaiseCurrent", raise).attr('title'), Z.table.betLimit.min, 'value changed');
         Z.table.handler(Z.server, game_id, { type: 'PacketPokerSelfLostPosition', serial: 333, game_id: game_id });
         equals($("#game_window" + id).hasClass('jpoker_self_in_position'), false, 'jpoker_self_in_position not set');
+	ok($("#game_window" + id).hasClass('jpoker_ptable'), 'jpoker_ptable');
 	equals(raise.is(':hidden'), true, 'raise range hidden');
 	equals($('#raise_input' + id).is(':hidden'), true, 'raise input hidden');
 
@@ -6859,13 +6861,14 @@ test("jpoker.plugins.player: text button", function(){
     });
 
 test("jpoker.plugins.player: jpoker_self class", function(){
-        expect(2);
+        expect(3);
 
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
         var game_id = 100;
         _SelfPlayer(game_id, player_serial);
         ok($("#game_window" + id).hasClass('jpoker_self'), 'jpoker_self is set');
+	ok($("#game_window" + id).hasClass('jpoker_ptable'), 'jpoker_ptable');
     });
 
 test("jpoker.plugins.player: rebuy", function(){
