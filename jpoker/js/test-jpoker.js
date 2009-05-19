@@ -6741,6 +6741,43 @@ test("jpoker.plugins.player: slider decimal", function() {
 	$('#raise' + id).click();
     });
 
+test("jpoker.plugins.player: raise bug", function() {
+        expect(7);
+
+        var id = 'jpoker' + jpoker.serial;
+        var player_serial = 1;
+        var game_id = 100;
+        var money = 1000;
+        _SelfPlayerSit(game_id, player_serial, money);
+
+        var Z = jpoker.getServerTablePlayer('url', game_id, player_serial);
+        Z.table.handler(Z.server, game_id, { type: 'PacketPokerBetLimit',
+		    game_id: game_id,
+		    min: 100,
+		    max: 200,
+		    step:  1,
+		    call: 1,
+		    allin: 2,
+		    pot: 2
+		    });
+        Z.table.handler(Z.server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
+
+        var raise = $('#raise_range' + id);
+	var raise_input = $('#raise_input' + id);
+	equals($('.jpoker_raise_current', raise).attr("title"), 100, "title updated from template");
+	Z.server.sendPacket = function(packet) {
+	    equals(packet.amount, 100, 'raise 100 cents');
+	};
+        var slider = $('.ui-slider-1', raise);
+	$('#raise' + id).click();
+	slider.slider("moveTo", 200, 0);
+	equals($('.jpoker_raise_current', raise).attr("title"), 200, "title updated by slider");
+	Z.server.sendPacket = function(packet) {
+	    equals(packet.amount, 200, 'raise 200 cents');
+	};
+	$('#raise' + id).click();
+    });
+
 test("jpoker.plugins.player: ignore non numeric raise entry", function() {
         expect(8);
 
@@ -6944,6 +6981,87 @@ test("jpoker.plugins.player: rebuy", function(){
         equals(sent, true, 'Rebuy packet sent');
         equals(rebuy.parents().is(':hidden'), true, 'dialog hidden');
 
+        cleanup(id);
+    });
+
+test("jpoker.plugins.player: rebuy bug", function(){
+        expect(6);
+
+        var id = 'jpoker' + jpoker.serial;
+        var player_serial = 1;
+        var game_id = 100;
+        _SelfPlayer(game_id, player_serial);
+        var server = jpoker.getServer('url');
+        var player = jpoker.getPlayer('url', game_id, player_serial);
+	var table = jpoker.getTable('url', game_id);
+
+        // buy in
+        var min = 1.1;
+        var best = 2.2;
+        var max = 3.3;
+        var rebuy_min = 100;
+        table.handler(server, game_id, { type: 'PacketPokerBuyInLimits', game_id: game_id, min: min * 100, max: max * 100, best: best * 100, rebuy_min: rebuy_min });
+
+        // buyin
+        $("#rebuy" + id).click();
+        var rebuy = $("#jpokerRebuy");
+        equals($(".jpoker_rebuy_current", rebuy).html(), '2.2', 'best');
+        equals($(".jpoker_rebuy_current", rebuy).attr('title'), '220', 'best');
+	
+        var sent;
+        sent = false;
+        sendPacket = server.sendPacket;
+        server.sendPacket = function(packet) {
+            sent = true;
+	    equals(packet.amount, 220);
+        };
+
+        $("button", rebuy).click();
+        server.sendPacket = sendPacket;
+        equals(sent, true, 'BuyIn packet sent');
+        equals(rebuy.parents().is(':hidden'), true, 'dialog hidden');
+
+        cleanup(id);
+    });
+
+test("jpoker.plugins.player: rebuy bug 2", function(){
+        expect(6);
+
+        var id = 'jpoker' + jpoker.serial;
+        var player_serial = 1;
+        var game_id = 100;
+        _SelfPlayer(game_id, player_serial);
+        var server = jpoker.getServer('url');
+        var player = jpoker.getPlayer('url', game_id, player_serial);
+	var table = jpoker.getTable('url', game_id);
+
+	server.userInfo.money['X42'] = [ 100000000, 100000000, 100000000 ];
+
+        // buy in
+        var min = 10000;
+        var best = 20000;
+        var max = 30000;
+        var rebuy_min = 10000;
+        table.handler(server, game_id, { type: 'PacketPokerBuyInLimits', game_id: game_id, min: min * 100, max: max * 100, best: best * 100, rebuy_min: rebuy_min });
+
+        // buyin
+        $("#rebuy" + id).click();
+        var rebuy = $("#jpokerRebuy");
+        equals($(".jpoker_rebuy_current", rebuy).html(), '20K', 'best');
+        equals($(".jpoker_rebuy_current", rebuy).attr('title'), '2000000', 'best');
+	
+        var sent;
+        sent = false;
+        sendPacket = server.sendPacket;
+        server.sendPacket = function(packet) {
+            sent = true;	    
+	    equals(packet.amount, 2000000);
+        };
+
+        $("button", rebuy).click();
+        server.sendPacket = sendPacket;
+        equals(sent, true, 'BuyIn packet sent');
+        equals(rebuy.parents().is(':hidden'), true, 'dialog hidden');
         cleanup(id);
     });
 

@@ -3928,9 +3928,10 @@
                 label = _("Rebuy");
             }
             rebuy.html(this.templates.rebuy.supplant({
-                        'min': limits[0],
-                        'current': limits[1],
-                        'max': limits[2],
+                        'min': jpoker.chips.SHORT(limits[0]),
+                        'current': jpoker.chips.SHORT(limits[1]),
+			'title' : Math.floor(limits[1]*100),
+                        'max': jpoker.chips.SHORT(limits[2]),
                         'label': label
                     }));
             $('.jpoker_rebuy_action', rebuy).click(function() {
@@ -3939,7 +3940,7 @@
                         server.sendPacket({ 'type': packet_type,
                                     'serial': server.serial,
                                     'game_id': table.id,
-                                    'amount': parseInt($('.jpoker_rebuy_current', rebuy).html(), 10) * 100
+                                    'amount': parseInt($('.jpoker_rebuy_current', rebuy).attr('title'), 10)
                                     });
                     }
                     rebuy.dialog('close');
@@ -3950,7 +3951,8 @@
                         max: limits[2]*100,
                         stepping: 1,
                         change: function(event, ui) {
-                        $('.jpoker_rebuy_current').html(ui.value/100.0);
+                        var current = $('.jpoker_rebuy_current').html(ui.value/100.0);
+			current.attr('title', ui.value);
                     }
                 });
             return rebuy;
@@ -4130,7 +4132,7 @@
         },
 
         templates: {
-            rebuy: '<div class=\'jpoker_rebuy_bound jpoker_rebuy_min\'>{min}</div><div class=\'ui-slider-1\'><div class=\'ui-slider-handle\'></div></div><div class=\'jpoker_rebuy_current\'>{current}</div><div class=\'jpoker_rebuy_bound jpoker_rebuy_max\'>{max}</div><div class=\'ui-dialog-buttonpane\'><button class=\'jpoker_rebuy_action\'>{label}</button></div></div>'
+            rebuy: '<div class=\'jpoker_rebuy_bound jpoker_rebuy_min\'>{min}</div><div class=\'ui-slider-1\'><div class=\'ui-slider-handle\'></div></div><div class=\'jpoker_rebuy_current\' title=\'{title}\'>{current}</div><div class=\'jpoker_rebuy_bound jpoker_rebuy_max\'>{max}</div><div class=\'ui-dialog-buttonpane\'><button class=\'jpoker_rebuy_action\'>{label}</button></div></div>'
         }
     };
 
@@ -4223,7 +4225,7 @@
 	    var t = this.template;
 	    return t.supplant({raise_label: _("raise"),
 						raise_min: jpoker.chips.SHORT(betLimit.min),
-						raise_current_title: betLimit.min,
+						raise_current_title: Math.floor(betLimit.min*100),
 						raise_current: jpoker.chips.SHORT(betLimit.min),
 						raise_max: jpoker.chips.SHORT(betLimit.max)});
 	}
