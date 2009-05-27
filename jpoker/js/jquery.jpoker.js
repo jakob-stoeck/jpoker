@@ -3374,6 +3374,7 @@
 	            var chat_message = $('<span class=\'jpoker_chat_message\'></span>').appendTo(chat_line).text(message);
                 }
                 chat.attr('scrollTop', chat.attr('scrollHeight') || 0);
+                jpoker.plugins.table.callback.chat_changed(chat_element);
                 break;
 
 	    case 'PacketPokerMuckRequest':
@@ -3456,6 +3457,8 @@
 	quit: function(table) {
 	},
 	display_done: function(element) {
+	},
+	chat_changed: function(element) {
 	}
     };
 
