@@ -7631,7 +7631,7 @@ test("jpoker.plugins.playerSelf: create in position", function(){
     });
 
 test("jpoker.plugins.muck", function(){
-        expect(27);
+        expect(29);
 
 	var place = $("#main");
 
@@ -7688,6 +7688,8 @@ test("jpoker.plugins.muck", function(){
 	equals(auto_muck_lose.attr('type'), 'checkbox', '#auto_muck_win checkbox');
 	equals(auto_muck_win.is(':checked'), false, '#auto_muck_win checked preferences');
 	equals(auto_muck_lose.is(':checked'), false, '#auto_muck_lose checked preferences');
+	equals($('.jpoker_auto_muck_win label', auto_muck_element).attr('title'), 'Muck winning hands on showdown');
+	equals($('.jpoker_auto_muck_lose label', auto_muck_element).attr('title'), 'Muck losing hands on showdown');
 	
 	server.sendPacket = function() {};
 	auto_muck_win.click();

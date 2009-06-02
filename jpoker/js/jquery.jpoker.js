@@ -3872,7 +3872,9 @@
 	    //
 	    $('#auto_muck' + id).html(jpoker.plugins.muck.templates.auto_muck.supplant({id: id,
 			    auto_muck_win_label: _("Muck winning"),
-			    auto_muck_lose_label: _("Muck losing")}));
+			    auto_muck_win_title: _("Muck winning hands on showdown"),
+			    auto_muck_lose_label: _("Muck losing"),
+			    auto_muck_lose_title: _("Muck losing hands on showdown")}));
 	    $('#auto_muck_win' + id).click(function() {
 		    var server = jpoker.getServer(url);
 		    jpoker.plugins.muck.sendAutoMuck(server, game_id, id);
@@ -4159,7 +4161,7 @@
 	templates : {
 	    muck_accept: '<div class=\'jpoker_muck jpoker_muck_accept\'><a href=\'javascript://\'>{muck_accept_label}</a></div>',
 	    muck_deny: '<div class=\'jpoker_muck jpoker_muck_deny\'><a href=\'javascript://\'>{muck_deny_label}</a></div>',
-	    auto_muck: '<div class=\'jpoker_auto_muck\'><div class=\'jpoker_auto_muck_win\'><input type=\'checkbox\' name=\'auto_muck_win\' id=\'auto_muck_win{id}\'></input><label for=\'auto_muck_win{id}\'>{auto_muck_win_label}</label></div><div class=\'jpoker_auto_muck_lose\'><input type=\'checkbox\' name=\'auto_muck_lose\' id=\'auto_muck_lose{id}\'></input><label for=\'auto_muck_lose{id}\'>{auto_muck_lose_label}</label></div></div>'
+	    auto_muck: '<div class=\'jpoker_auto_muck\'><div class=\'jpoker_auto_muck_win\'><input type=\'checkbox\' name=\'auto_muck_win\' id=\'auto_muck_win{id}\'></input><label for=\'auto_muck_win{id}\' title=\'{auto_muck_win_title}\'>{auto_muck_win_label}</label></div><div class=\'jpoker_auto_muck_lose\'><input type=\'checkbox\' name=\'auto_muck_lose\' id=\'auto_muck_lose{id}\'></input><label for=\'auto_muck_lose{id}\' title=\'{auto_muck_lose_title}\'>{auto_muck_lose_label}</label></div></div>'
 	},
 	muckRequest: function(server, packet, id) {
 	    if ($.inArray(server.serial, packet.muckable_serials) != -1) {
