@@ -4049,16 +4049,18 @@ test("jpoker.plugins.tourneyDetails templates tables", function(){
 	equals(table2.children().eq(4).find("input").attr("value"), "Go to table");
 
 	
-	var link_pattern = "http://foo.com/tourneytable?game_id={game_id}";
+	var link_pattern = "http://foo.com/tourneytable?game_id={game_id}+tourney_serial={serial}";
 	$(element).html(tourneyDetails.getHTML(id, packet, logged, registered, link_pattern));
 
 	var table1_link = $(".jpoker_tourney_details_tables tr", element).eq(2);
-	var link1 = link_pattern.supplant({game_id: 606});
-	ok(table1_link.children().eq(4).html().indexOf(link1) >= 0, link1);
+	var link1 = link_pattern.supplant({game_id: 606, serial: 1});
+        var link1_actual = table1_link.children().eq(4).html();
+	ok(link1_actual.indexOf(link1) >= 0, "look for " + link1 + " in " + link1_actual);
 	
 	var table2_link = $(".jpoker_tourney_details_tables tr", element).eq(3);
-	var link2 = link_pattern.supplant({game_id: 607});
-	ok(table2_link.children().eq(4).html().indexOf(link2) >= 0, link2);
+	var link2 = link_pattern.supplant({game_id: 607, serial: 1});
+        var link2_actual = table2_link.children().eq(4).html();
+	ok(link2_actual.indexOf(link2) >= 0, "look for " + link2 + " in " + link2_actual);
 
 	cleanup();
     });

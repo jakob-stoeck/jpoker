@@ -2681,7 +2681,7 @@
 		    'players_quota_label' : _("players max."),
 		    'start_time_label' : _("Start time:"),
 		    'buy_in_label' : _("Buy in:")
-                       }).supplant(packet.tourney);
+                       });
 	
 	html_map.register = '';
 	if (packet.tourney.state == 'registering') {	    
@@ -2755,7 +2755,7 @@
 	}
 
 	html_map.table_details = t.table_details;
-        return t.layout.supplant(html_map);
+        return t.layout.supplant(html_map).supplant(packet.tourney);
     };
 
     jpoker.plugins.tourneyDetails.getHTMLTableDetails = function(id, packet, table) {
