@@ -5928,7 +5928,7 @@ test("jpoker.plugins.player: PacketPokerPlayerArrive code injection", function()
     });
 
 test("jpoker.plugins.player: sounds", function(){
-        expect(1);
+        expect(2);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -5945,13 +5945,28 @@ test("jpoker.plugins.player: sounds", function(){
         server.serial = player_serial;
         var player_seat = 2;
 	var player_name = 'dummy';
-	var sound_player_arrive = jpoker.plugins.player.callback.sound.player_arrive;
-	jpoker.plugins.player.callback.sound.player_arrive = function() {
-	    jpoker.plugins.player.callback.sound.player_arrive = sound_player_arrive;
+	var sound_player_arrive = jpoker.plugins.player.callback.sound.arrive;
+	jpoker.plugins.player.callback.sound.arrive = function() {
+	    jpoker.plugins.player.callback.sound.arrive = sound_player_arrive;
 	    sound_player_arrive();
 	    equals($("#jpokerSound " + jpoker.sound).attr("src").indexOf('arrive') >= 0, true, 'sound arrive');
 	};
-        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, name: player_name, game_id: game_id });        
+	var sound_player_self_in_position = jpoker.plugins.playerSelf.callback.sound.in_position;
+	jpoker.plugins.playerSelf.callback.sound.in_position = function() {
+	    jpoker.plugins.playerSelf.callback.sound.in_position = sound_player_self_in_position;
+	    sound_player_self_in_position();
+	    equals($("#jpokerSound " + jpoker.sound).attr("src").indexOf('hand') >= 0, true, 'sound position');
+	};
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, name: player_name, game_id: game_id });
+	table.betLimit = {
+            min:   5,
+            max:   10,
+            step:  1,
+            call: 10,
+            allin:40,
+            pot:  20
+        };
+	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
         start_and_cleanup();
     });
 

@@ -3526,7 +3526,7 @@
 	    $('#seat' + seat + id).addClass('jpoker_seat jpoker_seat'+seat);
 	    seat_element.addClass('jpoker_player_seat jpoker_player_seat'+seat);
 	    this.callback.player_arrive(seat_element.get(0), serial);
-	    this.callback.sound.player_arrive();
+	    this.callback.sound.arrive();
         },
 
         leave: function(player, packet, id) {
@@ -3739,7 +3739,7 @@
 	    player_arrive: function(element, serial) {
 	    },
 	    sound: {
-		player_arrive : function() {
+		arrive : function() {
 		    $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_arrive.swf\' />');
 		}
 	    }
@@ -4130,8 +4130,8 @@
                     };
                 }
                 $('#raise' + id).unbind('click').click(click).show();
-                $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_hand.swf\' />');
-               $('#game_window' + id).addClass('jpoker_self_in_position');
+		jpoker.plugins.playerSelf.callback.sound.in_position();
+		$('#game_window' + id).addClass('jpoker_self_in_position');
             }
         },
 
@@ -4154,7 +4154,15 @@
 
         templates: {
             rebuy: '<div class=\'jpoker_rebuy_bound jpoker_rebuy_min\'>{min}</div><div class=\'ui-slider-1\'><div class=\'ui-slider-handle\'></div></div><div class=\'jpoker_rebuy_current\' title=\'{title}\'>{current}</div><div class=\'jpoker_rebuy_bound jpoker_rebuy_max\'>{max}</div><div class=\'ui-dialog-buttonpane\'><button class=\'jpoker_rebuy_action\'>{label}</button></div>'
-        }
+        },
+
+	callback: {
+	    sound: {
+		in_position : function() {
+		    $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_hand.swf\' />');
+		}
+	    }
+	}
     };
 
     //
