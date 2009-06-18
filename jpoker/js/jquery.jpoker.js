@@ -3470,6 +3470,8 @@
     // player (table plugin helper)
     //
     jpoker.plugins.player = {
+	bet_animation_duration: 500,
+
         create: function(table, packet, id) {
             var url = table.url;
             var game_id = table.id;
@@ -3638,7 +3640,7 @@
 
         chips: function(player, id) {
             jpoker.plugins.chips.update(player.money, '#player_seat' + player.seat + '_money' + id);
-            jpoker.plugins.chips.update(player.bet, '#player_seat' + player.seat + '_bet' + id, '#player_seat' + player.seat + '_money' + id, 500);
+            jpoker.plugins.chips.update(player.bet, '#player_seat' + player.seat + '_bet' + id, '#player_seat' + player.seat + '_money' + id, jpoker.plugins.player.bet_animation_duration);
             if(jpoker.getServer(player.url).serial == player.serial) {
                 jpoker.plugins.playerSelf.chips(player, id);
             }
