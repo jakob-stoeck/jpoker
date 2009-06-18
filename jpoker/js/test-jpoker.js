@@ -4913,6 +4913,7 @@ test("jpoker.plugins.table", function(){
 	    equals($("#" + names[name] + id).css('display'), 'none', names[name]);
 	}
 	equals($('#jpokerSound').size(), 1, 'jpokerSound');
+	equals($('#jpokerSoundAction').size(), 1, 'jpokerSoundAction');
 	content = $("#" + id).text();
     });
 
@@ -5971,28 +5972,28 @@ test("jpoker.plugins.player: sounds", function(){
 	jpoker.plugins.player.callback.sound.call = function() {
 	    jpoker.plugins.player.callback.sound.call = sound_player_call;
 	    sound_player_call();
-	    equals($("#jpokerSound " + jpoker.sound).attr("src").indexOf('call') >= 0, true, 'sound call');
+	    equals($("#jpokerSoundAction " + jpoker.sound).attr("src").indexOf('call') >= 0, true, 'sound call');
 	};
         table.handler(server, game_id, { type: 'PacketPokerCall', serial: player_serial, game_id: game_id });
 	var sound_player_raise = jpoker.plugins.player.callback.sound.raise;
 	jpoker.plugins.player.callback.sound.raise = function() {
 	    jpoker.plugins.player.callback.sound.raise = sound_player_raise;
 	    sound_player_raise();
-	    equals($("#jpokerSound " + jpoker.sound).attr("src").indexOf('bet') >= 0, true, 'sound raise');
+	    equals($("#jpokerSoundAction " + jpoker.sound).attr("src").indexOf('bet') >= 0, true, 'sound raise');
 	};
 	table.handler(server, game_id, { type: 'PacketPokerRaise', serial: player_serial, game_id: game_id });
 	var sound_player_check = jpoker.plugins.player.callback.sound.check;
 	jpoker.plugins.player.callback.sound.check = function() {
 	    jpoker.plugins.player.callback.sound.check = sound_player_check;
 	    sound_player_check();
-	    equals($("#jpokerSound " + jpoker.sound).attr("src").indexOf('check') >= 0, true, 'sound check');
+	    equals($("#jpokerSoundAction " + jpoker.sound).attr("src").indexOf('check') >= 0, true, 'sound check');
 	};
 	table.handler(server, game_id, { type: 'PacketPokerCheck', serial: player_serial, game_id: game_id });
 	var sound_player_fold = jpoker.plugins.player.callback.sound.fold;
 	jpoker.plugins.player.callback.sound.fold = function() {
 	    jpoker.plugins.player.callback.sound.fold = sound_player_fold;
 	    sound_player_fold();
-	    equals($("#jpokerSound " + jpoker.sound).attr("src").indexOf('fold') >= 0, true, 'sound fold');
+	    equals($("#jpokerSoundAction " + jpoker.sound).attr("src").indexOf('fold') >= 0, true, 'sound fold');
 	};
 	table.handler(server, game_id, { type: 'PacketPokerFold', serial: player_serial, game_id: game_id });
 

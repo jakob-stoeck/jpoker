@@ -3204,6 +3204,9 @@
 	    if($('#jpokerSound').size() === 0) {
 		$('body').append('<div id=\'jpokerSound\' />');
 	    }
+	    if($('#jpokerSoundAction').size() === 0) {
+		$('body').append('<div id=\'jpokerSoundAction\' />');
+	    }
 
 	    var table_info_element = $('#table_info' + id);
 	    $('<div class=\'jpoker_table_info_name\'>').appendTo(table_info_element).html(table.name);
@@ -3748,16 +3751,16 @@
 		    $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_arrive.swf\' />');
 		},
 		call: function() {
-		    $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_call.swf\' />');
+		    $('#jpokerSoundAction').html('<' + jpoker.sound + ' src=\'player_call.swf\' />');
 		},
 		raise: function() {
-		    $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_bet.swf\' />');
+		    $('#jpokerSoundAction').html('<' + jpoker.sound + ' src=\'player_bet.swf\' />');
 		},
 		fold: function() {
-		    $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_fold.swf\' />');
+		    $('#jpokerSoundAction').html('<' + jpoker.sound + ' src=\'player_fold.swf\' />');
 		},
 		check: function() {
-		    $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_check.swf\' />');
+		    $('#jpokerSoundAction').html('<' + jpoker.sound + ' src=\'player_check.swf\' />');
 		},
 		
 	    }
