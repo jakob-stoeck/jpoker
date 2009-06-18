@@ -16,7 +16,13 @@
 #
 SOUNDS = \
 	player_arrive.ogg \
-	player_hand.ogg
+	player_hand.ogg \
+	player_bet.ogg \
+	player_call.ogg \
+	player_fold.ogg \
+	player_check.ogg \
+	player_fold.ogg
+
 
 SWFS = $(SOUNDS:.ogg=.swf)
 WAVS = $(SOUNDS:.ogg=.wav)

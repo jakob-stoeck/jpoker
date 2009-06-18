@@ -3517,6 +3517,7 @@
             } else {
                 jpoker.plugins.player.sitOut(player, id);
             }
+	    this.callback.sound.arrive();
             player.registerUpdate(this.update, id, 'update' + id);
             player.registerDestroy(this.destroy, id, 'destroy' + id);
 	    var stats_element = $('#player_seat' + seat  + '_stats' + id).removeClass().addClass('jpoker_player_stats jpoker_ptable_player_seat' + seat + '_stats');
@@ -3526,7 +3527,6 @@
 	    $('#seat' + seat + id).addClass('jpoker_seat jpoker_seat'+seat);
 	    seat_element.addClass('jpoker_player_seat jpoker_player_seat'+seat);
 	    this.callback.player_arrive(seat_element.get(0), serial);
-	    this.callback.sound.arrive();
         },
 
         leave: function(player, packet, id) {
@@ -3549,6 +3549,7 @@
 
             case 'PacketPokerAutoFold':
             jpoker.plugins.player.sitOut(player, id);
+	    jpoker.plugins.player.callback.sound.fold();
             break;
 
             case 'PacketPokerPlayerCards':
@@ -3558,18 +3559,22 @@
 	    case 'PacketPokerFold':
 	    jpoker.plugins.cards.hide(player.cards, 'card_seat' + player.seat, id);
 	    jpoker.plugins.player.action(player, id);
+	    jpoker.plugins.player.callback.sound.fold();
 	    break;
 
 	    case 'PacketPokerCheck':
 	    jpoker.plugins.player.action(player, id);
+	    jpoker.plugins.player.callback.sound.check();
 	    break;
 
 	    case 'PacketPokerCall':
 	    jpoker.plugins.player.action(player, id);
+	    jpoker.plugins.player.callback.sound.call();
 	    break;
 
 	    case 'PacketPokerRaise':
 	    jpoker.plugins.player.action(player, id);
+	    jpoker.plugins.player.callback.sound.raise();
 	    break;
 
 	    case 'PacketPokerStart':
@@ -3741,7 +3746,20 @@
 	    sound: {
 		arrive : function() {
 		    $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_arrive.swf\' />');
-		}
+		},
+		call: function() {
+		    $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_call.swf\' />');
+		},
+		raise: function() {
+		    $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_bet.swf\' />');
+		},
+		fold: function() {
+		    $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_fold.swf\' />');
+		},
+		check: function() {
+		    $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_check.swf\' />');
+		},
+		
 	    }
 	}
     };

@@ -5928,7 +5928,7 @@ test("jpoker.plugins.player: PacketPokerPlayerArrive code injection", function()
     });
 
 test("jpoker.plugins.player: sounds", function(){
-        expect(2);
+        expect(6);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -5951,13 +5951,13 @@ test("jpoker.plugins.player: sounds", function(){
 	    sound_player_arrive();
 	    equals($("#jpokerSound " + jpoker.sound).attr("src").indexOf('arrive') >= 0, true, 'sound arrive');
 	};
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, name: player_name, game_id: game_id });
 	var sound_player_self_in_position = jpoker.plugins.playerSelf.callback.sound.in_position;
 	jpoker.plugins.playerSelf.callback.sound.in_position = function() {
 	    jpoker.plugins.playerSelf.callback.sound.in_position = sound_player_self_in_position;
 	    sound_player_self_in_position();
 	    equals($("#jpokerSound " + jpoker.sound).attr("src").indexOf('hand') >= 0, true, 'sound position');
 	};
-        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, name: player_name, game_id: game_id });
 	table.betLimit = {
             min:   5,
             max:   10,
@@ -5967,6 +5967,35 @@ test("jpoker.plugins.player: sounds", function(){
             pot:  20
         };
 	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
+	var sound_player_call = jpoker.plugins.player.callback.sound.call;
+	jpoker.plugins.player.callback.sound.call = function() {
+	    jpoker.plugins.player.callback.sound.call = sound_player_call;
+	    sound_player_call();
+	    equals($("#jpokerSound " + jpoker.sound).attr("src").indexOf('call') >= 0, true, 'sound call');
+	};
+        table.handler(server, game_id, { type: 'PacketPokerCall', serial: player_serial, game_id: game_id });
+	var sound_player_raise = jpoker.plugins.player.callback.sound.raise;
+	jpoker.plugins.player.callback.sound.raise = function() {
+	    jpoker.plugins.player.callback.sound.raise = sound_player_raise;
+	    sound_player_raise();
+	    equals($("#jpokerSound " + jpoker.sound).attr("src").indexOf('bet') >= 0, true, 'sound raise');
+	};
+	table.handler(server, game_id, { type: 'PacketPokerRaise', serial: player_serial, game_id: game_id });
+	var sound_player_check = jpoker.plugins.player.callback.sound.check;
+	jpoker.plugins.player.callback.sound.check = function() {
+	    jpoker.plugins.player.callback.sound.check = sound_player_check;
+	    sound_player_check();
+	    equals($("#jpokerSound " + jpoker.sound).attr("src").indexOf('check') >= 0, true, 'sound check');
+	};
+	table.handler(server, game_id, { type: 'PacketPokerCheck', serial: player_serial, game_id: game_id });
+	var sound_player_fold = jpoker.plugins.player.callback.sound.fold;
+	jpoker.plugins.player.callback.sound.fold = function() {
+	    jpoker.plugins.player.callback.sound.fold = sound_player_fold;
+	    sound_player_fold();
+	    equals($("#jpokerSound " + jpoker.sound).attr("src").indexOf('fold') >= 0, true, 'sound fold');
+	};
+	table.handler(server, game_id, { type: 'PacketPokerFold', serial: player_serial, game_id: game_id });
+
         start_and_cleanup();
     });
 
