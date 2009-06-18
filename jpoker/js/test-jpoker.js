@@ -8214,6 +8214,23 @@ test("jpoker.preferences in jpoker.server", function() {
 	cleanup();
     });
 
+test("jpoker.plugins.chips", function() {
+	expect(6);
+	stop();
+	$('#main').html('<div id=\'money\' /><div id=\'bet\' />');
+	$('#money').css({position: 'absolute', left: '100px', top: '100px'});	
+	$('#bet').css({position: 'absolute', left: '200px', top: '200px'}).hide();
+	jpoker.plugins.chips.update(100, '#bet', '#money', 100, function() {
+		equals($('#bet').css('opacity'), 1);
+		equals($('#bet').css('left'), '200px');
+		equals($('#bet').css('top'), '200px');
+		start();
+	    });
+	equals($('#bet').css('opacity'), 0);
+	equals($('#bet').css('left'), '100px');
+	equals($('#bet').css('top'), '100px');
+    });
+
 test("$.fn.frame", function(){
         expect(4);
         var element = $("<div id='PID'><div id='ID'></div></div>").appendTo(document.body);
