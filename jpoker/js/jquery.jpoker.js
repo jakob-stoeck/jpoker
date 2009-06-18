@@ -3517,7 +3517,6 @@
             } else {
                 jpoker.plugins.player.sitOut(player, id);
             }
-            $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_arrive.swf\' />');
             player.registerUpdate(this.update, id, 'update' + id);
             player.registerDestroy(this.destroy, id, 'destroy' + id);
 	    var stats_element = $('#player_seat' + seat  + '_stats' + id).removeClass().addClass('jpoker_player_stats jpoker_ptable_player_seat' + seat + '_stats');
@@ -3527,6 +3526,7 @@
 	    $('#seat' + seat + id).addClass('jpoker_seat jpoker_seat'+seat);
 	    seat_element.addClass('jpoker_player_seat jpoker_player_seat'+seat);
 	    this.callback.player_arrive(seat_element.get(0), serial);
+	    this.callback.sound.player_arrive();
         },
 
         leave: function(player, packet, id) {
@@ -3737,6 +3737,11 @@
 		$('#player_seat' + player.seat  + id).removeClass('jpoker_seat_hover');
 	    },
 	    player_arrive: function(element, serial) {
+	    },
+	    sound: {
+		player_arrive : function() {
+		    $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_arrive.swf\' />');
+		}
 	    }
 	}
     };

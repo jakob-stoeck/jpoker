@@ -5927,6 +5927,34 @@ test("jpoker.plugins.player: PacketPokerPlayerArrive code injection", function()
         start_and_cleanup();
     });
 
+test("jpoker.plugins.player: sounds", function(){
+        expect(1);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 1;
+        server.serial = player_serial;
+        var player_seat = 2;
+	var player_name = 'dummy';
+	var sound_player_arrive = jpoker.plugins.player.callback.sound.player_arrive;
+	jpoker.plugins.player.callback.sound.player_arrive = function() {
+	    jpoker.plugins.player.callback.sound.player_arrive = sound_player_arrive;
+	    sound_player_arrive();
+	    equals($("#jpokerSound " + jpoker.sound).attr("src").indexOf('arrive') >= 0, true, 'sound arrive');
+	};
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, name: player_name, game_id: game_id });        
+        start_and_cleanup();
+    });
+
 if (TEST_AVATAR) {
 test("jpoker.plugins.player: avatar", function(){
         expect(1);
