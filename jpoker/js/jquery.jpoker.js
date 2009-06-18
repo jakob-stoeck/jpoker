@@ -3638,7 +3638,7 @@
 
         chips: function(player, id) {
             jpoker.plugins.chips.update(player.money, '#player_seat' + player.seat + '_money' + id);
-            jpoker.plugins.chips.update(player.bet, '#player_seat' + player.seat + '_bet' + id);
+            jpoker.plugins.chips.update(player.bet, '#player_seat' + player.seat + '_bet' + id, '#player_seat' + player.seat + '_money' + id);
             if(jpoker.getServer(player.url).serial == player.serial) {
                 jpoker.plugins.playerSelf.chips(player, id);
             }
@@ -4253,17 +4253,24 @@
     // chips (table plugin helper)
     //
     jpoker.plugins.chips = {
-        update: function(chips, id) {
+        update: function(chips, id, from) {
             var element = $(id);
             if(chips > 0) {
                 element.show();
                 element.html(jpoker.chips.SHORT(chips));
                 element.attr('title', jpoker.chips.LONG(chips));
+		if (from !== undefined) {
+		    $(from).show();
+		    var positionFrom = $(from).position();
+		    $(from).hide();
+		    var positionTo = element.position();
+		    element.css({left: positionFrom.left, top: positionFrom.top, opacity: 0.0});
+		    element.animate({left: positionTo.left, top: positionTo.top, opacity: 1.0}, 1000);
+		}	    
             } else {
                 element.hide();
             }
         }
-
     };
 
     //
