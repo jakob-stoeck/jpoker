@@ -8242,6 +8242,7 @@ test("jpoker.plugins.chips", function() {
 	equals($('#bet').css('top'), '100px');
     });
 
+
 test("$.fn.frame", function(){
         expect(4);
         var element = $("<div id='PID'><div id='ID'></div></div>").appendTo(document.body);

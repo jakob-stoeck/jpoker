@@ -3577,7 +3577,11 @@
             break;
 
             case 'PacketPokerPlayerCards':
-            jpoker.plugins.cards.update(player.cards, 'card_seat' + player.seat, id);
+	    var dealer = jpoker.getTable(player.url, player.game_id).dealer;
+	    if (dealer == -1) {
+		dealer = 0;
+	    }
+            jpoker.plugins.cards.update(player.cards, 'card_seat' + player.seat, id, '#dealer' + dealer + id, 500);
             break;
 
 	    case 'PacketPokerFold':
@@ -4247,7 +4251,7 @@
     // cards (table plugin helper)
     //
     jpoker.plugins.cards = {
-        update: function(cards, prefix, id) {
+        update: function(cards, prefix, id, from, duration, callback) {
             for(var i = 0; i < cards.length; i++) {
                 var card = cards[i];
                 var element = $('#' + prefix + i + id);
@@ -4258,6 +4262,14 @@
                     }
                     element.removeClass().addClass('jpoker_card jpoker_ptable_' + prefix + i + ' jpoker_card_' + card_image);
                     element.show();
+		    if (from !== undefined) {
+			$(from).show();
+			var positionFrom = $(from).position();
+			$(from).hide();
+			var positionTo = element.position();
+			element.css({left: positionFrom.left, top: positionFrom.top, opacity: 0.0});
+			element.animate({left: positionTo.left, top: positionTo.top, opacity: 1.0}, duration, callback);
+		    }
                 } else {
                     element.hide();
                 }
@@ -4287,7 +4299,7 @@
 		    var positionTo = element.position();
 		    element.css({left: positionFrom.left, top: positionFrom.top, opacity: 0.0});
 		    element.animate({left: positionTo.left, top: positionTo.top, opacity: 1.0}, duration, callback);
-		}	    
+		}
             } else {
                 element.hide();
             }
