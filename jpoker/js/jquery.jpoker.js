@@ -3788,7 +3788,7 @@
 	    animation: {
 		money2bet: function(player, id) {
 		    return function(element) {
-			$(element).moveFromAndFadeIn('#player_seat' + player.seat + '_bet' + id, 500)
+			$(element).moveFromAndFadeIn('#player_seat' + player.seat + '_money' + id, 500)
 		    };
 		},
 		deal_card: function(player, id) {
@@ -4311,11 +4311,16 @@
 
     $.fn.moveFromAndFadeIn = function(from, duration, callback) {
 	var element = this;
+
+	var visible = $(from).is(':visible');	
 	$(from).show();
 	var positionFrom = $(from).position();
-	$(from).hide();
+	if (visible === false) {
+	    $(from).hide();
+	}
 	element.show();
-	var positionTo = element.position();
+	var positionTo = element.position();       
+
 	element.css({left: positionFrom.left, top: positionFrom.top, opacity: 0.0});
 	element.animate({left: positionTo.left, top: positionTo.top, opacity: 1.0}, duration, callback);
     };

@@ -8271,10 +8271,11 @@ test("jpoker.preferences in jpoker.server", function() {
     });
 
 test("jquery.fn.moveFromAndFadeIn", function() {
-	expect(6);
+	expect(7);
 	stop();
 	$('#main').html('<div id=\'money\' /><div id=\'bet\' />');
 	$('#money').css({position: 'absolute', left: '100px', top: '100px'});	
+	$('#money').show();
 	$('#bet').css({position: 'absolute', left: '200px', top: '200px'}).hide();
 	$("#bet").moveFromAndFadeIn('#money', 100, function() {
 		equals($('#bet').css('opacity'), 1);
@@ -8285,6 +8286,7 @@ test("jquery.fn.moveFromAndFadeIn", function() {
 	equals($('#bet').css('opacity'), 0);
 	equals($('#bet').css('left'), '100px');
 	equals($('#bet').css('top'), '100px');
+ 	ok($('#money').is(':visible'), 'from visible');
     });
 
 test("$.fn.frame", function(){
