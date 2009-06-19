@@ -3577,11 +3577,7 @@
             break;
 
             case 'PacketPokerPlayerCards':
-	    var dealer = jpoker.getTable(player.url, player.game_id).dealer;
-	    if (dealer == -1) {
-		dealer = 0;
-	    }
-            jpoker.plugins.cards.update(player.cards, 'card_seat' + player.seat, id, '#dealer' + dealer + id, 500);
+            jpoker.plugins.cards.update(player.cards, 'card_seat' + player.seat, id, jpoker.plugins.player.callback.animation.deal_card(player, id));
             break;
 
 	    case 'PacketPokerFold':
@@ -3663,7 +3659,7 @@
 
         chips: function(player, id) {
             jpoker.plugins.chips.update(player.money, '#player_seat' + player.seat + '_money' + id);
-            jpoker.plugins.chips.update(player.bet, '#player_seat' + player.seat + '_bet' + id, '#player_seat' + player.seat + '_money' + id, jpoker.plugins.player.bet_animation_duration);
+            jpoker.plugins.chips.update(player.bet, '#player_seat' + player.seat + '_bet' + id, jpoker.plugins.player.callback.animation.money2bet(player, id));
             if(jpoker.getServer(player.url).serial == player.serial) {
                 jpoker.plugins.playerSelf.chips(player, id);
             }
@@ -3772,7 +3768,7 @@
 	    player_arrive: function(element, serial) {
 	    },
 	    sound: {
-		arrive : function() {
+		arrive: function() {
 		    $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_arrive.swf\' />');
 		},
 		call: function() {
@@ -3788,6 +3784,23 @@
 		    $('#jpokerSoundAction').html('<' + jpoker.sound + ' src=\'player_check.swf\' />');
 		},
 		
+	    },
+	    animation: {
+		money2bet: function(player, id) {
+		    return function(element) {
+			$(element).moveFromAndFadeIn('#player_seat' + player.seat + '_bet' + id, 500)
+		    };
+		},
+		deal_card: function(player, id) {
+		    var table = jpoker.getTable(player.url, player.game_id);
+		    var dealer = table.dealer;
+		    if (dealer == -1) {
+			dealer = 0;
+		    }		    
+		    return function(element) {
+			$(element).moveFromAndFadeIn('#dealer' + dealer + id, 500);
+		    };
+		}
 	    }
 	}
     };
@@ -4251,7 +4264,7 @@
     // cards (table plugin helper)
     //
     jpoker.plugins.cards = {
-        update: function(cards, prefix, id, from, duration, callback) {
+        update: function(cards, prefix, id, animation) {
             for(var i = 0; i < cards.length; i++) {
                 var card = cards[i];
                 var element = $('#' + prefix + i + id);
@@ -4262,13 +4275,8 @@
                     }
                     element.removeClass().addClass('jpoker_card jpoker_ptable_' + prefix + i + ' jpoker_card_' + card_image);
                     element.show();
-		    if (from !== undefined) {
-			$(from).show();
-			var positionFrom = $(from).position();
-			$(from).hide();
-			var positionTo = element.position();
-			element.css({left: positionFrom.left, top: positionFrom.top, opacity: 0.0});
-			element.animate({left: positionTo.left, top: positionTo.top, opacity: 1.0}, duration, callback);
+		    if (animation !== undefined) {
+			animation(element);
 		    }
                 } else {
                     element.hide();
@@ -4286,24 +4294,30 @@
     // chips (table plugin helper)
     //
     jpoker.plugins.chips = {
-        update: function(chips, id, from, duration, callback) {
+        update: function(chips, id, animation) {
             var element = $(id);
             if(chips > 0) {
                 element.show();
                 element.html(jpoker.chips.SHORT(chips));
                 element.attr('title', jpoker.chips.LONG(chips));
-		if (from !== undefined) {
-		    $(from).show();
-		    var positionFrom = $(from).position();
-		    $(from).hide();
-		    var positionTo = element.position();
-		    element.css({left: positionFrom.left, top: positionFrom.top, opacity: 0.0});
-		    element.animate({left: positionTo.left, top: positionTo.top, opacity: 1.0}, duration, callback);
+		if (animation !== undefined) {
+		    animation(element);
 		}
             } else {
                 element.hide();
             }
         }
+    };
+
+    $.fn.moveFromAndFadeIn = function(from, duration, callback) {
+	var element = this;
+	$(from).show();
+	var positionFrom = $(from).position();
+	$(from).hide();
+	element.show();
+	var positionTo = element.position();
+	element.css({left: positionFrom.left, top: positionFrom.top, opacity: 0.0});
+	element.animate({left: positionTo.left, top: positionTo.top, opacity: 1.0}, duration, callback);
     };
 
     //
