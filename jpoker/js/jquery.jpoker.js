@@ -2092,6 +2092,10 @@
                 this.notifyUpdate(packet);
                 break;
 
+		case 'PacketPokerChipsBet2Pot':
+		this.notifyUpdate(packet);
+		break;
+
                 case 'PacketPokerSit':
                 this.sit_out = false;
                 this.notifyUpdate(packet);
@@ -3330,9 +3334,11 @@
 		break;
 
             case 'PacketPokerBoardCards':
-                jpoker.plugins.cards.update(table.board, 'board', id);
 		if (packet.cards.length > 0) {
+		    jpoker.plugins.cards.update(table.board, 'board', id, function(element) {jpoker.plugins.table.callback.animation.deal_card(table, id, element);});
 		    jpoker.plugins.table.callback.sound.deal_card();
+		} else {
+		    jpoker.plugins.cards.update(table.board, 'board', id);
 		}
                 break;
 
@@ -3481,6 +3487,16 @@
 	sound: {
 	    deal_card: function() {
 		$('#jpokerSoundTable').html('<' + jpoker.sound + ' src=\'deal_card.swf\' />');
+	    }	    
+	},
+	animation: {
+	    deal_card: function(table, id, element) {
+		var dealer = table.dealer;
+		if (dealer == -1) {
+		    dealer = 0;
+		}		    
+		var duration = 500;
+		$(element).moveFrom('#dealer' + dealer + id, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);
 	    }
 	}
     };
@@ -3489,8 +3505,6 @@
     // player (table plugin helper)
     //
     jpoker.plugins.player = {
-	bet_animation_duration: 500,
-
         create: function(table, packet, id) {
             var url = table.url;
             var game_id = table.id;
@@ -3577,7 +3591,7 @@
             break;
 
             case 'PacketPokerPlayerCards':
-            jpoker.plugins.cards.update(player.cards, 'card_seat' + player.seat, id, jpoker.plugins.player.callback.animation.deal_card(player, id));
+            jpoker.plugins.cards.update(player.cards, 'card_seat' + player.seat, id, function(element) {jpoker.plugins.player.callback.animation.deal_card(player, id, element);});
             break;
 
 	    case 'PacketPokerFold':
@@ -3613,6 +3627,10 @@
             case 'PacketPokerPlayerChips':
             jpoker.plugins.player.chips(player, id);
             break;
+
+	    case 'PacketPokerChipsBet2Pot':	    
+	    jpoker.plugins.player.callback.animation.bet2pot(player, id, packet, $('#player_seat' + player.seat + '_bet' + id));
+	    break;
 
             case 'PacketPokerSelfInPosition':
             jpoker.plugins.playerSelf.inPosition(player, id);
@@ -3659,7 +3677,7 @@
 
         chips: function(player, id) {
             jpoker.plugins.chips.update(player.money, '#player_seat' + player.seat + '_money' + id);
-            jpoker.plugins.chips.update(player.bet, '#player_seat' + player.seat + '_bet' + id, jpoker.plugins.player.callback.animation.money2bet(player, id));
+            jpoker.plugins.chips.update(player.bet, '#player_seat' + player.seat + '_bet' + id, function(element) {jpoker.plugins.player.callback.animation.money2bet(player, id, element);});
             if(jpoker.getServer(player.url).serial == player.serial) {
                 jpoker.plugins.playerSelf.chips(player, id);
             }
@@ -3786,20 +3804,23 @@
 		
 	    },
 	    animation: {
-		money2bet: function(player, id) {
-		    return function(element) {
-			$(element).moveFromAndFadeIn('#player_seat' + player.seat + '_money' + id, 500)
-		    };
+		money2bet: function(player, id, element) {
+		    var duration = 500;
+		    $(element).moveFrom('#player_seat' + player.seat + '_money' + id, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);
 		},
-		deal_card: function(player, id) {
+		deal_card: function(player, id, element) {
 		    var table = jpoker.getTable(player.url, player.game_id);
 		    var dealer = table.dealer;
 		    if (dealer == -1) {
 			dealer = 0;
 		    }		    
-		    return function(element) {
-			$(element).moveFromAndFadeIn('#dealer' + dealer + id, 500);
-		    };
+		    var duration = 500;
+		    $(element).moveFrom('#dealer' + dealer + id, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);
+		},
+		bet2pot: function(player, id, packet, element) {
+		    var duration = 500;
+		    var chip = $(element).clone().insertAfter(element);
+		    chip.moveTo('#pot' + packet.pot + id, {duration: duration, queue: false}).css({opacity: 1}).animate({opacity: 0.0}, duration, function() {chip.remove();});
 		}
 	    }
 	}
@@ -4308,21 +4329,30 @@
             }
         }
     };
-
-    $.fn.moveFromAndFadeIn = function(from, duration, callback) {
-	var element = this;
-
-	var visible = $(from).is(':visible');	
-	$(from).show();
-	var positionFrom = $(from).position();
-	if (visible === false) {
-	    $(from).hide();
+    
+    
+    $.fn.getPosition = function() {
+	var visible = $(this).is(':visible');
+	$(this).show();
+	var position = $(this).position();
+	if (visible == false) {
+	    $(this).hide();
 	}
-	element.show();
-	var positionTo = element.position();       
+	return position;
+    };
 
-	element.css({left: positionFrom.left, top: positionFrom.top, opacity: 0.0});
-	element.animate({left: positionTo.left, top: positionTo.top, opacity: 1.0}, duration, callback);
+    $.fn.moveFrom = function(from, options) {
+	var positionFrom = $(from).getPosition();
+	var positionTo = $(this).getPosition();
+	$(this).css(positionFrom).animate(positionTo, options);
+	return this;
+    };
+    
+    $.fn.moveTo = function(to, options) {
+	var positionFrom = $(this).getPosition();
+	var positionTo = $(to).getPosition();
+	$(this).css(positionFrom).animate(positionTo, options);
+	return this;
     };
 
     //
