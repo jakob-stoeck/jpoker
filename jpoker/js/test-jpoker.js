@@ -6012,7 +6012,7 @@ test("jpoker.plugins.player: sounds", function(){
     });
 
 test("jpoker.plugins.player: animation", function(){
-        expect(6);
+        expect(5);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -6029,6 +6029,7 @@ test("jpoker.plugins.player: animation", function(){
         server.serial = player_serial;
         var player_seat = 2;
 	var player_name = 'dummy';
+
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, name: player_name, game_id: game_id });
 	table.betLimit = {
             min:   5,
@@ -6038,33 +6039,31 @@ test("jpoker.plugins.player: animation", function(){
             allin:40,
             pot:  20
         };
+        table.handler(server, game_id, { type: 'PacketPokerDealer', dealer: player_seat, game_id: game_id });
 	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
 	var money2bet = jpoker.plugins.player.callback.animation.money2bet;
-	jpoker.plugins.player.callback.animation.money2bet = function(player, id) {
-	    jpoker.plugins.player.callback.animation.money2bet = money2bet;
-	    return function(element) {
-		equals(element.length, 1, 'money2bet animation');
-	    };
-	}
+	jpoker.plugins.player.callback.animation.money2bet = function(player, id, element) {
+	    money2bet(player, id, element);
+	    equals(element.length, 1, 'money2bet animation');
+	};
 	table.handler(server, game_id, { type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, bet: 100, money: 1000 });
 	var player_deal_card = jpoker.plugins.player.callback.animation.deal_card;
-	jpoker.plugins.player.callback.animation.deal_card = function(player, id) {
-	    jpoker.plugins.player.callback.animation.deal_card = player_deal_card;
-	    return function(element) {
-		equals(element.length, 1, 'player deal_card animation');
-	    };
-	}
+	jpoker.plugins.player.callback.animation.deal_card = function(player, id, element) {
+	    player_deal_card(player, id, element);
+	    equals(element.length, 1, 'player deal_card animation');
+	};
 	table.handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: player_serial, game_id: game_id, cards: [1,2] });
 	var table_deal_card = jpoker.plugins.table.callback.animation.deal_card; 
-	jpoker.plugins.table.callback.animation.deal_card = function(table, id) {
-	    jpoker.plugins.table.callback.animation.deal_card = table_deal_card;
-	    ok(true, 'board deal_card animation');
-	    return function(element) {
-		equals(element.length, 1, 'board deal_card animation');
-	    };
-	}
+	jpoker.plugins.table.callback.animation.deal_card = function(table, id, element) {
+	    table_deal_card(table, id, element);
+	    equals(element.length, 1, 'board deal_card animation');
+	};
 	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [] });
 	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [1,2] });
+
+	jpoker.plugins.player.callback.animation.money2bet = money2bet;
+	jpoker.plugins.player.callback.animation.deal_card = player_deal_card;	
+	jpoker.plugins.table.callback.animation.deal_card = table_deal_card;
 	start_and_cleanup();
     });
 
@@ -8286,7 +8285,7 @@ test("jquery.fn.moveFrom", function() {
 	expect(6);
 	stop();
 	$('#main').html('<div id=\'money\' /><div id=\'bet\' />');
-	$('#money').css({position: 'absolute', left: '100px', top: '100px'});	
+	$('#money').css({position: 'absolute', left: '100px', top: '100px'}).hide();
 	$('#bet').css({position: 'absolute', left: '200px', top: '200px'});
 	$("#bet").moveFrom('#money', {duration: 100, complete: function() {
 		equals($('#bet').css('left'), '200px');
@@ -8295,15 +8294,15 @@ test("jquery.fn.moveFrom", function() {
 		}});
 	equals($('#bet').css('left'), '100px');
 	equals($('#bet').css('top'), '100px');
- 	ok($('#money').is(':visible'), 'from visible');
- 	ok($('#bet').is(':visible'), 'from visible');
+ 	ok($('#money').is(':hidden'), 'hidden');
+ 	ok($('#bet').is(':visible'), 'visible');
     });
 
 test("jquery.fn.moveTo", function() {
 	expect(6);
 	stop();
 	$('#main').html('<div id=\'money\' /><div id=\'bet\' />');
-	$('#money').css({position: 'absolute', left: '100px', top: '100px'});	
+	$('#money').css({position: 'absolute', left: '100px', top: '100px'}).hide();
 	$('#bet').css({position: 'absolute', left: '200px', top: '200px'});
 	$("#bet").moveTo('#money', {duration: 100, complete: function() {
 		equals($('#bet').css('left'), '100px');
@@ -8312,8 +8311,8 @@ test("jquery.fn.moveTo", function() {
 		}});
 	equals($('#bet').css('left'), '200px');
 	equals($('#bet').css('top'), '200px');
- 	ok($('#money').is(':visible'), 'from visible');
- 	ok($('#bet').is(':visible'), 'from visible');
+ 	ok($('#money').is(':hidden'), 'hidden');
+ 	ok($('#bet').is(':visible'), 'visible');
     });
 
 test("$.fn.frame", function(){
