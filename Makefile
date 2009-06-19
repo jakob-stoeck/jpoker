@@ -151,6 +151,11 @@ update_gems:
 gems/bin/tiddlywiki_cp: 
 	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp
 	patch -d gems/gems/tiddlywiki_cp-0.5.3 -p1 < tiddlywiki_cp_locale2lang.patch
+	# ruby1.8 & rubygems backward compatibility fix for when the gems is built with ruby1.9 and
+	# used with ruby1.8
+	# http://code.whytheluckystiff.net/list/shoes/2008/11/14/4469-re-hacking-shoes.html
+	perl -pi -e 's/ s.respond_to\? :required_rubygems_version=/ s.public_methods.include?("required_rubygems_version=")/' gems/specifications/*.gemspec
+	perl -pi -e 's/ s.respond_to\? :specification_version / s.public_methods.include?("specification_version=") /' gems/specifications/*.gemspec
 
 jpoker/index-%.html: gems/bin/tiddlywiki_cp 
 jpoker/index.html: gems/bin/tiddlywiki_cp 
