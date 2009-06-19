@@ -3330,9 +3330,11 @@
 		break;
 
             case 'PacketPokerBoardCards':
-                jpoker.plugins.cards.update(table.board, 'board', id);
 		if (packet.cards.length > 0) {
+		    jpoker.plugins.cards.update(table.board, 'board', id, jpoker.plugins.table.callback.animation.deal_card(table, id));
 		    jpoker.plugins.table.callback.sound.deal_card();
+		} else {
+		    jpoker.plugins.cards.update(table.board, 'board', id);
 		}
                 break;
 
@@ -3481,6 +3483,17 @@
 	sound: {
 	    deal_card: function() {
 		$('#jpokerSoundTable').html('<' + jpoker.sound + ' src=\'deal_card.swf\' />');
+	    }	    
+	},
+	animation: {
+	    deal_card: function(table, id) {
+		var dealer = table.dealer;
+		if (dealer == -1) {
+		    dealer = 0;
+		}		    
+		return function(element) {
+		    $(element).moveFromAndFadeIn('#dealer' + dealer + id, 500);
+		};
 	    }
 	}
     };

@@ -6012,7 +6012,7 @@ test("jpoker.plugins.player: sounds", function(){
     });
 
 test("jpoker.plugins.player: animation", function(){
-        expect(3);
+        expect(6);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -6047,12 +6047,24 @@ test("jpoker.plugins.player: animation", function(){
 	    };
 	}
 	table.handler(server, game_id, { type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, bet: 100, money: 1000 });
+	var player_deal_card = jpoker.plugins.player.callback.animation.deal_card;
 	jpoker.plugins.player.callback.animation.deal_card = function(player, id) {
+	    jpoker.plugins.player.callback.animation.deal_card = player_deal_card;
 	    return function(element) {
-		equals(element.length, 1, 'deal_card animation');
+		equals(element.length, 1, 'player deal_card animation');
 	    };
 	}
 	table.handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: player_serial, game_id: game_id, cards: [1,2] });
+	var table_deal_card = jpoker.plugins.table.callback.animation.deal_card; 
+	jpoker.plugins.table.callback.animation.deal_card = function(table, id) {
+	    jpoker.plugins.table.callback.animation.deal_card = table_deal_card;
+	    ok(true, 'board deal_card animation');
+	    return function(element) {
+		equals(element.length, 1, 'board deal_card animation');
+	    };
+	}
+	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [] });
+	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [1,2] });
 	start_and_cleanup();
     });
 
