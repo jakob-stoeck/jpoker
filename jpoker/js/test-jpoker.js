@@ -6012,7 +6012,7 @@ test("jpoker.plugins.player: sounds", function(){
     });
 
 test("jpoker.plugins.player: animation", function(){
-        expect(5);
+        expect(6);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -6061,9 +6061,18 @@ test("jpoker.plugins.player: animation", function(){
 	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [] });
 	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [1,2] });
 
+	var bet2pot = jpoker.plugins.player.callback.animation.bet2pot; 
+	jpoker.plugins.player.callback.animation.bet2pot = function(player, id, packet, element) {
+	    bet2pot(player, id, packet, element);
+	    equals(element.length, 1, 'player bet2pot animation');
+	};	
+
+	table.handler(server, game_id, { type: 'PacketPokerChipsBet2Pot', pot: 0, game_id: game_id, serial: player_serial });
+
 	jpoker.plugins.player.callback.animation.money2bet = money2bet;
 	jpoker.plugins.player.callback.animation.deal_card = player_deal_card;	
 	jpoker.plugins.table.callback.animation.deal_card = table_deal_card;
+	jpoker.plugins.player.callback.animation.bet2pot = bet2pot;
 	start_and_cleanup();
     });
 

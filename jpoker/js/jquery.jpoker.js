@@ -2092,6 +2092,10 @@
                 this.notifyUpdate(packet);
                 break;
 
+		case 'PacketPokerChipsBet2Pot':
+		this.notifyUpdate(packet);
+		break;
+
                 case 'PacketPokerSit':
                 this.sit_out = false;
                 this.notifyUpdate(packet);
@@ -3624,6 +3628,10 @@
             jpoker.plugins.player.chips(player, id);
             break;
 
+	    case 'PacketPokerChipsBet2Pot':	    
+	    jpoker.plugins.player.callback.animation.bet2pot(player, id, packet, $('#player_seat' + player.seat + '_bet' + id));
+	    break;
+
             case 'PacketPokerSelfInPosition':
             jpoker.plugins.playerSelf.inPosition(player, id);
             break;
@@ -3808,6 +3816,11 @@
 		    }		    
 		    var duration = 500;
 		    $(element).moveFrom('#dealer' + dealer + id, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);
+		},
+		bet2pot: function(player, id, packet, element) {
+		    var duration = 500;
+		    var chip = $(element).clone().insertAfter(element);
+		    chip.moveTo('#pot' + packet.pot + id, {duration: duration, queue: false}).css({opacity: 1}).animate({opacity: 0.0}, duration, function() {chip.remove();});
 		}
 	    }
 	}
