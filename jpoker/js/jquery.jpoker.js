@@ -3578,6 +3578,7 @@
 
             case 'PacketPokerPlayerCards':
             jpoker.plugins.cards.update(player.cards, 'card_seat' + player.seat, id);
+	    
             break;
 
 	    case 'PacketPokerFold':
@@ -3659,7 +3660,10 @@
 
         chips: function(player, id) {
             jpoker.plugins.chips.update(player.money, '#player_seat' + player.seat + '_money' + id);
-            jpoker.plugins.chips.update(player.bet, '#player_seat' + player.seat + '_bet' + id, '#player_seat' + player.seat + '_money' + id, jpoker.plugins.player.bet_animation_duration);
+            jpoker.plugins.chips.update(player.bet, '#player_seat' + player.seat + '_bet' + id);
+	    if (player.bet > 0) {
+		jpoker.plugins.chips.animate('#player_seat' + player.seat + '_bet' + id, '#player_seat' + player.seat + '_money' + id, 	jpoker.plugins.player.bet_animation_duration);
+	    }
             if(jpoker.getServer(player.url).serial == player.serial) {
                 jpoker.plugins.playerSelf.chips(player, id);
             }
@@ -4280,18 +4284,17 @@
                 element.show();
                 element.html(jpoker.chips.SHORT(chips));
                 element.attr('title', jpoker.chips.LONG(chips));
-		if (from !== undefined) {
-		    $(from).show();
-		    var positionFrom = $(from).position();
-		    $(from).hide();
-		    var positionTo = element.position();
-		    element.css({left: positionFrom.left, top: positionFrom.top, opacity: 0.0});
-		    element.animate({left: positionTo.left, top: positionTo.top, opacity: 1.0}, duration, callback);
-		}	    
             } else {
                 element.hide();
             }
-        }
+        },
+	animate: function(element, from, duration, callback) {
+	    $(from).show();
+	    var positionFrom = $(from).position();
+	    $(from).hide();
+	    var positionTo = $(chips).position();
+	    $(chips).show().css({left: positionFrom.left, top: positionFrom.top, opacity: 0.0}).animate({left: positionTo.left, top: positionTo.top, opacity: 1.0}, duration, callback);
+	}
     };
 
     //

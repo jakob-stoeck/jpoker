@@ -6011,6 +6011,44 @@ test("jpoker.plugins.player: sounds", function(){
         start_and_cleanup();
     });
 
+test("jpoker.plugins.player: animation", function(){
+        expect(1);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 1;
+        server.serial = player_serial;
+        var player_seat = 2;
+	var player_name = 'dummy';
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, name: player_name, game_id: game_id });
+	table.betLimit = {
+            min:   5,
+            max:   10,
+            step:  1,
+            call: 10,
+            allin:40,
+            pot:  20
+        };
+	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
+	var chips_animate = jpoker.plugins.chips.animate;
+	jpoker.plugins.chips.animate = function(chips, from, duration, callback) {
+	    jpoker.plugins.chips.animate = chips_animate;
+	    ok(true, 'animate called');
+	};
+	table.handler(server, game_id, { type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, bet: 0, money: 1000 });
+	table.handler(server, game_id, { type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, bet: 100, money: 1000 });
+	
+        start_and_cleanup();
+    });
+
 if (TEST_AVATAR) {
 test("jpoker.plugins.player: avatar", function(){
         expect(1);
@@ -8225,13 +8263,13 @@ test("jpoker.preferences in jpoker.server", function() {
 	cleanup();
     });
 
-test("jpoker.plugins.chips", function() {
+test("jpoker.plugins.chips.animate", function() {
 	expect(6);
 	stop();
 	$('#main').html('<div id=\'money\' /><div id=\'bet\' />');
 	$('#money').css({position: 'absolute', left: '100px', top: '100px'});	
-	$('#bet').css({position: 'absolute', left: '200px', top: '200px'}).hide();
-	jpoker.plugins.chips.update(100, '#bet', '#money', 100, function() {
+	$('#bet').css({position: 'absolute', left: '200px', top: '200px'});	
+	jpoker.plugins.chips.animate('#bet', '#money', 100, function() {
 		equals($('#bet').css('opacity'), 1);
 		equals($('#bet').css('left'), '200px');
 		equals($('#bet').css('top'), '200px');
