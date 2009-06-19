@@ -4893,7 +4893,7 @@ test("jpoker.plugins.login", function(){
 // table
 //
 test("jpoker.plugins.table", function(){
-        expect(19);
+        expect(20);
 
 	var packet = {"type": "PacketPokerTable", "id": 100};
         var server = jpoker.serverCreate({ url: 'url' });
@@ -4914,6 +4914,7 @@ test("jpoker.plugins.table", function(){
 	}
 	equals($('#jpokerSound').size(), 1, 'jpokerSound');
 	equals($('#jpokerSoundAction').size(), 1, 'jpokerSoundAction');
+	equals($('#jpokerSoundTable').size(), 1, 'jpokerSoundTable');
 	content = $("#" + id).text();
     });
 
@@ -5929,7 +5930,7 @@ test("jpoker.plugins.player: PacketPokerPlayerArrive code injection", function()
     });
 
 test("jpoker.plugins.player: sounds", function(){
-        expect(6);
+        expect(7);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -5996,6 +5997,14 @@ test("jpoker.plugins.player: sounds", function(){
 	    equals($("#jpokerSoundAction " + jpoker.sound).attr("src").indexOf('fold') >= 0, true, 'sound fold');
 	};
 	table.handler(server, game_id, { type: 'PacketPokerFold', serial: player_serial, game_id: game_id });
+
+	var sound_table_deal_card = jpoker.plugins.table.callback.sound.deal_card;
+	jpoker.plugins.table.callback.sound.deal_card = function() {
+	    jpoker.plugins.player.callback.sound.deal_card = sound_table_deal_card;
+	    sound_table_deal_card();
+	    equals($("#jpokerSoundTable " + jpoker.sound).attr("src").indexOf('deal_card') >= 0, true, 'sound deal card');
+	};
+	table.handler(server, game_id, { type: 'PacketPokerState', string: 'pre-flop', game_id: game_id });
 
         start_and_cleanup();
     });

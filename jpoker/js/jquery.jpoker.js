@@ -3207,6 +3207,9 @@
 	    if($('#jpokerSoundAction').size() === 0) {
 		$('body').append('<div id=\'jpokerSoundAction\' />');
 	    }
+	    if($('#jpokerSoundTable').size() === 0) {
+		$('body').append('<div id=\'jpokerSoundTable\' />');
+	    }
 
 	    var table_info_element = $('#table_info' + id);
 	    $('<div class=\'jpoker_table_info_name\'>').appendTo(table_info_element).html(table.name);
@@ -3320,6 +3323,9 @@
 
 	    case 'PacketPokerState':
 		jpoker.plugins.muck.muckRequestTimeout(id);
+		if (packet.string == 'pre-flop') {
+		    jpoker.plugins.table.callback.sound.deal_card();
+		}
 		break;
 
             case 'PacketPokerBoardCards':
@@ -3463,6 +3469,11 @@
 	display_done: function(element) {
 	},
 	chat_changed: function(element) {
+	},
+	sound: {
+	    deal_card: function() {
+		$('#jpokerSoundTable').html('<' + jpoker.sound + ' src=\'deal_card.swf\' />');
+	    }
 	}
     };
 

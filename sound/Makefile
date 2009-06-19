@@ -21,7 +21,8 @@ SOUNDS = \
 	player_call.ogg \
 	player_fold.ogg \
 	player_check.ogg \
-	player_fold.ogg
+	player_fold.ogg \
+	deal_card.ogg
 
 
 SWFS = $(SOUNDS:.ogg=.swf)
