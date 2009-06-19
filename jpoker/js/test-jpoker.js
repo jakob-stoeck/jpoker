@@ -8282,23 +8282,38 @@ test("jpoker.preferences in jpoker.server", function() {
 	cleanup();
     });
 
-test("jquery.fn.moveFromAndFadeIn", function() {
-	expect(7);
+test("jquery.fn.moveFrom", function() {
+	expect(6);
 	stop();
 	$('#main').html('<div id=\'money\' /><div id=\'bet\' />');
 	$('#money').css({position: 'absolute', left: '100px', top: '100px'});	
-	$('#money').show();
-	$('#bet').css({position: 'absolute', left: '200px', top: '200px'}).hide();
-	$("#bet").moveFromAndFadeIn('#money', 100, function() {
-		equals($('#bet').css('opacity'), 1);
+	$('#bet').css({position: 'absolute', left: '200px', top: '200px'});
+	$("#bet").moveFrom('#money', {duration: 100, complete: function() {
 		equals($('#bet').css('left'), '200px');
 		equals($('#bet').css('top'), '200px');
 		start();
-	    });
-	equals($('#bet').css('opacity'), 0);
+		}});
 	equals($('#bet').css('left'), '100px');
 	equals($('#bet').css('top'), '100px');
  	ok($('#money').is(':visible'), 'from visible');
+ 	ok($('#bet').is(':visible'), 'from visible');
+    });
+
+test("jquery.fn.moveTo", function() {
+	expect(6);
+	stop();
+	$('#main').html('<div id=\'money\' /><div id=\'bet\' />');
+	$('#money').css({position: 'absolute', left: '100px', top: '100px'});	
+	$('#bet').css({position: 'absolute', left: '200px', top: '200px'});
+	$("#bet").moveTo('#money', {duration: 100, complete: function() {
+		equals($('#bet').css('left'), '100px');
+		equals($('#bet').css('top'), '100px');
+		start();
+		}});
+	equals($('#bet').css('left'), '200px');
+	equals($('#bet').css('top'), '200px');
+ 	ok($('#money').is(':visible'), 'from visible');
+ 	ok($('#bet').is(':visible'), 'from visible');
     });
 
 test("$.fn.frame", function(){

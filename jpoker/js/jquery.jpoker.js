@@ -3492,7 +3492,8 @@
 		    dealer = 0;
 		}		    
 		return function(element) {
-		    $(element).moveFromAndFadeIn('#dealer' + dealer + id, 500);
+		    var duration = 500;
+		    $(element).moveFrom('#dealer' + dealer + id, {duration: duration, queue: false}).show().css({opacity: 0}).animate({opacity: 1.0}, duration);
 		};
 	    }
 	}
@@ -3801,7 +3802,8 @@
 	    animation: {
 		money2bet: function(player, id) {
 		    return function(element) {
-			$(element).moveFromAndFadeIn('#player_seat' + player.seat + '_money' + id, 500)
+			var duration = 500;
+			$(element).moveFrom('#player_seat' + player.seat + '_money' + id, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);
 		    };
 		},
 		deal_card: function(player, id) {
@@ -3811,7 +3813,8 @@
 			dealer = 0;
 		    }		    
 		    return function(element) {
-			$(element).moveFromAndFadeIn('#dealer' + dealer + id, 500);
+			var duration = 500;
+			$(element).moveFrom('#dealer' + dealer + id, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);
 		    };
 		}
 	    }
@@ -4321,21 +4324,30 @@
             }
         }
     };
-
-    $.fn.moveFromAndFadeIn = function(from, duration, callback) {
-	var element = this;
-
-	var visible = $(from).is(':visible');	
-	$(from).show();
-	var positionFrom = $(from).position();
-	if (visible === false) {
-	    $(from).hide();
+    
+    
+    $.fn.getPosition = function() {
+	var visible = $(this).is(':visible');
+	$(this).show();
+	var position = $(this).position();
+	if (visible == false) {
+	    $(this).hide();
 	}
-	element.show();
-	var positionTo = element.position();       
+	return position;
+    };
 
-	element.css({left: positionFrom.left, top: positionFrom.top, opacity: 0.0});
-	element.animate({left: positionTo.left, top: positionTo.top, opacity: 1.0}, duration, callback);
+    $.fn.moveFrom = function(from, options) {
+	var positionFrom = $(from).getPosition();
+	var positionTo = $(this).getPosition();
+	$(this).css(positionFrom).animate(positionTo, options);
+	return this;
+    };
+    
+    $.fn.moveTo = function(to, options) {
+	var positionFrom = $(this).getPosition();
+	var positionTo = $(to).getPosition();
+	$(this).css(positionFrom).animate(positionTo, options);
+	return this;
     };
 
     //
