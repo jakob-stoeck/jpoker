@@ -5930,7 +5930,7 @@ test("jpoker.plugins.player: PacketPokerPlayerArrive code injection", function()
     });
 
 test("jpoker.plugins.player: sounds", function(){
-        expect(7);
+        expect(8);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -6003,8 +6003,10 @@ test("jpoker.plugins.player: sounds", function(){
 	    jpoker.plugins.player.callback.sound.deal_card = sound_table_deal_card;
 	    sound_table_deal_card();
 	    equals($("#jpokerSoundTable " + jpoker.sound).attr("src").indexOf('deal_card') >= 0, true, 'sound deal card');
-	};
-	table.handler(server, game_id, { type: 'PacketPokerState', string: 'pre-flop', game_id: game_id });
+	};	
+	table.handler(server, game_id, {"serials":[player_serial],"length":21,"game_id": game_id,"numberOfCards":2,"serial":0,"type":"PacketPokerDealCards"});
+	table.handler(server, game_id, { type: 'PacketPokerBoardCards', cards: [], game_id: game_id }); // no sound
+	table.handler(server, game_id, { type: 'PacketPokerBoardCards', cards: [1,2,3], game_id: game_id });
 
         start_and_cleanup();
     });

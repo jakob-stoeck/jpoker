@@ -1791,6 +1791,10 @@
                     table.notifyUpdate(packet);
                     break;
 
+                case 'PacketPokerDealCards':
+                    table.notifyUpdate(packet);
+                    break;
+
                 case 'PacketPokerPotChips':
                     table.pots[packet.index] = jpoker.chips.chips2value(packet.bet);
 		    $.each(table.serial2player, function(serial, player) {
@@ -3323,14 +3327,18 @@
 
 	    case 'PacketPokerState':
 		jpoker.plugins.muck.muckRequestTimeout(id);
-		if (packet.string == 'pre-flop') {
-		    jpoker.plugins.table.callback.sound.deal_card();
-		}
 		break;
 
             case 'PacketPokerBoardCards':
                 jpoker.plugins.cards.update(table.board, 'board', id);
+		if (packet.cards.length > 0) {
+		    jpoker.plugins.table.callback.sound.deal_card();
+		}
                 break;
+
+	    case 'PacketPokerDealCards':
+		jpoker.plugins.table.callback.sound.deal_card();
+		break;
 
             case 'PacketPokerPotChips':
                 jpoker.plugins.chips.update(table.pots[packet.index], '#pot' + packet.index + id);
