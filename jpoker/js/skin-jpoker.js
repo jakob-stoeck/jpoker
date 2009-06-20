@@ -431,6 +431,8 @@ function jpoker_08_all(place) {
             bet *= 10;
             money *= 10;
         }
+        packets.push({ type: 'PacketPokerBoardCards', game_id: game_id, cards: [1, 2, 3] });
+        packets.push({ type: 'PacketPokerBoardCards', game_id: game_id, cards: [1, 2, 3, 4] });
         packets.push({ type: 'PacketPokerBoardCards', game_id: game_id, cards: [1, 2, 3, 4, 5] });
         for(var j = 0; j < 9; j++) {
             packets.push({ type: 'PacketPokerPotChips', index: j, bet: [j + 1, 100], game_id: game_id });

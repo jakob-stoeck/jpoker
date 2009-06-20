@@ -3347,7 +3347,7 @@
 
             case 'PacketPokerBoardCards':
 		jpoker.plugins.table.callback.animation.best_cards_reset(table, id);
-		if (packet.cards.length > 0) {
+		if (packet.cards.length > 0) {		    
 		    jpoker.plugins.cards.update(table.board, 'board', id, function(element) {jpoker.plugins.table.callback.animation.deal_card(table, id, element);});
 		    jpoker.plugins.table.callback.sound.deal_card();
 		} else {
@@ -4342,9 +4342,10 @@
                     if(card != 255) {
                         card_image = jpoker.cards.card2string[card & 0x3F];
                     }
+		    var changed = !element.hasClass('jpoker_card_' + card_image) || element.is(':hidden');
                     element.removeClass().addClass('jpoker_card jpoker_ptable_' + prefix + i + ' jpoker_card_' + card_image);
                     element.show();
-		    if (animation !== undefined) {
+		    if ((animation !== undefined) && changed) {
 			animation(element);
 		    }
                 } else {
