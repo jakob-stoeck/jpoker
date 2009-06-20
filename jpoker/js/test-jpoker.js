@@ -6046,7 +6046,7 @@ test("jpoker.plugins.player: animation", function(){
 	    money2bet(player, id, element);
 	    equals(element.length, 1, 'money2bet animation');
 	};
-	table.handler(server, game_id, { type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, bet: 100, money: 1000 });
+	table.handler(server, game_id, {"type":"PacketPokerChipsPlayer2Bet","length":15,"cookie":"","game_id":game_id,"serial":player_serial,"chips":[10000,2]});
 	var player_deal_card = jpoker.plugins.player.callback.animation.deal_card;
 	jpoker.plugins.player.callback.animation.deal_card = function(player, id, element) {
 	    player_deal_card(player, id, element);

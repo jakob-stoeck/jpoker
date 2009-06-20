@@ -2096,6 +2096,10 @@
 		this.notifyUpdate(packet);
 		break;
 
+		case 'PacketPokerChipsPlayer2Bet':
+		this.notifyUpdate(packet);
+		break;
+
                 case 'PacketPokerSit':
                 this.sit_out = false;
                 this.notifyUpdate(packet);
@@ -3632,6 +3636,10 @@
 	    jpoker.plugins.player.callback.animation.bet2pot(player, id, packet, $('#player_seat' + player.seat + '_bet' + id));
 	    break;
 
+	    case 'PacketPokerChipsPlayer2Bet':	    
+	    jpoker.plugins.player.callback.animation.money2bet(player, id, $('#player_seat' + player.seat + '_bet' + id));
+	    break;
+
             case 'PacketPokerSelfInPosition':
             jpoker.plugins.playerSelf.inPosition(player, id);
             break;
@@ -3677,7 +3685,7 @@
 
         chips: function(player, id) {
             jpoker.plugins.chips.update(player.money, '#player_seat' + player.seat + '_money' + id);
-            jpoker.plugins.chips.update(player.bet, '#player_seat' + player.seat + '_bet' + id, function(element) {jpoker.plugins.player.callback.animation.money2bet(player, id, element);});
+            jpoker.plugins.chips.update(player.bet, '#player_seat' + player.seat + '_bet' + id);
             if(jpoker.getServer(player.url).serial == player.serial) {
                 jpoker.plugins.playerSelf.chips(player, id);
             }
