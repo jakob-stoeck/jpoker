@@ -420,6 +420,7 @@ function jpoker_08_all(place) {
                        ];
         var money = 2;
         var bet = 8;
+	packets.push({ type: 'PacketPokerDealer', dealer: 0, game_id: game_id });
         for(var i = 0; i < 10; i++) {
             packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
 	    packets.push({"type":"PacketPokerChipsPlayer2Bet","length":15,"cookie":"","game_id":game_id,"serial":player_serial+i,"chips":[10000,2]});

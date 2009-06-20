@@ -6000,13 +6000,20 @@ test("jpoker.plugins.player: sounds", function(){
 
 	var sound_table_deal_card = jpoker.plugins.table.callback.sound.deal_card;
 	jpoker.plugins.table.callback.sound.deal_card = function() {
-	    jpoker.plugins.player.callback.sound.deal_card = sound_table_deal_card;
 	    sound_table_deal_card();
 	    equals($("#jpokerSoundTable " + jpoker.sound).attr("src").indexOf('deal_card') >= 0, true, 'sound deal card');
-	};	
+	};
+	var sound_player_deal_card = jpoker.plugins.player.callback.sound.deal_card;
+	jpoker.plugins.player.callback.sound.deal_card = function() {
+	    sound_player_deal_card();
+	    equals($("#jpokerSoundTable " + jpoker.sound).attr("src").indexOf('deal_card') >= 0, true, 'sound deal card');
+	};
 	table.handler(server, game_id, {"serials":[player_serial],"length":21,"game_id": game_id,"numberOfCards":2,"serial":0,"type":"PacketPokerDealCards"});
 	table.handler(server, game_id, { type: 'PacketPokerBoardCards', cards: [], game_id: game_id }); // no sound
 	table.handler(server, game_id, { type: 'PacketPokerBoardCards', cards: [1,2,3], game_id: game_id });
+
+	jpoker.plugins.table.callback.sound.deal_card = sound_table_deal_card;
+	jpoker.plugins.player.callback.sound.deal_card = sound_player_deal_card;
 
         start_and_cleanup();
     });

@@ -3512,11 +3512,10 @@
 	animation: {
 	    deal_card: function(table, id, element) {
 		var dealer = table.dealer;
-		if (dealer == -1) {
-		    dealer = 0;
-		}		    
-		var duration = 500;
-		$(element).moveFrom('#dealer' + dealer + id, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);
+		if (dealer != -1) {
+		    var duration = 500;
+		    $(element).moveFrom('#dealer' + dealer + id, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);
+		}
 	    },
 	    best_card: function(table, id, element) {
 		var duration = 500;
@@ -3847,11 +3846,10 @@
 		deal_card: function(player, id, element) {
 		    var table = jpoker.getTable(player.url, player.game_id);
 		    var dealer = table.dealer;
-		    if (dealer == -1) {
-			dealer = 0;
-		    }		    
-		    var duration = 500;
-		    $(element).moveFrom('#dealer' + dealer + id, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);
+		    if (dealer != -1) {
+			var duration = 500;
+			$(element).moveFrom('#dealer' + dealer + id, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);
+		    }
 		},
 		bet2pot: function(player, id, packet, element) {
 		    var duration = 500;
