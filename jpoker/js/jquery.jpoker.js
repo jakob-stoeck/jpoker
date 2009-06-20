@@ -1791,6 +1791,10 @@
                     table.notifyUpdate(packet);
                     break;
 
+		case 'PacketPokerBestCards':
+		    table.notifyUpdate(packet);
+		    break;
+
                 case 'PacketPokerDealCards':
                     table.notifyUpdate(packet);
                     break;
@@ -2055,6 +2059,10 @@
                 }
                 this.notifyUpdate(packet);
                 break;
+
+		case 'PacketPokerBestCards':
+		this.notifyUpdate(packet);
+		break;
 
 		case 'PacketPokerFold':
 		this.action = _("fold");
@@ -3346,6 +3354,14 @@
 		}
                 break;
 
+	    case 'PacketPokerBestCards':
+		for (var i = 0; i < packet.board.length; i+=1) {
+		    if (jQuery.inArray(packet.board[i], packet.bestcards) != -1) {
+			jpoker.plugins.table.callback.animation.best_card(table, id, $('#board' + i + id));
+		    }
+		}
+		break;
+
 	    case 'PacketPokerDealCards':
 		jpoker.plugins.table.callback.sound.deal_card();
 		break;
@@ -3501,6 +3517,10 @@
 		}		    
 		var duration = 500;
 		$(element).moveFrom('#dealer' + dealer + id, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);
+	    },
+	    best_card: function(table, id, element) {
+		var duration = 500;
+		element.animate({top: '-=20px'}, duration);
 	    }
 	}
     };
@@ -3597,6 +3617,14 @@
             case 'PacketPokerPlayerCards':
             jpoker.plugins.cards.update(player.cards, 'card_seat' + player.seat, id, function(element) {jpoker.plugins.player.callback.animation.deal_card(player, id, element);});
             break;
+
+	    case 'PacketPokerBestCards':
+	    for (var i = 0; i < packet.cards.length; i+=1) {
+		if (jQuery.inArray(packet.cards[i], packet.bestcards) != -1) {
+		    jpoker.plugins.player.callback.animation.best_card(player, id, $('#card_seat' + player.seat + i + id));
+		}
+	    }
+	    break;
 
 	    case 'PacketPokerFold':
 	    jpoker.plugins.cards.hide(player.cards, 'card_seat' + player.seat, id);
@@ -3829,6 +3857,14 @@
 		    var duration = 500;
 		    var chip = $(element).clone().insertAfter(element);
 		    chip.moveTo('#pot' + packet.pot + id, {duration: duration, queue: false}).css({opacity: 1}).animate({opacity: 0.0}, duration, function() {chip.remove();});
+		},
+		best_card: function(player, id, element) {
+		    var duration = 500;
+		    if (player.seat <= 4) {
+			element.animate({top: '+=20px'}, duration);
+		    } else {
+			element.animate({top: '-=20px'}, duration);
+		    }
 		}
 	    }
 	}

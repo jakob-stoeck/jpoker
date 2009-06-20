@@ -6012,7 +6012,7 @@ test("jpoker.plugins.player: sounds", function(){
     });
 
 test("jpoker.plugins.player: animation", function(){
-        expect(6);
+        expect(11);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -6069,10 +6069,24 @@ test("jpoker.plugins.player: animation", function(){
 
 	table.handler(server, game_id, { type: 'PacketPokerChipsBet2Pot', pot: 0, game_id: game_id, serial: player_serial });
 
+	var player_best_card = jpoker.plugins.player.callback.animation.best_card;
+	jpoker.plugins.player.callback.animation.best_card = function(player, id, element) {
+	    player_best_card(player, id, element);
+	    equals(element.length, 1, 'player best_card animation');
+	};
+	var table_best_card = jpoker.plugins.table.callback.animation.best_card;
+	jpoker.plugins.table.callback.animation.best_card = function(player, id, element) {
+	    table_best_card(player, id, element);
+	    equals(element.length, 1, 'table best_card animation');
+	};	
+	table.handler(server, game_id, {"besthand":1,"hand":"Flush Queen high","length":47,"cookie":"","board":[21,30,33,36,32],"bestcards":[36,33,32,30,26],"cards":[7,26],"game_id":game_id,"serial":player_serial,"type":"PacketPokerBestCards","side":""});
+
 	jpoker.plugins.player.callback.animation.money2bet = money2bet;
 	jpoker.plugins.player.callback.animation.deal_card = player_deal_card;	
 	jpoker.plugins.table.callback.animation.deal_card = table_deal_card;
 	jpoker.plugins.player.callback.animation.bet2pot = bet2pot;
+	jpoker.plugins.player.callback.animation.best_card = player_best_card;
+	jpoker.plugins.table.callback.animation.best_card = table_best_card;
 	start_and_cleanup();
     });
 
