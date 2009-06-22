@@ -1373,23 +1373,37 @@
             },
 
             tablePick: function(criterion) {
-                this.queueRunning(function(server) {
-                        server.setState(server.TABLE_PICK);
-			var packet = $.extend({type: 'PacketPokerTablePicker',
-					       variant: '',
-					       betting_structure: '',
-					       currency_serial: ''}, criterion);
-                        server.sendPacket(packet);
-			server.ping();
-			server.registerHandler(0, function(server, unused_game_id, packet) {
-				if (packet.type == 'PacketPokerTable') {
-				    server.notifyUpdate(packet);
-				    server.setState(server.RUNNING, 'PacketPokerTable');
-				    return false;
-				}
-				return true;
-			    });
-                    });
+		if (this.loggedIn() === false) {
+		    jpoker.dialog(_("User must be logged in"));
+		} else {
+		    this.queueRunning(function(server) {
+			    server.setState(server.TABLE_PICK);
+			    var packet = $.extend({type: 'PacketPokerTablePicker',
+						   serial: server.serial
+				}, criterion);
+			    if (packet.variant == '') {
+				delete packet.variant;
+			    }
+			    if (packet.betting_structure == '') {
+				delete packet.betting_structure;
+			    }
+			    if (packet.currency_serial !== undefined) {
+				packet.currency_serial = parseInt(packet.currency_serial, 10);
+			    } else {
+				delete packet.currency_serial;
+			    }
+			    server.sendPacket(packet);
+			    server.ping();
+			    server.registerHandler(0, function(server, unused_game_id, packet) {
+				    if (packet.type == 'PacketPokerTable') {
+					server.notifyUpdate(packet);
+					server.setState(server.RUNNING, 'PacketPokerTable');
+					return false;
+				    }
+				    return true;
+				});
+			});
+		}
             },
 
             bankroll: function(currency_serial) {
@@ -4875,7 +4889,7 @@
                     var element = document.getElementById(id);
                     if(element) {
 			if(packet && packet.type == 'PacketPokerTable') {
-			    var error = packet.id === undefined;
+			    var error = packet.id == 0;
 			    if (error) {
 				$('.jpoker_tablepicker_error', element).show();
 			    } else {
@@ -4915,7 +4929,7 @@
     jpoker.plugins.tablepicker.defaults = $.extend({
 	    variant: '',
 	    betting_structure: '',
-	    currency_serial: '',
+	    currency_serial: 0,
 	    submit_label: _("Play now"),
 	    show_options_label: _("Show options"),
 	    submit_title: _("Click here to automatically pick a table"),

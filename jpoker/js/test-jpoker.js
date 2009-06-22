@@ -1826,6 +1826,7 @@ test("jpoker.server.tablePick", function(){
 
 	var string = 'dummy';
         var server = jpoker.serverCreate({ url: 'url' });
+	server.serial = 42;
 	var sendPacket = server.sendPacket;
 	server.ping = function() {
 	    ok(true, 'pinging');
@@ -1834,8 +1835,8 @@ test("jpoker.server.tablePick", function(){
 	    server.sendPacket = sendPacket;
             equals(packet.type, 'PacketPokerTablePicker');
             equals(packet.variant, 'holdem');
-            equals(packet.betting_structure, '', 'empty betting_structure');
-            equals(packet.currency_serial, '', 'empty currency_serial');
+            equals(packet.betting_structure, undefined, 'betting_structure');
+            equals(packet.currency_serial, 10, 'currency_serial');
 	    equals(server.getState(), server.TABLE_PICK);
 	    server.queueIncoming([TABLE_PACKET]);
         };
@@ -1846,7 +1847,56 @@ test("jpoker.server.tablePick", function(){
 		}
 		return true;
 	    });
-        server.tablePick({variant: 'holdem'});
+        server.tablePick({variant: 'holdem', currency_serial: 10});
+    });
+
+test("jpoker.server.tablePick default", function(){
+        expect(6);
+	stop();
+
+	var TABLE_PACKET = {"type": "PacketPokerTable", "id": 100};
+
+	var string = 'dummy';
+        var server = jpoker.serverCreate({ url: 'url' });
+	server.serial = 42;
+	var sendPacket = server.sendPacket;
+	server.ping = function() {
+	    ok(true, 'pinging');
+	};
+        server.sendPacket = function(packet) {
+	    server.sendPacket = sendPacket;
+            equals(packet.type, 'PacketPokerTablePicker');
+            equals(packet.variant, undefined, 'no variant');
+            equals(packet.betting_structure, undefined, 'no betting_structure');
+            equals(packet.currency_serial, undefined, 'no currency_serial');
+	    equals(server.getState(), server.TABLE_PICK);
+	    server.queueIncoming([TABLE_PACKET]);
+        };
+        server.registerUpdate(function(server, what, packet) {
+		if (packet.type == 'PacketPokerTable') {
+		    server.queueRunning(start_and_cleanup);
+		    return false;
+		}
+		return true;
+	    });
+        server.tablePick({});
+    });
+
+test("jpoker.server.tablePick not logged", function(){
+        expect(1);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        server.serial = 0;
+
+        var dialog = jpoker.dialog;
+        jpoker.dialog = function(message) {
+            equals(message.indexOf("must be logged in") >= 0, true, "should be logged");
+            jpoker.dialog = dialog;
+            start_and_cleanup();
+        };	
+        server.tablePick({});
     });
 
 test("jpoker.server.tablePick waiting", function(){
@@ -8360,10 +8410,10 @@ test("jpoker.plugins.tablepicker", function(){
         place.jpoker('tablepicker', 'url', {currency_serial: 1, variant: 'holdem'});
 	equals($('.jpoker_tablepicker').length, 1, 'tablepicker div');
 	equals($('.jpoker_tablepicker_submit').length, 1, 'tablepicker submit input');
-	equals($('.jpoker_tablepicker_submit').val(), 'play now', 'tablepicker submit value');
-	equals($('.jpoker_tablepicker_submit').attr('title'), 'click here to automatically pick a table', 'tablepicker submit title');	
+	equals($('.jpoker_tablepicker_submit').val(), 'Play now', 'tablepicker submit value');
+	equals($('.jpoker_tablepicker_submit').attr('title'), 'Click here to automatically pick a table', 'tablepicker submit title');	
 	ok($('.jpoker_tablepicker_error').is(':hidden'), 'tablepicker error hidden');
-	equals($('.jpoker_tablepicker_error').text(), 'no table found matching your criterions');
+	equals($('.jpoker_tablepicker_error').text(), 'No table found matching your criterions');
 	equals($('.jpoker_tablepicker_show_options').length, 1, 'tablepicker show options');	
 	equals($('.jpoker_tablepicker_options').length, 1, 'tablepicker options');	
 	equals($('.jpoker_tablepicker_options label').length, 3, 'tablepicker options label');
@@ -8419,7 +8469,7 @@ test("jpoker.plugins.tablepicker failed", function(){
 
 	server.serial = 42;
 
-	var EMPTY_TABLE_PACKET = {type: 'PacketPokerTable'};
+	var EMPTY_TABLE_PACKET = {type: 'PacketPokerTable', id: 0};
 
         var PokerServer = function() {};
         PokerServer.prototype = {
