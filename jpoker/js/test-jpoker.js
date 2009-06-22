@@ -8336,7 +8336,7 @@ test("jpoker.plugins.cashier", function(){
     });
 
 test("jpoker.plugins.tablepicker", function(){
-        expect(20);
+        expect(23);
 	stop()
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -8361,7 +8361,9 @@ test("jpoker.plugins.tablepicker", function(){
 	equals($('.jpoker_tablepicker').length, 1, 'tablepicker div');
 	equals($('.jpoker_tablepicker input[type=submit]').length, 1, 'tablepicker submit input');
 	equals($('.jpoker_tablepicker input[type=submit]').val(), 'Play now', 'tablepicker submit value');
-	equals($('.jpoker_tablepicker input[type=submit]').attr('title'), 'Click here to automatically pick a table', 'tablepicker submit title');
+	equals($('.jpoker_tablepicker input[type=submit]').attr('title'), 'Click here to automatically pick a table', 'tablepicker submit title');	
+	ok($('.jpoker_tablepicker_error').is(':hidden'), 'tablepicker error hidden');
+	equals($('.jpoker_tablepicker_error').text(), 'No table found matching your criterions');
 	equals($('.jpoker_tablepicker a').length, 1, 'tablepicker options');	
 	equals($('.jpoker_tablepicker input[name=variant]').length, 1, 'tablepicker variant input');
 	equals($('.jpoker_tablepicker input[name=variant]').val(), 'omaha', 'tablepicker variant input value');
@@ -8370,7 +8372,8 @@ test("jpoker.plugins.tablepicker", function(){
 	equals($('.jpoker_tablepicker input[name=currency_serial]').length, 1, 'tablepicker currency_serial input');
 	equals($('.jpoker_tablepicker input[name=currency_serial]').val(), 1, 'tablepicker currency_serial input value');
 	equals($('.jpoker_tablepicker_option').length, 3);
-	equals($('.jpoker_tablepicker_option').is(':hidden'), true);
+	equals($('.jpoker_tablepicker_option').is(':hidden'), true)
+
 	$('.jpoker_tablepicker_show_options').click();
 	equals($('.jpoker_tablepicker_option').is(':visible'), true);
 	$('.jpoker_tablepicker_show_options').click();
@@ -8382,6 +8385,7 @@ test("jpoker.plugins.tablepicker", function(){
 		var element = $('#' + id);
 		if(element.length > 0) {
 		    if (data.type == 'PacketPokerTable') {
+			ok($('.jpoker_tablepicker_error').is(':hidden'), 'tablepicker error hidden');
 			$('#' + id).remove();
 		    }
 		    return true;
@@ -8398,6 +8402,46 @@ test("jpoker.plugins.tablepicker", function(){
 	    equals(criterion.currency_serial, 1, 'currency_serial criterion');
 	    tablePick.apply(server, arguments);
 	};
+
+	$('.jpoker_tablepicker_error').show();
+	$('.jpoker_tablepicker input[type=submit]').click();
+    });
+
+test("jpoker.plugins.tablepicker failed", function(){
+        expect(1);
+	stop()
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+	server.serial = 42;
+
+	var EMPTY_TABLE_PACKET = {type: 'PacketPokerTable'};
+
+        var PokerServer = function() {};
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(EMPTY_TABLE_PACKET) + " ]",
+            handle: function(packet) { }
+        };
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $('#main');
+	
+        place.jpoker('tablepicker', 'url');
+	server.registerUpdate(function(server, what, data) {
+		var element = $('#' + id);
+		if(element.length > 0) {
+		    if (data.type == 'PacketPokerTable') {
+			ok($('.jpoker_tablepicker_error', element).is(':visible'), 'table picker error shown');
+			element.remove();
+		    }
+		    return true;
+		} else {
+		    start_and_cleanup();
+		    return false;
+		}
+	    });
 
 	$('.jpoker_tablepicker input[type=submit]').click();
     });

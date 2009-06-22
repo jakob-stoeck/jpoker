@@ -4875,6 +4875,12 @@
                     var element = document.getElementById(id);
                     if(element) {
 			if(packet && packet.type == 'PacketPokerTable') {
+			    var error = packet.id === undefined;
+			    if (error) {
+				$('.jpoker_tablepicker_error', element).show();
+			    } else {
+				$('.jpoker_tablepicker_error', element).hide();
+			    }
 			}
                         return true;
                     } else {
@@ -4889,6 +4895,7 @@
 		};
 		$(element).html(jpoker.plugins.tablepicker.template.supplant(opts));
 		$('.jpoker_tablepicker_option', element).hide();
+		$('.jpoker_tablepicker_error', element).hide();
 		$('.jpoker_tablepicker_show_options', element).click(function() {
 			$('.jpoker_tablepicker_option', element).toggle();
 		    });
@@ -4896,7 +4903,7 @@
 			server.preferences.extend({tablepicker: getOptions()});;
 		    });
 
-		$('.jpoker_tablepicker_main input[type=submit]', element).click(function() {			
+		$('.jpoker_tablepicker_main input[type=submit]', element).click(function() {
 			server.tablePick(getOptions());
 		    });
 		server.registerUpdate(updated, null, 'tablepicker ' + id);
@@ -4909,10 +4916,11 @@
 	    betting_structure: '',
 	    currency_serial: '',
 	    submit_label: _("Play now"),
-	    submit_title: _("Click here to automatically pick a table")
+	    submit_title: _("Click here to automatically pick a table"),
+	    error: _("No table found matching your criterions")
         }, jpoker.defaults);
 
-    jpoker.plugins.tablepicker.template = '<div class=\'jpoker_tablepicker_main\'><input type=\'submit\' value=\'{submit_label}\' title=\'{submit_title}\' \'/><a class=\'jpoker_tablepicker_show_options\' href=\'javascript://\'>options</a></div><div class=\'jpoker_tablepicker_option\'><input type=\'text\' name=\'variant\' value=\'{variant}\'/></div><div class=\'jpoker_tablepicker_option\'><input type=\'text\' name=\'betting_structure\' value=\'{betting_structure}\'/></div><div class=\'jpoker_tablepicker_option\'><input type=\'text\' name=\'currency_serial\' value=\'{currency_serial}\'/></div>';
+    jpoker.plugins.tablepicker.template = '<div class=\'jpoker_tablepicker_main\'><input type=\'submit\' value=\'{submit_label}\' title=\'{submit_title}\' \'/><a class=\'jpoker_tablepicker_show_options\' href=\'javascript://\'>options</a></div><div class=\'jpoker_tablepicker_option\'><input type=\'text\' name=\'variant\' value=\'{variant}\'/></div><div class=\'jpoker_tablepicker_option\'><input type=\'text\' name=\'betting_structure\' value=\'{betting_structure}\'/></div><div class=\'jpoker_tablepicker_option\'><input type=\'text\' name=\'currency_serial\' value=\'{currency_serial}\'/></div><div class=\'jpoker_tablepicker_error\'>{error}</div>';
     
     //
     // user preferences
