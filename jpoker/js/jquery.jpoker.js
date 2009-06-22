@@ -4893,6 +4893,7 @@
 			    currency_serial: $('input[name=currency_serial].jpoker_tablepicker_option', element).val()
 		    };
 		};
+		opts.id = id;
 		$(element).html(jpoker.plugins.tablepicker.template.supplant(opts));
 		$('.jpoker_tablepicker_options', element).hide();
 		$('.jpoker_tablepicker_error', element).hide();
@@ -4916,11 +4917,15 @@
 	    betting_structure: '',
 	    currency_serial: '',
 	    submit_label: _("Play now"),
+	    show_options_label: _("Show options"),
 	    submit_title: _("Click here to automatically pick a table"),
-	    error: _("No table found matching your criterions")
+	    error: _("No table found matching your criterions"),
+	    variant_label: _("Variant"),
+	    betting_structure_label: _("Betting structure"),
+	    currency_serial_label: _("Currency serial")
         }, jpoker.defaults);
 
-    jpoker.plugins.tablepicker.template = '<input class=\'jpoker_tablepicker_submit\' type=\'submit\' value=\'{submit_label}\' title=\'{submit_title}\' /><a class=\'jpoker_tablepicker_show_options\' href=\'javascript://\'>options</a><div class=\'jpoker_tablepicker_options\'><input class=\'jpoker_tablepicker_option\' type=\'text\' name=\'variant\' value=\'{variant}\'/><input class=\'jpoker_tablepicker_option\' type=\'text\' name=\'betting_structure\' value=\'{betting_structure}\'/><input class=\'jpoker_tablepicker_option\'type=\'text\' name=\'currency_serial\' value=\'{currency_serial}\'/></div><div class=\'jpoker_tablepicker_error\'>{error}</div>';
+    jpoker.plugins.tablepicker.template = '<input class=\'jpoker_tablepicker_submit\' type=\'submit\' value=\'{submit_label}\' title=\'{submit_title}\' /><a class=\'jpoker_tablepicker_show_options\' href=\'javascript://\'>{show_options_label}</a><div class=\'jpoker_tablepicker_options\'><label for=\'jpoker_tablepicker_option_variant{id}\'>{variant_label}</label><input class=\'jpoker_tablepicker_option\' type=\'text\' name=\'variant\' value=\'{variant}\' id=\'jpoker_tablepicker_option_variant{id}\'/><label for=\'jpoker_tablepicker_option_betting_structure{id}\'>{betting_structure_label}</label><input class=\'jpoker_tablepicker_option\' type=\'text\' name=\'betting_structure\' value=\'{betting_structure}\' id=\'jpoker_tablepicker_option_betting_structure{id}\'/><label for=\'jpoker_tablepicker_option_current_serial{id}\'>{currency_serial_label}</label><input class=\'jpoker_tablepicker_option\'type=\'text\' name=\'currency_serial\' value=\'{currency_serial}\' id=\'jpoker_tablepicker_option_current_serial{id}\'/></div><div class=\'jpoker_tablepicker_error\'>{error}</div>';
     
     //
     // user preferences

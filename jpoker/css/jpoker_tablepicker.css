@@ -1,0 +1,29 @@
+.jpoker_tablepicker_submit {
+    text-transform: uppercase;
+}
+
+.jpoker_tablepicker_show_options {
+    text-transform: lowercase;
+    margin-left: 10px;
+}
+
+.jpoker_tablepicker_options {
+    width: 300px;
+    margin-top: 10px;
+}
+
+.jpoker_tablepicker_options label {
+    float: left;
+    text-align: right;
+    margin-right: 15px;
+    width: 120px;
+}
+
+.jpoker_tablepicker_options input {
+    width: 150px;
+}
+
+.jpoker_tablepicker_error {
+    margin-top: 10px;
+    color: red;
+}

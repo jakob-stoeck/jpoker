@@ -1937,6 +1937,29 @@ function jpoker_110_cashier(place) {
 }
 
 
+function jpoker_111_tablepicker(place) {
+        setUp();
+        if(explain) {
+            $('#explain').append('<b>jpoker_111_tablepicker</b> ');
+            $('#explain').append('Tablepicker allow to quickly join, click on options to show table criterion, click on button to show error message');
+            $('#explain').append('<hr>');
+        }
+
+	var TABLE_PACKET = {type: "PacketPokerTable"};
+
+        var PokerServer = function() {};
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TABLE_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+        ActiveXObject.prototype.server = new PokerServer();
+	
+        var server = $.jpoker.getServer('url');
+	server.serial = 42;
+	$(place).jpoker('tablepicker', 'url');
+}
+
 function jpoker_120_level_junior(place) {
         setUp();
         if(explain) {
