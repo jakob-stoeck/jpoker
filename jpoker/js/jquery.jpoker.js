@@ -4869,23 +4869,37 @@
 
         return this.each(function() {
                 var $this = $(this);
-
                 var id = jpoker.uid();
-		
                 var element = $('<div class=\'jpoker_widget jpoker_tablepicker\' id=\'' + id + '\'></div>').appendTo($this);
+                var updated = function(server, what, packet) {
+                    var element = document.getElementById(id);
+                    if(element) {
+			if(packet && packet.type == 'PacketPokerTable') {
+			}
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+		var getOptions = function() {
+		    return {variant: $('.jpoker_tablepicker_option input[name=variant]', element).val(),
+			    betting_structure: $('.jpoker_tablepicker_option input[name=betting_structure]', element).val(),
+			    currency_serial: $('.jpoker_tablepicker_option input[name=currency_serial]', element).val()
+		    };
+		};
 		$(element).html(jpoker.plugins.tablepicker.template.supplant(opts));
 		$('.jpoker_tablepicker_option', element).hide();
 		$('.jpoker_tablepicker_show_options', element).click(function() {
 			$('.jpoker_tablepicker_option', element).toggle();
 		    });
 		$('.jpoker_tablepicker_option input', element).change(function() {
-			var tablepicker_options = {
-			    variant: $('.jpoker_tablepicker_option input[name=variant]', element).val(),
-			    betting_structure: $('.jpoker_tablepicker_option input[name=betting_structure]', element).val(),
-			    currency_serial: $('.jpoker_tablepicker_option input[name=currency_serial]', element).val()
-			};			
-			server.preferences.extend({tablepicker: tablepicker_options});;
+			server.preferences.extend({tablepicker: getOptions()});;
 		    });
+
+		$('.jpoker_tablepicker_main input[type=submit]', element).click(function() {			
+			server.tablePick(getOptions());
+		    });
+		server.registerUpdate(updated, null, 'tablepicker ' + id);
                 return this;
             });
     };

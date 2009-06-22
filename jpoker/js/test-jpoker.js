@@ -8336,12 +8336,22 @@ test("jpoker.plugins.cashier", function(){
     });
 
 test("jpoker.plugins.tablepicker", function(){
-        expect(16);
+        expect(20);
+	stop()
 
         var server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
 	server.serial = 42;
+
+	var TABLE_PACKET = {type: 'PacketPokerTable', id: 11};
+
+        var PokerServer = function() {};
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TABLE_PACKET) + " ]",
+            handle: function(packet) { }
+        };
+        ActiveXObject.prototype.server = new PokerServer();
 
         var id = 'jpoker' + jpoker.serial;
         var place = $('#main');
@@ -8366,11 +8376,30 @@ test("jpoker.plugins.tablepicker", function(){
 	$('.jpoker_tablepicker_show_options').click();
 	equals($('.jpoker_tablepicker_option').is(':hidden'), true);
 	$('.jpoker_tablepicker input[name=betting_structure]').val('1-2-limit').change();
-	equals(server.preferences.tablepicker.betting_structure, '1-2-limit');
-	
-	delete server.preferences.tablepicker;
-	cleanup();
-	//stop();
+	equals(server.preferences.tablepicker.betting_structure, '1-2-limit');	
+        equals(server.callbacks.update.length, 1, 'tablepicker update registered');
+	server.registerUpdate(function(server, what, data) {
+		var element = $('#' + id);
+		if(element.length > 0) {
+		    if (data.type == 'PacketPokerTable') {
+			$('#' + id).remove();
+		    }
+		    return true;
+		} else {
+		    start_and_cleanup();
+		    return false;
+		}
+	    });
+
+	var tablePick = server.tablePick;
+	server.tablePick = function(criterion) {
+	    equals(criterion.variant, 'omaha', 'variant criterion');
+	    equals(criterion.betting_structure, '1-2-limit', 'betting_structure criterion');
+	    equals(criterion.currency_serial, 1, 'currency_serial criterion');
+	    tablePick.apply(server, arguments);
+	};
+
+	$('.jpoker_tablepicker input[type=submit]').click();
     });
 
 test("jpoker.preferences", function() {
