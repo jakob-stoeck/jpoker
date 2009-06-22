@@ -4838,6 +4838,48 @@
     };
 
     //
+    // tablepicker
+    //
+    jpoker.plugins.tablepicker = function(url, options) {
+
+        var server = jpoker.url2server({ url: url });
+        var tablepicker = jpoker.plugins.tablepicker;
+        var opts = $.extend({}, tablepicker.defaults, options, server.preferences.tablepicker);
+
+        return this.each(function() {
+                var $this = $(this);
+
+                var id = jpoker.uid();
+		
+                var element = $('<div class=\'jpoker_widget jpoker_tablepicker\' id=\'' + id + '\'></div>').appendTo($this);
+		$(element).html(jpoker.plugins.tablepicker.template.supplant(opts));
+		$('.jpoker_tablepicker_option', element).hide();
+		$('.jpoker_tablepicker_show_options', element).click(function() {
+			$('.jpoker_tablepicker_option', element).toggle();
+		    });
+		$('.jpoker_tablepicker_option input', element).change(function() {
+			var tablepicker_options = {
+			    variant: $('.jpoker_tablepicker_option input[name=variant]', element).val(),
+			    betting_structure: $('.jpoker_tablepicker_option input[name=betting_structure]', element).val(),
+			    currency: $('.jpoker_tablepicker_option input[name=currency]', element).val()
+			};			
+			server.preferences.extend({tablepicker: tablepicker_options});;
+		    });
+                return this;
+            });
+    };
+
+    jpoker.plugins.tablepicker.defaults = $.extend({
+	    variant: '',
+	    betting_structure: '',
+	    currency: '',
+	    submit_label: _("Play now"),
+	    submit_title: _("Click here to automatically pick a table")
+        }, jpoker.defaults);
+
+    jpoker.plugins.tablepicker.template = '<div class=\'jpoker_tablepicker_main\'><input type=\'submit\' value=\'{submit_label}\' title=\'{submit_title}\' \'/><a class=\'jpoker_tablepicker_show_options\' href=\'javascript://\'>options</a></div><div class=\'jpoker_tablepicker_option\'><input type=\'text\' name=\'variant\' value=\'{variant}\'/></div><div class=\'jpoker_tablepicker_option\'><input type=\'text\' name=\'betting_structure\' value=\'{betting_structure}\'/></div><div class=\'jpoker_tablepicker_option\'><input type=\'text\' name=\'currency\' value=\'{currency}\'/></div>';
+    
+    //
     // user preferences
     //
     jpoker.preferences = function(hash) {

@@ -8290,6 +8290,44 @@ test("jpoker.plugins.cashier", function(){
 	    });
     });
 
+test("jpoker.plugins.tablepicker", function(){
+        expect(16);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+	server.serial = 42;
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $('#main');
+	
+	server.preferences.tablepicker = {variant: 'omaha'};
+        place.jpoker('tablepicker', 'url', {currency: 1, variant: 'holdem'});
+	equals($('.jpoker_tablepicker').length, 1, 'tablepicker div');
+	equals($('.jpoker_tablepicker input[type=submit]').length, 1, 'tablepicker submit input');
+	equals($('.jpoker_tablepicker input[type=submit]').val(), 'Play now', 'tablepicker submit value');
+	equals($('.jpoker_tablepicker input[type=submit]').attr('title'), 'Click here to automatically pick a table', 'tablepicker submit title');
+	equals($('.jpoker_tablepicker a').length, 1, 'tablepicker options');	
+	equals($('.jpoker_tablepicker input[name=variant]').length, 1, 'tablepicker variant input');
+	equals($('.jpoker_tablepicker input[name=variant]').val(), 'omaha', 'tablepicker variant input value');
+	equals($('.jpoker_tablepicker input[name=betting_structure]').length, 1, 'tablepicker betting_structure input');
+	equals($('.jpoker_tablepicker input[name=betting_structure]').val(), '', 'tablepicker betting_structure input value');
+	equals($('.jpoker_tablepicker input[name=currency]').length, 1, 'tablepicker currency input');
+	equals($('.jpoker_tablepicker input[name=currency]').val(), 1, 'tablepicker currency input value');
+	equals($('.jpoker_tablepicker_option').length, 3);
+	equals($('.jpoker_tablepicker_option').is(':hidden'), true);
+	$('.jpoker_tablepicker_show_options').click();
+	equals($('.jpoker_tablepicker_option').is(':visible'), true);
+	$('.jpoker_tablepicker_show_options').click();
+	equals($('.jpoker_tablepicker_option').is(':hidden'), true);
+	$('.jpoker_tablepicker input[name=betting_structure]').val('1-2-limit').change();
+	equals(server.preferences.tablepicker.betting_structure, '1-2-limit');
+	
+	delete server.preferences.tablepicker;
+	cleanup();
+	//stop();
+    });
+
 test("jpoker.preferences", function() {
 	expect(4);
 	
