@@ -8302,7 +8302,7 @@ test("jpoker.plugins.tablepicker", function(){
         var place = $('#main');
 	
 	server.preferences.tablepicker = {variant: 'omaha'};
-        place.jpoker('tablepicker', 'url', {currency: 1, variant: 'holdem'});
+        place.jpoker('tablepicker', 'url', {currency_serial: 1, variant: 'holdem'});
 	equals($('.jpoker_tablepicker').length, 1, 'tablepicker div');
 	equals($('.jpoker_tablepicker input[type=submit]').length, 1, 'tablepicker submit input');
 	equals($('.jpoker_tablepicker input[type=submit]').val(), 'Play now', 'tablepicker submit value');
@@ -8312,8 +8312,8 @@ test("jpoker.plugins.tablepicker", function(){
 	equals($('.jpoker_tablepicker input[name=variant]').val(), 'omaha', 'tablepicker variant input value');
 	equals($('.jpoker_tablepicker input[name=betting_structure]').length, 1, 'tablepicker betting_structure input');
 	equals($('.jpoker_tablepicker input[name=betting_structure]').val(), '', 'tablepicker betting_structure input value');
-	equals($('.jpoker_tablepicker input[name=currency]').length, 1, 'tablepicker currency input');
-	equals($('.jpoker_tablepicker input[name=currency]').val(), 1, 'tablepicker currency input value');
+	equals($('.jpoker_tablepicker input[name=currency_serial]').length, 1, 'tablepicker currency_serial input');
+	equals($('.jpoker_tablepicker input[name=currency_serial]').val(), 1, 'tablepicker currency_serial input value');
 	equals($('.jpoker_tablepicker_option').length, 3);
 	equals($('.jpoker_tablepicker_option').is(':hidden'), true);
 	$('.jpoker_tablepicker_show_options').click();

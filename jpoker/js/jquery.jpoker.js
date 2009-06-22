@@ -4861,7 +4861,7 @@
 			var tablepicker_options = {
 			    variant: $('.jpoker_tablepicker_option input[name=variant]', element).val(),
 			    betting_structure: $('.jpoker_tablepicker_option input[name=betting_structure]', element).val(),
-			    currency: $('.jpoker_tablepicker_option input[name=currency]', element).val()
+			    currency_serial: $('.jpoker_tablepicker_option input[name=currency_serial]', element).val()
 			};			
 			server.preferences.extend({tablepicker: tablepicker_options});;
 		    });
@@ -4872,12 +4872,12 @@
     jpoker.plugins.tablepicker.defaults = $.extend({
 	    variant: '',
 	    betting_structure: '',
-	    currency: '',
+	    currency_serial: '',
 	    submit_label: _("Play now"),
 	    submit_title: _("Click here to automatically pick a table")
         }, jpoker.defaults);
 
-    jpoker.plugins.tablepicker.template = '<div class=\'jpoker_tablepicker_main\'><input type=\'submit\' value=\'{submit_label}\' title=\'{submit_title}\' \'/><a class=\'jpoker_tablepicker_show_options\' href=\'javascript://\'>options</a></div><div class=\'jpoker_tablepicker_option\'><input type=\'text\' name=\'variant\' value=\'{variant}\'/></div><div class=\'jpoker_tablepicker_option\'><input type=\'text\' name=\'betting_structure\' value=\'{betting_structure}\'/></div><div class=\'jpoker_tablepicker_option\'><input type=\'text\' name=\'currency\' value=\'{currency}\'/></div>';
+    jpoker.plugins.tablepicker.template = '<div class=\'jpoker_tablepicker_main\'><input type=\'submit\' value=\'{submit_label}\' title=\'{submit_title}\' \'/><a class=\'jpoker_tablepicker_show_options\' href=\'javascript://\'>options</a></div><div class=\'jpoker_tablepicker_option\'><input type=\'text\' name=\'variant\' value=\'{variant}\'/></div><div class=\'jpoker_tablepicker_option\'><input type=\'text\' name=\'betting_structure\' value=\'{betting_structure}\'/></div><div class=\'jpoker_tablepicker_option\'><input type=\'text\' name=\'currency_serial\' value=\'{currency_serial}\'/></div>';
     
     //
     // user preferences
