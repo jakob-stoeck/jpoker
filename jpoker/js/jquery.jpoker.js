@@ -4888,22 +4888,22 @@
                     }
                 };
 		var getOptions = function() {
-		    return {variant: $('.jpoker_tablepicker_option input[name=variant]', element).val(),
-			    betting_structure: $('.jpoker_tablepicker_option input[name=betting_structure]', element).val(),
-			    currency_serial: $('.jpoker_tablepicker_option input[name=currency_serial]', element).val()
+		    return {variant: $('input[name=variant].jpoker_tablepicker_option', element).val(),
+			    betting_structure: $('input[name=betting_structure].jpoker_tablepicker_option ', element).val(),
+			    currency_serial: $('input[name=currency_serial].jpoker_tablepicker_option', element).val()
 		    };
 		};
 		$(element).html(jpoker.plugins.tablepicker.template.supplant(opts));
-		$('.jpoker_tablepicker_option', element).hide();
+		$('.jpoker_tablepicker_options', element).hide();
 		$('.jpoker_tablepicker_error', element).hide();
 		$('.jpoker_tablepicker_show_options', element).click(function() {
-			$('.jpoker_tablepicker_option', element).toggle();
+			$('.jpoker_tablepicker_options', element).toggle();
 		    });
-		$('.jpoker_tablepicker_option input', element).change(function() {
+		$('.jpoker_tablepicker_option', element).change(function() {
 			server.preferences.extend({tablepicker: getOptions()});;
 		    });
 
-		$('.jpoker_tablepicker_main input[type=submit]', element).click(function() {
+		$('.jpoker_tablepicker_submit', element).click(function() {
 			server.tablePick(getOptions());
 		    });
 		server.registerUpdate(updated, null, 'tablepicker ' + id);
@@ -4920,7 +4920,7 @@
 	    error: _("No table found matching your criterions")
         }, jpoker.defaults);
 
-    jpoker.plugins.tablepicker.template = '<div class=\'jpoker_tablepicker_main\'><input type=\'submit\' value=\'{submit_label}\' title=\'{submit_title}\' \'/><a class=\'jpoker_tablepicker_show_options\' href=\'javascript://\'>options</a></div><div class=\'jpoker_tablepicker_option\'><input type=\'text\' name=\'variant\' value=\'{variant}\'/></div><div class=\'jpoker_tablepicker_option\'><input type=\'text\' name=\'betting_structure\' value=\'{betting_structure}\'/></div><div class=\'jpoker_tablepicker_option\'><input type=\'text\' name=\'currency_serial\' value=\'{currency_serial}\'/></div><div class=\'jpoker_tablepicker_error\'>{error}</div>';
+    jpoker.plugins.tablepicker.template = '<input class=\'jpoker_tablepicker_submit\' type=\'submit\' value=\'{submit_label}\' title=\'{submit_title}\' /><a class=\'jpoker_tablepicker_show_options\' href=\'javascript://\'>options</a><div class=\'jpoker_tablepicker_options\'><input class=\'jpoker_tablepicker_option\' type=\'text\' name=\'variant\' value=\'{variant}\'/><input class=\'jpoker_tablepicker_option\' type=\'text\' name=\'betting_structure\' value=\'{betting_structure}\'/><input class=\'jpoker_tablepicker_option\'type=\'text\' name=\'currency_serial\' value=\'{currency_serial}\'/></div><div class=\'jpoker_tablepicker_error\'>{error}</div>';
     
     //
     // user preferences

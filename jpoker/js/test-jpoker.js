@@ -8336,7 +8336,7 @@ test("jpoker.plugins.cashier", function(){
     });
 
 test("jpoker.plugins.tablepicker", function(){
-        expect(23);
+        expect(24);
 	stop()
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -8359,12 +8359,13 @@ test("jpoker.plugins.tablepicker", function(){
 	server.preferences.tablepicker = {variant: 'omaha'};
         place.jpoker('tablepicker', 'url', {currency_serial: 1, variant: 'holdem'});
 	equals($('.jpoker_tablepicker').length, 1, 'tablepicker div');
-	equals($('.jpoker_tablepicker input[type=submit]').length, 1, 'tablepicker submit input');
-	equals($('.jpoker_tablepicker input[type=submit]').val(), 'Play now', 'tablepicker submit value');
-	equals($('.jpoker_tablepicker input[type=submit]').attr('title'), 'Click here to automatically pick a table', 'tablepicker submit title');	
+	equals($('.jpoker_tablepicker_submit').length, 1, 'tablepicker submit input');
+	equals($('.jpoker_tablepicker_submit').val(), 'Play now', 'tablepicker submit value');
+	equals($('.jpoker_tablepicker_submit').attr('title'), 'Click here to automatically pick a table', 'tablepicker submit title');	
 	ok($('.jpoker_tablepicker_error').is(':hidden'), 'tablepicker error hidden');
 	equals($('.jpoker_tablepicker_error').text(), 'No table found matching your criterions');
-	equals($('.jpoker_tablepicker a').length, 1, 'tablepicker options');	
+	equals($('.jpoker_tablepicker_show_options').length, 1, 'tablepicker show options');	
+	equals($('.jpoker_tablepicker_options').length, 1, 'tablepicker show options');	
 	equals($('.jpoker_tablepicker input[name=variant]').length, 1, 'tablepicker variant input');
 	equals($('.jpoker_tablepicker input[name=variant]').val(), 'omaha', 'tablepicker variant input value');
 	equals($('.jpoker_tablepicker input[name=betting_structure]').length, 1, 'tablepicker betting_structure input');
@@ -8372,12 +8373,12 @@ test("jpoker.plugins.tablepicker", function(){
 	equals($('.jpoker_tablepicker input[name=currency_serial]').length, 1, 'tablepicker currency_serial input');
 	equals($('.jpoker_tablepicker input[name=currency_serial]').val(), 1, 'tablepicker currency_serial input value');
 	equals($('.jpoker_tablepicker_option').length, 3);
-	equals($('.jpoker_tablepicker_option').is(':hidden'), true)
+	equals($('.jpoker_tablepicker_options').is(':hidden'), true)
 
 	$('.jpoker_tablepicker_show_options').click();
-	equals($('.jpoker_tablepicker_option').is(':visible'), true);
+	equals($('.jpoker_tablepicker_options').is(':visible'), true);
 	$('.jpoker_tablepicker_show_options').click();
-	equals($('.jpoker_tablepicker_option').is(':hidden'), true);
+	equals($('.jpoker_tablepicker_options').is(':hidden'), true);
 	$('.jpoker_tablepicker input[name=betting_structure]').val('1-2-limit').change();
 	equals(server.preferences.tablepicker.betting_structure, '1-2-limit');	
         equals(server.callbacks.update.length, 1, 'tablepicker update registered');
@@ -8404,7 +8405,7 @@ test("jpoker.plugins.tablepicker", function(){
 	};
 
 	$('.jpoker_tablepicker_error').show();
-	$('.jpoker_tablepicker input[type=submit]').click();
+	$('.jpoker_tablepicker_submit').click();
     });
 
 test("jpoker.plugins.tablepicker failed", function(){
