@@ -1818,6 +1818,51 @@ test("jpoker.server.setLocale waiting", function(){
 	cleanup();
     });
 
+test("jpoker.server.tablePick", function(){
+        expect(6);
+	stop();
+
+	var TABLE_PACKET = {"type": "PacketPokerTable", "id": 100};
+
+	var string = 'dummy';
+        var server = jpoker.serverCreate({ url: 'url' });
+	var sendPacket = server.sendPacket;
+	server.ping = function() {
+	    ok(true, 'pinging');
+	};
+        server.sendPacket = function(packet) {
+	    server.sendPacket = sendPacket;
+            equals(packet.type, 'PacketPokerTablePicker');
+            equals(packet.variant, 'holdem');
+            equals(packet.betting_structure, '', 'empty betting_structure');
+            equals(packet.currency_serial, '', 'empty currency_serial');
+	    equals(server.getState(), server.TABLE_PICK);
+	    server.queueIncoming([TABLE_PACKET]);
+        };
+        server.registerUpdate(function(server, what, packet) {
+		if (packet.type == 'PacketPokerTable') {
+		    server.queueRunning(start_and_cleanup);
+		    return false;
+		}
+		return true;
+	    });
+        server.tablePick({variant: 'holdem'});
+    });
+
+test("jpoker.server.tablePick waiting", function(){
+        expect(2);
+	
+        var server = jpoker.serverCreate({ url: 'url' });
+	server.serial = 42;
+	var game_id = 100;
+	server.callbacks[0] = [];
+	server.tablePick({});
+	equals(server.callbacks[0].length, 1, 'tablePick callbacks[0] registered');
+	var callback = server.callbacks[0][0];
+	server.notify(0, {type: 'PacketPing'});
+	equals(server.callbacks[0][0], callback, 'tablePick callback still in place');
+    });
+
 test("jpoker.server.setInterval", function(){
 	expect(1);
 	stop();

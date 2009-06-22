@@ -624,6 +624,7 @@
             TOURNEY_LIST: 'searching tourneys',
             TOURNEY_DETAILS: 'retrieving tourney details',
             TABLE_JOIN: 'joining table',
+	    TABLE_PICK: 'picking table',
 	    TOURNEY_REGISTER: 'updating tourney registration',
 	    PERSONAL_INFO: 'getting personal info',
 	    PLACES: 'getting player places',
@@ -1368,6 +1369,26 @@
                         server.sendPacket({ 'type': 'PacketPokerTableJoin',
                                     'game_id': game_id });
                         server.ping();
+                    });
+            },
+
+            tablePick: function(criterion) {
+                this.queueRunning(function(server) {
+                        server.setState(server.TABLE_PICK);
+			var packet = $.extend({type: 'PacketPokerTablePicker',
+					       variant: '',
+					       betting_structure: '',
+					       currency_serial: ''}, criterion);
+                        server.sendPacket(packet);
+			server.ping();
+			server.registerHandler(0, function(server, unused_game_id, packet) {
+				if (packet.type == 'PacketPokerTable') {
+				    server.notifyUpdate(packet);
+				    server.setState(server.RUNNING, 'PacketPokerTable');
+				    return false;
+				}
+				return true;
+			    });
                     });
             },
 
