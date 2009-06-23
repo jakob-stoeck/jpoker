@@ -38,6 +38,6 @@ $(document).ready(function() {
 	$.jpoker.plugins.cashier.templates.currencies.header = '<ul class=\'jpoker_cashier_currencies\'>';
 	$.jpoker.plugins.cashier.templates.currencies.rows = '<li class=\'jpoker_cashier_currency jpoker_cashier_currency_{currency_serial}\'>Cash: {currency_amount}$ ({currency_ingame}$ still in game)</li>';
 	$.jpoker.plugins.cashier.templates.currencies.footer = '</ul>';
-	var cashier = $('#cashier').jpoker('cashier', 'url');
+	$('#cashier').jpoker('cashier', 'url');
     });
 
