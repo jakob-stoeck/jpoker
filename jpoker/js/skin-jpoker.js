@@ -1945,7 +1945,7 @@ function jpoker_111_tablepicker(place) {
             $('#explain').append('<hr>');
         }
 
-	var TABLE_PACKET = {type: "PacketPokerTable"};
+	var TABLE_PACKET = {type: "PacketPokerTable", id: 0};
 
         var PokerServer = function() {};
         PokerServer.prototype = {
