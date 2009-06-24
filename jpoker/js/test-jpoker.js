@@ -632,6 +632,29 @@ test("jpoker.server.handler PacketPokerTable ", function(){
         cleanup();
     });
 
+test("jpoker.server.handler PacketPokerTable empty ", function(){
+        expect(3);
+	
+        var server = jpoker.serverCreate({ url: 'url' });
+	var spawnTableCalled = false;
+	var jpoker_message = jpoker.message;
+	var messages = []
+	jpoker.message = function(msg) {
+	    messages.push(msg);
+	};
+	server.spawnTable = function(server, packet) {
+	    spawnTableCalled = true;
+	};
+	server.registerUpdate(function(server, what, packet) {
+		equals(packet.id, 0);
+	    });
+        server.handler(server, 0, { type: 'PacketPokerTable', id: 0 });
+	equals(spawnTableCalled, false);
+	ok(messages[1].indexOf('empty PacketPokerTable') >= 0, 'empty PacketPokerTable message');
+	jpoker.message = jpoker_message;
+        cleanup();
+    });
+
 test("jpoker.server.handler PacketPokerTable + tourney_serial unknown", function(){
         expect(2);
 	

@@ -1070,18 +1070,27 @@
                 switch(packet.type) {
 
                 case 'PacketPokerTable':
-                if(packet.id in server.tables) {
-                    server.tables[packet.id].reinit(packet);
-                } else {
-                    var table = new jpoker.table(server, packet);
-                    if(!table.tourney_serial || !(table.tourney_serial in server.tourneys)) {
-                        table.poll();
-                    }
-		    server.tables[packet.id] = table;
-                    server.notifyUpdate(packet);
-                }
-		packet.game_id = packet.id;
-		server.spawnTable(server, packet);
+		var tableJoinFailed = packet.id != 0;
+		if (tableJoinFailed) {
+		    if(packet.id in server.tables) {
+			server.tables[packet.id].reinit(packet);
+		    } else {
+			var table = new jpoker.table(server, packet);
+			if(!table.tourney_serial || !(table.tourney_serial in server.tourneys)) {
+			    table.poll();
+			}
+			server.tables[packet.id] = table;
+			server.notifyUpdate(packet);
+		    }
+		    packet.game_id = packet.id;
+		    server.spawnTable(server, packet);
+		} else {
+		    // notify registered widget of tableJoinFailed
+		    if(jpoker.verbose > 0) {
+			jpoker.message('server.handler: ignoring empty PacketPokerTable');
+		    }
+		    server.notifyUpdate(packet);		
+		}
                 break;
 
                 case 'PacketPokerMessage':
