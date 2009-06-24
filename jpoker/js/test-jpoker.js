@@ -1856,13 +1856,15 @@ test("jpoker.server.tablePick", function(){
 	    ok(true, 'pinging');
 	};
         server.sendPacket = function(packet) {
-	    server.sendPacket = sendPacket;
-            equals(packet.type, 'PacketPokerTablePicker');
-            equals(packet.variant, 'holdem');
-            equals(packet.betting_structure, undefined, 'betting_structure');
-            equals(packet.currency_serial, 10, 'currency_serial');
-	    equals(server.getState(), server.TABLE_PICK);
-	    server.queueIncoming([TABLE_PACKET]);
+	    if (packet.type == 'PacketPokerTablePicker') {
+		equals(packet.variant, 'holdem');
+		equals(packet.betting_structure, undefined, 'betting_structure');
+		equals(packet.currency_serial, 10, 'currency_serial');
+		equals(server.getState(), server.TABLE_PICK);		
+		server.queueIncoming([TABLE_PACKET]);
+	    } else if (packet.type == 'PacketPokerAutoBlindAnte') {
+		ok(true, 'PacketPokerAutoBlindAnte');
+	    }
         };
         server.registerUpdate(function(server, what, packet) {
 		if (packet.type == 'PacketPokerTable') {

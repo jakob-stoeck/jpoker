@@ -1407,6 +1407,10 @@
 				    if (packet.type == 'PacketPokerTable') {					
 					server.setState(server.RUNNING, 'PacketPokerTable');
 					if (packet.id != 0 && server.tables[packet.id] !== undefined) {
+					    server.sendPacket({ 'type': 'PacketPokerAutoBlindAnte',
+							'serial': server.serial,
+							'game_id': packet.id
+							});    
 					    server.tables[packet.id].is_picked = true;
 					}
 					return false;
