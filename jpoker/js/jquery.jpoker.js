@@ -4940,7 +4940,7 @@
 	    betting_structure: '',
 	    currency_serial: 0,
 	    submit_label: _("Play now"),
-	    show_options_label: _("Show options"),
+	    show_options_label: _("Toggle options"),
 	    submit_title: _("Click here to automatically pick a table"),
 	    error: _("No table found matching your criterions"),
 	    variant_label: _("Variant"),
