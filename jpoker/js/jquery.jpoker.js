@@ -1404,9 +1404,11 @@
 			    server.sendPacket(packet);
 			    server.ping();
 			    server.registerHandler(0, function(server, unused_game_id, packet) {
-				    if (packet.type == 'PacketPokerTable') {
-					server.notifyUpdate(packet);
+				    if (packet.type == 'PacketPokerTable') {					
 					server.setState(server.RUNNING, 'PacketPokerTable');
+					if (packet.id != 0 && server.tables[packet.id] !== undefined) {
+					    server.tables[packet.id].is_picked = true;
+					}
 					return false;
 				    }
 				    return true;
@@ -4211,7 +4213,8 @@
 	    if (table.is_tourney) {
 		$('#rebuy' + id).hide();
 	    } else if ((player.state == 'buyin') &&
-		       (player.money === 0)) {
+		       (player.money == 0) &&
+		       !table.is_picked) {
 		$('#rebuy' + id).click();
 	    }
         },

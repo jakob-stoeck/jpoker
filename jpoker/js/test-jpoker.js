@@ -1843,7 +1843,7 @@ test("jpoker.server.setLocale waiting", function(){
     });
 
 test("jpoker.server.tablePick", function(){
-        expect(6);
+        expect(7);
 	stop();
 
 	var TABLE_PACKET = {"type": "PacketPokerTable", "id": 100};
@@ -1866,7 +1866,10 @@ test("jpoker.server.tablePick", function(){
         };
         server.registerUpdate(function(server, what, packet) {
 		if (packet.type == 'PacketPokerTable') {
-		    server.queueRunning(start_and_cleanup);
+		    setTimeout(function() {
+			    equals(server.tables[100].is_picked, true, 'picked');
+			    server.queueRunning(start_and_cleanup);			    
+			}, 0);
 		    return false;
 		}
 		return true;
@@ -7529,6 +7532,41 @@ test("jpoker.plugins.player: no rebuy in tourney", function() {
 		    serial: player_serial,
 		    game_id: game_id });	
 	equals(rebuy.is(':hidden'), true, 'rebuy hidden');
+	cleanup();
+    });
+
+test("jpoker.plugins.player: no rebuy dialog if picked", function() {
+	expect(1);
+
+        var id = 'jpoker' + jpoker.serial;
+	var server = jpoker.serverCreate({ url: 'url' });
+	var place = $("#main");
+	var game_id = 100;
+	var currency_serial = 42;
+	var player_serial = 12;
+	var player_seat = 2;
+	
+	var table_packet = { id: game_id, currency_serial: currency_serial };
+	server.tables[game_id] = new jpoker.table(server, table_packet);    
+	server.tables[game_id].buyIn.min = 1000;
+	server.tables[game_id].buyIn.bankroll = 1000;
+	server.tables[game_id].is_picked = true;
+	
+	place.jpoker('table', 'url', game_id);
+	// player
+	server.serial = player_serial;
+	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+	var rebuy = $("#rebuy"+id);
+
+	rebuy.click(function() {
+		ok(false, 'rebuy should not be clicked');
+	    });
+	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerChips',
+		    money: 0,
+		    bet: 0,
+		    serial: player_serial,
+		    game_id: game_id });	
+	equals(rebuy.is(':visible'), true, 'rebuy visible');
 	cleanup();
     });
 
