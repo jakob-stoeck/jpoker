@@ -1804,7 +1804,7 @@ test("jpoker.server.setLocale error", function() {
         server.serial = serial;
 
 	var locale = 'ja_JP.UTF-8';
-	var ERROR_PACKET = {'type': 'PacketError', 'message': 'no ja translation', 'other_type': jpoker.packetName2Type.PACKET_POKER_SET_LOCALE};
+	var ERROR_PACKET = {'type': 'PacketPokerError', 'message': 'no ja translation', 'other_type': jpoker.packetName2Type.PACKET_POKER_SET_LOCALE};
         server.sendPacket = function(packet) {
 	    equals(server.getState(), server.LOCALE);
 	    equals(packet.type, 'PacketPokerSetLocale');
@@ -1818,7 +1818,7 @@ test("jpoker.server.setLocale error", function() {
 	    jpoker.dialog = dialog;
 	};
         server.registerUpdate(function(server, what, packet) {
-		if (packet.type == 'PacketError') {
+		if (packet.type == 'PacketPokerError') {
 		    server.queueRunning(start_and_cleanup);
 		    return false;
 		}
