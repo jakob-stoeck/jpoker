@@ -1794,7 +1794,7 @@ test("jpoker.server.setLocale", function() {
     });
 
 test("jpoker.server.setLocale error", function() {
-        expect(5);
+        expect(6);
 	stop();
 
         var serial = 42;
@@ -1814,7 +1814,8 @@ test("jpoker.server.setLocale error", function() {
         };
 	dialog = jpoker.dialog;
 	jpoker.dialog = function(message) {
-	    equals(message, ERROR_PACKET.message);
+	    ok(message.indexOf('setLocale failed:') >= 0, 'setLocale failed');
+	    ok(message.indexOf(ERROR_PACKET.message) >= 0, ERROR_PACKET.message);
 	    jpoker.dialog = dialog;
 	};
         server.registerUpdate(function(server, what, packet) {

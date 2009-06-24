@@ -1640,7 +1640,7 @@
 				    return false;
 				}
 				else if (packet.type == 'PacketPokerError' && packet.other_type == jpoker.packetName2Type.PACKET_POKER_SET_LOCALE) {
-				    jpoker.dialog(packet.message);
+				    jpoker.dialog('setLocale failed: ' + packet.message);
 				    server.notifyUpdate(packet);
 				    server.setState(server.RUNNING, 'PacketError');
 				}
