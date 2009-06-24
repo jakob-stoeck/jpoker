@@ -1407,10 +1407,12 @@
 				    if (packet.type == 'PacketPokerTable') {					
 					server.setState(server.RUNNING, 'PacketPokerTable');
 					if (packet.id != 0 && server.tables[packet.id] !== undefined) {
+					    // FIXME: should be removed when https://gna.org/bugs/?13772 is fixed
 					    server.sendPacket({ 'type': 'PacketPokerAutoBlindAnte',
 							'serial': server.serial,
 							'game_id': packet.id
 							});    
+					    // FIXME: should be removed when https://gna.org/bugs/?13771 is fixed
 					    server.tables[packet.id].is_picked = true;
 					}
 					return false;
