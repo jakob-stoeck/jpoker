@@ -627,6 +627,7 @@
 	    TABLE_PICK: 'picking table',
 	    TOURNEY_REGISTER: 'updating tourney registration',
 	    PERSONAL_INFO: 'getting personal info',
+	    CREATE_ACCOUNT: 'creating account',
 	    PLACES: 'getting player places',
 	    STATS: 'getting player stats',
 	    LOCALE: 'setting locales',
@@ -1554,6 +1555,37 @@
 					jpoker.dialog(packet.message);
 					server.notifyUpdate(packet);
 					server.setState(server.RUNNING, 'PacketError');
+				    }
+				    return true;
+				});
+			}
+		    });
+	    },
+
+	    createAccount : function(options) {
+		this.queueRunning(function(server) {
+			if (options.password != options.password_confirmation) {
+			    jpoker.dialog(_("Password confirmation does not match"));
+			} else {
+			    server.setState(server.CREATE_ACCOUNT);
+			    var packet = {
+				'type' : 'PacketPokerCreateAccount',
+			    };
+			    server.sendPacket($.extend(packet, options));
+			    server.registerHandler(0, function(server, unused_game_id, packet) {
+				    if (packet.type == 'PacketPokerPersonalInfo') {
+					server.notifyUpdate(packet);
+					server.queueRunning(function(server) {
+						server.login(options.name, options.password);
+					    });
+					server.setState(server.RUNNING, 'PacketPokerPersonalInfo');
+					return false;
+				    }
+				    else if (packet.type == 'PacketError') {
+					jpoker.dialog(packet.message);
+					server.notifyUpdate(packet);
+					server.setState(server.RUNNING, 'PacketError');
+					return false;
 				    }
 				    return true;
 				});
@@ -3096,7 +3128,11 @@
                                     }
                                 }
                             };
-                            $('.jpoker_login_submit, .jpoker_login_signup', e).click(action);
+                            $('.jpoker_login_submit', e).click(action);
+			    $('.jpoker_login_signup', e).click(function() {
+				    $this.jpoker('signup', url);
+				});
+
                             e.unbind('keypress'); // prevent accumulation of handlers 
                             e.keypress(function(event) {
                                     if(event.which == 13) {
@@ -4958,6 +4994,66 @@
         }, jpoker.defaults);
 
     jpoker.plugins.tablepicker.template = '<input class=\'jpoker_tablepicker_submit\' type=\'submit\' value=\'{submit_label}\' title=\'{submit_title}\' /><a class=\'jpoker_tablepicker_show_options\' href=\'javascript://\'>{show_options_label}</a><div class=\'jpoker_tablepicker_options\'><label for=\'jpoker_tablepicker_option_variant{id}\'>{variant_label}</label><input class=\'jpoker_tablepicker_option\' type=\'text\' name=\'variant\' value=\'{variant}\' id=\'jpoker_tablepicker_option_variant{id}\'/><label for=\'jpoker_tablepicker_option_betting_structure{id}\'>{betting_structure_label}</label><input class=\'jpoker_tablepicker_option\' type=\'text\' name=\'betting_structure\' value=\'{betting_structure}\' id=\'jpoker_tablepicker_option_betting_structure{id}\'/><label for=\'jpoker_tablepicker_option_current_serial{id}\'>{currency_serial_label}</label><input class=\'jpoker_tablepicker_option\'type=\'text\' name=\'currency_serial\' value=\'{currency_serial}\' id=\'jpoker_tablepicker_option_current_serial{id}\'/></div><div class=\'jpoker_tablepicker_error\'>{error}</div>';
+
+    //
+    // signup
+    //
+    jpoker.plugins.signup = function(url, options) {
+
+        var server = jpoker.url2server({ url: url });
+        var signup = jpoker.plugins.signup;
+        var opts = $.extend({}, signup.defaults, options, server.preferences.signup);
+
+        return this.each(function() {
+                var $this = $(this);
+                var id = jpoker.uid();
+                var element = $('<div class=\'jpoker_widget jpoker_signup\' id=\'' + id + '\'></div>').appendTo($this);
+                var updated = function(server, what, packet) {
+                    var element = document.getElementById(id);
+                    if(element) {
+			if(packet && packet.type == 'PacketPokerPersonalInfo') {
+			    $(element).dialog('close');
+			    return false
+			}
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+		opts.id = id;
+		$(element).html(jpoker.plugins.signup.template.supplant(opts));
+
+		$('input[type=submit]', element).click(function() {
+			var options = {
+			    name: $('input[name=login]', element).val(),
+			    password: $('input[name=password]', element).val(),
+			    password_confirmation: $('input[name=password_confirmation]', element).val(),
+			    email: $('input[name=email]', element).val()
+			};
+			server.createAccount(options);
+		    });
+		server.registerUpdate(updated, null, 'signup ' + id);
+		$(element).dialog(opts.dialog);
+                return this;
+            });
+    };
+
+    jpoker.plugins.signup.defaults = $.extend({
+	    login_label: _("Login"),
+	    password_label: _("Password"),
+	    password_confirmation_label: _("Password confirmation"),
+	    email_label: _("Email address"),
+	    submit_label: _("Register"),
+	    dialog: {
+		resizable: false,
+		draggable: false,
+		modal: true,
+		width: '400px',
+		height: 'auto'
+	    }	    
+        }, jpoker.defaults);
+
+    jpoker.plugins.signup.template = '<div class=\'jpoker_signup_content\'><dl><dt><label for=\'jpoker_signup_login{id}\'>{login_label}</label></dt><dd><input name=\'login\' type=\'text\' id=\'jpoker_signup_login{id}\'/></dd><dt><label for=\'jpoker_signup_password{id}\'>{password_label}</label></dt><dd><input name=\'password\' type=\'text\' id=\'jpoker_signup_password{id}\'/></dd><dt><label for=\'jpoker_signup_password_confirmation{id}\'>{password_confirmation_label}</label></dt></dt><dd><input name=\'password_confirmation\' type=\'text\' id=\'jpoker_signup_password_confirmation{id}\'/></dd><dt><label for=\'jpoker_signup_email{id}\'>{email_label}</label></dt><dd><input name=\'email\' type=\'text\' id=\'jpoker_signup_email{id}\'/></dd></dl><input type=\'submit\' value=\'{submit_label}\'/></div>';
     
     //
     // user preferences

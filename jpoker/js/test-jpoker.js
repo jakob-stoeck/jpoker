@@ -86,6 +86,9 @@ var cleanup = function(id) {
 		       if (key == 'update') {
 			   if (callbacks.length !== 0) {
 			       ok(false, 'update callback should be cleared before cleanup: {count} callbacks left'.supplant({count:callbacks.length}));
+			       for (var i = 0; i < callbacks.length; ++i) {
+				   ok(false, callbacks[i].signature);
+			       }
 			   }
 		       }
 		   });
@@ -1707,6 +1710,44 @@ test("jpoker.server.setPersonalInfo", function(){
 		    lastname: 'Doe',
 		    password: 'testpassword',
 		    password_confirmation: 'testpassword'
+		    });
+    });
+
+test("jpoker.server.createAccount", function(){
+        expect(8);
+	stop();
+
+        var serial = 42;
+	var PERSONAL_INFO_PACKET = {'rating': 1000, 'firstname': 'John', 'money': {}, 'addr_street': '', 'phone': '', 'cookie': '', 'serial': serial, 'password': '', 'addr_country': '', 'name': 'john', 'gender': '', 'birthdate': '', 'addr_street2': '', 'addr_zip': '', 'affiliate': 0, 'lastname': 'Doe', 'addr_town': '', 'addr_state': '', 'type': 'PacketPokerPersonalInfo', 'email': ''};
+
+        var server = jpoker.serverCreate({ url: 'url' });
+	
+        server.sendPacket = function(packet) {
+	    if (packet.type == 'PacketPokerCreateAccount') {
+		equals(packet.name, 'john', 'name');
+		equals(packet.password, 'testpassword', 'password');
+		equals(packet.email, 'john@doe.com', 'email');
+		equals(server.getState(), server.CREATE_ACCOUNT);
+	    }
+	    server.queueIncoming([PERSONAL_INFO_PACKET]);
+        };
+	server.login = function(name, password) {
+	    equals(name, 'john');
+	    equals(password, 'testpassword');
+	};
+        server.registerUpdate(function(server, what, packet) {
+		if (packet.type == 'PacketPokerPersonalInfo') {
+		    equals(packet.name, 'john');
+		    equals(packet.serial, 42);
+		    server.queueRunning(start_and_cleanup);
+		    return false
+		}
+		return true;
+	    });
+        server.createAccount({name: 'john',
+		    password: 'testpassword',
+		    password_confirmation: 'testpassword',
+		    email: 'john@doe.com'
 		    });
     });
 
@@ -4977,7 +5018,7 @@ test("jpoker.plugins.login", function(){
         equals(dialog.text().indexOf('user name must not be empty') >= 0, true, 'empty user name');
 
         $(".jpoker_login_name", place).attr('value', expected.name);
-        $(".jpoker_login_signup", place).click();
+        $(".jpoker_login_submit", place).click();
 
         equals(dialog.text().indexOf('password must not be empty') >= 0, true, 'empty password');
         dialog.dialog('destroy');
@@ -5010,6 +5051,24 @@ test("jpoker.plugins.login", function(){
 	$("#" + id).remove();
 	server.notifyUpdate();
 
+        cleanup(id);
+    });
+
+test("jpoker.plugins.login signup", function(){
+        expect(1);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+
+	place.jpoker('login', 'url');
+	
+	$(".jpoker_login_signup", place).click();
+	ok($(".jpoker_signup").is(":visible"), 'signup visible');
+
+	$("#" + id).remove();
+	$(".jpoker_signup").remove();
+	server.notifyUpdate();	
         cleanup(id);
     });
 
@@ -8561,6 +8620,64 @@ test("jpoker.plugins.tablepicker failed", function(){
 	    });
 
 	$('.jpoker_tablepicker input[type=submit]').click();
+    });
+
+test("jpoker.plugins.signup", function() {
+	expect(13);
+	stop();
+
+	
+	var PERSONAL_INFO_PACKET = {'rating': 1000, 'firstname': 'John', 'money': {}, 'addr_street': '', 'phone': '', 'cookie': '', 'serial': 42, 'password': '', 'addr_country': '', 'name': 'testuser', 'gender': '', 'birthdate': '', 'addr_street2': '', 'addr_zip': '', 'affiliate': 0, 'lastname': 'Doe', 'addr_town': '', 'addr_state': '', 'type': 'PacketPokerPersonalInfo', 'email': ''};
+        var PokerServer = function() {};
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(PERSONAL_INFO_PACKET) + " ]",
+            handle: function(packet) { }
+        };
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+        var id = 'jpoker' + jpoker.serial;
+	var place = $('#main');
+        place.jpoker('signup', 'url');
+	equals($('.jpoker_signup.ui-dialog-content').length, 1, 'signup div');
+	equals($('.jpoker_signup input').length, 5, 'input');
+	equals($('.jpoker_signup label').length, 4, 'label');
+	equals($('.jpoker_signup input[name=login]').length, 1, 'login');
+	equals($('.jpoker_signup input[name=password]').length, 1, 'password');
+	equals($('.jpoker_signup input[name=password_confirmation]').length, 1, 'password confirmation');
+	equals($('.jpoker_signup input[name=email]').length, 1, 'email');
+	equals($('.jpoker_signup input[type=submit]').length, 1, 'submit');
+	
+	$('.jpoker_signup input[name=login]').val('john');
+	$('.jpoker_signup input[name=password]').val('doe1');
+	$('.jpoker_signup input[name=password_confirmation]').val('doe1');
+	$('.jpoker_signup input[name=email]').val('john@doe.com');
+
+	server.registerUpdate(function(server, what, data) {
+		var element = $('#' + id);
+		if(element.length > 0) {
+		    if (data.type == 'PacketPokerPersonalInfo') {
+			equals($('.jpoker_signup').is(':hidden'), true, 'dialog closed');
+			element.remove();
+		    }
+		    return true;
+		} else {
+		    start_and_cleanup();
+		    return false;
+		}
+	    });	
+	
+	var createAccount = server.createAccount;
+	server.createAccount = function(options) {
+	    equals(options.name, 'john');
+	    equals(options.password, 'doe1');
+	    equals(options.password_confirmation, 'doe1');
+	    equals(options.email, 'john@doe.com');
+	    createAccount.apply(server, arguments);
+	};
+
+	$('.jpoker_signup input[type=submit]').click();
     });
 
 test("jpoker.preferences", function() {

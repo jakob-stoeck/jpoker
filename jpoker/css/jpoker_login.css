@@ -27,6 +27,19 @@
 	border-bottom:0;
 }
 
+.ui-dialog-overlay {
+    background-color: black;
+    opacity: 0.3;
+}
+
+.jpoker_signup {
+    background-color: white;
+}
+
+.jpoker_signup_content {
+    margin: 20px;
+}
+
 /*
 td.login_text{
 	padding:5px 5px;
