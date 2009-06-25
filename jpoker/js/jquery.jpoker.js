@@ -5053,7 +5053,7 @@
 	    }	    
         }, jpoker.defaults);
 
-    jpoker.plugins.signup.template = '<div class=\'jpoker_signup_content\'><dl><dt><label for=\'jpoker_signup_login{id}\'>{login_label}</label></dt><dd><input name=\'login\' type=\'text\' id=\'jpoker_signup_login{id}\'/></dd><dt><label for=\'jpoker_signup_password{id}\'>{password_label}</label></dt><dd><input name=\'password\' type=\'text\' id=\'jpoker_signup_password{id}\'/></dd><dt><label for=\'jpoker_signup_password_confirmation{id}\'>{password_confirmation_label}</label></dt></dt><dd><input name=\'password_confirmation\' type=\'text\' id=\'jpoker_signup_password_confirmation{id}\'/></dd><dt><label for=\'jpoker_signup_email{id}\'>{email_label}</label></dt><dd><input name=\'email\' type=\'text\' id=\'jpoker_signup_email{id}\'/></dd></dl><input type=\'submit\' value=\'{submit_label}\'/></div>';
+    jpoker.plugins.signup.template = '<div class=\'jpoker_signup_content\'><dl><dt><label for=\'jpoker_signup_login{id}\'>{login_label}</label></dt><dd><input name=\'login\' type=\'text\' id=\'jpoker_signup_login{id}\'/></dd><dt><label for=\'jpoker_signup_password{id}\'>{password_label}</label></dt><dd><input name=\'password\' type=\'password\' id=\'jpoker_signup_password{id}\'/></dd><dt><label for=\'jpoker_signup_password_confirmation{id}\'>{password_confirmation_label}</label></dt></dt><dd><input name=\'password_confirmation\' type=\'password\' id=\'jpoker_signup_password_confirmation{id}\'/></dd><dt><label for=\'jpoker_signup_email{id}\'>{email_label}</label></dt><dd><input name=\'email\' type=\'text\' id=\'jpoker_signup_email{id}\'/></dd></dl><input type=\'submit\' value=\'{submit_label}\'/></div>';
     
     //
     // user preferences
