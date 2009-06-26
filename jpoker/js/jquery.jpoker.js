@@ -5007,7 +5007,7 @@
         return this.each(function() {
                 var $this = $(this);
                 var id = jpoker.uid();
-                var element = $('<div class=\'jpoker_widget jpoker_signup\' id=\'' + id + '\'></div>').appendTo($this);
+                var element = $('<div class=\'jpoker_widget jpoker_signup jpoker_jquery_ui\' id=\'' + id + '\'></div>').appendTo($this);
                 var updated = function(server, what, packet) {
                     var element = document.getElementById(id);
                     if(element) {
@@ -5049,7 +5049,7 @@
 		draggable: false,
 		modal: true,
 		width: '400px',
-		height: 'auto'
+		height: '300px'
 	    }	    
         }, jpoker.defaults);
 
