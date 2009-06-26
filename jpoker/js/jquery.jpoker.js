@@ -1071,7 +1071,7 @@
                 switch(packet.type) {
 
                 case 'PacketPokerTable':
-		var tableJoinFailed = packet.id != 0;
+		var tableJoinFailed = packet.id !== 0;
 		if (tableJoinFailed) {
 		    if(packet.id in server.tables) {
 			server.tables[packet.id].reinit(packet);
@@ -1391,10 +1391,10 @@
 			    var packet = $.extend({type: 'PacketPokerTablePicker',
 						   serial: server.serial
 				}, criterion);
-			    if (packet.variant == '') {
+			    if (packet.variant === '') {
 				delete packet.variant;
 			    }
-			    if (packet.betting_structure == '') {
+			    if (packet.betting_structure === '') {
 				delete packet.betting_structure;
 			    }
 			    if (packet.currency_serial !== undefined) {
@@ -1407,7 +1407,7 @@
 			    server.registerHandler(0, function(server, unused_game_id, packet) {
 				    if (packet.type == 'PacketPokerTable') {					
 					server.setState(server.RUNNING, 'PacketPokerTable');
-					if (packet.id != 0 && server.tables[packet.id] !== undefined) {
+					if (packet.id !== 0 && server.tables[packet.id] !== undefined) {
 					    // FIXME: should be removed when https://gna.org/bugs/?13772 is fixed
 					    server.sendPacket({ 'type': 'PacketPokerAutoBlindAnte',
 							'serial': server.serial,
@@ -1569,7 +1569,7 @@
 			} else {
 			    server.setState(server.CREATE_ACCOUNT);
 			    var packet = {
-				'type' : 'PacketPokerCreateAccount',
+				'type' : 'PacketPokerCreateAccount'
 			    };
 			    server.sendPacket($.extend(packet, options));
 			    server.registerHandler(0, function(server, unused_game_id, packet) {
@@ -3928,7 +3928,7 @@
 		},
 		check: function() {
 		    $('#jpokerSoundAction').html('<' + jpoker.sound + ' src=\'player_check.swf\' />');
-		},
+		}
 		
 	    },
 	    animation: {
@@ -4255,7 +4255,7 @@
 	    if (table.is_tourney) {
 		$('#rebuy' + id).hide();
 	    } else if ((player.state == 'buyin') &&
-		       (player.money == 0) &&
+		       (player.money === 0) &&
 		       !table.is_picked) {
 		$('#rebuy' + id).click();
 	    }
@@ -4473,7 +4473,7 @@
 	var visible = $(this).is(':visible');
 	$(this).show();
 	var position = $(this).position();
-	if (visible == false) {
+	if (visible === false) {
 	    $(this).hide();
 	}
 	return position;
@@ -4943,7 +4943,7 @@
                     var element = document.getElementById(id);
                     if(element) {
 			if(packet && packet.type == 'PacketPokerTable') {
-			    var error = packet.id == 0;
+			    var error = packet.id === 0;
 			    if (error) {
 				$('.jpoker_tablepicker_error', element).show();
 			    } else {
@@ -4969,7 +4969,7 @@
 			$('.jpoker_tablepicker_options', element).toggle();
 		    });
 		$('.jpoker_tablepicker_option', element).change(function() {
-			server.preferences.extend({tablepicker: getOptions()});;
+			server.preferences.extend({tablepicker: getOptions()});
 		    });
 
 		$('.jpoker_tablepicker_submit', element).click(function() {
@@ -5013,7 +5013,7 @@
                     if(element) {
 			if(packet && packet.type == 'PacketPokerPersonalInfo') {
 			    $(element).dialog('close');
-			    return false
+			    return false;
 			}
                         return true;
                     } else {
