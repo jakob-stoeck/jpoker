@@ -8623,7 +8623,7 @@ test("jpoker.plugins.tablepicker failed", function(){
     });
 
 test("jpoker.plugins.signup", function() {
-	expect(13);
+	expect(14);
 	stop();
 
 	
@@ -8641,6 +8641,7 @@ test("jpoker.plugins.signup", function() {
 	var place = $('#main');
         place.jpoker('signup', 'url');
 	equals($('.jpoker_signup.ui-dialog-content').length, 1, 'signup div');
+	ok($('.jpoker_signup').hasClass('jpoker_jquery_ui'), 'jquery_jquery_ui');
 	equals($('.jpoker_signup input').length, 5, 'input');
 	equals($('.jpoker_signup label').length, 4, 'label');
 	equals($('.jpoker_signup input[name=login]').length, 1, 'login');
