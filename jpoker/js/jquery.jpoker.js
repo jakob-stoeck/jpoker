@@ -76,7 +76,7 @@
 
         sound: 'embed width=\'1\' height=\'1\' pluginspage=\'http://getgnash.org/\' type=\'application/x-shockwave-flash\' ',
 
-        packetName2Type: { NONE: 0, STRING: 1, INT: 2, ERROR: 3, ACK: 4, PING: 5, SERIAL: 6, QUIT: 7, AUTH_OK: 8, AUTH_REFUSED: 9, LOGIN: 10, AUTH_REQUEST: 11, LIST: 12, LOGOUT: 13, BOOTSTRAP: 14, PROTOCOL_ERROR: 15, MESSAGE: 16, POKER_SEATS: 50, POKER_ID: 51, POKER_MESSAGE: 52, ERROR: 53, POKER_POSITION: 54, POKER_INT: 55, POKER_BET: 56, POKER_FOLD: 57, POKER_STATE: 58, POKER_WIN: 59, POKER_CARDS: 60, POKER_PLAYER_CARDS: 61, POKER_BOARD_CARDS: 62, POKER_CHIPS: 63, POKER_PLAYER_CHIPS: 64, POKER_CHECK: 65, POKER_START: 66, POKER_IN_GAME: 67, POKER_CALL: 68, POKER_RAISE: 69, POKER_DEALER: 70, POKER_TABLE_JOIN: 71, POKER_TABLE_SELECT: 72, POKER_TABLE: 73, POKER_TABLE_LIST: 74, POKER_SIT: 75, POKER_TABLE_DESTROY: 76, POKER_TIMEOUT_WARNING: 77, POKER_TIMEOUT_NOTICE: 78, POKER_SEAT: 79, POKER_TABLE_MOVE: 80, POKER_PLAYER_LEAVE: 81, POKER_SIT_OUT: 82, POKER_TABLE_QUIT: 83, POKER_BUY_IN: 84, POKER_REBUY: 85, POKER_CHAT: 86, POKER_PLAYER_INFO: 87, POKER_PLAYER_ARRIVE: 88, POKER_HAND_SELECT: 89, POKER_HAND_LIST: 90, POKER_HAND_SELECT_ALL: 91, POKER_USER_INFO: 92, POKER_GET_USER_INFO: 93, POKER_ANTE: 94, POKER_BLIND: 95, POKER_WAIT_BIG_BLIND: 96, POKER_AUTO_BLIND_ANTE: 97, POKER_NOAUTO_BLIND_ANTE: 98, POKER_CANCELED: 99, POKER_BLIND_REQUEST: 100, POKER_ANTE_REQUEST: 101, POKER_AUTO_FOLD: 102, POKER_WAIT_FOR: 103, POKER_STREAM_MODE: 104, POKER_BATCH_MODE: 105, POKER_LOOK_CARDS: 106, POKER_TABLE_REQUEST_PLAYERS_LIST: 107, POKER_PLAYERS_LIST: 108, POKER_PERSONAL_INFO: 109, POKER_GET_PERSONAL_INFO: 110, POKER_TOURNEY_SELECT: 111, POKER_TOURNEY: 112, POKER_TOURNEY_INFO: 113, POKER_TOURNEY_LIST: 114, POKER_TOURNEY_REQUEST_PLAYERS_LIST: 115, POKER_TOURNEY_REGISTER: 116, POKER_TOURNEY_UNREGISTER: 117, POKER_TOURNEY_PLAYERS_LIST: 118, POKER_HAND_HISTORY: 119, POKER_SET_ACCOUNT: 120, POKER_CREATE_ACCOUNT: 121, POKER_PLAYER_SELF: 122, POKER_GET_PLAYER_INFO: 123, POKER_ROLES: 124, POKER_SET_ROLE: 125, POKER_READY_TO_PLAY: 126, POKER_PROCESSING_HAND: 127, POKER_MUCK_REQUEST: 128, POKER_AUTO_MUCK: 129, POKER_MUCK_ACCEPT: 130, POKER_MUCK_DENY: 131, POKER_CASH_IN: 132, POKER_CASH_OUT: 133, POKER_CASH_OUT_COMMIT: 134, POKER_CASH_QUERY: 135, POKER_RAKE: 136, POKER_TOURNEY_RANK: 137, POKER_PLAYER_IMAGE: 138, POKER_GET_PLAYER_IMAGE: 139, POKER_HAND_REPLAY: 140, POKER_GAME_MESSAGE: 141, POKER_EXPLAIN: 142, POKER_STATS_QUERY: 143, POKER_STATS: 144, PACKET_POKER_PLAYER_PLACES: 152, PACKET_POKER_SET_LOCALE: 153, PACKET_POKER_BEST_CARDS: 170, PACKET_POKER_POT_CHIPS: 171, PACKET_POKER_CLIENT_ACTION: 172, PACKET_POKER_BET_LIMIT: 173, POKER_SIT_REQUEST: 174, POKER_PLAYER_NO_CARDS: 175, PACKET_POKER_CHIPS_PLAYER2BET: 176, PACKET_POKER_CHIPS_BET2POT: 177, PACKET_POKER_CHIPS_POT2PLAYER: 178, PACKET_POKER_CHIPS_POT_MERGE: 179, POKER_CHIPS_POT_RESET: 180, POKER_CHIPS_BET2PLAYER: 181, POKER_END_ROUND: 182, PACKET_POKER_DISPLAY_NODE: 183, PACKET_POKER_DEAL_CARDS: 184, POKER_CHAT_HISTORY: 185, POKER_DISPLAY_CARD: 186, POKER_SELF_IN_POSITION: 187, POKER_SELF_LOST_POSITION: 188, POKER_HIGHEST_BET_INCREASE: 189, POKER_PLAYER_WIN: 190, POKER_ANIMATION_PLAYER_NOISE: 191, POKER_ANIMATION_PLAYER_FOLD: 192, POKER_ANIMATION_PLAYER_BET: 193, POKER_ANIMATION_PLAYER_CHIPS: 194, POKER_ANIMATION_DEALER_CHANGE: 195, POKER_ANIMATION_DEALER_BUTTON: 196, POKER_BEGIN_ROUND: 197, POKER_CURRENT_GAMES: 198, POKER_END_ROUND_LAST: 199, POKER_PYTHON_ANIMATION: 200, POKER_SIT_OUT_NEXT_TURN: 201, POKER_RENDERER_STATE: 202, POKER_CHAT_WORD: 203, POKER_SHOWDOWN: 204, POKER_CLIENT_PLAYER_CHIPS: 205, POKER_INTERFACE_COMMAND: 206, POKER_PLAYER_ME_LOOK_CARDS: 207, POKER_PLAYER_ME_IN_FIRST_PERSON: 208, POKER_ALLIN_SHOWDOWN: 209 },
+        packetName2Type: { NONE: 0, STRING: 1, INT: 2, ERROR: 3, ACK: 4, PING: 5, SERIAL: 6, QUIT: 7, AUTH_OK: 8, AUTH_REFUSED: 9, LOGIN: 10, AUTH_REQUEST: 11, LIST: 12, LOGOUT: 13, BOOTSTRAP: 14, PROTOCOL_ERROR: 15, MESSAGE: 16, POKER_SEATS: 50, POKER_ID: 51, POKER_MESSAGE: 52, ERROR: 53, POKER_POSITION: 54, POKER_INT: 55, POKER_BET: 56, POKER_FOLD: 57, POKER_STATE: 58, POKER_WIN: 59, POKER_CARDS: 60, POKER_PLAYER_CARDS: 61, POKER_BOARD_CARDS: 62, POKER_CHIPS: 63, POKER_PLAYER_CHIPS: 64, POKER_CHECK: 65, POKER_START: 66, POKER_IN_GAME: 67, POKER_CALL: 68, POKER_RAISE: 69, POKER_DEALER: 70, POKER_TABLE_JOIN: 71, POKER_TABLE_SELECT: 72, POKER_TABLE: 73, POKER_TABLE_LIST: 74, POKER_SIT: 75, POKER_TABLE_DESTROY: 76, POKER_TIMEOUT_WARNING: 77, POKER_TIMEOUT_NOTICE: 78, POKER_SEAT: 79, POKER_TABLE_MOVE: 80, POKER_PLAYER_LEAVE: 81, POKER_SIT_OUT: 82, POKER_TABLE_QUIT: 83, POKER_BUY_IN: 84, POKER_REBUY: 85, POKER_CHAT: 86, POKER_PLAYER_INFO: 87, POKER_PLAYER_ARRIVE: 88, POKER_HAND_SELECT: 89, POKER_HAND_LIST: 90, POKER_HAND_SELECT_ALL: 91, POKER_USER_INFO: 92, POKER_GET_USER_INFO: 93, POKER_ANTE: 94, POKER_BLIND: 95, POKER_WAIT_BIG_BLIND: 96, POKER_AUTO_BLIND_ANTE: 97, POKER_NOAUTO_BLIND_ANTE: 98, POKER_CANCELED: 99, POKER_BLIND_REQUEST: 100, POKER_ANTE_REQUEST: 101, POKER_AUTO_FOLD: 102, POKER_WAIT_FOR: 103, POKER_STREAM_MODE: 104, POKER_BATCH_MODE: 105, POKER_LOOK_CARDS: 106, POKER_TABLE_REQUEST_PLAYERS_LIST: 107, POKER_PLAYERS_LIST: 108, POKER_PERSONAL_INFO: 109, POKER_GET_PERSONAL_INFO: 110, POKER_TOURNEY_SELECT: 111, POKER_TOURNEY: 112, POKER_TOURNEY_INFO: 113, POKER_TOURNEY_LIST: 114, POKER_TOURNEY_REQUEST_PLAYERS_LIST: 115, POKER_TOURNEY_REGISTER: 116, POKER_TOURNEY_UNREGISTER: 117, POKER_TOURNEY_PLAYERS_LIST: 118, POKER_HAND_HISTORY: 119, POKER_SET_ACCOUNT: 120, POKER_CREATE_ACCOUNT: 121, POKER_PLAYER_SELF: 122, POKER_GET_PLAYER_INFO: 123, POKER_ROLES: 124, POKER_SET_ROLE: 125, POKER_READY_TO_PLAY: 126, POKER_PROCESSING_HAND: 127, POKER_MUCK_REQUEST: 128, POKER_AUTO_MUCK: 129, POKER_MUCK_ACCEPT: 130, POKER_MUCK_DENY: 131, POKER_CASH_IN: 132, POKER_CASH_OUT: 133, POKER_CASH_OUT_COMMIT: 134, POKER_CASH_QUERY: 135, POKER_RAKE: 136, POKER_TOURNEY_RANK: 137, POKER_PLAYER_IMAGE: 138, POKER_GET_PLAYER_IMAGE: 139, POKER_HAND_REPLAY: 140, POKER_GAME_MESSAGE: 141, POKER_EXPLAIN: 142, POKER_STATS_QUERY: 143, POKER_STATS: 144, PACKET_POKER_PLAYER_PLACES: 152, PACKET_POKER_SET_LOCALE: 153, POKER_TABLE_PICKER: 165, PACKET_POKER_BEST_CARDS: 170, PACKET_POKER_POT_CHIPS: 171, PACKET_POKER_CLIENT_ACTION: 172, PACKET_POKER_BET_LIMIT: 173, POKER_SIT_REQUEST: 174, POKER_PLAYER_NO_CARDS: 175, PACKET_POKER_CHIPS_PLAYER2BET: 176, PACKET_POKER_CHIPS_BET2POT: 177, PACKET_POKER_CHIPS_POT2PLAYER: 178, PACKET_POKER_CHIPS_POT_MERGE: 179, POKER_CHIPS_POT_RESET: 180, POKER_CHIPS_BET2PLAYER: 181, POKER_END_ROUND: 182, PACKET_POKER_DISPLAY_NODE: 183, PACKET_POKER_DEAL_CARDS: 184, POKER_CHAT_HISTORY: 185, POKER_DISPLAY_CARD: 186, POKER_SELF_IN_POSITION: 187, POKER_SELF_LOST_POSITION: 188, POKER_HIGHEST_BET_INCREASE: 189, POKER_PLAYER_WIN: 190, POKER_ANIMATION_PLAYER_NOISE: 191, POKER_ANIMATION_PLAYER_FOLD: 192, POKER_ANIMATION_PLAYER_BET: 193, POKER_ANIMATION_PLAYER_CHIPS: 194, POKER_ANIMATION_DEALER_CHANGE: 195, POKER_ANIMATION_DEALER_BUTTON: 196, POKER_BEGIN_ROUND: 197, POKER_CURRENT_GAMES: 198, POKER_END_ROUND_LAST: 199, POKER_PYTHON_ANIMATION: 200, POKER_SIT_OUT_NEXT_TURN: 201, POKER_RENDERER_STATE: 202, POKER_CHAT_WORD: 203, POKER_SHOWDOWN: 204, POKER_CLIENT_PLAYER_CHIPS: 205, POKER_INTERFACE_COMMAND: 206, POKER_PLAYER_ME_LOOK_CARDS: 207, POKER_PLAYER_ME_IN_FIRST_PERSON: 208, POKER_ALLIN_SHOWDOWN: 209 },
 
         verbose: 0,
 
@@ -1071,27 +1071,18 @@
                 switch(packet.type) {
 
                 case 'PacketPokerTable':
-		var tableJoinFailed = packet.id !== 0;
-		if (tableJoinFailed) {
-		    if(packet.id in server.tables) {
-			server.tables[packet.id].reinit(packet);
-		    } else {
-			var table = new jpoker.table(server, packet);
-			if(!table.tourney_serial || !(table.tourney_serial in server.tourneys)) {
-			    table.poll();
-			}
-			server.tables[packet.id] = table;
-			server.notifyUpdate(packet);
-		    }
-		    packet.game_id = packet.id;
-		    server.spawnTable(server, packet);
+		if(packet.id in server.tables) {
+		    server.tables[packet.id].reinit(packet);
 		} else {
-		    // notify registered widget of tableJoinFailed
-		    if(jpoker.verbose > 0) {
-			jpoker.message('server.handler: ignoring empty PacketPokerTable');
+		    var table = new jpoker.table(server, packet);
+		    if(!table.tourney_serial || !(table.tourney_serial in server.tourneys)) {
+			table.poll();
 		    }
-		    server.notifyUpdate(packet);		
+		    server.tables[packet.id] = table;
+		    server.notifyUpdate(packet);
 		}
+		packet.game_id = packet.id;
+		server.spawnTable(server, packet);
                 break;
 
                 case 'PacketPokerMessage':
@@ -1388,9 +1379,11 @@
 		} else {
 		    this.queueRunning(function(server) {
 			    server.setState(server.TABLE_PICK);
-			    var packet = $.extend({type: 'PacketPokerTablePicker',
-						   serial: server.serial
-				}, criterion);
+			    var packet = $.extend(criterion, {
+				    type: 'PacketPokerTablePicker',
+				    serial: server.serial,
+				    auto_blind_ante: true
+				});
 			    if (packet.variant === '') {
 				delete packet.variant;
 			    }
@@ -1405,17 +1398,14 @@
 			    server.sendPacket(packet);
 			    server.ping();
 			    server.registerHandler(0, function(server, unused_game_id, packet) {
-				    if (packet.type == 'PacketPokerTable') {					
+				    if ((packet.type == 'PacketPokerTable') &&
+					(packet.reason == 'TablePicker')) {
 					server.setState(server.RUNNING, 'PacketPokerTable');
-					if (packet.id !== 0 && server.tables[packet.id] !== undefined) {
-					    // FIXME: should be removed when https://gna.org/bugs/?13772 is fixed
-					    server.sendPacket({ 'type': 'PacketPokerAutoBlindAnte',
-							'serial': server.serial,
-							'game_id': packet.id
-							});    
-					    // FIXME: should be removed when https://gna.org/bugs/?13771 is fixed
-					    server.tables[packet.id].is_picked = true;
-					}
+					return false;
+				    } else if ((packet.type == 'PacketPokerError') &&
+					       (packet.other_type == jpoker.packetName2Type.POKER_TABLE_PICKER)) {
+					server.notifyUpdate(packet);
+					server.setState(server.RUNNING, 'PacketPokerError');
 					return false;
 				    }
 				    return true;
@@ -4256,7 +4246,7 @@
 		$('#rebuy' + id).hide();
 	    } else if ((player.state == 'buyin') &&
 		       (player.money === 0) &&
-		       !table.is_picked) {
+		       (table.reason != 'TablePicker')) {
 		$('#rebuy' + id).click();
 	    }
         },
@@ -4942,12 +4932,15 @@
                 var updated = function(server, what, packet) {
                     var element = document.getElementById(id);
                     if(element) {
-			if(packet && packet.type == 'PacketPokerTable') {
-			    var error = packet.id === 0;
-			    if (error) {
-				$('.jpoker_tablepicker_error', element).show();
-			    } else {
+			if(packet) {
+			    if ((packet.type == 'PacketPokerTable') &&
+				(packet.reason == 'TablePicker')) {
+				$('.jpoker_tablepicker_error', element).text('');
 				$('.jpoker_tablepicker_error', element).hide();
+			    } else if((packet.type == 'PacketPokerError') &&
+				      (packet.other_type == jpoker.packetName2Type.POKER_TABLE_PICKER)) {
+				$('.jpoker_tablepicker_error', element).text(packet.message);
+				$('.jpoker_tablepicker_error', element).show();
 			    }
 			}
                         return true;
@@ -4987,13 +4980,12 @@
 	    submit_label: _("Play now"),
 	    show_options_label: _("Toggle options"),
 	    submit_title: _("Click here to automatically pick a table"),
-	    error: _("No table found matching your criterions"),
 	    variant_label: _("Variant"),
 	    betting_structure_label: _("Betting structure"),
 	    currency_serial_label: _("Currency serial")
         }, jpoker.defaults);
 
-    jpoker.plugins.tablepicker.template = '<input class=\'jpoker_tablepicker_submit\' type=\'submit\' value=\'{submit_label}\' title=\'{submit_title}\' /><a class=\'jpoker_tablepicker_show_options\' href=\'javascript://\'>{show_options_label}</a><div class=\'jpoker_tablepicker_options\'><label for=\'jpoker_tablepicker_option_variant{id}\'>{variant_label}</label><input class=\'jpoker_tablepicker_option\' type=\'text\' name=\'variant\' value=\'{variant}\' id=\'jpoker_tablepicker_option_variant{id}\'/><label for=\'jpoker_tablepicker_option_betting_structure{id}\'>{betting_structure_label}</label><input class=\'jpoker_tablepicker_option\' type=\'text\' name=\'betting_structure\' value=\'{betting_structure}\' id=\'jpoker_tablepicker_option_betting_structure{id}\'/><label for=\'jpoker_tablepicker_option_current_serial{id}\'>{currency_serial_label}</label><input class=\'jpoker_tablepicker_option\'type=\'text\' name=\'currency_serial\' value=\'{currency_serial}\' id=\'jpoker_tablepicker_option_current_serial{id}\'/></div><div class=\'jpoker_tablepicker_error\'>{error}</div>';
+    jpoker.plugins.tablepicker.template = '<input class=\'jpoker_tablepicker_submit\' type=\'submit\' value=\'{submit_label}\' title=\'{submit_title}\' /><a class=\'jpoker_tablepicker_show_options\' href=\'javascript://\'>{show_options_label}</a><div class=\'jpoker_tablepicker_options\'><label for=\'jpoker_tablepicker_option_variant{id}\'>{variant_label}</label><input class=\'jpoker_tablepicker_option\' type=\'text\' name=\'variant\' value=\'{variant}\' id=\'jpoker_tablepicker_option_variant{id}\'/><label for=\'jpoker_tablepicker_option_betting_structure{id}\'>{betting_structure_label}</label><input class=\'jpoker_tablepicker_option\' type=\'text\' name=\'betting_structure\' value=\'{betting_structure}\' id=\'jpoker_tablepicker_option_betting_structure{id}\'/><label for=\'jpoker_tablepicker_option_current_serial{id}\'>{currency_serial_label}</label><input class=\'jpoker_tablepicker_option\'type=\'text\' name=\'currency_serial\' value=\'{currency_serial}\' id=\'jpoker_tablepicker_option_current_serial{id}\'/></div><div class=\'jpoker_tablepicker_error\'></div>';
 
     //
     // signup

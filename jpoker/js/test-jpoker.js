@@ -636,7 +636,7 @@ test("jpoker.server.handler PacketPokerTable ", function(){
     });
 
 test("jpoker.server.handler PacketPokerTable empty ", function(){
-        expect(3);
+        expect(2);
 	
         var server = jpoker.serverCreate({ url: 'url' });
 	var spawnTableCalled = false;
@@ -652,9 +652,7 @@ test("jpoker.server.handler PacketPokerTable empty ", function(){
 		equals(packet.id, 0);
 	    });
         server.handler(server, 0, { type: 'PacketPokerTable', id: 0 });
-	equals(spawnTableCalled, false);
-	ok(messages[1].indexOf('empty PacketPokerTable') >= 0, 'empty PacketPokerTable message');
-	jpoker.message = jpoker_message;
+	equals(spawnTableCalled, true);
         cleanup();
     });
 
@@ -1884,10 +1882,10 @@ test("jpoker.server.setLocale waiting", function(){
     });
 
 test("jpoker.server.tablePick", function(){
-        expect(7);
+        expect(6);
 	stop();
 
-	var TABLE_PACKET = {"type": "PacketPokerTable", "id": 100};
+	var TABLE_PACKET = {"type": "PacketPokerTable", "id": 100, "reason": "TablePicker"};
 
 	var string = 'dummy';
         var server = jpoker.serverCreate({ url: 'url' });
@@ -1897,22 +1895,18 @@ test("jpoker.server.tablePick", function(){
 	    ok(true, 'pinging');
 	};
         server.sendPacket = function(packet) {
-	    if (packet.type == 'PacketPokerTablePicker') {
+	    if (packet.type == 'PacketPokerTablePicker') {		
 		equals(packet.variant, 'holdem');
 		equals(packet.betting_structure, undefined, 'betting_structure');
 		equals(packet.currency_serial, 10, 'currency_serial');
+		equals(packet.auto_blind_ante, true, 'auto_blind_ante');
 		equals(server.getState(), server.TABLE_PICK);		
 		server.queueIncoming([TABLE_PACKET]);
-	    } else if (packet.type == 'PacketPokerAutoBlindAnte') {
-		ok(true, 'PacketPokerAutoBlindAnte');
 	    }
         };
         server.registerUpdate(function(server, what, packet) {
 		if (packet.type == 'PacketPokerTable') {
-		    setTimeout(function() {
-			    equals(server.tables[100].is_picked, true, 'picked');
-			    server.queueRunning(start_and_cleanup);			    
-			}, 0);
+		    server.queueRunning(start_and_cleanup);			    
 		    return false;
 		}
 		return true;
@@ -1921,10 +1915,10 @@ test("jpoker.server.tablePick", function(){
     });
 
 test("jpoker.server.tablePick default", function(){
-        expect(6);
+        expect(7);
 	stop();
 
-	var TABLE_PACKET = {"type": "PacketPokerTable", "id": 100};
+	var TABLE_PACKET = {"type": "PacketPokerTable", "id": 100, "reason": "TablePicker"};
 
 	var string = 'dummy';
         var server = jpoker.serverCreate({ url: 'url' });
@@ -1939,6 +1933,7 @@ test("jpoker.server.tablePick default", function(){
             equals(packet.variant, undefined, 'no variant');
             equals(packet.betting_structure, undefined, 'no betting_structure');
             equals(packet.currency_serial, undefined, 'no currency_serial');
+	    equals(packet.auto_blind_ante, true, 'auto_blind_ante');
 	    equals(server.getState(), server.TABLE_PICK);
 	    server.queueIncoming([TABLE_PACKET]);
         };
@@ -1970,7 +1965,7 @@ test("jpoker.server.tablePick not logged", function(){
     });
 
 test("jpoker.server.tablePick waiting", function(){
-        expect(2);
+        expect(3);
 	
         var server = jpoker.serverCreate({ url: 'url' });
 	server.serial = 42;
@@ -1980,6 +1975,8 @@ test("jpoker.server.tablePick waiting", function(){
 	equals(server.callbacks[0].length, 1, 'tablePick callbacks[0] registered');
 	var callback = server.callbacks[0][0];
 	server.notify(0, {type: 'PacketPing'});
+	equals(server.callbacks[0][0], callback, 'tablePick callback still in place');
+	server.notify(0, {type: 'PacketPokerTable', id: 100}); // no reason: TablePicker
 	equals(server.callbacks[0][0], callback, 'tablePick callback still in place');
     });
 
@@ -7596,7 +7593,7 @@ test("jpoker.plugins.player: no rebuy in tourney", function() {
 	cleanup();
     });
 
-test("jpoker.plugins.player: no rebuy dialog if picked", function() {
+test("jpoker.plugins.player: no rebuy dialog if tablepicker", function() {
 	expect(1);
 
         var id = 'jpoker' + jpoker.serial;
@@ -7611,7 +7608,7 @@ test("jpoker.plugins.player: no rebuy dialog if picked", function() {
 	server.tables[game_id] = new jpoker.table(server, table_packet);    
 	server.tables[game_id].buyIn.min = 1000;
 	server.tables[game_id].buyIn.bankroll = 1000;
-	server.tables[game_id].is_picked = true;
+	server.tables[game_id].reason = 'TablePicker';
 	
 	place.jpoker('table', 'url', game_id);
 	// player
@@ -8517,7 +8514,7 @@ test("jpoker.plugins.tablepicker", function(){
 
 	server.serial = 42;
 
-	var TABLE_PACKET = {type: 'PacketPokerTable', id: 11};
+	var TABLE_PACKET = {type: 'PacketPokerTable', id: 11, reason: 'TablePicker'};
 
         var PokerServer = function() {};
         PokerServer.prototype = {
@@ -8536,7 +8533,6 @@ test("jpoker.plugins.tablepicker", function(){
 	equals($('.jpoker_tablepicker_submit').val(), 'Play now', 'tablepicker submit value');
 	equals($('.jpoker_tablepicker_submit').attr('title'), 'Click here to automatically pick a table', 'tablepicker submit title');	
 	ok($('.jpoker_tablepicker_error').is(':hidden'), 'tablepicker error hidden');
-	equals($('.jpoker_tablepicker_error').text(), 'No table found matching your criterions');
 	equals($('.jpoker_tablepicker_show_options').length, 1, 'tablepicker show options');	
 	equals($('.jpoker_tablepicker_options').length, 1, 'tablepicker options');	
 	equals($('.jpoker_tablepicker_options label').length, 3, 'tablepicker options label');
@@ -8562,6 +8558,7 @@ test("jpoker.plugins.tablepicker", function(){
 		if(element.length > 0) {
 		    if (data.type == 'PacketPokerTable') {
 			ok($('.jpoker_tablepicker_error').is(':hidden'), 'tablepicker error hidden');
+			equals($('.jpoker_tablepicker_error').text(), '', 'empty error');
 			$('#' + id).remove();
 		    }
 		    return true;
@@ -8580,11 +8577,12 @@ test("jpoker.plugins.tablepicker", function(){
 	};
 
 	$('.jpoker_tablepicker_error').show();
+	$('.jpoker_tablepicker_error').text('foo');
 	$('.jpoker_tablepicker_submit').click();
     });
 
 test("jpoker.plugins.tablepicker failed", function(){
-        expect(1);
+        expect(2);
 	stop()
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -8592,11 +8590,11 @@ test("jpoker.plugins.tablepicker failed", function(){
 
 	server.serial = 42;
 
-	var EMPTY_TABLE_PACKET = {type: 'PacketPokerTable', id: 0};
+	var ERROR_PACKET = {type: 'PacketPokerError', other_type: $.jpoker.packetName2Type.POKER_TABLE_PICKER, message: "tablepicker error"};
 
         var PokerServer = function() {};
         PokerServer.prototype = {
-            outgoing: "[ " + JSON.stringify(EMPTY_TABLE_PACKET) + " ]",
+            outgoing: "[ " + JSON.stringify(ERROR_PACKET) + " ]",
             handle: function(packet) { }
         };
         ActiveXObject.prototype.server = new PokerServer();
@@ -8608,8 +8606,9 @@ test("jpoker.plugins.tablepicker failed", function(){
 	server.registerUpdate(function(server, what, data) {
 		var element = $('#' + id);
 		if(element.length > 0) {
-		    if (data.type == 'PacketPokerTable') {
+		    if (data.type == 'PacketPokerError') {
 			ok($('.jpoker_tablepicker_error', element).is(':visible'), 'table picker error shown');
+			equals($('.jpoker_tablepicker_error', element).text(), 'tablepicker error');
 			element.remove();
 		    }
 		    return true;
