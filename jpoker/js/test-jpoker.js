@@ -641,7 +641,7 @@ test("jpoker.server.handler PacketPokerTable empty ", function(){
         var server = jpoker.serverCreate({ url: 'url' });
 	var spawnTableCalled = false;
 	var jpoker_message = jpoker.message;
-	var messages = []
+	var messages = [];
 	jpoker.message = function(msg) {
 	    messages.push(msg);
 	};
@@ -1738,7 +1738,7 @@ test("jpoker.server.createAccount", function(){
 		    equals(packet.name, 'john');
 		    equals(packet.serial, 42);
 		    server.queueRunning(start_and_cleanup);
-		    return false
+		    return false;
 		}
 		return true;
 	    });
@@ -3242,7 +3242,9 @@ test("jpoker.player.stats", function(){
 test("jpoker.plugins.tableList", function(){
         var expected = 11;
         var test_average_pot = jpoker.plugins.tableList.templates.rows.indexOf('{average_pot}');
-        if(test_average_pot) expected++;
+        if(test_average_pot) {
+	    expected++;
+	}
         expect(expected);
         stop();
 
@@ -3780,7 +3782,7 @@ test("jpoker.plugins.tourneyList empty", function(){
 test("jpoker.plugins.sitngoTourneyList", function(){
         expect(4);
         jpoker.plugins.sitngoTourneyList.callback.marker_for_test = true;
-        var tourneyList = jpoker.plugins.tourneyList
+        var tourneyList = jpoker.plugins.tourneyList;
         jpoker.plugins.tourneyList = function(url, options) {
             equals(options.templates.header, jpoker.plugins.sitngoTourneyList.templates.header, 'header');
             ok('marker_for_test' in options.callback, 'callback');
@@ -3799,7 +3801,7 @@ test("jpoker.plugins.sitngoTourneyList", function(){
 test("jpoker.plugins.regularTourneyList", function(){
         expect(4);
         jpoker.plugins.regularTourneyList.callback.marker_for_test = true;
-        var tourneyList = jpoker.plugins.tourneyList
+        var tourneyList = jpoker.plugins.tourneyList;
         jpoker.plugins.tourneyList = function(url, options) {
             equals(options.templates.header, jpoker.plugins.regularTourneyList.templates.header, 'header');
             ok('marker_for_test' in options.callback, 'callback');
@@ -5659,7 +5661,7 @@ test("jpoker.plugins.table: PacketPokerChat", function(){
         var chat_changed = jpoker.plugins.table.callback.chat_changed;
         jpoker.plugins.table.callback.chat_changed = function(element) {
             ok($(element).html().indexOf('chat changed'));
-        }
+        };
         table.handler(server, game_id, { type: 'PacketPokerChat', message: 'chat changed', game_id: game_id, serial: player_serial });	
         jpoker.plugins.table.callback.chat_changed = chat_changed;
 	ok($(".jpoker_chat_history_player").attr('scrollTop') > 0, 'scrollTop');
@@ -7223,7 +7225,7 @@ test("jpoker.plugins.player: raise NaN should trigger an error", function() {
 	var reason;
 	jpoker.error = function(r) {
 	    reason = r;
-	}
+	};
 
 	$('.jpoker_raise_current', raise).attr('title', 'abc');
 	$('#raise' + id).click();
@@ -7452,7 +7454,7 @@ test("jpoker.plugins.player: rebuy bug: high buy in limit should be formatted", 
         var player = jpoker.getPlayer('url', game_id, player_serial);
 	var table = jpoker.getTable('url', game_id);
 
-	server.userInfo.money['X42'] = [ 100000000, 100000000, 100000000 ];
+	server.userInfo.money.X42 = [ 100000000, 100000000, 100000000 ];
 
         // buy in
         var min = 10000;
@@ -7506,7 +7508,7 @@ test("jpoker.plugins.player: rebuy NaN should trigger an error", function(){
         var sent;
         sent = false;
         server.sendPacket = function(packet) {
-            sent = true 
+            sent = true;
         };
 
 	var reason;
@@ -7514,10 +7516,9 @@ test("jpoker.plugins.player: rebuy NaN should trigger an error", function(){
 	jpoker.error = function(r) {
 	    jpoker.error = jpokerError;
 	    reason = r;
-	}
+	};
 
-        var rebuy = $("#jpokerRebuy");
-        $("button", rebuy).click();
+        $("#jpokerRebuy button").click();
 
         equals(sent, false, 'BuyIn packet not sent');
         equals(reason, 'rebuy with NaN amount: abc', 'error');
@@ -8507,7 +8508,7 @@ test("jpoker.plugins.cashier", function(){
 
 test("jpoker.plugins.tablepicker", function(){
         expect(25);
-	stop()
+	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
@@ -8544,7 +8545,7 @@ test("jpoker.plugins.tablepicker", function(){
 	equals($('.jpoker_tablepicker input[name=currency_serial]').length, 1, 'tablepicker currency_serial input');
 	equals($('.jpoker_tablepicker input[name=currency_serial]').val(), 1, 'tablepicker currency_serial input value');
 	equals($('.jpoker_tablepicker_option').length, 3);
-	equals($('.jpoker_tablepicker_options').is(':hidden'), true)
+	equals($('.jpoker_tablepicker_options').is(':hidden'), true);
 
 	$('.jpoker_tablepicker_show_options').click();
 	equals($('.jpoker_tablepicker_options').is(':visible'), true);
@@ -8583,7 +8584,7 @@ test("jpoker.plugins.tablepicker", function(){
 
 test("jpoker.plugins.tablepicker failed", function(){
         expect(2);
-	stop()
+	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
