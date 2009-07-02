@@ -5013,7 +5013,13 @@
                     }
                 };
 		opts.id = id;
-		$(element).html(jpoker.plugins.signup.template.supplant(opts));
+		$(element).html(jpoker.plugins.signup.template.supplant({
+			    login_label: _("Login name"),
+				password_label: _("Password"),
+				password_confirmation_label: _("Password confirmation"),
+				email_label: _("Email address"),
+				submit_label: _("Register")
+				}));
 
 		$('input[type=submit]', element).click(function() {
 			var options = {
@@ -5031,11 +5037,6 @@
     };
 
     jpoker.plugins.signup.defaults = $.extend({
-	    login_label: _("Login"),
-	    password_label: _("Password"),
-	    password_confirmation_label: _("Password confirmation"),
-	    email_label: _("Email address"),
-	    submit_label: _("Register"),
 	    dialog: {
 		resizable: false,
 		draggable: false,
