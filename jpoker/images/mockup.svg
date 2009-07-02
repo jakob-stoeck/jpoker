@@ -30,8 +30,8 @@
     </rdf:RDF>
   </metadata>
   <sodipodi:namedview
-     inkscape:window-height="722"
-     inkscape:window-width="768"
+     inkscape:window-height="821"
+     inkscape:window-width="1440"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -44,8 +44,8 @@
      inkscape:zoom="1"
      inkscape:cx="418.73109"
      inkscape:cy="187.28218"
-     inkscape:window-x="123"
-     inkscape:window-y="60"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
      inkscape:current-layer="game_fixed"
      height="800px"
      width="800px"
@@ -1091,5 +1091,15 @@
        inkscape:label="powered_by"
        height="66.000023"
        y="710.26288" />
+    <image
+       xlink:href="../css/images/jpoker_table/status.png"
+       x="5.3428235"
+       id="auto_action"
+       inkscape:transform-center-y="322.72063"
+       inkscape:transform-center-x="-13.651266"
+       width="132.63997"
+       inkscape:label="auto_action"
+       height="93.571892"
+       y="602.47693" />
   </g>
 </svg>
