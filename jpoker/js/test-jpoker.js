@@ -6131,14 +6131,12 @@ test("jpoker.plugins.player: sounds", function(){
 	var player_name = 'dummy';
 	var sound_player_arrive = jpoker.plugins.player.callback.sound.arrive;
 	jpoker.plugins.player.callback.sound.arrive = function() {
-	    jpoker.plugins.player.callback.sound.arrive = sound_player_arrive;
 	    sound_player_arrive();
 	    equals($("#jpokerSound " + jpoker.sound).attr("src").indexOf('arrive') >= 0, true, 'sound arrive');
 	};
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, name: player_name, game_id: game_id });
 	var sound_player_self_in_position = jpoker.plugins.playerSelf.callback.sound.in_position;
 	jpoker.plugins.playerSelf.callback.sound.in_position = function() {
-	    jpoker.plugins.playerSelf.callback.sound.in_position = sound_player_self_in_position;
 	    sound_player_self_in_position();
 	    equals($("#jpokerSound " + jpoker.sound).attr("src").indexOf('hand') >= 0, true, 'sound position');
 	};
@@ -6146,35 +6144,31 @@ test("jpoker.plugins.player: sounds", function(){
             min:   5,
             max:   10,
             step:  1,
-            call: 10,
+            call: 50,
             allin:40,
             pot:  20
         };
 	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
 	var sound_player_call = jpoker.plugins.player.callback.sound.call;
 	jpoker.plugins.player.callback.sound.call = function() {
-	    jpoker.plugins.player.callback.sound.call = sound_player_call;
 	    sound_player_call();
 	    equals($("#jpokerSoundAction " + jpoker.sound).attr("src").indexOf('call') >= 0, true, 'sound call');
 	};
         table.handler(server, game_id, { type: 'PacketPokerCall', serial: player_serial, game_id: game_id });
 	var sound_player_raise = jpoker.plugins.player.callback.sound.raise;
 	jpoker.plugins.player.callback.sound.raise = function() {
-	    jpoker.plugins.player.callback.sound.raise = sound_player_raise;
 	    sound_player_raise();
 	    equals($("#jpokerSoundAction " + jpoker.sound).attr("src").indexOf('bet') >= 0, true, 'sound raise');
 	};
 	table.handler(server, game_id, { type: 'PacketPokerRaise', serial: player_serial, game_id: game_id });
 	var sound_player_check = jpoker.plugins.player.callback.sound.check;
 	jpoker.plugins.player.callback.sound.check = function() {
-	    jpoker.plugins.player.callback.sound.check = sound_player_check;
 	    sound_player_check();
 	    equals($("#jpokerSoundAction " + jpoker.sound).attr("src").indexOf('check') >= 0, true, 'sound check');
 	};
 	table.handler(server, game_id, { type: 'PacketPokerCheck', serial: player_serial, game_id: game_id });
 	var sound_player_fold = jpoker.plugins.player.callback.sound.fold;
 	jpoker.plugins.player.callback.sound.fold = function() {
-	    jpoker.plugins.player.callback.sound.fold = sound_player_fold;
 	    sound_player_fold();
 	    equals($("#jpokerSoundAction " + jpoker.sound).attr("src").indexOf('fold') >= 0, true, 'sound fold');
 	};
@@ -6194,6 +6188,12 @@ test("jpoker.plugins.player: sounds", function(){
 	table.handler(server, game_id, { type: 'PacketPokerBoardCards', cards: [], game_id: game_id }); // no sound
 	table.handler(server, game_id, { type: 'PacketPokerBoardCards', cards: [1,2,3], game_id: game_id });
 
+	jpoker.plugins.player.callback.sound.arrive = sound_player_arrive;
+	jpoker.plugins.playerSelf.callback.sound.in_position = sound_player_self_in_position;
+	jpoker.plugins.player.callback.sound.call = sound_player_call;
+	jpoker.plugins.player.callback.sound.raise = sound_player_raise;
+	jpoker.plugins.player.callback.sound.check = sound_player_check;
+	jpoker.plugins.player.callback.sound.fold = sound_player_fold;
 	jpoker.plugins.table.callback.sound.deal_card = sound_table_deal_card;
 	jpoker.plugins.player.callback.sound.deal_card = sound_player_deal_card;
 
@@ -6969,7 +6969,7 @@ function _SelfPlayerSit(game_id, player_serial, money) {
 }
 
 test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function(){
-        expect(95);
+        expect(96);
 
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
@@ -7080,6 +7080,17 @@ test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function()
 	equals(raise.is(':hidden'), true, 'raise range hidden');
 	equals($('#raise_input' + id).is(':hidden'), true, 'raise input hidden');
 
+        Z.table.betLimit = {
+            min:   5,
+            max:   10,
+            step:  1,
+            call:  60,
+            allin:40,
+            pot:  20
+        };
+        Z.table.handler(Z.server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
+	equals($("#game_window" + id).hasClass('jpoker_self_in_position'), true, 'jpoker_self_in_position set');
+	
         cleanup(id);
     });
 
