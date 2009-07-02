@@ -1963,6 +1963,7 @@
 		case 'PacketPokerBeginRound':
 		case 'PacketPokerEndRound':
 		case 'PacketPokerHighestBetIncrease':
+		case 'PacketPokerInGame':
 		    $.each(table.serial2player, function(serial, player) {
 			    player.handler(server, game_id, packet);
 			});
@@ -2089,7 +2090,8 @@
     };
 
     jpoker.player.defaults = {
-        sit_out: true
+        sit_out: true,
+	in_game: false
     };
 
     jpoker.player.prototype = $.extend({}, jpoker.watchable.prototype, {
@@ -2169,7 +2171,12 @@
 		case 'PacketPokerHighestBetIncrease':
 		this.notifyUpdate(packet);
 		break;
-		
+
+		case 'PacketPokerInGame':
+		this.in_game = ($.inArray(this.serial, packet.players) != -1);
+		this.notifyUpdate(packet);
+		break;
+
 		case 'PacketPokerEndRound':
 		this.action = '';
 		this.notifyUpdate(packet);
@@ -2265,6 +2272,7 @@
 
 		case 'PacketPokerBeginRound':
 		case 'PacketPokerHighestBetIncrease':
+		case 'PacketPokerInGame':
 		this.notifyUpdate(packet);
 		break;
 
@@ -3754,6 +3762,10 @@
 	    jpoker.plugins.player.highestBetIncrease(player, id);
 	    break;
 
+	    case 'PacketPokerInGame':
+	    jpoker.plugins.player.inGame(player, id);
+	    break;
+
 	    case 'PacketPokerEndRound':
 	    jpoker.plugins.player.action(player, id);
 	    break;	    
@@ -3802,6 +3814,12 @@
 	highestBetIncrease: function(player, id) {
             if(jpoker.getServer(player.url).serial == player.serial) {
                 jpoker.plugins.playerSelf.highestBetIncrease(player, id);
+            }
+	},
+
+	inGame: function(player, id) {
+            if(jpoker.getServer(player.url).serial == player.serial) {
+                jpoker.plugins.playerSelf.inGame(player, id);
             }
 	},
         
@@ -4221,13 +4239,22 @@
         },
 
 	beginRound: function(player, id) {
-	    var auto_action_element = $('#auto_action' + id);
-	    $(' .jpoker_auto_check_fold', auto_action_element).show();
+	    var auto_action_element = $('#auto_action' + id);		
+	    if (player.in_game) {
+		$(' .jpoker_auto_check_fold', auto_action_element).show();
+	    }
 	},
 
 	highestBetIncrease: function(player, id) {
 	    var auto_action_element = $('#auto_action' + id);
-	    $(' .jpoker_auto_check_fold', auto_action_element).show();	    
+	    if (player.in_game) {
+		$(' .jpoker_auto_check_fold', auto_action_element).show();
+	    }
+	},
+
+	inGame: function(player, id) {
+	    var auto_action_element = $('#auto_action' + id);
+	    $(' .jpoker_auto_check_fold', auto_action_element).hide();
 	},
 
         sit: function(player, id) {
