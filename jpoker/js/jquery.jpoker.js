@@ -1960,7 +1960,9 @@
 		    table.notifyUpdate(packet);
 		    break;
 
+		case 'PacketPokerBeginRound':
 		case 'PacketPokerEndRound':
+		case 'PacketPokerHighestBetIncrease':
 		    $.each(table.serial2player, function(serial, player) {
 			    player.handler(server, game_id, packet);
 			});
@@ -2163,6 +2165,11 @@
 		this.notifyUpdate(packet);
 		break;
 
+		case 'PacketPokerBeginRound':
+		case 'PacketPokerHighestBetIncrease':
+		this.notifyUpdate(packet);
+		break;
+		
 		case 'PacketPokerEndRound':
 		this.action = '';
 		this.notifyUpdate(packet);
@@ -2255,6 +2262,11 @@
                     this.state = 'playing';
                 }
                 break;
+
+		case 'PacketPokerBeginRound':
+		case 'PacketPokerHighestBetIncrease':
+		this.notifyUpdate(packet);
+		break;
 
                 case 'PacketPokerSelfLostPosition':
                 case 'PacketPokerSelfInPosition':
@@ -3734,6 +3746,14 @@
 	    jpoker.plugins.player.action(player, id);
 	    break;
 
+	    case 'PacketPokerBeginRound':
+	    jpoker.plugins.player.beginRound(player, id);
+	    break;
+
+	    case 'PacketPokerHighestBetIncrease':
+	    jpoker.plugins.player.highestBetIncrease(player, id);
+	    break;
+
 	    case 'PacketPokerEndRound':
 	    jpoker.plugins.player.action(player, id);
 	    break;	    
@@ -3772,6 +3792,18 @@
             }
             return true;
         },
+
+	beginRound: function(player, id) {
+            if(jpoker.getServer(player.url).serial == player.serial) {
+                jpoker.plugins.playerSelf.beginRound(player, id);
+            }
+	},
+
+	highestBetIncrease: function(player, id) {
+            if(jpoker.getServer(player.url).serial == player.serial) {
+                jpoker.plugins.playerSelf.highestBetIncrease(player, id);
+            }
+	},
         
         sit: function(player, id) {
             var name = $('#player_seat' + player.seat + id);
@@ -4100,6 +4132,14 @@
 	    $('#auto_muck_win' + id)[0].checked = server.preferences.auto_muck_win;
 	    $('#auto_muck_lose' + id)[0].checked = server.preferences.auto_muck_lose;
 	    jpoker.plugins.muck.sendAutoMuck(server, game_id, id);
+
+	    //
+	    // autoaction
+	    //
+	    var auto_action_element = $('#auto_action' + id).html(jpoker.plugins.playerSelf.templates.auto_action.supplant({id: id,
+			    auto_check_fold_label: _("Check/Fold")
+			    }));
+	    $('.jpoker_auto_check_fold', auto_action_element).hide();
 	    
             if(serial == table.serial_in_position) {
                 jpoker.plugins.playerSelf.inPosition(player, id);
@@ -4179,6 +4219,16 @@
                 });
             return rebuy;
         },
+
+	beginRound: function(player, id) {
+	    var auto_action_element = $('#auto_action' + id);
+	    $(' .jpoker_auto_check_fold', auto_action_element).show();
+	},
+
+	highestBetIncrease: function(player, id) {
+	    var auto_action_element = $('#auto_action' + id);
+	    $(' .jpoker_auto_check_fold', auto_action_element).show();	    
+	},
 
         sit: function(player, id) {
             var name = $('#player_seat' + player.seat + '_name' + id);
@@ -4267,6 +4317,20 @@
                 }
                 return false; // prevent default action on <a href>
             };
+
+	    var auto_action_element = $('#auto_action' + id);
+	    var auto_check_fold_input = $('input[name=auto_check_fold]', auto_action_element);
+	    if (auto_check_fold_input.is(':checked')) {
+		auto_check_fold_input[0].checked = false;
+		if (betLimit.call > 0) {
+		    send('Fold');
+		} else {
+		    send('Check');
+		}		
+	    }
+	    $('.jpoker_auto_check_fold', auto_action_element).hide();
+
+
             $('#fold' + id).unbind('click').click(function() { return send('Fold'); }).show();
             if(betLimit.call > 0) {
                 $('#call' + id).unbind('click').click(function() { return send('Call'); }).show();
@@ -4360,7 +4424,8 @@
         },
 
         templates: {
-            rebuy: '<div class=\'jpoker_rebuy_bound jpoker_rebuy_min\'>{min}</div><div class=\'ui-slider-1\'><div class=\'ui-slider-handle\'></div></div><div class=\'jpoker_rebuy_current\' title=\'{title}\'>{current}</div><div class=\'jpoker_rebuy_bound jpoker_rebuy_max\'>{max}</div><div class=\'ui-dialog-buttonpane\'><button class=\'jpoker_rebuy_action\'>{label}</button></div>'
+            rebuy: '<div class=\'jpoker_rebuy_bound jpoker_rebuy_min\'>{min}</div><div class=\'ui-slider-1\'><div class=\'ui-slider-handle\'></div></div><div class=\'jpoker_rebuy_current\' title=\'{title}\'>{current}</div><div class=\'jpoker_rebuy_bound jpoker_rebuy_max\'>{max}</div><div class=\'ui-dialog-buttonpane\'><button class=\'jpoker_rebuy_action\'>{label}</button></div>',
+	    auto_action: '<div class=\'jpoker_auto_check_fold\'><label for=\'auto_check_fold{id}\'>{auto_check_fold_label}</label><input type=\'checkbox\' name=\'auto_check_fold\' id=\'auto_check_fold{id}\' /></div>'
         },
 
 	callback: {

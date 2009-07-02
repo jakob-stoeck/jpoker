@@ -8158,6 +8158,83 @@ test("jpoker.plugins.muck", function(){
         cleanup(id);
     });
 
+test("jpoker.plugins.playerSelf.auto_action", function(){
+        expect(13);
+
+	var place = $("#main");
+
+        var id = 'jpoker' + jpoker.serial;
+        var player_serial = 1;
+        var game_id = 100;
+        var money = 1000;
+
+	var server = jpoker.serverCreate({ url: 'url' });
+	var currency_serial = 42;
+	var table_packet = { id: game_id, currency_serial: currency_serial };
+	server.tables[game_id] = new jpoker.table(server, table_packet);
+
+	// table
+	place.jpoker('table', 'url', game_id);
+
+	// player
+	server.serial = player_serial;
+	var player_seat = 2;
+	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+	var player = server.tables[game_id].serial2player[player_serial];
+
+        var table = server.tables[game_id];
+	
+	var auto_action_element = $('#auto_action' + id);
+	equals(auto_action_element.length, 1, '#auto_action');
+	equals($('.jpoker_auto_check_fold', auto_action_element).length, 1, '.jpoker_auto_check_fold');
+	equals($('input[name=auto_check_fold]', auto_action_element).length, 1, 'input');
+	equals($('.jpoker_auto_check_fold', auto_action_element).is(':hidden'), true, 'hidden');
+	
+	table.handler(server, game_id, { type: 'PacketPokerBeginRound', game_id: game_id });
+	equals($('.jpoker_auto_check_fold', auto_action_element).is(':visible'), true, 'visible');	
+	$('input[name=auto_check_fold]', auto_action_element)[0].checked = true;
+        table.betLimit = {
+            min:   5,
+            max:   10,
+            step:  1,
+            call:  0,
+            allin:40,
+            pot:  20
+        };
+	server.sendPacket = function(packet) {
+	    equals(packet.type, 'PacketPokerCheck');
+	};
+	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
+	equals($('input[name=auto_check_fold]', auto_action_element).is(':checked'), false, 'not checked');
+	equals($('.jpoker_auto_check_fold', auto_action_element).is(':hidden'), true, 'hidden');
+
+	table.handler(server, game_id, { type: 'PacketPokerBeginRound', game_id: game_id });
+	$('input[name=auto_check_fold]', auto_action_element)[0].checked = true;
+        table.betLimit = {
+            min:   5,
+            max:   10,
+            step:  1,
+            call:  10,
+            allin:40,
+            pot:  20
+        };
+	server.sendPacket = function(packet) {
+	    equals(packet.type, 'PacketPokerFold');
+	};
+	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
+	equals($('input[name=auto_check_fold]', auto_action_element).is(':checked'), false, 'not checked');
+	equals($('.jpoker_auto_check_fold', auto_action_element).is(':hidden'), true, 'hidden');
+
+	table.handler(server, game_id, { type: 'PacketPokerBeginRound', game_id: game_id });
+	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
+	equals($('.jpoker_auto_check_fold', auto_action_element).is(':hidden'), true, 'hidden');
+	
+	table.handler(server, game_id, { type: 'PacketPokerHighestBetIncrease', game_id: game_id });
+	equals($('.jpoker_auto_check_fold', auto_action_element).is(':visible'), true, 'visible');
+
+        cleanup(id);
+    });
+
 test("jpoker.plugins.places", function(){
         expect(9);
 	stop();
