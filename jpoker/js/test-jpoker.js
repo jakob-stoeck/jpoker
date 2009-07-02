@@ -7503,6 +7503,7 @@ test("jpoker.plugins.player: rebuy NaN should trigger an error", function(){
         table.handler(server, game_id, { type: 'PacketPokerBuyInLimits', game_id: game_id, min: min * 100, max: max * 100, best: best * 100, rebuy_min: rebuy_min });
 
         $("#rebuy" + id).click();
+	var rebuy = $("#jpokerRebuy");
         $(".jpoker_rebuy_current", rebuy).attr('title', 'abc'); // NaN amount
 
         var sent;
