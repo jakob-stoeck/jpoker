@@ -2820,7 +2820,7 @@ test("jpoker.table.handler: PacketPokerTableDestroy", function(){
 
 
 test("jpoker.table.handler: PacketPokerInGame", function(){
-        expect(6);
+        expect(7);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
@@ -2845,6 +2845,8 @@ test("jpoker.table.handler: PacketPokerInGame", function(){
         equals(server.tables[game_id].serial2player[43].in_game, true);
         equals(server.tables[game_id].serial2player[44].in_game, false);
         equals(server.tables[game_id].serial2player[47].in_game, true);
+	table.handler(server, game_id, { type: 'PacketPokerFold', serial: 43, game_id: game_id });
+	equals(server.tables[game_id].serial2player[43].in_game, false);
 	cleanup();
     });
 

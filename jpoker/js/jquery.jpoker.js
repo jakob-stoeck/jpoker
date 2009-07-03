@@ -2144,6 +2144,7 @@
 
 		case 'PacketPokerFold':
 		this.action = _("fold");
+		this.in_game = false;
 		this.notifyUpdate(packet);
 		break;
 
@@ -4251,14 +4252,14 @@
 
 	beginRound: function(player, id) {
 	    var auto_action_element = $('#auto_action' + id);		
-	    if (player.in_game && (player.action != 'fold')) {
+	    if (player.in_game) {
 		$(' .jpoker_auto_action', auto_action_element).show();
 	    }
 	},
 
 	highestBetIncrease: function(player, id) {
 	    var auto_action_element = $('#auto_action' + id);
-	    if (player.in_game && (player.action != 'fold')) {
+	    if (player.in_game) {
 		$(' .jpoker_auto_action', auto_action_element).show();
 	    }
 	},
