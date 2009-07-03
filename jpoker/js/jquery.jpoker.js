@@ -4158,8 +4158,8 @@
 	    var auto_action_element = $('#auto_action' + id).html(jpoker.plugins.playerSelf.templates.auto_action.supplant({
 			id: id,
 			auto_check_fold_label: _("Check/Fold"),
-			auto_check_call_label: _("Check/Call"),
-			auto_raise_label: _("Raise any")
+			auto_check_call_label: _("Call any"),
+			auto_raise_label: _("Raise")
 		    }));
 	    $('.jpoker_auto_action', auto_action_element).hide();
 	    $('input[type=checkbox]', auto_action_element).click(function() {
