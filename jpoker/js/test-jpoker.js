@@ -8360,7 +8360,7 @@ test("jpoker.plugins.playerSelf.auto_action raise", function(){
     });
 
 test("jpoker.plugins.playerSelf.auto_action check", function(){
-	expect(9);
+	expect(10);
 
 	var place = $("#main");
 
@@ -8415,6 +8415,7 @@ test("jpoker.plugins.playerSelf.auto_action check", function(){
 	    ok(false, 'should not be called');
 	};
 	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
+	equals($('input[name=auto_check]', auto_action_element).is(':checked'), false, 'auto_check should be unchecked after selfInPosition');
 
 	$('.jpoker_auto_check', auto_action_element).hide();
         table.betLimit.call = 0;

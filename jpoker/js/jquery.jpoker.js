@@ -4370,7 +4370,6 @@
 	    var auto_raise_input = $('input[name=auto_raise]', auto_action_element);
 	    var auto_check_input = $('input[name=auto_check]', auto_action_element);
 	    if (auto_check_fold_input.is(':checked')) {
-		auto_check_fold_input[0].checked = false;
 		if (betLimit.call > 0) {
 		    send('Fold');
 		} else {
@@ -4378,7 +4377,6 @@
 		}
 	    }
 	    if (auto_check_call_input.is(':checked')) {
-		auto_check_call_input[0].checked = false;
 		if (betLimit.call > 0) {
 		    send('Call');
 		} else {
@@ -4386,15 +4384,16 @@
 		}
 	    }
 	    if (auto_raise_input.is(':checked')) {
-		auto_raise_input[0].checked = false;
 		send('Raise');
 	    }
 	    if (auto_check_input.is(':checked')) {
-		auto_check_input[0].checked = false;
 		if (betLimit.call === 0) {
 		    send('Check');
 		}
 	    }
+	    $('input[type=checkbox]', auto_action_element).each(function() {
+		    this.checked = false;
+		});
 	    $('.jpoker_auto_action', auto_action_element).hide();
 
             $('#fold' + id).unbind('click').click(function() { return send('Fold'); }).show();
