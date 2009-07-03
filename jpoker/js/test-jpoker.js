@@ -8577,14 +8577,14 @@ test("jpoker.plugins.playerSelf.auto_action visibility", function(){
 	$('.jpoker_auto_action', auto_action_element).show();
 	table.handler(server, game_id, { type: 'PacketPokerInGame', game_id: game_id, players: [player_serial] });
 	equals($('.jpoker_auto_action', auto_action_element).is(':hidden'), true, 'auto_fold should be hidden after inGame');
-	table.betLimit.call = 20
+	table.betLimit.call = 20;
 	table.handler(server, game_id, { type: 'PacketPokerHighestBetIncrease', game_id: game_id });
 	equals($('.jpoker_auto_action', auto_action_element).is(':visible'), true, 'auto_action should be visible after betIncrease if inGame and not playerSelf bet (call > 0)');
 
 	$('.jpoker_auto_action', auto_action_element).show();
 	table.handler(server, game_id, { type: 'PacketPokerInGame', game_id: game_id, players: [player_serial] });
 	equals($('.jpoker_auto_action', auto_action_element).is(':hidden'), true, 'auto_fold should be hidden after inGame');
-	table.betLimit.call = 0
+	table.betLimit.call = 0;
 	table.handler(server, game_id, { type: 'PacketPokerHighestBetIncrease', game_id: game_id });
 	equals($('.jpoker_auto_action', auto_action_element).is(':hidden'), true, 'auto_action should be hidden after betIncrease if inGame and playerSelf bet (call == 0)');
 
