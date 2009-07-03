@@ -4159,7 +4159,8 @@
 			id: id,
 			auto_check_fold_label: _("Check/Fold"),
 			auto_check_call_label: _("Call any"),
-			auto_raise_label: _("Raise")
+			auto_raise_label: _("Raise"),
+			auto_check_label: _("Check")
 		    }));
 	    $('.jpoker_auto_action', auto_action_element).hide();
 	    $('input[type=checkbox]', auto_action_element).click(function() {
@@ -4361,6 +4362,7 @@
 	    var auto_check_fold_input = $('input[name=auto_check_fold]', auto_action_element);
 	    var auto_check_call_input = $('input[name=auto_check_call]', auto_action_element);
 	    var auto_raise_input = $('input[name=auto_raise]', auto_action_element);
+	    var auto_check_input = $('input[name=auto_check]', auto_action_element);
 	    if (auto_check_fold_input.is(':checked')) {
 		auto_check_fold_input[0].checked = false;
 		if (betLimit.call > 0) {
@@ -4380,6 +4382,12 @@
 	    if (auto_raise_input.is(':checked')) {
 		auto_raise_input[0].checked = false;
 		send('Raise');
+	    }
+	    if (auto_check_input.is(':checked')) {
+		auto_check_input[0].checked = false;
+		if (betLimit.call === 0) {
+		    send('Check');
+		}
 	    }
 	    $('.jpoker_auto_action', auto_action_element).hide();
 
@@ -4477,7 +4485,7 @@
 
         templates: {
             rebuy: '<div class=\'jpoker_rebuy_bound jpoker_rebuy_min\'>{min}</div><div class=\'ui-slider-1\'><div class=\'ui-slider-handle\'></div></div><div class=\'jpoker_rebuy_current\' title=\'{title}\'>{current}</div><div class=\'jpoker_rebuy_bound jpoker_rebuy_max\'>{max}</div><div class=\'ui-dialog-buttonpane\'><button class=\'jpoker_rebuy_action\'>{label}</button></div>',
-	    auto_action: '<div class=\'jpoker_auto_check_fold jpoker_auto_action\'><label for=\'auto_check_fold{id}\'>{auto_check_fold_label}</label><input type=\'checkbox\' name=\'auto_check_fold\' id=\'auto_check_fold{id}\' /></div><div class=\'jpoker_auto_check_call jpoker_auto_action\'><label for=\'auto_check_call{id}\'>{auto_check_call_label}</label><input type=\'checkbox\' name=\'auto_check_call\' id=\'auto_check_call{id}\' /></div><div class=\'jpoker_auto_raise jpoker_auto_action\'><label for=\'auto_raise{id}\'>{auto_raise_label}</label><input type=\'checkbox\' name=\'auto_raise\' id=\'auto_raise{id}\' /></div>'
+	    auto_action: '<div class=\'jpoker_auto_check_fold jpoker_auto_action\'><label for=\'auto_check_fold{id}\'>{auto_check_fold_label}</label><input type=\'checkbox\' name=\'auto_check_fold\' id=\'auto_check_fold{id}\' /></div><div class=\'jpoker_auto_check_call jpoker_auto_action\'><label for=\'auto_check_call{id}\'>{auto_check_call_label}</label><input type=\'checkbox\' name=\'auto_check_call\' id=\'auto_check_call{id}\' /></div><div class=\'jpoker_auto_raise jpoker_auto_action\'><label for=\'auto_raise{id}\'>{auto_raise_label}</label><input type=\'checkbox\' name=\'auto_raise\' id=\'auto_raise{id}\' /></div><div class=\'jpoker_auto_check jpoker_auto_action\'><label for=\'auto_check{id}\'>{auto_check_label}</label><input type=\'checkbox\' name=\'auto_check\' id=\'auto_check{id}\' /></div>'
         },
 
 	callback: {
