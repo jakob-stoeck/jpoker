@@ -4251,18 +4251,24 @@
             return rebuy;
         },
 
-	beginRound: function(player, id) {
+	updateAutoAction: function(player, id) {
+	    var server = jpoker.servers[player.url];
+            var table = server.tables[player.game_id];
 	    var auto_action_element = $('#auto_action' + id);		
 	    if (player.in_game) {
 		$(' .jpoker_auto_action', auto_action_element).show();
 	    }
+	    if (table.betLimit.call > 0) {
+		$(' .jpoker_auto_check', auto_action_element).hide();
+	    }
+	},
+
+	beginRound: function(player, id) {
+	    jpoker.plugins.playerSelf.updateAutoAction(player, id);
 	},
 
 	highestBetIncrease: function(player, id) {
-	    var auto_action_element = $('#auto_action' + id);
-	    if (player.in_game) {
-		$(' .jpoker_auto_action', auto_action_element).show();
-	    }
+	    jpoker.plugins.playerSelf.updateAutoAction(player, id);
 	},
 
 	inGame: function(player, id) {
