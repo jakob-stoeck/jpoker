@@ -4253,28 +4253,36 @@
         },
 
 	updateAutoAction: function(player, id) {
+	},
+
+	beginRound: function(player, id) {
 	    var server = jpoker.servers[player.url];
             var table = server.tables[player.game_id];
 	    var auto_action_element = $('#auto_action' + id);		
 	    if (player.in_game) {
 		$(' .jpoker_auto_action', auto_action_element).show();
 		if (table.betLimit.call > 0) {
-		    $('input[name=auto_check]')[0].checked = false;
-		    $('input[name=auto_call]')[0].checked = false;
 		    $(' .jpoker_auto_check', auto_action_element).hide();
-		    $(' .jpoker_auto_call', auto_action_element).show();
 		} else {
 		    $(' .jpoker_auto_call', auto_action_element).hide();
 		}
 	    }
 	},
 
-	beginRound: function(player, id) {
-	    jpoker.plugins.playerSelf.updateAutoAction(player, id);
-	},
-
 	highestBetIncrease: function(player, id) {
-	    jpoker.plugins.playerSelf.updateAutoAction(player, id);
+	    var server = jpoker.servers[player.url];
+            var table = server.tables[player.game_id];
+	    var auto_action_element = $('#auto_action' + id);
+	    if (player.in_game) {
+		if (table.betLimit.call > 0) {
+		    $(' .jpoker_auto_action', auto_action_element).show();
+		    $('input[name=auto_check]')[0].checked = false;
+		    $('input[name=auto_call]')[0].checked = false;
+		    $('input[name=auto_raise]')[0].checked = false;
+		    $(' .jpoker_auto_check', auto_action_element).hide();
+		    $(' .jpoker_auto_call', auto_action_element).show();
+		}
+	    }
 	},
 
 	inGame: function(player, id) {
