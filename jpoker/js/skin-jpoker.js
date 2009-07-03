@@ -257,6 +257,7 @@ function jpoker_05_selfPlayer(place) {
         if(explain) {
             $('#explain').append('<b>jpoker_05_selfPlayer</b> ');
             $('#explain').append('The logged in player is sit at the table, buy in dialog shows.');
+            $('#explain').append('Auto actions (with check) are displayed.');
             $('#explain').append('<hr>');
         }
 
@@ -289,7 +290,7 @@ rebuy_min: 1000
         server.sendPacket('ping');
 }
 
-function jpoker_05_1_selfPlayerInGame(place) {
+function jpoker_05_1_selfPlayerInGame_autoActionCheck(place) {
         setUp();
         if(explain) {
             $('#explain').append('<b>jpoker_05_1_selfPlayerInGame</b> ');
@@ -314,6 +315,65 @@ rebuy_min: 1000
 { type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, money: 10000, bet: 0 },
 { type: 'PacketPokerSit', serial: player_serial, game_id: game_id },
 { type: 'PacketPokerInGame', game_id: game_id, players: [player_serial] },
+{ type: 'PacketPokerBetLimit',
+                       game_id: game_id,
+                       min:   500,
+                       max: 20000,
+                       step:  100,
+                       call: 0,
+                       allin:4000,
+                       pot:  2000
+        },
+{ type: 'PacketPokerBeginRound', game_id: game_id }
+                       ];
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+
+        var server = $.jpoker.getServer('url');
+	server.bankroll = function() { return 1000; };
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
+}
+
+function jpoker_05_1_selfPlayerInGame_autoActionCall(place) {
+        setUp();
+        if(explain) {
+            $('#explain').append('<b>jpoker_05_1_selfPlayerInGame</b> ');
+            $('#explain').append('The logged in player is sit at the table and in game.');
+            $('#explain').append('Auto actions (with call) are displayed.');
+            $('#explain').append('<hr>');
+        }
+
+        var game_id = 100;
+        var player_serial = 200;
+        var packets = [
+{ type: 'PacketSerial', serial: player_serial },
+{ type: 'PacketPokerTable', id: game_id},
+{ type: 'PacketPokerBuyInLimits',
+game_id: game_id,
+min:   500,
+max: 20000,
+best:  1000,
+rebuy_min: 1000
+},
+{ type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'myself' },
+{ type: 'PacketPokerPlayerStats', serial:player_serial, game_id: game_id, rank: 1, percentile: 0 },
+{ type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, money: 10000, bet: 0 },
+{ type: 'PacketPokerSit', serial: player_serial, game_id: game_id },
+{ type: 'PacketPokerInGame', game_id: game_id, players: [player_serial] },
+{ type: 'PacketPokerBetLimit',
+                       game_id: game_id,
+                       min:   500,
+                       max: 20000,
+                       step:  100,
+                       call: 1000,
+                       allin:4000,
+                       pot:  2000
+        },
 { type: 'PacketPokerBeginRound', game_id: game_id }
                        ];
         ActiveXObject.prototype.server = {
