@@ -8349,7 +8349,7 @@ test("jpoker.plugins.playerSelf.auto_action raise", function(){
 
 	table.handler(server, game_id, { type: 'PacketPokerBeginRound', game_id: game_id });
 	$('input[name=auto_raise]', auto_action_element)[0].checked = true;
-        table.betLimit.call = 0
+        table.betLimit.call = 0;
 	server.sendPacket = function(packet) {
 	    equals(packet.type, 'PacketPokerRaise');
 	};
