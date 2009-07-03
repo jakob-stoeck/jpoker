@@ -4250,14 +4250,14 @@
 
 	beginRound: function(player, id) {
 	    var auto_action_element = $('#auto_action' + id);		
-	    if (player.in_game) {
+	    if (player.in_game && (player.action != 'fold')) {
 		$(' .jpoker_auto_action', auto_action_element).show();
 	    }
 	},
 
 	highestBetIncrease: function(player, id) {
 	    var auto_action_element = $('#auto_action' + id);
-	    if (player.in_game) {
+	    if (player.in_game && (player.action != 'fold')) {
 		$(' .jpoker_auto_action', auto_action_element).show();
 	    }
 	},

@@ -8189,7 +8189,7 @@ test("jpoker.plugins.muck", function(){
     });
 
 test("jpoker.plugins.playerSelf.auto_action", function(){
-        expect(26);
+        expect(28);
 
 	var place = $("#main");
 
@@ -8299,6 +8299,18 @@ test("jpoker.plugins.playerSelf.auto_action", function(){
 	table.handler(server, game_id, { type: 'PacketPokerInGame', game_id: game_id, players: [] });
 	table.handler(server, game_id, { type: 'PacketPokerBeginRound', game_id: game_id });
 	equals($('.jpoker_auto_check_fold', auto_action_element).is(':hidden'), true, 'auto_fold should be hidden after beginRound if inGame');
+	$('.jpoker_auto_check_fold', auto_action_element).show();
+	table.handler(server, game_id, { type: 'PacketPokerInGame', game_id: game_id, players: [player_serial] });
+	table.handler(server, game_id, { type: 'PacketPokerFold', game_id: game_id, serial: player_serial });
+	table.handler(server, game_id, { type: 'PacketPokerBeginRound', game_id: game_id });
+	equals($('.jpoker_auto_check_fold', auto_action_element).is(':hidden'), true, 'auto_fold should be hidden after beginRound if player folded');
+
+	$('.jpoker_auto_check_fold', auto_action_element).show();
+	table.handler(server, game_id, { type: 'PacketPokerInGame', game_id: game_id, players: [player_serial] });
+	table.handler(server, game_id, { type: 'PacketPokerFold', game_id: game_id, serial: player_serial });
+	table.handler(server, game_id, { type: 'PacketPokerHighestBetIncrease', game_id: game_id });
+	equals($('.jpoker_auto_check_fold', auto_action_element).is(':hidden'), true, 'auto_fold should be hidden after betIncrease if player folded');
+
 	$('input[name=auto_check_fold]').click();
 	equals($('input[name=auto_check_fold]', auto_action_element).is(':checked'), true, 'auto_check_fold selection');
 	$('input[name=auto_check_call]').click();
