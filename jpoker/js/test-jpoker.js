@@ -8436,7 +8436,7 @@ test("jpoker.plugins.playerSelf.auto_action check", function(){
     });
 
 test("jpoker.plugins.playerSelf.auto_action call", function(){
-	expect(11);
+	expect(12);
 
 	var place = $("#main");
 
@@ -8501,13 +8501,18 @@ test("jpoker.plugins.playerSelf.auto_action call", function(){
 	$('.jpoker_auto_call', auto_action_element).hide();
         table.betLimit.call = 10;
 	table.handler(server, game_id, { type: 'PacketPokerBeginRound', game_id: game_id });
-	equals($('.jpoker_auto_call', auto_action_element).is(':visible'), true, 'auto_check should be visible after beginRound if call > 0');
+	equals($('.jpoker_auto_call', auto_action_element).is(':visible'), true, 'auto_call should be visible after beginRound if call > 0');
 
 	$('.jpoker_auto_call', auto_action_element).show();
 	$('input[name=auto_call]')[0].checked = true;
 	table.handler(server, game_id, { type: 'PacketPokerHighestBetIncrease', game_id: game_id });
 	equals($('.jpoker_auto_call', auto_action_element).is(':visible'), true, 'auto_call should be visible after betIncrease');
 	equals($('input[name=auto_call]').is(':checked'), false, 'auto_call should be unchecked after betIncrease');
+
+	player.in_game = false;
+	$('.jpoker_auto_call', auto_action_element).hide();
+	table.handler(server, game_id, { type: 'PacketPokerBeginRound', game_id: game_id });
+	equals($('.jpoker_auto_call', auto_action_element).is(':hidden'), true, 'auto_call should be hidden if not inGame');
 	
 	cleanup(id);
     });

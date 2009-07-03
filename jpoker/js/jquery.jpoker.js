@@ -4258,14 +4258,14 @@
 	    var auto_action_element = $('#auto_action' + id);		
 	    if (player.in_game) {
 		$(' .jpoker_auto_action', auto_action_element).show();
-	    }
-	    if (table.betLimit.call > 0) {
-		$('input[name=auto_check]')[0].checked = false;
-		$('input[name=auto_call]')[0].checked = false;
-		$(' .jpoker_auto_check', auto_action_element).hide();
-		$(' .jpoker_auto_call', auto_action_element).show();
-	    } else {
-		$(' .jpoker_auto_call', auto_action_element).hide();
+		if (table.betLimit.call > 0) {
+		    $('input[name=auto_check]')[0].checked = false;
+		    $('input[name=auto_call]')[0].checked = false;
+		    $(' .jpoker_auto_check', auto_action_element).hide();
+		    $(' .jpoker_auto_call', auto_action_element).show();
+		} else {
+		    $(' .jpoker_auto_call', auto_action_element).hide();
+		}
 	    }
 	},
 
