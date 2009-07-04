@@ -3011,16 +3011,22 @@
         var t = this.templates;
         var html = [];
 	html.push(t.table);
-	var date = new Date();
-	date.setTime(packet.tourney.start_time*1000);
+	var date = new Date(packet.tourney.start_time*1000);
+	var date_string;
+	if (t.date && (t.date != '')) {
+	    date_string = $.strftime(t.date, date);
+	} else {
+	    date_string = date.toLocaleString();
+	}
 	html.push(t.starttime.supplant({tourney_starttime:
-		    _("Tournament is starting at: ")+date.toLocaleString()}));
+					_("Tournament is starting at: ")+date_string}));
         return html.join('\n');
     };
     
     jpoker.plugins.tourneyPlaceholder.templates = {
 	table: '<div class=\'jpoker_tourney_placeholder_table\'></div>',
-	starttime: '<div class=\'jpoker_tourney_placeholder_starttime\'>{tourney_starttime}</div>'
+	starttime: '<div class=\'jpoker_tourney_placeholder_starttime\'>{tourney_starttime}</div>',
+	date: ''
     };
     
     jpoker.plugins.tourneyPlaceholder.callback = {

@@ -4954,6 +4954,50 @@ test("jpoker.plugins.tourneyPlaceholder", function(){
 	    });
     });
 
+test("jpoker.plugins.tourneyPlaceholder date template", function(){
+        expect(1);
+        stop();
+
+        var PokerServer = function() {};
+
+	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": 140, "table_serial": 606, "name": "user1", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4]}, "type": 149, "tourney": {"registered": 1, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Sit and Go 2 players", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "registering", "buy_in": 300000, "add_on_count": 0, "description_short": "Sit and Go 2 players, Holdem", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 1220102053, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0}, "type": "PacketPokerTourneyManager"};
+
+	var date_format = '%Y/%m/%d %H:%M:%S';
+	var tourney_serial = TOURNEY_MANAGER_PACKET.tourney_serial;
+	var tourney_starttime = TOURNEY_MANAGER_PACKET.tourney.start_time;
+	var tourney_starttime_date = $.strftime(date_format, new Date(tourney_starttime*1000));
+	var players_count = 1;
+	jpoker.plugins.tourneyPlaceholder.templates.date = date_format;
+
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TOURNEY_MANAGER_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $("#main");
+	var display_done = jpoker.plugins.tourneyPlaceholder.callback.display_done;
+        place.jpoker('tourneyPlaceholder', 'url', tourney_serial.toString());
+        server.registerUpdate(function(server, what, data) {
+                var element = $("#" + id);
+                if(element.length > 0) {
+		    ok($('.jpoker_tourney_placeholder_starttime', element).html().indexOf(tourney_starttime_date) >= 0, $('.jpoker_tourney_placeholder_starttime', element).html());
+                    $("#" + id).remove();
+                    return true;
+                } else {
+		    jpoker.plugins.tourneyPlaceholder.templates.date = '';
+		    start_and_cleanup();
+                    return false;
+                }
+            });
+    });
+
 //
 // featuredTable
 //
