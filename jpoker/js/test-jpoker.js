@@ -9251,6 +9251,10 @@ test("jquery.fn.moveTo", function() {
  	ok($('#bet').is(':visible'), 'visible');
     });
 
+test("jquery Date format", function() {
+	equals($.strftime("%Y %m %d", new Date(0)), "1970 01 01");
+    });
+
 test("$.fn.frame", function(){
         expect(4);
         var element = $("<div id='PID'><div id='ID'></div></div>").appendTo(document.body);
