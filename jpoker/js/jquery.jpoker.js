@@ -2792,7 +2792,11 @@
 	    html_map.players = '';
 	}
 	
-	packet.tourney.start_time = new Date(packet.tourney.start_time*1000).toLocaleString();
+	if (t.date && (t.date != '')) {
+	    packet.tourney.start_time = $.strftime(t.date, new Date(packet.tourney.start_time*1000));
+	} else {
+	    packet.tourney.start_time = new Date(packet.tourney.start_time*1000).toLocaleString();
+	}	
 	packet.tourney.buy_in = packet.tourney.buy_in/100;
 	var tourney_type = 'regular';
 	if (packet.tourney.sit_n_go == 'y') {
@@ -2951,7 +2955,8 @@
 	    footer : '</tbody></table></div>'
 	},
 	register : '<div class=\'jpoker_tourney_details_register\'><input type=\'submit\' value=\'{register}\'></div>',
-	table_details : '<div class=\'jpoker_tourney_details_table_details\'>'
+	table_details : '<div class=\'jpoker_tourney_details_table_details\'>',
+	date : ''
     };
 
     jpoker.plugins.tourneyDetails.callback = {

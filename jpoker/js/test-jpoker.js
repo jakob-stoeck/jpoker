@@ -4174,6 +4174,31 @@ test("jpoker.plugins.tourneyDetails templates regular registering", function(){
 	cleanup();
     });
 
+test("jpoker.plugins.tourneyDetails templates regular registering date template", function(){
+	expect(1);
+	
+	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": -1, "table_serial": 606, "name": "user1", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4]}, "type": 149, "tourney": {"registered": 1, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Regular", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "running", "buy_in": 300000, "add_on_count": 0, "description_short": "Regular", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 1216201024, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 0}, "type": "PacketPokerTourneyManager"};
+
+	var id = jpoker.uid();
+	$("#main").append('<div class=\'jpoker_tourney_details\' id=\'' + id + '\'></div>');
+	var tourneyDetails = jpoker.plugins.tourneyDetails;
+	var element = document.getElementById(id);
+	var packet = TOURNEY_MANAGER_PACKET;
+	var is_logged = true;
+	var is_registered = true;
+	var date_format = '%Y/%m/%d %H:%M:%S';
+	var date = $.strftime(date_format, new Date(packet.tourney.start_time*1000));
+	tourneyDetails.templates.date = date_format;
+	$(element).html(tourneyDetails.getHTML(id, packet, is_logged, is_registered));
+
+	var info = $(" .jpoker_tourney_details_info", element);
+
+	var start_time = $(".jpoker_tourney_details_info_start_time", info);
+	equals(start_time.html(), "Start time: "+date);
+
+	cleanup();
+    });
+
 test("jpoker.plugins.tourneyDetails templates money and no ranks", function(){
 	expect(4);
 	
