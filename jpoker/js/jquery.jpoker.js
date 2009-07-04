@@ -3346,17 +3346,10 @@
 	    if($('#jpokerSoundTable').size() === 0) {
 		$('body').append('<div id=\'jpokerSoundTable\' />');
 	    }
-
-	    var table_info_element = $('#table_info' + id);
-	    $('<div class=\'jpoker_table_info_name\'>').appendTo(table_info_element).html(table.name);
-	    $('<div class=\'jpoker_table_info_flop\'>').appendTo(table_info_element).html(table.percent_flop + _("% Flop"));
-	    $('<div class=\'jpoker_table_info_blind\'>').appendTo(table_info_element).html(table.betting_structure);
-	    if (table.is_tourney) {
-		$('<div class=\'jpoker_table_info_level\'>').appendTo(table_info_element);
-	    }
-
-            $('.jpoker_table', element).append(jpoker.copyright_text);
-
+	    
+	    $('#table_info' + id).html(this.templates.table_info.supplant($.extend(table, {percent_flop: table.percent_flop + _("% Flop")})));
+	    
+	    $('.jpoker_table', element).append(jpoker.copyright_text);
 	    $('#powered_by' + id).addClass('jpoker_powered_by').html(this.templates.powered_by);
 	    
 	    
@@ -3602,6 +3595,7 @@
 	powered_by: '<a title=\'Powered by Pokersource\' href=\'javascript://\' >Powered by Pokersource</a>',
 	chat: '<div class=\'jpoker_chat_input\'><input value=\'chat here\' type=\'text\' width=\'100%\' /></div><div class=\'jpoker_chat_history\'><div class=\'jpoker_chat_history_player\'></div><div class=\'jpoker_chat_history_dealer\'></div></div>',
         placeholder: _("connecting to table {name}"),
+	table_info: '<div class=\'jpoker_table_info_name\'>{name}</div><div class=\'jpoker_table_info_variant\'>{variant}</div><div class=\'jpoker_table_info_blind\'>{betting_structure}</div><div class=\'jpoker_table_info_seats\'>{max_players}</div><div class=\'jpoker_table_info_flop\'>{percent_flop}</div><div class=\'jpoker_table_info_player_timeout\'>{player_timeout}</div><div class=\'jpoker_table_info_muck_timeout\'>{muck_timeout}</div><div class=\'jpoker_table_info_level\'></div>',
 	date: ''
     };
 
