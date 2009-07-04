@@ -3671,7 +3671,7 @@ test("jpoker.plugins.tourneyList date template", function(){
 	var date_format = "%Y/%m/%d %H:%M:%S";
 	var start_time = $.strftime(date_format, new Date(TOURNEY_LIST_PACKET.packets[1].start_time*1000));
 	var state = TOURNEY_LIST_PACKET.packets[1].state;
-	jpoker.plugins.tourneyList.defaults.templates.date = date_format
+	jpoker.plugins.tourneyList.defaults.templates.date = date_format;
 
         PokerServer.prototype = {
             outgoing: "[ " + JSON.stringify(TOURNEY_LIST_PACKET) + " ]",
@@ -3702,6 +3702,7 @@ test("jpoker.plugins.tourneyList date template", function(){
                 } else {
                     server.setTimeout = function(fun, delay) { };
                     window.setTimeout(function() {
+			    jpoker.plugins.tourneyList.defaults.templates.date = '';
                             start_and_cleanup();
                         }, 30);
                     return false;
