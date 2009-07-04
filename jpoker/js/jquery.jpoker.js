@@ -2491,7 +2491,8 @@
 	link: '<a href=\'{link}\'>{name}</a>',
 	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
 	next_label: '{next_label} >>>',
-	previous_label: '<<< {previous_label}'
+	previous_label: '<<< {previous_label}',
+	date: ''
     };
 
     jpoker.plugins.regularTourneyList.callback = {
@@ -2524,7 +2525,7 @@
 	link: '<a href=\'{link}\'>{name}</a>',
 	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
 	next_label: '{next_label} >>>',
-	previous_label: '<<< {previous_label}'	
+	previous_label: '<<< {previous_label}'
     };
 
     jpoker.plugins.sitngoTourneyList.callback = {
@@ -2633,7 +2634,11 @@
                 subpacket.id = subpacket.game_id + id;
                 subpacket.buy_in /= 100;
 	    }
-	    subpacket.start_time = new Date(subpacket.start_time*1000).toLocaleString();
+	    if (t.date && (t.date != '')) {
+		subpacket.start_time = $.strftime(t.date, new Date(subpacket.start_time*1000));
+	    } else {
+		subpacket.start_time = new Date(subpacket.start_time*1000).toLocaleString();
+	    }
 	    if (link_pattern && subpacket.state != 'announced' && subpacket.state != 'canceled') {
                 subpacket.tourney_serial = subpacket.serial; // for backward compatibility only
 		var link = t.link.supplant({link: link_pattern.supplant(subpacket), name: subpacket.description_short});
@@ -2657,7 +2662,8 @@
                 link: '<a href=\'{link}\'>{name}</a>',
                 pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
                 next_label: '{next_label} >>>',
-                previous_label: '<<< {previous_label}'
+                previous_label: '<<< {previous_label}',
+		date: ''
             },
             callback: {
                 display_done: function(element) {
