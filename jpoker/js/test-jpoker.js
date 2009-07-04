@@ -3657,6 +3657,59 @@ test("jpoker.plugins.tourneyList", function(){
             });
     });
 
+test("jpoker.plugins.tourneyList date template", function(){
+        expect(1);
+        stop();
+
+        //
+        // Mockup server that will always return TOURNEY_LIST_PACKET,
+        // whatever is sent to it.
+        //
+        var PokerServer = function() {};
+
+	var TOURNEY_LIST_PACKET = {"players": 0, "packets": [{"players_quota": 2, "breaks_first": 7200, "name": "sitngo2", "description_short" : "Sit and Go 2 players, Holdem", "start_time": 0, "breaks_interval": 3600, "variant": "holdem", "currency_serial" : 1, "state": "registering", "buy_in": 300000, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 1111, "sit_n_go": "y", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval" : 60, "variant": "holdem", "currency_serial": 1, "state": "registering", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 39, "sit_n_go": "n", "registered": 0}, {"players_quota": 1000, "breaks_first" : 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "announced", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 40, "sit_n_go": "n", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial" : 41, "sit_n_go": "n", "registered": 0}, {"players_quota": 1000, "breaks_first": 7200, "name": "regular1", "description_short": "Holdem No Limit Freeroll", "start_time": 1216201024, "breaks_interval": 60, "variant": "holdem", "currency_serial": 1, "state": "canceled", "buy_in": 0, "type": "PacketPokerTourney", "breaks_duration": 300, "serial": 42, "sit_n_go": "n", "registered": 0}], "tourneys": 5, "type": "PacketPokerTourneyList"};
+	var date_format = "%Y/%m/%d %H:%M:%S";
+	var start_time = $.strftime(date_format, new Date(TOURNEY_LIST_PACKET.packets[1].start_time*1000));
+	var state = TOURNEY_LIST_PACKET.packets[1].state;
+	jpoker.plugins.tourneyList.defaults.templates.date = date_format;
+
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TOURNEY_LIST_PACKET) + " ]",
+
+            handle: function(packet) {
+            }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        jpoker.serverDestroy('url');
+        server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+        var id = 'jpoker' + jpoker.serial;
+        var row_id = TOURNEY_LIST_PACKET.packets[1].serial + id;
+        var place = $("#main");
+        place.jpoker('tourneyList', 'url', { delay: 30 });
+        server.registerUpdate(function(server, what, data) {
+                var element = $("#" + id);
+                if(element.length > 0) {
+                    var tr = $("#" + id + " tr", place);
+                    var row = $("#" + row_id, place);
+                    equals($('td:nth-child(5)', row).text(), start_time, 'start_time');
+                    $("#" + id).remove();
+                    return true;
+                } else {
+                    server.setTimeout = function(fun, delay) { };
+                    window.setTimeout(function() {
+			    jpoker.plugins.tourneyList.defaults.templates.date = '';
+                            start_and_cleanup();
+                        }, 30);
+                    return false;
+                }
+            });
+    });
+
 test("jpoker.plugins.tourneyList link pattern", function(){
         expect(1);
         stop();
@@ -4117,6 +4170,32 @@ test("jpoker.plugins.tourneyDetails templates regular registering", function(){
 
 	var start_time = $(".jpoker_tourney_details_info_start_time", info);
 	equals(start_time.html(), "Start time: "+date);
+
+	cleanup();
+    });
+
+test("jpoker.plugins.tourneyDetails templates regular registering date template", function(){
+	expect(1);
+	
+	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": -1, "table_serial": 606, "name": "user1", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4]}, "type": 149, "tourney": {"registered": 1, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Regular", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "running", "buy_in": 300000, "add_on_count": 0, "description_short": "Regular", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 1216201024, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 0}, "type": "PacketPokerTourneyManager"};
+
+	var id = jpoker.uid();
+	$("#main").append('<div class=\'jpoker_tourney_details\' id=\'' + id + '\'></div>');
+	var tourneyDetails = jpoker.plugins.tourneyDetails;
+	var element = document.getElementById(id);
+	var packet = TOURNEY_MANAGER_PACKET;
+	var is_logged = true;
+	var is_registered = true;
+	var date_format = '%Y/%m/%d %H:%M:%S';
+	var date = $.strftime(date_format, new Date(packet.tourney.start_time*1000));
+	tourneyDetails.templates.date = date_format;
+	$(element).html(tourneyDetails.getHTML(id, packet, is_logged, is_registered));
+
+	var info = $(" .jpoker_tourney_details_info", element);
+
+	var start_time = $(".jpoker_tourney_details_info_start_time", info);
+	equals(start_time.html(), "Start time: "+date);
+	tourneyDetails.templates.date = '';
 
 	cleanup();
     });
@@ -4875,6 +4954,50 @@ test("jpoker.plugins.tourneyPlaceholder", function(){
 	    });
     });
 
+test("jpoker.plugins.tourneyPlaceholder date template", function(){
+        expect(1);
+        stop();
+
+        var PokerServer = function() {};
+
+	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": 140, "table_serial": 606, "name": "user1", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4]}, "type": 149, "tourney": {"registered": 1, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Sit and Go 2 players", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "registering", "buy_in": 300000, "add_on_count": 0, "description_short": "Sit and Go 2 players, Holdem", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 1220102053, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0}, "type": "PacketPokerTourneyManager"};
+
+	var date_format = '%Y/%m/%d %H:%M:%S';
+	var tourney_serial = TOURNEY_MANAGER_PACKET.tourney_serial;
+	var tourney_starttime = TOURNEY_MANAGER_PACKET.tourney.start_time;
+	var tourney_starttime_date = $.strftime(date_format, new Date(tourney_starttime*1000));
+	var players_count = 1;
+	jpoker.plugins.tourneyPlaceholder.templates.date = date_format;
+
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TOURNEY_MANAGER_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $("#main");
+	var display_done = jpoker.plugins.tourneyPlaceholder.callback.display_done;
+        place.jpoker('tourneyPlaceholder', 'url', tourney_serial.toString());
+        server.registerUpdate(function(server, what, data) {
+                var element = $("#" + id);
+                if(element.length > 0) {
+		    ok($('.jpoker_tourney_placeholder_starttime', element).html().indexOf(tourney_starttime_date) >= 0, $('.jpoker_tourney_placeholder_starttime', element).html());
+                    $("#" + id).remove();
+                    return true;
+                } else {
+		    jpoker.plugins.tourneyPlaceholder.templates.date = '';
+		    start_and_cleanup();
+                    return false;
+                }
+            });
+    });
+
 //
 // featuredTable
 //
@@ -5257,6 +5380,30 @@ test("jpoker.plugins.table: PacketPokerTourneyBreak callback.tourney_break/resum
 	ok($("#jpokerDialog").html().indexOf(date.toLocaleString()) >= 0, $("#jpokerDialog").html());
 	table.handler(server, game_id, { type: 'PacketPokerTableTourneyBreakDone', game_id: game_id});
 	ok($("#jpokerDialog").parents().is(':hidden'), 'jpoker dialog hidden');
+	cleanup(id);
+    });
+
+test("jpoker.plugins.table: PacketPokerTourneyBreak callback.tourney_break/resume default date template", function(){
+        expect(1);
+	var packet = {"type": "PacketPokerTable", "id": 100, "name": "One", "percent_flop" : 98, "betting_structure": "level-15-30-no-limit"};
+        var server = jpoker.serverCreate({ url: 'url' });
+	var table = new jpoker.table(server, packet);
+	server.tables[packet.id] = table;
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+
+        var game_id = 100;
+	var resume_time = 1220979087;
+	var date = new Date(resume_time*1000);
+	var date_format = '%Y/%m/%d %H:%M:%S';
+	var date_string = $.strftime(date_format, date);
+	jpoker.plugins.table.templates.date = date_format;
+
+        place.jpoker('table', 'url', game_id);
+	
+	table.handler(server, game_id, { type: 'PacketPokerTableTourneyBreakBegin', game_id: game_id, resume_time: resume_time});
+	ok($("#jpokerDialog").html().indexOf(date_string) >= 0, $("#jpokerDialog").html());
+	table.handler(server, game_id, { type: 'PacketPokerTableTourneyBreakDone', game_id: game_id});
 	cleanup(id);
     });
 
@@ -9249,6 +9396,10 @@ test("jquery.fn.moveTo", function() {
 	equals($('#bet').css('top'), '200px');
  	ok($('#money').is(':hidden'), 'hidden');
  	ok($('#bet').is(':visible'), 'visible');
+    });
+
+test("jquery Date format", function() {
+	equals($.strftime("%Y %m %d", new Date(0)), "1970 01 01");
     });
 
 test("$.fn.frame", function(){

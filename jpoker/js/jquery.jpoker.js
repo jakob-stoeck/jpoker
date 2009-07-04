@@ -2491,7 +2491,8 @@
 	link: '<a href=\'{link}\'>{name}</a>',
 	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
 	next_label: '{next_label} >>>',
-	previous_label: '<<< {previous_label}'
+	previous_label: '<<< {previous_label}',
+	date: ''
     };
 
     jpoker.plugins.regularTourneyList.callback = {
@@ -2524,7 +2525,7 @@
 	link: '<a href=\'{link}\'>{name}</a>',
 	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
 	next_label: '{next_label} >>>',
-	previous_label: '<<< {previous_label}'	
+	previous_label: '<<< {previous_label}'
     };
 
     jpoker.plugins.sitngoTourneyList.callback = {
@@ -2633,7 +2634,11 @@
                 subpacket.id = subpacket.game_id + id;
                 subpacket.buy_in /= 100;
 	    }
-	    subpacket.start_time = new Date(subpacket.start_time*1000).toLocaleString();
+	    if (t.date && (t.date !== '')) {
+		subpacket.start_time = $.strftime(t.date, new Date(subpacket.start_time*1000));
+	    } else {
+		subpacket.start_time = new Date(subpacket.start_time*1000).toLocaleString();
+	    }
 	    if (link_pattern && subpacket.state != 'announced' && subpacket.state != 'canceled') {
                 subpacket.tourney_serial = subpacket.serial; // for backward compatibility only
 		var link = t.link.supplant({link: link_pattern.supplant(subpacket), name: subpacket.description_short});
@@ -2657,7 +2662,8 @@
                 link: '<a href=\'{link}\'>{name}</a>',
                 pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
                 next_label: '{next_label} >>>',
-                previous_label: '<<< {previous_label}'
+                previous_label: '<<< {previous_label}',
+		date: ''
             },
             callback: {
                 display_done: function(element) {
@@ -2786,7 +2792,11 @@
 	    html_map.players = '';
 	}
 	
-	packet.tourney.start_time = new Date(packet.tourney.start_time*1000).toLocaleString();
+	if (t.date && (t.date !== '')) {
+	    packet.tourney.start_time = $.strftime(t.date, new Date(packet.tourney.start_time*1000));
+	} else {
+	    packet.tourney.start_time = new Date(packet.tourney.start_time*1000).toLocaleString();
+	}	
 	packet.tourney.buy_in = packet.tourney.buy_in/100;
 	var tourney_type = 'regular';
 	if (packet.tourney.sit_n_go == 'y') {
@@ -2945,7 +2955,8 @@
 	    footer : '</tbody></table></div>'
 	},
 	register : '<div class=\'jpoker_tourney_details_register\'><input type=\'submit\' value=\'{register}\'></div>',
-	table_details : '<div class=\'jpoker_tourney_details_table_details\'>'
+	table_details : '<div class=\'jpoker_tourney_details_table_details\'>',
+	date : ''
     };
 
     jpoker.plugins.tourneyDetails.callback = {
@@ -3000,16 +3011,22 @@
         var t = this.templates;
         var html = [];
 	html.push(t.table);
-	var date = new Date();
-	date.setTime(packet.tourney.start_time*1000);
+	var date = new Date(packet.tourney.start_time*1000);
+	var date_string;
+	if (t.date && (t.date !== '')) {
+	    date_string = $.strftime(t.date, date);
+	} else {
+	    date_string = date.toLocaleString();
+	}
 	html.push(t.starttime.supplant({tourney_starttime:
-		    _("Tournament is starting at: ")+date.toLocaleString()}));
+					_("Tournament is starting at: ")+date_string}));
         return html.join('\n');
     };
     
     jpoker.plugins.tourneyPlaceholder.templates = {
 	table: '<div class=\'jpoker_tourney_placeholder_table\'></div>',
-	starttime: '<div class=\'jpoker_tourney_placeholder_starttime\'>{tourney_starttime}</div>'
+	starttime: '<div class=\'jpoker_tourney_placeholder_starttime\'>{tourney_starttime}</div>',
+	date: ''
     };
     
     jpoker.plugins.tourneyPlaceholder.callback = {
@@ -3578,18 +3595,24 @@
 	tourney_break: '<div>{label}</div><div>{date}</div>',
 	powered_by: '<a title=\'Powered by Pokersource\' href=\'javascript://\' >Powered by Pokersource</a>',
 	chat: '<div class=\'jpoker_chat_input\'><input value=\'chat here\' type=\'text\' width=\'100%\' /></div><div class=\'jpoker_chat_history\'><div class=\'jpoker_chat_history_player\'></div><div class=\'jpoker_chat_history_dealer\'></div></div>',
-        placeholder: _("connecting to table {name}")
+        placeholder: _("connecting to table {name}"),
+	date: ''
     };
 
     jpoker.plugins.table.callback = {
 	hand_start: function(packet) {
 	},
 	tourney_break: function(packet) {
-	    var t = jpoker.plugins.table.templates.tourney_break;
-	    var date = new Date();
-	    date.setTime(packet.resume_time*1000);
-	    jpoker.dialog(t.supplant({label: _("This tournament is on break, and will resume at:"),
-			    date: date.toLocaleString()}));
+	    var t = jpoker.plugins.table.templates;
+	    var date = new Date(packet.resume_time*1000);
+	    var date_string;
+	    if (t.date && (t.date !== '')) {
+		date_string = $.strftime(t.date, date);
+	    } else {
+		date_string = date.toLocaleString();
+	    }	    
+	    jpoker.dialog(t.tourney_break.supplant({label: _("This tournament is on break, and will resume at:"),
+			    date: date_string}));
 	},
 	tourney_resume: function(packet) {
 	    $('#jpokerDialog').dialog('close');
