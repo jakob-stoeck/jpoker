@@ -7187,7 +7187,7 @@ function _SelfPlayerSit(game_id, player_serial, money) {
 }
 
 test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function(){
-        expect(96);
+        expect(117);
 
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
@@ -7203,7 +7203,7 @@ test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function()
             }
         };
 
-        var interactors = function(active, passive, comment) {
+        var interactors = function(active, passive, amount, comment) {
             var i;
             var all = active.concat(passive);
             visibility(':hidden', all, '(1) ' + comment);
@@ -7211,13 +7211,16 @@ test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function()
             visibility(':visible', active, '(2) ' + comment);
             visibility(':hidden', passive, '(3) ' + comment);
 
-            var click = function(id, suffix) {
+            var click = function(id, suffix, amount) {
                 var sent = false;
                 sendPacket = Z.server.sendPacket;
                 Z.server.sendPacket = function(packet) {
                     equals(packet.type, 'PacketPoker' + suffix, suffix + ' ' + comment);
                     equals(packet.game_id, game_id, 'game_id for ' + suffix + ' ' + comment);
                     equals(packet.serial, player_serial, 'serial for ' + suffix + ' ' + comment);
+		    if (amount) {
+			equals(packet.amount, amount, 'amount for ' + suffix + ' ' + comment);
+		    }
                     sent = true;
                 };
                 $(id).click();
@@ -7228,10 +7231,11 @@ test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function()
                 'fold': 'Fold',
                 'call': 'Call', 
                 'raise': 'Raise',
-                'check': 'Check'
+                'check': 'Check',
+		'allin': 'Raise'
             };
             for(i = 0; i < active.length; i++) {
-                click('#' + active[i] + id, keys[active[i]]);
+                click('#' + active[i] + id, keys[active[i]], amount[i]);
             }
 
             Z.table.handler(Z.server, game_id, { type: 'PacketPokerSelfLostPosition', serial: 333, game_id: game_id });
@@ -7246,7 +7250,7 @@ test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function()
             allin:40,
             pot:  20
         };
-        interactors([ 'fold', 'call', 'raise' ], [ 'check' ], 'no check');
+        interactors([ 'fold', 'call', 'raise', 'allin' ], [ 'check' ], [undefined, undefined, 500, 4000], 'no check');
 
         Z.table.betLimit = {
             min:   10,
@@ -7256,7 +7260,7 @@ test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function()
             allin:40,
             pot:  20
         };
-        interactors([ 'fold', 'call', 'raise' ], [ 'check' ], 'limit');
+        interactors([ 'fold', 'call', 'raise' ], [ 'check', 'allin' ], [undefined, undefined, 0, undefined], 'limit');
 
         Z.table.betLimit = {
             min:   5,
@@ -7266,7 +7270,7 @@ test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function()
             allin:40,
             pot:  20
         };
-        interactors([ 'fold', 'check', 'raise' ], [ 'call' ], 'can check');
+        interactors([ 'fold', 'check', 'raise', 'allin' ], [ 'call' ], [undefined, undefined, 500, 4000], 'can check');
 
         Z.table.handler(Z.server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
         ok($("#game_window" + id).hasClass('jpoker_self_in_position'), 'jpoker_self_in_position is set');

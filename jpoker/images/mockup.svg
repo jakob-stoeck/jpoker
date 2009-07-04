@@ -344,35 +344,35 @@
        id="switch" />
     <image
        xlink:href="../css/images/jpoker_table/check.png"
-       x="638.31744"
+       x="650.31744"
        y="507.53967"
        width="44"
        height="30"
        id="check" />
     <image
        xlink:href="../css/images/jpoker_table/call.png"
-       x="687.12695"
+       x="699.12695"
        y="507.53967"
        width="44"
        height="30"
        id="call" />
     <image
        xlink:href="../css/images/jpoker_table/fold.png"
-       x="735.93652"
+       x="747.93652"
        y="507.53967"
        width="44"
        height="30"
        id="fold" />
     <image
        xlink:href="../css/images/jpoker_table/raise.png"
-       x="638.31744"
+       x="650.31744"
        y="543.25397"
        width="44"
        height="30"
        id="raise" />
     <image
        xlink:href="../css/images/jpoker_table/raise_slider_dock.png"
-       x="685.55914"
+       x="697.55914"
        y="576.04913"
        width="94"
        height="50"
@@ -1017,7 +1017,7 @@
        height="173"
        width="496.01721"
        inkscape:label="#image2255"
-       x="154.98279"
+       x="150.98279"
        y="603" />
     <image
        xlink:href="../css/images/jpoker_table/button.png"
@@ -1055,7 +1055,7 @@
        x="728.76923" />
     <image
        xlink:href="../css/images/jpoker_table/status.png"
-       x="687.52948"
+       x="701.52948"
        id="raise_input"
        inkscape:transform-center-y="90.64102"
        inkscape:transform-center-x="-9.1891349"
@@ -1101,5 +1101,12 @@
        inkscape:label="auto_action"
        height="93.571892"
        y="602.47693" />
+    <image
+       xlink:href="../css/images/jpoker_table/raise.png"
+       x="650.98279"
+       y="577.26288"
+       width="44"
+       height="30"
+       id="allin" />
   </g>
 </svg>

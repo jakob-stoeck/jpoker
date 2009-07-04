@@ -4044,8 +4044,8 @@
             var game_id = packet.game_id;
             var serial = packet.serial;
             var player = table.serial2player[serial];
-            var names = [ 'check', 'call', 'raise', 'fold' ];
-            var labels = [ _("check"), _("call") + '<span class=\'jpoker_call_amount\'></span>', _("raise"), _("fold") ];
+            var names = [ 'check', 'call', 'raise', 'fold', 'allin' ];
+            var labels = [ _("check"), _("call") + '<span class=\'jpoker_call_amount\'></span>', _("raise"), _("fold"), _("all in") ];
             for(var i = 0; i < names.length; i++) {
                 $('#' + names[i] + id).html('<div class=\'jpoker_button\'><a href=\'javascript://\'>' + labels[i] + '</a></div>').hover(function(){
 			$(this).addClass('hover');
@@ -4507,6 +4507,16 @@
 			    }
                         }
                     };
+		    $('#allin' + id).unbind('click').click(function() {
+			    var server = jpoker.getServer(url);
+			    if(server) {
+				server.sendPacket({ 'type': 'PacketPokerRaise',
+					    'serial': serial,
+					    'game_id': game_id,
+					    'amount': betLimit.allin*100
+					    });
+			    }
+			}).show();
                 } else {
                     click = function() {
                         var server = jpoker.getServer(url);
@@ -4530,7 +4540,7 @@
            $('#game_window' + id).removeClass('jpoker_self_in_position');
         },
 
-        names: [ 'fold', 'call', 'check', 'raise', 'raise_range', 'raise_input', 'rebuy' ],
+        names: [ 'fold', 'call', 'check', 'raise', 'raise_range', 'raise_input', 'rebuy', 'allin' ],
 
         hide: function(id) {
             for(var i = 0; i < this.names.length; i++) {
