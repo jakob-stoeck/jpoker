@@ -5230,7 +5230,7 @@ test("jpoker.plugins.login signup", function(){
 // table
 //
 test("jpoker.plugins.table", function(){
-        expect(20);
+        expect(21);
 
 	var packet = {"type": "PacketPokerTable", "id": 100};
         var server = jpoker.serverCreate({ url: 'url' });
@@ -5408,7 +5408,7 @@ test("jpoker.plugins.table: PacketPokerTourneyBreak callback.tourney_break/resum
     });
 
 test("jpoker.plugins.table.reinit", function(){
-        expect(17);
+        expect(18);
 
 	var packet = {"type": "PacketPokerTable", "id": 100};
         var server = jpoker.serverCreate({ url: 'url' });
@@ -5627,6 +5627,38 @@ test("jpoker.plugins.table: PacketSerial/PacketLogout", function(){
         equals($("#sit_seat7" + id).is(':hidden'), true, "sit_seat7 hidden");	
         equals($("#sit_seat8" + id).is(':hidden'), true, "sit_seat8 hidden");
         equals($("#sit_seat9" + id).is(':hidden'), true, "sit_seat9 hidden");
+        cleanup(id);
+    });
+
+test("jpoker.plugins.table: sit_seat", function(){
+        expect(5);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id, seats: 5 };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+        place.jpoker('table', 'url', game_id);
+        server.handler(server, 0, { type: 'PacketSerial', serial: 42});
+	var sit_seat = $("#sit_seat0" + id);
+	equals(sit_seat.is(':visible'), true, "sit_seat0 visible");
+	equals(sit_seat.hasClass('jpoker_sit_seat'), true, ".jpoker_sit_seat");
+	equals($('.jpoker_sit_seat_progress', sit_seat).length, 1, ".jpoker_sit_seat_progress");
+	sit_seat.click();
+	equals(sit_seat.hasClass('jpoker_self_get_seat'), true, '.jpoker_self_get_seat is set');
+        table.handler(server, game_id,
+                      {
+                          type: 'PacketPokerPlayerArrive',
+                              seat: 0,
+                              serial: 42,
+                              game_id: game_id,
+                              name: 'username',
+			      url: 'http://mycustomavatar.png'
+                              });
+	equals(sit_seat.hasClass('jpoker_self_get_seat'), false, '.jpoker_self_get_seat is not set');
         cleanup(id);
     });
 

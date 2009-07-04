@@ -418,3 +418,18 @@
 .jpoker_jquery_ui.ui-dialog #jpokerRebuy .ui-dialog-buttonpane button:hover {
 	background:#009E03;
 }
+
+.jpoker_sit_seat {
+    position: relative
+}
+.jpoker_sit_seat  .jpoker_sit_seat_progress {
+    display: none;
+}
+
+.jpoker_sit_seat.jpoker_self_get_seat  .jpoker_sit_seat_progress {
+    display: block;
+    position: absolute;
+    background-image: url("images/jpoker_table/loading.gif");
+    width: 32px;
+    height: 32px;
+}

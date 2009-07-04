@@ -3358,6 +3358,12 @@
             $('.jpoker_table', element).append(jpoker.copyright_text);
 
 	    $('#powered_by' + id).addClass('jpoker_powered_by').html(this.templates.powered_by);
+	    
+	    
+	    for (var i = 0; i < 10; i+=1) {
+		var sit_seat = $('#sit_seat' + i + id).addClass('jpoker_sit_seat');
+		$('<div class=\'jpoker_sit_seat_progress\'>').appendTo(sit_seat);
+	    }
 
             // it does not matter to register twice as long as the same key is used
             // because the second registration will override the first
@@ -3900,6 +3906,7 @@
                                             'seat': seat
                                             });
                             }
+			    $('#sit_seat' + seat + id).addClass('jpoker_self_get_seat');
                         });
                 } else {
                     $('#sit_seat' + seat + id).hide();
@@ -4207,6 +4214,7 @@
                 jpoker.plugins.playerSelf.inPosition(player, id);
             }
             $('#game_window' + id).removeClass('jpoker_self').addClass('jpoker_self');
+	    $('#sit_seat' + player.seat + id).removeClass('jpoker_self_get_seat');
         },
 
         leave: function(player, packet, id) {
