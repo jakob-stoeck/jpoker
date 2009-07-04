@@ -5383,6 +5383,30 @@ test("jpoker.plugins.table: PacketPokerTourneyBreak callback.tourney_break/resum
 	cleanup(id);
     });
 
+test("jpoker.plugins.table: PacketPokerTourneyBreak callback.tourney_break/resume default date template", function(){
+        expect(1);
+	var packet = {"type": "PacketPokerTable", "id": 100, "name": "One", "percent_flop" : 98, "betting_structure": "level-15-30-no-limit"};
+        var server = jpoker.serverCreate({ url: 'url' });
+	var table = new jpoker.table(server, packet);
+	server.tables[packet.id] = table;
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+
+        var game_id = 100;
+	var resume_time = 1220979087;
+	var date = new Date(resume_time*1000);
+	var date_format = '%Y/%m/%d %H:%M:%S';
+	var date_string = $.strftime(date_format, date);
+	jpoker.plugins.table.templates.date = date_format;
+
+        place.jpoker('table', 'url', game_id);
+	
+	table.handler(server, game_id, { type: 'PacketPokerTableTourneyBreakBegin', game_id: game_id, resume_time: resume_time});
+	ok($("#jpokerDialog").html().indexOf(date_string) >= 0, $("#jpokerDialog").html());
+	table.handler(server, game_id, { type: 'PacketPokerTableTourneyBreakDone', game_id: game_id});
+	cleanup(id);
+    });
+
 test("jpoker.plugins.table.reinit", function(){
         expect(17);
 

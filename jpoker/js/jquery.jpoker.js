@@ -3595,18 +3595,24 @@
 	tourney_break: '<div>{label}</div><div>{date}</div>',
 	powered_by: '<a title=\'Powered by Pokersource\' href=\'javascript://\' >Powered by Pokersource</a>',
 	chat: '<div class=\'jpoker_chat_input\'><input value=\'chat here\' type=\'text\' width=\'100%\' /></div><div class=\'jpoker_chat_history\'><div class=\'jpoker_chat_history_player\'></div><div class=\'jpoker_chat_history_dealer\'></div></div>',
-        placeholder: _("connecting to table {name}")
+        placeholder: _("connecting to table {name}"),
+	date: ''
     };
 
     jpoker.plugins.table.callback = {
 	hand_start: function(packet) {
 	},
 	tourney_break: function(packet) {
-	    var t = jpoker.plugins.table.templates.tourney_break;
-	    var date = new Date();
-	    date.setTime(packet.resume_time*1000);
-	    jpoker.dialog(t.supplant({label: _("This tournament is on break, and will resume at:"),
-			    date: date.toLocaleString()}));
+	    var t = jpoker.plugins.table.templates;
+	    var date = new Date(packet.resume_time*1000);
+	    var date_string;
+	    if (t.date && (t.date != '')) {
+		date_string = $.strftime(t.date, date);
+	    } else {
+		date_string = date.toLocaleString();
+	    }	    
+	    jpoker.dialog(t.tourney_break.supplant({label: _("This tournament is on break, and will resume at:"),
+			    date: date_string}));
 	},
 	tourney_resume: function(packet) {
 	    $('#jpokerDialog').dialog('close');
