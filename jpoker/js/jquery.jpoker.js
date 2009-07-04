@@ -3354,7 +3354,7 @@
 			    seats_label: _("Seats: "),
 			    percent_flop_label: _("% Flop"),
 			    player_timeout_label: _("Player timeout: "),
-			    muck_timeout_label: _("Muck timeout: "),
+			    muck_timeout_label: _("Muck timeout: ")
 			})));
 	    
 	    $('.jpoker_table', element).append(jpoker.copyright_text);
