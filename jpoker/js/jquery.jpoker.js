@@ -4290,12 +4290,12 @@
             var table = server.tables[player.game_id];
 	    var auto_action_element = $('#auto_action' + id);		
 	    if (player.in_game) {
-		$(' .jpoker_auto_action', auto_action_element).show();
+		$('.jpoker_auto_action', auto_action_element).show();
 		if (table.betLimit.call > 0) {
-		    $(' .jpoker_auto_check', auto_action_element).hide();
+		    $('.jpoker_auto_check', auto_action_element).hide();
 		    $('.jpoker_call_amount', auto_action_element).text(table.betLimit.call);
 		} else {
-		    $(' .jpoker_auto_call', auto_action_element).hide();
+		    $('.jpoker_auto_call', auto_action_element).hide();
 		}
 	    }
 	},
@@ -4306,12 +4306,12 @@
 	    var auto_action_element = $('#auto_action' + id);
 	    if (player.in_game) {
 		if (table.betLimit.call > 0) {
-		    $(' .jpoker_auto_action', auto_action_element).show();
+		    $('.jpoker_auto_action', auto_action_element).show();
 		    $('input[name=auto_check]')[0].checked = false;
 		    $('input[name=auto_call]')[0].checked = false;
 		    $('input[name=auto_raise]')[0].checked = false;
-		    $(' .jpoker_auto_check', auto_action_element).hide();
-		    $(' .jpoker_auto_call', auto_action_element).show();
+		    $('.jpoker_auto_check', auto_action_element).hide();
+		    $('.jpoker_auto_call', auto_action_element).show();
 		    $('.jpoker_call_amount', auto_action_element).text(table.betLimit.call);
 		}
 	    }
@@ -4319,7 +4319,7 @@
 
 	inGame: function(player, id) {
 	    var auto_action_element = $('#auto_action' + id);
-	    $(' .jpoker_auto_action', auto_action_element).hide();
+	    $('.jpoker_auto_action', auto_action_element).hide();
 	},
 
         sit: function(player, id) {
