@@ -4195,6 +4195,7 @@ test("jpoker.plugins.tourneyDetails templates regular registering date template"
 
 	var start_time = $(".jpoker_tourney_details_info_start_time", info);
 	equals(start_time.html(), "Start time: "+date);
+	tourneyDetails.templates.date = '';
 
 	cleanup();
     });
