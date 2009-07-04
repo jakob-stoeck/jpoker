@@ -3690,7 +3690,9 @@
 		    jpoker.plugins.player.callback.seat_hover_enter(player, id);
 		}, function() {
 		    jpoker.plugins.player.callback.seat_hover_leave(player, id);
-		});
+		}).click(function() {
+			jpoker.plugins.player.callback.seat_click(player, id);
+		    });
 	    var timeout_element = $('#player_seat' + seat  + '_timeout' + id).removeClass().addClass('jpoker_timeout jpoker_ptable_player_seat' + seat + '_timeout').html('<div class=\'jpoker_timeout_progress\'></div>');
 
             jpoker.plugins.player.chips(player, id);
@@ -3974,6 +3976,8 @@
 	    },	    
 	    seat_hover_leave: function(player, id) {
 		$('#player_seat' + player.seat  + id).removeClass('jpoker_seat_hover');
+	    },
+	    seat_click: function(player, id) {
 	    },
 	    player_arrive: function(element, serial) {
 	    },
