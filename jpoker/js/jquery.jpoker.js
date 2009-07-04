@@ -2634,7 +2634,7 @@
                 subpacket.id = subpacket.game_id + id;
                 subpacket.buy_in /= 100;
 	    }
-	    if (t.date && (t.date != '')) {
+	    if (t.date && (t.date !== '')) {
 		subpacket.start_time = $.strftime(t.date, new Date(subpacket.start_time*1000));
 	    } else {
 		subpacket.start_time = new Date(subpacket.start_time*1000).toLocaleString();
@@ -2792,7 +2792,7 @@
 	    html_map.players = '';
 	}
 	
-	if (t.date && (t.date != '')) {
+	if (t.date && (t.date !== '')) {
 	    packet.tourney.start_time = $.strftime(t.date, new Date(packet.tourney.start_time*1000));
 	} else {
 	    packet.tourney.start_time = new Date(packet.tourney.start_time*1000).toLocaleString();
@@ -3013,7 +3013,7 @@
 	html.push(t.table);
 	var date = new Date(packet.tourney.start_time*1000);
 	var date_string;
-	if (t.date && (t.date != '')) {
+	if (t.date && (t.date !== '')) {
 	    date_string = $.strftime(t.date, date);
 	} else {
 	    date_string = date.toLocaleString();
@@ -3606,7 +3606,7 @@
 	    var t = jpoker.plugins.table.templates;
 	    var date = new Date(packet.resume_time*1000);
 	    var date_string;
-	    if (t.date && (t.date != '')) {
+	    if (t.date && (t.date !== '')) {
 		date_string = $.strftime(t.date, date);
 	    } else {
 		date_string = date.toLocaleString();
