@@ -433,3 +433,12 @@
     width: 32px;
     height: 32px;
 }
+
+.jpoker_table_info_seats, .jpoker_table_info_flop, .jpoker_table_info_player_timeout, .jpoker_table_info_muck_timeout {
+    display: none;
+}
+
+.jpoker_table_info_name_label, .jpoker_table_info_variant_label, .jpoker_table_info_blind_label, .jpoker_table_info_seats_label, .jpoker_table_info_flop_label, .jpoker_table_info_player_timeout_label, .jpoker_table_info_muck_timeout_label {
+    display: none;
+}
+
