@@ -2286,3 +2286,31 @@ function jpoker_141_click_here_to_get_a_seat(place) {
         server.sendPacket('ping');	
 }
 
+function jpoker_142_click_here_to_get_a_seat_in_progress(place) {
+        setUp();
+        if(explain) {
+            $('#explain').append('<b>jpoker_141_click_here_to_get_a_seat</b> ');
+            $('#explain').append('The logged in player has choosed which seat he wants to take.');
+            $('#explain').append('A progress indicator is displayed.');
+            $('#explain').append('<hr>');
+        }
+
+        var game_id = 100;
+        var player_serial = 200;
+        var packets = [
+{"observers": 1, "name": "One", "percent_flop" : 98, "average_pot": 100, "seats": 10, "variant": "holdem", "hands_per_hour": 220, "betting_structure": "2-4-limit", "currency_serial": 1, "muck_timeout": 5, "players": 4, "waiting": 0, "skin": "default", "id": game_id, "type": "PacketPokerTable", "player_timeout": 60}
+                       ];
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+
+        var server = $.jpoker.getServer('url');
+	server.serial = 42;
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');	    
+	    $('.jpoker_sit_seat').click();
+	};
+        server.sendPacket('ping');	
+}
+
