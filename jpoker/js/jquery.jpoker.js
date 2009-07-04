@@ -4293,7 +4293,7 @@
 		$('.jpoker_auto_action', auto_action_element).show();
 		if (table.betLimit.call > 0) {
 		    $('.jpoker_auto_check', auto_action_element).hide();
-		    $('.jpoker_call_amount', auto_action_element).text(table.betLimit.call);
+		    $('.jpoker_call_amount', auto_action_element).text(jpoker.chips.SHORT(table.betLimit.call));
 		} else {
 		    $('.jpoker_auto_call', auto_action_element).hide();
 		}
@@ -4312,7 +4312,7 @@
 		    $('input[name=auto_raise]')[0].checked = false;
 		    $('.jpoker_auto_check', auto_action_element).hide();
 		    $('.jpoker_auto_call', auto_action_element).show();
-		    $('.jpoker_call_amount', auto_action_element).text(table.betLimit.call);
+		    $('.jpoker_call_amount', auto_action_element).text(jpoker.chips.SHORT(table.betLimit.call));
 		}
 	    }
 	},
@@ -4451,7 +4451,7 @@
             $('#fold' + id).unbind('click').click(function() { return send('Fold'); }).show();
             if(betLimit.call > 0) {		
 		var call_element = $('#call' + id);
-		$('.jpoker_call_amount', call_element).text(betLimit.call);
+		$('.jpoker_call_amount', call_element).text(jpoker.chips.SHORT(betLimit.call));
 		call_element.unbind('click').click(function() { return send('Call'); }).show();
             } else {
                 $('#check' + id).unbind('click').click(function() { return send('Check'); }).show();

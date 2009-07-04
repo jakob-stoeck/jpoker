@@ -8406,24 +8406,24 @@ test("jpoker.plugins.playerSelf call with amount", function(){
 	player.in_game = true;
         var table = server.tables[game_id];
         table.betLimit = {
-            min:   5,
-            max:   10,
-            step:  1,
-            call:  10,
-            allin:40,
-            pot:  20
+            min:   5000,
+            max:   10000,
+            step:  1000,
+            call:  10000,
+            allin:40000,
+            pot:  20000
         };
 	
 	var auto_action_element = $('#auto_action' + id);
 
 	table.handler(server, game_id, { type: 'PacketPokerBeginRound', game_id: game_id });
-	equals($('.jpoker_auto_call label .jpoker_call_amount', auto_action_element).text(), '10', 'auto_call label');
-	table.betLimit.call = 20;
+	equals($('.jpoker_auto_call label .jpoker_call_amount', auto_action_element).text(), '10K', 'auto_call label');
+	table.betLimit.call = 20000;
 	table.handler(server, game_id, { type: 'PacketPokerHighestBetIncrease', game_id: game_id });
-	equals($('.jpoker_auto_call label .jpoker_call_amount', auto_action_element).text(), '20', 'auto_call label');
-	table.betLimit.call = 30;
+	equals($('.jpoker_auto_call label .jpoker_call_amount', auto_action_element).text(), '20K', 'auto_call label');
+	table.betLimit.call = 30000;
 	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
-	equals($('#call' + id + ' .jpoker_call_amount').text(), '30', 'call label');
+	equals($('#call' + id + ' .jpoker_call_amount').text(), '30K', 'call label');
 	cleanup(id);
     });
 
