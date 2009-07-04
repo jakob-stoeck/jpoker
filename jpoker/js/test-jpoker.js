@@ -5284,19 +5284,19 @@ test("jpoker.plugins.table: info", function(){
 	var table_info_element = $('#table_info'+id);
 	equals(table_info_element.length, 1, 'table info');
 	equals($('.jpoker_table_info_name', table_info_element).length, 1, 'table info name');
-	equals($('.jpoker_table_info_name', table_info_element).html(), 'One');
+	equals($('.jpoker_table_info_name', table_info_element).text(), 'Name: One');
 	equals($('.jpoker_table_info_variant', table_info_element).length, 1, 'table info variant');
-	equals($('.jpoker_table_info_variant', table_info_element).html(), 'holdem');
+	equals($('.jpoker_table_info_variant', table_info_element).text(), 'Variant: holdem');
 	equals($('.jpoker_table_info_blind', table_info_element).length, 1, 'table info blind');
-	equals($('.jpoker_table_info_blind', table_info_element).html(), '15-30-no-limit', 'table info blind');
+	equals($('.jpoker_table_info_blind', table_info_element).text(), 'Structure: 15-30-no-limit', 'table info blind');
 	equals($('.jpoker_table_info_seats', table_info_element).length, 1, 'table info seats');
-	equals($('.jpoker_table_info_seats', table_info_element).html(), '10', 'table info seats');
+	equals($('.jpoker_table_info_seats', table_info_element).text(), 'Seats: 10', 'table info seats');
 	equals($('.jpoker_table_info_flop', table_info_element).length, 1, 'table info flop');
-	equals($('.jpoker_table_info_flop', table_info_element).html(), '98% Flop', 'table info flop');
+	equals($('.jpoker_table_info_flop', table_info_element).text(), '98% Flop', 'table info flop');
 	equals($('.jpoker_table_info_player_timeout', table_info_element).length, 1, 'table info player timeout');
-	equals($('.jpoker_table_info_player_timeout', table_info_element).html(), '60', 'table info player timeout');
+	equals($('.jpoker_table_info_player_timeout', table_info_element).text(), 'Player timeout: 60', 'table info player timeout');
 	equals($('.jpoker_table_info_muck_timeout', table_info_element).length, 1, 'table info muck timeout');
-	equals($('.jpoker_table_info_muck_timeout', table_info_element).html(), '30', 'table info muck timeout');
+	equals($('.jpoker_table_info_muck_timeout', table_info_element).text(), 'Muck timeout: 30', 'table info muck timeout');
 	equals($('.jpoker_table_info_level', table_info_element).length, 1, 'table info level');
 	equals($('.jpoker_table_info_level', table_info_element).html(), '', 'table info level');
 
@@ -5318,7 +5318,7 @@ test("jpoker.plugins.table: info tourney", function(){
 
 	var table_info_element = $('#table_info'+id);
 	equals($('.jpoker_table_info_blind', table_info_element).length, 1, 'table info blind');
-	equals($('.jpoker_table_info_blind', table_info_element).html(), 'level-15-30-no-limit', 'table info blind');
+	equals($('.jpoker_table_info_blind', table_info_element).text(), 'Structure: level-15-30-no-limit', 'table info blind');
 	equals($('.jpoker_table_info_level', table_info_element).length, 1, 'table info level');
 
 	table.handler(server, game_id, { type: 'PacketPokerStart', game_id: game_id, level: 1 });

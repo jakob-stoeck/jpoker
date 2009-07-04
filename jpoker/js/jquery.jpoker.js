@@ -3347,7 +3347,15 @@
 		$('body').append('<div id=\'jpokerSoundTable\' />');
 	    }
 	    
-	    $('#table_info' + id).html(this.templates.table_info.supplant($.extend(table, {percent_flop: table.percent_flop + _("% Flop")})));
+	    $('#table_info' + id).html(this.templates.table_info.supplant($.extend(table, {
+			    name_label: _("Name: "),
+			    variant_label: _("Variant: "),
+			    betting_structure_label: _("Structure: "),
+			    seats_label: _("Seats: "),
+			    percent_flop_label: _("% Flop"),
+			    player_timeout_label: _("Player timeout: "),
+			    muck_timeout_label: _("Muck timeout: "),
+			})));
 	    
 	    $('.jpoker_table', element).append(jpoker.copyright_text);
 	    $('#powered_by' + id).addClass('jpoker_powered_by').html(this.templates.powered_by);
@@ -3595,7 +3603,7 @@
 	powered_by: '<a title=\'Powered by Pokersource\' href=\'javascript://\' >Powered by Pokersource</a>',
 	chat: '<div class=\'jpoker_chat_input\'><input value=\'chat here\' type=\'text\' width=\'100%\' /></div><div class=\'jpoker_chat_history\'><div class=\'jpoker_chat_history_player\'></div><div class=\'jpoker_chat_history_dealer\'></div></div>',
         placeholder: _("connecting to table {name}"),
-	table_info: '<div class=\'jpoker_table_info_name\'>{name}</div><div class=\'jpoker_table_info_variant\'>{variant}</div><div class=\'jpoker_table_info_blind\'>{betting_structure}</div><div class=\'jpoker_table_info_seats\'>{max_players}</div><div class=\'jpoker_table_info_flop\'>{percent_flop}</div><div class=\'jpoker_table_info_player_timeout\'>{player_timeout}</div><div class=\'jpoker_table_info_muck_timeout\'>{muck_timeout}</div><div class=\'jpoker_table_info_level\'></div>',
+	table_info: '<div class=\'jpoker_table_info_name\'><span class=\'jpoker_table_info_name_label\'>{name_label}</span>{name}</div><div class=\'jpoker_table_info_variant\'><span class=\'jpoker_table_info_variant_label\'>{variant_label}</span>{variant}</div><div class=\'jpoker_table_info_blind\'><span class=\'jpoker_table_info_blind_label\'>{betting_structure_label}</span>{betting_structure}</div><div class=\'jpoker_table_info_seats\'><span class=\'jpoker_table_info_seats_label\'>{seats_label}</span>{max_players}</div><div class=\'jpoker_table_info_flop\'>{percent_flop}<span class=\'jpoker_table_info_flop_label\'>{percent_flop_label}</span></div><div class=\'jpoker_table_info_player_timeout\'><span class=\'jpoker_table_info_player_timeout_label\'>{player_timeout_label}</span>{player_timeout}</div><div class=\'jpoker_table_info_muck_timeout\'><span class=\'jpoker_table_info_muck_timeout_label\'>{muck_timeout_label}</span>{muck_timeout}</div><div class=\'jpoker_table_info_level\'></div>',
 	date: ''
     };
 
