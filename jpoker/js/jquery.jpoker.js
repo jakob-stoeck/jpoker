@@ -3717,6 +3717,7 @@
 	    $('#seat' + seat + id).addClass('jpoker_seat jpoker_seat'+seat);
 	    seat_element.addClass('jpoker_player_seat jpoker_player_seat'+seat);
 	    this.callback.player_arrive(seat_element.get(0), serial);
+	    this.callback.display_done(seat_element.get(0), player);
         },
 
         leave: function(player, packet, id) {
@@ -3980,6 +3981,8 @@
 	    seat_click: function(player, id) {
 	    },
 	    player_arrive: function(element, serial) {
+	    },
+	    display_done: function(element, player) {
 	    },
 	    sound: {
 		arrive: function() {

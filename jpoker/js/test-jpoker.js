@@ -7109,7 +7109,7 @@ test("jpoker.plugins.player: PacketPokerStart", function(){
     });
 
 test("jpoker.plugins.player: player callback", function(){
-        expect(3);
+        expect(6);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -7132,8 +7132,16 @@ test("jpoker.plugins.player: player callback", function(){
 	    equals(element.length, undefined, 'not a jquery selector');
 	    equals($('.jpoker_name', element).length, 1, 'player element');
 	    jpoker.plugins.player.callback.player_arrive = jpoker_player_callback_player_arrive;
+	};
+	var jpoker_player_callback_display_done = jpoker.plugins.player.callback.display_done;
+	jpoker.plugins.player.callback.display_done =  function(element, player) {
+	    equals(player.serial, player_serial, 'player serial');
+	    equals(element.length, undefined, 'not a jquery selector');
+	    equals($('.jpoker_name', element).length, 1, 'player element');
+	    jpoker.plugins.player.callback.display_done = jpoker_player_callback_display_done;
 	    start_and_cleanup();
 	};
+
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', name: player_name, seat: player_seat, serial: player_serial, game_id: game_id });
     });
 
