@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+  <ModulePrefs title="jpoker sample application"/> 
+  <UserPref name="myname" display_name="Name" required="true"/>
+  <Content type="html">
+     <![CDATA[ 
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>jpoker sample application</title>
+	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/jpoker/jquery/jquery-1.2.6.js"></script>
+	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/jpoker/jquery/ui/ui.core.js"></script>
+	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/jpoker/jquery/ui/ui.draggable.js"></script>
+	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/jpoker/jquery/ui/ui.resizable.js"></script>
+	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/jpoker/jquery/ui/ui.dialog.js"></script>
+	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/jpoker/jquery/ui/ui.slider.js"></script>
+	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/jpoker/js/jquery.ajaxQueue.js"></script>
+	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/jpoker/js/jquery.cookie.js"></script>
+	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/jpoker/js/jquery.gettext.js"></script>
+	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/jpoker/js/jquery.strftime.js"></script>
+	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/jpoker/js/jquery.form.js"></script>
+	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/jpoker/js/jquery.tablesorter.js"></script>
+	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/jpoker/js/jquery.tablesorter.pager.js"></script>
+	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/jpoker/js/printstacktrace.js"></script>
+	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/jpoker/js/json2.js"></script>
+	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/jpoker/js/jquery.jpoker.js"></script>
+	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/jpoker/js/mockup.js"></script>
+	<script type="text/javascript">	  
+          $.jpoker.verbose = 1;
+          $.jpoker.copyrightTimeout = 20000000;
+	  var restURL = "http://jspoker.pokersource.info/POKER_REST";
+	  var server = $.jpoker.serverCreate({ url: restURL });
+	  server.ajax = function(options) {
+		var params = {};
+		var postData = {
+			jsonp: "foo",
+			packet: options.data
+		};
+		params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.POST;
+		params[gadgets.io.RequestParameters.POST_DATA] = gadgets.io.encodeValues(postData);
+		params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.TEXT;
+		params[gadgets.io.RequestParameters.REFRESH_INTERVAL] = 0;
+		params[gadgets.io.RequestParameters.AUTHORIZATION] = gadgets.io.AuthorizationType.NONE;
+		var callback = function(result) {
+			function foo(data) {
+				options.success(data);
+			}
+			console.log(result);
+			eval(result.data);
+		};
+		gadgets.io.makeRequest("http://jspoker.pokersource.info/POKER_REST", callback, params);
+	  };
+	  $(document).ready(function() {
+		$("#place").jpoker('tableList', restURL);
+	  });
+        </script>
+        <link href="http://jspoker.pokersource.info/jpoker/css/jpoker.css" rel="stylesheet" type="text/css" />
+    <div id="place"></div>
+     ]]>
+  </Content> 
+</Module>
