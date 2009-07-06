@@ -5536,8 +5536,9 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave (Self)", function(){
         equals(table.seats[0], player_serial, "player 1");
         equals(table.serial2player[player_serial].serial, player_serial, "player 1 in player2serial");
         var names = [ 'check', 'call', 'raise', 'fold' ];
+	var texts = [ 'check', 'call ', 'raise', 'fold' ];
         for(var i = 0; i < names.length; i++) {
-            equals($("#" + names[i] + id).text(), names[i]);
+            equals($("#" + names[i] + id).text(), texts[i]);
         }
         table.handler(server, game_id, { type: 'PacketPokerPlayerLeave', seat: 0, serial: player_serial, game_id: game_id });
         equals($("#seat0" + id).css('display'), 'none', "leave");
