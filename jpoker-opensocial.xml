@@ -43,7 +43,6 @@
 			function foo(data) {
 				options.success(data);
 			}
-			console.log(result);
 			eval(result.data);
 		};
 		gadgets.io.makeRequest("http://jspoker.pokersource.info/POKER_REST", callback, params);
