@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
-  <ModulePrefs title="jpoker sample application"/> 
-  <UserPref name="myname" display_name="Name" required="true"/>
+  <ModulePrefs title="jpoker sample application">
+	<Require feature="opensocial-0.8"/> 
+  </ModulePrefs>
   <Content type="html">
      <![CDATA[ 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -47,15 +48,38 @@
 		};
 		gadgets.io.makeRequest("http://jspoker.pokersource.info/POKER_REST", callback, params);
 	  };
-	  $(document).ready(function() {
+	  gadgets.util.registerOnLoadHandler(function() {
 		$.jpoker.verbose = 6;
 		server.spawnTable = function() {
+			$.jpoker.plugins.table.callback.display_done = function(element) {
+				var params = {};
+				var req = opensocial.newDataRequest();
+				var idspec = opensocial.IdSpec.PersonId.VIEWER;
+				var params = {};
+				params[opensocial.DataRequest.PeopleRequestFields.PROFILE_DETAILS] = [opensocial.Person.Field.GENDER];
+				req.add(req.newFetchPersonRequest(idspec, params), 'viewer');
+				req.send(function(resp) {
+					var viewerResp = resp.get('viewer');
+					var viewer = viewerResp.getData();
+					$(element).addClass(viewer.getField(opensocial.Person.Field.GENDER).key);
+				});
+			};
 			$("#place").jpoker("table", restURL, 401);
+		};
+		$.jpoker.plugins.player.callback.display_done = function() {
 		};
 		server.tableJoin(401);
 	  });
         </script>
         <link href="http://jspoker.pokersource.info/jpoker/css/jpoker.css" rel="stylesheet" type="text/css" />
+	<style type="text/css">
+		.jpoker_table.MALE .jpoker_ptable_game_background {
+			background-color: #00ffff;
+		}
+		.jpoker_table.FEMALE .jpoker_ptable_game_background {
+			background-color: #ff00ff;
+		}
+	</style>
     <div id="place"></div>
      ]]>
   </Content> 
