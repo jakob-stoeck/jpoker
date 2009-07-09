@@ -48,7 +48,11 @@
 		gadgets.io.makeRequest("http://jspoker.pokersource.info/POKER_REST", callback, params);
 	  };
 	  $(document).ready(function() {
-		$("#place").jpoker('tableList', restURL);
+		$.jpoker.verbose = 6;
+		server.spawnTable = function() {
+			$("#place").jpoker("table", restURL, 401);
+		};
+		server.tableJoin(401);
 	  });
         </script>
         <link href="http://jspoker.pokersource.info/jpoker/css/jpoker.css" rel="stylesheet" type="text/css" />
