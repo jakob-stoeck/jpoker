@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
-  <ModulePrefs title="jpoker sample application">
+  <ModulePrefs title="jpoker sample application" height="782" width="800">
 	<Require feature="opensocial-0.8"/> 
   </ModulePrefs>
   <Content type="html">
