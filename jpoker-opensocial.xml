@@ -52,21 +52,29 @@
 		$.jpoker.verbose = 6;
 		server.spawnTable = function() {
 			$.jpoker.plugins.table.callback.display_done = function(element) {
-				var params = {};
 				var req = opensocial.newDataRequest();
-				var idspec = opensocial.IdSpec.PersonId.VIEWER;
 				var params = {};
 				params[opensocial.DataRequest.PeopleRequestFields.PROFILE_DETAILS] = [opensocial.Person.Field.GENDER];
-				req.add(req.newFetchPersonRequest(idspec, params), 'viewer');
+				req.add(req.newFetchPersonRequest("VIEWER", params), "viewer");
 				req.send(function(resp) {
-					var viewerResp = resp.get('viewer');
+					var viewerResp = resp.get("viewer");
 					var viewer = viewerResp.getData();
 					$(element).addClass(viewer.getField(opensocial.Person.Field.GENDER).key);
 				});
 			};
 			$("#place").jpoker("table", restURL, 401);
 		};
-		$.jpoker.plugins.player.callback.display_done = function() {
+		$.jpoker.plugins.player.callback.display_done = function(element, player) {
+			var user2id = {"dachary": "1", "proppy": "2", "proppy2": "3"};
+			var req = opensocial.newDataRequest();  
+			var params = {};
+			params[opensocial.DataRequest.PeopleRequestFields.PROFILE_DETAILS] = [opensocial.Person.Field.GENDER];
+			req.add(req.newFetchPersonRequest(user2id[player.name], params), "player");
+			req.send(function(resp) {
+				var viewerResp = resp.get("player");
+				var viewer = viewerResp.getData();
+				$(element).addClass(viewer.getField(opensocial.Person.Field.GENDER).key);				
+			});
 		};
 		server.tableJoin(401);
 	  });
@@ -78,6 +86,12 @@
 		}
 		.jpoker_table.FEMALE .jpoker_ptable_game_background {
 			background-color: #ff00ff;
+		}
+		.jpoker_table .jpoker_player_seat.MALE .jpoker_name {
+			background-color:#00ffff;
+		}
+		.jpoker_table .jpoker_player_seat.FEMALE .jpoker_name {
+			background-color:#ff00ff;
 		}
 	</style>
     <div id="place"></div>
