@@ -2316,10 +2316,12 @@ function jpoker_142_click_here_to_get_a_seat_in_progress(place) {
 
 var jpoker_skin_permalink = function() {
     $("#links li a").each(function() {
-	    $(this).attr('href', '#'+$(this).attr('onClick'));
-	});
+	    $(this).attr('href', '#'+$(this).text());
+	}).click(function() {
+		eval($(this).text()+'("#place")');
+	    });
     if (window.location.hash) {
-	eval(window.location.hash.substr(1));
+	eval(window.location.hash.substr(1)+'("#place")');
     } else {
 	$("#links li a").eq(0).click();
     }

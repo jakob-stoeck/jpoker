@@ -44,10 +44,12 @@
           $.jpoker.copyrightTimeout = 20000000;
 	  $(document).ready(function() {
 		$("#links li a").each(function() {
-			$(this).attr('href', '#'+$(this).attr('onClick'));
+			$(this).attr('href', '#'+$(this).text());
+		}).click(function() {
+			eval($(this).text()+'("#place")');
 		});
 		if (window.location.hash) {
-			setTimeout(function() {eval(window.location.hash.substr(1));}, 1000);
+			setTimeout(function() {eval(window.location.hash.substr(1)+'("#place")');}, 1000);
 		} else {
 			setTimeout(function() {$("#links li a").eq(0).click();}, 1000);
 		}
@@ -61,8 +63,8 @@
     <div class="skinclean" id="place"></div>
 
     <ul id="links">
-      <li><a href='#' onClick='jpoker_01_copyright("#place")'>jpoker_01_copyright</a></li>
-      <li><a href='#' onClick='jpoker_09_dialog("#place")'>jpoker_09_dialog</a></li>
+      <li><a href='#'>jpoker_01_copyright</a></li>
+      <li><a href='#'>jpoker_09_dialog</a></li>
     </ul>
 </body>
 </html>
