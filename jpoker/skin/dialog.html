@@ -43,7 +43,14 @@
           $.jpoker.verbose = 1;
           $.jpoker.copyrightTimeout = 20000000;
 	  $(document).ready(function() {
-		setTimeout(jpoker_skin_permalink, 1000);
+		$("#links li a").each(function() {
+			$(this).attr('href', '#'+$(this).attr('onClick'));
+		});
+		if (window.location.hash) {
+			setTimeout(function() {eval(window.location.hash.substr(1));}, 1000);
+		} else {
+			setTimeout(function() {$("#links li a").eq(0).click();}, 1000);
+		}
 	  });
         </script>
         <link href="../css/jpoker.css" rel="stylesheet" type="text/css" />
