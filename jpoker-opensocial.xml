@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
-  <ModulePrefs title="jpoker sample application" height="782" width="800">
+  <ModulePrefs title="jpoker" height="900" width="800">
 	<Require feature="opensocial-0.8"/> 
   </ModulePrefs>
   <Content type="html">
@@ -29,7 +29,7 @@
           $.jpoker.copyrightTimeout = 20000000;
 	  var restURL = "http://jspoker.pokersource.info/POKER_REST";
 	  var server = $.jpoker.serverCreate({ url: restURL });
-	  server.ajax = function(options) {
+	  $.ajax = function(options) {
 		var params = {};
 		var postData = {
 			jsonp: "foo",
@@ -46,37 +46,46 @@
 			}
 			eval(result.data);
 		};
-		gadgets.io.makeRequest("http://jspoker.pokersource.info/POKER_REST", callback, params);
+		gadgets.io.makeRequest(options.url, callback, params);
+	  };
+	  $.jpoker.plugins.table.callback.display_done = function(element) {
+	  var req = opensocial.newDataRequest();
+		var params = {};
+		params[opensocial.DataRequest.PeopleRequestFields.PROFILE_DETAILS] = [opensocial.Person.Field.GENDER];
+		req.add(req.newFetchPersonRequest("VIEWER", params), "viewer");
+		req.send(function(resp) {
+			var viewerResp = resp.get("viewer");
+			var viewer = viewerResp.getData();
+			$(element).addClass(viewer.getField(opensocial.Person.Field.GENDER).key);
+		});
+	  };
+	  $.jpoker.plugins.player.callback.display_done = function(element, player) {
+		var user2id = {"dachary": "1", "proppy": "2", "proppy2": "3"};
+		var req = opensocial.newDataRequest();  
+		var params = {};
+		params[opensocial.DataRequest.PeopleRequestFields.PROFILE_DETAILS] = [opensocial.Person.Field.GENDER];
+		req.add(req.newFetchPersonRequest(user2id[player.name], params), "player");
+		req.send(function(resp) {
+			var viewerResp = resp.get("player");
+			var viewer = viewerResp.getData();
+			$(element).addClass(viewer.getField(opensocial.Person.Field.GENDER).key);				
+		});
 	  };
 	  gadgets.util.registerOnLoadHandler(function() {
 		$.jpoker.verbose = 6;
-		server.spawnTable = function() {
-			$.jpoker.plugins.table.callback.display_done = function(element) {
-				var req = opensocial.newDataRequest();
-				var params = {};
-				params[opensocial.DataRequest.PeopleRequestFields.PROFILE_DETAILS] = [opensocial.Person.Field.GENDER];
-				req.add(req.newFetchPersonRequest("VIEWER", params), "viewer");
-				req.send(function(resp) {
-					var viewerResp = resp.get("viewer");
-					var viewer = viewerResp.getData();
-					$(element).addClass(viewer.getField(opensocial.Person.Field.GENDER).key);
-				});
-			};
-			$("#place").jpoker("table", restURL, 401);
+		server.spawnTable = function(server, packet) {
+			$("#table").empty().jpoker("table", restURL, packet.game_id, packet.name);
+			$("#table-link").click();
 		};
-		$.jpoker.plugins.player.callback.display_done = function(element, player) {
-			var user2id = {"dachary": "1", "proppy": "2", "proppy2": "3"};
-			var req = opensocial.newDataRequest();  
-			var params = {};
-			params[opensocial.DataRequest.PeopleRequestFields.PROFILE_DETAILS] = [opensocial.Person.Field.GENDER];
-			req.add(req.newFetchPersonRequest(user2id[player.name], params), "player");
-			req.send(function(resp) {
-				var viewerResp = resp.get("player");
-				var viewer = viewerResp.getData();
-				$(element).addClass(viewer.getField(opensocial.Person.Field.GENDER).key);				
-			});
-		};
-		server.tableJoin(401);
+		$("#lobby").empty().jpoker("tableList", restURL);
+		$("#lobby-link").click(function() {
+			$("#table").hide();
+			$("#lobby").show();
+		});
+		$("#table-link").click(function() {
+			$("#lobby").hide();
+			$("#table").show();
+		});
 	  });
         </script>
         <link href="http://jspoker.pokersource.info/jpoker/css/jpoker.css" rel="stylesheet" type="text/css" />
@@ -94,7 +103,12 @@
 			background-color:#ff00ff;
 		}
 	</style>
-    <div id="place"></div>
+    <ul id="menu">
+	<li><a href="#" id="lobby-link">lobby</a>
+	<li><a href="#" id="table-link">table</a>
+    </ul>
+    <div id="table"></div>
+    <div id="lobby"></div>
      ]]>
   </Content> 
 </Module>
