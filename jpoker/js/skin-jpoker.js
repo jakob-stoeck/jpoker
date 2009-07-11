@@ -2314,3 +2314,13 @@ function jpoker_142_click_here_to_get_a_seat_in_progress(place) {
         server.sendPacket('ping');	
 }
 
+var jpoker_skin_permalink = function() {
+    $("#links li a").each(function() {
+	    $(this).attr('href', '#'+$(this).attr('onClick'));
+	});
+    if (window.location.hash) {
+	eval(window.location.hash.substr(1));
+    } else {
+	$("#links li a").eq(0).click();
+    }
+};

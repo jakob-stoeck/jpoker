@@ -43,12 +43,7 @@
           $.jpoker.verbose = 1;
           $.jpoker.copyrightTimeout = 20000000;
 	  $(document).ready(function() {
-	    $("#links li a").each(function() {
-	       $(this).attr('href', '#'+$(this).attr('onClick'));
-	    }).eq(0).click();
-	    if (window.location.hash) {
-	      eval(window.location.hash.substr(1));
-	    }
+		jpoker_skin_permalink();
 	  });
         </script>
         <link href="../css/jpoker.css" rel="stylesheet" type="text/css" />
@@ -57,6 +52,10 @@
 <body>
     <div class="skinclean" id="explain"></div>
     <div class="skinclean" id="place"></div>
+
+    <ul id="links">
+      <li><a href='#' onClick='jpoker_60_text("#place")'>jpoker_60_text</a></li>
+    </ul>
 
     <div id='text' style="display: none">
       <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut fermentum. Sed ultrices molestie lorem. Etiam pharetra. Duis ultricies. Ut risus ante, facilisis sed, luctus eu, imperdiet ac, enim. Quisque tellus nulla, nonummy vel, mattis id, imperdiet in, velit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque mi turpis, semper id, commodo porttitor, pharetra at, urna. Nam velit enim, ultrices ut, condimentum molestie, porttitor vel, lorem. Proin rutrum blandit erat. Pellentesque placerat neque vel nulla. Sed enim justo, molestie vitae, euismod id, accumsan vitae, enim. Aenean et augue at massa ornare elementum. Donec scelerisque, pede vel vehicula varius, turpis lectus elementum nisi, eu ultricies nibh sapien ac sem.</p>
@@ -88,11 +87,7 @@
 	  <li>primary pale</li>
 	</ul>
     </div>
-      
-    <ul id="links">
-      <li><a href='#' onClick='jpoker_60_text("#place")'>jpoker_60_text</a></li>
-    </ul>
-  
+        
 </body>
 </html>
 
