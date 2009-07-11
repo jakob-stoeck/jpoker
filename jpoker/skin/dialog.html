@@ -45,7 +45,10 @@
 	  $(document).ready(function() {
 	    $("#links li a").each(function() {
 	       $(this).attr('href', '#'+$(this).attr('onClick'));
-	    }).eq(0).click();
+	    });
+	    setTimeout(function() {
+		$("#links li a").eq(0).click();
+	    }, 500);
 	    if (window.location.hash) {
 	      eval(window.location.hash.substr(1));
 	    }
