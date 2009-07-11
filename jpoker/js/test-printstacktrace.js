@@ -221,6 +221,16 @@ test("guessFunctionName", function() {
 	equals(p.guessFunctionName(file, 2), 'a');
     });
 
+test("guessFunctionName exception", function() {
+	expect(1);
+	var p = new printStackTrace.implementation();
+	p.getSource = function() {
+	    throw 'permission denied';
+	};
+	var file = 'file:///test';
+	equals(p.guessFunctionName(file, 2), 'getSource failed with url: file:///test, exception: permission denied');
+    });
+
 test("guessFunctions firefox", function() {
 	var results = [];
 

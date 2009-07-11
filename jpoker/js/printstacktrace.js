@@ -168,8 +168,13 @@ printStackTrace.implementation.prototype = {
     },
 
     guessFunctionName : function(url, lineNo)
-    {
-	var source = this.getSource(url);
+    {      
+	var source;
+	try {
+	    source = this.getSource(url);
+	} catch (e) {
+	    return 'getSource failed with url: ' + url + ', exception: ' + e.toString();
+	}
 	return this.guessFunctionNameFromLines(lineNo, source);
     },
 
