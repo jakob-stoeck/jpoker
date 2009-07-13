@@ -25,10 +25,7 @@
 	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/work/jpoker/js/jquery.jpoker.js"></script>
 	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/work/jpoker/js/mockup.js"></script>
 	<script type="text/javascript">	  
-          $.jpoker.verbose = 1;
-          $.jpoker.copyrightTimeout = 20000000;
 	  var restURL = "http://jspoker.pokersource.info/POKER_REST";
-	  var server = $.jpoker.serverCreate({ url: restURL });
 	  var jQueryAjax = $.ajax;
 	  $.ajax = function(options) {
 		var params = {};
@@ -77,6 +74,7 @@
 	  };
 	  gadgets.util.registerOnLoadHandler(function() {
 		$.jpoker.verbose = 6;
+		var server = $.jpoker.serverCreate({ url: restURL });
 		server.spawnTable = function(server, packet) {
 			$("#table").empty().jpoker("table", restURL, packet.game_id, packet.name);
 			$("#table-link").click();
