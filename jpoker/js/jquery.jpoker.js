@@ -4215,7 +4215,7 @@
             if(serial == table.serial_in_position) {
                 jpoker.plugins.playerSelf.inPosition(player, id);
             }
-            $('#game_window' + id).removeClass('jpoker_self').addClass('jpoker_self');
+            $('#game_window' + id).addClass('jpoker_self');
 	    $('#sit_seat' + player.seat + id).removeClass('jpoker_self_get_seat');
         },
 
@@ -4223,6 +4223,7 @@
             $('#sitout' + id).hide();
             $('#rebuy' + id).hide();
             $('#chat' + id + ' .jpoker_chat_input').hide();
+	    $('#game_window' + id).removeClass('jpoker_self');
         },
 
         updateTable: function(table, what, packet, id) {

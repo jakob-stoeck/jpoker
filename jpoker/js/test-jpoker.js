@@ -7604,14 +7604,18 @@ test("jpoker.plugins.player: text button", function(){
     });
 
 test("jpoker.plugins.player: jpoker_self class", function(){
-        expect(3);
+        expect(4);
 
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
         var game_id = 100;
+	var Z;
         _SelfPlayer(game_id, player_serial);
+	Z = jpoker.getServerTablePlayer('url', game_id, player_serial);
         ok($("#game_window" + id).hasClass('jpoker_self'), 'jpoker_self is set');
-	ok($("#game_window" + id).hasClass('jpoker_ptable'), 'jpoker_ptable');
+	ok($("#game_window" + id).hasClass('jpoker_ptable'), 'jpoker_ptable');	
+        Z.table.handler(Z.server, game_id, { type: 'PacketPokerPlayerLeave', seat: 0, serial: player_serial, game_id: game_id });
+        equals($("#game_window" + id).hasClass('jpoker_self'), false, 'jpoker_self is not set');
     });
 
 test("jpoker.plugins.player: rebuy", function(){
