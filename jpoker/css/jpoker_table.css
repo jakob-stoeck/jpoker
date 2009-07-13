@@ -442,3 +442,7 @@
     display: none;
 }
 
+.jpoker_table .jpoker_card_back {
+    height: 42px;
+    width: 30px;
+}
