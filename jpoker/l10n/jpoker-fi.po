@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jpoker VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-04 13:55+0200\n"
+"POT-Creation-Date: 2009-07-06 17:37+0200\n"
 "PO-Revision-Date: 2008-11-25 16:30+0200\n"
 "Last-Translator: devteam <devteam@orbus.fr>\n"
 "Language-Team: <pokersource-users@gna.org>\n"
@@ -24,189 +24,193 @@ msgid " (login name is {name} )"
 msgstr "(login nimi on {nimi} )"
 
 # Translation #54738 (fi)
-#: jpoker/js/jquery.jpoker.js:2430 jpoker/js/jquery.jpoker.js:3352
+#: jpoker/js/jquery.jpoker.js:2431 jpoker/js/jquery.jpoker.js:3356
 msgid "% Flop"
 msgstr "Floppi"
 
-#: jpoker/js/jquery.jpoker.js:2431
+#: jpoker/js/jquery.jpoker.js:2432
 msgid "%F"
 msgstr ""
 
 # Translation #53437 (fi)
-#: jpoker/js/jquery.jpoker.js:4229
+#: jpoker/js/jquery.jpoker.js:4271
 msgid "Add chips"
 msgstr "Ylimääräinen chippien osto"
 
 # Translation #54739 (fi)
-#: jpoker/js/jquery.jpoker.js:5065
+#: jpoker/js/jquery.jpoker.js:5133
 msgid "Amount"
 msgstr "Summa"
 
 # Translation #54779 (fi)
-#: jpoker/js/jquery.jpoker.js:2427
+#: jpoker/js/jquery.jpoker.js:2428
 #, fuzzy
 msgid "AvPot"
 msgstr "Potti"
 
 # Translation #53438 (fi)
-#: jpoker/js/jquery.jpoker.js:2426
+#: jpoker/js/jquery.jpoker.js:2427
 msgid "Average Pot"
 msgstr "Average Pot"
 
 # Translation #53811 (fi)
-#: jpoker/js/jquery.jpoker.js:2440
+#: jpoker/js/jquery.jpoker.js:2441
 msgid "Betting Structure"
 msgstr "Veto strategia"
 
 # Translation #53811 (fi)
-#: jpoker/js/jquery.jpoker.js:5157
+#: jpoker/js/jquery.jpoker.js:5225
 #, fuzzy
 msgid "Betting structure"
 msgstr "Veto strategia"
 
 # Translation #54740 (fi)
-#: jpoker/js/jquery.jpoker.js:4765
+#: jpoker/js/jquery.jpoker.js:4833
 msgid "Birthdate"
 msgstr "Syntymäaika"
 
 # Translation #54742 (fi)
-#: jpoker/js/jquery.jpoker.js:2613
+#: jpoker/js/jquery.jpoker.js:2614
 #, fuzzy
 msgid "Break First"
 msgstr "Breaks First"
 
 # Translation #54741 (fi)
-#: jpoker/js/jquery.jpoker.js:2623
+#: jpoker/js/jquery.jpoker.js:2624
 msgid "Breaks Duration"
 msgstr "Breaks Duration"
 
 # Translation #54743 (fi)
-#: jpoker/js/jquery.jpoker.js:2617
+#: jpoker/js/jquery.jpoker.js:2618
 msgid "Breaks Interval"
 msgstr "Breaks Interval"
 
-#: jpoker/js/jquery.jpoker.js:2618
+#: jpoker/js/jquery.jpoker.js:2619
 msgid "Brk."
 msgstr ""
 
 # Translation #53810 (fi)
-#: jpoker/js/jquery.jpoker.js:2622 jpoker/js/jquery.jpoker.js:4237
+#: jpoker/js/jquery.jpoker.js:2623 jpoker/js/jquery.jpoker.js:4279
 msgid "Buy In"
 msgstr "Minimiosto"
 
 # Translation #54744 (fi)
-#: jpoker/js/jquery.jpoker.js:2809
+#: jpoker/js/jquery.jpoker.js:2810
 msgid "Buy in:"
 msgstr "Minimiosto:"
 
-# Translation #53439 (fi)
-#: jpoker/js/jquery.jpoker.js:4187
+# Translation #53814 (fi)
+#: jpoker/js/jquery.jpoker.js:4221
 #, fuzzy
-msgid "Call current"
-msgstr "Vaihtokurssi"
+msgid "Call"
+msgstr "Maksu"
 
 # Translation #53820 (fi)
-#: jpoker/js/jquery.jpoker.js:4186
+#: jpoker/js/jquery.jpoker.js:4220
 #, fuzzy
 msgid "Check"
 msgstr "Sökötä"
 
-#: jpoker/js/jquery.jpoker.js:4184
+#: jpoker/js/jquery.jpoker.js:4218
 msgid "Check/Call any"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:4183
+#: jpoker/js/jquery.jpoker.js:4217
 msgid "Check/Fold"
 msgstr ""
 
-#: jpoker/js/jquery.jpoker.js:5155
+#: jpoker/js/jquery.jpoker.js:5223
 msgid "Click here to automatically pick a table"
 msgstr ""
 
 # Translation #53835 (fi)
-#: jpoker/js/jquery.jpoker.js:2463
+#: jpoker/js/jquery.jpoker.js:2464
 msgid "Click to join the table"
 msgstr "Liity pöytään mukaan"
 
 # Translation #54745 (fi)
-#: jpoker/js/jquery.jpoker.js:2942
+#: jpoker/js/jquery.jpoker.js:2943
 msgid "Click to show table details"
 msgstr "Näytä pöydät"
 
 # Translation #54746 (fi)
-#: jpoker/js/jquery.jpoker.js:2489 jpoker/js/jquery.jpoker.js:2523
-#: jpoker/js/jquery.jpoker.js:2660
+#: jpoker/js/jquery.jpoker.js:2490 jpoker/js/jquery.jpoker.js:2524
+#: jpoker/js/jquery.jpoker.js:2661
 msgid "Click to show tourney details"
 msgstr "Näytä turnaukset"
 
 # Translation #54747 (fi)
-#: jpoker/js/jquery.jpoker.js:4763
+#: jpoker/js/jquery.jpoker.js:4831
 msgid "Country"
 msgstr "Maa"
 
 # Translation #53439 (fi)
-#: jpoker/js/jquery.jpoker.js:2437 jpoker/js/jquery.jpoker.js:2620
-#: jpoker/js/jquery.jpoker.js:5064
+#: jpoker/js/jquery.jpoker.js:2438 jpoker/js/jquery.jpoker.js:2621
+#: jpoker/js/jquery.jpoker.js:5132
 msgid "Currency"
 msgstr "Vaihtokurssi"
 
 # Translation #53439 (fi)
-#: jpoker/js/jquery.jpoker.js:5158
+#: jpoker/js/jquery.jpoker.js:5226
 #, fuzzy
 msgid "Currency serial"
 msgstr "Vaihtokurssi"
 
 # Translation #54748 (fi)
-#: jpoker/js/jquery.jpoker.js:3520
+#: jpoker/js/jquery.jpoker.js:3528
 msgid "Dealer"
 msgstr "Dealer"
 
 # Translation #54749 (fi)
-#: jpoker/js/jquery.jpoker.js:2615
+#: jpoker/js/jquery.jpoker.js:2616
 msgid "Description"
 msgstr "Kuvaus"
 
 # Translation #54750 (fi)
-#: jpoker/js/jquery.jpoker.js:4754
+#: jpoker/js/jquery.jpoker.js:4822
 msgid "Email"
 msgstr "E-mail"
 
-#: jpoker/js/jquery.jpoker.js:5193
+#: jpoker/js/jquery.jpoker.js:5261
 msgid "Email address"
 msgstr ""
 
 # Translation #54751 (fi)
-#: jpoker/js/jquery.jpoker.js:3331
+#: jpoker/js/jquery.jpoker.js:3332
 msgid "Exit"
 msgstr "Ulos"
 
 # Translation #54752 (fi)
-#: jpoker/js/jquery.jpoker.js:4756
+#: jpoker/js/jquery.jpoker.js:4824
 msgid "First name"
 msgstr "Etunimi"
 
 # Translation #54753 (fi)
-#: jpoker/js/jquery.jpoker.js:4764
+#: jpoker/js/jquery.jpoker.js:4832
 msgid "Gender"
 msgstr "Gender"
 
 # Translation #54754 (fi)
-#: jpoker/js/jquery.jpoker.js:2852 jpoker/js/jquery.jpoker.js:2870
-#: jpoker/js/jquery.jpoker.js:2872
+#: jpoker/js/jquery.jpoker.js:2853 jpoker/js/jquery.jpoker.js:2871
+#: jpoker/js/jquery.jpoker.js:2873
 msgid "Go to table"
 msgstr "Liity pöytään"
 
-#: jpoker/js/jquery.jpoker.js:2429
+#: jpoker/js/jquery.jpoker.js:2430
 msgid "H"
 msgstr ""
 
+#: jpoker/js/jquery.jpoker.js:4237
+msgid "Hand strength:"
+msgstr ""
+
 # Translation #53838 (fi)
-#: jpoker/js/jquery.jpoker.js:2428
+#: jpoker/js/jquery.jpoker.js:2429
 msgid "Hands/Hour"
 msgstr "Hands/Hour"
 
 # Translation #54756 (fi)
-#: jpoker/js/jquery.jpoker.js:5066
+#: jpoker/js/jquery.jpoker.js:5134
 msgid "In Game"
 msgstr "Pelissä"
 
@@ -217,71 +221,81 @@ msgstr ""
 "On liian myöhäistä heittää pelaaja {serial} ulos turnauksesta {game_id}"
 
 # Translation #54758 (fi)
-#: jpoker/js/jquery.jpoker.js:4757
+#: jpoker/js/jquery.jpoker.js:4825
 msgid "Last name"
 msgstr "Sukunimi"
 
 # Translation #53837 (fi)
-#: jpoker/js/jquery.jpoker.js:3198
+#: jpoker/js/jquery.jpoker.js:3199
 msgid "Login"
 msgstr "Loggaa sisään"
 
 # Translation #54759 (fi)
-#: jpoker/js/jquery.jpoker.js:4751 jpoker/js/jquery.jpoker.js:5190
+#: jpoker/js/jquery.jpoker.js:4819 jpoker/js/jquery.jpoker.js:5258
 msgid "Login name"
 msgstr "Kirjautumisnimi"
 
 # Translation #54760 (fi)
-#: jpoker/js/jquery.jpoker.js:4994
+#: jpoker/js/jquery.jpoker.js:5062
 msgid "Look for player"
 msgstr "Katso pelaaja"
 
 # Translation #54761 (fi)
-#: jpoker/js/jquery.jpoker.js:2850
+#: jpoker/js/jquery.jpoker.js:2851
 msgid "Max money"
 msgstr "Max money"
 
 # Translation #54762 (fi)
-#: jpoker/js/jquery.jpoker.js:2851
+#: jpoker/js/jquery.jpoker.js:2852
 msgid "Min money"
 msgstr "Min money"
 
 # Translation #54763 (fi)
-#: jpoker/js/jquery.jpoker.js:2773 jpoker/js/jquery.jpoker.js:2893
+#: jpoker/js/jquery.jpoker.js:2774 jpoker/js/jquery.jpoker.js:2894
 msgid "Money"
 msgstr "Raha"
 
 # Translation #54764 (fi)
-#: jpoker/js/jquery.jpoker.js:4139
+#: jpoker/js/jquery.jpoker.js:4173
 msgid "Muck"
 msgstr "Käden kippaus"
 
 # Translation #54765 (fi)
-#: jpoker/js/jquery.jpoker.js:4162
+#: jpoker/js/jquery.jpoker.js:4196
 msgid "Muck losing"
 msgstr "Häviäjän kippaus"
 
-#: jpoker/js/jquery.jpoker.js:4163
+#: jpoker/js/jquery.jpoker.js:4197
 msgid "Muck losing hands on showdown"
 msgstr ""
 
+#: jpoker/js/jquery.jpoker.js:3358
+msgid "Muck timeout: "
+msgstr ""
+
 # Translation #54766 (fi)
-#: jpoker/js/jquery.jpoker.js:4160
+#: jpoker/js/jquery.jpoker.js:4194
 msgid "Muck winning"
 msgstr "Voittajan kippaus"
 
-#: jpoker/js/jquery.jpoker.js:4161
+#: jpoker/js/jquery.jpoker.js:4195
 msgid "Muck winning hands on showdown"
 msgstr ""
 
 # Translation #53819 (fi)
-#: jpoker/js/jquery.jpoker.js:2438 jpoker/js/jquery.jpoker.js:2614
-#: jpoker/js/jquery.jpoker.js:2772
+#: jpoker/js/jquery.jpoker.js:2439 jpoker/js/jquery.jpoker.js:2615
+#: jpoker/js/jquery.jpoker.js:2773
 msgid "Name"
 msgstr "Nimi"
 
+# Translation #53819 (fi)
+#: jpoker/js/jquery.jpoker.js:3352
+#, fuzzy
+msgid "Name: "
+msgstr "Nimi"
+
 # Translation #54767 (fi)
-#: jpoker/js/jquery.jpoker.js:2397 jpoker/js/jquery.jpoker.js:2587
+#: jpoker/js/jquery.jpoker.js:2398 jpoker/js/jquery.jpoker.js:2588
 msgid "Next page"
 msgstr "Seuraava sivu"
 
@@ -297,17 +311,17 @@ msgid "Not enough money to enter the tournament {game_id}"
 msgstr "Ei ole tarpeeksi rahaa liittyä turnaukseen {game_id}"
 
 # Translation #53840 (fi)
-#: jpoker/js/jquery.jpoker.js:2434
+#: jpoker/js/jquery.jpoker.js:2435
 msgid "Observers"
 msgstr "Observers"
 
 # Translation #54770 (fi)
-#: jpoker/js/jquery.jpoker.js:4752 jpoker/js/jquery.jpoker.js:5191
+#: jpoker/js/jquery.jpoker.js:4820 jpoker/js/jquery.jpoker.js:5259
 msgid "Password"
 msgstr "Salasana"
 
 # Translation #54771 (fi)
-#: jpoker/js/jquery.jpoker.js:4753 jpoker/js/jquery.jpoker.js:5192
+#: jpoker/js/jquery.jpoker.js:4821 jpoker/js/jquery.jpoker.js:5260
 msgid "Password confirmation"
 msgstr "Vahvista salasana"
 
@@ -317,31 +331,37 @@ msgid "Password confirmation does not match"
 msgstr "Salasanan vahvistus ei toimi"
 
 # Translation #54773 (fi)
-#: jpoker/js/jquery.jpoker.js:4755
+#: jpoker/js/jquery.jpoker.js:4823
 msgid "Phone Number"
 msgstr "Puhelinumero"
 
 # Translation #54774 (fi)
-#: jpoker/js/jquery.jpoker.js:5153
+#: jpoker/js/jquery.jpoker.js:5221
 #, fuzzy
 msgid "Play now"
 msgstr "Pelaaja"
 
 # Translation #54774 (fi)
-#: jpoker/js/jquery.jpoker.js:2433 jpoker/js/jquery.jpoker.js:2612
+#: jpoker/js/jquery.jpoker.js:2434 jpoker/js/jquery.jpoker.js:2613
 #, fuzzy
 msgid "Play."
 msgstr "Pelaaja"
 
 # Translation #54774 (fi)
-#: jpoker/js/jquery.jpoker.js:2892
+#: jpoker/js/jquery.jpoker.js:2893
 msgid "Player"
 msgstr "Pelaaja"
 
 # Translation #54777 (fi)
-#: jpoker/js/jquery.jpoker.js:2626
+#: jpoker/js/jquery.jpoker.js:2627
 #, fuzzy
 msgid "Player Timeout"
+msgstr "Players Quota"
+
+# Translation #54777 (fi)
+#: jpoker/js/jquery.jpoker.js:3357
+#, fuzzy
+msgid "Player timeout: "
 msgstr "Players Quota"
 
 # Translation #54775 (fi)
@@ -355,64 +375,64 @@ msgid "Player {serial} is not registered in tournament {game_id}"
 msgstr "Pelaaja {serial} ei ole mukana turnauksessa {game_id}"
 
 # Translation #53830 (fi)
-#: jpoker/js/jquery.jpoker.js:2432 jpoker/js/jquery.jpoker.js:2771
-#: jpoker/js/jquery.jpoker.js:2849
+#: jpoker/js/jquery.jpoker.js:2433 jpoker/js/jquery.jpoker.js:2772
+#: jpoker/js/jquery.jpoker.js:2850
 msgid "Players"
 msgstr "Pelaajat"
 
 # Translation #54777 (fi)
-#: jpoker/js/jquery.jpoker.js:2611
+#: jpoker/js/jquery.jpoker.js:2612
 msgid "Players Quota"
 msgstr "Players Quota"
 
 # Translation #54778 (fi)
-#: jpoker/js/jquery.jpoker.js:5067
+#: jpoker/js/jquery.jpoker.js:5135
 msgid "Points"
 msgstr "Pisteet"
 
 # Translation #54779 (fi)
-#: jpoker/js/jquery.jpoker.js:3911
+#: jpoker/js/jquery.jpoker.js:3941
 msgid "Pot"
 msgstr "Potti"
 
 # Translation #54780 (fi)
-#: jpoker/js/jquery.jpoker.js:2396 jpoker/js/jquery.jpoker.js:2586
+#: jpoker/js/jquery.jpoker.js:2397 jpoker/js/jquery.jpoker.js:2587
 msgid "Previous page"
 msgstr "Edellinen sivu"
 
 # Translation #54781 (fi)
-#: jpoker/js/jquery.jpoker.js:2828
+#: jpoker/js/jquery.jpoker.js:2829
 msgid "Prize"
 msgstr "Voitto"
 
 # Translation #54782 (fi)
-#: jpoker/js/jquery.jpoker.js:2826
+#: jpoker/js/jquery.jpoker.js:2827
 msgid "Prizes"
 msgstr "Voitot"
 
 # Translation #53813 (fi)
-#: jpoker/js/jquery.jpoker.js:4185
+#: jpoker/js/jquery.jpoker.js:4219
 #, fuzzy
 msgid "Raise"
 msgstr "Korota"
 
 # Translation #54783 (fi)
-#: jpoker/js/jquery.jpoker.js:2774 jpoker/js/jquery.jpoker.js:2827
+#: jpoker/js/jquery.jpoker.js:2775 jpoker/js/jquery.jpoker.js:2828
 msgid "Rank"
 msgstr "Kortin silmäluku"
 
 # Translation #53831 (fi)
-#: jpoker/js/jquery.jpoker.js:4068 jpoker/js/jquery.jpoker.js:4240
+#: jpoker/js/jquery.jpoker.js:4102 jpoker/js/jquery.jpoker.js:4282
 msgid "Rebuy"
 msgstr "Rebuy"
 
 # Translation #54784 (fi)
-#: jpoker/js/jquery.jpoker.js:2818 jpoker/js/jquery.jpoker.js:5194
+#: jpoker/js/jquery.jpoker.js:2819 jpoker/js/jquery.jpoker.js:5262
 msgid "Register"
 msgstr "Kirjaudu"
 
 # Translation #54785 (fi)
-#: jpoker/js/jquery.jpoker.js:2625
+#: jpoker/js/jquery.jpoker.js:2626
 msgid "Registered"
 msgstr "Rekisteröity"
 
@@ -422,88 +442,100 @@ msgid "Registration refused in tournament {game_id}"
 msgstr "Kirjautuminen turnaukseen torjuttu {game_id}"
 
 # Translation #53839 (fi)
-#: jpoker/js/jquery.jpoker.js:2425
+#: jpoker/js/jquery.jpoker.js:2426
 msgid "Seats"
 msgstr "Seats"
 
+# Translation #53839 (fi)
+#: jpoker/js/jquery.jpoker.js:3355
+#, fuzzy
+msgid "Seats: "
+msgstr "Seats"
+
 # Translation #54787 (fi)
-#: jpoker/js/jquery.jpoker.js:4147
+#: jpoker/js/jquery.jpoker.js:4181
 msgid "Show"
 msgstr "Näytä"
 
 # Translation #54788 (fi)
-#: jpoker/js/jquery.jpoker.js:3197
+#: jpoker/js/jquery.jpoker.js:3198
 msgid "Sign Up"
 msgstr "Rekisteröidy"
 
 # Translation #54789 (fi)
-#: jpoker/js/jquery.jpoker.js:2624
+#: jpoker/js/jquery.jpoker.js:2625
 msgid "Sit'n'Go"
 msgstr "Sit'n'Go"
 
 # Translation #53841 (fi)
-#: jpoker/js/jquery.jpoker.js:2441
+#: jpoker/js/jquery.jpoker.js:2442
 msgid "Skin"
 msgstr "Skin"
 
 # Translation #54790 (fi)
-#: jpoker/js/jquery.jpoker.js:2616
+#: jpoker/js/jquery.jpoker.js:2617
 msgid "Start Time"
 msgstr "Start Time"
 
 # Translation #54791 (fi)
-#: jpoker/js/jquery.jpoker.js:2808
+#: jpoker/js/jquery.jpoker.js:2809
 msgid "Start time:"
 msgstr "Start time:"
 
 # Translation #54792 (fi)
-#: jpoker/js/jquery.jpoker.js:2621 jpoker/js/jquery.jpoker.js:4762
+#: jpoker/js/jquery.jpoker.js:2622 jpoker/js/jquery.jpoker.js:4830
 msgid "State"
 msgstr "Osavaltio"
 
 # Translation #54793 (fi)
-#: jpoker/js/jquery.jpoker.js:4758
+#: jpoker/js/jquery.jpoker.js:4826
 msgid "Street"
 msgstr "Katu"
 
 # Translation #54794 (fi)
-#: jpoker/js/jquery.jpoker.js:4759
+#: jpoker/js/jquery.jpoker.js:4827
 msgid "Street (continue)"
 msgstr "Katu (jatka)"
 
+# Translation #53811 (fi)
+#: jpoker/js/jquery.jpoker.js:3354
+#, fuzzy
+msgid "Structure: "
+msgstr "Veto strategia"
+
 # Translation #54795 (fi)
-#: jpoker/js/jquery.jpoker.js:2848 jpoker/js/jquery.jpoker.js:2891
+#: jpoker/js/jquery.jpoker.js:2849 jpoker/js/jquery.jpoker.js:2892
 msgid "Table"
 msgstr "Pöytä"
 
 # Translation #54796 (fi)
-#: jpoker/js/jquery.jpoker.js:2847 jpoker/js/jquery.jpoker.js:4853
-#: jpoker/js/jquery.jpoker.js:4967
+#: jpoker/js/jquery.jpoker.js:2848 jpoker/js/jquery.jpoker.js:4921
+#: jpoker/js/jquery.jpoker.js:5035
 msgid "Tables"
 msgstr "Pöydät"
 
 # Translation #54797 (fi)
-#: jpoker/js/jquery.jpoker.js:3614
+#: jpoker/js/jquery.jpoker.js:3623
 msgid "This tournament is on break, and will resume at:"
 msgstr "This tournament is on break, and will resume at:"
 
 # Translation #53440 (fi)
-#: jpoker/js/jquery.jpoker.js:2627
+#: jpoker/js/jquery.jpoker.js:2628
 #, fuzzy
 msgid "Time"
 msgstr "Aikalisä"
 
 # Translation #53440 (fi)
-#: jpoker/js/jquery.jpoker.js:2436
+#: jpoker/js/jquery.jpoker.js:2437
 msgid "Timeout"
 msgstr "Aikalisä"
 
-#: jpoker/js/jquery.jpoker.js:5154
+#: jpoker/js/jquery.jpoker.js:5222
 msgid "Toggle options"
 msgstr ""
 
 # Translation #54799 (fi)
-#: jpoker/js/jquery.jpoker.js:3022
+#: jpoker/js/jquery.jpoker.js:3023
 #, fuzzy
 msgid "Tournament is starting at: "
 msgstr "Turnaus alkaa täällä:"
@@ -514,52 +546,52 @@ msgid "Tournament {game_id} does not exist"
 msgstr "Turnaus {game_id} ei ole olemassa"
 
 # Translation #54800 (fi)
-#: jpoker/js/jquery.jpoker.js:4864 jpoker/js/jquery.jpoker.js:4978
+#: jpoker/js/jquery.jpoker.js:4932 jpoker/js/jquery.jpoker.js:5046
 msgid "Tourneys"
 msgstr "Turnaukset"
 
 # Translation #54801 (fi)
-#: jpoker/js/jquery.jpoker.js:4761
+#: jpoker/js/jquery.jpoker.js:4829
 msgid "Town"
 msgstr "Kaupunki"
 
 # Translation #54802 (fi)
-#: jpoker/js/jquery.jpoker.js:2816
+#: jpoker/js/jquery.jpoker.js:2817
 msgid "Unregister"
 msgstr "Unregister"
 
 # Translation #54803 (fi)
-#: jpoker/js/jquery.jpoker.js:4766
+#: jpoker/js/jquery.jpoker.js:4834
 msgid "Update personal info"
 msgstr "Päivitä henkilötiedot"
 
 # Translation #54804 (fi)
-#: jpoker/js/jquery.jpoker.js:4707
+#: jpoker/js/jquery.jpoker.js:4775
 msgid "Updated"
 msgstr "Päivitettty"
 
 # Translation #54805 (fi)
-#: jpoker/js/jquery.jpoker.js:4696
+#: jpoker/js/jquery.jpoker.js:4764
 msgid "Updating..."
 msgstr "Päivitetään..."
 
 # Translation #54806 (fi)
-#: jpoker/js/jquery.jpoker.js:4771
+#: jpoker/js/jquery.jpoker.js:4839
 msgid "Upload avatar"
 msgstr "Upload avatar"
 
 # Translation #54807 (fi)
-#: jpoker/js/jquery.jpoker.js:4721
+#: jpoker/js/jquery.jpoker.js:4789
 msgid "Uploaded"
 msgstr "Ladattu"
 
 # Translation #54808 (fi)
-#: jpoker/js/jquery.jpoker.js:4725
+#: jpoker/js/jquery.jpoker.js:4793
 msgid "Uploading failed"
 msgstr "Lataus epäonnistui"
 
 # Translation #54809 (fi)
-#: jpoker/js/jquery.jpoker.js:4717
+#: jpoker/js/jquery.jpoker.js:4785
 msgid "Uploading..."
 msgstr "Lataa..."
 
@@ -570,130 +602,142 @@ msgid "User must be logged in"
 msgstr "Käyttäjän pitää olla kirjautunut"
 
 # Translation #53842 (fi)
-#: jpoker/js/jquery.jpoker.js:2439 jpoker/js/jquery.jpoker.js:2619
-#: jpoker/js/jquery.jpoker.js:5156
+#: jpoker/js/jquery.jpoker.js:2440 jpoker/js/jquery.jpoker.js:2620
+#: jpoker/js/jquery.jpoker.js:5224
 msgid "Variant"
 msgstr "Varianssi"
 
+# Translation #53842 (fi)
+#: jpoker/js/jquery.jpoker.js:3353
+#, fuzzy
+msgid "Variant: "
+msgstr "Varianssi"
+
 # Translation #53843 (fi)
-#: jpoker/js/jquery.jpoker.js:2435
+#: jpoker/js/jquery.jpoker.js:2436
 msgid "Waiting"
 msgstr "Waiting"
 
 # Translation #54811 (fi)
-#: jpoker/js/jquery.jpoker.js:4760
+#: jpoker/js/jquery.jpoker.js:4828
 msgid "Zip code"
 msgstr "Zip code"
 
 # Translation #53814 (fi)
-#: jpoker/js/jquery.jpoker.js:2157 jpoker/js/jquery.jpoker.js:4041
+#: jpoker/js/jquery.jpoker.js:4075
+#, fuzzy
+msgid "all in"
+msgstr "Maksu"
+
+# Translation #53814 (fi)
+#: jpoker/js/jquery.jpoker.js:2157 jpoker/js/jquery.jpoker.js:4075
 msgid "call"
 msgstr "Maksu"
 
 # Translation #53820 (fi)
-#: jpoker/js/jquery.jpoker.js:2152 jpoker/js/jquery.jpoker.js:4041
+#: jpoker/js/jquery.jpoker.js:2152 jpoker/js/jquery.jpoker.js:4075
 msgid "check"
 msgstr "Sökötä"
 
 # Translation #53844 (fi)
-#: jpoker/js/jquery.jpoker.js:4344
+#: jpoker/js/jquery.jpoker.js:4399
 msgid "click to sit"
 msgstr "Istu"
 
 # Translation #53845 (fi)
-#: jpoker/js/jquery.jpoker.js:3598
+#: jpoker/js/jquery.jpoker.js:3606
 msgid "connecting to table {name}"
 msgstr "Liity pöytään {name}"
 
 # Translation #53822 (fi)
-#: jpoker/js/jquery.jpoker.js:3082
+#: jpoker/js/jquery.jpoker.js:3083
 msgid "disconnected"
 msgstr "offline"
 
 # Translation #53815 (fi)
-#: jpoker/js/jquery.jpoker.js:2146 jpoker/js/jquery.jpoker.js:4041
+#: jpoker/js/jquery.jpoker.js:2146 jpoker/js/jquery.jpoker.js:4075
 msgid "fold"
 msgstr "Luovuta"
 
 # Translation #53846 (fi)
-#: jpoker/js/jquery.jpoker.js:3155
+#: jpoker/js/jquery.jpoker.js:3156
 msgid "login in progress"
 msgstr "Kirjautuminen käynnissä"
 
 # Translation #54812 (fi)
-#: jpoker/js/jquery.jpoker.js:3193
+#: jpoker/js/jquery.jpoker.js:3194
 msgid "logout"
 msgstr "Kirjaudu ulos"
 
 # Translation #51729 (fi)
-#: jpoker/js/jquery.jpoker.js:4359
+#: jpoker/js/jquery.jpoker.js:4414
 msgid "not enough money"
 msgstr "ei ole tarpeeksi rahaa"
 
 # Translation #53816 (fi)
-#: jpoker/js/jquery.jpoker.js:3196
+#: jpoker/js/jquery.jpoker.js:3197
 #, fuzzy
 msgid "password: "
 msgstr "salasana:"
 
 # Translation #53817 (fi)
-#: jpoker/js/jquery.jpoker.js:3085
+#: jpoker/js/jquery.jpoker.js:3086
 msgid "players"
 msgstr "pelaajat"
 
 # Translation #54813 (fi)
-#: jpoker/js/jquery.jpoker.js:2807
+#: jpoker/js/jquery.jpoker.js:2808
 msgid "players max."
 msgstr "Max. pelaajat"
 
 # Translation #54814 (fi)
-#: jpoker/js/jquery.jpoker.js:2806
+#: jpoker/js/jquery.jpoker.js:2807
 msgid "players registered."
 msgstr "Pelaajat rekisteröity"
 
 # Translation #53813 (fi)
-#: jpoker/js/jquery.jpoker.js:2162 jpoker/js/jquery.jpoker.js:4041
-#: jpoker/js/jquery.jpoker.js:4666
+#: jpoker/js/jquery.jpoker.js:2162 jpoker/js/jquery.jpoker.js:4075
+#: jpoker/js/jquery.jpoker.js:4734
 msgid "raise"
 msgstr "Korota"
 
 # Translation #54815 (fi)
-#: jpoker/js/jquery.jpoker.js:2844
+#: jpoker/js/jquery.jpoker.js:2845
 msgid "running"
 msgstr "running"
 
 # Translation #54816 (fi)
-#: jpoker/js/jquery.jpoker.js:4093
+#: jpoker/js/jquery.jpoker.js:4127
 msgid "sit in"
 msgstr "sit in"
 
 # Translation #54817 (fi)
-#: jpoker/js/jquery.jpoker.js:4074
+#: jpoker/js/jquery.jpoker.js:4108
 msgid "sit out"
 msgstr "sit out"
 
 # Translation #53812 (fi)
-#: jpoker/js/jquery.jpoker.js:3088
+#: jpoker/js/jquery.jpoker.js:3089
 msgid "tables"
 msgstr "pöydät"
 
 # Translation #53818 (fi)
-#: jpoker/js/jquery.jpoker.js:3150
+#: jpoker/js/jquery.jpoker.js:3151
 msgid "the password must not be empty"
 msgstr "salasana ei saa olla tyhjä"
 
 # Translation #53436 (fi)
-#: jpoker/js/jquery.jpoker.js:3148
+#: jpoker/js/jquery.jpoker.js:3149
 msgid "the user name must not be empty"
 msgstr "käyttäjänimi ei saa olla tyhjä"
 
 # Translation #54818 (fi)
-#: jpoker/js/jquery.jpoker.js:3091
+#: jpoker/js/jquery.jpoker.js:3092
 msgid "tournaments players"
 msgstr "Turnauspelaajat"
 
 # Translation #54819 (fi)
-#: jpoker/js/jquery.jpoker.js:3094
+#: jpoker/js/jquery.jpoker.js:3095
 msgid "tourneys"
 msgstr "tourneys"
 
@@ -703,7 +747,7 @@ msgid "user {name} is already logged in"
 msgstr "Käyttäjä {name} on jo kirjautunut sisään"
 
 # Translation #51986 (fi)
-#: jpoker/js/jquery.jpoker.js:3195
+#: jpoker/js/jquery.jpoker.js:3196
 #, fuzzy
 msgid "user: "
 msgstr "käyttäjä:"
@@ -721,6 +765,11 @@ msgstr "{url} attempt to login {name} although serial is {serial} instead of 0"
 # Translation #54742 (fi)
 #~ msgid "Breaks First"
 #~ msgstr "Breaks First"
+
+# Translation #53439 (fi)
+#, fuzzy
+#~ msgid "Call current"
+#~ msgstr "Vaihtokurssi"
 
 # Translation #54755 (fi)
 #~ msgid "Holdem"

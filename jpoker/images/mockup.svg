@@ -43,7 +43,7 @@
      id="base"
      inkscape:zoom="1"
      inkscape:cx="418.73109"
-     inkscape:cy="187.28218"
+     inkscape:cy="215.75058"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:current-layer="game_fixed"
@@ -1108,5 +1108,15 @@
        width="44"
        height="30"
        id="allin" />
+    <image
+       xlink:href="../css/images/jpoker_table/status.png"
+       x="5.3428235"
+       id="hand_strength"
+       inkscape:transform-center-y="243.3958"
+       inkscape:transform-center-x="-19.00309"
+       width="184.63997"
+       inkscape:label="hand_strength"
+       height="70.571892"
+       y="520.47693" />
   </g>
 </svg>

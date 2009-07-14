@@ -5536,8 +5536,9 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave (Self)", function(){
         equals(table.seats[0], player_serial, "player 1");
         equals(table.serial2player[player_serial].serial, player_serial, "player 1 in player2serial");
         var names = [ 'check', 'call', 'raise', 'fold' ];
+	var texts = [ 'check', 'call ', 'raise', 'fold' ];
         for(var i = 0; i < names.length; i++) {
-            equals($("#" + names[i] + id).text(), names[i]);
+            equals($("#" + names[i] + id).text(), texts[i]);
         }
         table.handler(server, game_id, { type: 'PacketPokerPlayerLeave', seat: 0, serial: player_serial, game_id: game_id });
         equals($("#seat0" + id).css('display'), 'none', "leave");
@@ -8519,6 +8520,49 @@ test("jpoker.plugins.playerSelf call with amount", function(){
 	table.betLimit.call = 30000;
 	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
 	equals($('#call' + id + ' .jpoker_call_amount').text(), '30K', 'call label');
+	cleanup(id);
+    });
+
+test("jpoker.plugins.playerSelf hand strength", function(){
+	expect(10);
+
+	var place = $("#main");
+
+        var id = 'jpoker' + jpoker.serial;
+        var player_serial = 1;
+        var game_id = 100;
+        var money = 1000;
+
+	var server = jpoker.serverCreate({ url: 'url' });
+	var currency_serial = 42;
+	var table_packet = { id: game_id, currency_serial: currency_serial };
+	server.tables[game_id] = new jpoker.table(server, table_packet);
+
+	// table
+	place.jpoker('table', 'url', game_id);
+
+	// player
+	server.serial = player_serial;
+	var player_seat = 2;
+	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+	var hand_strength_element = $('#hand_strength'+ id);
+	equals(hand_strength_element.length, 1, 'hand_strength element');
+	equals($('.jpoker_hand_strength_label', hand_strength_element).length, 1, '.jpoker_hand_strength_label');
+	equals($('.jpoker_hand_strength_value', hand_strength_element).length, 1, '.jpoker_hand_strength_value');
+	ok(hand_strength_element.is(':hidden'), 'hand_strength should be hidden after player creation');
+	var player = server.tables[game_id].serial2player[player_serial];
+        var table = server.tables[game_id];
+	table.handler(server, game_id, { type: 'PacketPokerStart', game_id: game_id });
+	equals($('.jpoker_hand_strength_value', hand_strength_element).text(), '', 'hand_strength should be reset after hand start');
+	ok(hand_strength_element.is(':hidden'), 'hand_strength should be hidden after hand start');
+	
+	table.handler(server, game_id, { type: 'PacketPokerPlayerHandStrength', game_id: game_id, serial: player_serial, hand: 'foo' });
+	equals($('.jpoker_hand_strength_value', hand_strength_element).text(), 'foo', 'hand_strength should be set by PokerPlayerHandStrength');
+	ok(hand_strength_element.is(':visible'), 'hand_strength should be hidden after receiving PokerPlayerHandStrength');
+
+	table.handler(server, game_id, { type: 'PacketPokerStart', game_id: game_id });
+	equals($('.jpoker_hand_strength_value', hand_strength_element).text(), '', 'hand_strength should be reset by PokerStart (2)');
+	ok(hand_strength_element.is(':hidden'), 'hand_strength should be hidden after hand start (2)');
 	cleanup(id);
     });
 
