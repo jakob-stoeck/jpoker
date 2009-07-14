@@ -446,3 +446,7 @@
     height: 42px;
     width: 30px;
 }
+
+.jpoker_table .jpoker_player_seat.jpoker_player_allin .jpoker_action {
+    color: red;
+}

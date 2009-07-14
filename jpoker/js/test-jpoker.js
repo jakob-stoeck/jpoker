@@ -6898,6 +6898,43 @@ test("jpoker.plugins.player: PacketPokerPlayerCall/Fold/Raise/Check/Start", func
     });
 }
 
+test("jpoker.plugins.player: allin", function(){
+        expect(8);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 1;
+        var player_seat = 2;
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+        var player = server.tables[game_id].serial2player[player_serial];
+	var player_element = $('#player_seat'+player.seat+id);
+	equals(player.all_in, false, 'player.all_in should be false by default');	
+	equals(player_element.hasClass('jpoker_player_allin'), false, 'jpoker_player_allin class should not be set by default');
+
+	table.handler(server, game_id, { type: 'PacketPokerPlayerChips', money: 100, bet: 10, serial: player_serial, game_id: game_id });
+	equals(player.all_in, false, 'player.all_in should be false if money > 0');
+	equals(player_element.hasClass('jpoker_player_allin'), false, 'jpoker_player_allin class should not be set if money > 0');
+
+	table.handler(server, game_id, { type: 'PacketPokerPlayerChips', money: 0, bet: 90, serial: player_serial, game_id: game_id });
+	equals(player.all_in, true, 'player.all_in should be true if money = 0 and bet > 0');
+	equals(player_element.hasClass('jpoker_player_allin'), true, 'jpoker_player_allin class should not be set if money = 0 and bet > 0');
+
+	table.handler(server, game_id, { type: 'PacketPokerStart', serial: 0, game_id: game_id });
+	equals(player.all_in, false, 'player.all_in should be false after PacketPokerStart');
+	equals(player_element.hasClass('jpoker_player_allin'), false, 'jpoker_player_allin class should not be set after PacketPokerStart');        
+        start_and_cleanup();
+    });
+
+
 test("jpoker.plugins.player: PacketPokerPlayerChips", function(){
         expect(15);
         stop();

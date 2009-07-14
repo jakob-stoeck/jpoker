@@ -593,6 +593,42 @@ function jpoker_08_1_all_cardback(place) {
         server.sendPacket('ping');
 }
 
+function jpoker_08_2_allin(place) {
+        setUp();
+        if(explain) {
+            $('#explain').append('<b>jpoker_08_all</b> ');
+            $('#explain').append('All players are allin.');
+            $('#explain').append('<hr>');
+        }
+
+        var game_id = 100;
+        var player_serial = 200;
+        var packets = [
+{ type: 'PacketPokerTable', id: game_id }
+                       ];
+        var money = 0;
+        var bet = 8;
+	packets.push({ type: 'PacketPokerDealer', dealer: 0, game_id: game_id });
+        for(var i = 0; i < 10; i++) {
+            packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
+            packets.push({ type: 'PacketPokerSit', serial: player_serial + i, game_id: game_id });
+            packets.push({ type: 'PacketPokerPlayerCards', serial: player_serial + i, game_id: game_id, cards: [ 255, 255 ] });
+	    packets.push({ type: 'PacketPokerRaise', serial: player_serial + i, game_id: game_id });
+	    packets.push({"type":"PacketPokerChipsPlayer2Bet","length":15,"cookie":"","game_id":game_id,"serial":player_serial+i,"chips":[10000,2]});
+            packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money , bet: bet });
+        }
+
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
+}
+
 function jpoker_09_dialog(place) {
         setUp();
         if(explain) {

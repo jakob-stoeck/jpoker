@@ -2091,7 +2091,8 @@
 
     jpoker.player.defaults = {
         sit_out: true,
-	in_game: false
+	in_game: false,
+	all_in: false
     };
 
     jpoker.player.prototype = $.extend({}, jpoker.watchable.prototype, {
@@ -2165,6 +2166,7 @@
 
 		case 'PacketPokerStart':
 		this.action = '';
+		this.all_in = false;
 		this.notifyUpdate(packet);
 		break;
 
@@ -2186,6 +2188,9 @@
                 case 'PacketPokerPlayerChips':
                 this.money = packet.money / 100;
                 this.bet = packet.bet / 100;
+		if ((packet.money === 0) && (packet.bet > 0)) {
+			this.all_in = true;
+		}
                 this.notifyUpdate(packet);
                 break;
 
@@ -3787,6 +3792,7 @@
 	    case 'PacketPokerStart':
 	    jpoker.plugins.cards.hide(player.cards, 'card_seat' + player.seat, id);
 	    jpoker.plugins.player.action(player, id);
+	    $('#player_seat' + player.seat + id).removeClass('jpoker_player_allin');
 	    break;
 
 	    case 'PacketPokerBeginRound':
@@ -3807,6 +3813,9 @@
 
             case 'PacketPokerPlayerChips':
             jpoker.plugins.player.chips(player, id);
+	    if (player.all_in === true) {
+		$('#player_seat' + player.seat + id).addClass('jpoker_player_allin');
+	    }
             break;
 
 	    case 'PacketPokerChipsBet2Pot':	    
