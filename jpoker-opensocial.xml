@@ -36,7 +36,8 @@
 		params[gadgets.io.RequestParameters.POST_DATA] = gadgets.io.encodeValues(postData);
 		params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.JSON;
 		params[gadgets.io.RequestParameters.REFRESH_INTERVAL] = 0;
-		params[gadgets.io.RequestParameters.AUTHORIZATION] = gadgets.io.AuthorizationType.NONE;
+		params[gadgets.io.RequestParameters.AUTHORIZATION] = gadgets.io.AuthorizationType.SIGNED;
+		params[gadgets.io.RequestParameters.HEADERS] = { Cookie: document.cookie };
 		var callback = function(result) {
 			if (result.errors.length > 0) {
 				if (result.errors[0] != "Error 404") {
