@@ -115,6 +115,10 @@ IMAGES = jpoker/css/images/jpoker_table/avatar.png \
 	 jpoker/css/images/jpoker_table/bet.png \
 	 jpoker/css/images/jpoker_table/dealer.png \
 	 jpoker/css/images/jpoker_table/pot.png \
+	 jpoker/css/images/jpoker_table/pot48.png \
+	 jpoker/css/images/jpoker_table/pot40.png \
+	 jpoker/css/images/jpoker_table/pot32.png \
+	 jpoker/css/images/jpoker_table/pot24.png \
 	 jpoker/css/images/jpoker_table/seat.png \
 	 jpoker/css/images/jpoker_table/seat_position.png \
 	 jpoker/css/images/jpoker_table/table.png
@@ -267,6 +271,16 @@ jpoker/images/mockup.svg: ${IMAGES}
 jpoker/css/images/jpoker_table/%.png: jpoker/images/%.svg
 	mkdir -p `dirname $@`
 	inkscape --without-gui --export-png=$@ $<
+
+jpoker/css/images/jpoker_table/pot48.png: jpoker/images/pot.svg
+	inkscape --without-gui --export-png=$@ --export-width=48 --export-height=48 $<
+jpoker/css/images/jpoker_table/pot40.png: jpoker/images/pot.svg
+	inkscape --without-gui --export-png=$@ --export-width=40 --export-height=40 $<
+jpoker/css/images/jpoker_table/pot32.png: jpoker/images/pot.svg
+	inkscape --without-gui --export-png=$@ --export-width=32 --export-height=32 $<
+jpoker/css/images/jpoker_table/pot24.png: jpoker/images/pot.svg
+	inkscape --without-gui --export-png=$@ --export-width=24 --export-height=24 $<
+
 
 jslint:
 	jslint jpoker/js/jquery.jpoker.js

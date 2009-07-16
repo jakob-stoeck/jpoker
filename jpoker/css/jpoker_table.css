@@ -450,3 +450,88 @@
 .jpoker_table .jpoker_player_seat.jpoker_player_allin .jpoker_action {
     color: red;
 }
+
+.jpoker_table .jpoker_ptable_pots {
+    top: 400px;
+}
+
+.jpoker_pots .jpoker_pot {
+    float: left;
+}
+
+.jpoker_pots1 .jpoker_pot {
+    background-image:url(images/jpoker_table/pot48.png);
+    width: 48px;
+    height: 48px;
+}
+
+.jpoker_pots2 .jpoker_pot {
+    background-image:url(images/jpoker_table/pot48.png);
+    width: 48px;
+    height: 48px;
+}
+
+.jpoker_pots3 .jpoker_pot {
+    background-image:url(images/jpoker_table/pot40.png);
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 12px;
+}
+
+.jpoker_pots4 .jpoker_pot {
+    background-image:url(images/jpoker_table/pot40.png);
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 12px;
+}
+
+.jpoker_pots5 .jpoker_pot {
+    background-image:url(images/jpoker_table/pot32.png);
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 10px;
+}
+
+.jpoker_pots6 .jpoker_pot {
+    background-image:url(images/jpoker_table/pot32.png);
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 10px;
+
+}
+
+.jpoker_pots7 .jpoker_pot {
+    background-image:url(images/jpoker_table/pot24.png);
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 8px;
+}
+
+.jpoker_pots8 .jpoker_pot {
+    background-image:url(images/jpoker_table/pot24.png);
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 8px;
+}
+
+.jpoker_pots9 .jpoker_pot {
+    background-image:url(images/jpoker_table/pot24.png);
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 8px;
+}
+
+.jpoker_pots10 .jpoker_pot {
+    background-image:url(images/jpoker_table/pot24.png);
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 8px;
+}

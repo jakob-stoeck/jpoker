@@ -6035,7 +6035,7 @@ test("jpoker.plugins.table.timeout", function(){
     });
 
 test("jpoker.plugins.table: PacketPokerPotChips/Reset", function(){
-        expect(9);
+        expect(72);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -6055,14 +6055,50 @@ test("jpoker.plugins.table: PacketPokerPotChips/Reset", function(){
         var pot_value = jpoker.chips.chips2value(pot);
         equals(pot_value - 8.30 < jpoker.chips.epsilon, true, "pot_value");
 
+	var pots_element = $('#pots' + id);
+	
+	equals(pots_element.length, 1, 'pots element');
+	ok(pots_element.hasClass('jpoker_pots'), '.jpoker_pots');
+	ok(pots_element.hasClass('jpoker_ptable_pots'), '.jpoker_ptable_pots');
+	ok(pots_element.hasClass('jpoker_pots0'), '.jpoker_pots0');
+	equals($('.jpoker_pot', pots_element).length, 10, '.jpoker_pot childs');
+	for (var i = 0; i < 10; i+=1) {
+	    equals($('.jpoker_pot'+i, pots_element).length, 1, '.jpoker_pot'+i);
+	    equals($('.jpoker_pot'+i, pots_element).is(':hidden'), true, 'hidden .jpoker_pot'+i);
+	}
+
         table.handler(server, game_id, { type: 'PacketPokerPotChips', bet: pot, index: 0, game_id: game_id });
         equals($("#pot0" + id).css('display'), 'block', "pot 0 set");
         equals($("#pot0" + id).attr('title'), pot_value, "pot 0 title");
         equals(table.pots[0], pot_value, "pot0 empty");
+	equals($('.jpoker_pot0', pots_element).is(':visible'), true, 'pot 0 visible');
+	equals($('.jpoker_pot0', pots_element).attr('title'), pot_value, 'pot 0 title');
+	equals($('.jpoker_pot0', pots_element).text(), pot_value, 'pot 0 text');
+	ok(pots_element.hasClass('jpoker_pots'), '.jpoker_pots');
+	ok(pots_element.hasClass('jpoker_ptable_pots'), '.jpoker_ptable_pots');
+	ok(pots_element.hasClass('jpoker_pots1'), '.jpoker_pots1');
+	equals(pots_element.hasClass('jpoker_pots0'), false, 'no .jpoker_pots0');
+
+        table.handler(server, game_id, { type: 'PacketPokerPotChips', bet: pot, index: 1, game_id: game_id });
+	equals($('.jpoker_pot1', pots_element).is(':visible'), true, 'pot 1 visible');
+	equals($('.jpoker_pot1', pots_element).attr('title'), pot_value, 'pot 1 title');
+	equals($('.jpoker_pot1', pots_element).text(), pot_value, 'pot 1 text');
+	ok(pots_element.hasClass('jpoker_pots'), '.jpoker_pots');
+	ok(pots_element.hasClass('jpoker_ptable_pots'), '.jpoker_ptable_pots');
+	ok(pots_element.hasClass('jpoker_pots2'), '.jpoker_pots2');
+	equals(pots_element.hasClass('jpoker_pots0'), false, 'no .jpoker_pots0');
+	equals(pots_element.hasClass('jpoker_pots1'), false, 'no .jpoker_pots1');
 
         table.handler(server, game_id, { type: 'PacketPokerChipsPotReset', game_id: game_id });
         equals($("#pot0" + id).css('display'), 'none', "pot0 hidden");
         equals(table.pots[0], 0, "pot0 empty");
+	ok(pots_element.hasClass('jpoker_pots'), '.jpoker_pots');
+	ok(pots_element.hasClass('jpoker_ptable_pots'), '.jpoker_ptable_pots');
+	ok(pots_element.hasClass('jpoker_pots0'), '.jpoker_pots0');
+	for (var i = 0; i < 10; i+=1) {
+	    equals($('.jpoker_pot'+i, pots_element).is(':hidden'), true, 'hidden .jpoker_pot'+i);
+	    equals($('.jpoker_pot'+i, pots_element).text(), '', 'empty .jpoker_pot'+i);
+	}
         start_and_cleanup();
     });
 
