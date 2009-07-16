@@ -6035,7 +6035,7 @@ test("jpoker.plugins.table.timeout", function(){
     });
 
 test("jpoker.plugins.table: PacketPokerPotChips/Reset", function(){
-        expect(72);
+        expect(67);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -6048,8 +6048,6 @@ test("jpoker.plugins.table: PacketPokerPotChips/Reset", function(){
         var table = server.tables[game_id];
 
         place.jpoker('table', 'url', game_id);
-        equals($("#pot0" + id).size(), 1, "pot0 DOM element");
-        equals($("#pot0" + id).css('display'), 'none', "pot0 hidden");
         equals(table.pots[0], 0, "pot0 empty");
         var pot = [10, 3, 100, 8];
         var pot_value = jpoker.chips.chips2value(pot);
@@ -6068,8 +6066,6 @@ test("jpoker.plugins.table: PacketPokerPotChips/Reset", function(){
 	}
 
         table.handler(server, game_id, { type: 'PacketPokerPotChips', bet: pot, index: 0, game_id: game_id });
-        equals($("#pot0" + id).css('display'), 'block', "pot 0 set");
-        equals($("#pot0" + id).attr('title'), pot_value, "pot 0 title");
         equals(table.pots[0], pot_value, "pot0 empty");
 	equals($('.jpoker_pot0', pots_element).is(':visible'), true, 'pot 0 visible');
 	equals($('.jpoker_pot0', pots_element).attr('title'), pot_value, 'pot 0 title');
@@ -6090,7 +6086,6 @@ test("jpoker.plugins.table: PacketPokerPotChips/Reset", function(){
 	equals(pots_element.hasClass('jpoker_pots1'), false, 'no .jpoker_pots1');
 
         table.handler(server, game_id, { type: 'PacketPokerChipsPotReset', game_id: game_id });
-        equals($("#pot0" + id).css('display'), 'none', "pot0 hidden");
         equals(table.pots[0], 0, "pot0 empty");
 	ok(pots_element.hasClass('jpoker_pots'), '.jpoker_pots');
 	ok(pots_element.hasClass('jpoker_ptable_pots'), '.jpoker_ptable_pots');

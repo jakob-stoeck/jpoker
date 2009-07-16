@@ -245,69 +245,6 @@
        height="52"
        id="board4" />
     <image
-       xlink:href="../css/images/jpoker_table/pot.png"
-       x="181.27243"
-       y="305.52139"
-       width="48"
-       height="48"
-       id="pot7" />
-    <image
-       xlink:href="../css/images/jpoker_table/pot.png"
-       x="229.27243"
-       y="305.52139"
-       width="48"
-       height="48"
-       id="pot5" />
-    <image
-       xlink:href="../css/images/jpoker_table/pot.png"
-       x="277.27243"
-       y="305.52139"
-       width="48"
-       height="48"
-       id="pot3" />
-    <image
-       xlink:href="../css/images/jpoker_table/pot.png"
-       x="325.27243"
-       y="305.52139"
-       width="48"
-       height="48"
-       id="pot1" />
-    <image
-       xlink:href="../css/images/jpoker_table/pot.png"
-       x="373.27243"
-       y="305.52139"
-       width="48"
-       height="48"
-       id="pot0" />
-    <image
-       xlink:href="../css/images/jpoker_table/pot.png"
-       x="421.27243"
-       y="305.52139"
-       width="48"
-       height="48"
-       id="pot2" />
-    <image
-       xlink:href="../css/images/jpoker_table/pot.png"
-       x="469.27243"
-       y="305.52139"
-       width="48"
-       height="48"
-       id="pot4" />
-    <image
-       xlink:href="../css/images/jpoker_table/pot.png"
-       x="517.27246"
-       y="305.52139"
-       width="48"
-       height="48"
-       id="pot6" />
-    <image
-       xlink:href="../css/images/jpoker_table/pot.png"
-       x="565.27246"
-       y="305.52139"
-       width="48"
-       height="48"
-       id="pot8" />
-    <image
        xlink:href="../css/images/jpoker_table/winner.png"
        x="296.94455"
        y="220.20183"
@@ -1120,8 +1057,8 @@
        y="520.47693" />
     <image
        xlink:href="../css/images/jpoker_table/winner.png"
-       x="184.98279"
-       y="306.76291"
+       x="189.98279"
+       y="319.26291"
        width="432"
        height="48"
        id="pots" />

@@ -3305,12 +3305,10 @@
             jpoker.plugins.table.seats(id, server, table);
             jpoker.plugins.table.dealer(id, table, table.dealer);
             jpoker.plugins.cards.update(table.board, 'board', id);
+	    $('#pots' + id).addClass('jpoker_pots jpoker_pots0').html(jpoker.plugins.table.templates.pots);
             for(var pot = 0; pot < table.pots.length; pot++) {
-                $('#pot' + pot + id).addClass('jpoker_pot');
-                jpoker.plugins.chips.update(table.pots[pot], '#pot' + pot + id);
+                jpoker.plugins.chips.update(table.pots[pot], '#pots' + id + ' .jpoker_pot' + pot );
             }
-	    var pots_element = $('#pots' + id).addClass('jpoker_pots jpoker_pots0').html(jpoker.plugins.table.templates.pots);
-	    $('.jpoker_pot', pots_element).hide();
 	    
             for(var winner = 0; winner < 2; winner++) {
                 $('#winner' + winner + id).hide();
@@ -3508,7 +3506,6 @@
 		    }
 		}
 		$('#pots' + id).removeClass().addClass('jpoker_ptable_pots jpoker_pots jpoker_pots'+count);
-                jpoker.plugins.chips.update(table.pots[packet.index], '#pot' + packet.index + id);
 		jpoker.plugins.chips.update(table.pots[packet.index], '#pots' + id + ' .jpoker_pot' + packet.index);
                 break;
 
@@ -3516,7 +3513,6 @@
 		$('#pots' + id).removeClass().addClass('jpoker_ptable_pots jpoker_pots jpoker_pots0');
                 for(var pot = 0; pot < table.pots.length; pot++) {
 		    $('#pots' + id + ' .jpoker_pot' + pot).hide().text('');
-                    $('#pot' + pot + id).hide();
                 }
                 break;
 
@@ -3625,7 +3621,7 @@
         placeholder: _("connecting to table {name}"),
 	table_info: '<div class=\'jpoker_table_info_name\'><span class=\'jpoker_table_info_name_label\'>{name_label}</span>{name}</div><div class=\'jpoker_table_info_variant\'><span class=\'jpoker_table_info_variant_label\'>{variant_label}</span>{variant}</div><div class=\'jpoker_table_info_blind\'><span class=\'jpoker_table_info_blind_label\'>{betting_structure_label}</span>{betting_structure}</div><div class=\'jpoker_table_info_seats\'><span class=\'jpoker_table_info_seats_label\'>{seats_label}</span>{max_players}</div><div class=\'jpoker_table_info_flop\'>{percent_flop}<span class=\'jpoker_table_info_flop_label\'>{percent_flop_label}</span></div><div class=\'jpoker_table_info_player_timeout\'><span class=\'jpoker_table_info_player_timeout_label\'>{player_timeout_label}</span>{player_timeout}</div><div class=\'jpoker_table_info_muck_timeout\'><span class=\'jpoker_table_info_muck_timeout_label\'>{muck_timeout_label}</span>{muck_timeout}</div><div class=\'jpoker_table_info_level\'></div>',
 	date: '',
-	pots: '<div class=\'jpoker_pots_align\'><span class=\'jpoker_pot jpoker_pot9\'></span><span class=\'jpoker_pot jpoker_pot7\'></span><span class=\'jpoker_pot jpoker_pot5\'></span><span class=\'jpoker_pot jpoker_pot3\'></span><span class=\'jpoker_pot jpoker_pot1\'></span><span class=\'jpoker_pot jpoker_pot0\'></span><span class=\'jpoker_pot jpoker_pot2\'></span><span class=\'jpoker_pot jpoker_pot4\'></span><span class=\'jpoker_pot jpoker_pot6\'></span><span class=\'jpoker_pot jpoker_pot8\'></span></div>'
+	pots: '<span class=\'jpoker_pot jpoker_pot9\'></span><span class=\'jpoker_pot jpoker_pot7\'></span><span class=\'jpoker_pot jpoker_pot5\'></span><span class=\'jpoker_pot jpoker_pot3\'></span><span class=\'jpoker_pot jpoker_pot1\'></span><span class=\'jpoker_pot jpoker_pot0\'></span><span class=\'jpoker_pot jpoker_pot2\'></span><span class=\'jpoker_pot jpoker_pot4\'></span><span class=\'jpoker_pot jpoker_pot6\'></span><span class=\'jpoker_pot jpoker_pot8\'></span>'
     };
 
     jpoker.plugins.table.callback = {
@@ -4069,7 +4065,7 @@
 		bet2pot: function(player, id, packet, element) {
 		    var duration = 500;
 		    var chip = $(element).clone().insertAfter(element);
-		    chip.moveTo('#pot' + packet.pot + id, {duration: duration, queue: false}).css({opacity: 1}).animate({opacity: 0.0}, duration, function() {chip.remove();});
+		    chip.moveTo('#pots' + id + ' .jpoker_pot' + packet.pot, {duration: duration, queue: false}).css({opacity: 1}).animate({opacity: 0.0}, duration, function() {chip.remove();});
 		},
 		best_card: function(player, id, element) {
 		    var duration = 500;
