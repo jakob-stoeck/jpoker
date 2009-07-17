@@ -3501,7 +3501,7 @@
 		var count = 0;
 		var previous;
 		for(var pot = 0; pot < table.pots.length; pot+=1) {
-		    if (table.pots[pot] != 0) {
+		    if (table.pots[pot] !== 0) {
 			count += 1;
 		    }
 		}
@@ -3511,7 +3511,7 @@
 
             case 'PacketPokerChipsPotReset':
 		$('#pots' + id).removeClass().addClass('jpoker_ptable_pots jpoker_pots jpoker_pots0');
-                for(var pot = 0; pot < table.pots.length; pot++) {
+                for(pot = 0; pot < table.pots.length; pot+=1) {
 		    $('#pots' + id + ' .jpoker_pot' + pot).hide().text('');
                 }
                 break;

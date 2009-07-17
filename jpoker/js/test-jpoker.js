@@ -6090,7 +6090,7 @@ test("jpoker.plugins.table: PacketPokerPotChips/Reset", function(){
 	ok(pots_element.hasClass('jpoker_pots'), '.jpoker_pots');
 	ok(pots_element.hasClass('jpoker_ptable_pots'), '.jpoker_ptable_pots');
 	ok(pots_element.hasClass('jpoker_pots0'), '.jpoker_pots0');
-	for (var i = 0; i < 10; i+=1) {
+	for (i = 0; i < 10; i+=1) {
 	    equals($('.jpoker_pot'+i, pots_element).is(':hidden'), true, 'hidden .jpoker_pot'+i);
 	    equals($('.jpoker_pot'+i, pots_element).text(), '', 'empty .jpoker_pot'+i);
 	}

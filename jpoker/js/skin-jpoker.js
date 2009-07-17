@@ -1328,42 +1328,6 @@ function jpoker_54_2_sidepot(place) {
         server.sendPacket('ping');
 }
 
-function jpoker_54_2_sidepot(place) {
-        setUp();
-        if(explain) {
-            $('#explain').append('<b>jpoker_54_sidepot</b> ');
-            $('#explain').append('A label show side pot attribution to allin player.');
-            $('#explain').append('<hr>');
-        }
-
-        var game_id = 100;
-        var player_serial = 200;
-        var packets = [
-{ type: 'PacketPokerTable', id: game_id, player_timeout: 10 },
-{ type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'USER 1' },
-{ type: 'PacketPokerPlayerArrive', seat: 1, serial: player_serial+1, game_id: game_id, name: 'USER 2' },
-{ type: 'PacketPokerPlayerArrive', seat: 2, serial: player_serial+2, game_id: game_id, name: 'USER 3' },
-{ type: 'PacketPokerSit', serial: player_serial, game_id: game_id },
-{ type: 'PacketPokerSit', serial: player_serial+1, game_id: game_id },
-{ type: 'PacketPokerSit', serial: player_serial+2, game_id: game_id },
-{ type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, money: 0, bet: 0 },
-{ type: 'PacketPokerPlayerChips', serial: player_serial+1, game_id: game_id, money: 100, bet: 0 },
-{ type: 'PacketPokerPlayerChips', serial: player_serial+2, game_id: game_id, money: 100, bet: 0 }
-                       ];
-        for(var j = 0; j < 2; j++) {
-            packets.push({ type: 'PacketPokerPotChips', index: j, bet: [j + 1, 100], game_id: game_id });
-        }
-        ActiveXObject.prototype.server = {
-            outgoing: JSON.stringify(packets),
-            handle: function(packet) { }
-        };
-        var server = $.jpoker.getServer('url');
-        server.spawnTable = function(server, packet) {
-	    $(place).jpoker('table', 'url', game_id, 'ONE');
-	};
-        server.sendPacket('ping');
-}
-
 function jpoker_54_3_sidepot(place) {
         setUp();
         if(explain) {
