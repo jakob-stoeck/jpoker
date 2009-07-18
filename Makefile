@@ -113,6 +113,10 @@ LANG_TW = $(LINGUAS:%=jpoker/index-%.html)
 IMAGES = jpoker/css/images/jpoker_table/avatar.png \
 	 jpoker/css/images/jpoker_table/background.png \
 	 jpoker/css/images/jpoker_table/bet.png \
+	 jpoker/css/images/jpoker_table/bet48.png \
+	 jpoker/css/images/jpoker_table/bet40.png \
+	 jpoker/css/images/jpoker_table/bet32.png \
+	 jpoker/css/images/jpoker_table/bet24.png \
 	 jpoker/css/images/jpoker_table/dealer.png \
 	 jpoker/css/images/jpoker_table/pot.png \
 	 jpoker/css/images/jpoker_table/pot48.png \
@@ -279,6 +283,15 @@ jpoker/css/images/jpoker_table/pot40.png: jpoker/images/pot.svg
 jpoker/css/images/jpoker_table/pot32.png: jpoker/images/pot.svg
 	inkscape --without-gui --export-png=$@ --export-width=32 --export-height=32 $<
 jpoker/css/images/jpoker_table/pot24.png: jpoker/images/pot.svg
+	inkscape --without-gui --export-png=$@ --export-width=24 --export-height=24 $<
+
+jpoker/css/images/jpoker_table/bet48.png: jpoker/images/bet.svg
+	inkscape --without-gui --export-png=$@ --export-width=48 --export-height=48 $<
+jpoker/css/images/jpoker_table/bet40.png: jpoker/images/bet.svg
+	inkscape --without-gui --export-png=$@ --export-width=40 --export-height=40 $<
+jpoker/css/images/jpoker_table/bet32.png: jpoker/images/bet.svg
+	inkscape --without-gui --export-png=$@ --export-width=32 --export-height=32 $<
+jpoker/css/images/jpoker_table/bet24.png: jpoker/images/bet.svg
 	inkscape --without-gui --export-png=$@ --export-width=24 --export-height=24 $<
 
 
