@@ -3305,7 +3305,9 @@
             jpoker.plugins.table.seats(id, server, table);
             jpoker.plugins.table.dealer(id, table, table.dealer);
             jpoker.plugins.cards.update(table.board, 'board', id);
-	    $('#pots' + id).addClass('jpoker_pots jpoker_pots0').html(jpoker.plugins.table.templates.pots);
+	    $('#pots' + id).addClass('jpoker_pots jpoker_pots0').html(jpoker.plugins.table.templates.pots.supplant({
+			chips: jpoker.plugins.chips.template
+			    }));
             for(var pot = 0; pot < table.pots.length; pot++) {
                 jpoker.plugins.chips.update(table.pots[pot], '#pots' + id + ' .jpoker_pot' + pot );
             }
@@ -3621,7 +3623,7 @@
         placeholder: _("connecting to table {name}"),
 	table_info: '<div class=\'jpoker_table_info_name\'><span class=\'jpoker_table_info_name_label\'>{name_label}</span>{name}</div><div class=\'jpoker_table_info_variant\'><span class=\'jpoker_table_info_variant_label\'>{variant_label}</span>{variant}</div><div class=\'jpoker_table_info_blind\'><span class=\'jpoker_table_info_blind_label\'>{betting_structure_label}</span>{betting_structure}</div><div class=\'jpoker_table_info_seats\'><span class=\'jpoker_table_info_seats_label\'>{seats_label}</span>{max_players}</div><div class=\'jpoker_table_info_flop\'>{percent_flop}<span class=\'jpoker_table_info_flop_label\'>{percent_flop_label}</span></div><div class=\'jpoker_table_info_player_timeout\'><span class=\'jpoker_table_info_player_timeout_label\'>{player_timeout_label}</span>{player_timeout}</div><div class=\'jpoker_table_info_muck_timeout\'><span class=\'jpoker_table_info_muck_timeout_label\'>{muck_timeout_label}</span>{muck_timeout}</div><div class=\'jpoker_table_info_level\'></div>',
 	date: '',
-	pots: '<div class=\'jpoker_pots_align\'><span class=\'jpoker_pot jpoker_pot9\'></span><span class=\'jpoker_pot jpoker_pot7\'></span><span class=\'jpoker_pot jpoker_pot5\'></span><span class=\'jpoker_pot jpoker_pot3\'></span><span class=\'jpoker_pot jpoker_pot1\'></span><span class=\'jpoker_pot jpoker_pot0\'></span><span class=\'jpoker_pot jpoker_pot2\'></span><span class=\'jpoker_pot jpoker_pot4\'></span><span class=\'jpoker_pot jpoker_pot6\'></span><span class=\'jpoker_pot jpoker_pot8\'></span></div>'
+	pots: '<div class=\'jpoker_pots_align\'><span class=\'jpoker_pot jpoker_pot9\'>{chips}</span><span class=\'jpoker_pot jpoker_pot7\'>{chips}</span><span class=\'jpoker_pot jpoker_pot5\'>{chips}</span><span class=\'jpoker_pot jpoker_pot3\'>{chips}</span><span class=\'jpoker_pot jpoker_pot1\'>{chips}</span><span class=\'jpoker_pot jpoker_pot0\'>{chips}</span><span class=\'jpoker_pot jpoker_pot2\'>{chips}</span><span class=\'jpoker_pot jpoker_pot4\'>{chips}</span><span class=\'jpoker_pot jpoker_pot6\'>{chips}</span><span class=\'jpoker_pot jpoker_pot8\'>{chips}</span></div>'
     };
 
     jpoker.plugins.table.callback = {
@@ -3689,8 +3691,8 @@
             var server = jpoker.getServer(url);
             jpoker.plugins.player.seat(seat, id, server, table);
             jpoker.plugins.cards.update(player.cards, 'card_seat' + player.seat, id);
-            $('#player_seat' + seat + '_bet' + id).addClass('jpoker_bet');
-            $('#player_seat' + seat  + '_money' + id).addClass('jpoker_money');
+            $('#player_seat' + seat + '_bet' + id).addClass('jpoker_bet').html(jpoker.plugins.chips.template);
+            $('#player_seat' + seat  + '_money' + id).addClass('jpoker_money').html(jpoker.plugins.chips.template);
             $('#player_seat' + seat  + '_action' + id).addClass('jpoker_action');
             var avatar_element = $('#player_seat' + seat  + '_avatar' + id);
 	    if ((packet.avatar_url !== undefined) && (packet.avatar_url != 'random')) {
@@ -4710,11 +4712,12 @@
     // chips (table plugin helper)
     //
     jpoker.plugins.chips = {
+	template: '<div class=\'jpoker_chips_image\'></div><div class=\'jpoker_chips_amount\'></div>',
         update: function(chips, id, animation) {
             var element = $(id);
             if(chips > 0) {
                 element.show();
-                element.html(jpoker.chips.SHORT(chips));
+                $('.jpoker_chips_amount', element).text(jpoker.chips.SHORT(chips));
                 element.attr('title', jpoker.chips.LONG(chips));
 		if (animation !== undefined) {
 		    animation(element);
