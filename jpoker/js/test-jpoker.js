@@ -9641,14 +9641,22 @@ test("jquery.fn.moveFrom", function() {
  	ok($('#bet').is(':visible'), 'visible');
     });
 
+test("jquery.fn.getOffset", function() {
+	expect(2);
+	$('#main').html('<div id="parent"><div id="child"></div></div>');
+	$('#parent').css({position: 'absolute', left: '101px', top: '102px'});
+	$('#child').hide();
+	equals($('#child').getOffset().top, 102, 'top position');
+	equals($('#child').getOffset().left, 101, 'left position');
+    });
 
 test("jquery.fn.getPosition", function() {
 	expect(2);
 	$('#main').html('<div id="parent"><div id="child"></div></div>');
 	$('#parent').css({position: 'absolute', left: '101px', top: '102px'});
 	$('#child').hide();
-	equals($('#child').getPosition().top, 102, 'top position');
-	equals($('#child').getPosition().left, 101, 'left position');
+	equals($('#child').getPosition().top, 0, 'top position');
+	equals($('#child').getPosition().left, 0, 'left position');
     });
 
 test("jquery.fn.moveTo", function() {

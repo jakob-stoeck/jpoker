@@ -4065,7 +4065,12 @@
 		bet2pot: function(player, id, packet, element) {
 		    var duration = 500;
 		    var chip = $(element).clone().insertAfter(element);
-		    chip.moveTo('#pots' + id + ' .jpoker_pot' + packet.pot, {duration: duration, queue: false}).css({opacity: 1}).animate({opacity: 0.0}, duration, function() {chip.remove();});
+		    var pots_element = $('#pots' + id);
+		    var positionToParent = pots_element.getPosition();
+		    var positionTo = $('.jpoker_pot' + packet.pot).getPosition(); 
+		    positionTo.left += positionToParent.left;
+		    positionTo.top += positionToParent.top;
+		    chip.animate(positionTo, {duration: duration, queue: false}).css({opacity: 1}).animate({opacity: 0.0}, duration, function() {chip.remove();});
 		},
 		best_card: function(player, id, element) {
 		    var duration = 500;
@@ -4719,9 +4724,18 @@
             }
         }
     };
-    
-    
+        
     $.fn.getPosition = function() {
+	var visible = $(this).is(':visible');
+	$(this).show();
+	var position = $(this).position();
+	if (visible === false) {
+	    $(this).hide();
+	}
+	return position;
+    };
+
+    $.fn.getOffset = function() {
 	var visible = $(this).is(':visible');
 	$(this).show();
 	var position = $(this).offset();
@@ -4739,9 +4753,8 @@
     };
     
     $.fn.moveTo = function(to, options) {
-	var positionFrom = $(this).getPosition();
 	var positionTo = $(to).getPosition();
-	$(this).css(positionFrom).animate(positionTo, options);
+	$(this).animate(positionTo, options);
 	return this;
     };
 
