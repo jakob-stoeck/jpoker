@@ -4724,7 +4724,7 @@
     $.fn.getPosition = function() {
 	var visible = $(this).is(':visible');
 	$(this).show();
-	var position = $(this).position();
+	var position = $(this).offset();
 	if (visible === false) {
 	    $(this).hide();
 	}
