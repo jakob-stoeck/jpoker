@@ -70,7 +70,6 @@
 			var viewerResp = resp.get("player");
 			var viewer = viewerResp.getData();
 			$(element).addClass(viewer.getField(opensocial.Person.Field.GENDER).key);
-			$(".jpoker_avatar img", element).attr("src", viewer.getField(opensocial.Person.Field.THUMBNAIL_URL));
 		});
 	  };
 	  gadgets.util.registerOnLoadHandler(function() {
