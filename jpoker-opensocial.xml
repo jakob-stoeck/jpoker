@@ -106,8 +106,8 @@
 		}
 	</style>
     <ul id="menu">
-	<li><a href="#" id="lobby-link">lobby</a>
-	<li><a href="#" id="table-link">table</a>
+	<li><a href="#" id="lobby-link">lobby</a></li>
+	<li><a href="#" id="table-link">table</a></li>
     </ul>
     <div id="table"></div>
     <div id="lobby"></div>
