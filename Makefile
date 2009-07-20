@@ -52,6 +52,7 @@ jpoker-binary-${VERSION}:
 	cp -a jpoker/l10n/*.json jpoker-binary-${VERSION}/l10n
 	cp -a jpoker/images jpoker-binary-${VERSION}
 	cp -a jpoker/*.swf jpoker-binary-${VERSION}
+	cp -a jpoker-opensocial.xml jpoker-binary-${VERSION}
 
 build: i18n cook mockup check
 	-cd jpoker ; x-www-browser index.html || true
