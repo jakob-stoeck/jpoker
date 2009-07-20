@@ -25,7 +25,7 @@
 	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/work/jpoker/js/jquery.jpoker.js"></script>
 	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/work/jpoker/js/mockup.js"></script>
 	<script type="text/javascript">	  
-	  var restURL = "http://jspoker.pokersource.info/POKER_REST";
+	  var restURL = "http://opensocial.pokersource.info/POKER_REST";
 	  var jQueryAjax = $.ajax;
 	  $.ajax = function(options) {
 		var params = {};
@@ -62,11 +62,10 @@
 		});
 	  };
 	  $.jpoker.plugins.player.callback.display_done = function(element, player) {
-		var user2id = {"dachary": "1", "proppy": "2", "proppy2": "3"};
 		var req = opensocial.newDataRequest();  
 		var params = {};
 		params[opensocial.DataRequest.PeopleRequestFields.PROFILE_DETAILS] = [opensocial.Person.Field.GENDER];
-		req.add(req.newFetchPersonRequest(user2id[player.name], params), "player");
+		req.add(req.newFetchPersonRequest(player.serial, params), "player");
 		req.send(function(resp) {
 			var viewerResp = resp.get("player");
 			var viewer = viewerResp.getData();
