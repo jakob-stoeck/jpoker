@@ -147,7 +147,7 @@
         $('.jpoker_admin_tourney_params select', element).each(function() {
                 var name = $(this).attr('name');
                 var value = $('option:selected', this).val();
-		if (value != 'from_date_format') {
+		if (value && value != 'from_date_format') {
 		    if (tourney[name] != value) {
 			setters.push(name + ' = \'' + value.toString() + '\'');
 			tourney[name] = value;
@@ -218,6 +218,11 @@
 	    $('.jpoker_admin_active input[type=checkbox]')[0].checked = true;
 	} else {
 	    $('.jpoker_admin_active input[type=checkbox]')[0].checked = false;
+	}
+	if (tourney.via_satellite == 1) {
+	    $('.jpoker_admin_via_satellite input[type=checkbox]')[0].checked = true;
+	} else {
+	    $('.jpoker_admin_via_satellite input[type=checkbox]')[0].checked = false;
 	}
         $('input[name=start_time],input[name=register_time]', element).dynDateTime({
                 showsTime: true,
