@@ -444,13 +444,15 @@
     display: none;
 }
 
-.jpoker_table .jpoker_card_back {
-    height: 42px;
-    width: 30px;
-}
-
 .jpoker_table .jpoker_player_seat.jpoker_player_allin .jpoker_action {
     color: red;
+}
+
+.jpoker_table .jpoker_player_seat .jpoker_name {
+    text-decoration: none;
+}
+.jpoker_table .jpoker_player_seat.jpoker_player_dealt .jpoker_name {
+    text-decoration: underline;
 }
 
 .jpoker_pots .jpoker_pot {

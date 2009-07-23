@@ -216,6 +216,42 @@ function jpoker_03_playerBet(place) {
         server.sendPacket('ping');
 }
 
+function jpoker_03_1_playerDealt(place) {
+        setUp();
+        if(explain) {
+            $('#explain').append('<b>jpoker_03_playerDealt</b> ');
+            $('#explain').append('All player are sit, dealt cards, and 5 players folded');
+            $('#explain').append('<hr>');
+        }
+
+        var game_id = 100;
+        var player_serial = 200;
+        var packets = [
+{ type: 'PacketPokerTable', id: game_id }
+                       ];
+        for(var i = 0; i < 10; i++) {
+            packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
+            packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i + 1, percentile: i%4 });
+            packets.push({ type: 'PacketPokerSit', serial: player_serial + i, game_id: game_id });
+	    packets.push({ type: 'PacketPokerPlayerCards', serial: player_serial + i, game_id: game_id, cards: [255,255]});
+	    if (i >= 5) {
+		packets.push({ type: 'PacketPokerFold', serial: player_serial + i, game_id: game_id});
+	    }
+        }
+	packets.push({ type: 'PacketPokerDealer', dealer: 0, game_id: game_id });
+
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
+}
+
 function jpoker_04_playerInPosition(place) {
         setUp();
         if(explain) {

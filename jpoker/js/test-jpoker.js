@@ -6853,7 +6853,7 @@ test("jpoker.plugins.player: rejoin", function(){
 } // TEST_RANK
 
 test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
-        expect(8);
+        expect(12);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -6881,10 +6881,18 @@ test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
         equals(card.hasClass('jpoker_card_3h'), true, 'card_3h class');
         equals(player.cards[0], card_value, "card in slot 0");
 	equals(card.is(':visible'), true, 'card visible');
+	var seat_element = $('#player_seat' + player_seat + id);
+	equals(seat_element.hasClass('jpoker_player_dealt'), true, '.jpoker_player_dealt class');
 
 	table.handler(server, game_id, { type: 'PacketPokerFold', serial: player_serial, game_id: game_id });
 	equals(card.is(':hidden'), true, 'card hidden');
-        
+	equals(seat_element.hasClass('jpoker_player_dealt'), false, 'no .jpoker_player_dealt class');
+
+	table.handler(server, game_id, { type: 'PacketPokerPlayerCards', cards: [card_value], serial: player_serial, game_id: game_id });
+	table.handler(server, game_id, { type: 'PacketPokerStart', game_id: game_id });
+	equals(card.is(':hidden'), true, 'card hidden');
+	equals(seat_element.hasClass('jpoker_player_dealt'), false, 'no .jpoker_player_dealt class');
+	
         start_and_cleanup();
     });
 
