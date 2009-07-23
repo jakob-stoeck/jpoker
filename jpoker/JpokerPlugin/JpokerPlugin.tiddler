@@ -33,6 +33,12 @@ $.jpoker.server.defaults.tourneyRowClick = function(server, packet) {
     story.displayTiddler(null, title, 1);
 };
 
+$.jpoker.server.defaults.rankClick = function(server, tourney_serial) {
+    var title = " TourneyDetails ";
+    config.shadowTiddlers[title] = "<<jpokerTourneyDetails '" + server.url + "' " + game_id + " 'unknown name'>>";
+    story.displayTiddler(null, title, 1);
+};
+
 $.jpoker.server.defaults.placeTourneyRowClick = function(server, id) {
     var title = " TourneyPlaceholder " + id;
     config.shadowTiddlers[title] = "<<jpokerTourneyPlaceholder '" + server.url + "' " + id + ">>";

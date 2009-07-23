@@ -979,8 +979,9 @@
 	    playersTourneysCount: null,
 	    tourneysCount: null,
             spawnTable: function(server, packet) {},
-	    placeTourneyRowClick: function(server, id) {},
+	    placeTourneyRowClick: function(server, packet) {},
             tourneyRowClick: function(server, packet) {},
+            rankClick: function(server, tourney_serial) {},
 	    reconnectFinish: function(server) {},
             setInterval: function(cb, delay) { return window.setInterval(cb, delay); },
             clearInterval: function(id) { return window.clearInterval(id); }
@@ -3582,6 +3583,11 @@
 	    case 'PacketPokerTableTourneyBreakDone':
 		jpoker.plugins.table.callback.tourney_resume(packet);
 		break;
+
+            case 'PacketPokerTourneyRank':
+                jpoker.plugins.table.rank(table, packet, id);
+                break;
+
             }
 
             return true;
@@ -3615,6 +3621,17 @@
         }
     };
 
+    jpoker.plugins.table.rank = function(table, packet, id) {
+        var rank = _(jpoker.plugins.table.templates.rank); // necessary because i18n is inactive when the template is first read
+        jpoker.dialog(rank.supplant(packet));
+        var url = table.url;
+        $('#jpokerDialog .jpoker_tournament_details').click(function() {
+                var server = jpoker.getServer(url);
+                if(server) {
+                    server.rankClick(server, packet.serial);
+                }});
+    };
+
     jpoker.plugins.table.templates = {
         room: 'expected to be overriden by mockup.js but was not',
 	tourney_break: '<div>{label}</div><div>{date}</div>',
@@ -3623,7 +3640,8 @@
         placeholder: _("connecting to table {name}"),
 	table_info: '<div class=\'jpoker_table_info_name\'><span class=\'jpoker_table_info_name_label\'>{name_label}</span>{name}</div><div class=\'jpoker_table_info_variant\'><span class=\'jpoker_table_info_variant_label\'>{variant_label}</span>{variant}</div><div class=\'jpoker_table_info_blind\'><span class=\'jpoker_table_info_blind_label\'>{betting_structure_label}</span>{betting_structure}</div><div class=\'jpoker_table_info_seats\'><span class=\'jpoker_table_info_seats_label\'>{seats_label}</span>{max_players}</div><div class=\'jpoker_table_info_flop\'>{percent_flop}<span class=\'jpoker_table_info_flop_label\'>{percent_flop_label}</span></div><div class=\'jpoker_table_info_player_timeout\'><span class=\'jpoker_table_info_player_timeout_label\'>{player_timeout_label}</span>{player_timeout}</div><div class=\'jpoker_table_info_muck_timeout\'><span class=\'jpoker_table_info_muck_timeout_label\'>{muck_timeout_label}</span>{muck_timeout}</div><div class=\'jpoker_table_info_level\'></div>',
 	date: '',
-	pots: '<div class=\'jpoker_pots_align\'><span class=\'jpoker_pot jpoker_pot9\'>{chips}</span><span class=\'jpoker_pot jpoker_pot7\'>{chips}</span><span class=\'jpoker_pot jpoker_pot5\'>{chips}</span><span class=\'jpoker_pot jpoker_pot3\'>{chips}</span><span class=\'jpoker_pot jpoker_pot1\'>{chips}</span><span class=\'jpoker_pot jpoker_pot0\'>{chips}</span><span class=\'jpoker_pot jpoker_pot2\'>{chips}</span><span class=\'jpoker_pot jpoker_pot4\'>{chips}</span><span class=\'jpoker_pot jpoker_pot6\'>{chips}</span><span class=\'jpoker_pot jpoker_pot8\'>{chips}</span></div>'
+	pots: '<div class=\'jpoker_pots_align\'><span class=\'jpoker_pot jpoker_pot9\'>{chips}</span><span class=\'jpoker_pot jpoker_pot7\'>{chips}</span><span class=\'jpoker_pot jpoker_pot5\'>{chips}</span><span class=\'jpoker_pot jpoker_pot3\'>{chips}</span><span class=\'jpoker_pot jpoker_pot1\'>{chips}</span><span class=\'jpoker_pot jpoker_pot0\'>{chips}</span><span class=\'jpoker_pot jpoker_pot2\'>{chips}</span><span class=\'jpoker_pot jpoker_pot4\'>{chips}</span><span class=\'jpoker_pot jpoker_pot6\'>{chips}</span><span class=\'jpoker_pot jpoker_pot8\'>{chips}</span></div>',
+        rank: _("Won {money} chips, {rank} out of {players}. Click <span class=\'jpoker_tournament_details\'>here</span> to see the tournament details.")
     };
 
     jpoker.plugins.table.callback = {

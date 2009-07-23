@@ -5429,6 +5429,30 @@ test("jpoker.plugins.table: PacketPokerTourneyBreak callback.tourney_break/resum
 	cleanup(id);
     });
 
+test("jpoker.plugins.table: PacketPokerTourneyRank", function(){
+        expect(2);
+        var game_id = 100;
+	var packet = {"type": "PacketPokerTable", "id": game_id, "name": "One", "percent_flop" : 98, "betting_structure": "level-15-30-no-limit"};
+        var server = jpoker.serverCreate({ url: 'url' });
+	var table = new jpoker.table(server, packet);
+	server.tables[packet.id] = table;
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+
+        var rank_packet = { type: 'PacketPokerTourneyRank', game_id: game_id, serial: 1010, rank: 22, players: 44, money: 55 };
+
+        place.jpoker('table', 'url', game_id);
+
+	server.rankClick = function(server, tourney_serial) {
+	    equals(rank_packet.serial, tourney_serial);
+	};
+	table.handler(server, game_id, rank_packet);
+        equals($('#jpokerDialog').text().indexOf(rank_packet.money) >= 0, true, rank_packet.money);
+        $('#jpokerDialog .jpoker_tournament_details').click();
+
+        cleanup(id);
+    });
+
 test("jpoker.plugins.table.reinit", function(){
         expect(18);
 
