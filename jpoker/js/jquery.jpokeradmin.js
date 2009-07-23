@@ -133,6 +133,17 @@
 	    setters.push(name + ' = \'' + value + '\'');
 	}
 
+	name = 'via_satellite';
+	if ($('.jpoker_admin_via_satellite input[type=checkbox]')[0].checked) {
+	    value = 1;
+	} else {
+	    value = 0;
+	}
+	if (tourney[name] != value) {
+	    tourney[name] = value;
+	    setters.push(name + ' = \'' + value.toString() + '\'');
+	}
+
         $('.jpoker_admin_tourney_params select', element).each(function() {
                 var name = $(this).attr('name');
                 var value = $('option:selected', this).val();
@@ -260,7 +271,7 @@
             dateFormat: '%Y/%m/%d-%H:%M',
             path: '/cgi-bin/poker-network/pokersql',
             templates: {
-                layout: '<form action=\'javascript://\'><div class=\'jpoker_admin_tourney_params\'>{sit_n_go}{start_time}{register_time}{resthost_serial_select}{serial}{name}{description_short}{description_long}{variant}{betting_structure}{players_min}{players_quota}{seats_per_game}{player_timeout}{currency_serial_select}{currency_serial_from_date_format}{buy_in}{rake}{prize_min}{bailor_serial}{breaks_first}{breaks_interval}{breaks_duration}{respawn}{active}</div>{update}</form>',
+                layout: '<form action=\'javascript://\'><div class=\'jpoker_admin_tourney_params\'>{sit_n_go}{start_time}{register_time}{resthost_serial_select}{serial}{name}{description_short}{description_long}{variant}{betting_structure}{players_min}{players_quota}{seats_per_game}{player_timeout}{currency_serial_select}{currency_serial_from_date_format}{buy_in}{rake}{prize_min}{bailor_serial}{breaks_first}{breaks_interval}{breaks_duration}{via_satellite}{respawn}{active}</div>{update}</form>',
 		serial: '<div class=\'jpoker_admin_serial\'><label for=\'jpoker_admin_serial_input\'>Serial</label><input id=\'jpoker_admin_serial_input\' name=\'serial\' title=\'Serial of the tournament.\' value=\'{serial}\' readonly=\'true\'  maxlength=\'5\' size=\'5\' /></div>',
 		resthost_serial_select: '<div class=\'jpoker_admin_resthost_serial\'><label for=\'jpoker_admin_resthost_serial_input\'>Rest host serial</label><select id=\'jpoker_admin_resthost_serial_input\' name=\'resthost_serial\' title=\'Serial of the server.\'>{options}</select></div>',
 		resthost_serial_option: '<option value=\'{serial}\'>{host}:{port}{path}</option>',
@@ -286,8 +297,9 @@
 		player_timeout: '<div class=\'jpoker_admin_player_timeout\'><label for=\'jpoker_admin_player_timeout_input\'>Player timeout</label><input id=\'jpoker_admin_player_timeout_input\' name=\'player_timeout\' title=\'Maximum number of seconds before a player times out when in position.\' value=\'{player_timeout}\' maxlength=\'4\' size=\'4\' /></div>',
 		seats_per_game: '<div class=\'jpoker_admin_seats_per_game\'><label for=\'jpoker_admin_seats_per_game_input\'>Seats per game</label><input id=\'jpoker_admin_seats_per_game_input\' name=\'seats_per_game\' title=\'Number of seats, in the range 2 and 10 included.\' value=\'{seats_per_game}\' maxlength=\'2\' size=\'2\' /></div>',
 		sit_n_go: '<div class=\'jpoker_admin_sit_n_go\'><input id=\'jpoker_admin_sit_n_go_input\' name=\'sit_n_go\' title=\'Tourney type\' value=\'y\' type=\'radio\' /><label for=\'jpoker_admin_sit_n_go_input\'>Sit and go</label><input id=\'jpoker_admin_regular_input\' name=\'sit_n_go\' title=\'Tourney type\' value=\'n\' type=\'radio\' /><label for=\'jpoker_admin_regular_input\'>Regular</label></div>',
-		active: '<div class=\'jpoker_admin_active\'><label for=\'jpoker_admin_active_input\'>Active</label><input id=\'jpoker_admin_active_input\' name=\'active\' type=\'checkbox\' title=\'Control if the tournament is considered by the server.\'></div>',
-		respawn: '<div class=\'jpoker_admin_respawn\'><label for=\'jpoker_admin_respawn_input\'>Respawn</label><input id=\'jpoker_admin_respawn_input\' name=\'respawn\' type=\'checkbox\' title=\'Control if the tournament restarts when complete.\'></div>',
+		via_satellite: '<div class=\'jpoker_admin_via_satellite\'><label for=\'jpoker_admin_via_satellite\'>Via satellite</label><input id=\'jpoker_admin_via_satellite\' name=\'via_satellite\' type=\'checkbox\' title=\'Control if registration is only allowed by playing a satellite\' /></div>',
+		active: '<div class=\'jpoker_admin_active\'><label for=\'jpoker_admin_active_input\'>Active</label><input id=\'jpoker_admin_active_input\' name=\'active\' type=\'checkbox\' title=\'Control if the tournament is considered by the server.\' /></div>',
+		respawn: '<div class=\'jpoker_admin_respawn\'><label for=\'jpoker_admin_respawn_input\'>Respawn</label><input id=\'jpoker_admin_respawn_input\' name=\'respawn\' type=\'checkbox\' title=\'Control if the tournament restarts when complete.\' /></div>',
 		update: '<div class=\'jpoker_admin_update\'><button>Update tourney</button></div>'
             },
             callback: {
