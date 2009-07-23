@@ -3537,31 +3537,34 @@
 		break;
 
             case 'PacketPokerChat':
-                var lines = packet.message.replace(/\n$/, '').split('\n');
-                var chat;
-                var prefix = '';
-		var chat_element = $('#chat' + id);
-		if (packet.serial === 0) {
-		    chat = $('.jpoker_chat_history_dealer', chat_element);
-		    prefix = _("Dealer") + ': ';
-		}
-		else {
-		    chat = $('.jpoker_chat_history_player', chat_element);
-		    if(packet.serial in table.serial2player) {
-			prefix = table.serial2player[packet.serial].name + ': ';
-		    }
-		}
-		for(var line = 0; line < lines.length; line++) {
-		    var message = lines[line];
-		    if (packet.serial === 0) {
-			message = message.replace(/^Dealer: /, '');
-		    }
-		    var chat_line = $('<div class=\'jpoker_chat_line\'>').appendTo(chat);
-		    var chat_prefix = $('<span class=\'jpoker_chat_prefix\'></span>').appendTo(chat_line).text(prefix);
-	            var chat_message = $('<span class=\'jpoker_chat_message\'></span>').appendTo(chat_line).text(message);
+                var filtered_packet = jpoker.plugins.table.callback.chat_filter(table, packet);
+                if(filtered_packet !== null) {
+                    var lines = filtered_packet.message.replace(/\n$/, '').split('\n');
+                    var chat;
+                    var prefix = '';
+                    var chat_element = $('#chat' + id);
+                    if (filtered_packet.serial === 0) {
+                        chat = $('.jpoker_chat_history_dealer', chat_element);
+                        prefix = _("Dealer") + ': ';
+                    }
+                    else {
+                        chat = $('.jpoker_chat_history_player', chat_element);
+                        if(filtered_packet.serial in table.serial2player) {
+                            prefix = table.serial2player[filtered_packet.serial].name + ': ';
+                        }
+                    }
+                    for(var line = 0; line < lines.length; line++) {
+                        var message = lines[line];
+                        if (filtered_packet.serial === 0) {
+                            message = message.replace(/^Dealer: /, '');
+                        }
+                        var chat_line = $('<div class=\'jpoker_chat_line\'>').appendTo(chat);
+                        var chat_prefix = $('<span class=\'jpoker_chat_prefix\'></span>').appendTo(chat_line).text(prefix);
+                        var chat_message = $('<span class=\'jpoker_chat_message\'></span>').appendTo(chat_line).text(message);
+                    }
+                    chat.attr('scrollTop', chat.attr('scrollHeight') || 0);
+                    jpoker.plugins.table.callback.chat_changed(chat_element);
                 }
-                chat.attr('scrollTop', chat.attr('scrollHeight') || 0);
-                jpoker.plugins.table.callback.chat_changed(chat_element);
                 break;
 
 	    case 'PacketPokerMuckRequest':
@@ -3671,6 +3674,9 @@
 	display_done: function(element) {
 	},
 	chat_changed: function(element) {
+	},
+	chat_filter: function(table, packet) {
+            return packet;
 	},
 	sound: {
 	    deal_card: function() {

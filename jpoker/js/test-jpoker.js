@@ -5864,7 +5864,7 @@ test("jpoker.plugins.table: PacketPokerDealer", function(){
     });
 
 test("jpoker.plugins.table: PacketPokerChat", function(){
-        expect(20);
+        expect(21);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
@@ -5920,8 +5920,23 @@ test("jpoker.plugins.table: PacketPokerChat", function(){
         jpoker.plugins.table.callback.chat_changed = function(element) {
             ok($(element).html().indexOf('chat changed'));
         };
-        table.handler(server, game_id, { type: 'PacketPokerChat', message: 'chat changed', game_id: game_id, serial: player_serial });	
+        var chat_filter = jpoker.plugins.table.callback.chat_filter;
+        jpoker.plugins.table.callback.chat_filter = function(table, packet) {
+            equals(packet.message, 'chat unfiltered');
+            packet.message = 'chat changed';
+            return packet;
+        };
+        table.handler(server, game_id, { type: 'PacketPokerChat', message: 'chat unfiltered', game_id: game_id, serial: player_serial });	
+        jpoker.plugins.table.callback.chat_changed = function(element) {
+            equals('', 'unexpected call to chat_changed');
+        }        
+        jpoker.plugins.table.callback.chat_filter = function(table, packet) { 
+            // packet filtered out
+            return null;
+        }
+        table.handler(server, game_id, { type: 'PacketPokerChat', message: 'chat filtered out', game_id: game_id, serial: player_serial });	
         jpoker.plugins.table.callback.chat_changed = chat_changed;
+        jpoker.plugins.table.callback.chat_filter = chat_filter;
 	ok($(".jpoker_chat_history_player").attr('scrollTop') > 0, 'scrollTop');
 	ok($(".jpoker_chat_history_dealer").attr('scrollTop') > 0, 'scrollTop');
 
