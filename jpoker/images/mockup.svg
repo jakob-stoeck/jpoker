@@ -61,11 +61,11 @@
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:zoom="1.1188679"
-     inkscape:cx="323.82122"
-     inkscape:cy="264.99998"
+     inkscape:cx="323.82121"
+     inkscape:cy="264.99997"
      inkscape:window-x="0"
      inkscape:window-y="25"
-     inkscape:current-layer="seat8">
+     inkscape:current-layer="seat9">
     <sodipodi:guide
        orientation="0,1"
        position="-54.519393,761.48398"
@@ -450,7 +450,7 @@
          xlink:href="../css/images/jpoker_table/dealer.gif" />
       <g
          id="card_seat0"
-         transform="translate(-20.869003,-84.01349)">
+         transform="translate(-20.869003,-82.01349)">
         <image
            id="card_seat00"
            height="45"
@@ -611,7 +611,7 @@
          y="0"
          x="0"
          id="card_seat3"
-         transform="translate(466.80657,-122.19006)" />
+         transform="translate(464.80657,-120.19006)" />
     </g>
     <g
        id="seat4"
@@ -707,7 +707,7 @@
          y="0"
          x="0"
          id="card_seat5"
-         transform="translate(657.83942,266.01636)" />
+         transform="translate(657.83942,272.01636)" />
     </g>
     <g
        id="seat6"
@@ -755,7 +755,7 @@
          y="0"
          x="0"
          id="card_seat6"
-         transform="translate(458.02462,362.81907)" />
+         transform="translate(458.02462,364.81907)" />
     </g>
     <g
        id="seat7"
@@ -803,7 +803,7 @@
          y="0"
          x="0"
          id="card_seat7"
-         transform="translate(326.97846,361.84181)" />
+         transform="translate(324.97846,363.84181)" />
     </g>
     <g
        id="seat8"
@@ -899,7 +899,7 @@
          y="0"
          x="0"
          id="card_seat9"
-         transform="translate(5.0948868,270.21805)" />
+         transform="translate(1.0948868,272.21805)" />
     </g>
     <image
        xlink:href="../css/images/jpoker_table/status.png"
