@@ -3315,7 +3315,6 @@
             for(var winner = 0; winner < 2; winner++) {
                 $('#winner' + winner + id).hide();
             }
-            $('#switch' + id).hide();
             $('#rebuy' + id).hide();
             $('#sitout' + id).hide();
 	    $('#sitin' + id).hide();
