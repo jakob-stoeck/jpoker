@@ -18,7 +18,7 @@
    sodipodi:docname="mockup.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    sodipodi:docbase="/home/loic/tmp/upstream/jpoker/images"
-   style="enable-background:new">
+   style="display:inline;enable-background:new">
   <defs
      id="defs120">
     <inkscape:perspective
@@ -61,11 +61,11 @@
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:zoom="1.1188679"
-     inkscape:cx="323.8212"
-     inkscape:cy="264.99996"
+     inkscape:cx="194.22591"
+     inkscape:cy="336.5008"
      inkscape:window-x="0"
      inkscape:window-y="25"
-     inkscape:current-layer="game_fixed">
+     inkscape:current-layer="game_window">
     <sodipodi:guide
        orientation="0,1"
        position="-54.519393,761.48398"
@@ -1007,21 +1007,5 @@
        width="319.38617"
        height="29.23103"
        id="pots" />
-  </g>
-  <g
-     inkscape:groupmode="layer"
-     id="layer1"
-     inkscape:label="mockup"
-     style="display:none;filter:url(#filter3011)"
-     sodipodi:insensitive="true">
-    <image
-       y="0.36437607"
-       x="0"
-       id="image2949"
-       height="530"
-       width="760"
-       sodipodi:absref="/home/proppy/Desktop/jpoker/jpoker/images/pktable3b.png"
-       xlink:href="pktable3b.png"
-       style="opacity:0.8" />
   </g>
 </svg>
