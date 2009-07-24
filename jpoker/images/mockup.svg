@@ -35,15 +35,6 @@
        inkscape:vp_y="0 : 1000 : 0"
        inkscape:vp_x="0 : 526.18109 : 1"
        sodipodi:type="inkscape:persp3d" />
-    <filter
-       inkscape:collect="always"
-       id="filter3011">
-      <feBlend
-         inkscape:collect="always"
-         mode="multiply"
-         in2="BackgroundImage"
-         id="feBlend3013" />
-    </filter>
   </defs>
   <sodipodi:namedview
      inkscape:window-height="825"
@@ -62,10 +53,10 @@
      inkscape:guide-bbox="true"
      inkscape:zoom="1.1188679"
      inkscape:cx="194.22591"
-     inkscape:cy="336.5008"
+     inkscape:cy="336.50076"
      inkscape:window-x="0"
      inkscape:window-y="25"
-     inkscape:current-layer="game_window">
+     inkscape:current-layer="seat8">
     <sodipodi:guide
        orientation="0,1"
        position="-54.519393,761.48398"
@@ -686,7 +677,7 @@
       <use
          height="600"
          width="800"
-         transform="translate(561.84513,142.98507)"
+         transform="translate(561.84513,138.98507)"
          id="player_seat5_bet"
          xlink:href="#player_seat0_bet"
          y="0"
@@ -726,7 +717,7 @@
          inkscape:label="#player_seat6_sidepot"
          id="player_seat6_sidepot"
          xlink:href="#player_seat0_sidepot"
-         transform="translate(410.00952,236.50936)"
+         transform="translate(400.00952,234.50936)"
          y="0"
          x="0"
          width="800"
@@ -734,7 +725,7 @@
       <use
          height="600"
          width="800"
-         transform="translate(411.86878,244.51284)"
+         transform="translate(399.86878,238.51284)"
          id="player_seat6_bet"
          xlink:href="#player_seat0_bet"
          y="0"
@@ -774,7 +765,7 @@
          inkscape:label="#player_seat7_sidepot"
          id="player_seat7_sidepot"
          xlink:href="#player_seat0_sidepot"
-         transform="translate(276.41799,231.34699)"
+         transform="translate(267.03244,232.45323)"
          y="0"
          x="0"
          width="800"
@@ -782,7 +773,7 @@
       <use
          height="600"
          width="800"
-         transform="translate(277.63198,246.68269)"
+         transform="translate(267.22897,236.00141)"
          id="player_seat7_bet"
          xlink:href="#player_seat0_bet"
          y="0"
@@ -793,7 +784,7 @@
          xlink:href="#dealer0"
          width="800"
          height="782"
-         transform="translate(206.27359,260.08432)"
+         transform="translate(206.27359,256.08432)"
          x="0"
          y="0" />
       <use
@@ -824,13 +815,13 @@
          xlink:href="#player_seat0_sidepot"
          y="0"
          x="0"
-         transform="translate(178.62399,243.19524)"
+         transform="translate(128.62399,233.19524)"
          width="800"
          height="782" />
       <use
          height="600"
          width="800"
-         transform="translate(182.82052,247.80581)"
+         transform="translate(128.82052,237.80581)"
          id="player_seat8_bet"
          xlink:href="#player_seat0_bet"
          y="0"
@@ -839,7 +830,7 @@
       <use
          id="dealer8"
          xlink:href="#dealer0"
-         transform="translate(117.08263,256.50927)"
+         transform="translate(69.08263,250.50927)"
          width="800"
          height="782"
          x="0"
@@ -878,7 +869,7 @@
       <use
          height="600"
          width="800"
-         transform="translate(5.4517547,147.04027)"
+         transform="translate(5.4517547,143.04027)"
          id="player_seat9_bet"
          xlink:href="#player_seat0_bet"
          y="0"
@@ -1002,10 +993,10 @@
        y="353.34372" />
     <image
        xlink:href="../css/images/jpoker_table/winner.png"
-       x="221.2644"
-       y="205.05042"
-       width="319.38617"
-       height="29.23103"
+       x="200.98279"
+       y="204.26289"
+       width="370"
+       height="30"
        id="pots" />
   </g>
 </svg>
