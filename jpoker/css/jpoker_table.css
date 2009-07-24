@@ -113,7 +113,7 @@
 .jpoker_table .jpoker_position .jpoker_ptable_player_seat8_background,
 .jpoker_table .jpoker_position .jpoker_ptable_player_seat9_background
 {
-    background-image: url(images/jpoker_table/seat_position.png);
+    background-image: url(images/jpoker_table/seat_position.gif);
 }
 
 
@@ -322,7 +322,6 @@
 }
 
 .jpoker_table .jpoker_ptable_game_background {
-	background: #eee;
 	border: 1px solid #ccc;
 }
 
