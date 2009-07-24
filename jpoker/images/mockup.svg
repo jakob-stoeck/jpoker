@@ -61,11 +61,11 @@
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:zoom="1.1188679"
-     inkscape:cx="323.82121"
-     inkscape:cy="264.99997"
+     inkscape:cx="323.8212"
+     inkscape:cy="264.99996"
      inkscape:window-x="0"
      inkscape:window-y="25"
-     inkscape:current-layer="seat9">
+     inkscape:current-layer="game_fixed">
     <sodipodi:guide
        orientation="0,1"
        position="-54.519393,761.48398"
@@ -957,14 +957,14 @@
        y="441.96948" />
     <image
        xlink:href="../css/images/jpoker_table/status.png"
-       x="139.10121"
+       x="4.5578346"
        id="table_info"
        inkscape:transform-center-y="209.12873"
        inkscape:transform-center-x="-13.012644"
        width="126.43469"
        inkscape:label="auto_muck"
        height="60.636257"
-       y="-15.791568" />
+       y="3.731699" />
     <image
        xlink:href="../css/images/jpoker_table/button.png"
        y="3.6912289"
