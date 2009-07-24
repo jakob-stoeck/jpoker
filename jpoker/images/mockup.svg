@@ -61,8 +61,8 @@
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:zoom="1.1188679"
-     inkscape:cx="380.00001"
-     inkscape:cy="336.50085"
+     inkscape:cx="267.83305"
+     inkscape:cy="408.00169"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:current-layer="game_fixed">
@@ -172,39 +172,43 @@
        inkscape:label="#image2471" />
     <image
        xlink:href="../css/images/jpoker_table/cards/small-back.png"
-       x="279.72427"
+       x="282.49652"
        y="158.88312"
        width="37"
-       height="52"
+       height="45"
        id="board0" />
-    <image
-       xlink:href="../css/images/jpoker_table/cards/small-back.png"
+    <use
+       xlink:href="#board0"
        x="321.50494"
        y="159.76041"
-       width="37"
-       height="52"
-       id="board1" />
-    <image
-       xlink:href="../css/images/jpoker_table/cards/small-back.png"
+       id="board1"
+       transform="translate(-281.51181,-159.76041)"
+       width="760"
+       height="530" />
+    <use
+       xlink:href="#board0"
        x="361.5043"
        y="158.88312"
-       width="37"
-       height="52"
-       id="board2" />
-    <image
-       xlink:href="../css/images/jpoker_table/cards/small-back.png"
+       id="board2"
+       transform="translate(-281.51804,-158.88312)"
+       width="760"
+       height="530" />
+    <use
+       xlink:href="#board0"
        x="401.49747"
        y="157.94623"
-       width="37"
-       height="52"
-       id="board3" />
-    <image
-       xlink:href="../css/images/jpoker_table/cards/small-back.png"
+       id="board3"
+       transform="translate(-281.51807,-157.94623)"
+       width="760"
+       height="530" />
+    <use
+       xlink:href="#board0"
        x="444.18839"
        y="158.83997"
-       width="37"
-       height="52"
-       id="board4" />
+       id="board4"
+       transform="translate(-284.21585,-158.83997)"
+       width="760"
+       height="530" />
     <image
        xlink:href="../css/images/jpoker_table/winner.png"
        x="292.51959"
@@ -449,7 +453,7 @@
          transform="translate(-20.869003,-84.01349)">
         <image
            id="card_seat00"
-           height="52"
+           height="45"
            width="37"
            y="231.98524"
            x="39.416458"
@@ -457,7 +461,7 @@
            inkscape:label="#card_seat00" />
         <image
            id="card_seat01"
-           height="52"
+           height="45"
            width="37"
            y="231.98524"
            x="80.168304"
