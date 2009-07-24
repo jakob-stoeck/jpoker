@@ -61,11 +61,11 @@
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:zoom="1.1188679"
-     inkscape:cx="267.83305"
-     inkscape:cy="408.00169"
+     inkscape:cx="323.82122"
+     inkscape:cy="264.99998"
      inkscape:window-x="0"
      inkscape:window-y="25"
-     inkscape:current-layer="game_fixed">
+     inkscape:current-layer="seat8">
     <sodipodi:guide
        orientation="0,1"
        position="-54.519393,761.48398"
@@ -179,36 +179,36 @@
        id="board0" />
     <use
        xlink:href="#board0"
-       x="321.50494"
-       y="159.76041"
        id="board1"
-       transform="translate(-281.51181,-159.76041)"
+       transform="translate(41.112982,0)"
        width="760"
-       height="530" />
+       height="530"
+       x="0"
+       y="0" />
     <use
        xlink:href="#board0"
-       x="361.5043"
-       y="158.88312"
        id="board2"
-       transform="translate(-281.51804,-158.88312)"
+       transform="translate(82.225982,0)"
        width="760"
-       height="530" />
+       height="530"
+       x="0"
+       y="0" />
     <use
        xlink:href="#board0"
-       x="401.49747"
-       y="157.94623"
        id="board3"
-       transform="translate(-281.51807,-157.94623)"
+       transform="translate(123.33896,0)"
        width="760"
-       height="530" />
+       height="530"
+       x="0"
+       y="0" />
     <use
        xlink:href="#board0"
-       x="444.18839"
-       y="158.83997"
        id="board4"
-       transform="translate(-284.21585,-158.83997)"
+       transform="translate(164.45194,0)"
        width="760"
-       height="530" />
+       height="530"
+       x="0"
+       y="0" />
     <image
        xlink:href="../css/images/jpoker_table/winner.png"
        x="292.51959"
@@ -291,76 +291,76 @@
        id="sit_seat0" />
     <use
        xlink:href="#sit_seat0"
-       x="202.97267"
-       y="33.185329"
        id="sit_seat1"
-       transform="translate(-58.094436,-64.350763)"
+       transform="translate(143.89544,-33.922433)"
        width="800"
-       height="782" />
+       height="782"
+       x="0"
+       y="0" />
     <use
        xlink:href="#sit_seat0"
-       x="347.76187"
-       y="19.778919"
        id="sit_seat2"
-       transform="translate(-55.413155,-69.713323)"
+       transform="translate(288.68465,-50.050591)"
        width="800"
-       height="782" />
+       height="782"
+       x="0"
+       y="0" />
     <use
        xlink:href="#sit_seat0"
-       x="500.59494"
-       y="33.185329"
        id="sit_seat3"
-       transform="translate(-58.988197,-69.713323)"
+       transform="translate(442.41147,-33.922433)"
        width="800"
-       height="782" />
+       height="782"
+       x="0"
+       y="0" />
     <use
        xlink:href="#sit_seat0"
-       x="635.5528"
-       y="68.041992"
        id="sit_seat4"
-       transform="translate(-58.988197,-69.713323)"
+       transform="translate(576.47554,2.6289967)"
        width="800"
-       height="782" />
+       height="782"
+       x="0"
+       y="0" />
     <use
        xlink:href="#sit_seat0"
-       x="635.5528"
-       y="255.7317"
        id="sit_seat5"
-       transform="translate(-58.988197,-69.713323)"
+       transform="translate(576.47554,186.79595)"
        width="800"
-       height="782" />
+       height="782"
+       x="0"
+       y="0" />
     <use
        xlink:href="#sit_seat0"
-       x="500.59494"
-       y="286.11957"
        id="sit_seat6"
-       transform="translate(-58.094436,-64.350763)"
+       transform="translate(442.41147,216.29005)"
        width="800"
-       height="782" />
+       height="782"
+       x="0"
+       y="0" />
     <use
        xlink:href="#sit_seat0"
-       x="347.76187"
-       y="296.8447"
        id="sit_seat7"
-       transform="translate(-58.094436,-69.713323)"
+       transform="translate(288.68465,226.12142)"
        width="800"
-       height="782" />
+       height="782"
+       x="0"
+       y="0" />
     <use
        xlink:href="#sit_seat0"
-       x="202.97267"
-       y="286.11957"
        id="sit_seat8"
-       transform="translate(-57.200676,-69.713323)"
+       transform="translate(143.89544,218.11804)"
        width="800"
-       height="782" />
+       height="782"
+       x="0"
+       y="0" />
     <use
        xlink:href="#sit_seat0"
-       x="59.077229"
-       y="255.7317"
        id="sit_seat9"
-       transform="translate(-58.094436,-69.713323)"
+       transform="translate(-1.1461426e-6,186.83642)"
        width="800"
-       height="782" />
+       height="782"
+       x="0"
+       y="0" />
     <g
        id="seat0"
        inkscape:label="#g2730"
@@ -412,7 +412,7 @@
         <image
            inkscape:label="player_seat0_action"
            xlink:href="../css/images/jpoker_table/money.png"
-           x="42.19067"
+           x="38.19067"
            y="215.71684"
            width="40"
            height="10"
@@ -502,12 +502,12 @@
          inkscape:label="#use2572" />
       <use
          id="dealer1"
-         y="75.810783"
-         x="299.36227"
          xlink:href="#dealer0"
-         transform="translate(-116.18887,-198.95809)"
+         transform="translate(182.1906,-125.66973)"
          width="800"
-         height="782" />
+         height="782"
+         x="0"
+         y="0" />
       <use
          xlink:href="#card_seat0"
          height="600"
@@ -550,12 +550,12 @@
          inkscape:label="#use2590" />
       <use
          id="dealer2"
-         y="88.323433"
-         x="438.20706"
          xlink:href="#dealer0"
-         transform="translate(-113.50759,-197.62736)"
+         transform="translate(328.03541,-110.93259)"
          width="800"
-         height="782" />
+         height="782"
+         x="0"
+         y="0" />
       <use
          xlink:href="#card_seat0"
          height="600"
@@ -598,12 +598,12 @@
          inkscape:label="#use2712" />
       <use
          id="dealer3"
-         y="89.217194"
-         x="519.85138"
          xlink:href="#dealer0"
-         transform="translate(-126.02024,-190.14337)"
+         transform="translate(386.99831,-99.377527)"
          width="800"
-         height="782" />
+         height="782"
+         x="0"
+         y="0" />
       <use
          xlink:href="#card_seat0"
          height="600"
@@ -646,12 +646,12 @@
          inkscape:label="#use2592" />
       <use
          id="dealer4"
-         y="195.731"
-         x="635.12164"
          xlink:href="#dealer0"
-         transform="translate(-118.87015,-201.98988)"
+         transform="translate(562.4317,29.706579)"
          width="800"
-         height="782" />
+         height="782"
+         x="0"
+         y="0" />
       <use
          xlink:href="#card_seat0"
          height="600"
@@ -694,12 +694,12 @@
          inkscape:label="#use2596" />
       <use
          id="dealer5"
-         y="349.85629"
-         x="669.33966"
          xlink:href="#dealer0"
-         transform="translate(-155.51434,-173.38955)"
+         transform="translate(513.01854,181.43339)"
          width="800"
-         height="782" />
+         height="782"
+         x="0"
+         y="0" />
       <use
          xlink:href="#card_seat0"
          height="600"
@@ -742,12 +742,12 @@
          inkscape:label="#use2598" />
       <use
          id="dealer6"
-         y="460.06567"
-         x="525.10468"
          xlink:href="#dealer0"
          width="800"
          height="782"
-         transform="translate(-185.00844,-197.52108)" />
+         transform="translate(342.57613,263.65936)"
+         x="0"
+         y="0" />
       <use
          xlink:href="#card_seat0"
          height="600"
@@ -790,12 +790,12 @@
          inkscape:label="#use2600" />
       <use
          id="dealer7"
-         y="457.84769"
-         x="394.47498"
          xlink:href="#dealer0"
          width="800"
          height="782"
-         transform="translate(-113.50759,-199.3086)" />
+         transform="translate(206.27359,260.08432)"
+         x="0"
+         y="0" />
       <use
          xlink:href="#card_seat0"
          height="600"
@@ -838,12 +838,12 @@
          inkscape:label="#use2602" />
       <use
          id="dealer8"
-         y="469.69592"
-         x="299.36227"
          xlink:href="#dealer0"
-         transform="translate(-117.97639,-203.77741)"
+         transform="translate(117.08263,256.50927)"
          width="800"
-         height="782" />
+         height="782"
+         x="0"
+         y="0" />
       <use
          xlink:href="#card_seat0"
          height="600"
@@ -886,12 +886,12 @@
          inkscape:label="#use2604" />
       <use
          id="dealer9"
-         y="379.24402"
-         x="122.83888"
          xlink:href="#dealer0"
-         transform="translate(-120.10436,-197.52108)"
+         transform="translate(-52.178562,142.10792)"
          width="800"
-         height="782" />
+         height="782"
+         x="0"
+         y="0" />
       <use
          xlink:href="#card_seat0"
          height="600"
@@ -957,14 +957,14 @@
        y="441.96948" />
     <image
        xlink:href="../css/images/jpoker_table/status.png"
-       x="0.077600285"
+       x="139.10121"
        id="table_info"
        inkscape:transform-center-y="209.12873"
        inkscape:transform-center-x="-13.012644"
        width="126.43469"
        inkscape:label="auto_muck"
        height="60.636257"
-       y="-1.671331" />
+       y="-15.791568" />
     <image
        xlink:href="../css/images/jpoker_table/button.png"
        y="3.6912289"
