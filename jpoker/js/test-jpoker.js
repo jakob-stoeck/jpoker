@@ -5508,7 +5508,7 @@ test("jpoker.plugins.table.chat", function(){
             equals(packet.type, 'PacketPokerChat');
             equals(packet.serial, player_serial);
             equals(packet.game_id, game_id);
-            equals("^"+packet.message+"$", '^ABC$');
+            equals("^"+packet.message+"$", '^A\'B"C$');
             sent = true;
         };
         $('input', chat).attr('value', 'A\'B"C');

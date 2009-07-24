@@ -4198,12 +4198,11 @@
             // chat
             //
 
-	    var re = new RegExp('[\'\"]', 'g');	    
             var chat = function() {
                 var server = jpoker.getServer(url);
                 if(server) {
                     var input = $('#chat' + id + ' .jpoker_chat_input input');		    
-                    var message = input.attr('value').replace(re, '');
+                    var message = input.attr('value');
                     server.sendPacket({ 'type': 'PacketPokerChat',
                                 'serial': server.serial,
                                 'game_id': table.id,
