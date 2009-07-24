@@ -6035,7 +6035,7 @@ test("jpoker.plugins.table.timeout", function(){
     });
 
 test("jpoker.plugins.table: PacketPokerPotChips/Reset", function(){
-        expect(69);
+        expect(70);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -6093,9 +6093,11 @@ test("jpoker.plugins.table: PacketPokerPotChips/Reset", function(){
 	ok(pots_element.hasClass('jpoker_pots'), '.jpoker_pots');
 	ok(pots_element.hasClass('jpoker_ptable_pots'), '.jpoker_ptable_pots');
 	ok(pots_element.hasClass('jpoker_pots0'), '.jpoker_pots0');
+	equals($('.jpoker_chips_amount', pots_element).length, 10, '.jpoker_chips_amount')
 	for (i = 0; i < 10; i+=1) {
-	    equals($('.jpoker_pot'+i, pots_element).is(':hidden'), true, 'hidden .jpoker_pot'+i);
-	    equals($('.jpoker_pot'+i, pots_element).text(), '', 'empty .jpoker_pot'+i);
+	    var pot_element = $('.jpoker_pot'+i, pots_element);
+	    equals(pot_element.is(':hidden'), true, 'hidden .jpoker_pot'+i);
+	    equals($('.jpoker_chips_amount', pot_element).text(), '', 'empty .jpoker_chips_amount'+i);
 	}
         start_and_cleanup();
     });

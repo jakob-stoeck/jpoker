@@ -3513,7 +3513,7 @@
             case 'PacketPokerChipsPotReset':
 		$('#pots' + id).removeClass().addClass('jpoker_ptable_pots jpoker_pots jpoker_pots0');
                 for(pot = 0; pot < table.pots.length; pot+=1) {
-		    $('#pots' + id + ' .jpoker_pot' + pot).hide().text('');
+		    $('#pots' + id + ' .jpoker_pot' + pot).hide().children('.jpoker_chips_amount').text('');
                 }
                 break;
 
