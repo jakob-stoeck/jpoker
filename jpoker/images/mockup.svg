@@ -53,10 +53,10 @@
      inkscape:guide-bbox="true"
      inkscape:zoom="1.1188679"
      inkscape:cx="194.22591"
-     inkscape:cy="336.50076"
+     inkscape:cy="336.50075"
      inkscape:window-x="0"
      inkscape:window-y="25"
-     inkscape:current-layer="seat8">
+     inkscape:current-layer="game_fixed">
     <sodipodi:guide
        orientation="0,1"
        position="-54.519393,761.48398"
@@ -994,7 +994,7 @@
     <image
        xlink:href="../css/images/jpoker_table/winner.png"
        x="200.98279"
-       y="204.26289"
+       y="212.26289"
        width="370"
        height="30"
        id="pots" />
