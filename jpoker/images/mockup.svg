@@ -60,10 +60,10 @@
      inkscape:guide-bbox="true"
      inkscape:zoom="1.1188679"
      inkscape:cx="194.22591"
-     inkscape:cy="429.16164"
+     inkscape:cy="331.59142"
      inkscape:window-x="0"
      inkscape:window-y="25"
-     inkscape:current-layer="seat4">
+     inkscape:current-layer="game_fixed">
     <sodipodi:guide
        orientation="0,1"
        position="-54.519393,761.48398"
@@ -979,16 +979,6 @@
          transform="translate(6.6899124,141.46929)" />
     </g>
     <image
-       xlink:href="../css/images/jpoker_table/status.png"
-       id="chat"
-       inkscape:transform-center-y="99.103574"
-       inkscape:transform-center-x="-23.086325"
-       height="107.75548"
-       width="224.314"
-       inkscape:label="#image2255"
-       x="7.981102"
-       y="417.09781" />
-    <image
        xlink:href="../css/images/jpoker_table/button.png"
        y="3.6912289"
        width="67"
@@ -998,14 +988,14 @@
        x="540.90015" />
     <image
        xlink:href="../css/images/jpoker_table/status.png"
-       x="621.25262"
+       x="0.98281229"
        id="auto_muck"
-       inkscape:transform-center-y="205.45783"
-       inkscape:transform-center-x="-13.651266"
-       width="132.63997"
+       inkscape:transform-center-y="75.992997"
+       inkscape:transform-center-x="-20.788732"
+       width="201.98985"
        inkscape:label="auto_muck"
-       height="59.571888"
-       y="460.40283" />
+       height="22.033945"
+       y="368.38599" />
     <image
        xlink:href="../css/images/jpoker_table/button.png"
        y="407.67099"
@@ -1052,14 +1042,14 @@
        x="541.97327" />
     <image
        xlink:href="../css/images/jpoker_table/status.png"
-       x="0.61940944"
+       x="141.0546"
        id="powered_by"
-       inkscape:transform-center-y="125.90549"
-       inkscape:transform-center-x="-19.630321"
-       width="190.73439"
+       inkscape:transform-center-y="83.227389"
+       inkscape:transform-center-x="-20.53836"
+       width="199.55721"
        inkscape:label="powered_by"
-       height="36.505924"
-       y="354.54623" />
+       height="24.131536"
+       y="3.731699" />
     <image
        xlink:href="../css/images/jpoker_table/raise.png"
        x="290.56119"

@@ -2650,8 +2650,8 @@ function jpoker_130_chat_scroll(place) {
 { type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'myself' },
 { type: 'PacketPokerPlayerChips', serial: player_serial, game_id: game_id, money: 1000000, bet: 0 },
 { type: 'PacketPokerSit', serial: player_serial, game_id: game_id },
-{ type: 'PacketPokerChat', serial: 0, game_id: game_id, message: 'Dealer: dealing\nDealer: dealing one\nDealer: dealing two\nDealer: dealing three\nDealer: dealing four' },
-{ type: 'PacketPokerChat', serial: player_serial, game_id: game_id, message: 'Message one\nMessage two\nMessage three\nMessage four\nMessage five' }
+{ type: 'PacketPokerChat', serial: 0, game_id: game_id, message: 'Dealer: dealing\nDealer: dealing one\nDealer: dealing two\nDealer: dealing three\nDealer: dealing four\nDealer: dealing\nDealer: dealing\nDealer: dealing\nDealer: dealing\nDealer: dealing\nDealer: dealing\nDealer: dealing\nDealer: dealing\nDealer: dealing\nDealer: dealing\nDealer: dealing' },
+{ type: 'PacketPokerChat', serial: player_serial, game_id: game_id, message: 'Message one\nMessage two\nMessage three\nMessage four\nMessage five\nMessage\nMessage\nMessage\nMessage\nMessage\nMessage\nMessage\nMessage\nMessage\nMessage\nMessage\nMessage\nMessage' }
                        ];
         ActiveXObject.prototype.server = {
             outgoing: JSON.stringify(packets),

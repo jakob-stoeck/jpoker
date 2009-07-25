@@ -5462,12 +5462,13 @@ test("jpoker.plugins.table.chat", function(){
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
 
-        var table_packet = { id: game_id };
+        var table_packet = { id: game_id };	
         server.tables[game_id] = new jpoker.table(server, table_packet);
-        var table = server.tables[game_id];
+        var table = server.tables[game_id];	
 
         place.jpoker('table', 'url', game_id);
-        var chat = $("#chat"+id+" .jpoker_chat_input");
+	var game_window = $('#game_window' + id);
+        var chat = $(".jpoker_chat_input", game_window);
         equals(chat.size(), 1, "chat DOM element");
         equals(chat.is(':hidden'), true, "chat hidden");
         table.handler(server, game_id,
@@ -5840,7 +5841,7 @@ test("jpoker.plugins.table: PacketPokerDealer", function(){
     });
 
 test("jpoker.plugins.table: PacketPokerChat", function(){
-        expect(20);
+        expect(19);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
@@ -5855,14 +5856,13 @@ test("jpoker.plugins.table: PacketPokerChat", function(){
         var player_serial = 1;
         var player_seat = 2;
         var player_name = 'username';
+	var game_window = $('#game_window' + id);	
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id, name: player_name });
-	var chat_element = $("#chat" + id);
-        equals(chat_element.size(), 1, "chat history DOM element");
-        equals($(".jpoker_chat_history_dealer", chat_element).size(), 1, "chat history DOM element");
-        equals($(".jpoker_chat_history_player", chat_element).size(), 1, "chat history DOM element");
+        equals($(".jpoker_chat_history_dealer", game_window).size(), 1, "chat history dealer DOM element");
+        equals($(".jpoker_chat_history_player", game_window).size(), 1, "chat history player DOM element");
         var message = 'voila\ntout';
         table.handler(server, game_id, { type: 'PacketPokerChat', message: message, game_id: game_id, serial: player_serial });
-        var chat_history_player = $(".jpoker_chat_history_player", chat_element);
+        var chat_history_player = $(".jpoker_chat_history_player", game_window);
 	var chat_lines = $(".jpoker_chat_line", chat_history_player);
 	equals(chat_lines.length, 2);
 	equals($(".jpoker_chat_prefix", chat_lines.eq(0)).html(), "username: ");
@@ -5875,7 +5875,7 @@ test("jpoker.plugins.table: PacketPokerChat", function(){
 
 	var dealer_message = 'Dealer: voila\nDealer: tout\n';
         table.handler(server, game_id, { type: 'PacketPokerChat', message: dealer_message, game_id: game_id, serial: 0 });	
-        var chat_history_dealer = $(".jpoker_chat_history_dealer", chat_element);
+        var chat_history_dealer = $(".jpoker_chat_history_dealer", game_window);
 	var chat_lines_dealer = $(".jpoker_chat_line", chat_history_dealer);
 	equals(chat_lines_dealer.length, 2);
 	equals($(".jpoker_chat_prefix", chat_lines_dealer.eq(0)).html(), "Dealer: ");
@@ -5921,7 +5921,6 @@ test("jpoker.plugins.table: PacketPokerChat code injection", function(){
         var player_seat = 2;
         var player_name = '<script>$.jpoker.injection();</script>';
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id, name: player_name });
-	var chat_element = $("#chat" + id);
 	jpoker.injection = function() {
 	    ok(false, 'code injection');
 	};

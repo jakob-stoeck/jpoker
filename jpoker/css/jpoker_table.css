@@ -543,3 +543,7 @@
 .jpoker_table .jpoker_seat .jpoker_card_back {
     display: none !important;
 }
+
+.jpoker_table .jpoker_auto_muck_win {
+    float: left;
+}

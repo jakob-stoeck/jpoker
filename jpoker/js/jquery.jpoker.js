@@ -3295,6 +3295,7 @@
         }, jpoker.defaults);
 
     jpoker.plugins.table.create = function(element, id, server, game_id) {
+	var game_fixed, game_window;
         if(jpoker.verbose > 0) {
             jpoker.message('plugins.table.create ' + id + ' game: ' + game_id);
         }
@@ -3302,6 +3303,8 @@
             var url = server.url;
             var table = server.tables[game_id];
             element.html(this.templates.room.supplant({ id: id }));
+	    game_fixed = $('#game_fixed' + id);
+	    game_window = $('#game_window' + id);
             jpoker.plugins.table.seats(id, server, table);
             jpoker.plugins.table.dealer(id, table, table.dealer);
             jpoker.plugins.cards.update(table.board, 'board', id);
@@ -3337,8 +3340,8 @@
 		    },function(){
 			$(this).removeClass('hover');
 		    }).html('<div class=\'jpoker_quit\'><a href=\'javascript://\'>' + _("Exit") + '</a></div>');
-            var chat_element = $('#chat' + id).html(this.templates.chat);
-	    $('.jpoker_chat_input', chat_element).hide();
+            game_fixed.append(this.templates.chat);
+	    $('.jpoker_chat_input', game_window).hide();
             jpoker.plugins.playerSelf.hide(id);
             for(var serial in table.serial2player) {
                 jpoker.plugins.player.create(table, table.serial2player[serial], id);
@@ -3449,6 +3452,7 @@
         var url = table.url;
         var game_id = packet.game_id;
         var serial = packet.serial;
+	var game_window = $('#game_window' + id);
         if(element && server) {
             switch(packet.type) {
 
@@ -3538,13 +3542,12 @@
                 var lines = packet.message.replace(/\n$/, '').split('\n');
                 var chat;
                 var prefix = '';
-		var chat_element = $('#chat' + id);
 		if (packet.serial === 0) {
-		    chat = $('.jpoker_chat_history_dealer', chat_element);
+		    chat = $('.jpoker_chat_history_dealer', game_window);
 		    prefix = _("Dealer") + ': ';
 		}
 		else {
-		    chat = $('.jpoker_chat_history_player', chat_element);
+		    chat = $('.jpoker_chat_history_player', game_window);
 		    if(packet.serial in table.serial2player) {
 			prefix = table.serial2player[packet.serial].name + ': ';
 		    }
@@ -3559,7 +3562,7 @@
 	            var chat_message = $('<span class=\'jpoker_chat_message\'></span>').appendTo(chat_line).text(message);
                 }
                 chat.attr('scrollTop', chat.attr('scrollHeight') || 0);
-                jpoker.plugins.table.callback.chat_changed(chat_element);
+                jpoker.plugins.table.callback.chat_changed(chat);
                 break;
 
 	    case 'PacketPokerMuckRequest':
@@ -3618,7 +3621,7 @@
         room: 'expected to be overriden by mockup.js but was not',
 	tourney_break: '<div>{label}</div><div>{date}</div>',
 	powered_by: '<a title=\'Powered by Pokersource\' href=\'javascript://\' >Powered by Pokersource</a>',
-	chat: '<div class=\'jpoker_chat_input\'><input value=\'chat here\' type=\'text\' width=\'100%\' /></div><div class=\'jpoker_chat_history\'><div class=\'jpoker_chat_history_player\'></div><div class=\'jpoker_chat_history_dealer\'></div></div>',
+	chat: '<div class=\'jpoker_chat_input\'><input value=\'chat here\' type=\'text\' width=\'100%\' /></div><div class=\'jpoker_chat_history_player\'></div><div class=\'jpoker_chat_history_dealer\'></div>',
         placeholder: _("connecting to table {name}"),
 	table_info: '<div class=\'jpoker_table_info_name\'><span class=\'jpoker_table_info_name_label\'>{name_label}</span>{name}</div><div class=\'jpoker_table_info_variant\'><span class=\'jpoker_table_info_variant_label\'>{variant_label}</span>{variant}</div><div class=\'jpoker_table_info_blind\'><span class=\'jpoker_table_info_blind_label\'>{betting_structure_label}</span>{betting_structure}</div><div class=\'jpoker_table_info_seats\'><span class=\'jpoker_table_info_seats_label\'>{seats_label}</span>{max_players}</div><div class=\'jpoker_table_info_flop\'>{percent_flop}<span class=\'jpoker_table_info_flop_label\'>{percent_flop_label}</span></div><div class=\'jpoker_table_info_player_timeout\'><span class=\'jpoker_table_info_player_timeout_label\'>{player_timeout_label}</span>{player_timeout}</div><div class=\'jpoker_table_info_muck_timeout\'><span class=\'jpoker_table_info_muck_timeout_label\'>{muck_timeout_label}</span>{muck_timeout}</div><div class=\'jpoker_table_info_level\'></div>',
 	date: '',
@@ -4096,6 +4099,7 @@
     //
     jpoker.plugins.playerSelf = {
         create: function(table, packet, id) {
+	    var game_window = $('#game_window' + id);
             table.registerUpdate(this.updateTable, id, 'self update' + id);
 
             var url = table.url;
@@ -4182,7 +4186,7 @@
             var chat = function() {
                 var server = jpoker.getServer(url);
                 if(server) {
-                    var input = $('#chat' + id + ' .jpoker_chat_input input');		    
+                    var input = $('.jpoker_chat_input input', game_window);
                     var message = input.attr('value').replace(re, '');
                     server.sendPacket({ 'type': 'PacketPokerChat',
                                 'serial': server.serial,
@@ -4192,7 +4196,7 @@
                     input.attr('value', '');
                 }
             };
-            $('#chat' + id + ' .jpoker_chat_input').unbind('keypress').keypress(function(e) {
+            $('.jpoker_chat_input', game_window).unbind('keypress').keypress(function(e) {
                     if(e.which == 13) {
                         chat();
                     }
@@ -4277,10 +4281,11 @@
         },
 
         leave: function(player, packet, id) {
+	    var game_window = $('#game_window' + id);
             $('#sitout' + id).hide();
             $('#rebuy' + id).hide();
-            $('#chat' + id + ' .jpoker_chat_input').hide();
-	    $('#game_window' + id).removeClass('jpoker_self');
+            $('.jpoker_chat_input', game_window).hide();
+	    game_window.removeClass('jpoker_self');
 	    $('#player_seat' + packet.seat + id).removeClass('jpoker_player_self')
         },
 
