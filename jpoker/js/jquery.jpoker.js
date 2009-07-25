@@ -3482,7 +3482,8 @@
 
             case 'PacketPokerBoardCards':
 		if (packet.cards.length > 0) {		    
-		    jpoker.plugins.cards.update(table.board, 'board', id);		    
+		    jpoker.plugins.cards.update(table.board, 'board', id);
+		    jpoker.plugins.table.callback.animation.deal_card(table, id, packet);
 		    jpoker.plugins.table.callback.sound.deal_card();
 		} else {
 		    jpoker.plugins.cards.update(table.board, 'board', id);
@@ -3660,11 +3661,29 @@
 	    }	    
 	},
 	animation: {
-	    deal_card: function(table, id, element) {
-		var dealer = table.dealer;
-		if (dealer != -1) {
-		    var duration = 500;
-		    $(element).moveFrom('#dealer' + dealer + id, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);
+	    deal_card: function(table, id, packet) {
+		var duration = 500;
+		var game_window = $('#game_window' + id);
+		var dealer_seat = table.dealer;
+		var board_cards;
+		var board_cards = {3: $('.jpoker_ptable_board0, .jpoker_ptable_board1, .jpoker_ptable_board2', game_window),
+				   4: $('.jpoker_ptable_board3', game_window),
+				   5: $('.jpoker_ptable_board4', game_window)};
+		if (dealer_seat != -1) { 
+		    board_cards[packet.cards.length].each(function() {
+			    var dealer = $('#dealer' + dealer_seat + id);
+			    var dealerSeatOffset = $('#seat'+ dealer_seat + id).getOffset();
+			    var dealerPosition = $('#dealer' + dealer_seat + id).getPosition();
+			    var card = $(this);
+			    var cardPosition = card.getPosition();
+			    dealerPosition.top += dealerSeatOffset.top;
+			    dealerPosition.left += dealerSeatOffset.left;
+			    dealerPosition.top -= card.height()/2.0;
+			    dealerPosition.left -= card.width()/2.0;
+			    dealerPosition.top += dealer.height()/2.0;
+			    dealerPosition.left += dealer.width()/2.0;
+			    card.css(dealerPosition).animate(cardPosition, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);					
+			});
 		}
 	    },
 	    best_card: function(table, id, element) {

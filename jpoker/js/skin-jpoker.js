@@ -2749,6 +2749,37 @@ function jpoker_142_click_here_to_get_a_seat_in_progress(place) {
         server.sendPacket('ping');	
 }
 
+function jpoker_143_board(place) {
+        setUp();
+        if(explain) {
+            $('#explain').append('<b>jpoker_08_all</b> ');
+            $('#explain').append('All community cards and all pots are displayed.');
+            $('#explain').append('<hr>');
+        }
+
+        var game_id = 100;
+	var player_serial = 42;
+        var packets = [
+{ type: 'PacketPokerTable', id: game_id }
+                       ];
+	packets.push({ type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'foo' });
+	packets.push({ type: 'PacketPokerDealer', dealer: 0, game_id: game_id });
+	packets.push({ type: 'PacketPokerBoardCards', game_id: game_id, cards: [] });
+        packets.push({ type: 'PacketPokerBoardCards', game_id: game_id, cards: [1, 2, 3] });
+        packets.push({ type: 'PacketPokerBoardCards', game_id: game_id, cards: [1, 2, 3, 4] });
+        packets.push({ type: 'PacketPokerBoardCards', game_id: game_id, cards: [1, 2, 3, 4, 5] });
+
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
+}
+
 var jpoker_skin_permalink = function() {
     $("#links li a").each(function() {
 	    $(this).attr('href', '#'+$(this).text());
