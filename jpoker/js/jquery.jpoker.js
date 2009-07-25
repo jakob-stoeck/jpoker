@@ -3487,14 +3487,12 @@
 		    jpoker.plugins.table.callback.sound.deal_card();
 		} else {
 		    jpoker.plugins.cards.update(table.board, 'board', id);
+		    jpoker.plugins.table.callback.animation.best_card_reset(table, id);
 		}
                 break;
 
 	    case 'PacketPokerBestCards':
-		for (var i = 0; i < packet.board.length; i+=1) {
-		    if (jQuery.inArray(packet.board[i], packet.bestcards) != -1) {
-		    }
-		}
+		jpoker.plugins.table.callback.animation.best_card(table, id, packet);
 		break;
 
 	    case 'PacketPokerDealCards':
@@ -3685,13 +3683,23 @@
 			});
 		}
 	    },
-	    best_card: function(table, id, element) {
+	    best_card: function(table, id, packet) {
 		var duration = 500;
-		var card = element.hide().clone().insertAfter(element).show();
-		card.addClass('jpoker_best_card').animate({top: '-=20px'}, duration);
+		var hide_duration = 200;
+		var game_window = $('#game_window' + id);
+		$('.jpoker_ptable_board0, .jpoker_ptable_board1, .jpoker_ptable_board2, .jpoker_ptable_board3, .jpoker_ptable_board4', game_window).each(function(i) {
+			if (jQuery.inArray(packet.board[i], packet.bestcards) != -1) {
+			    $(this).hide().clone().show().insertAfter(this).addClass('jpoker_best_card').animate({top: '-=20px'});
+			} else {
+			    $(this).animate({opacity: 0.5}, hide_duration);
+			}
+		    });
 	    },
-	    best_cards_reset: function(table, id) {
-		$('.jpoker_best_card').remove();
+	    best_card_reset: function(table, id) {
+		var game_window = $('#game_window' + id);
+		$('.jpoker_best_card', game_window).remove();
+		$('.jpoker_best_card_animation_hidden', game_window).removeClass('jpoker_best_card_animation_hidden');
+		$('.jpoker_card', game_window).css({opacity: 1.0});
 	    }
 	}
     };
@@ -3796,6 +3804,7 @@
             break;
 
 	    case 'PacketPokerBestCards':
+	    jpoker.plugins.player.callback.animation.best_card(player, id, packet);
 	    break;
 
 	    case 'PacketPokerFold':
@@ -4105,14 +4114,18 @@
 		    positionTo.top += positionToParent.top;
 		    chip.animate(positionTo, {duration: duration, queue: false}).css({opacity: 1}).animate({opacity: 0.0}, duration, function() {chip.remove();});
 		},
-		best_card: function(player, id, element) {
+		best_card: function(player, id, packet) {
 		    var duration = 500;
-		    var card = element.hide().clone().insertAfter(element).show().addClass('jpoker_best_card');
-		    if (player.seat <= 4) {
-			card.animate({top: '+=20px'}, duration);
-		    } else {
-			card.animate({top: '-=20px'}, duration);
-		    }
+		    var hide_duration = 200;
+		    var card_seat = $('#card_seat'+player.seat+id);
+		    $('.jpoker_card', card_seat).each(function(i) {
+			    if (jQuery.inArray(packet.cards[i], packet.bestcards) != -1) {
+				$(this).clone().insertAfter(this).addClass('jpoker_best_card').animate({top: '-=20px'});
+				$(this).addClass('jpoker_best_card_animation_hidden');
+			    } else {
+				$(this).animate({opacity: 0.5}, hide_duration);
+			    }
+			});
 		}
 	    }
 	}

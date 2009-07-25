@@ -578,7 +578,6 @@ function jpoker_08_all(place) {
 	for(var k = 0; k < 10; k++) {	    
 	    packets.push({"besthand":1,"hand":"Flush Queen high","length":47,"cookie":"","board":[],"bestcards":[1,2,3,4,5],"cards":[1,7],"game_id":game_id,"serial":player_serial+k,"type":"PacketPokerBestCards","side":""});
 	}
-	packets.push({"besthand":1,"hand":"Flush Queen high","length":47,"cookie":"","board":[1,2,3,6,7],"bestcards":[1,2,3,4,5],"cards":[8,4],"game_id":game_id,"serial":player_serial,"type":"PacketPokerBestCards","side":""});
 	packets.push({ type: 'PacketPokerPlayerHandStrength', game_id: game_id, serial: player_serial, hand: 'Hand strength: High card Ten: Ts, 9d, 4h, 3d, 2s' });
 
         ActiveXObject.prototype.server = {
@@ -2759,15 +2758,20 @@ function jpoker_143_board(place) {
 
         var game_id = 100;
 	var player_serial = 42;
-        var packets = [
-{ type: 'PacketPokerTable', id: game_id }
-                       ];
+        var packets = [{ type: 'PacketPokerTable', id: game_id,	delay: { showdown: 500 }}];
 	packets.push({ type: 'PacketPokerPlayerArrive', seat: 0, serial: player_serial, game_id: game_id, name: 'foo' });
 	packets.push({ type: 'PacketPokerDealer', dealer: 0, game_id: game_id });
+	packets.push({ type: 'PacketPokerPlayerCards', serial: player_serial, game_id: game_id, cards: [ 8, 4 ] });	
 	packets.push({ type: 'PacketPokerBoardCards', game_id: game_id, cards: [] });
         packets.push({ type: 'PacketPokerBoardCards', game_id: game_id, cards: [1, 2, 3] });
-        packets.push({ type: 'PacketPokerBoardCards', game_id: game_id, cards: [1, 2, 3, 4] });
-        packets.push({ type: 'PacketPokerBoardCards', game_id: game_id, cards: [1, 2, 3, 4, 5] });
+        packets.push({ type: 'PacketPokerBoardCards', game_id: game_id, cards: [1, 2, 3, 6] });
+        packets.push({ type: 'PacketPokerBoardCards', game_id: game_id, cards: [1, 2, 3, 6, 7] });
+	packets.push({ type: 'PacketPokerShowdown', game_id: game_id});
+	packets.push({"besthand":1,"hand":"Flush Queen high","length":47,"cookie":"","board":[1,2,3,6,7],"bestcards":[1,2,3,4,5],"cards":[8,4],"game_id":game_id,"serial":player_serial,"type":"PacketPokerBestCards","side":""});
+	packets.push({ type: 'PacketPokerShowdown', game_id: game_id});
+	packets.push({ type: 'PacketPokerBoardCards', game_id: game_id, cards: [] });
+        packets.push({ type: 'PacketPokerBoardCards', game_id: game_id, cards: [1, 2, 3] });
+        packets.push({ type: 'PacketPokerBoardCards', game_id: game_id, cards: [1, 2, 3, 6] });
 
         ActiveXObject.prototype.server = {
             outgoing: JSON.stringify(packets),
