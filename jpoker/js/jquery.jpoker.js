@@ -3769,12 +3769,12 @@
 
             case 'PacketPokerAutoFold':
             jpoker.plugins.player.sitOut(player, id);
-	    jpoker.plugins.player.callback.sound.fold();
             break;
 
             case 'PacketPokerPlayerCards':
             jpoker.plugins.cards.update_value(player.cards, 'card_seat' + player.seat, id);
 	    $('#seat' + player.seat + id).addClass('jpoker_player_dealt');
+	    jpoker.plugins.player.callback.animation.deal_card(player, id);
             break;
 
 	    case 'PacketPokerBestCards':
@@ -4054,12 +4054,27 @@
 		    var duration = 500;
 		    $(element).moveFrom('#player_seat' + player.seat + '_money' + id, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);
 		},
-		deal_card: function(player, id, element) {
+		deal_card: function(player, id) {
+		    var duration = 500;
 		    var table = jpoker.getTable(player.url, player.game_id);
-		    var dealer = table.dealer;
-		    if (dealer != -1) {
-			var duration = 500;
-			$(element).moveFrom('#dealer' + dealer + id, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);
+		    var playerSeatOffset = $('#seat'+ player.seat + id).getOffset();
+		    var hole = $('#player_seat'+ player.seat + '_hole' + id);
+		    var holePosition = hole.getPosition();
+		    var dealer_seat = table.dealer;
+		    var dealer, dealerSeatOffset, dealerPosition;
+		    if (dealer_seat != -1) {
+			dealer = $('#dealer' + dealer_seat + id);
+			dealerSeatOffset = $('#seat'+ dealer_seat + id).getOffset();
+			dealerPosition = $('#dealer' + dealer_seat + id).getPosition();		       
+			dealerPosition.top += dealerSeatOffset.top;
+			dealerPosition.top -= playerSeatOffset.top;
+			dealerPosition.left += dealerSeatOffset.left;
+			dealerPosition.left -= playerSeatOffset.left;
+			dealerPosition.top -= hole.height()/2.0;
+			dealerPosition.left -= hole.width()/2.0;
+			dealerPosition.top += dealer.height()/2.0;
+			dealerPosition.left += dealer.width()/2.0;
+			hole.css(dealerPosition).animate(holePosition, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);					
 		    }
 		},
 		bet2pot: function(player, id, packet, element) {
@@ -4766,12 +4781,6 @@
 	return this;
     };
     
-    $.fn.moveTo = function(to, options) {
-	var positionTo = $(to).getPosition();
-	$(this).animate(positionTo, options);
-	return this;
-    };
-
     //
     // raise (SelfPlayer plugin helper)
     //

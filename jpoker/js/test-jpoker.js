@@ -9703,23 +9703,6 @@ test("jquery.fn.getPosition", function() {
 	equals($('#child').getPosition().left, 0, 'left position');
     });
 
-test("jquery.fn.moveTo", function() {
-	expect(6);
-	stop();
-	$('#main').html('<div id=\'money\' /><div id=\'bet\' />');
-	$('#money').css({position: 'absolute', left: '100px', top: '100px'}).hide();
-	$('#bet').css({position: 'absolute', left: '200px', top: '200px'});
-	$("#bet").moveTo('#money', {duration: 100, complete: function() {
-		equals($('#bet').css('left'), '100px');
-		equals($('#bet').css('top'), '100px');
-		start();
-		}});
-	equals($('#bet').css('left'), '200px');
-	equals($('#bet').css('top'), '200px');
- 	ok($('#money').is(':hidden'), 'hidden');
- 	ok($('#bet').is(':visible'), 'visible');
-    });
-
 test("jquery Date format", function() {
 	equals($.strftime("%Y %m %d", new Date(0)), "1970 01 01");
     });
