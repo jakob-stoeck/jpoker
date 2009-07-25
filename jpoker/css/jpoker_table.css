@@ -224,6 +224,10 @@
     text-transform: uppercase;
 }
 
+.jpoker_table .jpoker_player_self.jpoker_sit_out .jpoker_name {
+    text-transform: none;
+}
+
 .jpoker_table .jpoker_raise_bound, .jpoker_table .jpoker_raise_current {
     display: inline;
     line-height:20px;

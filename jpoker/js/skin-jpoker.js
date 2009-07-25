@@ -293,7 +293,6 @@ function jpoker_05_selfPlayer(place) {
         if(explain) {
             $('#explain').append('<b>jpoker_05_selfPlayer</b> ');
             $('#explain').append('The logged in player is sit at the table, buy in dialog shows.');
-            $('#explain').append('Auto actions (with check) are displayed.');
             $('#explain').append('<hr>');
         }
 
@@ -331,6 +330,7 @@ function jpoker_05_1_selfPlayerInGame_autoActionCheck(place) {
         if(explain) {
             $('#explain').append('<b>jpoker_05_1_selfPlayerInGame</b> ');
             $('#explain').append('The logged in player is sit at the table and in game.');
+            $('#explain').append('Auto actions (with check) are displayed.');
             $('#explain').append('<hr>');
         }
 
