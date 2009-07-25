@@ -3665,12 +3665,11 @@
 		var duration = 500;
 		var game_window = $('#game_window' + id);
 		var dealer_seat = table.dealer;
-		var board_cards;
 		var board_cards = {3: $('.jpoker_ptable_board0, .jpoker_ptable_board1, .jpoker_ptable_board2', game_window),
 				   4: $('.jpoker_ptable_board3', game_window),
-				   5: $('.jpoker_ptable_board4', game_window)};
-		if (dealer_seat != -1) { 
-		    board_cards[packet.cards.length].each(function() {
+				   5: $('.jpoker_ptable_board4', game_window)}[packet.cards.length];
+		if ((dealer_seat != -1) && board_cards) { 
+		    board_cards.each(function() {
 			    var dealer = $('#dealer' + dealer_seat + id);
 			    var dealerSeatOffset = $('#seat'+ dealer_seat + id).getOffset();
 			    var dealerPosition = $('#dealer' + dealer_seat + id).getPosition();
