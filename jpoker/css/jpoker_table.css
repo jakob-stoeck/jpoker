@@ -531,3 +531,15 @@
 .jpoker_table .jpoker_seat .jpoker_bet .jpoker_chips_amount {
     color: white;
 }
+
+.jpoker_table .jpoker_player_hole {
+    display: none;
+}
+
+.jpoker_table .jpoker_player_dealt .jpoker_player_hole {
+    display: block;
+}
+
+.jpoker_table .jpoker_seat .jpoker_card_back {
+    display: none !important;
+}

@@ -6295,7 +6295,7 @@ test("jpoker.plugins.table: display done callback", function(){
 // player
 //
 test("jpoker.plugins.player: PacketPokerPlayerArrive", function(){
-        expect(TEST_AVATAR ? 13 : 12);
+        expect(TEST_AVATAR ? 14 : 13);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -6327,6 +6327,8 @@ test("jpoker.plugins.player: PacketPokerPlayerArrive", function(){
 	ok($('#player_seat2' + id).hasClass('jpoker_player_seat2'), 'jpoker_seat2');
 	ok($('#seat2' + id).hasClass('jpoker_seat'), 'jpoker_seat');
 	ok($('#seat2' + id).hasClass('jpoker_seat2'), 'jpoker_seat2');
+
+	ok($("#player_seat2_hole" + id).hasClass('jpoker_player_hole'), 'jpoker_player_hole');
 
         //
         // player arrives and is sit
@@ -6883,7 +6885,7 @@ test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
         equals(card.hasClass('jpoker_card_3h'), true, 'card_3h class');
         equals(player.cards[0], card_value, "card in slot 0");
 	equals(card.is(':visible'), true, 'card visible');
-	var seat_element = $('#player_seat' + player_seat + id);
+	var seat_element = $('#seat' + player_seat + id);
 	equals(seat_element.hasClass('jpoker_player_dealt'), true, '.jpoker_player_dealt class');
 
 	table.handler(server, game_id, { type: 'PacketPokerFold', serial: player_serial, game_id: game_id });

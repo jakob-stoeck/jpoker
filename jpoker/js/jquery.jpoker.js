@@ -3739,6 +3739,8 @@
 	    var stats_element = $('#player_seat' + seat  + '_stats' + id).removeClass().addClass('jpoker_player_stats jpoker_ptable_player_seat' + seat + '_stats');
 	    var sidepot_element = $('#player_seat' + seat  + '_sidepot' + id).removeClass().addClass('jpoker_player_sidepot jpoker_ptable_player_seat' + seat + '_sidepot').hide();
 
+	    $('#player_seat' + seat  + '_hole' + id).addClass('jpoker_player_hole');
+
 	    // at the end of player.create: call player_arrive callback
 	    $('#seat' + seat + id).addClass('jpoker_seat jpoker_seat'+seat);
 	    seat_element.addClass('jpoker_player_seat jpoker_player_seat'+seat);
@@ -3771,7 +3773,7 @@
 
             case 'PacketPokerPlayerCards':
             jpoker.plugins.cards.update(player.cards, 'card_seat' + player.seat, id, function(element) {jpoker.plugins.player.callback.animation.deal_card(player, id, element);});
-	    $('#player_seat' + player.seat + id).addClass('jpoker_player_dealt');
+	    $('#seat' + player.seat + id).addClass('jpoker_player_dealt');
             break;
 
 	    case 'PacketPokerBestCards':
@@ -3784,7 +3786,7 @@
 
 	    case 'PacketPokerFold':
 	    jpoker.plugins.cards.hide(player.cards, 'card_seat' + player.seat, id);
-	    $('#player_seat' + player.seat + id).removeClass('jpoker_player_dealt');
+	    $('#seat' + player.seat + id).removeClass('jpoker_player_dealt');
 	    jpoker.plugins.player.action(player, id);
 	    jpoker.plugins.player.callback.sound.fold();
 	    break;
@@ -3806,7 +3808,7 @@
 
 	    case 'PacketPokerStart':
 	    jpoker.plugins.cards.hide(player.cards, 'card_seat' + player.seat, id);
-	    $('#player_seat' + player.seat + id).removeClass('jpoker_player_dealt');
+	    $('#seat' + player.seat + id).removeClass('jpoker_player_dealt');
 	    jpoker.plugins.player.action(player, id);
 	    jpoker.plugins.player.handStart(player, id);
 	    $('#player_seat' + player.seat + id).removeClass('jpoker_player_allin');

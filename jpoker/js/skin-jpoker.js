@@ -234,11 +234,11 @@ function jpoker_03_1_playerDealt(place) {
             packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i + 1, percentile: i%4 });
             packets.push({ type: 'PacketPokerSit', serial: player_serial + i, game_id: game_id });
 	    packets.push({ type: 'PacketPokerPlayerCards', serial: player_serial + i, game_id: game_id, cards: [255,255]});
-	    if (i >= 5) {
-		packets.push({ type: 'PacketPokerFold', serial: player_serial + i, game_id: game_id});
-	    }
         }
 	packets.push({ type: 'PacketPokerDealer', dealer: 0, game_id: game_id });
+        for (var i = 5; i < 10; i+=1) {
+	    packets.push({ type: 'PacketPokerFold', serial: player_serial + i, game_id: game_id});
+	}
 
         ActiveXObject.prototype.server = {
             outgoing: JSON.stringify(packets),

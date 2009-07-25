@@ -35,6 +35,13 @@
        inkscape:vp_y="0 : 1000 : 0"
        inkscape:vp_x="0 : 526.18109 : 1"
        sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2587"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
      inkscape:window-height="825"
@@ -53,10 +60,10 @@
      inkscape:guide-bbox="true"
      inkscape:zoom="1.1188679"
      inkscape:cx="194.22591"
-     inkscape:cy="336.50075"
+     inkscape:cy="429.16164"
      inkscape:window-x="0"
      inkscape:window-y="25"
-     inkscape:current-layer="game_fixed">
+     inkscape:current-layer="seat4">
     <sodipodi:guide
        orientation="0,1"
        position="-54.519393,761.48398"
@@ -459,6 +466,13 @@
            xlink:href="../css/images/jpoker_table/cards/small-back.png"
            inkscape:label="#card_seat01" />
       </g>
+      <image
+         y="177.57823"
+         x="15.377388"
+         id="player_seat0_hole"
+         height="122"
+         width="116"
+         xlink:href="../css/images/jpoker_table/card-back2.gif" />
     </g>
     <g
        id="seat1"
@@ -507,6 +521,14 @@
          x="0"
          id="card_seat1"
          transform="translate(189.06296,-121.2963)" />
+      <use
+         xlink:href="#player_seat0_hole"
+         height="600"
+         width="800"
+         y="0"
+         x="0"
+         id="player_seat1_hole"
+         transform="translate(136.1321,-136.2845)" />
     </g>
     <g
        id="seat2"
@@ -555,6 +577,14 @@
          x="0"
          id="card_seat2"
          transform="translate(330.45266,-120.3952)" />
+      <use
+         xlink:href="#player_seat0_hole"
+         height="600"
+         width="800"
+         y="0"
+         x="0"
+         id="player_seat2_hole"
+         transform="translate(276.1321,-140.2845)" />
     </g>
     <g
        id="seat3"
@@ -573,7 +603,7 @@
          inkscape:label="#player_seat3_sidepot"
          id="player_seat3_sidepot"
          xlink:href="#player_seat0_sidepot"
-         transform="translate(384.55649,-135.18212)"
+         transform="translate(452.55649,-125.18212)"
          y="0"
          x="0"
          width="800"
@@ -583,14 +613,14 @@
          y="0"
          xlink:href="#player_seat0_bet"
          id="player_seat3_bet"
-         transform="translate(379.87037,-128.11639)"
+         transform="translate(451.87037,-122.11639)"
          width="800"
          height="600"
          inkscape:label="#use2712" />
       <use
          id="dealer3"
          xlink:href="#dealer0"
-         transform="translate(386.99831,-99.377527)"
+         transform="translate(456.99831,-101.37753)"
          width="800"
          height="782"
          x="0"
@@ -603,6 +633,14 @@
          x="0"
          id="card_seat3"
          transform="translate(464.80657,-120.19006)" />
+      <use
+         xlink:href="#player_seat0_hole"
+         height="600"
+         width="800"
+         y="0"
+         x="0"
+         id="player_seat3_hole"
+         transform="translate(400.1321,-150.2845)" />
     </g>
     <g
        id="seat4"
@@ -621,7 +659,7 @@
          inkscape:label="#player_seat4_sidepot"
          id="player_seat4_sidepot"
          xlink:href="#player_seat0_sidepot"
-         transform="translate(558.55371,-5.4249527)"
+         transform="translate(558.55371,-15.424953)"
          y="0"
          x="0"
          width="800"
@@ -629,7 +667,7 @@
       <use
          height="600"
          width="800"
-         transform="translate(566.75024,-0.3908614)"
+         transform="translate(560.75024,-10.390861)"
          id="player_seat4_bet"
          xlink:href="#player_seat0_bet"
          y="0"
@@ -638,7 +676,7 @@
       <use
          id="dealer4"
          xlink:href="#dealer0"
-         transform="translate(562.4317,29.706579)"
+         transform="translate(570.4317,41.706579)"
          width="800"
          height="782"
          x="0"
@@ -651,6 +689,14 @@
          x="0"
          id="card_seat4"
          transform="translate(656.5122,1.07971e-2)" />
+      <use
+         xlink:href="#player_seat0_hole"
+         height="600"
+         width="800"
+         y="0"
+         x="0"
+         id="player_seat4_hole"
+         transform="translate(608.1321,-6.2845)" />
     </g>
     <g
        id="seat5"
@@ -699,6 +745,14 @@
          x="0"
          id="card_seat5"
          transform="translate(657.83942,272.01636)" />
+      <use
+         xlink:href="#player_seat0_hole"
+         height="600"
+         width="800"
+         y="0"
+         x="0"
+         id="player_seat5_hole"
+         transform="translate(616.1321,131.7155)" />
     </g>
     <g
        id="seat6"
@@ -747,6 +801,14 @@
          x="0"
          id="card_seat6"
          transform="translate(458.02462,364.81907)" />
+      <use
+         xlink:href="#player_seat0_hole"
+         height="600"
+         width="800"
+         y="0"
+         x="0"
+         id="player_seat6_hole"
+         transform="translate(458.08488,234.42039)" />
     </g>
     <g
        id="seat7"
@@ -795,6 +857,14 @@
          x="0"
          id="card_seat7"
          transform="translate(324.97846,363.84181)" />
+      <use
+         xlink:href="#player_seat0_hole"
+         height="600"
+         width="800"
+         y="0"
+         x="0"
+         id="player_seat7_hole"
+         transform="translate(330.1321,233.7155)" />
     </g>
     <g
        id="seat8"
@@ -843,6 +913,14 @@
          x="0"
          id="card_seat8"
          transform="translate(188.40356,363.72418)" />
+      <use
+         xlink:href="#player_seat0_hole"
+         height="600"
+         width="800"
+         y="0"
+         x="0"
+         id="player_seat8_hole"
+         transform="translate(192.39635,234.42039)" />
     </g>
     <g
        id="seat9"
@@ -878,7 +956,7 @@
       <use
          id="dealer9"
          xlink:href="#dealer0"
-         transform="translate(-52.178562,142.10792)"
+         transform="translate(-56.178562,138.10792)"
          width="800"
          height="782"
          x="0"
@@ -891,6 +969,14 @@
          x="0"
          id="card_seat9"
          transform="translate(1.0948868,272.21805)" />
+      <use
+         xlink:href="#player_seat0_hole"
+         height="600"
+         width="800"
+         y="0"
+         x="0"
+         id="player_seat9_hole"
+         transform="translate(6.6899124,141.46929)" />
     </g>
     <image
        xlink:href="../css/images/jpoker_table/status.png"
