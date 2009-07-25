@@ -3444,11 +3444,11 @@ test("jpoker.plugins.tableList pager", function(){
 		    ok($('.pager li:last a', element).text().indexOf('>>>') >= 0, 'has next page');
 		    $('.pager li:last a', element).click();
 		    ok($('.pager li:first a', element).text().indexOf('<<<') >= 0, 'has previous page');
-		    var row_id = TABLE_LIST_PACKET.packets[10].id + id;
+		    var row_id = TABLE_LIST_PACKET.packets[11].id + id;
 		    var row = $("#" + row_id, place);
 		    equals(row.length, 1, 'row element');
 		    server.tableJoin = function(id) {
-			equals(id, TABLE_LIST_PACKET.packets[10].id, 'tableJoin called');
+			equals(id, TABLE_LIST_PACKET.packets[11].id, 'tableJoin called');
 		    };
 		    row.click();
                     $("#" + id).remove();

@@ -1,7 +1,7 @@
 //
 //     Copyright (C) 2008, 2009 Loic Dachary <loic@dachary.org>
-//     Copyright (C) 2008 Johan Euphrosine <proppy@aminche.com>
-//     Copyright (C) 2008 Saq Imtiaz <lewcid@gmail.com>
+//     Copyright (C) 2008, 2009 Johan Euphrosine <proppy@aminche.com>
+//     Copyright (C) 2008, 2009 Saq Imtiaz <lewcid@gmail.com>
 //
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU General Public License as published by
@@ -2402,7 +2402,7 @@
 					       positionFixed: false,
 					       previous_label: t.previous_label.supplant({previous_label: _("Previous page")}),
 					       next_label: t.next_label.supplant({next_label: _("Next page")})};
-				$('table', element).tablesorter({widgets: ['zebra']}).tablesorterPager(options);
+				$('table', element).tablesorter({widgets: ['zebra'], sortList: opts.sortList}).tablesorterPager(options);
 			    }
                             tableList.callback.display_done(element);
                         }
@@ -2421,7 +2421,8 @@
     };
 
     jpoker.plugins.tableList.defaults = $.extend({
-        string: ''
+            sortList: [[0, 0]],
+            string: ''
         }, jpoker.refresh.defaults, jpoker.defaults);
 
     jpoker.plugins.tableList.getHTML = function(id, packet, link_pattern) {
