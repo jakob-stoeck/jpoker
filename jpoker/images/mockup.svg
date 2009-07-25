@@ -60,7 +60,7 @@
      inkscape:guide-bbox="true"
      inkscape:zoom="1.1188679"
      inkscape:cx="194.22591"
-     inkscape:cy="331.59142"
+     inkscape:cy="344.8804"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:current-layer="game_fixed">
@@ -1024,14 +1024,14 @@
        y="441.96948" />
     <image
        xlink:href="../css/images/jpoker_table/status.png"
-       x="4.5578346"
+       x="0.55783463"
        id="table_info"
-       inkscape:transform-center-y="209.12873"
-       inkscape:transform-center-x="-13.012644"
-       width="126.43469"
+       inkscape:transform-center-y="141.31382"
+       inkscape:transform-center-x="-14.208456"
+       width="138.05357"
        inkscape:label="auto_muck"
-       height="60.636257"
-       y="3.731699" />
+       height="40.973526"
+       y="-0.60556984" />
     <image
        xlink:href="../css/images/jpoker_table/button.png"
        y="3.6912289"
@@ -1042,14 +1042,14 @@
        x="541.97327" />
     <image
        xlink:href="../css/images/jpoker_table/status.png"
-       x="141.0546"
+       x="317.41547"
        id="powered_by"
-       inkscape:transform-center-y="83.227389"
-       inkscape:transform-center-x="-20.53836"
-       width="199.55721"
+       inkscape:transform-center-y="46.237442"
+       inkscape:transform-center-x="-14.375328"
+       width="139.67525"
        inkscape:label="powered_by"
-       height="24.131536"
-       y="3.731699" />
+       height="13.40641"
+       y="-0.26830101" />
     <image
        xlink:href="../css/images/jpoker_table/raise.png"
        x="290.56119"
