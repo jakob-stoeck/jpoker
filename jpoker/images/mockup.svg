@@ -60,7 +60,7 @@
      inkscape:guide-bbox="true"
      inkscape:zoom="1.1188679"
      inkscape:cx="194.22591"
-     inkscape:cy="344.8804"
+     inkscape:cy="344.88039"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:current-layer="game_fixed">
@@ -1061,12 +1061,12 @@
        xlink:href="../css/images/jpoker_table/status.png"
        x="577.34949"
        id="hand_strength"
-       inkscape:transform-center-y="129.34344"
+       inkscape:transform-center-y="104.68348"
        inkscape:transform-center-x="-18.960244"
        width="184.22353"
        inkscape:label="hand_strength"
-       height="37.50275"
-       y="353.34372" />
+       height="30.352667"
+       y="360.4938" />
     <image
        xlink:href="../css/images/jpoker_table/winner.png"
        x="200.98279"

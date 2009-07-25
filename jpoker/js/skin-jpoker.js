@@ -556,8 +556,9 @@ function jpoker_08_all(place) {
                        ];
         var money = 2;
         var bet = 8;
-	packets.push({ type: 'PacketPokerDealer', dealer: 0, game_id: game_id });
+	packets.push({ type: 'PacketSerial', serial: player_serial });
         for(var i = 0; i < 10; i++) {
+	    packets.push({ type: 'PacketPokerDealer', dealer: i, game_id: game_id });
             packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
 	    packets.push({"type":"PacketPokerChipsPlayer2Bet","length":15,"cookie":"","game_id":game_id,"serial":player_serial+i,"chips":[10000,2]});
             packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money , bet: bet });
@@ -578,7 +579,7 @@ function jpoker_08_all(place) {
 	    packets.push({"besthand":1,"hand":"Flush Queen high","length":47,"cookie":"","board":[],"bestcards":[1,2,3,4,5],"cards":[1,7],"game_id":game_id,"serial":player_serial+k,"type":"PacketPokerBestCards","side":""});
 	}
 	packets.push({"besthand":1,"hand":"Flush Queen high","length":47,"cookie":"","board":[1,2,3,6,7],"bestcards":[1,2,3,4,5],"cards":[8,4],"game_id":game_id,"serial":player_serial,"type":"PacketPokerBestCards","side":""});
-
+	packets.push({ type: 'PacketPokerPlayerHandStrength', game_id: game_id, serial: player_serial, hand: 'Hand strength: High card Ten: Ts, 9d, 4h, 3d, 2s' });
 
         ActiveXObject.prototype.server = {
             outgoing: JSON.stringify(packets),
