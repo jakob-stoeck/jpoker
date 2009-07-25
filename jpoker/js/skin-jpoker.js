@@ -562,7 +562,7 @@ function jpoker_08_all(place) {
             packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
 	    packets.push({"type":"PacketPokerChipsPlayer2Bet","length":15,"cookie":"","game_id":game_id,"serial":player_serial+i,"chips":[10000,2]});
             packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money , bet: bet });
-            packets.push({ type: 'PacketPokerPlayerCards', serial: player_serial + i, game_id: game_id, cards: [ 13, 14, 15, 16, 17, 18, 19 ] });
+            packets.push({ type: 'PacketPokerPlayerCards', serial: player_serial + i, game_id: game_id, cards: [ 13, 14 ] });
 	    packets.push({ type: 'PacketPokerCheck', serial: player_serial + i, game_id: game_id });
             packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i, percentile: i%4 });
             bet *= 10;
@@ -1636,7 +1636,7 @@ function jpoker_55_allWithSidePot(place) {
             packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
 	    packets.push({ type: 'PacketPokerSit', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
             packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money , bet: bet });
-            packets.push({ type: 'PacketPokerPlayerCards', serial: player_serial + i, game_id: game_id, cards: [ 13, 14, 15, 16, 17, 18, 19 ] });
+            packets.push({ type: 'PacketPokerPlayerCards', serial: player_serial + i, game_id: game_id, cards: [ 13, 14 ] });
 	    packets.push({ type: 'PacketPokerCheck', serial: player_serial + i, game_id: game_id });
             packets.push({ type: 'PacketPokerPotChips', game_id: game_id, index: i, bet: [ 1, bet ] });
             packets.push({ type: 'PacketPokerPlayerStats', serial:player_serial + i, game_id: game_id, rank: i, percentile: i%4 });

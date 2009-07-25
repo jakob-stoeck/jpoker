@@ -3481,9 +3481,8 @@
 		break;
 
             case 'PacketPokerBoardCards':
-		jpoker.plugins.table.callback.animation.best_cards_reset(table, id);
 		if (packet.cards.length > 0) {		    
-		    jpoker.plugins.cards.update(table.board, 'board', id, function(element) {jpoker.plugins.table.callback.animation.deal_card(table, id, element);});
+		    jpoker.plugins.cards.update(table.board, 'board', id);		    
 		    jpoker.plugins.table.callback.sound.deal_card();
 		} else {
 		    jpoker.plugins.cards.update(table.board, 'board', id);
@@ -3493,7 +3492,6 @@
 	    case 'PacketPokerBestCards':
 		for (var i = 0; i < packet.board.length; i+=1) {
 		    if (jQuery.inArray(packet.board[i], packet.bestcards) != -1) {
-			jpoker.plugins.table.callback.animation.best_card(table, id, $('#board' + i + id));
 		    }
 		}
 		break;
@@ -3692,7 +3690,7 @@
             var seat = player.seat;
             var server = jpoker.getServer(url);
             jpoker.plugins.player.seat(seat, id, server, table);
-            jpoker.plugins.cards.update(player.cards, 'card_seat' + player.seat, id);
+            jpoker.plugins.cards.update_value(player.cards, 'card_seat' + player.seat, id);
             $('#player_seat' + seat + '_bet' + id).addClass('jpoker_bet').html(jpoker.plugins.chips.template);
             $('#player_seat' + seat  + '_money' + id).addClass('jpoker_money').html(jpoker.plugins.chips.template);
             $('#player_seat' + seat  + '_action' + id).addClass('jpoker_action');
@@ -3775,20 +3773,14 @@
             break;
 
             case 'PacketPokerPlayerCards':
-            jpoker.plugins.cards.update(player.cards, 'card_seat' + player.seat, id, function(element) {jpoker.plugins.player.callback.animation.deal_card(player, id, element);});
+            jpoker.plugins.cards.update_value(player.cards, 'card_seat' + player.seat, id);
 	    $('#seat' + player.seat + id).addClass('jpoker_player_dealt');
             break;
 
 	    case 'PacketPokerBestCards':
-	    for (var i = 0; i < packet.cards.length; i+=1) {
-		if (jQuery.inArray(packet.cards[i], packet.bestcards) != -1) {
-		    jpoker.plugins.player.callback.animation.best_card(player, id, $('#card_seat' + player.seat + i + id));
-		}
-	    }
 	    break;
 
 	    case 'PacketPokerFold':
-	    jpoker.plugins.cards.hide(player.cards, 'card_seat' + player.seat, id);
 	    $('#seat' + player.seat + id).removeClass('jpoker_player_dealt');
 	    jpoker.plugins.player.action(player, id);
 	    jpoker.plugins.player.callback.sound.fold();
@@ -3810,7 +3802,6 @@
 	    break;
 
 	    case 'PacketPokerStart':
-	    jpoker.plugins.cards.hide(player.cards, 'card_seat' + player.seat, id);
 	    $('#seat' + player.seat + id).removeClass('jpoker_player_dealt');
 	    jpoker.plugins.player.action(player, id);
 	    jpoker.plugins.player.handStart(player, id);
@@ -4692,21 +4683,30 @@
     // cards (table plugin helper)
     //
     jpoker.plugins.cards = {
-        update: function(cards, prefix, id, animation) {
+	update: function(cards, prefix, id) {
+	    jpoker.plugins.cards.update_value(cards, prefix, id);
+	    jpoker.plugins.cards.update_visibility(cards, prefix, id);
+	},
+	update_value: function(cards, prefix, id) {
             for(var i = 0; i < cards.length; i++) {
                 var card = cards[i];
                 var element = $('#' + prefix + i + id);
+		element.removeClass().addClass('jpoker_card jpoker_ptable_' + prefix + i);
                 if(card !== null) {
                     var card_image = 'back';
                     if(card != 255) {
                         card_image = jpoker.cards.card2string[card & 0x3F];
-                    }
-		    var changed = !element.hasClass('jpoker_card_' + card_image) || element.is(':hidden');
-                    element.removeClass().addClass('jpoker_card jpoker_ptable_' + prefix + i + ' jpoker_card_' + card_image);
+                    }	       
+                    element.addClass('jpoker_card_' + card_image);
+		}
+            }
+	},
+        update_visibility: function(cards, prefix, id) {
+            for(var i = 0; i < cards.length; i++) {
+                var card = cards[i];
+                var element = $('#' + prefix + i + id);
+                if(card !== null) {
                     element.show();
-		    if ((animation !== undefined) && changed) {
-			animation(element);
-		    }
                 } else {
                     element.hide();
                 }
