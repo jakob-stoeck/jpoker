@@ -60,7 +60,7 @@
      inkscape:guide-bbox="true"
      inkscape:zoom="1.1188679"
      inkscape:cx="194.22591"
-     inkscape:cy="344.88039"
+     inkscape:cy="344.88038"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:current-layer="game_fixed">
@@ -222,16 +222,16 @@
        height="25"
        id="winner1" />
     <image
-       xlink:href="../css/images/jpoker_table/exit.png"
+       xlink:href="../css/images/jpoker_table/menu-button.gif"
        x="689.03601"
-       width="67"
-       height="26"
+       width="68"
+       height="17"
        id="quit"
        y="3.6912289" />
     <image
-       xlink:href="../css/images/jpoker_table/rebuy.png"
-       width="67"
-       height="26"
+       xlink:href="../css/images/jpoker_table/menu-button.gif"
+       width="68"
+       height="17"
        id="rebuy"
        x="615.89008"
        y="3.6912289" />
@@ -979,10 +979,10 @@
          transform="translate(6.6899124,141.46929)" />
     </g>
     <image
-       xlink:href="../css/images/jpoker_table/button.png"
+       xlink:href="../css/images/jpoker_table/menu-button.gif"
        y="3.6912289"
-       width="67"
-       height="26"
+       width="68"
+       height="17"
        id="sitout"
        inkscape:label="sitout"
        x="540.90015" />
@@ -997,21 +997,21 @@
        height="22.033945"
        y="368.38599" />
     <image
-       xlink:href="../css/images/jpoker_table/button.png"
+       xlink:href="../css/images/jpoker_table/menu-button.gif"
        y="407.67099"
-       width="67"
-       height="26"
+       width="68"
+       height="17"
        id="muck_accept"
        inkscape:label="muck_accept"
-       x="290.56119" />
+       x="252.56119" />
     <image
-       xlink:href="../css/images/jpoker_table/button.png"
+       xlink:href="../css/images/jpoker_table/menu-button.gif"
        y="407.67099"
-       width="67"
-       height="26"
+       width="68"
+       height="17"
        id="muck_deny"
        inkscape:label="muck_deny"
-       x="433.59494" />
+       x="429.59494" />
     <image
        xlink:href="../css/images/jpoker_table/status.png"
        x="339.71802"
@@ -1033,10 +1033,10 @@
        height="40.973526"
        y="-0.60556984" />
     <image
-       xlink:href="../css/images/jpoker_table/button.png"
+       xlink:href="../css/images/jpoker_table/menu-button.gif"
        y="3.6912289"
-       width="67"
-       height="26"
+       width="68"
+       height="17"
        id="sitin"
        inkscape:label="sitin"
        x="541.97327" />

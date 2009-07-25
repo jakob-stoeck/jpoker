@@ -164,25 +164,12 @@
     text-align : center;
 }
 
-.jpoker_table .jpoker_sitout, .jpoker_table .jpoker_rebuy, .jpoker_table .jpoker_quit {
+.jpoker_table .jpoker_sitout, .jpoker_table .jpoker_rebuy, .jpoker_table .jpoker_quit, .jpoker_table .jpoker_sitin, .jpoker_table .jpoker_muck {
     color: #FFF;
     margin: 0 5px;
-    line-height: 25px;
+    line-height: 17px;
     text-align: center;
-}
-
-.jpoker_table .jpoker_sitin {
-    color: #FFF;
-    margin: 0 5px;
-    line-height: 25px;
-    text-align: center;
-}
-
-.jpoker_table .jpoker_muck {
-    color: #FFF;
-    margin: 0 5px;
-    line-height: 25px;
-    text-align: center;
+    text-transform: uppercase;
 }
 
 .jpoker_table .jpoker_pot, .jpoker_table .jpoker_bet {
