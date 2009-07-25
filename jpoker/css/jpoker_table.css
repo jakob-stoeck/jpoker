@@ -1,4 +1,4 @@
-.jpoker_table {font-size: 14px; font-family: "trebuchet MS",arial,helvetica,sans-serif; }
+.jpoker_table {font-size: 10px; font-family: "trebuchet MS",arial,helvetica,sans-serif; }
 
 .jpoker_table .jpoker_avatar {
     background-image: none;
@@ -162,7 +162,6 @@
     /*margin: 0 5px;*/
     line-height: 30px;
     text-align : center;
-    font-size: 95%;
 }
 
 .jpoker_table .jpoker_sitout, .jpoker_table .jpoker_rebuy, .jpoker_table .jpoker_quit {
@@ -189,14 +188,12 @@
 .jpoker_table .jpoker_pot, .jpoker_table .jpoker_bet {
     text-align: center;
     font-weight: bold;
-    font-size: 14px;
     font-family: "trebuchet MS",arial,helvetica,sans-serif;
 }
 
 .jpoker_table .jpoker_money {
     text-align: center;
     line-height: 10px;
-    font-size: small;
     font-weight: bold;
     font-family: "trebuchet MS",arial,helvetica,sans-serif;
     color: #e5b408;
@@ -205,7 +202,6 @@
 .jpoker_table .jpoker_action {
     text-align: center;
     line-height: 10px;
-    font-size: 10px;
     font-weight: bold;
     font-family: "trebuchet MS",arial,helvetica,sans-serif;
     color: white;
@@ -216,7 +212,6 @@
 .jpoker_table .jpoker_name {
     text-align: center;
     line-height: 10px;    
-    font-size: 10px;
     font-weight: bold;
     font-family: "trebuchet MS",arial,helvetica,sans-serif;
     color: #FFFFFF;
@@ -517,7 +512,6 @@
 
 .jpoker_pots .jpoker_pot .jpoker_chips_amount {
     color: white;
-    font-size: 10px;
 }
 
 .jpoker_table .jpoker_seat .jpoker_bet {
@@ -536,5 +530,4 @@
 
 .jpoker_table .jpoker_seat .jpoker_bet .jpoker_chips_amount {
     color: white;
-    font-size: 10px;
 }

@@ -445,12 +445,12 @@ function jpoker_06_selfInPosition(place) {
 { type: 'PacketPokerPlayerCards', serial: player_serial, game_id: game_id, cards: [32, 33]},
 { type: 'PacketPokerBetLimit',
                        game_id: game_id,
-                       min:   500,
-                       max: 20000,
-                       step:  100,
-                       call: 1000,
-                       allin:4000,
-                       pot:  2000
+                       min:   50000,
+                       max: 2000000,
+                       step:  10000,
+                       call: 100000,
+                       allin:400000,
+                       pot:  200000
 },
 { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id },
 { type: 'one' },
