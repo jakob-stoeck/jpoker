@@ -2325,7 +2325,7 @@
 
         var sendRequest = function() {
             var server = jpoker.getServer(url);
-            if(server && opts.requireSession === false || server.connected()) {
+            if(server && ( opts.requireSession === false || server.connected() )) {
                 if(!waiting) {
                     waiting = true;
                     server.queueRunning(function(server) {
@@ -4109,14 +4109,14 @@
 		best_card: function(player, id, element) {
 		    var duration = 500;
 		    var card = element.hide().clone().insertAfter(element).show().addClass('jpoker_best_card');
-                    var top;
+                    var offset;
 		    if (player.seat <= 4) {
-                        top = '+=20px';
+                        offset = '+=20px';
 		    } else {
-			top = '-=20px';
+			offset = '-=20px';
 		    }
-                    card.animate({top: top}, duration);
-                    return top;
+                    card.animate({top: offset}, duration);
+                    return offset;
 		}
 	    }
 	}
