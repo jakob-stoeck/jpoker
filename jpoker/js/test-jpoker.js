@@ -1749,6 +1749,52 @@ test("jpoker.server.createAccount", function(){
 		    });
     });
 
+test("jpoker.server.createAccount PacketError", function(){
+        expect(1);
+	stop();
+
+        var PokerServer = function() {};
+
+        PokerServer.prototype = {
+            outgoing: '[{"type": "Ignored"}, {"type": "PacketError", "message": "ERROR"}]',
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var serial = 42;
+	var PERSONAL_INFO_PACKET = {'rating': 1000, 'firstname': 'John', 'money': {}, 'addr_street': '', 'phone': '', 'cookie': '', 'serial': serial, 'password': '', 'addr_country': '', 'name': 'john', 'gender': '', 'birthdate': '', 'addr_street2': '', 'addr_zip': '', 'affiliate': 0, 'lastname': 'Doe', 'addr_town': '', 'addr_state': '', 'type': 'PacketPokerPersonalInfo', 'email': ''};
+
+        var server = jpoker.serverCreate({ url: 'url' });
+	
+        server.registerUpdate(function(server, what, packet) {
+		if (packet.type == 'PacketError') {
+                    equals($('#jpokerDialog').text().indexOf(packet.message) >= 0, true, 'error dialog does not contain message from server : ' + packet.message);
+		    server.queueRunning(start_and_cleanup);
+		    return false;
+		}
+		return true;
+	    });
+        server.createAccount({name: 'john',
+		    password: 'testpassword',
+		    password_confirmation: 'testpassword',
+		    email: 'john@doe.com'
+		    });
+    });
+
+test("jpoker.server.createAccount passwords do not match", function(){
+        expect(1);
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.createAccount({name: 'john',
+		    password: 'testpassword',
+		    password_confirmation: 'bad',
+		    email: 'john@doe.com'
+		    });
+        equals($('#jpokerDialog').text().indexOf('confirmation does not match') >= 0, true, 'no match');
+        cleanup();
+    });
+
 test("jpoker.server.setPersonalInfo password confirmation failed", function(){
         expect(1);
 	stop();
@@ -6508,7 +6554,7 @@ test("jpoker.plugins.player: sounds", function(){
     });
 
 test("jpoker.plugins.player: animation", function(){
-        expect(13);
+        expect(15);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -6568,8 +6614,10 @@ test("jpoker.plugins.player: animation", function(){
 
 	var player_best_card = jpoker.plugins.player.callback.animation.best_card;
 	jpoker.plugins.player.callback.animation.best_card = function(player, id, element) {
-	    player_best_card(player, id, element);
+	    equals('+=20px', player_best_card(player, id, element));
 	    equals(element.length, 1, 'player best_card animation');
+            player.seat = 5;
+	    equals('-=20px', player_best_card(player, id, element));
 	};
 	var table_best_card = jpoker.plugins.table.callback.animation.best_card;
 	jpoker.plugins.table.callback.animation.best_card = function(table, id, element) {

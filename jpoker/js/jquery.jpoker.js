@@ -4109,11 +4109,14 @@
 		best_card: function(player, id, element) {
 		    var duration = 500;
 		    var card = element.hide().clone().insertAfter(element).show().addClass('jpoker_best_card');
+                    var top;
 		    if (player.seat <= 4) {
-			card.animate({top: '+=20px'}, duration);
+                        top = '+=20px';
 		    } else {
-			card.animate({top: '-=20px'}, duration);
+			top = '-=20px';
 		    }
+                    card.animate({top: top}, duration);
+                    return top;
 		}
 	    }
 	}
