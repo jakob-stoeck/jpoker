@@ -980,6 +980,13 @@
 	    tourneysCount: null,
             spawnTable: function(server, packet) {},
 	    placeTourneyRowClick: function(server, packet) {},
+            placeChallengeClick: function(server, serial) {
+                server.sendPacket({
+                        type: 'PacketPokerCreateTourney',
+                        name: server.serial + 'versus' + serial,
+                        players: [ server.serial, serial ]
+                    });
+            },
             tourneyRowClick: function(server, packet) {},
             rankClick: function(server, tourney_serial) {},
 	    reconnectFinish: function(server) {},
@@ -4937,7 +4944,7 @@
                     if(element) {
 			if(packet && packet.type == 'PacketPokerPlayerPlaces') {
 			    $(element).html(places.getHTML(packet, opts.table_link_pattern, opts.tourney_link_pattern));
-			    if (opts.table_link_pattern === undefined) {
+			    if(opts.table_link_pattern === undefined) {
 				$.each(packet.tables, function(i, table) {
 					$('#' + table, element).click(function() {
 						var server = jpoker.getServer(url);
@@ -4947,7 +4954,7 @@
 					    });
 				    });
 			    }
-			    if (opts.tourney_link_pattern === undefined) {
+			    if(opts.tourney_link_pattern === undefined) {
 				$.each(packet.tourneys, function(i, tourney) {
 					$('#' + tourney, element).click(function() {
 						var server = jpoker.getServer(url);
@@ -5065,6 +5072,16 @@
                                                 });
                                         });
                                 }
+                                $('.jpoker_player_lookup_challenge a', element).click(function() {
+                                        var server = jpoker.getServer(url);
+                                        if(server) {
+                                            if(server.loggedIn()) {
+                                                server.placeChallengeClick(server, packet.serial);
+                                            } else {
+                                                jpoker.dialog(_("you must login before you can challenge the player"));
+                                            }
+                                        }
+                                    });
                                 playerLookup.callback.display_done(element);
 			    } else if ((packet.type == 'PacketError') && (packet.other_type == jpoker.packetName2Type.PACKET_POKER_PLAYER_PLACES)) {
 				playerLookup.callback.error(packet);
@@ -5114,6 +5131,9 @@
 				tourney: tourney}));
 	    });
 	html.push(t.tourneys.footer);
+        if(packet.tourneys.length > 0 || packet.tables.length > 0) {
+            html.push(t.challenge.supplant({ 'label': _("Challenge player to a heads up tournament") }));
+        }
         return html.join('\n');
     };
 
@@ -5137,7 +5157,8 @@
 	    rows : '<tr class=\'jpoker_player_lookup_tourney\' id={id}><td>{tourney}</td></tr>',
 	    footer : '</tbody></table></div>',
 	    link: '<a href=\'{link}\'>{name}</a>'
-	}
+	},
+        challenge: '<div class=\'jpoker_player_lookup_challenge\'><a href=\'javascript://\'>{label}</a></div>'
     };
 
     jpoker.plugins.playerLookup.callback = {

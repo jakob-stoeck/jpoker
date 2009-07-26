@@ -9260,14 +9260,15 @@ test("jpoker.plugins.places link_pattern", function(){
     });
 
 test("jpoker.plugins.playerLookup", function(){
-        expect(11);
+        expect(14);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
 	server.serial = 42;
-	var PLAYER_PLACES_PACKET = {type: 'PacketPokerPlayerPlaces', name: 'user', tables: [11, 12, 13], tourneys: [21, 22]};
+        lookup_serial = 84;
+        var PLAYER_PLACES_PACKET = {type: 'PacketPokerPlayerPlaces', serial: lookup_serial, name: 'user', tables: [11, 12, 13], tourneys: [21, 22]};
 
         var id = 'jpoker' + jpoker.serial;
         var place = $('#main');
@@ -9290,6 +9291,55 @@ test("jpoker.plugins.playerLookup", function(){
 			    equals(packet.name, '', 'placeTourneyRowClick called');
 			};
 			$('.jpoker_player_lookup_tourney', element).eq(0).click();
+                        server.sendPacket = function(packet) {
+                            equals(packet.type, 'PacketPokerCreateTourney');
+                            equals(packet.players[0], server.serial, 'challenging player');
+                            equals(packet.players[1], lookup_serial, 'challenged player');
+                        }
+			$('.jpoker_player_lookup_challenge a', element).eq(0).click();
+			$('#' + id).remove();
+		    }
+		    return true;
+		} else {
+		    start_and_cleanup();
+		    return false;
+		}
+	    });
+	var player_lookup_element = $('.jpoker_player_lookup');
+	equals(player_lookup_element.length, 1, 'player_lookup div');
+	equals($('.jpoker_player_lookup_input', player_lookup_element).length, 1, 'player_lookup_input');
+	equals($('.jpoker_player_lookup_submit', player_lookup_element).length, 1, 'player_lookup_submit');
+	$('.jpoker_player_lookup_input', player_lookup_element).val('user');
+	server.sendPacket = function(packet) {
+	    equals(packet.name, 'user', 'packet.name');
+	    server.queueIncoming([PLAYER_PLACES_PACKET]);
+	};
+	$('.jpoker_player_lookup_submit', player_lookup_element).click();
+    });
+
+test("jpoker.plugins.playerLookup not logged", function(){
+        expect(7);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        server.connectionState = 'connected';
+
+	server.serial = 0;
+        lookup_serial = 84;
+        var PLAYER_PLACES_PACKET = {type: 'PacketPokerPlayerPlaces', serial: lookup_serial, name: 'user', tables: [11, 12, 13], tourneys: [21, 22]};
+
+        var id = 'jpoker' + jpoker.serial;
+        var place = $('#main');
+
+        equals('update' in server.callbacks, false, 'no update registered');
+        place.jpoker('playerLookup', 'url');
+        equals(server.callbacks.update.length, 1, 'player_lookup update registered');
+	server.registerUpdate(function(server, what, data) {
+		var element = $('#' + id);
+		if(element.length > 0) {
+		    if (data.type == 'PacketPokerPlayerPlaces') {
+			$('.jpoker_player_lookup_challenge a', element).eq(0).click();
+                        equals($('#jpokerDialog').text().indexOf('you must login') >= 0, true, 'not logged means no challenge');
 			$('#' + id).remove();
 		    }
 		    return true;
