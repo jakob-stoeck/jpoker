@@ -983,6 +983,7 @@
             placeChallengeClick: function(server, serial) {
                 server.sendPacket({
                         type: 'PacketPokerCreateTourney',
+                        serial: server.serial,
                         name: server.serial + 'versus' + serial,
                         players: [ server.serial, serial ]
                     });
