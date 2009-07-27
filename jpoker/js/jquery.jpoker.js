@@ -3705,10 +3705,16 @@
 		var game_window = $('#game_window' + id);
 		var player = table.serial2player[packet.serial];
 		var card_seat = $('#card_seat'+player.seat+id);
-		jpoker.plugins.table.callback.animation.best_card.positions = {
-		};
+		var cards_element = $('.jpoker_ptable_board0, .jpoker_ptable_board1, .jpoker_ptable_board2, .jpoker_ptable_board3, .jpoker_ptable_board4', game_window).add('.jpoker_card', card_seat);
+		if (jpoker.plugins.table.callback.animation.best_card.positions === undefined) {
+		    jpoker.plugins.table.callback.animation.best_card.positions = {
+		    };
+		    cards_element.each(function() {
+			    jpoker.plugins.table.callback.animation.best_card.positions[$(this).attr('id')] = $(this).getPosition();
+			});		    
+		}
 		var cards = packet.board.concat(packet.cards);
-		$('.jpoker_ptable_board0, .jpoker_ptable_board1, .jpoker_ptable_board2, .jpoker_ptable_board3, .jpoker_ptable_board4', game_window).add('.jpoker_card', card_seat).each(function(i) {
+		cards_element.each(function(i) {
 			var callback = complete ? function() {
 			    callbacks.shift();
 			    if (callbacks.length === 0) {
@@ -3716,14 +3722,15 @@
 			    }
 			} : undefined;
 			var options = $.extend(options, {complete: callback});
-			if (callback !== undefined) {
-			    callbacks.push(callback);
-			}
-			jpoker.plugins.table.callback.animation.best_card.positions[$(this).attr('id')] = $(this).getPosition();
-			if (jQuery.inArray(cards[i], packet.bestcards) != -1) {
-			    $(this).animate({top: '+=20px'}, options);
-			} else {
-			    $(this).animate({opacity: 0.5}, options);
+			if ($(this).hasClass('jpoker_best_card') === false) {
+			    if (callback !== undefined) {
+				callbacks.push(callback);
+			    }
+			    if (jQuery.inArray(cards[i], packet.bestcards) != -1) {
+				$(this).addClass('jpoker_best_card').animate({top: '+=20px'}, options);
+			    } else {
+				$(this).animate({opacity: 0.5}, options);
+			    }
 			}
 		    });
 	    },
@@ -3731,8 +3738,8 @@
 		var game_window = $('#game_window' + id);
 		if (jpoker.plugins.table.callback.animation.best_card.positions !== undefined) {
 		    $.each(jpoker.plugins.table.callback.animation.best_card.positions, function(id, position) {
-			$('#'+id).css(position).css({opacity: 1.0});
-		    });
+			    $('#'+id).removeClass('jpoker_best_card').css(position).css({opacity: 1.0});
+			});
 		}
 	    }
 	}
