@@ -4101,7 +4101,7 @@
 			dealerPosition.left -= hole.width()/2.0;
 			dealerPosition.top += dealer.height()/2.0;
 			dealerPosition.left += dealer.width()/2.0;
-			hole.css(dealerPosition).animate(holePosition, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);					
+			hole.css(dealerPosition).animate(holePosition, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);
 		    }
 		},
 		bet2pot: function(player, id, packet, element) {

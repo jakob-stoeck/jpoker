@@ -6560,6 +6560,49 @@ test("jpoker.plugins.player: animation", function(){
 	start_and_cleanup();
     });
 
+test("jpoker.plugins.player: animation deal_card", function(){
+        expect(3);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 1;
+        server.serial = player_serial;
+        var player_seat = 2;
+	var player_name = 'dummy';
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, name: player_name, game_id: game_id });
+	table.betLimit = {
+            min:   5,
+            max:   10,
+            step:  1,
+            call: 10,
+            allin:40,
+            pot:  20
+        };
+        table.handler(server, game_id, { type: 'PacketPokerDealer', dealer: player_seat, game_id: game_id });
+	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
+
+	var player_deal_card = jpoker.plugins.player.callback.animation.deal_card;
+	jpoker.plugins.player.callback.animation.deal_card = function(player, id, element) {
+	    var dealer, hole;
+	    player_deal_card(player, id, element);
+	    dealer = $('#dealer' + player.seat + id);
+	    hole = $('#player_seat'+ player.seat + '_hole' + id);
+	    equals(dealer.getOffset().top, Math.round(hole.getOffset().top + hole.height()/2.0 - dealer.height()/2.0), 'move from dealer top');
+	    equals(dealer.getOffset().left, Math.round(hole.getOffset().left + hole.width()/2.0 - dealer.width()/2.0), 'move from dealer left');
+	    equals(hole.css('opacity'), 0.0, 'opacity 0');
+	};
+	table.handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: player_serial, game_id: game_id, cards: [1,2] });
+	cleanup();	
+    });
+
 if (TEST_AVATAR) {
 test("jpoker.plugins.player: avatar", function(){
         expect(1);
