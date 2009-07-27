@@ -3659,10 +3659,12 @@
 	    }	    
 	},
 	animation: {
-	    deal_card: function(table, id, packet) {
-		var duration = 500;
+	    deal_card: function(table, id, packet, options) {
+		var options = $.extend({duration: 500}, options);
+		var complete = options.complete;
 		var game_window = $('#game_window' + id);
 		var dealer_seat = table.dealer;
+		var callbacks = [];
 		var board_cards = {3: $('.jpoker_ptable_board0, .jpoker_ptable_board1, .jpoker_ptable_board2', game_window),
 				   4: $('.jpoker_ptable_board3', game_window),
 				   5: $('.jpoker_ptable_board4', game_window)}[packet.cards.length];
@@ -3673,13 +3675,26 @@
 			    var dealerPosition = $('#dealer' + dealer_seat + id).getPosition();
 			    var card = $(this);
 			    var cardPosition = card.getPosition();
+			    var gameFixedOffset = $('#game_fixed' + id).getOffset();
+			    var callback = complete ? function() {
+				callbacks.shift();
+				if (callbacks.length === 0) {
+				    complete();
+				}
+			    } : undefined;
+			    var options = $.extend(options, {complete: callback});
+			    if (callback !== undefined) {
+				callbacks.push(callback);
+			    }
 			    dealerPosition.top += dealerSeatOffset.top;
 			    dealerPosition.left += dealerSeatOffset.left;
+			    dealerPosition.top -= gameFixedOffset.top;
+			    dealerPosition.left -= gameFixedOffset.left;
 			    dealerPosition.top -= card.height()/2.0;
 			    dealerPosition.left -= card.width()/2.0;
 			    dealerPosition.top += dealer.height()/2.0;
 			    dealerPosition.left += dealer.width()/2.0;
-			    card.css(dealerPosition).animate(cardPosition, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);					
+			    card.css({top: dealerPosition.top, left: dealerPosition.left, opacity: 0.0}).animate({top: cardPosition.top, left: cardPosition.left, opacity: 1.0}, options);
 			});
 		}
 	    },

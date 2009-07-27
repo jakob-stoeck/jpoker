@@ -6519,8 +6519,8 @@ test("jpoker.plugins.player: animation", function(){
 	    ok(true, 'board deal card animation');
 	};
 	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [] });
-	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [1,2] });
-	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [1,2, 3] });
+	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [1,2,3] });
+	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [1,2,3,4] });
 
 	var bet2pot = jpoker.plugins.player.callback.animation.bet2pot; 
 	jpoker.plugins.player.callback.animation.bet2pot = function(player, id, packet, element) {
@@ -6609,6 +6609,181 @@ test("jpoker.plugins.player: animation deal_card", function(){
 	    equals(hole.css('opacity'), 0.0, 'opacity 0');
 	};
 	table.handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: player_serial, game_id: game_id, cards: [1,2] });
+    });
+
+test("jpoker.plugins.player: animation deal_card board flop", function(){
+        expect(18);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 1;
+        server.serial = player_serial;
+        var player_seat = 2;
+	var player_name = 'dummy';
+
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, name: player_name, game_id: game_id });
+	table.betLimit = {
+            min:   5,
+            max:   10,
+            step:  1,
+            call: 10,
+            allin:40,
+            pot:  20
+        };
+        table.handler(server, game_id, { type: 'PacketPokerDealer', dealer: player_seat, game_id: game_id });
+	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
+	var table_deal_card = jpoker.plugins.table.callback.animation.deal_card; 
+	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [] });
+	jpoker.plugins.table.callback.animation.deal_card = function(table, id, packet) {
+	    var dealer = $('#dealer' + table.dealer + id);
+	    var board0 = $('#board0' + id);
+	    var board1 = $('#board1' + id);
+	    var board2 = $('#board2' + id);
+	    var board0OffsetBefore = board0.getOffset();
+	    var board1OffsetBefore = board1.getOffset();
+	    var board2OffsetBefore = board2.getOffset();
+	    var options = {duration: 100,
+			   complete: function() {
+		    equals(board0.getOffset().top, board0OffsetBefore.top, 'move to board0 top');
+		    equals(board0.getOffset().left, board0OffsetBefore.left, 'move to board0 left');
+		    equals(board0.css('opacity'), 1.0, 'opacity 1');
+		    equals(board1.getOffset().top, board1OffsetBefore.top, 'move to board1 top');
+		    equals(board1.getOffset().left, board1OffsetBefore.left, 'move to board1 left');
+		    equals(board1.css('opacity'), 1.0, 'opacity 1');
+		    equals(board2.getOffset().top, board2OffsetBefore.top, 'move to board2 top');
+		    equals(board2.getOffset().left, board2OffsetBefore.left, 'move to board2 left');
+		    equals(board2.css('opacity'), 1.0, 'opacity 1');
+		    jpoker.plugins.table.callback.animation.deal_card = table_deal_card;
+		    start_and_cleanup();
+		}};	    
+	    table_deal_card(table, id, packet, options);
+	    equals(Math.round(board0.getOffset().top  + board0.height()/2.0 -  dealer.height()/2.0), dealer.getOffset().top, 'move from dealer top');
+	    equals(Math.round(board0.getOffset().left + board0.width()/2.0 -  dealer.width()/2.0), dealer.getOffset().left, 'move from dealer left');
+	    equals(board0.css('opacity'), 0.0, 'opacity 0');
+	    equals(Math.round(board1.getOffset().top  + board1.height()/2.0 -  dealer.height()/2.0), dealer.getOffset().top, 'move from dealer top');
+	    equals(Math.round(board1.getOffset().left + board1.width()/2.0 -  dealer.width()/2.0), dealer.getOffset().left, 'move from dealer left');
+	    equals(board1.css('opacity'), 0.0, 'opacity 0');
+	    equals(Math.round(board2.getOffset().top  + board2.height()/2.0 -  dealer.height()/2.0), dealer.getOffset().top, 'move from dealer top');
+	    equals(Math.round(board2.getOffset().left + board2.width()/2.0 -  dealer.width()/2.0), dealer.getOffset().left, 'move from dealer left');
+	    equals(board2.css('opacity'), 0.0, 'opacity 0');
+	};
+	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [1,2,3] });
+    });
+
+test("jpoker.plugins.player: animation deal_card board turn", function(){
+        expect(6);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 1;
+        server.serial = player_serial;
+        var player_seat = 2;
+	var player_name = 'dummy';
+
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, name: player_name, game_id: game_id });
+	table.betLimit = {
+            min:   5,
+            max:   10,
+            step:  1,
+            call: 10,
+            allin:40,
+            pot:  20
+        };
+        table.handler(server, game_id, { type: 'PacketPokerDealer', dealer: player_seat, game_id: game_id });
+	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
+	var table_deal_card = jpoker.plugins.table.callback.animation.deal_card; 
+	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [] });
+	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [1,2,3] });
+	jpoker.plugins.table.callback.animation.deal_card = function(table, id, packet) {
+	    var dealer = $('#dealer' + table.dealer + id);
+	    var board3 = $('#board3' + id);
+	    var board3OffsetBefore = board3.getOffset();
+	    var options = {duration: 100,
+			   complete: function() {
+		    equals(board3.getOffset().top, board3OffsetBefore.top, 'move to board3 top');
+		    equals(board3.getOffset().left, board3OffsetBefore.left, 'move to board3 left');
+		    equals(board3.css('opacity'), 1.0, 'opacity 1');
+		    jpoker.plugins.table.callback.animation.deal_card = table_deal_card;
+		    start_and_cleanup();
+		}};	    
+	    table_deal_card(table, id, packet, options);
+	    equals(Math.round(board3.getOffset().top  + board3.height()/2.0 -  dealer.height()/2.0), dealer.getOffset().top, 'move from dealer top');
+	    equals(Math.round(board3.getOffset().left + board3.width()/2.0 -  dealer.width()/2.0), dealer.getOffset().left, 'move from dealer left');
+	    equals(board3.css('opacity'), 0.0, 'opacity 0');
+	};
+	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [1,2,3,4] });
+    });
+
+test("jpoker.plugins.player: animation deal_card board river", function(){
+        expect(6);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 1;
+        server.serial = player_serial;
+        var player_seat = 2;
+	var player_name = 'dummy';
+
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, name: player_name, game_id: game_id });
+	table.betLimit = {
+            min:   5,
+            max:   10,
+            step:  1,
+            call: 10,
+            allin:40,
+            pot:  20
+        };
+        table.handler(server, game_id, { type: 'PacketPokerDealer', dealer: player_seat, game_id: game_id });
+	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
+	var table_deal_card = jpoker.plugins.table.callback.animation.deal_card; 
+	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [] });
+	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [1,2,3] });
+	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [1,2,3,4] });
+	jpoker.plugins.table.callback.animation.deal_card = function(table, id, packet) {
+	    var dealer = $('#dealer' + table.dealer + id);
+	    var board4 = $('#board4' + id);
+	    var board4OffsetBefore = board4.getOffset();
+	    var options = {duration: 100,
+			   complete: function() {
+		    equals(board4.getOffset().top, board4OffsetBefore.top, 'move to board4 top');
+		    equals(board4.getOffset().left, board4OffsetBefore.left, 'move to board4 left');
+		    equals(board4.css('opacity'), 1.0, 'opacity 1');
+		    jpoker.plugins.table.callback.animation.deal_card = table_deal_card;
+		    start_and_cleanup();
+		}};	    
+	    table_deal_card(table, id, packet, options);
+	    equals(Math.round(board4.getOffset().top  + board4.height()/2.0 -  dealer.height()/2.0), dealer.getOffset().top, 'move from dealer top');
+	    equals(Math.round(board4.getOffset().left + board4.width()/2.0 -  dealer.width()/2.0), dealer.getOffset().left, 'move from dealer left');
+	    equals(board4.css('opacity'), 0.0, 'opacity 0');
+	};
+	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [1,2,3,4,5] });
     });
 
 if (TEST_AVATAR) {
