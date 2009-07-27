@@ -1,11 +1,22 @@
+.jpoker_chat_history_player_box {
+    position: absolute;
+    top: 400px;
+    left: 7px;
+    width: 227px;
+}
+
+.jpoker_chat_history_player_heading, .jpoker_chat_history_dealer_heading {
+    height: 18px;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+}
+
 .jpoker_chat_history_player {
     background-color: white;
-    height: 87px;
-    left: 7px;
     overflow: auto;
-    position: absolute;
-    top: 418px;
-    width: 227px;
+    height: 87px;
 }
 
 .jpoker_chat_input {
@@ -18,14 +29,16 @@
     background-color: white;
 }
 
+.jpoker_chat_history_dealer_box {
+    position: absolute;
+    top: 400px;
+    left: 516px;
+    width: 240px;
+}
+
 .jpoker_chat_history_dealer {
     overflow: auto;
     height: 107px;
-    left: 516px;
-    overflow: auto;
-    position: absolute;
-    top: 418px;
-    width: 240px;
 }
 
 .jpoker_chat_message {

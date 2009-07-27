@@ -3340,7 +3340,10 @@
 		    },function(){
 			$(this).removeClass('hover');
 		    }).html('<div class=\'jpoker_quit\'><a href=\'javascript://\'>' + _("Exit") + '</a></div>');
-            game_fixed.append(this.templates.chat);
+            game_fixed.append(this.templates.chat.supplant({
+			chat_history_player_label: _("chat"),
+			chat_history_dealer_label: _("dealer")
+			    }));
 	    $('.jpoker_chat_input', game_window).hide();
             jpoker.plugins.playerSelf.hide(id);
             for(var serial in table.serial2player) {
@@ -3618,7 +3621,7 @@
         room: 'expected to be overriden by mockup.js but was not',
 	tourney_break: '<div>{label}</div><div>{date}</div>',
 	powered_by: '<a title=\'Powered by Pokersource\' href=\'javascript://\' >Powered by Pokersource</a>',
-	chat: '<div class=\'jpoker_chat_input\'><input value=\'chat here\' type=\'text\' width=\'100%\' /></div><div class=\'jpoker_chat_history_player\'></div><div class=\'jpoker_chat_history_dealer\'></div>',
+	chat: '<div class=\'jpoker_chat_input\'><input value=\'chat here\' type=\'text\' width=\'100%\' /></div><div class=\'jpoker_chat_history_player_box\'><div class=\'jpoker_chat_history_player_heading\'>{chat_history_player_label}</div><div class=\'jpoker_chat_history_player\'></div></div><div class=\'jpoker_chat_history_dealer_box\'><div class=\'jpoker_chat_history_dealer_heading\'>{chat_history_dealer_label}</div><div class=\'jpoker_chat_history_dealer\'></div></div>',
         placeholder: _("connecting to table {name}"),
 	table_info: '<div class=\'jpoker_table_info_name\'><span class=\'jpoker_table_info_name_label\'>{name_label}</span>{name}</div><div class=\'jpoker_table_info_variant\'><span class=\'jpoker_table_info_variant_label\'>{variant_label}</span>{variant}</div><div class=\'jpoker_table_info_blind\'><span class=\'jpoker_table_info_blind_label\'>{betting_structure_label}</span>{betting_structure}</div><div class=\'jpoker_table_info_seats\'><span class=\'jpoker_table_info_seats_label\'>{seats_label}</span>{max_players}</div><div class=\'jpoker_table_info_flop\'>{percent_flop}<span class=\'jpoker_table_info_flop_label\'>{percent_flop_label}</span></div><div class=\'jpoker_table_info_player_timeout\'><span class=\'jpoker_table_info_player_timeout_label\'>{player_timeout_label}</span>{player_timeout}</div><div class=\'jpoker_table_info_muck_timeout\'><span class=\'jpoker_table_info_muck_timeout_label\'>{muck_timeout_label}</span>{muck_timeout}</div><div class=\'jpoker_table_info_level\'></div>',
 	date: '',
