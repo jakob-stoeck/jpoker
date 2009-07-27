@@ -60,7 +60,7 @@
      inkscape:guide-bbox="true"
      inkscape:zoom="1.1188679"
      inkscape:cx="194.22591"
-     inkscape:cy="344.88038"
+     inkscape:cy="266.47893"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:current-layer="game_fixed">
@@ -164,8 +164,8 @@
        y="90.330521"
        x="80.08094"
        id="table"
-       height="229"
-       width="602"
+       height="228"
+       width="596"
        xlink:href="../css/images/jpoker_table/table.gif"
        inkscape:label="#image2471" />
     <image
@@ -284,8 +284,8 @@
        xlink:href="../css/images/jpoker_table/seat-sit.gif"
        x="59.077229"
        y="68.041992"
-       width="69"
-       height="85"
+       width="70"
+       height="87"
        id="sit_seat0" />
     <use
        xlink:href="#sit_seat0"
@@ -372,8 +372,8 @@
            y="127.46716"
            x="26.737213"
            id="player_seat0_background"
-           height="85"
-           width="69"
+           height="87"
+           width="70"
            xlink:href="../css/images/jpoker_table/seat.gif" />
         <image
            inkscape:label="#image4258"
@@ -441,7 +441,7 @@
          xlink:href="../css/images/jpoker_table/bet.gif" />
       <image
          id="dealer0"
-         height="24"
+         height="26"
          width="25"
          y="203.7975"
          x="117.17166"
@@ -981,8 +981,8 @@
     <image
        xlink:href="../css/images/jpoker_table/menu-button.gif"
        y="3.6912289"
-       width="68"
-       height="17"
+       width="67"
+       height="20"
        id="sitout"
        inkscape:label="sitout"
        x="540.90015" />
@@ -1042,14 +1042,14 @@
        x="541.97327" />
     <image
        xlink:href="../css/images/jpoker_table/status.png"
-       x="317.41547"
+       x="1.4154663"
        id="powered_by"
        inkscape:transform-center-y="46.237442"
        inkscape:transform-center-x="-14.375328"
        width="139.67525"
        inkscape:label="powered_by"
        height="13.40641"
-       y="-0.26830101" />
+       y="353.73169" />
     <image
        xlink:href="../css/images/jpoker_table/raise.png"
        x="290.56119"
