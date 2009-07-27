@@ -188,10 +188,13 @@
 
 .jpoker_table .jpoker_action {
     text-align: center;
-    line-height: 10px;
+    line-height: 13px;
     font-weight: bold;
     font-family: "trebuchet MS",arial,helvetica,sans-serif;
     color: white;
+    background-image: url("images/jpoker_table/check-call.gif");
+    width: 48px;
+    height: 13px;
     background-color: #4b4848;
     text-transform: uppercase;
 }
@@ -327,7 +330,6 @@
 
 .jpoker_table .jpoker_ptable_raise_input {
 	height:auto;
-	top:545px;
 }
 
 #jpokerRebuy

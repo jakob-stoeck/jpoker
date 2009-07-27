@@ -6530,11 +6530,6 @@ test("jpoker.plugins.player: animation", function(){
 
 	table.handler(server, game_id, { type: 'PacketPokerChipsBet2Pot', pot: 0, game_id: game_id, serial: player_serial });
 
-	var player_best_card = jpoker.plugins.player.callback.animation.best_card;
-	jpoker.plugins.player.callback.animation.best_card = function(player, id, element) {
-	    player_best_card(player, id, element);
-	    ok(true, 'player best_card animation');
-	};
 	var table_best_card = jpoker.plugins.table.callback.animation.best_card;
 	jpoker.plugins.table.callback.animation.best_card = function(table, id, element) {
 	    table_best_card(table, id, element);
@@ -6546,7 +6541,6 @@ test("jpoker.plugins.player: animation", function(){
 	jpoker.plugins.player.callback.animation.deal_card = player_deal_card;	
 	jpoker.plugins.table.callback.animation.deal_card = table_deal_card;
 	jpoker.plugins.player.callback.animation.bet2pot = bet2pot;
-	jpoker.plugins.player.callback.animation.best_card = player_best_card;
 	jpoker.plugins.table.callback.animation.best_card = table_best_card;
 
 	var table_best_card_reset = jpoker.plugins.table.callback.animation.best_card_reset;
@@ -6594,15 +6588,13 @@ test("jpoker.plugins.player: animation deal_card", function(){
 	    var dealer = $('#dealer' + player.seat + id);
 	    var hole = $('#player_seat'+ player.seat + '_hole' + id);
 	    var holeOffsetBefore = hole.getOffset();
-	    var options = {duration: 100,
-			   complete: function() {
+	    player_deal_card(player, id, 100, function() {
 		    equals(hole.getOffset().top, holeOffsetBefore.top, 'move to hole top');
 		    equals(hole.getOffset().left, holeOffsetBefore.left, 'move to hole left');
 		    equals(hole.css('opacity'), 1.0, 'opacity 1');
 		    jpoker.plugins.player.callback.animation.deal_card = player_deal_card;		    
 		    start_and_cleanup();
-		}};
-	    player_deal_card(player, id, options);
+		});
 	    equals(Math.round(hole.getOffset().top + hole.height()/2.0 -  dealer.height()/2.0), dealer.getOffset().top, 'move from dealer top');
 	    equals(Math.round(hole.getOffset().left + hole.width()/2.0 -  dealer.width()/2.0), dealer.getOffset().left, 'move from dealer left');
 	    equals(hole.css('opacity'), 0.0, 'opacity 0');
@@ -6650,21 +6642,23 @@ test("jpoker.plugins.player: animation deal_card board flop", function(){
 	    var board0OffsetBefore = board0.getOffset();
 	    var board1OffsetBefore = board1.getOffset();
 	    var board2OffsetBefore = board2.getOffset();
-	    var options = {duration: 100,
-			   complete: function() {
-		    equals(board0.getOffset().top, board0OffsetBefore.top, 'move to board0 top');
-		    equals(board0.getOffset().left, board0OffsetBefore.left, 'move to board0 left');
-		    equals(board0.css('opacity'), 1.0, 'opacity 1');
-		    equals(board1.getOffset().top, board1OffsetBefore.top, 'move to board1 top');
-		    equals(board1.getOffset().left, board1OffsetBefore.left, 'move to board1 left');
-		    equals(board1.css('opacity'), 1.0, 'opacity 1');
-		    equals(board2.getOffset().top, board2OffsetBefore.top, 'move to board2 top');
-		    equals(board2.getOffset().left, board2OffsetBefore.left, 'move to board2 left');
-		    equals(board2.css('opacity'), 1.0, 'opacity 1');
-		    jpoker.plugins.table.callback.animation.deal_card = table_deal_card;
-		    start_and_cleanup();
-		}};	    
-	    table_deal_card(table, id, packet, options);
+	    var count = 0;
+	    table_deal_card(table, id, packet, 100, function() {
+		    count += 1;
+		    if (count == 3) {
+			equals(board0.getOffset().top, board0OffsetBefore.top, 'move to board0 top');
+			equals(board0.getOffset().left, board0OffsetBefore.left, 'move to board0 left');
+			equals(board0.css('opacity'), 1.0, 'opacity 1');
+			equals(board1.getOffset().top, board1OffsetBefore.top, 'move to board1 top');
+			equals(board1.getOffset().left, board1OffsetBefore.left, 'move to board1 left');
+			equals(board1.css('opacity'), 1.0, 'opacity 1');
+			equals(board2.getOffset().top, board2OffsetBefore.top, 'move to board2 top');
+			equals(board2.getOffset().left, board2OffsetBefore.left, 'move to board2 left');
+			equals(board2.css('opacity'), 1.0, 'opacity 1');
+			jpoker.plugins.table.callback.animation.deal_card = table_deal_card;
+			start_and_cleanup();
+		    }
+		});
 	    equals(Math.round(board0.getOffset().top  + board0.height()/2.0 -  dealer.height()/2.0), dealer.getOffset().top, 'move from dealer top');
 	    equals(Math.round(board0.getOffset().left + board0.width()/2.0 -  dealer.width()/2.0), dealer.getOffset().left, 'move from dealer left');
 	    equals(board0.css('opacity'), 0.0, 'opacity 0');
@@ -6715,15 +6709,13 @@ test("jpoker.plugins.player: animation deal_card board turn", function(){
 	    var dealer = $('#dealer' + table.dealer + id);
 	    var board3 = $('#board3' + id);
 	    var board3OffsetBefore = board3.getOffset();
-	    var options = {duration: 100,
-			   complete: function() {
+	    table_deal_card(table, id, packet, 100, function() {
 		    equals(board3.getOffset().top, board3OffsetBefore.top, 'move to board3 top');
 		    equals(board3.getOffset().left, board3OffsetBefore.left, 'move to board3 left');
 		    equals(board3.css('opacity'), 1.0, 'opacity 1');
 		    jpoker.plugins.table.callback.animation.deal_card = table_deal_card;
 		    start_and_cleanup();
-		}};	    
-	    table_deal_card(table, id, packet, options);
+		});
 	    equals(Math.round(board3.getOffset().top  + board3.height()/2.0 -  dealer.height()/2.0), dealer.getOffset().top, 'move from dealer top');
 	    equals(Math.round(board3.getOffset().left + board3.width()/2.0 -  dealer.width()/2.0), dealer.getOffset().left, 'move from dealer left');
 	    equals(board3.css('opacity'), 0.0, 'opacity 0');
@@ -6769,15 +6761,13 @@ test("jpoker.plugins.player: animation deal_card board river", function(){
 	    var dealer = $('#dealer' + table.dealer + id);
 	    var board4 = $('#board4' + id);
 	    var board4OffsetBefore = board4.getOffset();
-	    var options = {duration: 100,
-			   complete: function() {
+	    table_deal_card(table, id, packet, 100, function() {
 		    equals(board4.getOffset().top, board4OffsetBefore.top, 'move to board4 top');
 		    equals(board4.getOffset().left, board4OffsetBefore.left, 'move to board4 left');
-		    equals(board4.css('opacity'), 1.0, 'opacity 1');
+		    equals(board4.css('opacity'), 1.0, 'opacity 1');		    
 		    jpoker.plugins.table.callback.animation.deal_card = table_deal_card;
 		    start_and_cleanup();
-		}};	    
-	    table_deal_card(table, id, packet, options);
+		});
 	    equals(Math.round(board4.getOffset().top  + board4.height()/2.0 -  dealer.height()/2.0), dealer.getOffset().top, 'move from dealer top');
 	    equals(Math.round(board4.getOffset().left + board4.width()/2.0 -  dealer.width()/2.0), dealer.getOffset().left, 'move from dealer left');
 	    equals(board4.css('opacity'), 0.0, 'opacity 0');
@@ -6837,29 +6827,31 @@ test("jpoker.plugins.player: animation best_card", function(){
 	var board4Position = board4.getPosition();
 	var card_seat = $('#card_seat'+player_seat+id);
 	var cards = $('.jpoker_card', card_seat);
-	var card0Position = $('.jpoker_card', card_seat).eq(0).getPosition();
-	var card1Position = $('.jpoker_card', card_seat).eq(1).getPosition();
+	var card0Position = cards.eq(0).getPosition();
+	var card1Position = cards.eq(1).getPosition();
+	var count = 0;
 	jpoker.plugins.table.callback.animation.best_card = function(table, id, packet) {
-	    var options = {duration: 100,
-			   complete: function() {
-		    equals(board0.getPosition().top, board0Position.top, 'board0 position');
-		    equals(board0.css('opacity'), 0.5, 'board0 opacity');
-		    equals(board1.getPosition().top, board1Position.top+20, 'board1 position');
-		    equals(board1.css('opacity'), 1.0, 'board1 opacity');
-		    equals(board2.getPosition().top, board2Position.top+20, 'board2 position');
-		    equals(board2.css('opacity'), 1.0, 'board2 opacity');
-		    equals(board3.getPosition().top, board3Position.top+20, 'board3 position');
-		    equals(board3.css('opacity'), 1.0, 'board3 opacity');
-		    equals(board4.getPosition().top, board4Position.top+20, 'board4 position');
-		    equals(board4.css('opacity'), 1.0, 'board4 opacity');
-		    equals(cards.eq(0).getPosition().top, card0Position.top+20, 'card0 position');
-		    equals(cards.eq(0).css('opacity'), 1.0, 'card0 opacity');
-		    equals(cards.eq(1).getPosition().top, card1Position.top, 'card1 position');
-		    equals(cards.eq(1).css('opacity'), 0.5, 'card1 opacity');
-		    equals($('.jpoker_best_card').length, 5, '5 best cards');
-		    table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [] });
-		}};
-	    table_best_card(table, id, packet, options);
+	    table_best_card(table, id, packet, 100, function() {
+		    count += 1;
+		    if (count == 7) {
+			equals(board0.getPosition().top, board0Position.top, 'board0 position');
+			equals(board0.css('opacity'), 0.5, 'board0 opacity');
+			equals(board1.getPosition().top, board1Position.top+8, 'board1 position');
+			equals(board1.css('opacity'), 1.0, 'board1 opacity');
+			equals(board2.getPosition().top, board2Position.top+8, 'board2 position');
+			equals(board2.css('opacity'), 1.0, 'board2 opacity');
+			equals(board3.getPosition().top, board3Position.top+8, 'board3 position');
+			equals(board3.css('opacity'), 1.0, 'board3 opacity');
+			equals(board4.getPosition().top, board4Position.top+8, 'board4 position');
+			equals(board4.css('opacity'), 1.0, 'board4 opacity');
+			equals(cards.eq(0).getPosition().top, card0Position.top+8, 'card0 position');
+			equals(cards.eq(0).css('opacity'), 1.0, 'card0 opacity');
+			equals(cards.eq(1).getPosition().top, card1Position.top, 'card1 position');
+			equals(cards.eq(1).css('opacity'), 0.5, 'card1 opacity');
+			equals($('.jpoker_best_card').length, 5, '5 best cards');
+			table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [] });
+		    }
+		});
 	};
 	table.handler(server, game_id, {"besthand":1,"hand":"Flush Queen high","length":47,"cookie":"","board":[1,2,3,4,5],"bestcards":[2,3,4,5,6],"cards":[6,7],"game_id":game_id,"serial":player_serial,"type":"PacketPokerBestCards","side":""});
 	var table_best_card_reset = jpoker.plugins.table.callback.animation.best_card_reset;
@@ -6889,7 +6881,7 @@ test("jpoker.plugins.player: animation best_card", function(){
     });
 
 test("jpoker.plugins.player: animation best_card x2", function(){
-        expect(7);
+        expect(13);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -6908,6 +6900,7 @@ test("jpoker.plugins.player: animation best_card x2", function(){
 	var player_name = 'dummy';
 
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, name: player_name, game_id: game_id });
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat+1, serial: player_serial+1, name: player_name, game_id: game_id });
 	table.betLimit = {
             min:   5,
             max:   10,
@@ -6924,6 +6917,7 @@ test("jpoker.plugins.player: animation best_card x2", function(){
         table.handler(server, game_id, { type: 'PacketPokerDealer', dealer: player_seat, game_id: game_id });
 	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
 	table.handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: player_serial, game_id: game_id, cards: [6,7] });
+	table.handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: player_serial+1, game_id: game_id, cards: [6,7] });
 	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [1,2,3] });
 	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [1,2,3,4] });
 	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [1,2,3,4,5] });
@@ -6937,33 +6931,36 @@ test("jpoker.plugins.player: animation best_card x2", function(){
 	var board2Position = board2.getPosition();
 	var board3Position = board3.getPosition();
 	var board4Position = board4.getPosition();
-	var card_seat = $('#card_seat'+player_seat+id);
-	var cards = $('.jpoker_card', card_seat);
-	var card0Position = $('.jpoker_card', card_seat).eq(0).getPosition();
-	var card1Position = $('.jpoker_card', card_seat).eq(1).getPosition();
+	var player0_card_seat = $('#card_seat'+player_seat+id);
+	var player1_card_seat = $('#card_seat'+(player_seat+1)+id);
+	var player0_cards = $('.jpoker_card', player0_card_seat);
+	var player1_cards = $('.jpoker_card', player1_card_seat);
+	var player0card0Position = player0_cards.eq(0).getPosition();
+	var player0card1Position = player0_cards.eq(1).getPosition();
+	var player1card0Position = player1_cards.eq(0).getPosition();
+	var player1card1Position = player1_cards.eq(1).getPosition();
 	var table_best_card = jpoker.plugins.table.callback.animation.best_card;
+	var count = 0;
 	jpoker.plugins.table.callback.animation.best_card = function(table, id, packet) {
-	    var options = {duration: 100,
-			   complete: function() {
-		    table.handler(server, game_id, {"besthand":1,"hand":"Flush Queen high","length":47,"cookie":"","board":[1,2,3,4,5],"bestcards":[2,3,4,5,6],"cards":[6,7],"game_id":game_id,"serial":player_serial,"type":"PacketPokerBestCards","side":""});
-		}};
-	    table_best_card(table, id, packet, options);
+	    table_best_card(table, id, packet, 100, function() {
+		    count += 1;
+		    if (count == 7) {
+			equals(board0.getPosition().top, board0Position.top, 'board0 position');
+			equals(board1.getPosition().top, board1Position.top+8, 'board1 position');
+			equals(board2.getPosition().top, board2Position.top+8, 'board2 position');
+			equals(board3.getPosition().top, board3Position.top+8, 'board3 position');
+			equals(board4.getPosition().top, board4Position.top+8, 'board4 position');
+			equals(player0_cards.eq(0).getPosition().top, player0card0Position.top+8, 'card0 position');
+			equals(player0_cards.eq(1).getPosition().top, player0card1Position.top, 'card1 position');
+			table.handler(server, game_id, {"besthand":1,"hand":"Flush Queen high","length":47,"cookie":"","board":[1,2,3,4,5],"bestcards":[2,3,4,5,6],"cards":[6,7],"game_id":game_id,"serial":player_serial+1,"type":"PacketPokerBestCards","side":""});
+		    } else if (count == 10) {
+			equals(player1_cards.eq(0).getPosition().top, player1card0Position.top+8, 'card0 position');
+			equals(player1_cards.eq(1).getPosition().top, player1card1Position.top, 'card1 position');
+			table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [] });
+		    }
+		});
 	}
 	table.handler(server, game_id, {"besthand":1,"hand":"Flush Queen high","length":47,"cookie":"","board":[1,2,3,4,5],"bestcards":[2,3,4,5,6],"cards":[6,7],"game_id":game_id,"serial":player_serial,"type":"PacketPokerBestCards","side":""});
-	jpoker.plugins.table.callback.animation.best_card = function(table, id, packet) {
-	    var options = {duration: 100,
-			   complete: function() {
-		    equals(board0.getPosition().top, board0Position.top, 'board0 position');
-		    equals(board1.getPosition().top, board1Position.top+20, 'board1 position');
-		    equals(board2.getPosition().top, board2Position.top+20, 'board2 position');
-		    equals(board3.getPosition().top, board3Position.top+20, 'board3 position');
-		    equals(board4.getPosition().top, board4Position.top+20, 'board4 position');
-		    equals(cards.eq(0).getPosition().top, card0Position.top+20, 'card0 position');
-		    equals(cards.eq(1).getPosition().top, card1Position.top, 'card1 position');
-		    table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [] });
-		}};
-	    table_best_card(table, id, packet, options);
-	};
 	var table_best_card_reset = jpoker.plugins.table.callback.animation.best_card_reset;
 	jpoker.plugins.table.callback.animation.best_card_reset = function(table, id) {
 	    table_best_card_reset(table, id);
@@ -6971,6 +6968,10 @@ test("jpoker.plugins.player: animation best_card x2", function(){
 	    jpoker.plugins.player.callback.animation.deal_card = player_deal_card;
 	    jpoker.plugins.table.callback.animation.best_card = table_best_card;
 	    jpoker.plugins.table.callback.animation.best_card_reset = table_best_card_reset;
+	    equals(player0_cards.eq(0).getPosition().top, player0card0Position.top, 'card0 position');
+	    equals(player0_cards.eq(1).getPosition().top, player0card1Position.top, 'card1 position');
+	    equals(player1_cards.eq(0).getPosition().top, player1card0Position.top, 'card0 position');
+	    equals(player1_cards.eq(1).getPosition().top, player1card1Position.top, 'card1 position');
 	    start_and_cleanup();
 	};
     });
