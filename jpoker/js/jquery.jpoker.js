@@ -4081,8 +4081,8 @@
 		    var duration = 500;
 		    $(element).moveFrom('#player_seat' + player.seat + '_money' + id, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);
 		},
-		deal_card: function(player, id) {
-		    var duration = 500;
+		deal_card: function(player, id, options) {
+		    var options = $.extend({duration: 500}, options);
 		    var table = jpoker.getTable(player.url, player.game_id);
 		    var playerSeatOffset = $('#seat'+ player.seat + id).getOffset();
 		    var hole = $('#player_seat'+ player.seat + '_hole' + id);
@@ -4101,7 +4101,7 @@
 			dealerPosition.left -= hole.width()/2.0;
 			dealerPosition.top += dealer.height()/2.0;
 			dealerPosition.left += dealer.width()/2.0;
-			hole.css(dealerPosition).animate(holePosition, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);
+			hole.css({top: dealerPosition.top, left: dealerPosition.left, opacity: 0}).animate({top: holePosition.top, left: holePosition.left, opacity: 1.0}, options);
 		    }
 		},
 		bet2pot: function(player, id, packet, element) {

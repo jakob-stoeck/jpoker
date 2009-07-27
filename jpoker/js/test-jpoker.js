@@ -6561,7 +6561,8 @@ test("jpoker.plugins.player: animation", function(){
     });
 
 test("jpoker.plugins.player: animation deal_card", function(){
-        expect(3);
+        expect(6);
+	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
@@ -6591,16 +6592,23 @@ test("jpoker.plugins.player: animation deal_card", function(){
 
 	var player_deal_card = jpoker.plugins.player.callback.animation.deal_card;
 	jpoker.plugins.player.callback.animation.deal_card = function(player, id, element) {
-	    var dealer, hole;
-	    player_deal_card(player, id, element);
-	    dealer = $('#dealer' + player.seat + id);
-	    hole = $('#player_seat'+ player.seat + '_hole' + id);
-	    equals(dealer.getOffset().top, Math.round(hole.getOffset().top + hole.height()/2.0 - dealer.height()/2.0), 'move from dealer top');
-	    equals(dealer.getOffset().left, Math.round(hole.getOffset().left + hole.width()/2.0 - dealer.width()/2.0), 'move from dealer left');
+	    var dealer = $('#dealer' + player.seat + id);
+	    var hole = $('#player_seat'+ player.seat + '_hole' + id);
+	    var holeOffsetBefore = hole.getOffset();
+	    var options = {duration: 100,
+			   complete: function() {
+		    equals(hole.getOffset().top, holeOffsetBefore.top, 'move to hole top');
+		    equals(hole.getOffset().left, holeOffsetBefore.left, 'move to hole left');
+		    equals(hole.css('opacity'), 1.0, 'opacity 1');
+		    jpoker.plugins.player.callback.animation.deal_card = player_deal_card;		    
+		    start_and_cleanup();
+		}};
+	    player_deal_card(player, id, options);
+	    equals(Math.round(hole.getOffset().top + hole.height()/2.0 -  dealer.height()/2.0), dealer.getOffset().top, 'move from dealer top');
+	    equals(Math.round(hole.getOffset().left + hole.width()/2.0 -  dealer.width()/2.0), dealer.getOffset().left, 'move from dealer left');
 	    equals(hole.css('opacity'), 0.0, 'opacity 0');
 	};
 	table.handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: player_serial, game_id: game_id, cards: [1,2] });
-	cleanup();	
     });
 
 if (TEST_AVATAR) {
