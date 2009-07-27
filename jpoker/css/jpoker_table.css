@@ -543,7 +543,3 @@
 .jpoker_table .jpoker_auto_muck_win {
     float: left;
 }
-
-.jpoker_table .jpoker_card.jpoker_best_card_animation_hidden {
-    display: none;
-}
