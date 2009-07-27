@@ -2751,8 +2751,8 @@ function jpoker_142_click_here_to_get_a_seat_in_progress(place) {
 function jpoker_143_board(place) {
         setUp();
         if(explain) {
-            $('#explain').append('<b>jpoker_08_all</b> ');
-            $('#explain').append('All community cards and all pots are displayed.');
+            $('#explain').append('<b>jpoker_143_board</b> ');
+            $('#explain').append('Animation on each street, highlight of best cards.');
             $('#explain').append('<hr>');
         }
 
