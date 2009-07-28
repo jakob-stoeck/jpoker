@@ -6584,31 +6584,21 @@ test("jpoker.plugins.player: animation deal_card", function(){
 	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
 
 	var player_deal_card = jpoker.plugins.player.callback.animation.deal_card;
-	var count = 0;
-	var dealer = $('#dealer' + player_seat + id);
-	var hole = $('#player_seat'+ player_seat + '_hole' + id);
-	var holeOffsetBefore = hole.getOffset();
-	var count = 0;
 	jpoker.plugins.player.callback.animation.deal_card = function(player, id, element) {
-	    count += 1;
-	    if (count == 1) {
-		player_deal_card(player, id, 100, function() {
-			equals(hole.getOffset().top, holeOffsetBefore.top, 'move to hole top');
-			equals(hole.getOffset().left, holeOffsetBefore.left, 'move to hole left');
-			equals(hole.css('opacity'), 1.0, 'opacity 1');
-		    });
-		equals(Math.round(hole.getOffset().top + hole.height()/2.0 -  dealer.height()/2.0), dealer.getOffset().top, 'move from dealer top');
-		equals(Math.round(hole.getOffset().left + hole.width()/2.0 -  dealer.width()/2.0), dealer.getOffset().left, 'move from dealer left');
-		equals(hole.css('opacity'), 0.0, 'opacity 0');
-	    } else {
-		player_deal_card(player, id, 100, function() {
-			ok(false, 'not called');			
-		    });
-		jpoker.plugins.player.callback.animation.deal_card = player_deal_card;
-		start_and_cleanup();
-	    }
+	    var dealer = $('#dealer' + player.seat + id);
+	    var hole = $('#player_seat'+ player.seat + '_hole' + id);
+	    var holeOffsetBefore = hole.getOffset();
+	    player_deal_card(player, id, 100, function() {
+		    equals(hole.getOffset().top, holeOffsetBefore.top, 'move to hole top');
+		    equals(hole.getOffset().left, holeOffsetBefore.left, 'move to hole left');
+		    equals(hole.css('opacity'), 1.0, 'opacity 1');
+		    jpoker.plugins.player.callback.animation.deal_card = player_deal_card;		    
+		    start_and_cleanup();
+		});
+	    equals(Math.round(hole.getOffset().top + hole.height()/2.0 -  dealer.height()/2.0), dealer.getOffset().top, 'move from dealer top');
+	    equals(Math.round(hole.getOffset().left + hole.width()/2.0 -  dealer.width()/2.0), dealer.getOffset().left, 'move from dealer left');
+	    equals(hole.css('opacity'), 0.0, 'opacity 0');
 	};
-	table.handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: player_serial, game_id: game_id, cards: [1,2] });
 	table.handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: player_serial, game_id: game_id, cards: [1,2] });
     });
 

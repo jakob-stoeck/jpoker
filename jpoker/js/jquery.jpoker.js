@@ -4110,8 +4110,7 @@
 		    var holePosition = hole.getPosition();
 		    var dealer_seat = table.dealer;
 		    var dealer, dealerSeatOffset, dealerPosition;
-		    if ((dealer_seat != -1) && (jpoker.plugins.player.callback.animation.deal_card.running === undefined)) {
-			jpoker.plugins.player.callback.animation.deal_card.running = true;
+		    if (dealer_seat != -1) {
 			dealer = $('#dealer' + dealer_seat + id);
 			dealerSeatOffset = $('#seat'+ dealer_seat + id).getOffset();
 			dealerPosition = $('#dealer' + dealer_seat + id).getPosition();		       
@@ -4123,10 +4122,7 @@
 			dealerPosition.left -= hole.width()/2.0;
 			dealerPosition.top += dealer.height()/2.0;
 			dealerPosition.left += dealer.width()/2.0;
-			hole.css({top: dealerPosition.top, left: dealerPosition.left, opacity: 0}).animate({top: holePosition.top, left: holePosition.left, opacity: 1.0}, duration, "linear", function() {
-				jpoker.plugins.player.callback.animation.deal_card.running = undefined;
-				callback();
-			    });
+			hole.css({top: dealerPosition.top, left: dealerPosition.left, opacity: 0}).animate({top: holePosition.top, left: holePosition.left, opacity: 1.0}, duration, callback);
 		    }
 		},
 		bet2pot: function(player, id, packet, element) {
