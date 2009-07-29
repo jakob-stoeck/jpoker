@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+  <ModulePrefs title="appdata">
+	<Require feature="opensocial-0.8"/> 
+	<Require feature="opensocial-jsonrpc"/> 
+  </ModulePrefs>
+  <Content type="html">
+     <![CDATA[ 
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>appdata sample application</title>
+	<link href="http://jspoker.pokersource.info/work/jpoker/js/testrunner.css" rel="stylesheet" type="text/css" />	
+	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/work/jpoker/jquery/jquery-1.2.6.js"></script>
+	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/work/jpoker/js/testrunner-no-filter.js"></script>
+	<script type="text/javascript">
+	  module("appdata");
+	  test("update/fetch/remove", function() {
+		expect(5);
+		stop();
+		var req = opensocial.newDataRequest(); 
+		req.add(req.newRemovePersonAppDataRequest(opensocial.IdSpec.PersonId.VIEWER, "foo"), "remove");
+		req.add(req.newUpdatePersonAppDataRequest(opensocial.IdSpec.PersonId.VIEWER, "foo", "bar"), "update");
+		req.add(req.newFetchPersonAppDataRequest(opensocial.newIdSpec({"userId" : "VIEWER"}), "foo"), "fetch");
+		req.add(req.newRemovePersonAppDataRequest(opensocial.IdSpec.PersonId.VIEWER, "foo"), "remove2");
+		req.add(req.newFetchPersonAppDataRequest(opensocial.newIdSpec({"userId" : "VIEWER"}), "foo"), "fetch2");
+		req.send(function(resp) {
+			var k, data;
+			equals(resp.get("remove").getData(), null, "remove should return null");
+			equals(resp.get("update").getData(), null, "update should return null");
+			data = resp.get("fetch").getData();
+			for (k in data) {
+				equals(data[k]["foo"], "bar", "fetch should return updated data");
+			};
+			equals(resp.get("remove2").getData(), null, "remove2 should return null");
+			equals(gadgets.json.stringify(resp.get("fetch2").getData()), "{}", "fetch2 should return updated data");
+			start();
+		});
+	  });
+	</script>
+    <ol id="tests"></ol>
+    <div id="main"></div>
+     ]]>
+  </Content> 
+</Module>
