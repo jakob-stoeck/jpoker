@@ -4167,10 +4167,7 @@
 		    positionTo.left += positionToParent.left;
 		    positionTo.top += positionToParent.top;
 		    chip.animate(positionTo, {duration: duration, queue: false}).css({opacity: 1}).animate({opacity: 0.0}, duration, function() {chip.remove();});
-		},
-                    var offset;
-                    card.animate({top: offset}, duration);
-                    return offset;
+		}
 	    }
 	}
     };

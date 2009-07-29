@@ -5911,7 +5911,7 @@ test("jpoker.plugins.table: PacketPokerDealer", function(){
     });
 
 test("jpoker.plugins.table: PacketPokerChat", function(){
-        expect(21);
+        expect(20);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
@@ -6615,8 +6615,6 @@ test("jpoker.plugins.player: animation", function(){
 
 	table.handler(server, game_id, { type: 'PacketPokerChipsBet2Pot', pot: 0, game_id: game_id, serial: player_serial });
 
-            player.seat = 5;
-	    equals('-=20px', player_best_card(player, id, element));
 	var table_best_card = jpoker.plugins.table.callback.animation.best_card;
 	jpoker.plugins.table.callback.animation.best_card = function(table, id, element) {
 	    table_best_card(table, id, element);
