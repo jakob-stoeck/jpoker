@@ -3314,6 +3314,30 @@ test("jpoker.player.stats", function(){
 	equals(undefined, player.stats);
     });
 
+test("jpoker.player.cards", function(){
+	expect(7);
+        var serial = 42;
+        var name = 'username';
+        var url = 'url';
+        var server = jpoker.serverCreate({ url: url });
+	var game_id = 100;
+	var packet = {"type": "PacketPokerTable", "id": 100};
+	server.tables[packet.id] = new jpoker.table(server, packet);
+        var player = new jpoker.player({ url: url }, { serial: serial, name: name });
+	server.tables[packet.id].serial2player[serial] = player;
+ 	server.tables[packet.id].handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: serial, game_id: game_id, cards: [1,2] });
+	equals(player.cards[0], 1, 'card 1');
+	equals(player.cards[1], 2, 'card 2');
+	equals(player.cards.changed, true);
+ 	server.tables[packet.id].handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: serial, game_id: game_id, cards: [1,2] });
+	equals(player.cards.changed, false);
+ 	server.tables[packet.id].handler(server, game_id, { type: 'PacketPokerStart', game_id: game_id});	
+	equals(player.cards[0], null, 'card 1 null');
+	equals(player.cards[1], null, 'card 2 null');
+ 	server.tables[packet.id].handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: serial, game_id: game_id, cards: [1,2] });
+	equals(player.cards.changed, true);
+    });
+
 //
 // tableList
 //
@@ -6707,6 +6731,49 @@ test("jpoker.plugins.player: animation deal_card", function(){
 	    equals(hole.css('opacity'), 0.0, 'opacity 0');
 	};
 	table.handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: player_serial, game_id: game_id, cards: [1,2] });
+    });
+
+test("jpoker.plugins.player: animation deal_card x2", function(){
+        expect(2);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 1;
+        server.serial = player_serial;
+        var player_seat = 2;
+	var player_name = 'dummy';
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, name: player_name, game_id: game_id });
+	table.betLimit = {
+            min:   5,
+            max:   10,
+            step:  1,
+            call: 10,
+            allin:40,
+            pot:  20
+        };
+        table.handler(server, game_id, { type: 'PacketPokerDealer', dealer: player_seat, game_id: game_id });
+	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
+
+	var player_deal_card = jpoker.plugins.player.callback.animation.deal_card;
+	var count = 0;
+	jpoker.plugins.player.callback.animation.deal_card = function(player, id, element) {
+	    count += 1;
+	};
+	table.handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: player_serial, game_id: game_id, cards: [1,2] });
+	table.handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: player_serial, game_id: game_id, cards: [1,2] });
+	equals(count, 1, 'callback animation.deal_card should not be called if cards not changed')
+	table.handler(server, game_id, { type: 'PacketPokerStart', game_id: game_id});
+	table.handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: player_serial, game_id: game_id, cards: [1,2] });
+	equals(count, 2, 'callback animation.deal_card should be called if cards reseted');
+	jpoker.plugins.player.callback.animation.deal_card = player_deal_card;
     });
 
 test("jpoker.plugins.player: animation deal_card board flop", function(){
