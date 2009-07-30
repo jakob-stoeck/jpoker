@@ -61,9 +61,9 @@
      inkscape:zoom="0.89473684"
      inkscape:cx="380"
      inkscape:cy="265"
-     inkscape:window-x="50"
+     inkscape:window-x="100"
      inkscape:window-y="24"
-     inkscape:current-layer="game_fixed">
+     inkscape:current-layer="player_seat0">
     <sodipodi:guide
        orientation="0,1"
        position="-54.519393,761.48398"
@@ -394,7 +394,7 @@
         <image
            inkscape:label="#image4258"
            xlink:href="../css/images/jpoker_table/timeout.png"
-           x="30.737213"
+           x="32.737213"
            y="145.73549"
            width="59.443508"
            height="3.8063638"
