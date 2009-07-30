@@ -462,6 +462,10 @@
     margin-right: auto;
 }
 
+.jpoker_pots0 .jpoker_pots_align {
+    width: 0px;
+}
+
 .jpoker_pots1 .jpoker_pots_align {
     width: 30px;
 }
