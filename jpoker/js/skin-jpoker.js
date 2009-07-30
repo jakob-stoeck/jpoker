@@ -1634,7 +1634,7 @@ function jpoker_55_allWithSidePot(place) {
         for(var i = 0; i < 10; i++) {
             packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
 	    packets.push({ type: 'PacketPokerSit', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
-            packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money , bet: bet });
+            packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money , bet: 0 });
             packets.push({ type: 'PacketPokerPlayerCards', serial: player_serial + i, game_id: game_id, cards: [ 13, 14 ] });
 	    packets.push({ type: 'PacketPokerCheck', serial: player_serial + i, game_id: game_id });
             packets.push({ type: 'PacketPokerPotChips', game_id: game_id, index: i, bet: [ 1, bet ] });
@@ -2773,6 +2773,45 @@ function jpoker_143_board(place) {
         packets.push({ type: 'PacketPokerBoardCards', game_id: game_id, cards: [1, 2, 3] });
         packets.push({ type: 'PacketPokerBoardCards', game_id: game_id, cards: [1, 2, 3, 6] });
 
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
+}
+
+function jpoker_144_pot(place) {
+        setUp();
+        if(explain) {
+            $('#explain').append('<b>jpoker_143_pot</b> ');
+            $('#explain').append('Animation from player bet to pot.');
+            $('#explain').append('<hr>');
+        }
+
+        var game_id = 100;
+        var player_serial = 200;
+        var packets = [
+{ type: 'PacketPokerTable', id: game_id }
+                       ];
+        var money = 2;
+        var bet = 8;
+	packets.push({ type: 'PacketPokerDealer', dealer: i, game_id: game_id });
+	packets.push({ type: 'PacketSerial', serial: player_serial });
+        for(var i = 0; i < 10; i++) {
+            packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
+	    packets.push({"type":"PacketPokerChipsPlayer2Bet","length":15,"cookie":"","game_id":game_id,"serial":player_serial+i,"chips":[10000,2]});
+            packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money , bet: bet });
+            bet *= 10;
+            money *= 10;
+        }
+        for(var j = 0; j < 9; j++) {
+	    packets.push({ type: 'PacketPokerChipsBet2Pot', pot: j, game_id: game_id, serial: player_serial + j });
+            packets.push({ type: 'PacketPokerPotChips', index: j, bet: [j + 1, 100000], game_id: game_id });
+        }
         ActiveXObject.prototype.server = {
             outgoing: JSON.stringify(packets),
             handle: function(packet) { }
