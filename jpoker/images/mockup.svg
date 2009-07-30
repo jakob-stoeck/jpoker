@@ -44,8 +44,8 @@
        sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
-     inkscape:window-height="825"
-     inkscape:window-width="1440"
+     inkscape:window-height="723"
+     inkscape:window-width="768"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -58,12 +58,12 @@
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:zoom="1.1188679"
-     inkscape:cx="194.22591"
-     inkscape:cy="266.47893"
-     inkscape:window-x="0"
-     inkscape:window-y="25"
-     inkscape:current-layer="game_fixed">
+     inkscape:zoom="0.89473684"
+     inkscape:cx="380"
+     inkscape:cy="265"
+     inkscape:window-x="50"
+     inkscape:window-y="24"
+     inkscape:current-layer="seat8">
     <sodipodi:guide
        orientation="0,1"
        position="-54.519393,761.48398"
@@ -224,14 +224,14 @@
     <image
        xlink:href="../css/images/jpoker_table/menu-button.gif"
        x="689.03601"
-       width="68"
-       height="17"
+       width="67"
+       height="20"
        id="quit"
        y="3.6912289" />
     <image
        xlink:href="../css/images/jpoker_table/menu-button.gif"
-       width="68"
-       height="17"
+       width="67"
+       height="20"
        id="rebuy"
        x="615.89008"
        y="3.6912289" />
@@ -427,8 +427,8 @@
       <image
          inkscape:label="#player_seat0_sidepot"
          xlink:href="../css/images/jpoker_table/name.png"
-         x="86.144684"
-         y="217.3877"
+         x="92.144684"
+         y="219.3877"
          width="34.59359"
          height="38.168633"
          id="player_seat0_sidepot" />
@@ -436,15 +436,15 @@
          id="player_seat0_bet"
          height="24"
          width="24"
-         y="217.16499"
+         y="219.16499"
          x="90.54174"
          xlink:href="../css/images/jpoker_table/bet.gif" />
       <image
          id="dealer0"
          height="26"
          width="25"
-         y="203.7975"
-         x="117.17166"
+         y="193.7975"
+         x="115.17166"
          xlink:href="../css/images/jpoker_table/dealer.gif" />
       <g
          id="card_seat0"
@@ -467,8 +467,8 @@
            inkscape:label="#card_seat01" />
       </g>
       <image
-         y="177.57823"
-         x="15.377388"
+         y="179.57823"
+         x="13.377388"
          id="player_seat0_hole"
          height="122"
          width="116"
@@ -491,7 +491,7 @@
          inkscape:label="#player_seat1_sidepot"
          id="player_seat1_sidepot"
          xlink:href="#player_seat0_sidepot"
-         transform="translate(178.62399,-129.81956)"
+         transform="translate(182.62399,-127.81956)"
          y="0"
          x="0"
          width="800"
@@ -508,7 +508,7 @@
       <use
          id="dealer1"
          xlink:href="#dealer0"
-         transform="translate(182.1906,-125.66973)"
+         transform="translate(192.1906,-123.66973)"
          width="800"
          height="782"
          x="0"
@@ -528,7 +528,7 @@
          y="0"
          x="0"
          id="player_seat1_hole"
-         transform="translate(136.1321,-136.2845)" />
+         transform="translate(138.1321,-138.2845)" />
     </g>
     <g
        id="seat2"
@@ -547,7 +547,7 @@
          inkscape:label="#player_seat2_sidepot"
          id="player_seat2_sidepot"
          xlink:href="#player_seat0_sidepot"
-         transform="translate(321.01349,-129.81955)"
+         transform="translate(325.01349,-127.81955)"
          y="0"
          x="0"
          width="800"
@@ -555,7 +555,7 @@
       <use
          height="600"
          width="800"
-         transform="translate(323.8951,-127.4124)"
+         transform="translate(327.8951,-127.4124)"
          id="player_seat2_bet"
          xlink:href="#player_seat0_bet"
          y="0"
@@ -564,7 +564,7 @@
       <use
          id="dealer2"
          xlink:href="#dealer0"
-         transform="translate(328.03541,-110.93259)"
+         transform="translate(338.03541,-102.93259)"
          width="800"
          height="782"
          x="0"
@@ -584,7 +584,7 @@
          y="0"
          x="0"
          id="player_seat2_hole"
-         transform="translate(276.1321,-140.2845)" />
+         transform="translate(278.1321,-142.2845)" />
     </g>
     <g
        id="seat3"
@@ -603,7 +603,7 @@
          inkscape:label="#player_seat3_sidepot"
          id="player_seat3_sidepot"
          xlink:href="#player_seat0_sidepot"
-         transform="translate(452.55649,-125.18212)"
+         transform="translate(444.55649,-111.18212)"
          y="0"
          x="0"
          width="800"
@@ -613,14 +613,14 @@
          y="0"
          xlink:href="#player_seat0_bet"
          id="player_seat3_bet"
-         transform="translate(451.87037,-122.11639)"
+         transform="translate(455.87037,-112.11639)"
          width="800"
          height="600"
          inkscape:label="#use2712" />
       <use
          id="dealer3"
          xlink:href="#dealer0"
-         transform="translate(456.99831,-101.37753)"
+         transform="translate(458.99831,-91.37753)"
          width="800"
          height="782"
          x="0"
@@ -640,7 +640,7 @@
          y="0"
          x="0"
          id="player_seat3_hole"
-         transform="translate(400.1321,-150.2845)" />
+         transform="translate(402.1321,-152.2845)" />
     </g>
     <g
        id="seat4"
@@ -659,7 +659,7 @@
          inkscape:label="#player_seat4_sidepot"
          id="player_seat4_sidepot"
          xlink:href="#player_seat0_sidepot"
-         transform="translate(558.55371,-15.424953)"
+         transform="translate(540.55371,-5.424953)"
          y="0"
          x="0"
          width="800"
@@ -667,7 +667,7 @@
       <use
          height="600"
          width="800"
-         transform="translate(560.75024,-10.390861)"
+         transform="translate(552.75024,-6.390861)"
          id="player_seat4_bet"
          xlink:href="#player_seat0_bet"
          y="0"
@@ -676,7 +676,7 @@
       <use
          id="dealer4"
          xlink:href="#dealer0"
-         transform="translate(570.4317,41.706579)"
+         transform="translate(572.4317,55.706579)"
          width="800"
          height="782"
          x="0"
@@ -696,7 +696,7 @@
          y="0"
          x="0"
          id="player_seat4_hole"
-         transform="translate(608.1321,-6.2845)" />
+         transform="translate(610.1321,-4.2845)" />
     </g>
     <g
        id="seat5"
@@ -715,7 +715,7 @@
          inkscape:label="#player_seat5_sidepot"
          id="player_seat5_sidepot"
          xlink:href="#player_seat0_sidepot"
-         transform="translate(559.6486,131.82478)"
+         transform="translate(547.6486,121.82478)"
          y="0"
          x="0"
          width="800"
@@ -723,7 +723,7 @@
       <use
          height="600"
          width="800"
-         transform="translate(561.84513,138.98507)"
+         transform="translate(559.84513,136.98507)"
          id="player_seat5_bet"
          xlink:href="#player_seat0_bet"
          y="0"
@@ -732,7 +732,7 @@
       <use
          id="dealer5"
          xlink:href="#dealer0"
-         transform="translate(513.01854,181.43339)"
+         transform="translate(519.01854,187.43339)"
          width="800"
          height="782"
          x="0"
@@ -752,7 +752,7 @@
          y="0"
          x="0"
          id="player_seat5_hole"
-         transform="translate(616.1321,131.7155)" />
+         transform="translate(618.1321,129.7155)" />
     </g>
     <g
        id="seat6"
@@ -771,7 +771,7 @@
          inkscape:label="#player_seat6_sidepot"
          id="player_seat6_sidepot"
          xlink:href="#player_seat0_sidepot"
-         transform="translate(400.00952,234.50936)"
+         transform="translate(390.00952,232.50936)"
          y="0"
          x="0"
          width="800"
@@ -779,7 +779,7 @@
       <use
          height="600"
          width="800"
-         transform="translate(399.86878,238.51284)"
+         transform="translate(391.86878,232.51284)"
          id="player_seat6_bet"
          xlink:href="#player_seat0_bet"
          y="0"
@@ -790,7 +790,7 @@
          xlink:href="#dealer0"
          width="800"
          height="782"
-         transform="translate(342.57613,263.65936)"
+         transform="translate(338.57613,271.65936)"
          x="0"
          y="0" />
       <use
@@ -808,7 +808,7 @@
          y="0"
          x="0"
          id="player_seat6_hole"
-         transform="translate(458.08488,234.42039)" />
+         transform="translate(460.08488,232.42039)" />
     </g>
     <g
        id="seat7"
@@ -827,7 +827,7 @@
          inkscape:label="#player_seat7_sidepot"
          id="player_seat7_sidepot"
          xlink:href="#player_seat0_sidepot"
-         transform="translate(267.03244,232.45323)"
+         transform="translate(261.03244,230.45323)"
          y="0"
          x="0"
          width="800"
@@ -835,7 +835,7 @@
       <use
          height="600"
          width="800"
-         transform="translate(267.22897,236.00141)"
+         transform="translate(263.22897,230.00141)"
          id="player_seat7_bet"
          xlink:href="#player_seat0_bet"
          y="0"
@@ -846,7 +846,7 @@
          xlink:href="#dealer0"
          width="800"
          height="782"
-         transform="translate(206.27359,256.08432)"
+         transform="translate(208.27359,266.08432)"
          x="0"
          y="0" />
       <use
@@ -864,7 +864,7 @@
          y="0"
          x="0"
          id="player_seat7_hole"
-         transform="translate(330.1321,233.7155)" />
+         transform="translate(332.1321,231.7155)" />
     </g>
     <g
        id="seat8"
@@ -885,13 +885,13 @@
          xlink:href="#player_seat0_sidepot"
          y="0"
          x="0"
-         transform="translate(128.62399,233.19524)"
+         transform="translate(124.62399,231.19524)"
          width="800"
          height="782" />
       <use
          height="600"
          width="800"
-         transform="translate(128.82052,237.80581)"
+         transform="translate(124.82052,231.80581)"
          id="player_seat8_bet"
          xlink:href="#player_seat0_bet"
          y="0"
@@ -900,7 +900,7 @@
       <use
          id="dealer8"
          xlink:href="#dealer0"
-         transform="translate(69.08263,250.50927)"
+         transform="translate(71.08263,260.50927)"
          width="800"
          height="782"
          x="0"
@@ -920,7 +920,7 @@
          y="0"
          x="0"
          id="player_seat8_hole"
-         transform="translate(192.39635,234.42039)" />
+         transform="translate(194.39635,232.42039)" />
     </g>
     <g
        id="seat9"
@@ -941,13 +941,13 @@
          xlink:href="#player_seat0_sidepot"
          y="0"
          x="0"
-         transform="translate(7.6865283,142.34877)"
+         transform="translate(3.6865283,140.34877)"
          width="800"
          height="782" />
       <use
          height="600"
          width="800"
-         transform="translate(5.4517547,143.04027)"
+         transform="translate(5.4517547,141.04027)"
          id="player_seat9_bet"
          xlink:href="#player_seat0_bet"
          y="0"
@@ -956,7 +956,7 @@
       <use
          id="dealer9"
          xlink:href="#dealer0"
-         transform="translate(-56.178562,138.10792)"
+         transform="translate(-54.178562,148.10792)"
          width="800"
          height="782"
          x="0"
@@ -976,7 +976,7 @@
          y="0"
          x="0"
          id="player_seat9_hole"
-         transform="translate(6.6899124,141.46929)" />
+         transform="translate(8.6899124,139.46929)" />
     </g>
     <image
        xlink:href="../css/images/jpoker_table/menu-button.gif"
@@ -999,16 +999,16 @@
     <image
        xlink:href="../css/images/jpoker_table/menu-button.gif"
        y="407.67099"
-       width="68"
-       height="17"
+       width="67"
+       height="20"
        id="muck_accept"
        inkscape:label="muck_accept"
        x="252.56119" />
     <image
        xlink:href="../css/images/jpoker_table/menu-button.gif"
        y="407.67099"
-       width="68"
-       height="17"
+       width="67"
+       height="20"
        id="muck_deny"
        inkscape:label="muck_deny"
        x="429.59494" />
@@ -1035,8 +1035,8 @@
     <image
        xlink:href="../css/images/jpoker_table/menu-button.gif"
        y="3.6912289"
-       width="68"
-       height="17"
+       width="67"
+       height="20"
        id="sitin"
        inkscape:label="sitin"
        x="541.97327" />

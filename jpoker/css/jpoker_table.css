@@ -323,9 +323,11 @@
 
 .jpoker_table .jpoker_player_sidepot
 {
-	border: 2px solid blue;
-	background: #fff;
-	text-align: center;
+    border: 2px solid blue;
+    background: #fff;
+    text-align: center;
+    font-size: 10px;
+    height: auto;
 }
 
 .jpoker_table .jpoker_ptable_raise_input {
