@@ -63,7 +63,7 @@
      inkscape:cy="265"
      inkscape:window-x="50"
      inkscape:window-y="24"
-     inkscape:current-layer="seat8">
+     inkscape:current-layer="game_fixed">
     <sodipodi:guide
        orientation="0,1"
        position="-54.519393,761.48398"
@@ -995,7 +995,7 @@
        width="201.98985"
        inkscape:label="auto_muck"
        height="22.033945"
-       y="368.38599" />
+       y="370.38599" />
     <image
        xlink:href="../css/images/jpoker_table/menu-button.gif"
        y="407.67099"
@@ -1049,7 +1049,7 @@
        width="139.67525"
        inkscape:label="powered_by"
        height="13.40641"
-       y="353.73169" />
+       y="357.73169" />
     <image
        xlink:href="../css/images/jpoker_table/raise.png"
        x="290.56119"

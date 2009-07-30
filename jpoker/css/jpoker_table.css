@@ -186,6 +186,10 @@
     color: #e5b408;
 }
 
+.jpoker_table .jpoker_player_seat.jpoker_position .jpoker_money {
+    color: black;
+}
+
 .jpoker_table .jpoker_action {
     text-align: center;
     line-height: 13px;
@@ -245,7 +249,7 @@
 
 .jpoker_table .jpoker_ptable_table_info{
 	font-weight: bold;
-	background: #ddd;
+	height: auto;
 }
 
 .jpoker_table .jpoker_copyright {
@@ -278,11 +282,13 @@
 }
 
 .jpoker_table .jpoker_powered_by {
- 	border: 2px solid #000;
  	font-weight: bold;
- 	background: #ddd;
 	text-align: center;
  }
+
+.jpoker_table .jpoker_powered_by a {
+	color: #17691C;
+}
 
 .jpoker_table a { 
 	color: #fff;

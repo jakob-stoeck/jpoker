@@ -452,6 +452,7 @@ function jpoker_06_selfInPosition(place) {
                        allin:400000,
                        pot:  200000
 },
+{ type: 'PacketPokerPosition', serial: player_serial, game_id: game_id },
 { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id },
 { type: 'one' },
 { type: 'two' },

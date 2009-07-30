@@ -157,13 +157,13 @@
 .jpoker_table .jpoker_ptable_card_seat91 { width:37px; height:45px; position:absolute; top:280px; left:96px; background-image:url("images/jpoker_table/cards/small-back.png");}
 .jpoker_table .jpoker_ptable_player_seat9_hole { width:116px; height:122px; position:absolute; top:177px; left:58px; background-image:url("images/jpoker_table/card-back2.gif");}
 .jpoker_table .jpoker_ptable_sitout { width:67px; height:20px; position:absolute; top:4px; left:539px; background-image:url("images/jpoker_table/menu-button.gif");}
-.jpoker_table .jpoker_ptable_auto_muck { width:201.98985px; height:22.033945px; position:absolute; top:369px; left:0px; }
+.jpoker_table .jpoker_ptable_auto_muck { width:201.98985px; height:22.033945px; position:absolute; top:371px; left:0px; }
 .jpoker_table .jpoker_ptable_muck_accept { width:67px; height:20px; position:absolute; top:408px; left:251px; background-image:url("images/jpoker_table/menu-button.gif");}
 .jpoker_table .jpoker_ptable_muck_deny { width:67px; height:20px; position:absolute; top:408px; left:428px; background-image:url("images/jpoker_table/menu-button.gif");}
 .jpoker_table .jpoker_ptable_raise_input { width:89.284515px; height:26.281096px; position:absolute; top:442px; left:338px; }
 .jpoker_table .jpoker_ptable_table_info { width:138.05357px; height:40.973526px; position:absolute; top:0px; left:0px; }
 .jpoker_table .jpoker_ptable_sitin { width:67px; height:20px; position:absolute; top:4px; left:540px; background-image:url("images/jpoker_table/menu-button.gif");}
-.jpoker_table .jpoker_ptable_powered_by { width:139.67525px; height:13.40641px; position:absolute; top:354px; left:0px; }
+.jpoker_table .jpoker_ptable_powered_by { width:139.67525px; height:13.40641px; position:absolute; top:358px; left:0px; }
 .jpoker_table .jpoker_ptable_allin { width:44px; height:30px; position:absolute; top:477px; left:289px; background-image:url("images/jpoker_table/raise.png");}
 .jpoker_table .jpoker_ptable_hand_strength { width:184.22353px; height:30.352667px; position:absolute; top:361px; left:576px; }
 .jpoker_table .jpoker_ptable_pots { width:370px; height:30px; position:absolute; top:212px; left:199px; }

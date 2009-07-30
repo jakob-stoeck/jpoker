@@ -24,9 +24,14 @@
     left :7px;
     position :absolute;
     top: 505px;
-    width:226px;
-    height: auto;
+    width:227px;
+    height: 20px;
     background-color: white;
+}
+
+.jpoker_chat_input input {
+    font-size: 10px;
+    padding-top: 4px;
 }
 
 .jpoker_chat_history_dealer_box {
