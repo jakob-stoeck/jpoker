@@ -2125,6 +2125,7 @@
             
             reset: function() {
                 this.cards = [ null, null, null, null, null, null, null ];
+		this.cards.changed = false;
                 this.money = 0;
                 this.bet = 0;
 		this.side_pot = undefined;
@@ -2139,7 +2140,11 @@
                 switch(packet.type) {
 
                 case 'PacketPokerPlayerCards':
+		this.cards.changed = false;
                 for(var i = 0; i < packet.cards.length; i++) {
+		    if (this.cards[i] != packet.cards[i]) {
+			this.cards.changed = true;
+		    }
                     this.cards[i] = packet.cards[i];
                 }
                 for(var j = packet.cards.length; j < this.cards.length; j++) {
@@ -2176,6 +2181,9 @@
 		case 'PacketPokerStart':
 		this.action = '';
 		this.all_in = false;
+                for(var i = 0; i < this.cards.length; i++) {
+                    this.cards[i] = null;
+                }
 		this.notifyUpdate(packet);
 		break;
 
@@ -3861,7 +3869,9 @@
             case 'PacketPokerPlayerCards':
             jpoker.plugins.cards.update_value(player.cards, 'card_seat' + player.seat, id);
 	    $('#seat' + player.seat + id).addClass('jpoker_player_dealt');
-	    jpoker.plugins.player.callback.animation.deal_card(player, id);
+	    if (player.cards.changed) {
+		jpoker.plugins.player.callback.animation.deal_card(player, id);
+	    }
             break;
 
 	    case 'PacketPokerBestCards':
