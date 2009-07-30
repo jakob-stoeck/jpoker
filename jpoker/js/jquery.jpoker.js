@@ -3479,10 +3479,16 @@
 
             case 'PacketPokerPlayerArrive':
                 jpoker.plugins.player.create(table, packet, id);
+		if(server.loggedIn() && packet.serial == server.serial) {
+		    $('.jpoker_sit_seat', game_window).hide();
+		}
                 break;
 
             case 'PacketPokerPlayerLeave':
                 jpoker.plugins.player.leave(table, packet, id);
+		if(server.loggedIn() && packet.serial == server.serial) {
+		    jpoker.plugins.table.seats(id, server, table);
+		}
                 break;
 
             case 'PacketPokerUserInfo':

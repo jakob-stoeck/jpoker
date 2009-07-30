@@ -5663,8 +5663,8 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave (Self)", function(){
     });
 } // TEST_AVATAR
 
-test("jpoker.plugins.table: PacketSerial/PacketLogout", function(){
-        expect(42);
+test("jpoker.plugins.table: sit_seat", function(){
+        expect(62);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
@@ -5710,6 +5710,28 @@ test("jpoker.plugins.table: PacketSerial/PacketLogout", function(){
         equals($("#sit_seat7" + id).is(':hidden'), true, "sit_seat7 hidden");	
         equals($("#sit_seat8" + id).is(':visible'), true, "sit_seat8 visible");
         equals($("#sit_seat9" + id).is(':hidden'), true, "sit_seat9 hidden");
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: 1, serial: player_serial, game_id: game_id, name: 'playername' });
+        equals($("#sit_seat0" + id).is(':hidden'), true, "sit_seat0 hidden");
+        equals($("#sit_seat1" + id).is(':hidden'), true, "sit_seat1 hidden");
+        equals($("#sit_seat2" + id).is(':hidden'), true, "sit_seat2 hidden");
+        equals($("#sit_seat3" + id).is(':hidden'), true, "sit_seat3 hidden");
+        equals($("#sit_seat4" + id).is(':hidden'), true, "sit_seat4 hidden");
+        equals($("#sit_seat5" + id).is(':hidden'), true, "sit_seat5 hidden");	
+        equals($("#sit_seat6" + id).is(':hidden'), true, "sit_seat6 hidden");
+        equals($("#sit_seat7" + id).is(':hidden'), true, "sit_seat7 hidden");	
+        equals($("#sit_seat8" + id).is(':hidden'), true, "sit_seat8 hidden");
+        equals($("#sit_seat9" + id).is(':hidden'), true, "sit_seat9 hidden");
+        table.handler(server, game_id, { type: 'PacketPokerPlayerLeave', seat: 1, serial: player_serial, game_id: game_id });
+        equals($("#sit_seat0" + id).is(':hidden'), true, "sit_seat0 hidden");
+        equals($("#sit_seat1" + id).is(':visible'), true, "sit_seat1 visible");
+        equals($("#sit_seat2" + id).is(':hidden'), true, "sit_seat2 hidden");
+        equals($("#sit_seat3" + id).is(':visible'), true, "sit_seat3 visible");
+        equals($("#sit_seat4" + id).is(':hidden'), true, "sit_seat4 hidden");
+        equals($("#sit_seat5" + id).is(':hidden'), true, "sit_seat5 hidden");	
+        equals($("#sit_seat6" + id).is(':visible'), true, "sit_seat6 visible");
+        equals($("#sit_seat7" + id).is(':hidden'), true, "sit_seat7 hidden");	
+        equals($("#sit_seat8" + id).is(':visible'), true, "sit_seat8 visible");
+        equals($("#sit_seat9" + id).is(':hidden'), true, "sit_seat9 hidden");
         server.logout();
         equals($("#sit_seat0" + id).is(':hidden'), true, "sit_seat0 hidden");
         equals($("#sit_seat1" + id).is(':hidden'), true, "sit_seat1 hidden");
@@ -5724,7 +5746,7 @@ test("jpoker.plugins.table: PacketSerial/PacketLogout", function(){
         cleanup(id);
     });
 
-test("jpoker.plugins.table: sit_seat", function(){
+test("jpoker.plugins.table: sit_seat_progress", function(){
         expect(5);
 
         var server = jpoker.serverCreate({ url: 'url' });
