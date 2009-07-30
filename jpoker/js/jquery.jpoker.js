@@ -4797,28 +4797,19 @@
                     element.hide();
                 }
             }
-        },
-	hide: function(cards, prefix, id) {
-	    for(var i = 0; i < cards.length; i++) {
-		var element = $('#' + prefix + i + id);
-		element.hide();
-	    }
-	}
+        }
     };
     //
     // chips (table plugin helper)
     //
     jpoker.plugins.chips = {
 	template: '<div class=\'jpoker_chips_image\'></div><div class=\'jpoker_chips_amount\'></div>',
-        update: function(chips, id, animation) {
+        update: function(chips, id) {
             var element = $(id);
             if(chips > 0) {
                 element.show();
                 $('.jpoker_chips_amount', element).text(jpoker.chips.SHORT(chips));
                 element.attr('title', jpoker.chips.LONG(chips));
-		if (animation !== undefined) {
-		    animation(element);
-		}
             } else {
                 element.hide();
             }
