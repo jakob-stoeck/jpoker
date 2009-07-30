@@ -2125,7 +2125,7 @@
             
             reset: function() {
                 this.cards = [ null, null, null, null, null, null, null ];
-		this.cards.changed = false;
+		this.cards.dealt = false;
                 this.money = 0;
                 this.bet = 0;
 		this.side_pot = undefined;
@@ -2140,10 +2140,10 @@
                 switch(packet.type) {
 
                 case 'PacketPokerPlayerCards':
-		this.cards.changed = false;
+		this.cards.dealt = false;
                 for(var i = 0; i < packet.cards.length; i++) {
-		    if (this.cards[i] != packet.cards[i]) {
-			this.cards.changed = true;
+		    if (this.cards[i] === null) {
+			this.cards.dealt = true;
 		    }
                     this.cards[i] = packet.cards[i];
                 }
@@ -3869,7 +3869,7 @@
             case 'PacketPokerPlayerCards':
             jpoker.plugins.cards.update_value(player.cards, 'card_seat' + player.seat, id);
 	    $('#seat' + player.seat + id).addClass('jpoker_player_dealt');
-	    if (player.cards.changed) {
+	    if (player.cards.dealt === true) {
 		jpoker.plugins.player.callback.animation.deal_card(player, id);
 	    }
             break;

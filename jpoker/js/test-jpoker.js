@@ -3315,7 +3315,7 @@ test("jpoker.player.stats", function(){
     });
 
 test("jpoker.player.cards", function(){
-	expect(7);
+	expect(8);
         var serial = 42;
         var name = 'username';
         var url = 'url';
@@ -3328,14 +3328,16 @@ test("jpoker.player.cards", function(){
  	server.tables[packet.id].handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: serial, game_id: game_id, cards: [1,2] });
 	equals(player.cards[0], 1, 'card 1');
 	equals(player.cards[1], 2, 'card 2');
-	equals(player.cards.changed, true);
+	equals(player.cards.dealt, true);
  	server.tables[packet.id].handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: serial, game_id: game_id, cards: [1,2] });
-	equals(player.cards.changed, false);
+	equals(player.cards.dealt, false);
  	server.tables[packet.id].handler(server, game_id, { type: 'PacketPokerStart', game_id: game_id});	
 	equals(player.cards[0], null, 'card 1 null');
 	equals(player.cards[1], null, 'card 2 null');
+ 	server.tables[packet.id].handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: serial, game_id: game_id, cards: [255,255] });
+	equals(player.cards.dealt, true);
  	server.tables[packet.id].handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: serial, game_id: game_id, cards: [1,2] });
-	equals(player.cards.changed, true);
+	equals(player.cards.dealt, false);
     });
 
 //
