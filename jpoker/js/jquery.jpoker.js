@@ -3937,7 +3937,7 @@
 	    break;
 
 	    case 'PacketPokerChipsPlayer2Bet':	    
-	    jpoker.plugins.player.callback.animation.money2bet(player, id, $('#player_seat' + player.seat + '_bet' + id));
+	    jpoker.plugins.player.callback.animation.money2bet(player, id);
 	    break;
 
             case 'PacketPokerSelfInPosition':
