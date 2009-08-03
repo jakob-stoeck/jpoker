@@ -3339,6 +3339,7 @@
             $('#rebuy' + id).hide();
             $('#sitout' + id).hide();
 	    $('#sitin' + id).hide();
+	    $('#options' + id).hide();
             $('#muck_accept' + id).hide();
             $('#muck_deny' + id).hide();
             $('#quit' + id).click(function() {
@@ -3361,8 +3362,8 @@
             game_fixed.append(this.templates.chat.supplant({
 			chat_history_player_label: _("chat"),
 			chat_history_dealer_label: _("dealer")
-			    }));
-	    $('.jpoker_chat_input', game_window).hide();
+			    }));	    
+	    $('.jpoker_chat_input', game_window).hide();	    
             jpoker.plugins.playerSelf.hide(id);
             for(var serial in table.serial2player) {
                 jpoker.plugins.player.create(table, table.serial2player[serial], id);
@@ -4152,7 +4153,14 @@
 		    var bet = $('#player_seat' + player.seat + '_bet' + id);
 		    var bet_position = bet.getPosition();
 		    var money = $('#player_seat' + player.seat + '_money' + id);
-		    bet.css({top: money.getPosition().top, left: money.getPosition().left, opacity: 0}).animate({top: bet_position.top, left: bet_position.left, opacity: 1.0}, duration, callback);
+		    var seat_offset = $('#seat'+ player.seat + id).getOffset();
+		    var player_seat_offset = $('#player_seat'+ player.seat + id).getOffset();
+		    var money_position = money.getPosition();
+		    money_position.top += player_seat_offset.top;
+		    money_position.left += player_seat_offset.left;
+		    money_position.top -= seat_offset.top;
+		    money_position.left -= seat_offset.left;
+		    bet.css({top: money_position.top, left: money_position.left, opacity: 0}).animate({top: bet_position.top, left: bet_position.left, opacity: 1.0}, duration, callback);
 		},
 		deal_card: function(player, id, duration_arg, callback) {
 		    var duration = duration_arg ? duration_arg : 500;
@@ -4326,13 +4334,25 @@
 		    });
 
 	    //
-	    // automuck
+	    // options
 	    //
-	    $('#auto_muck' + id).html(jpoker.plugins.muck.templates.auto_muck.supplant({id: id,
-			    auto_muck_win_label: _("Muck winning"),
-			    auto_muck_win_title: _("Muck winning hands on showdown"),
-			    auto_muck_lose_label: _("Muck losing"),
-			    auto_muck_lose_title: _("Muck losing hands on showdown")}));
+	    var options = $('#options' + id).html(jpoker.plugins.options.templates.button.supplant({options_label: _("Options")})).hover(function(){
+		    $(this).addClass('hover');
+		},function(){
+		    $(this).removeClass('hover');
+		}).show();
+	    options.after(jpoker.plugins.options.templates.dialog.supplant({
+			auto_muck: jpoker.plugins.muck.templates.auto_muck.supplant({
+				id: id,
+				    auto_muck_win_label: _("Muck winning"),
+				    auto_muck_win_title: _("Muck winning hands on showdown"),
+				    auto_muck_lose_label: _("Muck losing"),
+				    auto_muck_lose_title: _("Muck losing hands on showdown")})}));
+	    $('#jpokerOptionsDialog').dialog($.extend({}, jpoker.dialog_options, {title: _("Options")}));
+	    options.click(function() {
+		    $('#jpokerOptionsDialog').dialog('open');
+		});
+
 	    $('#auto_muck_win' + id).click(function() {
 		    var server = jpoker.getServer(url);
 		    jpoker.plugins.muck.sendAutoMuck(server, game_id, id);
@@ -4387,6 +4407,7 @@
 	    var game_window = $('#game_window' + id);
             $('#sitout' + id).hide();
             $('#rebuy' + id).hide();
+	    $('#options' + id).hide();
             $('.jpoker_chat_input', game_window).hide();
 	    game_window.removeClass('jpoker_self');
 	    $('#player_seat' + packet.seat + id).removeClass('jpoker_player_self');
@@ -4752,6 +4773,17 @@
 		    $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_hand.swf\' />');
 		}
 	    }
+	}
+    };
+
+    //
+    // options (table plugin helper)
+    //
+
+    jpoker.plugins.options = {
+	templates: {
+	    button: '<div class=\'jpoker_options\'><a href=\'javascript://\'>{options_label}</a></div>',
+	    dialog: '<div id=\'jpokerOptionsDialog\' class=\'jpoker_options_dialog jpoker_jquery_ui\'>{auto_muck}</div>'
 	}
     };
 
