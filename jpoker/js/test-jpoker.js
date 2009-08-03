@@ -7182,21 +7182,22 @@ test("jpoker.plugins.player: animation money2bet", function(){
         };
         table.handler(server, game_id, { type: 'PacketPokerDealer', dealer: player_seat, game_id: game_id });
 	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
-	var bet = $('#player_seat' + player_seat + '_bet' + id);
-	var bet_position = bet.getPosition();
-	var money = $('#player_seat' + player_seat + '_money' + id);
 	var money2bet = jpoker.plugins.player.callback.animation.money2bet;
 	jpoker.plugins.player.callback.animation.money2bet = function(player, id, duration, callback) {
+	    var bet = $('#player_seat' + player.seat + '_bet' + id);
+	    var bet_offset = bet.getOffset();
+	    var money = $('#player_seat' + player.seat + '_money' + id);
+	    var player_seat = $('#player_seat' + player_seat + id);
 	    equals(duration, undefined, 'duration should not be set');
 	    equals(callback, undefined, 'callback should not be set');
 	    money2bet(player, id, 100, function() {
-		    equals(bet.getPosition().top, bet_position.top, 'chip should move to bet position top');
-		    equals(bet.getPosition().left, bet_position.left, 'chip should move to bet position top');
+	    	    equals(bet.getOffset().top, bet_offset.top, 'chip should move to bet position top');
+	    	    equals(bet.getOffset().left, bet_offset.left, 'chip should move to bet position top');
 		    jpoker.plugins.player.callback.animation.money2bet = money2bet;
 		    start_and_cleanup();
 		});
-	    equals(bet.getPosition().top, money.getPosition().top, 'chip should move from money position top');
-	    equals(bet.getPosition().left, money.getPosition().left, 'chip should move from money position left');
+	    equals(bet.getOffset().top, money.getOffset().top, 'chip should move from money position top');
+	    equals(bet.getOffset().left, money.getOffset().left, 'chip should move from money position left');
 	};
 	table.handler(server, game_id, {"type":"PacketPokerChipsPlayer2Bet","length":15,"cookie":"","game_id":game_id,"serial":player_serial,"chips":[10000,2]});
     });
