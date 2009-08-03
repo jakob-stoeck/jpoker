@@ -7152,6 +7152,53 @@ test("jpoker.plugins.player: animation best_card x2", function(){
 	};
     });
 
+test("jpoker.plugins.player: animation money2bet", function(){
+        expect(4);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 1;
+        server.serial = player_serial;
+        var player_seat = 2;
+	var player_name = 'dummy';
+
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, name: player_name, game_id: game_id });
+	table.betLimit = {
+            min:   5,
+            max:   10,
+            step:  1,
+            call: 10,
+            allin:40,
+            pot:  20
+        };
+        table.handler(server, game_id, { type: 'PacketPokerDealer', dealer: player_seat, game_id: game_id });
+	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
+	var bet = $('#player_seat' + player_seat + '_bet' + id);
+	var bet_position = bet.getPosition();
+	var money = $('#player_seat' + player_seat + '_money' + id);
+	var money2bet = jpoker.plugins.player.callback.animation.money2bet;
+	jpoker.plugins.player.callback.animation.money2bet = function(player, id, element) {
+	    money2bet(player, id, 100, function() {
+		    equals(bet.getPosition().top, bet_position.top, 'chip should move to bet position top');
+		    equals(bet.getPosition().left, bet_position.left, 'chip should move to bet position top');
+		    jpoker.plugins.player.callback.animation.money2bet = money2bet;
+		    start_and_cleanup();
+		});
+	    equals(bet.getPosition().top, money.getPosition().top, 'chip should move from money position top');
+	    equals(bet.getPosition().left, money.getPosition().left, 'chip should move from money position left');
+	};
+	table.handler(server, game_id, {"type":"PacketPokerChipsPlayer2Bet","length":15,"cookie":"","game_id":game_id,"serial":player_serial,"chips":[10000,2]});
+    });
+
 if (TEST_AVATAR) {
 test("jpoker.plugins.player: avatar", function(){
         expect(1);

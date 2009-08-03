@@ -4147,9 +4147,12 @@
 		
 	    },
 	    animation: {
-		money2bet: function(player, id, element) {
-		    var duration = 500;
-		    $(element).moveFrom('#player_seat' + player.seat + '_money' + id, {duration: duration, queue: false}).css({opacity: 0}).animate({opacity: 1.0}, duration);
+		money2bet: function(player, id, duration, callback) {
+		    var duration = duration ? duration : 500;
+		    var bet = $('#player_seat' + player.seat + '_bet' + id);
+		    var bet_position = bet.getPosition();
+		    var money = $('#player_seat' + player.seat + '_money' + id);
+		    bet.css({top: money.getPosition().top, left: money.getPosition().left, opacity: 0}).animate({top: bet_position.top, left: bet_position.left, opacity: 1.0}, duration, callback);
 		},
 		deal_card: function(player, id, duration, callback) {
 		    var duration = duration ? duration : 500;
