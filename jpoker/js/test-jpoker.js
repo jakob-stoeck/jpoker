@@ -99,6 +99,7 @@ var cleanup = function(id) {
     $.cookie('jpoker_count_'+jpoker.url2hash('url2'), null);
     $('#jpokerDialog').dialog('close').remove();
     $('#jpokerRebuy').dialog('close').remove();
+    $('#jpokerOptionsDialog').dialog('close').remove();
 };
 
 var start_and_cleanup = function(id) {
@@ -5858,6 +5859,41 @@ test("jpoker.plugins.table: PacketPokerTableQuit", function(){
         cleanup(id);
     });
 
+test("jpoker.plugins.table: options", function(){
+        expect(9);
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+	var table;
+	var player_serial = 42;
+	var player_seat = 1;
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+	server.serial = player_serial;
+        table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+	var options = $("#options" + id);
+        equals(options.length, 1, '#options element');
+	equals(options.is(':hidden'), true, '#options hidden after table create');
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', name: 'dummy', seat: player_seat, serial: player_serial, game_id: game_id });
+	equals($('.jpoker_options', options).length, 1, '.jpoker_options element');
+	equals(options.is(':visible'), true, '#options visible after player arrive');
+	options.trigger('mouseenter');
+	equals(options.hasClass('hover'), true, 'hasClass hover');
+	options.trigger('mouseleave');
+	equals(options.hasClass('hover'), false, '!hasClass hover');
+	equals($('#jpokerOptionsDialog').length, 1, '#jpokerOptionsDialog element');
+	equals($('.ui-dialog.jpoker_options_dialog').length, 1, 'dialog initialized');
+	options.click();
+        table.handler(server, game_id, { type: 'PacketPokerPlayerLeave', seat: player_seat, serial: player_serial, game_id: game_id });
+	equals(options.is(':hidden'), true, '#options hidden after player leave');	
+        cleanup(id);
+    });
+
 test("jpoker.plugins.table: quit callback PacketPokerTableDestroy", function(){
 	expect(2);
 	stop();
@@ -9120,8 +9156,8 @@ test("jpoker.plugins.muck", function(){
 	ok(muck_deny_element.children(0).hasClass('jpoker_muck_deny'), 'jpoker_muck_deny');
 	ok(muck_deny_element.children(0).hasClass('jpoker_muck'), 'jpoker_muck');
 
-	var auto_muck_element = $('#auto_muck' + id);
-	equals(auto_muck_element.length, 1, '#auto_muck');
+	var auto_muck_element = $('#jpokerOptionsDialog');
+	equals(auto_muck_element.length, 1, '#jpokerOptionsDialog');
 	ok(auto_muck_element.children(0).hasClass('jpoker_auto_muck'), 'jpoker_auto_muck');
 	equals($('input', auto_muck_element).length, 2, 'input');
 	equals($('label', auto_muck_element).length, 2, 'label');

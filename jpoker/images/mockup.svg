@@ -44,8 +44,8 @@
        sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
-     inkscape:window-height="723"
-     inkscape:window-width="768"
+     inkscape:window-height="825"
+     inkscape:window-width="1440"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -61,9 +61,9 @@
      inkscape:zoom="0.89473684"
      inkscape:cx="380"
      inkscape:cy="265"
-     inkscape:window-x="100"
-     inkscape:window-y="24"
-     inkscape:current-layer="player_seat0">
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:current-layer="game_fixed">
     <sodipodi:guide
        orientation="0,1"
        position="-54.519393,761.48398"
@@ -987,16 +987,6 @@
        inkscape:label="sitout"
        x="540.90015" />
     <image
-       xlink:href="../css/images/jpoker_table/status.png"
-       x="0.98281229"
-       id="auto_muck"
-       inkscape:transform-center-y="75.992997"
-       inkscape:transform-center-x="-20.788732"
-       width="201.98985"
-       inkscape:label="auto_muck"
-       height="22.033945"
-       y="370.38599" />
-    <image
        xlink:href="../css/images/jpoker_table/menu-button.gif"
        y="407.67099"
        width="67"
@@ -1049,7 +1039,7 @@
        width="139.67525"
        inkscape:label="powered_by"
        height="13.40641"
-       y="357.73169" />
+       y="373.73169" />
     <image
        xlink:href="../css/images/jpoker_table/raise.png"
        x="290.56119"
@@ -1074,5 +1064,13 @@
        width="370"
        height="30"
        id="pots" />
+    <image
+       style="display:inline;enable-background:new"
+       xlink:href="../css/images/jpoker_table/menu-button.gif"
+       width="67"
+       height="20"
+       id="options"
+       x="467.52579"
+       y="3.731699" />
   </g>
 </svg>
