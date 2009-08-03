@@ -6635,20 +6635,20 @@ test("jpoker.plugins.player: animation", function(){
         table.handler(server, game_id, { type: 'PacketPokerDealer', dealer: player_seat, game_id: game_id });
 	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
 	var money2bet = jpoker.plugins.player.callback.animation.money2bet;
-	jpoker.plugins.player.callback.animation.money2bet = function(player, id, duration, callback) {
-	    money2bet(player, id, element);
+	jpoker.plugins.player.callback.animation.money2bet = function(player, id) {
+	    money2bet(player, id);
 	    ok(true, 'money2bet animation');
 	};
 	table.handler(server, game_id, {"type":"PacketPokerChipsPlayer2Bet","length":15,"cookie":"","game_id":game_id,"serial":player_serial,"chips":[10000,2]});
 	var player_deal_card = jpoker.plugins.player.callback.animation.deal_card;
-	jpoker.plugins.player.callback.animation.deal_card = function(player, id, element) {
-	    player_deal_card(player, id, element);
+	jpoker.plugins.player.callback.animation.deal_card = function(player, id) {
+	    player_deal_card(player, id);
 	    ok(true, 'player deal card animation');
 	};
 	table.handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: player_serial, game_id: game_id, cards: [1,2] });
 	var table_deal_card = jpoker.plugins.table.callback.animation.deal_card; 
-	jpoker.plugins.table.callback.animation.deal_card = function(table, id, element) {
-	    table_deal_card(table, id, element);
+	jpoker.plugins.table.callback.animation.deal_card = function(table, id, packet) {
+	    table_deal_card(table, id, packet);
 	    ok(true, 'board deal card animation');
 	};
 	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [] });
@@ -6656,16 +6656,16 @@ test("jpoker.plugins.player: animation", function(){
 	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [1,2,3,4] });
 
 	var bet2pot = jpoker.plugins.player.callback.animation.bet2pot; 
-	jpoker.plugins.player.callback.animation.bet2pot = function(player, id, packet, duration, callback) {
-	    bet2pot(player, id, packet, element);
+	jpoker.plugins.player.callback.animation.bet2pot = function(player, id, packet) {
+	    bet2pot(player, id, packet);
 	    ok(true, 'player bet2pot animation');
 	};	
 
 	table.handler(server, game_id, { type: 'PacketPokerChipsBet2Pot', pot: 0, game_id: game_id, serial: player_serial });
 
 	var table_best_card = jpoker.plugins.table.callback.animation.best_card;
-	jpoker.plugins.table.callback.animation.best_card = function(table, id, element) {
-	    table_best_card(table, id, element);
+	jpoker.plugins.table.callback.animation.best_card = function(table, id, packet) {
+	    table_best_card(table, id, packet);
 	    ok(true, 'table best_card animation');
 	};
 	table.handler(server, game_id, {"besthand":1,"hand":"Flush Queen high","length":47,"cookie":"","board":[21,30,33,36,32],"bestcards":[36,33,32,30,26],"cards":[7,26],"game_id":game_id,"serial":player_serial,"type":"PacketPokerBestCards","side":""});
