@@ -3933,7 +3933,7 @@
             break;
 
 	    case 'PacketPokerChipsBet2Pot':	    
-	    jpoker.plugins.player.callback.animation.bet2pot(player, id, packet, $('#player_seat' + player.seat + '_bet' + id));
+	    jpoker.plugins.player.callback.animation.bet2pot(player, id, packet);
 	    break;
 
 	    case 'PacketPokerChipsPlayer2Bet':	    
@@ -4177,15 +4177,22 @@
 			hole.css({top: dealerPosition.top, left: dealerPosition.left, opacity: 0}).animate({top: holePosition.top, left: holePosition.left, opacity: 1.0}, duration, callback);
 		    }
 		},
-		bet2pot: function(player, id, packet, element) {
-		    var duration = 500;
-		    var chip = $(element).clone().insertAfter(element);
+		bet2pot: function(player, id, packet, duration, callback) {
+		    var duration = duration ? duration : 500;
+		    var bet = $('#player_seat' + player.seat + '_bet' + id);
+		    var chip = bet.clone().insertAfter(bet).addClass('jpoker_bet2pot_animation');
 		    var pots_element = $('#pots' + id);
-		    var positionToParent = pots_element.getPosition();
-		    var positionTo = $('.jpoker_pot' + packet.pot).getPosition(); 
-		    positionTo.left += positionToParent.left;
-		    positionTo.top += positionToParent.top;
-		    chip.animate(positionTo, {duration: duration, queue: false}).css({opacity: 1}).animate({opacity: 0.0}, duration, function() {chip.remove();});
+		    var pots_offset = pots_element.getOffset();
+		    var player_seat_offset = $('#seat'+ player.seat + id).getOffset();
+		    var pot_position = $('.jpoker_pot' + packet.pot).getPosition(); 
+		    var remove_chip = function() {
+			chip.remove();
+		    };
+		    pot_position.left += pots_offset.left;
+		    pot_position.left -= player_seat_offset.left;
+		    pot_position.top += pots_offset.top;
+		    pot_position.top -= player_seat_offset.top;
+		    chip.css({opacity: 1}).animate({top: pot_position.top, left: pot_position.left, opacity: 0.0}, duration, callback ? function() {callback(remove_chip);} : remove_chip);
 		}
 	    }
 	}

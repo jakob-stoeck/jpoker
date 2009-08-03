@@ -6656,7 +6656,7 @@ test("jpoker.plugins.player: animation", function(){
 	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [1,2,3,4] });
 
 	var bet2pot = jpoker.plugins.player.callback.animation.bet2pot; 
-	jpoker.plugins.player.callback.animation.bet2pot = function(player, id, packet, element) {
+	jpoker.plugins.player.callback.animation.bet2pot = function(player, id, packet, duration, callback) {
 	    bet2pot(player, id, packet, element);
 	    ok(true, 'player bet2pot animation');
 	};	
@@ -7192,7 +7192,7 @@ test("jpoker.plugins.player: animation money2bet", function(){
 	    equals(callback, undefined, 'callback should not be set');
 	    money2bet(player, id, 100, function() {
 	    	    equals(bet.getOffset().top, bet_offset.top, 'chip should move to bet position top');
-	    	    equals(bet.getOffset().left, bet_offset.left, 'chip should move to bet position top');
+	    	    equals(bet.getOffset().left, bet_offset.left, 'chip should move to bet position left');
 		    jpoker.plugins.player.callback.animation.money2bet = money2bet;
 		    start_and_cleanup();
 		});
@@ -7200,6 +7200,56 @@ test("jpoker.plugins.player: animation money2bet", function(){
 	    equals(bet.getOffset().left, money.getOffset().left, 'chip should move from money position left');
 	};
 	table.handler(server, game_id, {"type":"PacketPokerChipsPlayer2Bet","length":15,"cookie":"","game_id":game_id,"serial":player_serial,"chips":[10000,2]});
+    });
+
+test("jpoker.plugins.player: animation bet2pot", function(){
+        expect(6);
+        stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+        var place = $("#main");
+        var id = 'jpoker' + jpoker.serial;
+        var game_id = 100;
+
+        var table_packet = { id: game_id };
+        server.tables[game_id] = new jpoker.table(server, table_packet);
+        var table = server.tables[game_id];
+
+        place.jpoker('table', 'url', game_id);
+        var player_serial = 1;
+        server.serial = player_serial;
+        var player_seat = 2;
+	var player_name = 'dummy';
+
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, name: player_name, game_id: game_id });
+	table.betLimit = {
+            min:   5,
+            max:   10,
+            step:  1,
+            call: 10,
+            allin:40,
+            pot:  20
+        };
+        table.handler(server, game_id, { type: 'PacketPokerDealer', dealer: player_seat, game_id: game_id });
+	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
+	var bet2pot = jpoker.plugins.player.callback.animation.bet2pot;
+	jpoker.plugins.player.callback.animation.bet2pot = function(player, id, packet, duration, callback) {
+	    var pot_offset = $('.jpoker_pot' + packet.pot).getOffset(); 
+	    var bet2pot_animation_element;
+	    equals(duration, undefined, 'duration should not be set');
+	    equals(callback, undefined, 'callback should not be set');
+	    bet2pot(player, id, packet, 100, function(callback) {
+	    	    equals(bet2pot_animation_element.getOffset().top, pot_offset.top, 'chip should move to pot position top');
+	    	    equals(bet2pot_animation_element.getOffset().left, pot_offset.left, 'chip should move to pot position left');
+		    jpoker.plugins.player.callback.animation.bet2pot = bet2pot;
+		    callback();
+		    equals($('.jpoker_bet2pot_animation').length, 0, 'jpoker_bet2pot_animation removed');
+		    start_and_cleanup();
+		});
+	    bet2pot_animation_element = $('.jpoker_bet2pot_animation');
+	    equals(bet2pot_animation_element.length, 1, 'jpoker_bet2pot_animation');
+	};
+	table.handler(server, game_id, { type: 'PacketPokerChipsBet2Pot', pot: 0, game_id: game_id, serial: player_serial });
     });
 
 if (TEST_AVATAR) {
