@@ -489,8 +489,7 @@
 
 .jpoker_table .jpoker_seat .jpoker_bet {
     background-image: none;
-    width: auto;
-    height: auto;
+    width: 24px;
 }
 
 .jpoker_table .jpoker_seat .jpoker_bet .jpoker_chips_image {
