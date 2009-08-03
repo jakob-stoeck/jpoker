@@ -2181,8 +2181,8 @@
 		case 'PacketPokerStart':
 		this.action = '';
 		this.all_in = false;
-                for(var i = 0; i < this.cards.length; i++) {
-                    this.cards[i] = null;
+                for(var k = 0; k < this.cards.length; k++) {
+                    this.cards[k] = null;
                 }
 		this.notifyUpdate(packet);
 		break;
@@ -3709,8 +3709,8 @@
 	    }	    
 	},
 	animation: {
-	    deal_card: function(table, id, packet, duration, callback) {
-		var duration = duration ? duration : 500;
+	    deal_card: function(table, id, packet, duration_arg, callback) {
+		var duration = duration_arg ? duration_arg : 500;
 		var game_window = $('#game_window' + id);
 		var dealer_seat = table.dealer;
 		var board_cards = {3: $('.jpoker_ptable_board0, .jpoker_ptable_board1, .jpoker_ptable_board2', game_window),
@@ -3736,8 +3736,8 @@
 			});
 		}
 	    },
-	    best_card: function(table, id, packet, duration, callback) {
-		var duration = duration ? duration : 500;
+	    best_card: function(table, id, packet, duration_arg, callback) {
+		var duration = duration_arg ? duration_arg : 500;
 		var game_window = $('#game_window' + id);
 		var player = table.serial2player[packet.serial];
 		var cards_element = $('.jpoker_ptable_board0, .jpoker_ptable_board1, .jpoker_ptable_board2, .jpoker_ptable_board3, .jpoker_ptable_board4, #card_seat'+player.seat+id+' .jpoker_card', game_window);
@@ -4147,15 +4147,15 @@
 		
 	    },
 	    animation: {
-		money2bet: function(player, id, duration, callback) {
-		    var duration = duration ? duration : 500;
+		money2bet: function(player, id, duration_arg, callback) {
+		    var duration = duration_arg ? duration_arg : 500;
 		    var bet = $('#player_seat' + player.seat + '_bet' + id);
 		    var bet_position = bet.getPosition();
 		    var money = $('#player_seat' + player.seat + '_money' + id);
 		    bet.css({top: money.getPosition().top, left: money.getPosition().left, opacity: 0}).animate({top: bet_position.top, left: bet_position.left, opacity: 1.0}, duration, callback);
 		},
-		deal_card: function(player, id, duration, callback) {
-		    var duration = duration ? duration : 500;
+		deal_card: function(player, id, duration_arg, callback) {
+		    var duration = duration_arg ? duration_arg : 500;
 		    var table = jpoker.getTable(player.url, player.game_id);
 		    var playerSeatOffset = $('#seat'+ player.seat + id).getOffset();
 		    var hole = $('#player_seat'+ player.seat + '_hole' + id);
@@ -4177,8 +4177,8 @@
 			hole.css({top: dealerPosition.top, left: dealerPosition.left, opacity: 0}).animate({top: holePosition.top, left: holePosition.left, opacity: 1.0}, duration, callback);
 		    }
 		},
-		bet2pot: function(player, id, packet, duration, callback) {
-		    var duration = duration ? duration : 500;
+		bet2pot: function(player, id, packet, duration_arg, callback) {
+		    var duration = duration_arg ? duration_arg : 500;
 		    var bet = $('#player_seat' + player.seat + '_bet' + id);
 		    var chip = bet.clone().insertAfter(bet).addClass('jpoker_bet2pot_animation');
 		    var pots_element = $('#pots' + id);
@@ -4380,7 +4380,7 @@
             }
             $('#game_window' + id).addClass('jpoker_self');
 	    $('#sit_seat' + player.seat + id).removeClass('jpoker_self_get_seat');
-	    $('#player_seat' + player.seat + id).addClass('jpoker_player_self')
+	    $('#player_seat' + player.seat + id).addClass('jpoker_player_self');
         },
 
         leave: function(player, packet, id) {
@@ -4389,7 +4389,7 @@
             $('#rebuy' + id).hide();
             $('.jpoker_chat_input', game_window).hide();
 	    game_window.removeClass('jpoker_self');
-	    $('#player_seat' + packet.seat + id).removeClass('jpoker_player_self')
+	    $('#player_seat' + packet.seat + id).removeClass('jpoker_player_self');
         },
 
         updateTable: function(table, what, packet, id) {

@@ -6023,11 +6023,11 @@ test("jpoker.plugins.table: PacketPokerChat", function(){
         table.handler(server, game_id, { type: 'PacketPokerChat', message: 'chat unfiltered', game_id: game_id, serial: player_serial });	
         jpoker.plugins.table.callback.chat_changed = function(element) {
             equals('', 'unexpected call to chat_changed');
-        }        
+        };
         jpoker.plugins.table.callback.chat_filter = function(table, packet) { 
             // packet filtered out
             return null;
-        }
+        };
         table.handler(server, game_id, { type: 'PacketPokerChat', message: 'chat filtered out', game_id: game_id, serial: player_serial });	
         jpoker.plugins.table.callback.chat_changed = chat_changed;
         jpoker.plugins.table.callback.chat_filter = chat_filter;
@@ -6225,7 +6225,7 @@ test("jpoker.plugins.table: PacketPokerPotChips/Reset", function(){
 	ok(pots_element.hasClass('jpoker_pots'), '.jpoker_pots');
 	ok(pots_element.hasClass('jpoker_ptable_pots'), '.jpoker_ptable_pots');
 	ok(pots_element.hasClass('jpoker_pots0'), '.jpoker_pots0');
-	equals($('.jpoker_chips_amount', pots_element).length, 10, '.jpoker_chips_amount')
+	equals($('.jpoker_chips_amount', pots_element).length, 10, '.jpoker_chips_amount');
 	for (i = 0; i < 10; i+=1) {
 	    var pot_element = $('.jpoker_pot'+i, pots_element);
 	    equals(pot_element.is(':hidden'), true, 'hidden .jpoker_pot'+i);
@@ -6771,7 +6771,7 @@ test("jpoker.plugins.player: animation deal_card x2", function(){
 	};
 	table.handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: player_serial, game_id: game_id, cards: [1,2] });
 	table.handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: player_serial, game_id: game_id, cards: [1,2] });
-	equals(count, 1, 'callback animation.deal_card should not be called if cards not changed')
+	equals(count, 1, 'callback animation.deal_card should not be called if cards not changed');
 	table.handler(server, game_id, { type: 'PacketPokerStart', game_id: game_id});
 	table.handler(server, game_id, { type: 'PacketPokerPlayerCards', serial: player_serial, game_id: game_id, cards: [1,2] });
 	equals(count, 2, 'callback animation.deal_card should be called if cards reseted');
@@ -7135,7 +7135,7 @@ test("jpoker.plugins.player: animation best_card x2", function(){
 			table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [] });
 		    }
 		});
-	}
+	};
 	table.handler(server, game_id, {"besthand":1,"hand":"Flush Queen high","length":47,"cookie":"","board":[1,2,3,4,5],"bestcards":[2,3,4,5,6],"cards":[6,7],"game_id":game_id,"serial":player_serial,"type":"PacketPokerBestCards","side":""});
 	var table_best_card_reset = jpoker.plugins.table.callback.animation.best_card_reset;
 	jpoker.plugins.table.callback.animation.best_card_reset = function(table, id) {
@@ -9957,7 +9957,7 @@ test("jpoker.plugins.playerLookup", function(){
                             equals(packet.type, 'PacketPokerCreateTourney');
                             equals(packet.players[0], server.serial, 'challenging player');
                             equals(packet.players[1], lookup_serial, 'challenged player');
-                        }
+                        };
 			$('.jpoker_player_lookup_challenge a', element).eq(0).click();
 			$('#' + id).remove();
 		    }
