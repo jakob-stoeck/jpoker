@@ -176,7 +176,6 @@
 
         options.ajax({
                 async: false,
-                    mode: 'queue',
                     timeout: 30000,
                     url: url + '?' + $.param(params),
                     type: 'GET',
@@ -465,7 +464,6 @@
 
         options.ajax({
                 async: false,
-                    mode: 'queue',
                     timeout: 30000,
                     url: url + '?' + $.param(params),
                     type: 'GET',
@@ -495,7 +493,6 @@
 
         options.ajax({
                 async: false,
-                    mode: 'queue',
                     timeout: 30000,
                     url: url + '?' + $.param(params),
                     type: 'GET',
@@ -544,8 +541,7 @@
             'output': 'rows'
         };
         options.ajax({
-		async: false,
-                    mode: 'queue',
+                async: false,
                     timeout: 30000,
                     url: url + '?' + $.param(params),
                     type: 'GET',
@@ -570,8 +566,7 @@
             'output': 'rows'
         };
         options.ajax({
-		async: false,
-                    mode: 'queue',
+                async: false,
                     timeout: 30000,
                     url: url + '?' + $.param(params),
                     type: 'GET',
