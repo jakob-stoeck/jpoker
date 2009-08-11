@@ -1,6 +1,64 @@
 Release 1.0.16
 
-* Bug fixes
+* Fix a bug in the tournament list where the selector sent to the server was 
+  incorrect.
+* Fix a number formatting bug in the rebuy actions.
+* New feature : chat_changed callback is called when a new chat line is received.
+* New feature : auto muck labels have a title.
+* New feature : link_pattern can contain any field of the PokerTable packet.
+* New feature : tourney details can contain any field of the tourney packet, instead
+                of being limited to the info part.
+* New feature : jpoker_self jpoker_self_in_position class are added on game_window
+                when the user logged in is sit or in position.
+* New feature : doReconnectAlways allows to reconnect even if there is no session
+                session cookie.
+* New feature : sounds can be controlled by callbacks.
+* New feature : added sounds for fold, check, bet and call.
+* New feature : chips, cards and showdown animations.
+* New feature : the skin.html page now has permalinks for each case.
+* New feature : "play now" button that seats the user at a table and deal him a hand.
+* New feature : add signup widget to work with the login widget.
+* New feature : add actions in advance where a player can preset the action he will
+                do when in position.
+* New feature : allow for internationalization of the tourney detail date.
+* New feature : a callback can be set for when the user clicks on an avatar in the
+                same spirit of the callback that is triggered when hovering an
+                avatar.
+* New feature : allin button.
+* New feature : the amount to call can be displayed in the call button label
+* New feature : when the player sits an image is displayed to show that it is
+                in progress until the server sends a confirmation.
+* New feature : the table info part of the table display is now a template that
+                can be replaced instead of the string sent by the server.
+* New feature : distribute a sample opensocial.org application jpoker-opensocial.xml 
+* New feature : the skin.html test cases are now also available as smaller files in
+                the skin directory
+* New feature : the default layout has been reworked to fit a smaller size
+* New feature : display the hand strength of the logged in player 
+* New feature : the pots have a different template depending on the total number
+                of active side pots
+* New feature : a dialog shows when a TourneyRank packet is received at the end
+                of a tournament
+* New feature : each chat line is sent to a filter callback before being displayed
+* New feature : quotes and double quotes are allowed in chat messages
+* New feature : the default sort order of the table list can be controled by 
+                a variable and defaults to the table name
+* New feature : allow a user to create a tourney with a pre-defined set of players
+* New feature : small cards can be displayed to indicate that a player is in 
+                game. These cards are distinct from the actual player cards that
+                will be shown at showdown.
+* New feature : add support for satellite tournaments in the tournament 
+                administration backend
+* New feature : hide seat invitation when the logged in player has a seat
+* Add an example directory with integration snippets to help javascript developers
+* Fix error handling for setLocale that was not catching the proper packet.
+* Fix ruby 1.9 / ruby 1.8 bug while building the sources.
+* Fix display bug in rebuy template that prevented proper display in IE.
+* Fix substitution problem in the copyright box.
+* Reverse proxy retry time set to 1 instead of the default 60 seconds to avoid
+  long delays when the poker server restarts.
+* Move rebuy_action in buttonpane.
+* Proofread README.binary
 
 Release 1.0.15
 
