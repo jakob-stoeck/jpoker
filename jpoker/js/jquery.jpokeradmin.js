@@ -19,7 +19,7 @@
     var jpoker = $.jpoker;
 
     jpoker.admin = function(selector) {	
-        $(selector).jpoker('tourneyAdminList', '', {})
+        $(selector).jpoker('tourneyAdminList', '', {});
     };
 
     jpoker.tourneyAdminEdit = function(url, tourney, options) {
@@ -32,7 +32,7 @@
         dialog.jpoker('tourneyAdminEdit', url, tourney, options);
         dialog.dialog('open');
 	$.validator.methods.greaterOrEqual = function(value, element, param) {
-	    return parseInt(value) >= parseInt($(param).val());
+	    return parseInt(value, 10) >= parseInt($(param).val(), 10);
 	};
 	$("form", dialog).validate({
 		ignoreTitle: true,
@@ -49,7 +49,7 @@
 			    },
 			player_timeout: {
 			range: [30, 120]
-			    },
+			    }
 		},
 		    messages: {
 		    players_quota: {
@@ -69,7 +69,7 @@
         var opts = $.extend({}, tourneyAdminEdit.defaults, options);
 
 	for (var k in tourney) {
-	    if (tourney[k] == null) {
+	    if (tourney[k] === null) {
 		tourney[k] = '';
 	    }
 	}
@@ -97,8 +97,7 @@
                 tourney[name] = value;
             }
         }
-	var name = 'sit_n_go';
-	var value;
+	name = 'sit_n_go';
 	if ($('.jpoker_admin_sit_n_go input[type=radio]')[0].checked) {
 	    value = 'y';
 	} else if ($('.jpoker_admin_sit_n_go input[type=radio]')[1].checked) {
@@ -109,8 +108,7 @@
 	    setters.push(name + ' = \'' + value + '\'');
 	}
 
-	var name = 'respawn';
-	var value;
+	name = 'respawn';
 	if ($('.jpoker_admin_respawn input[type=checkbox]')[0].checked) {
 	    value = 'y';
 	} else {
@@ -121,8 +119,7 @@
 	    setters.push(name + ' = \'' + value + '\'');
 	}
 
-	var name = 'active';
-	var value;
+	name = 'active';
 	if ($('.jpoker_admin_active input[type=checkbox]')[0].checked) {
 	    value = 'y';
 	} else {
@@ -145,8 +142,8 @@
 	}
 
         $('.jpoker_admin_tourney_params select', element).each(function() {
-                var name = $(this).attr('name');
-                var value = $('option:selected', this).val();
+                name = $(this).attr('name');
+                value = $('option:selected', this).val();
 		if (value && value != 'from_date_format') {
 		    if (tourney[name] != value) {
 			setters.push(name + ' = \'' + value.toString() + '\'');
@@ -155,7 +152,7 @@
 		}
             });
 
-        if(setters.length == 0) {
+        if(setters.length === 0) {
             return undefined;
         }
             
@@ -176,7 +173,6 @@
 
         options.ajax({
                 async: false,
-                    mode: 'queue',
                     timeout: 30000,
                     url: url + '?' + $.param(params),
                     type: 'GET',
@@ -265,10 +261,15 @@
 	var currencies_html = $.map(jpoker.plugins.tourneyAdminList.currencies, function(currency, i) {
 		return options.templates.currency_serial_option.supplant(currency);
 	    }).join('');
+	var schedule_serial_html = $.map(jpoker.plugins.tourneyAdminList.schedule_serial, function(schedule_serial, i) {
+		return options.templates.satellite_of_option.supplant({schedule_serial: schedule_serial});
+	    }).join('');
 	var resthost_serial_select = options.templates.resthost_serial_select.supplant({options: resthost_html});
 	var currency_serial_select = options.templates.currency_serial_select.supplant({options: currencies_html});
+	var satellite_of_select = options.templates.satellite_of_select.supplant({options: schedule_serial_html});
         var html = options.templates.layout.supplant({resthost_serial_select: resthost_serial_select,
-						      currency_serial_select: currency_serial_select}).supplant(options.templates);
+						      currency_serial_select: currency_serial_select,
+						      satellite_of_select:  satellite_of_select}).supplant(options.templates);
         return html.supplant(tourney);
     };
 
@@ -276,7 +277,7 @@
             dateFormat: '%Y/%m/%d-%H:%M',
             path: '/cgi-bin/poker-network/pokersql',
             templates: {
-                layout: '<form action=\'javascript://\'><div class=\'jpoker_admin_tourney_params\'>{sit_n_go}{start_time}{register_time}{resthost_serial_select}{serial}{name}{description_short}{description_long}{variant}{betting_structure}{players_min}{players_quota}{seats_per_game}{player_timeout}{currency_serial_select}{currency_serial_from_date_format}{buy_in}{rake}{prize_min}{bailor_serial}{breaks_first}{breaks_interval}{breaks_duration}{via_satellite}{respawn}{active}</div>{update}</form>',
+                layout: '<form action=\'javascript://\'><div class=\'jpoker_admin_tourney_params\'>{sit_n_go}{start_time}{register_time}{resthost_serial_select}{serial}{name}{description_short}{description_long}{variant}{betting_structure}{players_min}{players_quota}{seats_per_game}{player_timeout}{currency_serial_select}{currency_serial_from_date_format}{buy_in}{rake}{prize_min}{bailor_serial}{breaks_first}{breaks_interval}{breaks_duration}{via_satellite}{satellite_of_select}{satellite_player_count}{respawn}{active}</div>{update}</form>',
 		serial: '<div class=\'jpoker_admin_serial\'><label for=\'jpoker_admin_serial_input\'>Serial</label><input id=\'jpoker_admin_serial_input\' name=\'serial\' title=\'Serial of the tournament.\' value=\'{serial}\' readonly=\'true\'  maxlength=\'5\' size=\'5\' /></div>',
 		resthost_serial_select: '<div class=\'jpoker_admin_resthost_serial\'><label for=\'jpoker_admin_resthost_serial_input\'>Rest host serial</label><select id=\'jpoker_admin_resthost_serial_input\' name=\'resthost_serial\' title=\'Serial of the server.\'>{options}</select></div>',
 		resthost_serial_option: '<option value=\'{serial}\'>{host}:{port}{path}</option>',
@@ -302,7 +303,10 @@
 		player_timeout: '<div class=\'jpoker_admin_player_timeout\'><label for=\'jpoker_admin_player_timeout_input\'>Player timeout</label><input id=\'jpoker_admin_player_timeout_input\' name=\'player_timeout\' title=\'Maximum number of seconds before a player times out when in position.\' value=\'{player_timeout}\' maxlength=\'4\' size=\'4\' /></div>',
 		seats_per_game: '<div class=\'jpoker_admin_seats_per_game\'><label for=\'jpoker_admin_seats_per_game_input\'>Seats per game</label><input id=\'jpoker_admin_seats_per_game_input\' name=\'seats_per_game\' title=\'Number of seats, in the range 2 and 10 included.\' value=\'{seats_per_game}\' maxlength=\'2\' size=\'2\' /></div>',
 		sit_n_go: '<div class=\'jpoker_admin_sit_n_go\'><input id=\'jpoker_admin_sit_n_go_input\' name=\'sit_n_go\' title=\'Tourney type\' value=\'y\' type=\'radio\' /><label for=\'jpoker_admin_sit_n_go_input\'>Sit and go</label><input id=\'jpoker_admin_regular_input\' name=\'sit_n_go\' title=\'Tourney type\' value=\'n\' type=\'radio\' /><label for=\'jpoker_admin_regular_input\'>Regular</label></div>',
-		via_satellite: '<div class=\'jpoker_admin_via_satellite\'><label for=\'jpoker_admin_via_satellite\'>Via satellite</label><input id=\'jpoker_admin_via_satellite\' name=\'via_satellite\' type=\'checkbox\' title=\'Control if registration is only allowed by playing a satellite\' /></div>',
+		via_satellite: '<div class=\'jpoker_admin_via_satellite\'><label for=\'jpoker_admin_via_satellite\'>Via satellite</label><input id=\'jpoker_admin_via_satellite_input\' name=\'via_satellite\' type=\'checkbox\' title=\'Control if registration is only allowed by playing a satellite\' /></div>',
+		satellite_of_select: '<div class=\'jpoker_admin_satellite_of\'><label for=\'jpoker_admin_satellite_of\'>Satellite of</label><select id=\'jpoker_admin_satellite_of_input\' name=\'satellite_of\' title=\'Control if the tournament is a satellite, the value is a reference to the serial field of the tourneys_schedule table.\' ><option value=\'0\'>none</option>{options}</select></div>',
+		satellite_of_option: '<option value=\'{schedule_serial}\'>{schedule_serial}</option>',
+		satellite_player_count: '<div class=\'jpoker_admin_satellite_player_count\'><label for=\'jpoker_admin_satellite_player_count\'>Satellite player count</label><input id=\'jpoker_admin_satellite_player_count_input\' name=\'satellite_player_count\' type=\'text\' title=\'The number of tournament winners that will be registered to the satellite_of tournament\' value=\'{satellite_player_count}\' /></div>',
 		active: '<div class=\'jpoker_admin_active\'><label for=\'jpoker_admin_active_input\'>Active</label><input id=\'jpoker_admin_active_input\' name=\'active\' type=\'checkbox\' title=\'Control if the tournament is considered by the server.\' /></div>',
 		respawn: '<div class=\'jpoker_admin_respawn\'><label for=\'jpoker_admin_respawn_input\'>Respawn</label><input id=\'jpoker_admin_respawn_input\' name=\'respawn\' type=\'checkbox\' title=\'Control if the tournament restarts when complete.\' /></div>',
 		update: '<div class=\'jpoker_admin_update\'><button>Update tourney</button></div>'
@@ -357,9 +361,11 @@
 				jpoker.plugins.tourneyAdminList.refresh(url, id, opts);
 			    });
 		    });
+		tourneyAdminList.schedule_serial = [];
 		for(var i = 0; i < tourneys.length; i++) {
 		    (function(){
 			var tourney = tourneys[i];
+			tourneyAdminList.schedule_serial.push(tourney.serial);
 			$('#admin' + tourney.id + ' .jpoker_admin_edit a').click(function() {
 				var edit_options = $.extend(true, {}, opts.tourneyEditOptions);
 				edit_options.callback.updated = function(tourney) {
@@ -465,7 +471,6 @@
 
         options.ajax({
                 async: false,
-                    mode: 'queue',
                     timeout: 30000,
                     url: url + '?' + $.param(params),
                     type: 'GET',
@@ -495,7 +500,6 @@
 
         options.ajax({
                 async: false,
-                    mode: 'queue',
                     timeout: 30000,
                     url: url + '?' + $.param(params),
                     type: 'GET',
@@ -544,8 +548,7 @@
             'output': 'rows'
         };
         options.ajax({
-		async: false,
-                    mode: 'queue',
+                async: false,
                     timeout: 30000,
                     url: url + '?' + $.param(params),
                     type: 'GET',
@@ -570,8 +573,7 @@
             'output': 'rows'
         };
         options.ajax({
-		async: false,
-                    mode: 'queue',
+                async: false,
                     timeout: 30000,
                     url: url + '?' + $.param(params),
                     type: 'GET',
@@ -581,5 +583,7 @@
                     error: error
                     });	
     };
+
+    jpoker.plugins.tourneyAdminList.schedule_serial = [];
 
 })(jQuery);

@@ -87,16 +87,16 @@ $.jpoker.plugins.tourneyAdminList.currencies = [{"url": "http://currency-server/
 // tourneyAdminList
 //
 test("jpoker.plugins.tourneyAdminList", function(){
-        expect(7);
+        expect(8);
 
 	var getResthost = $.jpoker.plugins.tourneyAdminList.getResthost;
 	$.jpoker.plugins.tourneyAdminList.getResthost = function() {
 	    $.jpoker.plugins.tourneyAdminList.getResthost = getResthost;
-	}
+	};
 	var getCurrencies = $.jpoker.plugins.tourneyAdminList.getCurrencies;
 	$.jpoker.plugins.tourneyAdminList.getCurrencies = function() {
 	    $.jpoker.plugins.tourneyAdminList.getCurrencies = getCurrencies;
-	}
+	};
 
         var tourney_serial = 1111;
 	var TOURNEY_LIST = [{"register_time": 1233135540, "betting_structure": "level-001", "currency_serial": 1, "description_long": "Holdem No Limit Freeroll", "breaks_interval": 60, "serial": tourney_serial, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "111 asdasdasdasd", "player_timeout": 60, "players_quota": 1000, "rake": 0, "add_on": 1, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 3, "active": "n", "add_on_delay": 60, "name": "regular1", "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 30}, {"register_time": 0, "betting_structure": "level-001", "currency_serial": null, "description_long": null, "breaks_interval": 3600, "serial": tourney_serial+1, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "zzz abc80 test", "player_timeout": 60, "players_quota": 10, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "active": "n", "add_on_delay": 60, "name": null, "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0}, {"register_time": 0, "betting_structure": "level-001", "currency_serial": null, "description_long": null, "breaks_interval": 3600, "serial": tourney_serial+2, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "blablabla 21", "player_timeout": 60, "players_quota": 10, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "active": "n", "add_on_delay": 60, "name": null, "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0}];
@@ -130,6 +130,7 @@ test("jpoker.plugins.tourneyAdminList", function(){
 	    equals(tourney.serial, tourney_serial, 'tourney edit called bis');
 	};
         $('tbody tr:eq(0) .jpoker_admin_edit a', place).click();
+	equals($.jpoker.plugins.tourneyAdminList.schedule_serial.length, 3);
 
         cleanup();
     });
@@ -140,11 +141,11 @@ test("jpoker.plugins.tourneyAdminList create", function(){
 	var getResthost = $.jpoker.plugins.tourneyAdminList.getResthost;
 	$.jpoker.plugins.tourneyAdminList.getResthost = function() {
 	    $.jpoker.plugins.tourneyAdminList.getResthost = getResthost;
-	}
+	};
 	var getCurrencies = $.jpoker.plugins.tourneyAdminList.getCurrencies;
 	$.jpoker.plugins.tourneyAdminList.getCurrencies = function() {
 	    $.jpoker.plugins.tourneyAdminList.getCurrencies = getCurrencies;
-	}
+	};
 
         var tourney_serial = 1111;
 	var TOURNEY_LIST = [{"register_time": 1233135540, "betting_structure": "level-001", "currency_serial": 1, "description_long": "Holdem No Limit Freeroll", "breaks_interval": 60, "serial": tourney_serial, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "111 asdasdasdasd", "player_timeout": 60, "players_quota": 1000, "rake": 0, "add_on": 1, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 3, "active": "n", "add_on_delay": 60, "name": "regular1", "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 30}, {"register_time": 0, "betting_structure": "level-001", "currency_serial": null, "description_long": null, "breaks_interval": 3600, "serial": tourney_serial+1, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "zzz abc80 test", "player_timeout": 60, "players_quota": 10, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "active": "n", "add_on_delay": 60, "name": null, "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0}, {"register_time": 0, "betting_structure": "level-001", "currency_serial": null, "description_long": null, "breaks_interval": 3600, "serial": tourney_serial+2, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "blablabla 21", "player_timeout": 60, "players_quota": 10, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "active": "n", "add_on_delay": 60, "name": null, "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0}];
@@ -182,11 +183,11 @@ test("jpoker.plugins.tourneyAdminList delete", function(){
 	var getResthost = $.jpoker.plugins.tourneyAdminList.getResthost;
 	$.jpoker.plugins.tourneyAdminList.getResthost = function() {
 	    $.jpoker.plugins.tourneyAdminList.getResthost = getResthost;
-	}
+	};
 	var getCurrencies = $.jpoker.plugins.tourneyAdminList.getCurrencies;
 	$.jpoker.plugins.tourneyAdminList.getCurrencies = function() {
 	    $.jpoker.plugins.tourneyAdminList.getCurrencies = getCurrencies;
-	}
+	};
 
         var tourney_serial = 1111;
 	var TOURNEY_LIST = [{"register_time": 1233135540, "betting_structure": "level-001", "currency_serial": 1, "description_long": "Holdem No Limit Freeroll", "breaks_interval": 60, "serial": tourney_serial, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "111 asdasdasdasd", "player_timeout": 60, "players_quota": 1000, "rake": 0, "add_on": 1, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 3, "active": "n", "add_on_delay": 60, "name": "regular1", "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 30}, {"register_time": 0, "betting_structure": "level-001", "currency_serial": null, "description_long": null, "breaks_interval": 3600, "serial": tourney_serial+1, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "zzz abc80 test", "player_timeout": 60, "players_quota": 10, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "active": "n", "add_on_delay": 60, "name": null, "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0}, {"register_time": 0, "betting_structure": "level-001", "currency_serial": null, "description_long": null, "breaks_interval": 3600, "serial": tourney_serial+2, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "blablabla 21", "player_timeout": 60, "players_quota": 10, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "active": "n", "add_on_delay": 60, "name": null, "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0}];
@@ -248,11 +249,11 @@ test("jpoker.plugins.tourneyAdminList multiple edit", function(){
 	var getResthost = $.jpoker.plugins.tourneyAdminList.getResthost;
 	$.jpoker.plugins.tourneyAdminList.getResthost = function() {
 	    $.jpoker.plugins.tourneyAdminList.getResthost = getResthost;
-	}
+	};
 	var getCurrencies = $.jpoker.plugins.tourneyAdminList.getCurrencies;
 	$.jpoker.plugins.tourneyAdminList.getCurrencies = function() {
 	    $.jpoker.plugins.tourneyAdminList.getCurrencies = getCurrencies;
-	}
+	};
 
         var tourney_serial = 1111;
 	var TOURNEY_LIST = [{"register_time": 1233135540, "betting_structure": "level-001", "currency_serial": 1, "description_long": "Holdem No Limit Freeroll", "breaks_interval": 60, "serial": tourney_serial, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "111 asdasdasdasd", "player_timeout": 60, "players_quota": 1000, "rake": 0, "add_on": 1, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 3, "active": "n", "add_on_delay": 60, "name": "regular1", "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 30}, {"register_time": 0, "betting_structure": "level-001", "currency_serial": null, "description_long": null, "breaks_interval": 3600, "serial": tourney_serial+1, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "zzz abc80 test", "player_timeout": 60, "players_quota": 10, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "active": "n", "add_on_delay": 60, "name": null, "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0}, {"register_time": 0, "betting_structure": "level-001", "currency_serial": null, "description_long": null, "breaks_interval": 3600, "serial": tourney_serial+2, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "blablabla 21", "player_timeout": 60, "players_quota": 10, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "active": "n", "add_on_delay": 60, "name": null, "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0}];
@@ -402,9 +403,9 @@ test("jpoker.tourneyAdminEdit currency serial", function(){
     });
 
 test("jpoker.tourneyAdminEdit update", function(){
-        expect(15);
+        expect(22);
         var tourney_serial = 1111;
-	var tourney = {"register_time": 1233135540, "betting_structure": "level-001", "currency_serial": 1, "description_long": "Holdem No Limit Freeroll", "breaks_interval": 60, "serial": tourney_serial, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "111 asdasdasdasd", "player_timeout": 60, "players_quota": 1000, "rake": 0, "add_on": 1, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 3, "active": "y", "add_on_delay": 60, "name": "regular1", "respawn": "y", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 30, "via_satellite": 1};
+	var tourney = {"register_time": 1233135540, "betting_structure": "level-001", "currency_serial": 1, "description_long": "Holdem No Limit Freeroll", "breaks_interval": 60, "serial": tourney_serial, "resthost_serial": 0, "buy_in": 0, "respawn_interval": 0, "description_short": "111 asdasdasdasd", "player_timeout": 60, "players_quota": 1000, "rake": 0, "add_on": 1, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 3, "active": "y", "add_on_delay": 60, "name": "regular1", "respawn": "y", "prize_min": 0, "currency_serial_from_date_format": null, "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 30, "via_satellite": 1, "satellite_player_count": 2, "satellite_of": 1};
 
 	var options = {
 	    ajax: function(params) {
@@ -413,6 +414,8 @@ test("jpoker.tourneyAdminEdit update", function(){
 		ok(params.url.indexOf('respawn') >= 0, 'respawn updated:'+params.url);
 		ok(params.url.indexOf('active') >= 0, 'active updated:'+params.url);
 		ok(params.url.indexOf('via_satellite') >= 0, 'via_satellite updated:'+params.url);
+		ok(params.url.indexOf('satellite_player_count') >= 0, 'satellite_player_count updated:'+params.url);
+		ok(params.url.indexOf('satellite_of') >= 0, 'satellite_of updated:'+params.url);
 	    },
 	    callback : {
 		updated: function(tourney) {
@@ -422,22 +425,33 @@ test("jpoker.tourneyAdminEdit update", function(){
 		    equals(tourney.respawn, 'n', 'respawn updated');
 		    equals(tourney.active, 'n', 'active updated');
 		    equals(tourney.via_satellite, 0, 'via_satellite updated');
+		    equals(tourney.satellite_player_count, 1, 'satellite_player_count updated');
+		    equals(tourney.satellite_of, 2, 'satellite_of updated');
 		}
 	    }	    
 	};
 
+	var schedule_serial = $.jpoker.plugins.tourneyAdminList.schedule_serial;
+	$.jpoker.plugins.tourneyAdminList.schedule_serial = [1, 2, 3];
         $.jpoker.tourneyAdminEdit('URL', tourney, options);
 	equals($('#jpokerAdminEdit .jpoker_admin_update button').length, 1);
 	equals($('.jpoker_admin_sit_n_go input[type=radio]').eq(1).is(":checked"), true);
 	equals($('.jpoker_admin_respawn input[type=checkbox]').eq(0).is(":checked"), true);
 	equals($('.jpoker_admin_active input[type=checkbox]').eq(0).is(":checked"), true);
 	equals($('.jpoker_admin_via_satellite input[type=checkbox]').eq(0).is(":checked"), true);
+	equals($('.jpoker_admin_satellite_player_count input[type=text]').eq(0).attr("value"), 2);
+	equals($('.jpoker_admin_satellite_of select option').length, 4);
+	equals($('.jpoker_admin_satellite_of select').val(), 1);
+
 	$('#jpokerAdminEdit input[name=description_short]').attr('value', 'TEXT2');
 	$('.jpoker_admin_sit_n_go input[type=radio]').eq(0).click();
 	$('.jpoker_admin_respawn input[type=checkbox]').eq(0).click();
 	$('.jpoker_admin_active input[type=checkbox]').eq(0).click();
 	$('.jpoker_admin_via_satellite input[type=checkbox]').eq(0).click();
+	$('.jpoker_admin_satellite_player_count input[type=text]').attr('value', 1);
+	$('.jpoker_admin_satellite_of select').val(2);
 	$('#jpokerAdminEdit .jpoker_admin_update button').click();
+	$.jpoker.plugins.tourneyAdminList.schedule_serial = schedule_serial;
     });
 
 test("jpoker.tourneyAdminEdit sitngo hide/show", function(){
@@ -466,7 +480,7 @@ test("jpoker.plugins.tourneyAdminEdit update", function(){
         expect(6);
 
         var tourney_serial = 1111;
-	var tourney = {"register_time": 1233135540, "betting_structure": "level-001", "currency_serial": 1, "description_long": "Holdem No Limit Freeroll", "breaks_interval": 60, "serial": tourney_serial, "resthost_serial": 1, "buy_in": 0, "respawn_interval": 0, "description_short": "111 asdasdasdasd", "player_timeout": 60, "players_quota": 1000, "rake": 0, "add_on": 1, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 3, "active": "n", "add_on_delay": 60, "name": "regular1", "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": '', "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 30, "via_satellite": 0};
+	var tourney = {"register_time": 1233135540, "betting_structure": "level-001", "currency_serial": 1, "description_long": "Holdem No Limit Freeroll", "breaks_interval": 60, "serial": tourney_serial, "resthost_serial": 1, "buy_in": 0, "respawn_interval": 0, "description_short": "111 asdasdasdasd", "player_timeout": 60, "players_quota": 1000, "rake": 0, "add_on": 1, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 3, "active": "n", "add_on_delay": 60, "name": "regular1", "respawn": "n", "prize_min": 0, "currency_serial_from_date_format": '', "breaks_duration": 300, "seats_per_game": 10, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 30, "via_satellite": 0, "satellite_player_count": 0, "satellite_of": 0};
 
         var tourneyAdminEdit = $.jpoker.plugins.tourneyAdminEdit;
         var place = $("#main");
@@ -543,5 +557,3 @@ test("jpoker.plugins.tourneyAdminList.getCurrencies", function() {
 		}});
 	equals($.jpoker.plugins.tourneyAdminList.currencies.length, 2);
     });
-
-

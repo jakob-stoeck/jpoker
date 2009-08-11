@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
-  <ModulePrefs title="jpoker" height="900" width="800">
+  <ModulePrefs title="jpoker" height="600" width="800">
 	<Require feature="opensocial-0.8"/> 
   </ModulePrefs>
   <Content type="html">
@@ -27,6 +27,8 @@
 	<script type="text/javascript">	  
 	  var restURL = "http://opensocial.pokersource.info/POKER_REST";
 	  var jQueryAjax = $.ajax;
+	  var server;
+	  $.jpoker.verbose = 6;
 	  $.ajax = function(options) {
 		var params = {};
 		var postData = {
@@ -73,8 +75,7 @@
 		});
 	  };
 	  gadgets.util.registerOnLoadHandler(function() {
-		$.jpoker.verbose = 6;
-		var server = $.jpoker.serverCreate({ url: restURL });
+		server = $.jpoker.serverCreate({ url: restURL });
 		server.spawnTable = function(server, packet) {
 			$("#table").empty().jpoker("table", restURL, packet.game_id, packet.name);
 			$("#table-link").click();
