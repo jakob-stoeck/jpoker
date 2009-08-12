@@ -1,3 +1,7 @@
+Release 2.0.0
+
+
+
 Release 1.0.16
 
 * Fix a bug in the tournament list where the selector sent to the server was 

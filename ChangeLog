@@ -1,9 +1,13 @@
+2009-08-12  Loic Dachary <loic@dachary.org>
+
+	* Release 2.0.0
+
 2009-08-07  Loic Dachary <loic@dachary.org>
 
 	* Release 1.0.16
 
 	* jpoker-opensocial.xml:
-	fix gadget size, and varable declaration
+	fix gadget size, and variable declaration
 	[417083711bf3] [tip]
 
 2009-08-06  Loic Dachary <loic@dachary.org>
