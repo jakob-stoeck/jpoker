@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
-  <ModulePrefs title="jpoker" height="600" width="800">
+  <ModulePrefs title="jpoker" width="800" height="600">
 	<Require feature="opensocial-0.8"/> 
   </ModulePrefs>
   <Content type="html">
@@ -29,6 +29,7 @@
 	  var jQueryAjax = $.ajax;
 	  var server;
 	  $.jpoker.verbose = 6;
+	  $.jpoker.doReconnectAlways = true;
 	  $.ajax = function(options) {
 		var params = {};
 		var postData = {
