@@ -8,9 +8,9 @@
      <![CDATA[ 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>appdata sample application</title>
-	<link href="http://jspoker.pokersource.info/work/jpoker/js/testrunner.css" rel="stylesheet" type="text/css" />	
-	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/work/jpoker/jquery/jquery-1.2.6.js"></script>
-	<script language="JavaScript" type="text/javascript" src="http://jspoker.pokersource.info/work/jpoker/js/testrunner-no-filter.js"></script>
+	<link href="/jpoker/jpoker/js/testrunner.css" rel="stylesheet" type="text/css" />	
+	<script language="JavaScript" type="text/javascript" src="/jpoker/jpoker/jquery/jquery-1.2.6.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/jpoker/jpoker/js/testrunner-no-filter.js"></script>
 	<script type="text/javascript">
 	  module("appdata");
 	  test("update/fetch/remove", function() {
