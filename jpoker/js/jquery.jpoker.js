@@ -66,11 +66,11 @@
 
     $.jpoker = {
 
-        jpoker_version: '1.0.16',
+        jpoker_version: '2.0.0',
 
         jpoker_sources: 'http://jspoker.pokersource.info/packaging-farm/jpoker/gnulinux/debian/lenny/src/jpoker_{jpoker-version}.orig.tar.gz',
 
-        poker_network_version: '1.7.5',
+        poker_network_version: '2.0.0',
 
         poker_network_sources: 'http://farmpoker.pokersource.info/packaging-farm/poker-network/gnulinux/debian/lenny/src/poker-network_{poker-network-version}.orig.tar.gz',
 
@@ -609,7 +609,6 @@
             clearTimeout: function(id) { return window.clearTimeout(id); },
             setTimeout: function(cb, delay) { return window.setTimeout(cb, delay); },
             ajax: function(o) { return jQuery.ajax(o); },
-            cookie: function() { return document.cookie; },
 	    protocol: function() { return document.location.protocol; }
         }, jpoker.watchable.defaults);
 
@@ -646,8 +645,8 @@
                 jpoker.watchable.prototype.init.call(this);
                 this.queues = {};
                 this.delays = {};
-                this.session = 'name=' + jpoker.url2hash(this.url);
-		this.count = 'count=' + this.incrementSessionCount();
+                this.auth = 'auth=' + this.getAuthHash();
+		this.session_uid = 'uid=' + jpoker.Crypto.hexSha1Str(this.url + Math.random());
 
 		if (this.urls === undefined) {
 		    this.urls = {};		    
@@ -667,24 +666,19 @@
                 this.reset();
             },
 
-            sessionName: function() {
-                return 'TWISTED_SESSION_' + jpoker.url2hash(this.url);
+            getAuthHash: function() {
+                var auth_cookie = 'JPOKER_AUTH_' + jpoker.url2hash(this.url);
+                var auth_hash = $.cookie(auth_cookie);
+                if(auth_hash === null) {
+                    auth_hash = jpoker.Crypto.hexSha1Str(this.url + Math.random());
+                    var expires = new Date();
+                    expires.setTime(expires.getTime() + self.authExpires);
+                    $.cookie(auth_cookie, auth_hash, { expires: expires, path: '/' } );
+                } else {
+                    this.foundAuthCookie = true;
+                }
+                return auth_hash;
             },
-
-            sessionExists: function() {
-                return this.cookie().indexOf(this.sessionName()) >= 0;
-            },
-
-	    incrementSessionCount: function() {
-		var session_count_cookie = 'jpoker_count_'+jpoker.url2hash(this.url);
-		var session_count = $.cookie(session_count_cookie);
-		if (session_count === null) {
-		    session_count = 0;
-		}
-		++session_count;
-		$.cookie(session_count_cookie, session_count);
-		return session_count;
-	    },
 
             reset: function() {
                 this.clearTimeout(this.pingTimer);
@@ -809,7 +803,7 @@
                     data: json_data,
                     mode: this.mode,
                     timeout: this.timeout,
-                    url: this.url + '?' + this.session + '&' + this.count,
+                    url: this.url + '?' + this.auth + '&' + this.session_uid,
                     type: 'POST',
                     dataType: 'json',
                     global: false, // do not fire global events
@@ -992,7 +986,8 @@
             rankClick: function(server, tourney_serial) {},
 	    reconnectFinish: function(server) {},
             setInterval: function(cb, delay) { return window.setInterval(cb, delay); },
-            clearInterval: function(id) { return window.clearInterval(id); }
+            clearInterval: function(id) { return window.clearInterval(id); },
+	    authExpires: 60 * 60 * 1000 // auth cookie expires after 1 hour by default
         }, jpoker.connection.defaults);
 
     jpoker.server.prototype = $.extend({}, jpoker.connection.prototype, {
@@ -1006,7 +1001,7 @@
                 this.userInfo = {};
 		this.preferences = new jpoker.preferences(jpoker.url2hash(this.url));
                 this.registerHandler(0, this.handler);
-                if(jpoker.doReconnect && (jpoker.doReconnectAlways || this.sessionExists() || this.protocol() == 'file:')) {
+                if(jpoker.doReconnect && (jpoker.doReconnectAlways || this.foundAuthCookie || this.protocol() == 'file:')) {
                     this.reconnect();
                 }
             },
