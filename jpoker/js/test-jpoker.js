@@ -588,6 +588,18 @@ test("jpoker.Crypto b32 str", function (){
 	equals(jpoker.Crypto.be32sToStr(jpoker.Crypto.strToBe32s("0123")), "0123", "str to be32 to str");
     });
 
+test("jpoker.serverDestroy", function(){
+         expect(2);
+
+         var server = jpoker.serverCreate({ url: 'url' });
+         server.tourneys = {
+             1: { 'uninit': function() { } }
+         };
+         jpoker.serverDestroy('url');
+         equals(server.tourneys[1], undefined);
+         equals(jpoker.servers['url'], undefined);
+});
+
 //
 // jpoker.server
 //
