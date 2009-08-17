@@ -33,6 +33,7 @@ function process() {
 	while(_config.queue.length && !_config.blocking) {
 		var call = _config.queue[0];
 		_config.queue = _config.queue.slice(1);
+                kill_cookies();
 		call();
 	}
 }
@@ -54,6 +55,10 @@ function start() {
 		_config.blocking = false;
 		process();
 	}, 13);
+}
+
+var kill_cookies = function() { 
+    //window.console.log('base kill cookies');
 }
 
 function runTest() {

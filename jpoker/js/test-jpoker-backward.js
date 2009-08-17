@@ -56,8 +56,6 @@ test("jpoker.plugins.regularTourneyList", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
@@ -140,8 +138,6 @@ test("jpoker.plugins.regularTourneyList date template", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
@@ -189,8 +185,6 @@ test("jpoker.plugins.regularTourneyList link_pattern", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
@@ -309,8 +303,6 @@ test("jpoker.plugins.sitngoTourneyList", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
@@ -383,8 +375,6 @@ test("jpoker.plugins.sitngoTourneyList link pattern", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;

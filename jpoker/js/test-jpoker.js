@@ -1,6 +1,6 @@
 //
 //     Copyright (C) 2008, 2009 Loic Dachary <loic@dachary.org>
-//     Copyright (C) 2008 Johan Euphrosine <proppy@aminche.com>
+//     Copyright (C) 2008, 2009 Johan Euphrosine <proppy@aminche.com>
 //
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU General Public License as published by
@@ -71,6 +71,11 @@ ActiveXObject.prototype = {
     }
 };
 
+var kill_cookies = function() {
+    $.cookie('JPOKER_AUTH_'+jpoker.url2hash('url'), null, { path: '/' });
+    $.cookie('JPOKER_AUTH_'+jpoker.url2hash('url2'), null, { path: '/' });
+};
+
 var cleanup = function(id) {
     if(id) {
         $("#" + id).remove();
@@ -95,8 +100,6 @@ var cleanup = function(id) {
 	   });
     jpoker.uninit();
     $.cookie('jpoker_preferences_'+jpoker.url2hash('url'), null);
-    $.cookie('jpoker_count_'+jpoker.url2hash('url'), null);
-    $.cookie('jpoker_count_'+jpoker.url2hash('url2'), null);
     $('#jpokerDialog').dialog('close').remove();
     $('#jpokerRebuy').dialog('close').remove();
     $('#jpokerOptionsDialog').dialog('close').remove();
@@ -522,12 +525,15 @@ test("jpoker.refresh", function(){
         expect(2);
         stop();
 
+        kill_cookies();
         var PokerServer = function() {};
 
         PokerServer.prototype = {
             outgoing: '[{"type": "packet"}]',
 
-            handle: function(packet) { }
+            handle: function(packet) {
+                window
+            }
         };
 
         ActiveXObject.prototype.server = new PokerServer();
@@ -581,6 +587,18 @@ test("jpoker.Crypto b32 str", function (){
 	expect(1);
 	equals(jpoker.Crypto.be32sToStr(jpoker.Crypto.strToBe32s("0123")), "0123", "str to be32 to str");
     });
+
+test("jpoker.serverDestroy", function(){
+         expect(2);
+
+         var server = jpoker.serverCreate({ url: 'url' });
+         server.tourneys = {
+             1: { 'uninit': function() { } }
+         };
+         jpoker.serverDestroy('url');
+         equals(server.tourneys[1], undefined);
+         equals(jpoker.servers['url'], undefined);
+});
 
 //
 // jpoker.server
@@ -690,22 +708,22 @@ test("jpoker.server.{de,}queueRunning", function(){
     });
 
 test("jpoker.server.init reconnect", function(){
-        expect(2);
-        var server = jpoker.serverCreate({ url: 'url',
-                                           cookie: function() { return this.sessionName(); } });
+        expect(3);
+        $.cookie('JPOKER_AUTH_'+jpoker.url2hash('url'), 'authhash', { path: '/' });
+        var server = jpoker.serverCreate({ url: 'url'});
 
         equals(server.state, server.RECONNECT);
-        equals(server.session.indexOf('clear') >= 0, false, 'session set');
+        equals(server.session_uid.indexOf('uid=') >= 0, true, 'session uid hash set');
+        equals(server.auth.indexOf('auth=') >= 0, true, 'auth hash set');
         cleanup();
     });
 
 test("jpoker.server.init reconnect file: protocol", function(){
-        expect(2);
+        expect(1);
         var server = jpoker.serverCreate({ url: 'url',
                                            protocol: function() { return 'file:'; } });
 
         equals(server.state, server.RECONNECT);
-        equals(server.session.indexOf('clear') >= 0, false, 'session set');
         cleanup();
     });
 
@@ -744,7 +762,7 @@ test("jpoker.server.init reconnect doRejoin", function(){
     });
 
 test("jpoker.server.reconnect success", function(){
-        expect(5);
+        expect(3);
         stop();
 
         var player_serial = 43;
@@ -767,7 +785,6 @@ test("jpoker.server.reconnect success", function(){
                         expected = server.MY;
                     } else if(expected == server.MY) {
                         equals(server.serial, player_serial, 'player_serial');
-                        equals(server.session.indexOf('clear') >= 0, false, 'session is set');
                         start_and_cleanup();
 			return false;
                     }
@@ -776,11 +793,10 @@ test("jpoker.server.reconnect success", function(){
             });
 
         server.reconnect();
-        equals(server.session.indexOf('clear') >= 0, false, 'session is set');
     });
 
 test("jpoker.server.reconnect failure", function(){
-        expect(2);
+        expect(1);
         stop();
 
         var PokerServer = function() {};
@@ -808,7 +824,6 @@ test("jpoker.server.reconnect failure", function(){
             });
 
         server.reconnect();
-        equals(server.session.indexOf('clear') >= 0, false, 'session is set');
     });
 
 test("jpoker.server.reconnect invalid error", function(){
@@ -2596,33 +2611,18 @@ test("jpoker.connection:queueIncoming", function(){
         cleanup();
     });
 
-test("jpoker.connection:cookie protocol", function() {
-	expect(2);
+test("jpoker.connection: protocol", function() {
+	expect(1);
 	var connection = new jpoker.connection();
-	equals(connection.cookie(), document.cookie, 'cookie');
 	equals(connection.protocol(), document.location.protocol, 'protocol');
-    });
-
-test("jpoker.connection:increment sessionCount", function() {
-	expect(3);
-	
-	$.cookie('jpoker_count_'+jpoker.url2hash('url'), null);
-	var server1 = new jpoker.connection({ url: 'url' });
-	equals($.cookie('jpoker_count_'+jpoker.url2hash('url')), 1);
- 	var server2 = new jpoker.connection({ url: 'url' });
-	equals($.cookie('jpoker_count_'+jpoker.url2hash('url')), 2);
- 	var server3 = new jpoker.connection({ url: 'url2' });
-	equals($.cookie('jpoker_count_'+jpoker.url2hash('url2')), 1);
-	
-	cleanup();
     });
 
 test("jpoker.connection: ajax arguments", function() {
 	expect(2);
 	var server = new jpoker.connection({ url: 'url' });
 	server.ajax = function(options) {
-	    ok(options.url.indexOf("name=") >= 0, 'name');
-	    ok(options.url.indexOf("count=") >= 0, 'count');
+	    ok(options.url.indexOf("uid=") >= 0, 'uid');
+	    ok(options.url.indexOf("auth=") >= 0, 'auth');
 	};
 	server.sendPacket({});	
 	cleanup();
@@ -3371,8 +3371,6 @@ test("jpoker.plugins.tableList", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
@@ -3444,8 +3442,6 @@ test("jpoker.plugins.tableList link pattern", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
@@ -3502,8 +3498,6 @@ test("jpoker.plugins.tableList pager", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
@@ -3562,8 +3556,6 @@ test("jpoker.plugins.tableList pager 30 rows per page", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
@@ -3607,8 +3599,6 @@ test("jpoker.plugins.tableList no table no tablesorter", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
@@ -3672,8 +3662,6 @@ test("jpoker.plugins.tourneyList", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
@@ -3756,8 +3744,6 @@ test("jpoker.plugins.tourneyList date template", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
@@ -3804,8 +3790,6 @@ test("jpoker.plugins.tourneyList link pattern", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
@@ -3995,8 +3979,6 @@ test("jpoker.plugins.tourneyDetails", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
@@ -4055,8 +4037,6 @@ test("jpoker.plugins.tourneyDetails refresh should be < 10s", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
@@ -4849,8 +4829,6 @@ test("jpoker.plugins.tourneyDetails packet money update", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
@@ -4893,8 +4871,6 @@ test("jpoker.plugins.tourneyDetails.register", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
@@ -4941,8 +4917,6 @@ test("jpoker.plugins.tourneyDetails.unregister", function(){
         ActiveXObject.prototype.server = new PokerServer();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
         var id = 'jpoker' + jpoker.serial;
@@ -8803,8 +8777,6 @@ test("jpoker.plugins.userInfo", function(){
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
 	server.serial = 42;
@@ -8868,8 +8840,6 @@ test("jpoker.plugins.userInfo update", function(){
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
-        jpoker.serverDestroy('url');
-        server = jpoker.serverCreate({ url: 'url' });
         server.connectionState = 'connected';
 
 	server.serial = 42;
