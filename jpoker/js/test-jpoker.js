@@ -5665,7 +5665,7 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave (Self)", function(){
 } // TEST_AVATAR
 
 test("jpoker.plugins.table: sit_seat", function(){
-        expect(62);
+        expect(63);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
@@ -5722,6 +5722,10 @@ test("jpoker.plugins.table: sit_seat", function(){
         equals($("#sit_seat7" + id).is(':hidden'), true, "sit_seat7 hidden");	
         equals($("#sit_seat8" + id).is(':hidden'), true, "sit_seat8 hidden");
         equals($("#sit_seat9" + id).is(':hidden'), true, "sit_seat9 hidden");
+        table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: 3, serial: player_serial+1, game_id: game_id, name: 'playername' });
+        table.handler(server, game_id, { type: 'PacketPokerPlayerLeave', seat: 3, serial: player_serial+1, game_id: game_id });
+	equals($("#sit_seat3" + id).is(':hidden'), true, "sit_seat3 hidden");
+
         table.handler(server, game_id, { type: 'PacketPokerPlayerLeave', seat: 1, serial: player_serial, game_id: game_id });
         equals($("#sit_seat0" + id).is(':hidden'), true, "sit_seat0 hidden");
         equals($("#sit_seat1" + id).is(':visible'), true, "sit_seat1 visible");

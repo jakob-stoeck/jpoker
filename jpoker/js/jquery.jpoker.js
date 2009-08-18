@@ -1853,10 +1853,10 @@
                     break;
 
                 case 'PacketPokerPlayerLeave':
-                    table.notifyUpdate(packet);
                     table.seats[packet.seat] = null;
                     table.serial2player[serial].uninit();
                     delete table.serial2player[serial];
+                    table.notifyUpdate(packet);
                     break;
 
                 case 'PacketPokerBoardCards':
@@ -4022,12 +4022,13 @@
 	},
 
         seat: function(seat, id, server, table) {
+	    var selfPlayerLoggedButNotSit = server.loggedIn() && (table.serial2player[server.serial] === undefined);
             if(table.seats[seat] !== null) {
                 $('#seat' + seat + id).show();
                 $('#sit_seat' + seat + id).hide();
-            } else {            
+            } else {
                 $('#seat' + seat + id).hide();
-                if(server.loggedIn() && ($.inArray(seat, table.seats_left) != -1)) {
+                if(selfPlayerLoggedButNotSit && ($.inArray(seat, table.seats_left) != -1)) {
                     var sit = $('#sit_seat' + seat + id);
                     sit.show();
                     sit.click(function() {
