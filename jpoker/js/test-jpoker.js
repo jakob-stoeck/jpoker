@@ -2066,23 +2066,30 @@ test("jpoker.server.setState", function(){
     });
 
 test("jpoker.server.urls", function() {
-	expect(8);
-	var server = jpoker.serverCreate({ url: 'http://host/POKER_REST' });
-	equals(server.urls.avatar, 'http://host/AVATAR');
-	equals(server.urls.upload, 'http://host/UPLOAD');
-	
-	server = jpoker.serverCreate({ url: '/POKER_REST' });
-	equals(server.urls.avatar, '/AVATAR');
-	equals(server.urls.upload, '/UPLOAD');
+	 expect(8);
+         var url;
+         url = 'http://host/POKER_REST';
+         $.cookie('JPOKER_AUTH_'+jpoker.url2hash(url), 'hash', { path: '/' });
+	 var server = jpoker.serverCreate({ url: url });
+	 equals(server.urls.avatar, 'http://host/AVATAR');
+	 equals(server.urls.upload, 'http://host/UPLOAD?auth=hash');
+	 
+         url = '/POKER_REST';
+         $.cookie('JPOKER_AUTH_'+jpoker.url2hash(url), 'hash', { path: '/' });
+	 server = jpoker.serverCreate({ url: url });
+	 equals(server.urls.avatar, '/AVATAR');
+	 equals(server.urls.upload, '/UPLOAD?auth=hash');
 
-	server = jpoker.serverCreate({ url: 'url' });
-	equals(server.urls.avatar, 'AVATAR');
-	equals(server.urls.upload, 'UPLOAD');
+         url = 'url';
+         $.cookie('JPOKER_AUTH_'+jpoker.url2hash(url), 'hash', { path: '/' });
+	 server = jpoker.serverCreate({ url: url });
+	 equals(server.urls.avatar, 'AVATAR');
+	 equals(server.urls.upload, 'UPLOAD?auth=hash');
 
-	server = jpoker.serverCreate({ url: 'url', urls: {avatar: 'avatar', upload: 'upload'}});
-	equals(server.urls.avatar, 'avatar');
-	equals(server.urls.upload, 'upload');
-    });
+	 server = jpoker.serverCreate({ url: 'url', urls: {avatar: 'avatar', upload: 'upload'}});
+	 equals(server.urls.avatar, 'avatar');
+	 equals(server.urls.upload, 'upload');
+     });
 
 test("jpoker.server.error: throw correct exception", function() {
         expect(2);
