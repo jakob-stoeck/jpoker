@@ -30,6 +30,7 @@ if(!window.ActiveXObject) {
 }
 
 var ActiveXObject = function(options) {
+    //    window.console.log('activeXobject');
     $.extend(this, ActiveXObject.defaults, options);
     this.headers = [];
 };
@@ -45,7 +46,7 @@ ActiveXObject.prototype = {
     responseText: "[]",
 
     open: function(type, url, async) {
-        //window.console.log(url);
+//        window.console.log('ActiveXObject ' + url);
     },
     
     setRequestHeader: function(header) {
@@ -121,6 +122,8 @@ var jpoker = $.jpoker;
 
 jpoker.verbose = 1; // activate the code parts that depends on verbosity
 jpoker.sound = 'span'; // using embed for test purposes triggers too many problems
+jpoker.server.defaults.longPollFrequency = -1; // there must not be any interference of longPoll during the tests unless explicitly specified
+jpoker.connection.defaults.longPollFrequency = -1; // there must not be any interference of longPoll during the tests unless explicitly specified
 
 //
 // jpoker
@@ -675,18 +678,6 @@ test("jpoker.server.handler PacketPokerTable empty ", function(){
         cleanup();
     });
 
-test("jpoker.server.handler PacketPokerTable + tourney_serial unknown", function(){
-        expect(2);
-	
-        var server = jpoker.serverCreate({ url: 'url' });
-        var tourney_serial = 100;
-        equals(tourney_serial in server.tourneys, false, tourney_serial + ' must not be in server.tourneys');
-        var game_id = 42;
-        server.handler(server, 0, { type: 'PacketPokerTable', id: game_id, tourney_serial: tourney_serial });
-        equals(server.tables[game_id].pollTimer > 0, true, 'poll timer > 0');
-        cleanup();
-    });
-
 test("jpoker.server.{de,}queueRunning", function(){
         expect(5);
         var server = jpoker.serverCreate({ url: 'url'});
@@ -859,7 +850,7 @@ test("jpoker.server.reconnect waiting", function(){
 	server.reconnect();
 	equals(server.callbacks[0].length, 1, 'reconnect callback registered');
 	var callback = server.callbacks[0][0];
-	server.notify(0, {type: 'PacketPing'});
+	server.notify(0, {type: 'Packet'});
 	equals(server.callbacks[0][0], callback, 'reconnect callback still in place');
     });
 
@@ -871,7 +862,7 @@ test("jpoker.server.refreshTable waiting", function(){
 	server.refreshTables('');
 	equals(server.callbacks[0].length, 1, 'refreshTables callback registered');
 	var callback = server.callbacks[0][0];
-	server.notify(0, {type: 'PacketPing'});
+	server.notify(0, {type: 'Packet'});
 	equals(server.callbacks[0][0], callback, 'refreshTables callback still in place');
     });
 
@@ -883,7 +874,7 @@ test("jpoker.server.refreshTourneys waiting", function(){
 	server.refreshTourneys('');
 	equals(server.callbacks[0].length, 1, 'refreshTourneys callback registered');
 	var callback = server.callbacks[0][0];
-	server.notify(0, {type: 'PacketPing'});
+	server.notify(0, {type: 'Packet'});
 	equals(server.callbacks[0][0], callback, 'refreshTourneys callback still in place');
     });
 
@@ -895,7 +886,7 @@ test("jpoker.server.refreshTourneyDetails waiting", function(){
 	server.refreshTourneyDetails(0);
 	equals(server.callbacks[0].length, 1, 'refreshTourneyDetails callback registered');
 	var callback = server.callbacks[0][0];
-	server.notify(0, {type: 'PacketPing'});
+	server.notify(0, {type: 'Packet'});
 	equals(server.callbacks[0][0], callback, 'refreshTourneyDetails callback still in place');
     });
 
@@ -981,7 +972,7 @@ test("jpoker.server.rejoin waiting", function(){
 	server.rejoin(0);
 	equals(server.callbacks[0].length, 1, 'rejoin callback registered');
 	var callback = server.callbacks[0][0];
-	server.notify(0, {type: 'PacketPing'});
+	server.notify(0, {type: 'Packet'});
 	equals(server.callbacks[0][0], callback, 'rejoin callback still in place');
     });
 
@@ -1023,12 +1014,11 @@ test("jpoker.server.stopRefresh clearInterval", function(){
     });
 
 test("jpoker.server.login", function(){
-        expect(9);
+        expect(7);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
         equals(server.loggedIn(), false);
-        equals(server.pinging(), false);
 
         var packets = [];
         var PokerServer = function() {};
@@ -1049,7 +1039,6 @@ test("jpoker.server.login", function(){
                     equals(packets[0].indexOf('PacketLogin') >= 0, true, 'Login');
                     equals(server.loggedIn(), true, "loggedIn");
                     equals(server.userInfo.name, logname, "logname");
-                    equals(server.pinging(), true, "pinging");
                     equals(server.session != 'clear', true, "has session");
                     equals(server.connected(), true, "connected");
                     start_and_cleanup();
@@ -1144,7 +1133,7 @@ test("jpoker.server.login waiting", function(){
 	server.login(0);
 	equals(server.callbacks[0].length, 1, 'login callback registered');
 	var callback = server.callbacks[0][0];
-	server.notify(0, {type: 'PacketPing'});
+	server.notify(0, {type: 'Packet'});
 	equals(server.callbacks[0][0], callback, 'login callback still in place');
     });
 
@@ -1211,13 +1200,12 @@ test("jpoker.server.bankroll", function(){
     });
 
 test("jpoker.server.tourneyJoin", function(){
-        expect(2);
+        expect(1);
 	
 	var game_id = 42;
         var server = jpoker.serverCreate({ url: 'url' });
         server.tourneyJoin(game_id);
 	ok(game_id in server.tourneys, 'tourney created');
-	ok(server.tourneys[game_id].pollTimer != -1, 'tourney pollTimer activated');
 	cleanup();
     });
 
@@ -1236,9 +1224,6 @@ test("jpoker.server.tourneyRegister", function(){
         server.serial = serial;
 	
         server.sendPacket = function(packet) {
-	    if (packet.type == 'PacketPokerPoll') {
-		return;
-	    }
             equals(packet.type, 'PacketPokerTourneyRegister');
             equals(packet.serial, serial, 'player serial');
             equals(packet.game_id, game_id, 'tournament id');
@@ -1299,9 +1284,9 @@ test("jpoker.server.tourneyRegister waiting", function(){
 	equals(server.callbacks[game_id].length, 1, 'tourneyRegister callbacks[game_id] registered');
 	var callback = server.callbacks[0][0];
 	var callback_game_id = server.callbacks[game_id][0];
-	server.notify(0, {type: 'PacketPing'});
+	server.notify(0, {type: 'Packet'});
 	equals(server.callbacks[0][0], callback, 'tourneyRegister callback still in place');
-	server.notify(game_id, {type: 'PacketPing'});
+	server.notify(game_id, {type: 'Packet'});
 	equals(server.callbacks[game_id][0], callback_game_id, 'tourneyRegister callback_game_id still in place');
 	cleanup();
     });
@@ -1380,9 +1365,9 @@ test("jpoker.server.tourneyUnregister waiting", function(){
 	equals(server.callbacks[game_id].length, 1, 'tourneyUnregister callbacks[game_id] registered');
 	var callback = server.callbacks[0][0];
 	var callback_game_id = server.callbacks[game_id][0];
-	server.notify(0, {type: 'PacketPing'});
+	server.notify(0, {type: 'Packet'});
 	equals(server.callbacks[0][0], callback, 'tourneyUnregister callback still in place');
-	server.notify(game_id, {type: 'PacketPing', id: game_id});
+	server.notify(game_id, {type: 'Packet', id: game_id});
 	equals(server.callbacks[game_id][0], callback_game_id, 'tourneyUnregister callback_game_id still in place');
 	cleanup();
     });
@@ -1442,7 +1427,7 @@ test("jpoker.server.getPersonalInfo waiting", function(){
 	server.getPersonalInfo(game_id);
 	equals(server.callbacks[0].length, 1, 'getPersonalInfo callbacks[0] registered');
 	var callback = server.callbacks[0][0];
-	server.notify(0, {type: 'PacketPing'});
+	server.notify(0, {type: 'Packet'});
 	equals(server.callbacks[0][0], callback, 'getPersonalInfo callback still in place');
     });
 
@@ -1529,7 +1514,7 @@ test("jpoker.server.getPlayerPlaces waiting", function(){
 	server.getPlayerPlaces();
 	equals(server.callbacks[0].length, 1, 'getPlayerPlaces callbacks[0] registered');
 	var callback = server.callbacks[0][0];
-	server.notify(0, {type: 'PacketPing'});
+	server.notify(0, {type: 'Packet'});
 	equals(server.callbacks[0][0], callback, 'getPlayerPlaces callback still in place');
     });
 
@@ -1570,7 +1555,7 @@ test("jpoker.server.getPlayerPlacesByName waiting", function(){
 	server.getPlayerPlacesByName('user');
 	equals(server.callbacks[0].length, 1, 'getPlayerPlacesByName callbacks[0] registered');
 	var callback = server.callbacks[0][0];
-	server.notify(0, {type: 'PacketPing'});
+	server.notify(0, {type: 'Packet'});
 	equals(server.callbacks[0][0], callback, 'getPlayerPlacesByName callback still in place');
     });
 
@@ -1648,7 +1633,7 @@ test("jpoker.server.getPlayerStats waiting", function(){
 	server.getPlayerStats(42);
 	equals(server.callbacks[0].length, 1, 'getPlayerStats callbacks[0] registered');
 	var callback = server.callbacks[0][0];
-	server.notify(0, {type: 'PacketPing'});
+	server.notify(0, {type: 'Packet'});
 	equals(server.callbacks[0][0], callback, 'getPlayerStats callback still in place');
     });
 
@@ -1686,7 +1671,7 @@ test("jpoker.server.selectTables waiting", function(){
 	server.selectTables('');
 	equals(server.callbacks[0].length, 1, 'selectTables callbacks[0] registered');
 	var callback = server.callbacks[0][0];
-	server.notify(0, {type: 'PacketPing'});
+	server.notify(0, {type: 'Packet'});
 	equals(server.callbacks[0][0], callback, 'selectTables callback still in place');
     });
 
@@ -1938,13 +1923,13 @@ test("jpoker.server.setLocale waiting", function(){
 	server.setLocale('fr_FR.UTF-8');
 	equals(server.callbacks[0].length, 1, 'setLocale callbacks[0] registered');
 	var callback = server.callbacks[0][0];
-	server.notify(0, {type: 'PacketPing'});
+	server.notify(0, {type: 'Packet'});
 	equals(server.callbacks[0][0], callback, 'setLocale callback still in place');
 	cleanup();
     });
 
 test("jpoker.server.tablePick", function(){
-        expect(6);
+        expect(5);
 	stop();
 
 	var TABLE_PACKET = {"type": "PacketPokerTable", "id": 100, "reason": "TablePicker"};
@@ -1953,9 +1938,6 @@ test("jpoker.server.tablePick", function(){
         var server = jpoker.serverCreate({ url: 'url' });
 	server.serial = 42;
 	var sendPacket = server.sendPacket;
-	server.ping = function() {
-	    ok(true, 'pinging');
-	};
         server.sendPacket = function(packet) {
 	    if (packet.type == 'PacketPokerTablePicker') {		
 		equals(packet.variant, 'holdem');
@@ -1977,7 +1959,7 @@ test("jpoker.server.tablePick", function(){
     });
 
 test("jpoker.server.tablePick default", function(){
-        expect(7);
+        expect(6);
 	stop();
 
 	var TABLE_PACKET = {"type": "PacketPokerTable", "id": 100, "reason": "TablePicker"};
@@ -1986,9 +1968,6 @@ test("jpoker.server.tablePick default", function(){
         var server = jpoker.serverCreate({ url: 'url' });
 	server.serial = 42;
 	var sendPacket = server.sendPacket;
-	server.ping = function() {
-	    ok(true, 'pinging');
-	};
         server.sendPacket = function(packet) {
 	    server.sendPacket = sendPacket;
             equals(packet.type, 'PacketPokerTablePicker');
@@ -2036,7 +2015,7 @@ test("jpoker.server.tablePick waiting", function(){
 	server.tablePick({});
 	equals(server.callbacks[0].length, 1, 'tablePick callbacks[0] registered');
 	var callback = server.callbacks[0][0];
-	server.notify(0, {type: 'PacketPing'});
+	server.notify(0, {type: 'Packet'});
 	equals(server.callbacks[0][0], callback, 'tablePick callback still in place');
 	server.notify(0, {type: 'PacketPokerTable', id: 100}); // no reason: TablePicker
 	equals(server.callbacks[0][0], callback, 'tablePick callback still in place');
@@ -2142,18 +2121,19 @@ test("jpoker.server.reset: call clearTimers", function() {
 //
 // jpoker.connection
 //
-test("jpoker.connection:ping", function(){
-        expect(3);
+test("jpoker.connection:longPoll", function(){
+        expect(9);
         stop();
-        var self = new jpoker.connection({
-                pingFrequency: 30 // be carefull not to launch faster than jQuery internal timer
-            });
+        var self = new jpoker.connection();
         equals(self.connectionState, 'disconnected');
-        self.ping();
-        var ping_count = 0;
+        var longPoll_count = 0;
         self.registerUpdate(function(server, what, data) {
+                ok(server.pendingLongPoll, 'pendingLongPoll');
+                equals(server.longPollTimer, -1, 'longPollTimer');
+                equals(data.type, 'PacketConnectionState');
                 equals(server.connectionState, 'connected');
-                if(++ping_count >= 2) {
+                if(++longPoll_count >= 2) {
+                    server.longPollFrequency = -1;
                     server.reset();
                     start();
                 } else {
@@ -2161,35 +2141,119 @@ test("jpoker.connection:ping", function(){
                 }
                 return true;
             });
+         self.longPollFrequency = 100;
+         self.sentTime = jpoker.now() - self.longPollFrequency;
+         self.longPoll();
     });
 
-test("jpoker.connection:ping frequency", function(){
-        expect(5);
-        //
-        // The next ping occurs N seconds after the last packet was sent
-        //
-        var clock = 10;
-        jpoker.now = function() { return clock++; };
-        var self = new jpoker.connection();
-        self.sendPacket = function() { equals(1,0,'sendPacket called'); };
-        sentTime = self.sentTime = jpoker.now();
-        self.setTimeout = function(fun, when) { 
-            equals(when, self.pingFrequency - 1);
-        };
-        self.ping();
-        equals(sentTime, self.sentTime, 'sentTime');
-        //
-        // The next ping occurs after pingFrequency 
-        //
-        clock = 200000;
-        self.sendPacket = function() { equals(12,12); };
-        self.sentTime = 0;
-        self.setTimeout = function(fun, when) { 
-            equals(when, self.pingFrequency);
-        };
-        self.ping();
-        self.reset();
-	equals(0, self.sentTime, 'sentTime reset');
+test("jpoker.connection:longPoll not if pending request", function(){
+         expect(3);
+         stop();
+         var self = new jpoker.connection();
+         equals(self.connectionState, 'disconnected');
+         ActiveXObject.defaults.readyState = 5; // 5 is not 4 hence not ready
+         jQuery.ajax({ mode: 'queue', url: 'url', timeout: 1000 }); // will block the ajaxQueue for one second
+         ActiveXObject.defaults.readyState = 4;
+
+         var longPoll_count = 0;
+         self.registerUpdate(function(server, what, data) {
+                                 equals(data.type, 'PacketConnectionState')
+                                 equals(server.connectionState, 'connected');
+                                 if(++longPoll_count >= 1) {
+                                     server.longPollFrequency = -1;
+                                     server.reset();
+                                     start();
+                                 } else {
+                                     server.connectionState = 'disconnected';
+                                 }
+                                 return true;
+                             });
+         self.longPollFrequency = 100;
+         self.sentTime = 0; // longPoll should fire immediately
+         sendPacket = self.sendPacket
+         self.sendPacket = function(packet) {
+             ok(false, JSON.stringify(packet));
+             start();
+         }
+         self.longPoll(); // but it will not because the ajaxQueue is not empty
+         self.sendPacket = sendPacket
+    });
+
+test("jpoker.connection:longPoll PacketLongPollReturn", function(){
+         expect(3);
+         
+         var self = new jpoker.connection();
+         self.sendPacketAjax = function(packet, mode) { }
+         self.sendPacket({ type: 'PacketLongPoll'});
+         ok(self.pendingLongPoll);
+         self.sendPacketAjax = function(packet, mode) {
+             if(mode == 'queue') {
+                 equals(packet.type, 'Packet');
+             } else if(mode == 'direct') {
+                 equals(packet.type, 'PacketLongPollReturn');
+             } else {
+                 ok(false, 'should not reach this statment');
+             }
+         }
+         self.sendPacket({ type: 'Packet'});
+         self.longPollFrequency = -1;
+         self.reset();
+     });
+
+test("jpoker.connection:longPoll frequency", function(){
+         expect(8);
+         now = jpoker.now
+         var clock = 1000;
+         jpoker.now = function() { return clock++; };
+         var self = new jpoker.connection();
+         //
+         // A longPoll is scheduled in longPollFrequency
+         //
+         self.longPollFrequency = 100;
+         self.sendPacket = function() { equals(1,0,'sendPacket called'); };
+         sentTime = self.sentTime = clock;
+         self.setTimeout = function(fun, when) { 
+             equals(when, self.longPollFrequency, 'timeout 1');
+         };
+         self.longPoll();
+         equals(sentTime, self.sentTime, 'sentTime');
+         //
+         // A longPoll is scheduled in longPollFrequency - 10ms because
+         // longPoll is called 10ms after the last packet was sent
+         //
+         sentTime = self.sentTime = clock - 10;
+         self.setTimeout = function(fun, when) { 
+             equals(when, self.longPollFrequency - 10, 'timeout 2');
+         };
+         self.longPoll();
+         equals(sentTime, self.sentTime, 'sentTime');
+         //
+         // A longPoll is scheduled in minLongPollFrequency because
+         // longPoll is called more than longPollFrequency 
+         // after the last packet was sent, i.e. the delay cannot be 
+         // less than 30ms
+         //
+         sentTime = self.sentTime = clock - self.longPollFrequency + 10;
+         self.setTimeout = function(fun, when) { 
+             equals(when, self.minLongPollFrequency, 'timeout 3');
+         };
+         self.longPoll();
+         equals(sentTime, self.sentTime, 'sentTime');
+         //
+         // A longPoll is scheduled in longPollFrequency clicks
+         //
+         stop();
+         self.sendPacket = function(packet) {
+             equals(packet.type,'PacketLongPoll');
+             this.sentTime = clock
+             start();
+         };
+         self.sentTime = 0;
+         self.longPoll();
+         self.longPollFrequency = -1
+         self.reset();
+	 equals(0, self.sentTime, 'sentTime reset');
+         jpoker.now = now
     });
 
 test("jpoker.connection:sendPacket error 404", function(){
@@ -2244,7 +2308,7 @@ test("jpoker.connection:sendPacket retry 12152", function(){
 	    settings.success = function() {
 		ok(true, 'retry success');
 		jpoker.error = jpokerError;
-		start_and_cleanup();
+		start();
 	    };
 	    _ajax(settings);
 	};
@@ -2272,7 +2336,7 @@ test("jpoker.connection:sendPacket retry 12030", function(){
 	    settings.success = function() {
 		ok(true, 'retry success');
 		jpoker.error = jpokerError;
-		start_and_cleanup();
+		start();
 	    };
 	    _ajax(settings);
 	};
@@ -2300,7 +2364,7 @@ test("jpoker.connection:sendPacket retry 12031", function(){
 	    settings.success = function() {
 		ok(true, 'retry success');
 		jpoker.error = jpokerError;
-		start_and_cleanup();
+		start();
 	    };
 	    _ajax(settings);
 	};
@@ -2341,9 +2405,9 @@ test("jquery ajaxQueue retry", function() {
 	    },
 	    success: function() {
 		ok(retry, 'retry');
-		equals(jQuery([$.ajax_queue]).queue('ajaxundefined').length, 1, 'queue not cleared');
+		equals(jQuery([$.ajax_queue]).queue('ajax').length, 1, 'queue not cleared');
 		setTimeout(function() {
-			equals(jQuery([$.ajax_queue]).queue('ajaxundefined').length, 0, 'queue cleared');
+			equals(jQuery([$.ajax_queue]).queue('ajax').length, 0, 'queue cleared');
 			start_and_cleanup();
 		    }, 0);
 	    },
@@ -2639,7 +2703,7 @@ test("jpoker.connection: ajax arguments", function() {
 // jpoker.table
 //
 test("jpoker.table.init", function(){
-        expect(5);
+        expect(4);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -2651,9 +2715,6 @@ test("jpoker.table.init", function(){
             outgoing: '[{"type": "PacketPokerTable", "id": ' + game_id + '}]',
 
             handle: function(packet) {
-                if(packet.indexOf("PacketPing") >= 0 || packet.indexOf("PacketPokerExplain") >= 0 || packet.indexOf("PacketPokerPoll") >= 0) {
-                    return;
-                }
                 equals(packet, '{"type":"PacketPokerTableJoin","game_id":' + game_id + '}');
             }
         };
@@ -2665,7 +2726,6 @@ test("jpoker.table.init", function(){
                 equals(packet.id, game_id);
                 equals(game_id in server.tables, true, game_id + " created");
                 equals(server.tables[game_id].id, game_id, "id");
-		ok(server.tables[game_id].pollTimer != -1, "poll timer set");
                 start_and_cleanup();
 		return false;
             }
@@ -2732,56 +2792,6 @@ test("jpoker.table or tourney", function() {
 	equals(tourney.is_tourney, true);
     });
 
-
-test("jpoker.table.poll", function() {
-	expect(9);
-	var server = jpoker.serverCreate({ url: 'url' });
-	var table = new jpoker.table(server, {"type": "PacketPokerTable", "id": 101, "betting_structure": "15-30-no-limit"});
-	ok(server.pingFrequency > table.pollFrequency, 'pingFrequency > pollFrequency');
-	equals(table.pollTimer, -1, 'pollTimer not set');
-
-	server.sendPacket = function(packet) {
-	    equals(packet.type, "PacketPokerPoll");
-	    equals(packet.game_id, 101);
-	};
-	var callback;
-	table.setTimeout = function(f) {
-	    callback = f;
-	    return 42;
-	};
-	table.clearTimeout = function(timer) {
-	    equals(timer, -1, "clearTimeout called by poll");
-	};
-	table.poll();
-	equals(table.pollTimer, 42, 'pollTimer set');
-
-	table.poll = function() {
-	    ok(true, "poll called by timeout callback");
-	};
-	callback();
-
-	table.clearTimeout = function(timer) {
-	    ok(true, "clearTimeout called by uninit");
-	};
-	table.uninit();
-	equals(table.pollTimer, -1, 'pollTimer cleared by uninit');
-	cleanup();
-    });
-
-test("jpoker.table.poll server undefined", function() {
-	expect(0);
-	var server = jpoker.serverCreate({ url: 'url' });
-	var table = new jpoker.table(server, {"type": "PacketPokerTable", "id": 101, "betting_structure": "15-30-no-limit"});
-	var jpokerGetServer = jpoker.getServer;
-	jpoker.getServer = function() {
-	    jpoker.getServer = jpokerGetServer;
-	    return undefined;
-	};
-	table.setTimeout = function() {
-	    ok(false, 'poll cancelled');
-	};
-	table.poll();
-    });
 
 test("jpoker.table.handler: PacketPokerState", function(){
         expect(1);
@@ -3030,7 +3040,7 @@ test("jpoker.table.handler: unknown table", function(){
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
 
-        var packet = { 'type': 'PacketPing',
+        var packet = { 'type': 'Packet',
                        'game_id': 101
         };
 
@@ -3058,7 +3068,7 @@ test("jpoker.table: max_player", function() {
 // tourney
 //
 test("jpoker.tourney.init", function(){
-        expect(5);
+        expect(4);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -3071,9 +3081,6 @@ test("jpoker.tourney.init", function(){
             outgoing: '[{"type": "PacketPokerTourneyRegister", "game_id": ' + game_id + ', "tag": "fixme"}]',
 
             handle: function(packet) {
-		if(packet.indexOf("PacketPing") >= 0 || packet.indexOf("PacketPokerExplain") >= 0 || packet.indexOf("PacketPokerPoll") >= 0) {
-                    return;
-                }
                 equals(packet, '{"type":"PacketPokerTourneyRegister","serial":42,"game_id":' + game_id + '}');
             }
         };
@@ -3085,7 +3092,6 @@ test("jpoker.tourney.init", function(){
                 equals(packet.game_id, game_id);
                 equals(game_id in server.tourneys, true, game_id + " created");
                 equals(server.tourneys[game_id].game_id, game_id, "id");
-		ok(server.tourneys[game_id].pollTimer != -1, "poll timer set");
                 start_and_cleanup();
 		return false;
             }
@@ -3143,55 +3149,6 @@ test("jpoker.tourney.uninit: PacketPokerTourneyFinish", function(){
         equals(game_id in server.tourneys, false, 'tourney removed from server');
     });
 
-test("jpoker.tourney.poll", function() {
-	expect(8);
-	var server = jpoker.serverCreate({ url: 'url' });
-	var tourney = new jpoker.tourney(server, 101);
-	equals(tourney.pollTimer, -1, 'pollTimer not set');
-
-	server.sendPacket = function(packet) {
-	    equals(packet.type, "PacketPokerPoll");
-	    equals(packet.tourney_serial, 101);
-	};
-	var callback;
-	tourney.setTimeout = function(f) {
-	    callback = f;
-	    return 42;
-	};
-	tourney.clearTimeout = function(timer) {
-	    equals(timer, -1, "clearTimeout called by poll");
-	};
-	tourney.poll();
-	equals(tourney.pollTimer, 42, 'pollTimer set');
-	
-	tourney.poll = function() {
-	    ok(true, "poll called by timeout callback");
-	};
-	callback();
-
-	tourney.clearTimeout = function(timer) {
-	    ok(true, "clearTimeout called by uninit");
-	};
-	tourney.uninit();
-	equals(tourney.pollTimer, -1, 'pollTimer cleared by uninit');
-	cleanup();
-    });
-
-test("jpoker.tourney.poll server undefined", function() {
-	expect(0);
-	var server = jpoker.serverCreate({ url: 'url' });
-	var tourney = new jpoker.tourney(server, 101);
-	var jpokerGetServer = jpoker.getServer;
-	jpoker.getServer = function() {
-	    jpoker.getServer = jpokerGetServer;
-	    return undefined;
-	};
-	tourney.setTimeout = function() {
-	    ok(false, 'poll cancelled');
-	};
-	tourney.poll();
-    });
-
 test("jpoker.table.handler: PacketPokerShowdown", function(){
         expect(2);
         var server = jpoker.serverCreate({ url: 'url' });
@@ -3230,7 +3187,7 @@ test("jpoker.tourney.handler: unknown tourney", function(){
         };
 	var verbose = jpoker.verbose;
 	jpoker.verbose = 2;
-	tourney.handler(server, game_id, { 'type': 'PacketPing', 'game_id': 101 });
+	tourney.handler(server, game_id, { 'type': 'Packet', 'game_id': 101 });
 	equals(messages[0].indexOf("tourney.handler") >= 0, true, "tourney handler");
 	equals(messages[1].indexOf("packet discarded") >= 0, true, "unknown tourney");
 	jpoker.verbose = verbose;
@@ -5122,11 +5079,11 @@ test("jpoker.plugins.featuredTable waiting", function(){
         var place = $("#main");
 	server.selectTables = function(string) {
 	    setTimeout(function() {
-		    server.notifyUpdate({'type': 'PacketPing'});
+		    server.notifyUpdate({'type': 'Packet'});
 		    equals(server.callbacks.update.length, 1, 'callback registered');
 		    server.selectTables = function(string) {
 			setTimeout(function() {
-				server.notifyUpdate({'type': 'PacketPing'});
+				server.notifyUpdate({'type': 'Packet'});
 				equals(server.callbacks.update.length, 1, 'callback registered');
 				server.notifyUpdate(TABLE_LIST_PACKET);
 				equals(server.callbacks.update.length, 0, 'callback registered');
@@ -6395,9 +6352,9 @@ test("jpoker.plugins.table: remove callbacks", function(){
 	equals(table.callbacks.update.length, 1, 'table updateCallback registered');
 	equals(table.callbacks.reinit.length, 1, 'table reinitCallback registered');
 	$("#" + id).remove();
-	table.notifyUpdate({type: 'PacketPing'});
+	table.notifyUpdate({type: 'Packet'});
 	equals(table.callbacks.update.length, 0, 'table updateCallback removed');
-	table.notifyReinit({type: 'PacketPing'});
+	table.notifyReinit({type: 'Packet'});
 	equals(table.callbacks.reinit.length, 0, 'table reinitCallback removed');
     });
 
@@ -8955,7 +8912,7 @@ test("jpoker.plugins.userInfo avatar upload succeed", function(){
 	    server.registerUpdate(function(server, what, data) {
 		    var element = $('#' + id);
 		    if(element.length > 0) {
-			ok($(".jpoker_user_info_avatar_upload", element).attr("action").indexOf(jpoker.url2hash('url')) >= 0, 'session hash');
+			ok($(".jpoker_user_info_avatar_upload", element).attr("action").indexOf('auth=') >= 0, 'session hash');
 			ok($(".jpoker_user_info_avatar_upload", element).attr("action").indexOf(server.urls.upload) >= 0, 'upload url');
 			equals($(".jpoker_user_info_avatar_upload_feedback", element).text(), '');
 			equals($('.jpoker_user_info_avatar_preview').length, 1, 'user info avatar preview');
