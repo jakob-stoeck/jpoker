@@ -91,14 +91,7 @@ $(function(){
 		// create settings for compatibility with ajaxSetup
 		settings = jQuery.extend(settings, jQuery.extend({}, jQuery.ajaxSettings, settings));
 		
-		var port = settings.port;
-		
 		switch(settings.mode) {
-		case "abort": 
-			if ( pendingRequests[port] ) {
-				pendingRequests[port].abort();
-			}
-			return pendingRequests[port] = ajax.apply(this, arguments);
 		case "queue": 
 			var _error = settings.error;
 			settings.error = function(){
@@ -107,7 +100,7 @@ $(function(){
 					result = _error.apply( this, arguments );
                                 }
 				if (result === undefined) {
-				        jQuery([ajax]).dequeue("ajax" + port );
+				        jQuery([ajax]).dequeue("ajax");
 				} else {
 				        ajax( settings );
 				}
@@ -117,10 +110,10 @@ $(function(){
                                 if ( _success ) {
 					_success.apply( this, arguments );
                                 }
-				jQuery([ajax]).dequeue("ajax" + port );
+				jQuery([ajax]).dequeue("ajax");
 			};
 		
-			jQuery([ ajax ]).queue("ajax" + port, function(){
+			jQuery([ ajax ]).queue("ajax", function(){
                                 //
                                 // Allow cross domain requests when the protocol of 
                                 // an XmlHTTPRequest is not http. This must be done before each XmlHTTPRequest call,

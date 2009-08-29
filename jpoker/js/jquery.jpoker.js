@@ -598,12 +598,12 @@
     };
 
     jpoker.connection.defaults = $.extend({
-            mode: 'queue',
             url: '',
             async: true,
             lagmax: 15000,
             dequeueFrequency: 100,
-            pingFrequency: 6000,
+            longPollFrequency: 100,
+            minLongPollFrequency: 30,
             timeout: 30000,
 	    retryCount: 10,
             clearTimeout: function(id) { return window.clearTimeout(id); },
@@ -639,7 +639,7 @@
 
             incomingTimer: -1,
 
-            pingTimer: -1,
+            longPollTimer: -1,
 
             init: function() {
                 jpoker.watchable.prototype.init.call(this);
@@ -681,8 +681,9 @@
             },
 
             reset: function() {
-                this.clearTimeout(this.pingTimer);
-                this.pingTimer = -1;
+                this.clearTimeout(this.longPollTimer);
+                this.longPollTimer = -1;
+                this.pendingLongPoll = false;
                 this.clearTimeout(this.incomingTimer);
                 this.incomingTimer = -1;
                 // empty the outgoing queue
@@ -692,6 +693,7 @@
                 this.delays = {};
                 this.sentTime = 0;
                 this.connectionState = 'disconnected';
+                this.longPoll();
             },
 
             error: function(reason) {
@@ -792,16 +794,38 @@
             },
 
             sendPacket: function(packet) {
+                if(this.pendingLongPoll) {
+                    if(jpoker.verbose > 0) {
+                        jpoker.message('sendPacket PacketLongPollReturn');
+                    }
+                    this.sendPacketAjax({ type: 'PacketLongPollReturn' }, 'direct');
+                }
+                this.sendPacketAjax(packet, 'queue');
+                if(packet.type == 'PacketLongPoll') {
+                    this.pendingLongPoll = true;
+                }
+            },
+
+            receivePacket: function(data) {
+                if(this.pendingLongPoll) {
+                    this.scheduleLongPoll(0);
+                }
+                this.pendingLongPoll = false;
+                this.queueIncoming(data);
+            },
+
+            sendPacketAjax: function(packet, mode) {
                 var $this = this;
                 var json_data = JSON.stringify(packet);
                 if(jpoker.verbose > 0) {
                     jpoker.message('sendPacket ' + json_data);
                 }
+                var packet_type = packet.type;
 		var retry = 0;
                 var args = {
                     async: this.async,
                     data: json_data,
-                    mode: this.mode,
+                    mode: mode,
                     timeout: this.timeout,
                     url: this.url + '?' + this.auth + '&' + this.session_uid,
                     type: 'POST',
@@ -811,7 +835,7 @@
                         if($this.getConnectionState() != 'connected') {
                             $this.setConnectionState('connected');
                         }
-                        $this.queueIncoming(data);
+                        $this.receivePacket(data);
                     },
                     error: function(xhr, status, error) {
                         if(status == 'timeout') {
@@ -841,26 +865,30 @@
                 this.ajax(args);
             },
 
-            ping: function() {
-                var delta = jpoker.now() - this.sentTime;
-                if(delta > this.pingFrequency) {
-                    this.sendPacket({ type: 'PacketPing' });
-                    delta = 0;
+            longPoll: function() {
+                if(this.longPollFrequency > 0) {
+                    var delta = jpoker.now() - this.sentTime;
+                    var in_line = jQuery([$.ajax_queue]).queue('ajax').length;
+                    if(in_line <= 0 &&
+                       delta > this.longPollFrequency) {
+                        this.clearTimeout(this.longPollTimer);
+                        this.longPollTimer = -1;
+                        this.sendPacket({ type: 'PacketLongPoll' });
+                    } else {
+                        this.scheduleLongPoll(delta > 0 ? delta : 0);
+                    }
                 }
-                this.clearTimeout(this.pingTimer);
-                var $this = this;
-                this.pingTimer = this.setTimeout(function() {
-                        $this.ping();
-                    }, this.pingFrequency - delta);
             },
 
-            //
-            // Accessor for test purposes only
-            //
-            pinging: function() {
-                return this.pingTimer >= 0;
-            }, 
-
+            scheduleLongPoll: function(delta) {
+                this.clearTimeout(this.longPollTimer);
+                var $this = this;
+                this.longPollTimer = this.setTimeout(
+                    function() {
+                        $this.longPoll();
+                    }, Math.max(this.minLongPollFrequency, this.longPollFrequency - delta));
+            },
+                                               
             queueIncoming: function(packets) {
                 if(!this.blocked) {
                     for(var i = 0; i < packets.length; i++) {
@@ -1079,9 +1107,6 @@
 		    server.tables[packet.id].reinit(packet);
 		} else {
 		    var table = new jpoker.table(server, packet);
-		    if(!table.tourney_serial || !(table.tourney_serial in server.tourneys)) {
-			table.poll();
-		    }
 		    server.tables[packet.id] = table;
 		    server.notifyUpdate(packet);
 		}
@@ -1141,7 +1166,6 @@
                 var handler = function(server, game_id, packet) {
                     if(packet.type == 'PacketPokerPlayerInfo') {
                         server.setSerial({ type: 'PacketSerial', serial: packet.serial });
-                        server.ping();
 			if (jpoker.doRejoin) {
 			    server.rejoin();
 			} else {
@@ -1282,7 +1306,6 @@
                         name: name,
                         password: password
                     });
-                this.ping();
                 this.getUserInfo(); // will fire when login is complete
                 var answer = function(server, game_id, packet) {
                     switch(packet.type) {
@@ -1373,7 +1396,6 @@
                         server.setState(server.TABLE_JOIN);
                         server.sendPacket({ 'type': 'PacketPokerTableJoin',
                                     'game_id': game_id });
-                        server.ping();
                     });
             },
 
@@ -1400,7 +1422,6 @@
 				delete packet.currency_serial;
 			    }
 			    server.sendPacket(packet);
-			    server.ping();
 			    server.registerHandler(0, function(server, unused_game_id, packet) {
 				    if ((packet.type == 'PacketPokerTable') &&
 					(packet.reason == 'TablePicker')) {
@@ -1502,7 +1523,6 @@
 
 	    tourneyJoin: function(game_id) {
 		var tourney = new jpoker.tourney(this, game_id);
-		tourney.poll();
 		this.tourneys[game_id] = tourney;
 	    },
 	    
@@ -1746,9 +1766,6 @@
                 this.dealer = -1;
                 this.position = -1;
                 this.state = 'end';
-		this.clearTimeout(this.pollTimer);
-		this.pollTimer = -1;
-		this.pollFrequency = 5000;
 		this.tourney_rank = undefined;
             },
 
@@ -1785,23 +1802,6 @@
 		this.seats_left = [];
 		break;
 		}
-	    },
-
-            clearTimeout: function(id) { return window.clearTimeout(id); },
-            setTimeout: function(cb, delay) { return window.setTimeout(cb, delay); },
-
-	    poll: function() {
-		var server = jpoker.getServer(this.url);
-		if (server === undefined) {
-		    return;
-		}
-		server.sendPacket({type: 'PacketPokerPoll',
-			    game_id: this.id});
-		var $this  = this;
-		this.clearTimeout(this.pollTimer);
-		this.pollTimer = this.setTimeout(function() {
-			$this.poll();
-		    }, this.pollFrequency);
 	    },
 
             buyInLimits: function() {
@@ -2023,31 +2023,9 @@
 
             uninit: function() {
                 jpoker.watchable.prototype.uninit.call(this);
-                this.reset();
             },
 
-            reset: function() {
-		this.clearTimeout(this.pollTimer);
-		this.pollTimer = -1;
-		this.pollFrequency = 5000;
-            },
-
-            clearTimeout: function(id) { return window.clearTimeout(id); },
-            setTimeout: function(cb, delay) { return window.setTimeout(cb, delay); },
-
-	    poll: function() {
-		var server = jpoker.getServer(this.url);
-		if (server === undefined) {
-		    return;
-		}
-		server.sendPacket({type: 'PacketPokerPoll',
-			    tourney_serial: this.game_id});
-		var $this  = this;
-		this.clearTimeout(this.pollTimer);
-		this.pollTimer = this.setTimeout(function() {
-			$this.poll();
-		    }, this.pollFrequency);
-	    },
+            reset: function() { },
 
             handler: function(server, game_id, packet) {
                 if(jpoker.verbose > 0) {
