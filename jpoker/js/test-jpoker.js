@@ -2179,18 +2179,18 @@ test("jpoker.connection:longPoll not if pending request", function(){
          self.sendPacket = sendPacket
     });
 
-test("jpoker.connection:longPoll PacketLongPollReturn", function(){
+test("jpoker.connection:longPoll PacketPokerLongPollReturn", function(){
          expect(3);
          
          var self = new jpoker.connection();
          self.sendPacketAjax = function(packet, mode) { }
-         self.sendPacket({ type: 'PacketLongPoll'});
+         self.sendPacket({ type: 'PacketPokerLongPoll'});
          ok(self.pendingLongPoll);
          self.sendPacketAjax = function(packet, mode) {
              if(mode == 'queue') {
                  equals(packet.type, 'Packet');
              } else if(mode == 'direct') {
-                 equals(packet.type, 'PacketLongPollReturn');
+                 equals(packet.type, 'PacketPokerLongPollReturn');
              } else {
                  ok(false, 'should not reach this statment');
              }
@@ -2244,7 +2244,7 @@ test("jpoker.connection:longPoll frequency", function(){
          //
          stop();
          self.sendPacket = function(packet) {
-             equals(packet.type,'PacketLongPoll');
+             equals(packet.type,'PacketPokerLongPoll');
              this.sentTime = clock
              start();
          };

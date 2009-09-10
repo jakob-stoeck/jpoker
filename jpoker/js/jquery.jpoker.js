@@ -796,12 +796,12 @@
             sendPacket: function(packet) {
                 if(this.pendingLongPoll) {
                     if(jpoker.verbose > 0) {
-                        jpoker.message('sendPacket PacketLongPollReturn');
+                        jpoker.message('sendPacket PacketPokerLongPollReturn');
                     }
-                    this.sendPacketAjax({ type: 'PacketLongPollReturn' }, 'direct');
+                    this.sendPacketAjax({ type: 'PacketPokerLongPollReturn' }, 'direct');
                 }
                 this.sendPacketAjax(packet, 'queue');
-                if(packet.type == 'PacketLongPoll') {
+                if(packet.type == 'PacketPokerLongPoll') {
                     this.pendingLongPoll = true;
                 }
             },
@@ -873,7 +873,7 @@
                        delta > this.longPollFrequency) {
                         this.clearTimeout(this.longPollTimer);
                         this.longPollTimer = -1;
-                        this.sendPacket({ type: 'PacketLongPoll' });
+                        this.sendPacket({ type: 'PacketPokerLongPoll' });
                     } else {
                         this.scheduleLongPoll(delta > 0 ? delta : 0);
                     }
