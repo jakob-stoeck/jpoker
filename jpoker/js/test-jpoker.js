@@ -2200,6 +2200,28 @@ test("jpoker.connection:longPoll PacketPokerLongPollReturn", function(){
          self.reset();
      });
 
+test("jpoker.connection:longPoll PacketPokerLongPollReturn not received ", function(){         expect(1);
+                                                                                               stop();
+         var PokerServer = function() {};
+
+         PokerServer.prototype = {
+             outgoing: '[]',
+
+             handle: function(packet) { }
+         };
+
+         ActiveXObject.prototype.server = new PokerServer();
+         
+         var self = new jpoker.connection();
+         self.receivePacket = function(data) { ok(false, 'receive not called'); };
+         self.sendPacket({ type: 'PacketPokerLongPollReturn'});
+         self.receivePacket = function(data) {
+             ok(true, 'receive called');
+             start_and_cleanup();
+         };
+         self.sendPacket({ type: 'Packet'});
+     });
+
 test("jpoker.connection:longPoll frequency", function(){
          expect(8);
          now = jpoker.now

@@ -835,7 +835,9 @@
                         if($this.getConnectionState() != 'connected') {
                             $this.setConnectionState('connected');
                         }
-                        $this.receivePacket(data);
+                        if(packet_type != 'PacketPokerLongPollReturn') {
+                            $this.receivePacket(data);
+                        }
                     },
                     error: function(xhr, status, error) {
                         if(status == 'timeout') {
@@ -1101,6 +1103,10 @@
                 }
 
                 switch(packet.type) {
+
+                case 'PacketPokerTourneyStart':
+                server.tableJoin(packet.table_serial);
+                break;
 
                 case 'PacketPokerTable':
 		if(packet.id in server.tables) {
