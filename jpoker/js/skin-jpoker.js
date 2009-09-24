@@ -92,9 +92,9 @@ function setUp() {
 
     $.jpoker.uninit();
     //
-    // disable ping logic by setting a very large frequency
+    // disable long poll logic
     ///
-    $.jpoker.serverCreate({ url: 'url', pingFrequency: 20000000 });
+    $.jpoker.serverCreate({ url: 'url', longPollFrequency: -1 });
     window.scrollTo(0,0);
 }
 
