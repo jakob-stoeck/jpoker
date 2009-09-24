@@ -4343,8 +4343,8 @@
 		});
 
 	    var server = jpoker.getServer(url);
-	    $('#auto_muck_win' + id)[0].checked = server.preferences.auto_muck_win;
-	    $('#auto_muck_lose' + id)[0].checked = server.preferences.auto_muck_lose;
+	    $('#auto_muck_win' + id).each(function() { this.checked = server.preferences.auto_muck_win; });
+	    $('#auto_muck_lose' + id).each(function() { this.checked = server.preferences.auto_muck_lose; });
 	    jpoker.plugins.muck.sendAutoMuck(server, game_id, id);
 
 	    //
