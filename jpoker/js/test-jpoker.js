@@ -535,7 +535,6 @@ test("jpoker.refresh", function(){
             outgoing: '[{"type": "packet"}]',
 
             handle: function(packet) {
-                window
             }
         };
 
@@ -600,7 +599,7 @@ test("jpoker.serverDestroy", function(){
          };
          jpoker.serverDestroy('url');
          equals(server.tourneys[1], undefined);
-         equals(jpoker.servers['url'], undefined);
+         equals(jpoker.servers.url, undefined);
 });
 
 //
@@ -2157,7 +2156,7 @@ test("jpoker.connection:longPoll not if pending request", function(){
 
          var longPoll_count = 0;
          self.registerUpdate(function(server, what, data) {
-                                 equals(data.type, 'PacketConnectionState')
+		 equals(data.type, 'PacketConnectionState');
                                  equals(server.connectionState, 'connected');
                                  if(++longPoll_count >= 1) {
                                      server.longPollFrequency = -1;
@@ -2170,20 +2169,20 @@ test("jpoker.connection:longPoll not if pending request", function(){
                              });
          self.longPollFrequency = 100;
          self.sentTime = 0; // longPoll should fire immediately
-         sendPacket = self.sendPacket
+         sendPacket = self.sendPacket;
          self.sendPacket = function(packet) {
              ok(false, JSON.stringify(packet));
              start();
-         }
+         };
          self.longPoll(); // but it will not because the ajaxQueue is not empty
-         self.sendPacket = sendPacket
+         self.sendPacket = sendPacket;
     });
 
 test("jpoker.connection:longPoll PacketPokerLongPollReturn", function(){
          expect(3);
          
          var self = new jpoker.connection();
-         self.sendPacketAjax = function(packet, mode) { }
+         self.sendPacketAjax = function(packet, mode) { };
          self.sendPacket({ type: 'PacketPokerLongPoll'});
          ok(self.pendingLongPoll);
          self.sendPacketAjax = function(packet, mode) {
@@ -2194,7 +2193,7 @@ test("jpoker.connection:longPoll PacketPokerLongPollReturn", function(){
              } else {
                  ok(false, 'should not reach this statment');
              }
-         }
+         };
          self.sendPacket({ type: 'Packet'});
          self.longPollFrequency = -1;
          self.reset();
@@ -2224,7 +2223,7 @@ test("jpoker.connection:longPoll PacketPokerLongPollReturn not received ", funct
 
 test("jpoker.connection:longPoll frequency", function(){
          expect(8);
-         now = jpoker.now
+         now = jpoker.now;
          var clock = 1000;
          jpoker.now = function() { return clock++; };
          var self = new jpoker.connection();
@@ -2267,15 +2266,15 @@ test("jpoker.connection:longPoll frequency", function(){
          stop();
          self.sendPacket = function(packet) {
              equals(packet.type,'PacketPokerLongPoll');
-             this.sentTime = clock
+             this.sentTime = clock;
              start();
          };
          self.sentTime = 0;
          self.longPoll();
-         self.longPollFrequency = -1
+         self.longPollFrequency = -1;
          self.reset();
 	 equals(0, self.sentTime, 'sentTime reset');
-         jpoker.now = now
+         jpoker.now = now;
     });
 
 test("jpoker.connection:sendPacket error 404", function(){
