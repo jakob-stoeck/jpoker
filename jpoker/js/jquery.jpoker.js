@@ -3349,16 +3349,11 @@
             }
             jpoker.plugins.table.position(id, table, table.serial_in_position);
 	    jpoker.plugins.table.timeout(id, table, table.serial_in_position, 0.0);
-	    if($('#jpokerSound').size() === 0) {
-		$('body').append('<div id=\'jpokerSound\' />');
-	    }
-	    if($('#jpokerSoundAction').size() === 0) {
-		$('body').append('<div id=\'jpokerSoundAction\' />');
-	    }
-	    if($('#jpokerSoundTable').size() === 0) {
-		$('body').append('<div id=\'jpokerSoundTable\' />');
-	    }
-	    
+            //
+            // sound
+            //
+            jpoker.plugins.table.soundCreate(id, server, table);
+
 	    $('#table_info' + id).html(this.templates.table_info.supplant($.extend(table, {
 			    name_label: _("Name: "),
 			    variant_label: _("Variant: "),
@@ -3386,6 +3381,19 @@
         }
     };
 
+     jpoker.plugins.table.soundCreate = function(id, server, table) {
+	 if($('#jpokerSound').size() === 0) {
+	     $('body').append('<div id=\'jpokerSound\' />');
+	 }
+	 if($('#jpokerSoundAction').size() === 0) {
+	     $('body').append('<div id=\'jpokerSoundAction\' />');
+	 }
+	 if($('#jpokerSoundTable').size() === 0) {
+	     $('body').append('<div id=\'jpokerSoundTable\' />');
+	 }
+         // sound
+     };
+     
     jpoker.plugins.table.seats = function(id, server, table) {
         for(var seat = 0; seat < table.seats.length; seat++) {
             jpoker.plugins.player.seat(seat, id, server, table);
@@ -3491,7 +3499,7 @@
 		if (packet.cards.length > 0) {		    
 		    jpoker.plugins.cards.update(table.board, 'board', id);
 		    jpoker.plugins.table.callback.animation.deal_card(table, id, packet);
-		    jpoker.plugins.table.callback.sound.deal_card();
+		    jpoker.plugins.table.callback.sound.deal_card(server);
 		} else {
 		    jpoker.plugins.cards.update(table.board, 'board', id);
 		    jpoker.plugins.table.callback.animation.best_card_reset(table, id);
@@ -3503,7 +3511,7 @@
 		break;
 
 	    case 'PacketPokerDealCards':
-		jpoker.plugins.table.callback.sound.deal_card();
+		jpoker.plugins.table.callback.sound.deal_card(server);
 		break;
 
             case 'PacketPokerPotChips':
@@ -3684,8 +3692,10 @@
             return packet;
 	},
 	sound: {
-	    deal_card: function() {
-		$('#jpokerSoundTable').html('<' + jpoker.sound + ' src=\'deal_card.swf\' />');
+	    deal_card: function(server) {
+                if(server.preferences.sound) {
+		    $('#jpokerSoundTable').html('<' + jpoker.sound + ' src=\'deal_card.swf\' />');
+                }
 	    }	    
 	},
 	animation: {
@@ -3809,7 +3819,7 @@
             } else {
                 jpoker.plugins.player.sitOut(player, id);
             }
-	    this.callback.sound.arrive();
+	    this.callback.sound.arrive(server);
             player.registerUpdate(this.update, id, 'update' + id);
             player.registerDestroy(this.destroy, id, 'destroy' + id);
 	    var stats_element = $('#player_seat' + seat  + '_stats' + id).removeClass().addClass('jpoker_player_stats jpoker_ptable_player_seat' + seat + '_stats');
@@ -3832,6 +3842,8 @@
         },
 
         update: function(player, what, packet, id) {
+            var server = jpoker.getServer(player.url);
+
             switch(packet.type) {
 
             case 'PacketPokerSit':
@@ -3860,22 +3872,22 @@
 	    case 'PacketPokerFold':
 	    $('#seat' + player.seat + id).removeClass('jpoker_player_dealt');
 	    jpoker.plugins.player.action(player, id);
-	    jpoker.plugins.player.callback.sound.fold();
+	    jpoker.plugins.player.callback.sound.fold(server);
 	    break;
 
 	    case 'PacketPokerCheck':
 	    jpoker.plugins.player.action(player, id);
-	    jpoker.plugins.player.callback.sound.check();
+	    jpoker.plugins.player.callback.sound.check(server);
 	    break;
 
 	    case 'PacketPokerCall':
 	    jpoker.plugins.player.action(player, id);
-	    jpoker.plugins.player.callback.sound.call();
+	    jpoker.plugins.player.callback.sound.call(server);
 	    break;
 
 	    case 'PacketPokerRaise':
 	    jpoker.plugins.player.action(player, id);
-	    jpoker.plugins.player.callback.sound.raise();
+	    jpoker.plugins.player.callback.sound.raise(server);
 	    break;
 
 	    case 'PacketPokerStart':
@@ -4110,20 +4122,30 @@
 	    display_done: function(element, player) {
 	    },
 	    sound: {
-		arrive: function() {
-		    $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_arrive.swf\' />');
+		arrive: function(server) {
+                    if(server.preferences.sound) {
+		        $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_arrive.swf\' />');
+                    }
 		},
-		call: function() {
-		    $('#jpokerSoundAction').html('<' + jpoker.sound + ' src=\'player_call.swf\' />');
+		call: function(server) {
+                    if(server.preferences.sound) {
+		        $('#jpokerSoundAction').html('<' + jpoker.sound + ' src=\'player_call.swf\' />');
+                    }
 		},
-		raise: function() {
-		    $('#jpokerSoundAction').html('<' + jpoker.sound + ' src=\'player_bet.swf\' />');
+		raise: function(server) {
+                    if(server.preferences.sound) {
+		        $('#jpokerSoundAction').html('<' + jpoker.sound + ' src=\'player_bet.swf\' />');
+                    }
 		},
-		fold: function() {
-		    $('#jpokerSoundAction').html('<' + jpoker.sound + ' src=\'player_fold.swf\' />');
+		fold: function(server) {
+                    if(server.preferences.sound) {
+		        $('#jpokerSoundAction').html('<' + jpoker.sound + ' src=\'player_fold.swf\' />');
+                    }
 		},
-		check: function() {
-		    $('#jpokerSoundAction').html('<' + jpoker.sound + ' src=\'player_check.swf\' />');
+		check: function(server) {
+                    if(server.preferences.sound) {
+		        $('#jpokerSoundAction').html('<' + jpoker.sound + ' src=\'player_check.swf\' />');
+                    }
 		}
 		
 	    },
@@ -4586,6 +4608,7 @@
             var game_id = player.game_id;
             var serial = player.serial;
             var url = player.url;
+            var server = jpoker.getServer(url);
             var table = jpoker.getTable(url, game_id);
             var betLimit = table.betLimit;
             var send = function(what) {
@@ -4720,7 +4743,7 @@
                 }
                 $('#raise' + id).unbind('click').click(click).show();
             }
-	    jpoker.plugins.playerSelf.callback.sound.in_position();
+	    jpoker.plugins.playerSelf.callback.sound.in_position(server);
 	    $('#game_window' + id).addClass('jpoker_self_in_position');
         },
 
@@ -4749,8 +4772,10 @@
 
 	callback: {
 	    sound: {
-		in_position : function() {
-		    $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_hand.swf\' />');
+		in_position : function(server) {
+                    if(server.preferences.sound) {
+		        $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_hand.swf\' />');
+                    }
 		}
 	    }
 	}
@@ -5474,7 +5499,8 @@
     };
     jpoker.preferences.prototype = {
 	auto_muck_win: true,
-	auto_muck_lose: true
+	auto_muck_lose: true,
+        sound: true
     };
 
     jpoker.compatibility = function(msie) {
