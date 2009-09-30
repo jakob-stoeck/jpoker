@@ -10413,7 +10413,7 @@ test("jpoker.plugins.signup", function() {
     });
 
 test("jpoker.preferences", function() {
-	expect(4);
+	expect(5);
 	
 	var hash = jpoker.url2hash('url');
 	$.cookie('jpoker_preferences_'+hash, '{"a": 1}');
@@ -10422,6 +10422,9 @@ test("jpoker.preferences", function() {
 	preferences.extend({'b': 2, 'c': 3});
 	equals(preferences.b, 2, 'jpoker.preferences.b');
 	equals(preferences.c, 3, 'jpoker.preferences.c');
+	equals($.cookie('jpoker_preferences_'+hash), JSON.stringify(preferences), 'cookie updated');
+        preferences.b = 200;
+        preferences.save();
 	equals($.cookie('jpoker_preferences_'+hash), JSON.stringify(preferences), 'cookie updated');
 	cleanup();
     });

@@ -3391,7 +3391,6 @@
 	 if($('#jpokerSoundTable').size() === 0) {
 	     $('body').append('<div id=\'jpokerSoundTable\' />');
 	 }
-         // sound
      };
      
     jpoker.plugins.table.seats = function(id, server, table) {
@@ -5494,8 +5493,11 @@
 	    }
 	    this.extend = function(preferences) {
 		$.extend(this, preferences);
-		$.cookie(cookie, JSON.stringify(this));
+                this.save();
 	    };
+            this.save = function() {
+		$.cookie(cookie, JSON.stringify(this));
+            };
     };
     jpoker.preferences.prototype = {
 	auto_muck_win: true,
