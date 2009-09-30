@@ -6641,6 +6641,22 @@ test("jpoker.plugins.player: sounds preferences", function(){
          nosound();
      });
 
+test("jpoker.plugins.player: sounds soundCreate", function(){
+         expect(6);
+         var server = jpoker.serverCreate({ url: 'url' });
+         server.preferences.sound = false;
+         $('#main').append('<div id=\'sound_control\' />');
+         jpoker.plugins.table.soundCreate('sound_control', server);
+         $.each(["jpokerSoundAction", "jpokerSound", "jpokerSoundTable"], function() {
+                    equals($("#" + this).length, 1, this);
+                }
+               );
+         equals($('#sound_control.jpoker_sound_off').length, 1, 'sound off');
+         $('#sound_control').click();
+         equals(server.preferences.sound, true, 'preference sound on');
+         equals($('#sound_control.jpoker_sound_off').length, 0, 'class sound on');
+     });
+
 test("jpoker.plugins.player: animation", function(){
         expect(6);
         stop();

@@ -164,7 +164,7 @@
     text-align : center;
 }
 
-.jpoker_table .jpoker_sitout, .jpoker_table .jpoker_rebuy, .jpoker_table .jpoker_quit, .jpoker_table .jpoker_sitin, .jpoker_table .jpoker_muck, .jpoker_table .jpoker_options {
+.jpoker_table .jpoker_sitout, .jpoker_table .jpoker_rebuy, .jpoker_table .jpoker_quit, .jpoker_table .jpoker_sitin, .jpoker_table .jpoker_muck, .jpoker_table .jpoker_options, .jpoker_sound_control {
     color: #FFF;
     margin: 0 5px;
     line-height: 20px;

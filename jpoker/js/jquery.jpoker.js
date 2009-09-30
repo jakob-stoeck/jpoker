@@ -3352,7 +3352,7 @@
             //
             // sound
             //
-            jpoker.plugins.table.soundCreate(id, server, table);
+            jpoker.plugins.table.soundCreate('sound_control' + id, server);
 
 	    $('#table_info' + id).html(this.templates.table_info.supplant($.extend(table, {
 			    name_label: _("Name: "),
@@ -3381,7 +3381,7 @@
         }
     };
 
-     jpoker.plugins.table.soundCreate = function(id, server, table) {
+     jpoker.plugins.table.soundCreate = function(id, server) {
 	 if($('#jpokerSound').size() === 0) {
 	     $('body').append('<div id=\'jpokerSound\' />');
 	 }
@@ -3391,6 +3391,26 @@
 	 if($('#jpokerSoundTable').size() === 0) {
 	     $('body').append('<div id=\'jpokerSoundTable\' />');
 	 }
+         var element = $('#' + id);
+         element.addClass('jpoker_sound_control');
+         var url = server.url;
+         function update_css(element, server) {
+             if(server.preferences.sound) {
+                 element.html(jpoker.plugins.table.templates.sound.supplant({ sound: _("Sound On") }));
+                 element.removeClass('jpoker_sound_off');
+             } else {
+                 element.html(jpoker.plugins.table.templates.sound.supplant({ sound: _("Sound Off") }));
+                 element.addClass('jpoker_sound_off');
+             }
+         }
+         update_css(element, server);
+         element.click(
+             function() {
+                 var server = jpoker.getServer(url);
+                 server.preferences.sound = !server.preferences.sound;
+                 server.preferences.save();
+                 update_css($(this), server);
+             });
      };
      
     jpoker.plugins.table.seats = function(id, server, table) {
@@ -3656,7 +3676,8 @@
 	table_info: '<div class=\'jpoker_table_info_name\'><span class=\'jpoker_table_info_name_label\'>{name_label}</span>{name}</div><div class=\'jpoker_table_info_variant\'><span class=\'jpoker_table_info_variant_label\'>{variant_label}</span>{variant}</div><div class=\'jpoker_table_info_blind\'><span class=\'jpoker_table_info_blind_label\'>{betting_structure_label}</span>{betting_structure}</div><div class=\'jpoker_table_info_seats\'><span class=\'jpoker_table_info_seats_label\'>{seats_label}</span>{max_players}</div><div class=\'jpoker_table_info_flop\'>{percent_flop}<span class=\'jpoker_table_info_flop_label\'>{percent_flop_label}</span></div><div class=\'jpoker_table_info_player_timeout\'><span class=\'jpoker_table_info_player_timeout_label\'>{player_timeout_label}</span>{player_timeout}</div><div class=\'jpoker_table_info_muck_timeout\'><span class=\'jpoker_table_info_muck_timeout_label\'>{muck_timeout_label}</span>{muck_timeout}</div><div class=\'jpoker_table_info_level\'></div>',
 	date: '',
 	pots: '<div class=\'jpoker_pots_align\'><span class=\'jpoker_pot jpoker_pot9\'>{chips}</span><span class=\'jpoker_pot jpoker_pot7\'>{chips}</span><span class=\'jpoker_pot jpoker_pot5\'>{chips}</span><span class=\'jpoker_pot jpoker_pot3\'>{chips}</span><span class=\'jpoker_pot jpoker_pot1\'>{chips}</span><span class=\'jpoker_pot jpoker_pot0\'>{chips}</span><span class=\'jpoker_pot jpoker_pot2\'>{chips}</span><span class=\'jpoker_pot jpoker_pot4\'>{chips}</span><span class=\'jpoker_pot jpoker_pot6\'>{chips}</span><span class=\'jpoker_pot jpoker_pot8\'>{chips}</span></div>',
-        rank: _("Won {money} chips, {rank} out of {players}. Click <span class=\'jpoker_tournament_details\'>here</span> to see the tournament details.")
+        rank: _("Won {money} chips, {rank} out of {players}. Click <span class=\'jpoker_tournament_details\'>here</span> to see the tournament details."),
+        sound: "{sound}"
     };
 
     jpoker.plugins.table.callback = {

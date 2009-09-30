@@ -44,8 +44,8 @@
        sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
-     inkscape:window-height="825"
-     inkscape:window-width="1440"
+     inkscape:window-height="823"
+     inkscape:window-width="1348"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -62,7 +62,7 @@
      inkscape:cx="380"
      inkscape:cy="265"
      inkscape:window-x="0"
-     inkscape:window-y="25"
+     inkscape:window-y="27"
      inkscape:current-layer="game_fixed">
     <sodipodi:guide
        orientation="0,1"
@@ -1072,5 +1072,14 @@
        id="options"
        x="467.52579"
        y="3.731699" />
+    <image
+       style="display:inline;enable-background:new"
+       xlink:href="../css/images/jpoker_table/menu-button.gif"
+       y="194.0276"
+       width="67"
+       height="20"
+       id="sound_control"
+       inkscape:label="sound_control"
+       x="689.48279" />
   </g>
 </svg>
