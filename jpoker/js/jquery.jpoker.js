@@ -4243,7 +4243,7 @@
             var names = [ 'check', 'call', 'raise', 'fold', 'allin' ];
             var labels = [ _("check"), _("call") + ' <span class=\'jpoker_call_amount\'></span>', _("raise"), _("fold"), _("all in") ];
             for(var i = 0; i < names.length; i++) {
-                $('#' + names[i] + id).html('<div class=\'jpoker_button\'><a href=\'javascript://\'>' + labels[i] + '</a></div>').hover(function(){
+                $('#' + names[i] + id).html(jpoker.plugins.playerSelf.templates.action.supplant({ action: labels[i] })).hover(function(){
 			$(this).addClass('hover');
 		    },function(){
 			$(this).removeClass('hover');
@@ -4268,13 +4268,13 @@
 		    },function(){
 			$(this).removeClass('hover');
 		    });
-	    rebuy.html('<div class=\'jpoker_rebuy\'><a href=\'javascript://\'>' + _("Rebuy") + '</a></div>');
+	    rebuy.html(jpoker.plugins.playerSelf.templates.rebuy_button.supplant({ rebuy: _("Rebuy") }));
             rebuy.show();
 
             //
             // sitout
             //
-            $('#sitout' + id).html('<div class=\'jpoker_sitout\'><a href=\'javascript://\'>' + _("sit out") + '</a></div>');
+            $('#sitout' + id).html(jpoker.plugins.playerSelf.templates.sitout.supplant({ sitout: _("sit out") }));
             $('#sitout' + id).click(function() {
                     var server = jpoker.getServer(url);
                     if(server && server.loggedIn()) {
@@ -4293,7 +4293,8 @@
             //
             // sitin
             //
-            $('#sitin' + id).html('<div class=\'jpoker_sitin\'><a href=\'javascript://\'>' + _("sit in") + '</a></div>').click(function() {
+            $('#sitin' + id).html(jpoker.plugins.playerSelf.templates.sitin.supplant({ sitin: _("sit in") }));
+            $('#sitin' + id).click(function() {
                     var server = jpoker.getServer(url);
                     if(server && server.loggedIn()) {
 			server.sendPacket({ 'type': 'PacketPokerAutoBlindAnte',
@@ -4787,7 +4788,11 @@
         templates: {
             rebuy: '<div class=\'jpoker_rebuy_bound jpoker_rebuy_min\'>{min}</div><div class=\'ui-slider-1\'><div class=\'ui-slider-handle\'></div></div><div class=\'jpoker_rebuy_current\' title=\'{title}\'>{current}</div><div class=\'jpoker_rebuy_bound jpoker_rebuy_max\'>{max}</div><div class=\'ui-dialog-buttonpane\'><button class=\'jpoker_rebuy_action\'>{label}</button></div>',
 	    auto_action: '<div class=\'jpoker_auto_check_fold jpoker_auto_action\'><label for=\'auto_check_fold{id}\'>{auto_check_fold_label}</label><input type=\'checkbox\' name=\'auto_check_fold\' id=\'auto_check_fold{id}\' /></div><div class=\'jpoker_auto_check jpoker_auto_action\'><label for=\'auto_check{id}\'>{auto_check_label}</label><input type=\'checkbox\' name=\'auto_check\' id=\'auto_check{id}\' /></div><div class=\'jpoker_auto_call jpoker_auto_action\'><label for=\'auto_call{id}\'>{auto_call_label} <span class=\'jpoker_call_amount\'></span></label><input type=\'checkbox\' name=\'auto_call\' id=\'auto_call{id}\' /></div><div class=\'jpoker_auto_check_call jpoker_auto_action\'><label for=\'auto_check_call{id}\'>{auto_check_call_label}</label><input type=\'checkbox\' name=\'auto_check_call\' id=\'auto_check_call{id}\' /></div><div class=\'jpoker_auto_raise jpoker_auto_action\'><label for=\'auto_raise{id}\'>{auto_raise_label}</label><input type=\'checkbox\' name=\'auto_raise\' id=\'auto_raise{id}\' /></div>',
-	    hand_strength: '<span class=\'jpoker_hand_strength_label\'>{label}</span> <span class=\'jpoker_hand_strength_value\'></span>'
+	    hand_strength: '<span class=\'jpoker_hand_strength_label\'>{label}</span> <span class=\'jpoker_hand_strength_value\'></span>',
+            action: '<div class=\'jpoker_button\'><a href=\'javascript://\'>{action}</a></div>',
+            rebuy_button: '<div class=\'jpoker_rebuy\'><a href=\'javascript://\'>{rebuy}</a></div>',
+            sitout: '<div class=\'jpoker_sitout\'><a href=\'javascript://\'>{sitout}</a></div>',
+            sitin: '<div class=\'jpoker_sitin\'><a href=\'javascript://\'>{sitin}</a></div>'
         },
 
 	callback: {
