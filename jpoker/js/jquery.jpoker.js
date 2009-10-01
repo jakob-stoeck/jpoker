@@ -3121,7 +3121,7 @@
     jpoker.plugins.login = function(url, options) {
  
         var login = jpoker.plugins.login;
-        var opts = $.extend({}, jpoker.plugins.login.defaults, options);
+        var opts = $.extend(true, {}, jpoker.plugins.login.defaults, options);
         var server = jpoker.url2server({ url: url });
 
         return this.each(function() {
@@ -3135,7 +3135,7 @@
                     var element = document.getElementById(id);
                     if(element) {
                         var e = $(element);
-                        e.html(login.getHTML(server));
+                        e.html(login.getHTML(server, opts));
                         if(server.loggedIn()) {
                             e.click(function() {
                                     var server = jpoker.getServer(url);
@@ -3186,11 +3186,24 @@
             });
     };
 
-    jpoker.plugins.login.defaults = $.extend({
+    jpoker.plugins.login.templates = {
+	login: '<table>\n<tbody><tr>\n<td class=\'jpoker_login_name_label\'><b>{login}</b></td>\n<td><input type=\'text\' class=\'jpoker_login_name\' size=\'10\'/></td>\n<td><input type=\'submit\' class=\'jpoker_login_submit\' value=\'{go}\' /></td>\n</tr>\n<tr>\n<td class=\'jpoker_login_name_label\'><b>{password}</b></td>\n<td><input type=\'password\' class=\'jpoker_login_password\' size=\'10\'/></td>\n<td><input type=\'submit\' class=\'jpoker_login_signup\' value=\'{signup}\' /></td>\n</tr>\n</tbody></table>',
+	logout: '<div class=\'jpoker_logout\'>{logout}<div>'
+    };
+
+    jpoker.plugins.login.callback = {
+	display_done: function(element) {
+	}
+    };
+
+    jpoker.plugins.login.defaults = $.extend(
+        {
+            templates: jpoker.plugins.login.templates,
+            callback: jpoker.plugins.login.callback
         }, jpoker.defaults);
 
-    jpoker.plugins.login.getHTML = function(server) {
-        var t = this.templates;
+    jpoker.plugins.login.getHTML = function(server, options) {
+        var t = options.templates;
 	var html = [];
 	if(server.loggedIn()) {
 	    html.push(t.logout.supplant({'logout': '{logname} <a href=\'javascript:;\'>' + _("logout") + '</a>'}).supplant({ 'logname': server.userInfo.name }));
@@ -3202,16 +3215,6 @@
                     }));
 	}
         return html.join('\n');
-    };
-
-    jpoker.plugins.login.templates = {
-	login: '<table>\n<tbody><tr>\n<td class=\'jpoker_login_name_label\'><b>{login}</b></td>\n<td><input type=\'text\' class=\'jpoker_login_name\' size=\'10\'/></td>\n<td><input type=\'submit\' class=\'jpoker_login_submit\' value=\'{go}\' /></td>\n</tr>\n<tr>\n<td class=\'jpoker_login_name_label\'><b>{password}</b></td>\n<td><input type=\'password\' class=\'jpoker_login_password\' size=\'10\'/></td>\n<td><input type=\'submit\' class=\'jpoker_login_signup\' value=\'{signup}\' /></td>\n</tr>\n</tbody></table>',
-	logout: '<div class=\'jpoker_logout\'>{logout}<div>'
-    };
-
-    jpoker.plugins.login.callback = {
-	display_done: function(element) {
-	}
     };
 
     //
