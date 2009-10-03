@@ -698,6 +698,7 @@
 
             error: function(reason) {
 		jpoker.watchable.prototype.setCallbacks.call(this);
+                this.longPollFrequency = -1;
                 this.reset();
                 this.setConnectionState('disconnected');
                 jpoker.error(reason);
