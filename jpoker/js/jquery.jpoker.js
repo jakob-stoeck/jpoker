@@ -2081,7 +2081,8 @@
     jpoker.player.defaults = {
         sit_out: true,
 	in_game: false,
-	all_in: false
+	all_in: false,
+	broke: true
     };
 
     jpoker.player.prototype = $.extend({}, jpoker.watchable.prototype, {
@@ -2185,9 +2186,15 @@
                 case 'PacketPokerPlayerChips':
                 this.money = packet.money / 100;
                 this.bet = packet.bet / 100;
-		if ((packet.money === 0) && (packet.bet > 0)) {
-			this.all_in = true;
-		}
+		if(packet.money === 0) {
+                        if(packet.bet > 0) {
+			    this.all_in = true;
+                        } else {
+                            this.broke = true;
+                        }
+		} else {
+                    this.broke = false;
+                }
                 this.notifyUpdate(packet);
                 break;
 
@@ -4625,6 +4632,9 @@
 	    } else if ((player.state == 'buyin') &&
 		       (player.money === 0) &&
 		       (table.reason != 'TablePicker')) {
+		$('#rebuy' + id).click();
+	    } else if (player.state != 'buyin' && player.broke) {
+                player.state = 'buyin';
 		$('#rebuy' + id).click();
 	    }
         },

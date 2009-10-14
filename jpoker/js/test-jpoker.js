@@ -3219,6 +3219,34 @@ test("jpoker.tourney.handler: unknown tourney", function(){
 //
 // player
 //
+test("jpoker.player.init", function(){
+         expect(7);
+         var player = new jpoker.player({ url: url });
+         equals(false, player.all_in);
+         equals(true, player.broke);
+         equals(0, player.bet);
+         equals(0, player.money);
+         equals(undefined, player.side_pot);
+         equals(undefined, player.stats);
+         equals(false, player.cards.dealt);
+         });
+
+test("jpoker.player.handler PacketPokerPlayerChips", function(){
+         expect(8);
+         var player = new jpoker.player({ url: url });
+         equals(false, player.all_in, 'initial all_in');
+         equals(true, player.broke, 'initial broke');
+         player.handler(undefined, 0, { type: 'PacketPokerPlayerChips', money: 1, bet: 0});
+         equals(false, player.all_in, 'buyin all_in');
+         equals(false, player.broke, 'buyin broke');
+         player.handler(undefined, 0, { type: 'PacketPokerPlayerChips', money: 0, bet: 1});
+         equals(true, player.all_in, 'go allin all_in');
+         equals(false, player.broke, 'go allin broke');
+         player.handler(undefined, 0, { type: 'PacketPokerPlayerChips', money: 0, bet: 0});
+         equals(true, player.all_in, 'go broke all_in'); // reset on PokerStart only
+         equals(true, player.broke, 'go broke broke');
+     });
+
 test("jpoker.player.reinit", function(){
         expect(8);
 
@@ -8376,6 +8404,28 @@ test("jpoker.plugins.player: raise NaN should trigger an error", function() {
 	equals(reason, 'raise with NaN amount: abc', 'error');
         cleanup(id);
     });
+
+test("jpoker.plugins.player: rebuy if broke", function(){
+	 expect(8);
+         var id = 'jpoker' + jpoker.serial;
+         var player_serial = 1;
+         var game_id = 100;
+         var money = 1000;
+         _SelfPlayerSit(game_id, player_serial, money);
+         var Z = jpoker.getServerTablePlayer('url', game_id, player_serial);
+         equals(Z.player.broke, false, 'player is not broke');
+         equals($("#jpokerRebuy").size(), 0, "rebuy dialog DOM element is not present");
+         var packet = { type: 'PacketPokerPlayerChips',
+                        money: 0,
+                        bet: 0,
+                        serial: player_serial,
+                        game_id: game_id };
+         Z.table.handler(Z.server, game_id, packet);
+         equals(Z.player.broke, true, 'player is broke');
+         var rebuy = $("#jpokerRebuy");
+         equals(rebuy.size(), 1, "rebuy dialog DOM element");
+         equals(rebuy.parents().is(':visible'), true, 'dialog is visible');
+     });
 
 test("jpoker.plugins.player: hover button", function(){
 	expect(33);
