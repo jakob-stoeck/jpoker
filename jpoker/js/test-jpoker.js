@@ -3232,7 +3232,7 @@ test("jpoker.player.init", function(){
          });
 
 test("jpoker.player.handler PacketPokerPlayerChips", function(){
-         expect(8);
+         expect(9);
          var player = new jpoker.player({ url: url });
          equals(false, player.all_in, 'initial all_in');
          equals(true, player.broke, 'initial broke');
@@ -3243,8 +3243,11 @@ test("jpoker.player.handler PacketPokerPlayerChips", function(){
          equals(true, player.all_in, 'go allin all_in');
          equals(false, player.broke, 'go allin broke');
          player.handler(undefined, 0, { type: 'PacketPokerPlayerChips', money: 0, bet: 0});
-         equals(true, player.all_in, 'go broke all_in'); // reset on PokerStart only
-         equals(true, player.broke, 'go broke broke');
+         equals(true, player.all_in, 'no money/bet all_in'); // reset on PokerStart only
+         equals(false, player.broke, 'no money/bet broke'); // all in + no money or bet means the money is in the pot
+         player.all_in = false;
+         player.handler(undefined, 0, { type: 'PacketPokerPlayerChips', money: 0, bet: 0});
+         equals(true, player.broke, 'go broke broke'); // when there is no money nor bet and the player is not all in, it means he is broke
      });
 
 test("jpoker.player.reinit", function(){

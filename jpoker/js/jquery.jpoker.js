@@ -2000,7 +2000,7 @@
                 }
 
                 if(serial in table.serial2player) {
-                    table.serial2player[serial].handler(server, game_id, packet);
+                    table.serial2player[serial].handler(server, self, packet);
                 }
 
                 return true;
@@ -2039,8 +2039,8 @@
                     jpoker.message('tourney.handler ' + JSON.stringify(packet));
                 }
 
-                tourney_serial = packet.tourney_serial;
-                tourney = server.tourneys[tourney_serial];
+                var tourney_serial = packet.tourney_serial;
+                var tourney = server.tourneys[tourney_serial];
                 if(!tourney) {
                     tourney_serial = packet.game_id;
                     tourney = server.tourneys[tourney_serial];
@@ -2113,7 +2113,7 @@
 		this.stats = undefined;
             },
 
-            handler: function(server, game_id, packet) {
+            handler: function(server, table, packet) {
                 if(jpoker.verbose > 0) {
                     jpoker.message('player.handler ' + JSON.stringify(packet));
                 }
@@ -2189,7 +2189,7 @@
 		if(packet.money === 0) {
                         if(packet.bet > 0) {
 			    this.all_in = true;
-                        } else {
+                        } else if(!this.all_in) {
                             this.broke = true;
                         }
 		} else {
@@ -4634,7 +4634,6 @@
 		       (table.reason != 'TablePicker')) {
 		$('#rebuy' + id).click();
 	    } else if (player.state != 'buyin' && player.broke) {
-                player.state = 'buyin';
 		$('#rebuy' + id).click();
 	    }
         },
