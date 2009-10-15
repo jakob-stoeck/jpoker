@@ -3467,8 +3467,9 @@
         var in_position = table.serial2player[serial_in_position];
         for(var seat = 0; seat < table.seats.length; seat++) {
 	    var timeout_element = $('#player_seat' + seat + '_timeout' + id);
+            var width = parseFloat(timeout_element.css('width'));
             if(in_position && in_position.sit_out === false && in_position.seat == seat) {
-		$('.jpoker_timeout_progress', timeout_element).stop().css({width: ratio*100+'%'}).show().animate({width: '0%'}, {duration: ratio*table.player_timeout*1000, queue: false});
+                $('.jpoker_timeout_progress', timeout_element).stop().css({width: ratio*width+'px'}).show().animate({width: '0'}, {duration: ratio*table.player_timeout*1000, queue: false});
 		timeout_element.attr('pcur', ratio*100).show();
             } else {
 		timeout_element.hide();
