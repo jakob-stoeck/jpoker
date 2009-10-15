@@ -365,12 +365,19 @@ test("jpoker.watchable", function(){
 // jpoker.chips
 //
 test("jpoker.chips: LONG", function() {
-        expect(5);
+        expect(12);
         equals(jpoker.chips.LONG(10.101), '10.1');
         equals(jpoker.chips.LONG(10.111), '10.11');
         equals(jpoker.chips.LONG(10.001), '10');
         equals(jpoker.chips.LONG(0.101), '0.1');
         equals(jpoker.chips.LONG(0.011), '0.01');
+        equals(jpoker.chips.LONG(100), '100');
+        equals(jpoker.chips.LONG(1000), '1,000');
+        equals(jpoker.chips.LONG(10000), '10,000');
+        equals(jpoker.chips.LONG(100000), '100,000');
+        equals(jpoker.chips.LONG(1000000), '1,000,000');
+        equals(jpoker.chips.LONG(1000000.01), '1,000,000.01');
+        equals(jpoker.chips.LONG(1000000.10), '1,000,000.1');
     });
 
 test("jpoker.chips: SHORT", function() {

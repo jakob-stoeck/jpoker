@@ -440,6 +440,9 @@
     //
     jpoker.chips = {
         epsilon: 0.001,
+        fraction: '.',
+        thousand: ',',
+        thousand_re: new RegExp(/(\d+)(\d\d\d)/),
 
         chips2value: function(chips) {
             var value = 0;
@@ -458,7 +461,7 @@
                 if(chips >= magnitude) {
                     if(chips / magnitude < 10) {
                         chips = chips / ( magnitude / 10 );
-                        return parseInt(chips / 10, 10) + '.' + parseInt(chips % 10, 10) + unit[0];
+                        return parseInt(chips / 10, 10) + this.fraction + parseInt(chips % 10, 10) + unit[0];
                     } else {
                         return parseInt(chips / magnitude, 10) + unit[0];
                     }
@@ -468,18 +471,22 @@
         },
 
         LONG: function(chips) {
-            var chips_int = parseInt(chips, 10);
             var chips_fraction = parseInt(chips * 100, 10) % 100;
+            var chips_str = String(parseInt(chips, 10));
+            var replacement = '$1' + this.thousand + '$2';
+            while(this.thousand_re.test(chips_str)) {
+                chips_str = chips_str.replace(this.thousand_re, replacement);
+            }
             if(chips_fraction === 0) {
-                return chips_int;
+                return chips_str;
             } else if(chips_fraction % 10) {
                 if(chips_fraction < 10) {
-                    return chips_int + '.0' + chips_fraction;
+                    return chips_str + '.0' + chips_fraction;
                 } else {
-                    return chips_int + '.' + chips_fraction;
+                    return chips_str + '.' + chips_fraction;
                 }
             } else {
-                return chips_int + '.' + parseInt(chips_fraction / 10, 10);
+                return chips_str + '.' + parseInt(chips_fraction / 10, 10);
             }
         }
 
