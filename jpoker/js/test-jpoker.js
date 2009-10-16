@@ -9107,7 +9107,7 @@ test("jpoker.plugins.userInfo avatar upload failed", function(){
     });
 
 test("jpoker.plugins.player: sitout", function(){
-        expect(7);
+        expect(11);
 
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
@@ -9125,6 +9125,8 @@ test("jpoker.plugins.player: sitout", function(){
         server.sendPacket = function(packet) {
             if(packet.type == 'PacketPokerSitOut') {
                 sent = true;
+                equals('sit_out_sent' in player, true, 'sit_out_sent has been added');
+                equals(player.sit_out_sent, true, 'sit_out_sent is true');
             }
         };
         sitout.click();
@@ -9133,12 +9135,18 @@ test("jpoker.plugins.player: sitout", function(){
 
         // when PokerSitOut packet arrives, sitout button is hidden again
         sitout.show();
-        var table = server.tables[game_id];
+        var table = server.tables[game_id];false
         table.handler(server, game_id, { type: 'PacketPokerSitOut',
                     game_id: game_id,
                     serial: player_serial });
+        equals('sit_out_sent' in player, false, 'SitOut => sit_out_sent has been removed');
         equals(sitout.is(':hidden'), true, 'sitout button hidden');
+        player.sit_out_sent = true;
+        table.handler(server, game_id, { type: 'PacketPokerSit',
+                    game_id: game_id,
+                    serial: player_serial });
         
+        equals('sit_out_sent' in player, false, 'Sit => sit_out_sent has been removed');
         cleanup(id);
     });
 

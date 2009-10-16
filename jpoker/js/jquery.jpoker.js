@@ -2287,6 +2287,13 @@
                 }
                 break;
 
+		case 'PacketPokerSit':
+		case 'PacketPokerSitOut':
+                    if('sit_out_sent' in this) {
+                        delete this.sit_out_sent;
+                    }
+                break;
+
 		case 'PacketPokerBeginRound':
 		case 'PacketPokerHighestBetIncrease':
 		case 'PacketPokerInGame':
@@ -4295,8 +4302,9 @@
             //
             $('#sitout' + id).html(jpoker.plugins.playerSelf.templates.sitout.supplant({ sitout: _("sit out") }));
             $('#sitout' + id).click(function() {
-                    var server = jpoker.getServer(url);
-                    if(server && server.loggedIn()) {
+                    var info = jpoker.getServerTablePlayer(url, table.id, serial);
+                    if(info.server && info.server.loggedIn()) {
+                        info.player.sit_out_sent = true;
                         server.sendPacket({ 'type': 'PacketPokerSitOut',
                                     'game_id': table.id,
                                     'serial': serial });
