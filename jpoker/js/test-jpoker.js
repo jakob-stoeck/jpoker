@@ -9412,7 +9412,7 @@ test("jpoker.plugins.playerSelf call with amount", function(){
     });
 
 test("jpoker.plugins.playerSelf hand strength", function(){
-	expect(10);
+	expect(11);
 
 	var place = $("#main");
 
@@ -9443,11 +9443,15 @@ test("jpoker.plugins.playerSelf hand strength", function(){
 	table.handler(server, game_id, { type: 'PacketPokerStart', game_id: game_id });
 	equals($('.jpoker_hand_strength_value', hand_strength_element).text(), '', 'hand_strength should be reset after hand start');
 	ok(hand_strength_element.is(':hidden'), 'hand_strength should be hidden after hand start');
-	
+	var called = false;
+        var display_done = jpoker.plugins.playerSelf.callback.hand_strength.display_done;
+        jpoker.plugins.playerSelf.callback.hand_strength.display_done = function(element) {
+            equals(element.text(), 'Hand strength: foo', 'callback on display');
+        };
 	table.handler(server, game_id, { type: 'PacketPokerPlayerHandStrength', game_id: game_id, serial: player_serial, hand: 'foo' });
 	equals($('.jpoker_hand_strength_value', hand_strength_element).text(), 'foo', 'hand_strength should be set by PokerPlayerHandStrength');
 	ok(hand_strength_element.is(':visible'), 'hand_strength should be hidden after receiving PokerPlayerHandStrength');
-
+        jpoker.plugins.playerSelf.callback.hand_strength.display_done = display_done;
 	table.handler(server, game_id, { type: 'PacketPokerStart', game_id: game_id });
 	equals($('.jpoker_hand_strength_value', hand_strength_element).text(), '', 'hand_strength should be reset by PokerStart (2)');
 	ok(hand_strength_element.is(':hidden'), 'hand_strength should be hidden after hand start (2)');

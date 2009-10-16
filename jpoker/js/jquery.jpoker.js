@@ -4579,6 +4579,7 @@
 	handStrength: function(player, hand, id) {
 	    var hand_strength_element = $('#hand_strength' + id).show();
 	    $('.jpoker_hand_strength_value', hand_strength_element).text(hand);
+            jpoker.plugins.playerSelf.callback.hand_strength.display_done(hand_strength_element);
 	},
 
         sit: function(player, id) {
@@ -4831,8 +4832,10 @@
 		        $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_hand.swf\' />');
                     }
 		}
-	    }
-	}
+	    },
+
+            hand_strength: { display_done : function() { } }
+        }
     };
 
     //
