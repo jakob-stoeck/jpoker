@@ -680,7 +680,8 @@
                     auth_hash = jpoker.Crypto.hexSha1Str(this.url + Math.random());
                     var expires = new Date();
                     expires.setTime(expires.getTime() + self.authExpires);
-                    $.cookie(auth_cookie, auth_hash, { expires: expires, path: '/' } );
+                    //$.cookie(auth_cookie, auth_hash, { expires: expires, path: '/' } );
+                    $.cookie(auth_cookie, auth_hash, { path: '/' } );
                 } else {
                     this.foundAuthCookie = true;
                 }
