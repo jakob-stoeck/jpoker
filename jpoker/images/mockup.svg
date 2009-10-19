@@ -45,7 +45,7 @@
   </defs>
   <sodipodi:namedview
      inkscape:window-height="823"
-     inkscape:window-width="1348"
+     inkscape:window-width="782"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -58,10 +58,10 @@
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:zoom="0.89473684"
-     inkscape:cx="380"
-     inkscape:cy="265"
-     inkscape:window-x="0"
+     inkscape:zoom="1.7894737"
+     inkscape:cx="296.24578"
+     inkscape:cy="55.210102"
+     inkscape:window-x="635"
      inkscape:window-y="27"
      inkscape:current-layer="game_fixed">
     <sodipodi:guide
@@ -1081,5 +1081,29 @@
        id="sound_control"
        inkscape:label="sound_control"
        x="689.48279" />
+    <image
+       style="display:inline;enable-background:new"
+       xlink:href="../css/images/jpoker_table/raise.png"
+       x="436.10043"
+       y="493.58646"
+       width="44"
+       height="30"
+       id="threequarterpot" />
+    <image
+       style="display:inline;enable-background:new"
+       xlink:href="../css/images/jpoker_table/raise.png"
+       x="436.65927"
+       y="462.85114"
+       width="44"
+       height="30"
+       id="halfpot" />
+    <image
+       style="display:inline;enable-background:new"
+       xlink:href="../css/images/jpoker_table/raise.png"
+       x="436.65927"
+       y="432.11584"
+       width="44"
+       height="30"
+       id="pot" />
   </g>
 </svg>

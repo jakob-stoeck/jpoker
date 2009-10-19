@@ -4280,8 +4280,8 @@
             var game_id = packet.game_id;
             var serial = packet.serial;
             var player = table.serial2player[serial];
-            var names = [ 'check', 'call', 'raise', 'fold', 'allin' ];
-            var labels = [ _("check"), _("call") + ' <span class=\'jpoker_call_amount\'></span>', _("raise"), _("fold"), _("all in") ];
+            var names = [ 'check', 'call', 'raise', 'fold', 'allin', 'pot', 'halfpot', 'threequarterpot' ];
+            var labels = [ _("check"), _("call") + ' <span class=\'jpoker_call_amount\'></span>', _("raise"), _("fold"), _("all in"), _("pot"), _("1/2"), _("3/4") ];
             for(var i = 0; i < names.length; i++) {
                 $('#' + names[i] + id).html(jpoker.plugins.playerSelf.templates.action.supplant({ action: labels[i] })).hover(function(){
 			$(this).addClass('hover');
@@ -4794,6 +4794,38 @@
 					    });
 			    }
 			}).show();
+                    if(betLimit.allin > betLimit.pot) {
+		       $('#pot' + id).unbind('click').click(function() {
+			    var server = jpoker.getServer(url);
+			    if(server) {
+				server.sendPacket({ 'type': 'PacketPokerRaise',
+					    'serial': serial,
+					    'game_id': game_id,
+					    'amount': betLimit.pot*100
+					    });
+			    }
+			}).show();
+		       $('#halfpot' + id).unbind('click').click(function() {
+			    var server = jpoker.getServer(url);
+			    if(server) {
+				server.sendPacket({ 'type': 'PacketPokerRaise',
+					    'serial': serial,
+					    'game_id': game_id,
+					    'amount': betLimit.pot*50
+					    });
+			    }
+			}).show();
+		       $('#threequarterpot' + id).unbind('click').click(function() {
+			    var server = jpoker.getServer(url);
+			    if(server) {
+				server.sendPacket({ 'type': 'PacketPokerRaise',
+					    'serial': serial,
+					    'game_id': game_id,
+					    'amount': betLimit.pot*75
+					    });
+			    }
+			}).show();
+                    }
                 } else {
                     click = function() {
                         var server = jpoker.getServer(url);
@@ -4829,7 +4861,7 @@
             }
         },
 
-        names: [ 'fold', 'call', 'check', 'raise', 'raise_range', 'raise_input', 'rebuy', 'allin' ],
+        names: [ 'fold', 'call', 'check', 'raise', 'raise_range', 'raise_input', 'rebuy', 'allin', 'pot', 'halfpot', 'threequarterpot' ],
 
         hide: function(id) {
             for(var i = 0; i < this.names.length; i++) {
