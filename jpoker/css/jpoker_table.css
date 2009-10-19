@@ -213,7 +213,7 @@
     text-transform: uppercase;
 }
 
-.jpoker_table .jpoker_player_self.jpoker_sit_out .jpoker_name {
+.jpoker_table .jpoker_player_self .jpoker_sit_out .jpoker_name {
     text-transform: none;
 }
 
