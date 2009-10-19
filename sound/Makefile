@@ -22,6 +22,9 @@ SOUNDS = \
 	player_fold.ogg \
 	player_check.ogg \
 	player_fold.ogg \
+	player_timeout_notice.ogg \
+	player_timeout_warning.ogg \
+	player_win.ogg \
 	deal_card.ogg
 
 

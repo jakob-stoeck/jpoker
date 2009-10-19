@@ -6561,7 +6561,7 @@ test("jpoker.plugins.player: PacketPokerPlayerArrive code injection", function()
     });
 
 test("jpoker.plugins.player: sounds", function(){
-        expect(8);
+        expect(10);
         stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -6598,6 +6598,18 @@ test("jpoker.plugins.player: sounds", function(){
             pot:  20
         };
 	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
+	var sound_player_self_timeout_notice = jpoker.plugins.playerSelf.callback.sound.timeout_notice;
+	jpoker.plugins.playerSelf.callback.sound.timeout_notice = function(server) {
+	    sound_player_self_timeout_notice(server);
+	    equals($("#jpokerSound " + jpoker.sound).attr("src").indexOf('notice') >= 0, true, 'sound timeout notice');
+	};
+	table.handler(server, game_id, { type: 'PacketPokerTimeoutNotice', serial: player_serial, game_id: game_id });
+	var sound_player_self_timeout_warning = jpoker.plugins.playerSelf.callback.sound.timeout_warning;
+	jpoker.plugins.playerSelf.callback.sound.timeout_warning = function(server) {
+	    sound_player_self_timeout_warning(server);
+	    equals($("#jpokerSound " + jpoker.sound).attr("src").indexOf('warning') >= 0, true, 'sound timeout warning');
+	};
+	table.handler(server, game_id, { type: 'PacketPokerTimeoutWarning', serial: player_serial, game_id: game_id });
 	var sound_player_call = jpoker.plugins.player.callback.sound.call;
 	jpoker.plugins.player.callback.sound.call = function(server) {
 	    sound_player_call(server);
@@ -6639,6 +6651,8 @@ test("jpoker.plugins.player: sounds", function(){
 
 	jpoker.plugins.player.callback.sound.arrive = sound_player_arrive;
 	jpoker.plugins.playerSelf.callback.sound.in_position = sound_player_self_in_position;
+	jpoker.plugins.playerSelf.callback.sound.timeout_notice = sound_player_self_timeout_notice;
+	jpoker.plugins.playerSelf.callback.sound.timeout_warning = sound_player_self_timeout_warning;
 	jpoker.plugins.player.callback.sound.call = sound_player_call;
 	jpoker.plugins.player.callback.sound.raise = sound_player_raise;
 	jpoker.plugins.player.callback.sound.check = sound_player_check;

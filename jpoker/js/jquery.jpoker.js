@@ -2303,11 +2303,10 @@
 		case 'PacketPokerHighestBetIncrease':
 		case 'PacketPokerInGame':
 		case 'PacketPokerPlayerHandStrength':
-		this.notifyUpdate(packet);
-		break;
-
                 case 'PacketPokerSelfLostPosition':
                 case 'PacketPokerSelfInPosition':
+		case 'PacketPokerTimeoutWarning':
+		case 'PacketPokerTimeoutNotice':
                 this.notifyUpdate(packet);
                 break;
 
@@ -3983,6 +3982,13 @@
 	    jpoker.plugins.player.callback.animation.money2bet(player, id);
 	    break;
 
+	    case 'PacketPokerTimeoutWarning':
+	    case 'PacketPokerTimeoutNotice':
+            if(server.serial == packet.serial) {
+                jpoker.plugins.playerSelf.timeout(player, id, packet);
+            }
+	    break;
+
             case 'PacketPokerSelfInPosition':
             jpoker.plugins.playerSelf.inPosition(player, id);
             break;
@@ -4808,6 +4814,18 @@
            $('#game_window' + id).removeClass('jpoker_self_in_position');
         },
 
+        timeout: function(player, id, packet) {
+            var server = jpoker.getServer(player.url);
+            switch(packet.type) {
+	    case 'PacketPokerTimeoutWarning':
+	        jpoker.plugins.playerSelf.callback.sound.timeout_warning(server);
+                break;
+	    case 'PacketPokerTimeoutNotice':
+	        jpoker.plugins.playerSelf.callback.sound.timeout_notice(server);
+                break;
+            }
+        },
+
         names: [ 'fold', 'call', 'check', 'raise', 'raise_range', 'raise_input', 'rebuy', 'allin' ],
 
         hide: function(id) {
@@ -4835,6 +4853,16 @@
 		in_position : function(server) {
                     if(server.preferences.sound) {
 		        $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_hand.swf\' />');
+                    }
+		},
+		timeout_warning : function(server) {
+                    if(server.preferences.sound) {
+		        $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_timeout_warning.swf\' />');
+                    }
+		},
+		timeout_notice : function(server) {
+                    if(server.preferences.sound) {
+		        $('#jpokerSound').html('<' + jpoker.sound + ' src=\'player_timeout_notice.swf\' />');
                     }
 		}
 	    },
