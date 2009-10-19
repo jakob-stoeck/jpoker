@@ -748,15 +748,18 @@ test("jpoker.server.init reconnect doReconnectAlways", function(){
     });
 
 test("jpoker.server.init reconnect doRejoin", function(){
-        expect(1);
-	var jpokerDoRejoin = jpoker.doRejoin;
-	jpoker.doRejoin = false;
-        var server = jpoker.serverCreate({ url: 'url'});
-	server.reconnect();
-	server.handle(0, {type: 'PacketPokerPlayerInfo', serial: 42});
-	equals(server.state, server.RUNNING, 'no rejoin');
-	jpoker.doRejoin = jpokerDoRejoin;
-        cleanup();
+         expect(3);
+	 var jpokerDoRejoin = jpoker.doRejoin;
+	 jpoker.doRejoin = false;
+         var server = jpoker.serverCreate({ url: 'url'});
+	 server.reconnect();
+         equals(server.userInfo.serial, undefined, 'userInfo has no serial');
+         var user_serial = 42;
+	 server.handle(0, {type: 'PacketPokerPlayerInfo', serial: user_serial});
+         equals(server.userInfo.serial, user_serial, 'userInfo has serial ' + user_serial);
+	 equals(server.state, server.RUNNING, 'no rejoin');
+	 jpoker.doRejoin = jpokerDoRejoin;
+         cleanup();
     });
 
 test("jpoker.server.reconnect success", function(){

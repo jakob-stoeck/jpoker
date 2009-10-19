@@ -1138,6 +1138,10 @@
                 server.setSerial(packet);
                 break;
 
+		case 'PacketPokerPlayerInfo':
+		server.userInfo = packet;
+		break;
+
                 case 'PacketPokerUserInfo':
                 server.userInfo = packet;
                 for(id in server.tables) {
