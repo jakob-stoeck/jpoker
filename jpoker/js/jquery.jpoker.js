@@ -1889,9 +1889,6 @@
                     break;
 
 		case 'PacketPokerBestCards':
-		    table.notifyUpdate(packet);
-		    break;
-
                 case 'PacketPokerDealCards':
                     table.notifyUpdate(packet);
                     break;
@@ -1960,17 +1957,8 @@
                     break;
 
                 case 'PacketPokerChat':
-                    table.notifyUpdate(packet);
-                    break;
-
 		case 'PacketPokerTimeoutWarning':
-		    table.notifyUpdate(packet);
-		    break;
-
 		case 'PacketPokerTimeoutNotice':
-		    table.notifyUpdate(packet);
-		    break;
-
 		case 'PacketPokerMuckRequest':
 		    table.notifyUpdate(packet);
 		    break;
@@ -1994,9 +1982,6 @@
 		    break;
 
 		case 'PacketPokerTableTourneyBreakBegin':
-		    table.notifyUpdate(packet);
-		    break;
-		    
 		case 'PacketPokerTableTourneyBreakDone':
 		    table.notifyUpdate(packet);
 		    break;
@@ -2008,6 +1993,7 @@
 
 		case 'PacketPokerShowdown':
 		    server.delayQueue(game_id, jpoker.now()+table.delay.showdown);
+		    table.notifyUpdate(packet);
 		    break;
                 }
 
@@ -3653,6 +3639,14 @@
                 jpoker.plugins.table.rank(table, packet, id);
                 break;
 
+	    case 'PacketPokerShowdown':
+                if(packet.showdown_stack && packet.showdown_stack.length > 0) {
+                    var serial2delta = packet.showdown_stack[0].serial2delta;
+                    if(serial2delta && server.serial in serial2delta && serial2delta[server.serial] > 0) {
+		        jpoker.plugins.table.callback.sound.self_win(server);
+                    }
+                }
+                break;
             }
 
             return true;
@@ -3745,6 +3739,11 @@
 	    deal_card: function(server) {
                 if(server.preferences.sound) {
 		    $('#jpokerSoundTable').html('<' + jpoker.sound + ' src=\'deal_card.swf\' />');
+                }
+	    },
+	    self_win: function(server) {
+                if(server.preferences.sound) {
+		    $('#jpokerSoundTable').html('<' + jpoker.sound + ' src=\'player_win.swf\' />');
                 }
 	    }	    
 	},

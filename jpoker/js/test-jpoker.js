@@ -3182,27 +3182,28 @@ test("jpoker.tourney.uninit: PacketPokerTourneyFinish", function(){
     });
 
 test("jpoker.table.handler: PacketPokerShowdown", function(){
-        expect(2);
-        var server = jpoker.serverCreate({ url: 'url' });
+         expect(2);
+         var server = jpoker.serverCreate({ url: 'url' });
 
-        var game_id = 100;
-        var table_packet = { id: game_id };
-        server.tables[game_id] = new jpoker.table(server, table_packet);
-        var table = server.tables[game_id];
-	equals(table.delay.showdown, jpoker.table.defaults.delay.showdown);
+         var user_serial = 20;
+         var game_id = 100;
+         var table_packet = { id: game_id };
+         server.tables[game_id] = new jpoker.table(server, table_packet);
+         var table = server.tables[game_id];
+	 equals(table.delay.showdown, jpoker.table.defaults.delay.showdown);
 
-        var packet = { 'type': 'PacketPokerShowdown',
-		       'game_id': game_id
-        };
-	var jpokerNow = jpoker.now;
-	jpoker.now = function() {
-	    return 42;
-	};
-	table.handler(server, game_id, packet);	
-	equals(server.delays[game_id], 42+jpoker.table.defaults.delay.showdown, 'showdown delay');
-	jpoker.now = jpokerNow;
-	cleanup();
-    });
+         var packet = { 'type': 'PacketPokerShowdown',
+		        'game_id': game_id
+                      };
+	 var jpokerNow = jpoker.now;
+	 jpoker.now = function() {
+	     return 42;
+	 };
+	 table.handler(server, game_id, packet);	
+	 equals(server.delays[game_id], 42+jpoker.table.defaults.delay.showdown, 'showdown delay');
+	 jpoker.now = jpokerNow;
+	 cleanup();
+     });
 
 test("jpoker.tourney.handler: unknown tourney", function(){
         expect(2);
@@ -5973,6 +5974,47 @@ test("jpoker.plugins.table: quit non running", function(){
 	};
 	setTimeout(function() {server.setState('running');}, 10);
     });
+
+test("jpoker.plugins.table: PacketPokerShowdown sound", function(){
+         // {"length":589,"cookie":"","showdown_stack":[{"player_list":[18,5],"serial2share":{"5":1180000},"pot":1200000,"serial2delta":{"18":-200000,"5":180000},"serial2rake":{"5":20000},"serial2best":{"5":{"hi":[34036736,["TwoPair",46,33,31,18,38]]}},"type":"game_state","side_pots":{"building":0,"contributions":{"0":{"1":{"5":800000},"0":{"18":200000,"5":200000}},"total":{"18":200000,"5":1000000}},"last_round":0,"pots":[[400000,400000],[800000,1200000]]}},{"serials":[5,18],"pot":1200000,"hi":[5],"chips_left":0,"type":"resolve","serial2share":{"5":1200000}}],"game_id":204,"serial":0,"type":"PacketPokerShowdown","time__":1255989192205}
+         expect(1);
+
+         var server = jpoker.serverCreate({ url: 'url' });
+         var user_serial = 20;
+         var place = $("#main");
+         var id = 'jpoker' + jpoker.serial;
+         var game_id = 100;
+
+         var table_packet = { id: game_id };
+         server.tables[game_id] = new jpoker.table(server, table_packet);
+         server.serial = user_serial;
+         var table = server.tables[game_id];
+
+         place.jpoker('table', 'url', game_id);
+         var packet = { 'type': 'PacketPokerShowdown',
+		        'game_id': game_id,
+                        'showdown_stack': [ { 'serial2delta': { } } ]
+                      };
+	 var sound_table_self_win = jpoker.plugins.table.callback.sound.self_win;
+	 jpoker.plugins.table.callback.sound.self_win = function(server) {
+	     sound_table_self_win(server);
+	     equals($("#jpokerSoundTable " + jpoker.sound).attr("src").indexOf('win') >= 0, true, 'sound win');
+	 };
+         packet.showdown_stack[0].serial2delta[user_serial] = 1;
+	 table.handler(server, game_id, packet);	
+         packet.showdown_stack[0].serial2delta[user_serial] = -1;
+	 table.handler(server, game_id, packet);	
+         delete packet.showdown_stack[0].serial2delta[user_serial];
+	 table.handler(server, game_id, packet);	
+         delete packet.showdown_stack[0].serial2delta;
+	 table.handler(server, game_id, packet);	
+         packet.showdown_stack = [];
+	 table.handler(server, game_id, packet);	
+         delete packet.showdown_stack;
+	 table.handler(server, game_id, packet);	
+	 jpoker.plugins.table.callback.sound.self_win = sound_table_self_win;
+	 cleanup();
+     });
 
 test("jpoker.plugins.table: PacketPokerDealer", function(){
         expect(6);
