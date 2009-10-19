@@ -3908,11 +3908,15 @@
             break;
 
             case 'PacketPokerPlayerCards':
-            jpoker.plugins.cards.update_value(player.cards, 'card_seat' + player.seat, id);
+            var update = function() {
+                jpoker.plugins.cards.update_value(player.cards, 'card_seat' + player.seat, id);
+            };
 	    $('#seat' + player.seat + id).addClass('jpoker_player_dealt');
-	    if (player.cards.dealt === true) {
-		jpoker.plugins.player.callback.animation.deal_card(player, id);
-	    }
+	    if(player.cards.dealt === true) {
+		jpoker.plugins.player.callback.animation.deal_card(player, id, undefined, update);
+	    } else {
+                update();
+            }
             break;
 
 	    case 'PacketPokerBestCards':

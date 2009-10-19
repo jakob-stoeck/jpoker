@@ -6709,7 +6709,6 @@ test("jpoker.plugins.player: sounds preferences", function(){
          expect(12);
          var server = jpoker.serverCreate({ url: 'url' });
          
-         var server = jpoker.serverCreate({ url: 'url' });
          var place = $("#main");
          var id = 'jpoker' + jpoker.serial;
          var game_id = 100;
@@ -6778,6 +6777,7 @@ test("jpoker.plugins.player: animation", function(){
 	var player_name = 'dummy';
 
         table.handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, name: player_name, game_id: game_id });
+	var player = server.tables[game_id].serial2player[player_serial];
 	table.betLimit = {
             min:   5,
             max:   10,
@@ -6795,7 +6795,7 @@ test("jpoker.plugins.player: animation", function(){
 	};
 	table.handler(server, game_id, {"type":"PacketPokerChipsPlayer2Bet","length":15,"cookie":"","game_id":game_id,"serial":player_serial,"chips":[10000,2]});
 	var player_deal_card = jpoker.plugins.player.callback.animation.deal_card;
-	jpoker.plugins.player.callback.animation.deal_card = function(player, id) {
+	jpoker.plugins.player.callback.animation.deal_card = function(player, id, duration, callback) {
 	    player_deal_card(player, id);
 	    ok(true, 'player deal card animation');
 	};
@@ -6841,7 +6841,7 @@ test("jpoker.plugins.player: animation", function(){
     });
 
 test("jpoker.plugins.player: animation deal_card", function(){
-        expect(6);
+        expect(8);
 	stop();
 
         var server = jpoker.serverCreate({ url: 'url' });
@@ -6871,17 +6871,21 @@ test("jpoker.plugins.player: animation deal_card", function(){
 	table.handler(server, game_id, { type: 'PacketPokerSelfInPosition', serial: player_serial, game_id: game_id });
 
 	var player_deal_card = jpoker.plugins.player.callback.animation.deal_card;
-	jpoker.plugins.player.callback.animation.deal_card = function(player, id, element) {
+	jpoker.plugins.player.callback.animation.deal_card = function(player, id, duration, callback) {
 	    var dealer = $('#dealer' + player.seat + id);
 	    var hole = $('#player_seat'+ player.seat + '_hole' + id);
 	    var holeOffsetBefore = hole.getOffset();
 	    player_deal_card(player, id, 100, function() {
-		    equals(hole.getOffset().top, holeOffsetBefore.top, 'move to hole top');
-		    equals(hole.getOffset().left, holeOffsetBefore.left, 'move to hole left');
-		    equals(hole.css('opacity'), 1.0, 'opacity 1');
-		    jpoker.plugins.player.callback.animation.deal_card = player_deal_card;		    
-		    start_and_cleanup();
-		});
+		                 equals(hole.getOffset().top, holeOffsetBefore.top, 'move to hole top');
+		                 equals(hole.getOffset().left, holeOffsetBefore.left, 'move to hole left');
+		                 equals(hole.css('opacity'), 1.0, 'opacity 1');
+                                 var card = $("#card_seat" + player_seat + "0" + id);
+                                 equals(card.hasClass('jpoker_card_3h'), false, 'card_3h class');
+                                 callback.call(0);
+                                 equals(card.hasClass('jpoker_card_3h'), true, 'card_3h class');
+		                 jpoker.plugins.player.callback.animation.deal_card = player_deal_card;		    
+		                 start_and_cleanup();
+		             });
 	    equals(Math.round(hole.getOffset().top + hole.height()/2.0 -  dealer.height()/2.0), dealer.getOffset().top, 'move from dealer top');
 	    equals(Math.round(hole.getOffset().left + hole.width()/2.0 -  dealer.width()/2.0), dealer.getOffset().left, 'move from dealer left');
 	    equals(hole.css('opacity'), 0.0, 'opacity 0');
@@ -7726,7 +7730,7 @@ test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
         equals(card.size(), 1, "seat 2, card 0 DOM element");
         equals(player.cards[0], null, "player card empty");
         table.handler(server, game_id, { type: 'PacketPokerPlayerCards', cards: [card_value], serial: player_serial, game_id: game_id });
-        equals(card.hasClass('jpoker_card_3h'), true, 'card_3h class');
+        equals(card.hasClass('jpoker_card_3h'), false, 'card_3h class not yet (animate)'); // because it is set after the animation is complete and this test is done in the animation related test. Here we just assert that the change is no happening right away
         equals(player.cards[0], card_value, "card in slot 0");
 	var seat_element = $('#seat' + player_seat + id);
 	equals(seat_element.hasClass('jpoker_player_dealt'), true, '.jpoker_player_dealt class');
@@ -9194,7 +9198,7 @@ test("jpoker.plugins.player: sitout", function(){
 
         // when PokerSitOut packet arrives, sitout button is hidden again
         sitout.show();
-        var table = server.tables[game_id];false
+        var table = server.tables[game_id];
         table.handler(server, game_id, { type: 'PacketPokerSitOut',
                     game_id: game_id,
                     serial: player_serial });
