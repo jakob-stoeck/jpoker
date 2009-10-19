@@ -4455,7 +4455,7 @@
             }
             $('#game_window' + id).addClass('jpoker_self');
 	    $('#sit_seat' + player.seat + id).removeClass('jpoker_self_get_seat');
-	    $('#player_seat' + player.seat + id).addClass('jpoker_player_self');
+	    $('#seat' + player.seat + id).addClass('jpoker_player_self');
         },
 
         leave: function(player, packet, id) {
