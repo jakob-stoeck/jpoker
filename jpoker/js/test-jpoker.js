@@ -8593,7 +8593,7 @@ test("jpoker.plugins.player: jpoker_self class", function(){
 	Z = jpoker.getServerTablePlayer('url', game_id, player_serial);
         ok($("#game_window" + id).hasClass('jpoker_self'), 'jpoker_self is set');
 	ok($("#game_window" + id).hasClass('jpoker_ptable'), 'jpoker_ptable');	
-        ok($("#player_seat" + Z.player.seat + id).hasClass('jpoker_player_self'), 'jpoker_player_self is set');
+        ok($("#seat" + Z.player.seat + id).hasClass('jpoker_player_self'), 'jpoker_player_self is set');
         Z.table.handler(Z.server, game_id, { type: 'PacketPokerPlayerLeave', seat: 2, serial: player_serial, game_id: game_id });
         equals($("#game_window" + id).hasClass('jpoker_self'), false, 'jpoker_self is not set');
         equals($("#player_seat" + Z.player.seat + id).hasClass('jpoker_player_self'), false, 'jpoker_player_self is not set');
