@@ -579,6 +579,9 @@ function jpoker_08_all(place) {
 	for(var k = 0; k < 10; k++) {	    
 	    packets.push({"besthand":1,"hand":"Flush Queen high","length":47,"cookie":"","board":[1,2,3,4,5],"bestcards":[2,3,4,5,7],"cards":[6,7],"game_id":game_id,"serial":player_serial+k,"type":"PacketPokerBestCards","side":""});
 	}
+	for(var k = 0; k < 10; k++) {	    
+	    packets.push({"type":"PacketPokerChipsPot2Player","pot":k,"length":21,"reason":"win","game_id":game_id,"serial":player_serial+k,"chips":[100,8,200,5,500,2]});
+	}
 	packets.push({ type: 'PacketPokerPlayerHandStrength', game_id: game_id, serial: player_serial, hand: 'Hand strength: High card Ten: Ts, 9d, 4h, 3d, 2s' });
 
         ActiveXObject.prototype.server = {
