@@ -2204,6 +2204,10 @@
 		this.notifyUpdate(packet);
 		break;
 
+		case 'PacketPokerChipsPot2Player':
+		this.notifyUpdate(packet);
+		break;
+
                 case 'PacketPokerSit':
                 this.sit_out = false;
                 this.notifyUpdate(packet);
@@ -3551,7 +3555,6 @@
 
             case 'PacketPokerPotChips':
 		var count = 0;
-		var previous;
 		for(var pot = 0; pot < table.pots.length; pot+=1) {
 		    if (table.pots[pot] !== 0) {
 			count += 1;
@@ -3985,6 +3988,10 @@
 	    jpoker.plugins.player.callback.animation.money2bet(player, id);
 	    break;
 
+	    case 'PacketPokerChipsPot2Player':
+	    jpoker.plugins.player.callback.animation.pot2money(player, id, packet);
+            break;
+
 	    case 'PacketPokerTimeoutWarning':
 	    case 'PacketPokerTimeoutNotice':
             if(server.serial == packet.serial) {
@@ -4265,6 +4272,25 @@
 		    pot_position.top += pots_offset.top;
 		    pot_position.top -= player_seat_offset.top;
 		    chip.css({opacity: 1}).animate({top: pot_position.top, left: pot_position.left, opacity: 0.0}, duration, callback ? function() {callback(remove_chip);} : remove_chip);
+		},
+		pot2money: function(player, id, packet, duration_arg, callback) {
+		    var duration = duration_arg ? duration_arg : 500;
+		    var pots = $('#pots' + id);
+		    var pots_offset = pots.getOffset();
+		    var pot = $('.jpoker_pot' + packet.pot, pots);
+		    var chip = pot.clone().insertAfter(pot).addClass('jpoker_pot2money_animation');
+		    var money_element = $('#player_seat' + player.seat + '_money' + id);
+		    var player_seat_offset = $('#player_seat'+ player.seat + id).getOffset();
+		    var money_position = money_element.getPosition();
+		    money_position.top += player_seat_offset.top;
+		    money_position.left += player_seat_offset.left;
+		    money_position.top -= pots_offset.top;
+		    money_position.left -= pots_offset.left;
+		    var remove_chip = function() {
+			chip.remove();
+		    };
+		    pot.hide();
+		    chip.css({opacity: 1, position: 'absolute'}).animate({top: money_position.top, left: money_position.left, opacity: 0.0}, duration, callback ? function() {callback(remove_chip);} : remove_chip);
 		}
 	    }
 	}
