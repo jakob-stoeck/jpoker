@@ -4273,24 +4273,29 @@
 		    pot_position.top -= player_seat_offset.top;
 		    chip.css({opacity: 1}).animate({top: pot_position.top, left: pot_position.left, opacity: 0.0}, duration, callback ? function() {callback(remove_chip);} : remove_chip);
 		},
-		pot2money: function(player, id, packet, duration_arg, callback) {
+		pot2money: function(player, id, packet, duration_arg, callback, hook) {
 		    var duration = duration_arg ? duration_arg : 500;
 		    var pots = $('#pots' + id);
 		    var pots_offset = pots.getOffset();
-		    var pot = $('.jpoker_pot' + packet.pot, pots);
-		    var chip = pot.clone().insertAfter(pot).addClass('jpoker_pot2money_animation');
+		    var pot = $('.jpoker_pot' + packet.pot, pots).not('.jpoker_pot2money_animation');
+		    var chip = pot.show().clone().insertAfter(pot).addClass('jpoker_pot2money_animation');
 		    var money_element = $('#player_seat' + player.seat + '_money' + id);
 		    var player_seat_offset = $('#player_seat'+ player.seat + id).getOffset();
 		    var money_position = money_element.getPosition();
-		    money_position.top += player_seat_offset.top;
-		    money_position.left += player_seat_offset.left;
-		    money_position.top -= pots_offset.top;
-		    money_position.left -= pots_offset.left;
+		    var pot_position = pot.getPosition();
 		    var remove_chip = function() {
 			chip.remove();
 		    };
 		    pot.hide();
-		    chip.css({opacity: 1, position: 'absolute'}).animate({top: money_position.top, left: money_position.left, opacity: 0.0}, duration, callback ? function() {callback(remove_chip);} : remove_chip);
+		    money_position.top += player_seat_offset.top;
+		    money_position.left += player_seat_offset.left;
+		    money_position.top -= pots_offset.top;
+		    money_position.left -= pots_offset.left;
+		    chip.css({opacity: 1, position: 'absolute', top: pot_position.top, left: pot_position.left});
+		    if (hook !== undefined) {
+			hook(chip);
+		    }
+		    chip.animate({top: money_position.top, left: money_position.left, opacity: 0.0}, duration, callback ? function() {callback(remove_chip, chip);} : remove_chip);
 		}
 	    }
 	}
