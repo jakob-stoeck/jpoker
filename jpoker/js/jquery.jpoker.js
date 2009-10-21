@@ -3523,7 +3523,7 @@
                 break;
 
             case 'PacketPokerUserInfo':
-                jpoker.plugins.playerSelf.rebuy(url, game_id, serial);		
+                jpoker.plugins.playerSelf.rebuy(url, game_id, serial, id);
                 break;
 
 	    case 'PacketPokerState':
@@ -4298,7 +4298,7 @@
             rebuy.click(function() {
                     var server = jpoker.getServer(url);
                     if(server && server.loggedIn()) {
-                        var element = jpoker.plugins.playerSelf.rebuy(url, game_id, serial);
+                        var element = jpoker.plugins.playerSelf.rebuy(url, game_id, serial, id);
                         if(element) {
                             element.dialog('open');
                             server.getUserInfo();
@@ -4488,7 +4488,8 @@
         
         rebuy_options: { width: 'none', height: 'none', autoOpen: false, resizable: false },
 
-        rebuy: function(url, game_id, serial) {
+        rebuy: function(url, game_id, serial, id) {
+	    var server = jpoker.getServer(url);
             var player = jpoker.getPlayer(url, game_id, serial);
             if(!player) {
                 return false;
@@ -4515,8 +4516,11 @@
                         'current': jpoker.chips.SHORT(limits[1]),
 			'title' : Math.floor(limits[1]*100),
                         'max': jpoker.chips.SHORT(limits[2]),
-                        'label': label
+                        'label': label,
+			'auto_sitin_label': _("Sit in")
                     }));
+	    $('.jpoker_auto_sitin input', rebuy).each(function() { this.checked = server.preferences.auto_sitin; });
+
             $('.jpoker_rebuy_action', rebuy).click(function() {
                     var server = jpoker.getServer(url);
                     if(server) {
@@ -4527,6 +4531,10 @@
 					'game_id': table.id,
 					'amount': parseInt($('.jpoker_rebuy_current', rebuy).attr('title'), 10)
 					});
+			    if ($('.jpoker_auto_sitin input', rebuy).is(':checked')) {
+				$('#sitin' + id).click();
+			    }
+			    server.preferences.auto_sitin = $('.jpoker_auto_sitin input', rebuy).is(':checked');
 			} else {
 			    jpoker.error('rebuy with NaN amount: ' + $('.jpoker_rebuy_current', rebuy).attr('title'));
 			}
@@ -4876,7 +4884,7 @@
         },
 
         templates: {
-            rebuy: '<div class=\'jpoker_rebuy_bound jpoker_rebuy_min\'>{min}</div><div class=\'ui-slider-1\'><div class=\'ui-slider-handle\'></div></div><div class=\'jpoker_rebuy_current\' title=\'{title}\'>{current}</div><div class=\'jpoker_rebuy_bound jpoker_rebuy_max\'>{max}</div><div class=\'ui-dialog-buttonpane\'><button class=\'jpoker_rebuy_action\'>{label}</button></div>',
+            rebuy: '<div class=\'jpoker_rebuy_bound jpoker_rebuy_min\'>{min}</div><div class=\'ui-slider-1\'><div class=\'ui-slider-handle\'></div></div><div class=\'jpoker_rebuy_current\' title=\'{title}\'>{current}</div><div class=\'jpoker_rebuy_bound jpoker_rebuy_max\'>{max}</div><div class=\'ui-dialog-buttonpane\'><button class=\'jpoker_rebuy_action\'>{label}</button></div><div class=\'jpoker_auto_sitin\'><input name=\'jpoker_auto_sitin\' type=\'checkbox\'></input><label for=\'jpoker_auto_sitin\'>{auto_sitin_label}</label></div>',
 	    auto_action: '<div class=\'jpoker_auto_check_fold jpoker_auto_action\'><label for=\'auto_check_fold{id}\'>{auto_check_fold_label}</label><input type=\'checkbox\' name=\'auto_check_fold\' id=\'auto_check_fold{id}\' /></div><div class=\'jpoker_auto_check jpoker_auto_action\'><label for=\'auto_check{id}\'>{auto_check_label}</label><input type=\'checkbox\' name=\'auto_check\' id=\'auto_check{id}\' /></div><div class=\'jpoker_auto_call jpoker_auto_action\'><label for=\'auto_call{id}\'>{auto_call_label} <span class=\'jpoker_call_amount\'></span></label><input type=\'checkbox\' name=\'auto_call\' id=\'auto_call{id}\' /></div><div class=\'jpoker_auto_check_call jpoker_auto_action\'><label for=\'auto_check_call{id}\'>{auto_check_call_label}</label><input type=\'checkbox\' name=\'auto_check_call\' id=\'auto_check_call{id}\' /></div><div class=\'jpoker_auto_raise jpoker_auto_action\'><label for=\'auto_raise{id}\'>{auto_raise_label}</label><input type=\'checkbox\' name=\'auto_raise\' id=\'auto_raise{id}\' /></div>',
 	    hand_strength: '<span class=\'jpoker_hand_strength_label\'>{label}</span> <span class=\'jpoker_hand_strength_value\'></span>',
             action: '<div class=\'jpoker_button\'><a href=\'javascript://\'>{action}</a></div>',
@@ -5630,6 +5638,7 @@
     jpoker.preferences.prototype = {
 	auto_muck_win: true,
 	auto_muck_lose: true,
+	auto_sitin: true,
         sound: true
     };
 

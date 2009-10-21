@@ -8617,7 +8617,7 @@ test("jpoker.plugins.player: jpoker_self class", function(){
     });
 
 test("jpoker.plugins.player: rebuy", function(){
-        expect(19);
+        expect(25);
 
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
@@ -8646,16 +8646,28 @@ test("jpoker.plugins.player: rebuy", function(){
         equals($(".jpoker_rebuy_min", rebuy).html(), min, 'min');
         equals($(".jpoker_rebuy_current", rebuy).html(), best, 'best');
         equals($(".jpoker_rebuy_max", rebuy).html(), max, 'max');
+	equals($(".jpoker_auto_sitin label", rebuy).length, 1);
+	equals($(".jpoker_auto_sitin input", rebuy).length, 1);
+	equals($(".jpoker_auto_sitin input", rebuy).is(":checked"), true);
+    	var server_preferences_auto_sitin = server.preferences.auto_sitin;
+	equals(server_preferences_auto_sitin, true);
+	var sitin_clicked = function() {
+	    ok(true, 'sitin should be called because checked by default');
+	};
+        $("#sitin" + id).click(function() {
+	    sitin_clicked();
+	});
+
         
         var sent;
         sent = false;
         sendPacket = server.sendPacket;
         server.sendPacket = function(packet) {
+            server.sendPacket = sendPacket;
             equals(packet.type, 'PacketPokerBuyIn');
             sent = true;
         };
         $("button", rebuy).click();
-        server.sendPacket = sendPacket;
         equals(sent, true, 'BuyIn packet sent');
         equals(rebuy.parents().is(':hidden'), true, 'dialog hidden');
 
@@ -8677,18 +8689,27 @@ test("jpoker.plugins.player: rebuy", function(){
         $('.ui-slider-handle', slider).parent().triggerKeydown("37");
         equals($(".jpoker_rebuy_current", rebuy).html(), min+10 - 0.02, 'value changed');
 
+	$(".jpoker_auto_sitin input", rebuy)[0].checked = false;
+	sitin_clicked = function() {
+	    ok(false, 'sitin should not be called if unchecked');
+	};
+
+
         // click
         sent = false;
         sendPacket = server.sendPacket;
         server.sendPacket = function(packet) {
+	    server.sendPacket = sendPacket;
             equals(packet.type, 'PacketPokerRebuy');
             sent = true;
         };
         $("button", rebuy).click();
-        server.sendPacket = sendPacket;
         equals(sent, true, 'Rebuy packet sent');
         equals(rebuy.parents().is(':hidden'), true, 'dialog hidden');
-
+    
+	equals(server.preferences.auto_sitin, false, 'auto_sitin preferences should be updated');
+	server.preferences.auto_sitin = server_preferences_auto_sitin;
+    
         cleanup(id);
     });
 
@@ -8720,12 +8741,12 @@ test("jpoker.plugins.player: rebuy bug: low buy in limits should not be truncate
         sent = false;
         sendPacket = server.sendPacket;
         server.sendPacket = function(packet) {
+            server.sendPacket = sendPacket;
             sent = true;
 	    equals(packet.amount, 220);
         };
 
         $("button", rebuy).click();
-        server.sendPacket = sendPacket;
         equals(sent, true, 'BuyIn packet sent');
         equals(rebuy.parents().is(':hidden'), true, 'dialog hidden');
 
@@ -8762,12 +8783,12 @@ test("jpoker.plugins.player: rebuy bug: high buy in limit should be formatted", 
         sent = false;
         sendPacket = server.sendPacket;
         server.sendPacket = function(packet) {
+            server.sendPacket = sendPacket;
             sent = true;	    
 	    equals(packet.amount, 2000000);
         };
 
         $("button", rebuy).click();
-        server.sendPacket = sendPacket;
         equals(sent, true, 'BuyIn packet sent');
         equals(rebuy.parents().is(':hidden'), true, 'dialog hidden');
         cleanup(id);
