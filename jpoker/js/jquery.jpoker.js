@@ -2284,8 +2284,8 @@
 
 		case 'PacketPokerSit':
 		case 'PacketPokerSitOut':
-                    if('sit_out_sent' in this) {
-                        delete this.sit_out_sent;
+                    if('sit_out_fold_sent' in this) {
+                        delete this.sit_out_fold_sent;
                     }
                 break;
 
@@ -4351,8 +4351,27 @@
             $('#sitout' + id).click(function() {
                     var info = jpoker.getServerTablePlayer(url, table.id, serial);
                     if(info.server && info.server.loggedIn()) {
-                        info.player.sit_out_sent = true;
                         server.sendPacket({ 'type': 'PacketPokerSitOut',
+                                    'game_id': table.id,
+                                    'serial': serial });
+                        $(this).hide();
+                    }
+                    return false;
+                }).hover(function(){
+			$(this).addClass('hover');
+		    },function(){
+			$(this).removeClass('hover');
+		    });
+	    
+	    
+            $('<div id=\'sitout_fold' + id  + '\'>').insertAfter('#sitout' + id).addClass('jpoker_ptable_sitout_fold').html(jpoker.plugins.playerSelf.templates.sitout.supplant({ sitout: _("fold/sit out") })).click(function() {
+                var info = jpoker.getServerTablePlayer(url, table.id, serial);
+                    if(info.server && info.server.loggedIn()) {
+                        info.player.sit_out_fold_sent = true;
+                        server.sendPacket({ 'type': 'PacketPokerSitOut',
+                                    'game_id': table.id,
+                                    'serial': serial });
+                        server.sendPacket({ 'type': 'PacketPokerFold',
                                     'game_id': table.id,
                                     'serial': serial });
                         $(this).hide();
@@ -4503,6 +4522,7 @@
         leave: function(player, packet, id) {
 	    var game_window = $('#game_window' + id);
             $('#sitout' + id).hide();
+            $('#sitout_fold' + id).hide();
             $('#rebuy' + id).hide();
 	    $('#options' + id).hide();
             $('.jpoker_chat_input', game_window).hide();
@@ -4655,6 +4675,7 @@
                     }
                 });
             $('#sitout' + id).show();
+            $('#sitout_fold' + id).show();
 	    $('#sitin' + id).hide();
         },
 
@@ -4685,6 +4706,7 @@
                     }
                 });
             $('#sitout' + id).hide();
+            $('#sitout_fold' + id).hide();
 	    $('#sitin' + id).show();
         },
 
@@ -4734,6 +4756,11 @@
 	    var auto_raise_input = $('input[name=auto_raise]', auto_action_element);
 	    var auto_check_input = $('input[name=auto_check]', auto_action_element);
 	    var auto_call_input = $('input[name=auto_call]', auto_action_element);
+
+	    if (player.sit_out_fold_sent) {
+		send('Fold');
+	    }
+
 	    if (auto_check_fold_input.is(':checked')) {
 		if (betLimit.call > 0) {
 		    send('Fold');

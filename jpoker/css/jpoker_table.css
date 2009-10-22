@@ -537,3 +537,11 @@
 .jpoker_table .jpoker_auto_muck_win {
     float: left;
 }
+
+
+.jpoker_table .jpoker_ptable_sitout_fold { width:67px; height:20px; position:absolute; top:408px; left:435px; background-image:url("images/jpoker_table/menu-button.gif");
+}
+
+.jpoker_table .jpoker_ptable_sitout_fold .jpoker_sitout {
+    text-transform: none;
+}

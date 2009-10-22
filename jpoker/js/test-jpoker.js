@@ -9328,7 +9328,7 @@ test("jpoker.plugins.userInfo avatar upload failed", function(){
     });
 
 test("jpoker.plugins.player: sitout", function(){
-        expect(11);
+        expect(7);
 
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
@@ -9346,8 +9346,6 @@ test("jpoker.plugins.player: sitout", function(){
         server.sendPacket = function(packet) {
             if(packet.type == 'PacketPokerSitOut') {
                 sent = true;
-                equals('sit_out_sent' in player, true, 'sit_out_sent has been added');
-                equals(player.sit_out_sent, true, 'sit_out_sent is true');
             }
         };
         sitout.click();
@@ -9360,16 +9358,71 @@ test("jpoker.plugins.player: sitout", function(){
         table.handler(server, game_id, { type: 'PacketPokerSitOut',
                     game_id: game_id,
                     serial: player_serial });
-        equals('sit_out_sent' in player, false, 'SitOut => sit_out_sent has been removed');
         equals(sitout.is(':hidden'), true, 'sitout button hidden');
-        player.sit_out_sent = true;
+        
+        cleanup(id);
+    });
+
+test("jpoker.plugins.player: sitout fold", function(){
+        expect(16);
+
+        var id = 'jpoker' + jpoker.serial;
+        var player_serial = 1;
+        var game_id = 100;
+        var money = 1000;
+        _SelfPlayerSit(game_id, player_serial, money);
+        var server = jpoker.getServer('url');
+        var player = jpoker.getPlayer('url', game_id, player_serial);
+
+        // click on sitout, packet sent and sitout button hides
+        var sitout = $("#sitout_fold" + id);
+        equals(sitout.length, 1);
+        equals(sitout.is(':visible'), true, 'sitout button visible');
+        var sent = false;
+        sendPacket = server.sendPacket;
+	var packets = [];
+        server.sendPacket = function(packet) {
+	    packets.push(packet);
+        };
+        sitout.click();
+        equals('sit_out_fold_sent' in player, true, 'sit_out_fold_sent has been added');
+        equals(player.sit_out_fold_sent, true, 'sit_out_sent is true');    
+	equals(packets.length, 2);
+	equals(packets[0].type, 'PacketPokerSitOut');
+	equals(packets[1].type, 'PacketPokerFold');
+        equals(sitout.is(':hidden'), true, 'sitout button hidden');
+
+        var table = server.tables[game_id];
+        table.betLimit = {
+            min:   5000,
+            max:   10000,
+            step:  1000,
+            call:  10000,
+            allin:40000,
+            pot:  20000
+        };
+        table.handler(server, game_id, { type: 'PacketPokerSelfInPosition',
+                    game_id: game_id,
+                    serial: player_serial });
+	equals(packets.length, 3);
+	equals(packets[2].type, 'PacketPokerFold');
+
+        // when PokerSitOut packet arrives, sitout button is hidden again
+        sitout.show();
+        table.handler(server, game_id, { type: 'PacketPokerSitOut',
+                    game_id: game_id,
+                    serial: player_serial });
+        equals('sit_out_fold_sent' in player, false, 'SitOut => sit_out_fold_sent has been removed');
+        equals(sitout.is(':hidden'), true, 'sitout button hidden');
+        player.sit_out_fold_sent = true;
         table.handler(server, game_id, { type: 'PacketPokerSit',
                     game_id: game_id,
                     serial: player_serial });
         
-        equals('sit_out_sent' in player, false, 'Sit => sit_out_sent has been removed');
+        equals('sit_out_fold_sent' in player, false, 'Sit => sit_out_fold_sent has been removed');
         cleanup(id);
     });
+
 
 test("jpoker.plugins.player: sitin", function(){
         expect(8);
