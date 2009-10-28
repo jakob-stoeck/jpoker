@@ -4593,7 +4593,7 @@
                     rebuy.dialog('close');
                 });
             $('.ui-slider-1', rebuy).slider({
-                    min: limits[0],
+                    min: limits[0]*100,
                         startValue: limits[1]*100,
                         max: limits[2]*100,
                         stepping: 1,

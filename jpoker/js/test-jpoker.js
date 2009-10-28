@@ -8804,10 +8804,10 @@ test("jpoker.plugins.player: rebuy", function(){
         // value change
         var slider = $('.ui-slider-1', rebuy);
         $('.ui-slider-handle').css('width', 1); // there is no graphics, size is undefined
+        slider.slider("moveTo", "-=1000000000");
+        equals($(".jpoker_rebuy_current", rebuy).html(), min, 'min value');
         slider.slider("moveTo", "+=" + min*100);
-        equals($(".jpoker_rebuy_current", rebuy).html(), min, 'value changed');
-        slider.slider("moveTo", "+=1000");
-        equals($(".jpoker_rebuy_current", rebuy).html(), min+10, 'value changed');
+        equals($(".jpoker_rebuy_current", rebuy).html(), min*2, '10 above min');
         $('.ui-slider-handle', slider).parent().triggerKeydown("37");
         equals($(".jpoker_rebuy_current", rebuy).html(), min+10 - 0.01, 'value changed');
         $('.ui-slider-handle', slider).parent().triggerKeydown("37");
