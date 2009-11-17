@@ -18,11 +18,13 @@ $.fn.triggerKeypress = function(keyCode) {
     return this.trigger("keypress", [$.event.fix({event:"keypress", keyCode: keyCode, target: this[0]})]);
 };
 
+var ActiveXObject;
+var jpoker_skin_override_xhr = function() {
 if(!window.ActiveXObject) {
     window.ActiveXObject = true;
 }
 
-var ActiveXObject = function(options) {
+ActiveXObject = function(options) {
     $.extend(this, ActiveXObject.defaults, options);
     this.headers = [];
 };
@@ -72,12 +74,14 @@ ActiveXObject.prototype = {
         handle: function(packet) { }
     }
 };
+};
 
 explain = true;
 
 $.jpoker.doReconnect = false;
 
 function setUp() {
+    jpoker_skin_override_xhr();
     $.jpoker.verbose = 1;
 
     $('.skinclean').empty();
