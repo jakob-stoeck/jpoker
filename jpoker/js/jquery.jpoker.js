@@ -1256,6 +1256,41 @@
             },
 
             //
+            // table information
+            //
+            tableInformation: function(game_id, callback) {
+                this.queueRunning(function(server) {
+                                      server.setState(server.TABLE_JOIN, 'tableInformation');
+                                      var users = {};
+                                      var spawnTable = server.spawnTable;
+                                      var handler = function(server, game_id, packet) {
+                                          if(packet.type == 'PacketPokerPlayerArrive') {
+                                              users[packet.serial] = { name: packet.name, seat: packet.seat, serial: packet.serial };
+                                          } else if(packet.type == 'PacketPokerPlayerChips') {
+                                              users[packet.serial]['chips'] = packet.money;
+                                          } else if(packet.type == 'PacketPokerStreamMode') {
+                                              server.spawnTable = spawnTable;
+                                              server.tables[game_id].handler(server, game_id,
+                                                                             { type: 'PacketPokerTableDestroy',
+						                               game_id: game_id });
+                                              server.setState(server.RUNNING, 'tableInformation');
+                                              var table_info = [];
+                                              for(serial in users) {
+                                                  table_info.push(users[serial]);
+                                              }
+                                              callback(server, table_info);
+                                              return false;
+                                          }
+                                          return true;
+                                      };
+                                      server.spawnTable = function() { };
+                                      server.registerHandler(game_id, handler);
+                                      server.sendPacket({ type: 'PacketPokerTableJoin',
+                                                          game_id: game_id });
+                                  });
+            },
+
+            //
             // tourneys lists
             //
             refreshTourneys: function(string, options) {

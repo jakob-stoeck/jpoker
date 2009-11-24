@@ -900,6 +900,36 @@ test("jpoker.server.refreshTourneyDetails waiting", function(){
 	equals(server.callbacks[0][0], callback, 'refreshTourneyDetails callback still in place');
     });
 
+test("jpoker.server.tableInformation", function(){
+         expect(5);
+         stop();
+         var PokerServer = function() {};
+
+         var game_id = 6;
+         PokerServer.prototype = {
+             outgoing: '[{"observers": 1, "name": "Paris", "waiting": 0, "percent_flop": 77, "average_pot": 304750, "skin": "default", "variant": "holdem", "hands_per_hour": 20, "betting_structure": "100-200-no-limit", "currency_serial": 1, "muck_timeout": 5, "players": 1, "reason": "TableJoin", "tourney_serial": 0, "seats": 10, "player_timeout": 60, "type": "PacketPokerTable", "id": 6}, {"count": 1, "game_ids": [6], "length": 9, "type": "PacketPokerCurrentGames"}, {"min": 200000, "max": 2000000, "rebuy_min": 30000, "length": 23, "game_id": 6, "type": "PacketPokerBuyInLimits", "best": 1000000}, {"game_id": 6, "serial": 0, "cookie": "", "type": "PacketPokerBatchMode"}, {"blind": true, "buy_in_payed": false, "wait_for": false, "name": "BOTyowtAc", "url": "random", "auto": false, "outfit": "random", "seat": 0, "cookie": "", "remove_next_turn": false, "sit_out": false, "game_id": 6, "serial": 90, "auto_blind_ante": true, "type": "PacketPokerPlayerArrive", "sit_out_next_turn": false}, {"game_id": 6, "type": "PacketPokerSeats", "seats": [90, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, {"cookie": "", "serial": 90, "percentile": null, "type": "PacketPokerPlayerStats", "rank": null}, {"money": 245000, "cookie": "", "game_id": 6, "serial": 90, "type": "PacketPokerPlayerChips", "bet": 0}, {"money": [1, 5000, 10000, 9, 25000, 4, 50000, 1], "length": 19, "game_id": 6, "serial": 90, "type": "PacketPokerClientPlayerChips", "bet": []}, {"game_id": 6, "serial": 90, "cookie": "", "type": "PacketPokerSit"}, {"game_id": 6, "serial": 0, "cookie": "", "type": "PacketPokerStreamMode"}]',
+
+             handle: function(packet) { 
+                equals(packet, '{"type":"PacketPokerTableJoin","game_id":' + game_id + '}');
+             }
+         };
+
+         ActiveXObject.prototype.server = new PokerServer();
+
+         var callback = function(server, users) {
+             equals(users[0].chips, 245000);
+             equals(users[0].name, 'BOTyowtAc');
+             equals(users[0].serial, 90);
+             equals(users[0].seat, 0);
+             equals(server.spawnTable, 'fake');
+             equals(server.state, server.RUNNING);
+             start_and_cleanup();
+         };
+         var server = jpoker.serverCreate({ url: 'url' });
+         server.spawnTable = 'fake';
+         server.tableInformation(game_id, callback);
+});
+
 test("jpoker.server.rejoin", function(){
         expect(6);
         stop();
