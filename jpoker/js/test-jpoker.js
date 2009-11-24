@@ -901,7 +901,7 @@ test("jpoker.server.refreshTourneyDetails waiting", function(){
     });
 
 test("jpoker.server.tableInformation", function(){
-         expect(5);
+         expect(8);
          stop();
          var PokerServer = function() {};
 
@@ -928,6 +928,7 @@ test("jpoker.server.tableInformation", function(){
          var server = jpoker.serverCreate({ url: 'url' });
          server.spawnTable = 'fake';
          server.tableInformation(game_id, callback);
+         equals(server.state, server.TABLE_JOIN);
 });
 
 test("jpoker.server.rejoin", function(){
