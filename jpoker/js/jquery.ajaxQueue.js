@@ -80,8 +80,6 @@ $(function(){
        // save the pointer to ajax to be able to reset the queue
        $.ajax_queue = $.ajax;
 
-	var ajax = $.ajax;
-	
 	var pendingRequests = {};
 	
 	var synced = [];
@@ -100,9 +98,9 @@ $(function(){
 					result = _error.apply( this, arguments );
                                 }
 				if (result === undefined) {
-				        jQuery([ajax]).dequeue("ajax");
+				        jQuery([$.ajax_queue]).dequeue("ajax");
 				} else {
-				        ajax( settings );
+				        $.ajax_queue( settings );
 				}
 			};
 			var _success = settings.success;
@@ -110,10 +108,10 @@ $(function(){
                                 if ( _success ) {
 					_success.apply( this, arguments );
                                 }
-				jQuery([ajax]).dequeue("ajax");
+				jQuery([$.ajax_queue]).dequeue("ajax");
 			};
 		
-			jQuery([ ajax ]).queue("ajax", function(){
+			jQuery([ $.ajax_queue ]).queue("ajax", function(){
                                 //
                                 // Allow cross domain requests when the protocol of 
                                 // an XmlHTTPRequest is not http. This must be done before each XmlHTTPRequest call,
@@ -127,7 +125,7 @@ $(function(){
                                 if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1) {
                                     window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
                                 }
-				ajax( settings );
+				$.ajax_queue( settings );
 			});
 			return undefined;
 		case "sync":
@@ -166,7 +164,7 @@ $(function(){
                 if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1) {
                     window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
                 }
-		return ajax.apply(this, arguments);
+		return $.ajax_queue.apply(this, arguments);
 	};
 	
 })(jQuery);
