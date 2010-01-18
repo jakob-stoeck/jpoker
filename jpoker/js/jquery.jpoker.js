@@ -1271,7 +1271,7 @@
                                           if(packet.type == 'PacketPokerPlayerArrive') {
                                               users[packet.serial] = { name: packet.name, seat: packet.seat, serial: packet.serial };
                                           } else if(packet.type == 'PacketPokerPlayerChips') {
-                                              users[packet.serial]['chips'] = packet.money;
+                                              users[packet.serial].chips = packet.money;
                                           } else if(packet.type == 'PacketPokerStreamMode') {
                                               server.spawnTable = spawnTable;
                                               server.tables[game_id].handler(server, game_id,
