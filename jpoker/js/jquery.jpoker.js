@@ -631,6 +631,7 @@
             TOURNEY_DETAILS: 'retrieving tourney details',
             TABLE_JOIN: 'joining table',
 	    TABLE_PICK: 'picking table',
+	    TABLE_QUIT: 'quitting table',
 	    TOURNEY_REGISTER: 'updating tourney registration',
 	    PERSONAL_INFO: 'getting personal info',
 	    CREATE_ACCOUNT: 'creating account',
@@ -802,14 +803,14 @@
                 }
             },
 
-            sendPacket: function(packet) {
+            sendPacket: function(packet, callback) {
                 if(this.pendingLongPoll) {
                     if(jpoker.verbose > 0) {
                         jpoker.message('sendPacket PacketPokerLongPollReturn');
                     }
                     this.sendPacketAjax({ type: 'PacketPokerLongPollReturn' }, 'direct');
                 }
-                this.sendPacketAjax(packet, 'queue');
+                this.sendPacketAjax(packet, 'queue', callback);
                 if(packet.type == 'PacketPokerLongPoll') {
                     this.pendingLongPoll = true;
                 }
@@ -823,7 +824,7 @@
                 this.queueIncoming(data);
             },
 
-            sendPacketAjax: function(packet, mode) {
+            sendPacketAjax: function(packet, mode, callback) {
                 var $this = this;
                 var json_data = JSON.stringify(packet);
                 if(jpoker.verbose > 0) {
@@ -847,6 +848,9 @@
                         if(packet_type != 'PacketPokerLongPollReturn') {
                             $this.receivePacket(data);
                         }
+			if (callback !== undefined) {
+			    callback(data, status);
+			}
                     },
                     error: function(xhr, status, error) {
                         if(status == 'timeout') {
@@ -1488,6 +1492,19 @@
 					return false;
 				    }
 				    return true;
+				});
+			});
+		}
+            },
+
+            tableQuit: function(game_id) {
+		if (this.loggedIn() === false) {
+		    jpoker.dialog(_("User must be logged in"));
+		} else {
+		    this.queueRunning(function(server) {
+			    server.setState(server.TABLE_QUIT);
+			    server.sendPacket({ type: 'PacketPokerTableQuit', game_id: game_id }, function() {
+				    server.setState(server.RUNNING, 'PacketPokerTableQuit');
 				});
 			});
 		}
@@ -3379,13 +3396,11 @@
                     var server = jpoker.getServer(url);
 		    var table = jpoker.getTable(url, game_id);
 		    if(server) {
-			server.sendPacket({ type: 'PacketPokerTableQuit', game_id: game_id });
-			server.setTimeout(function() {
-				server.queueRunning(function(server) {
-					table.handler(server, game_id, { type: 'PacketPokerTableDestroy',
-						    game_id: game_id });
-				    });
-			    }, 1);
+			server.tableQuit(game_id);
+			server.queueRunning(function(server) {
+				table.handler(server, game_id, { type: 'PacketPokerTableDestroy',
+					    game_id: game_id });
+			    });
 		    }
                 }).hover(function(){
 			$(this).addClass('hover');
@@ -3764,7 +3779,7 @@
 	    var server = jpoker.getServer(table.url);
 	    server.tourneyRowClick(server, {name: '', game_id: table.tourney_serial});
 	},
-	quit: function(table) {
+	quit: function(table, packet) {
 	},
 	display_done: function(element) {
 	},

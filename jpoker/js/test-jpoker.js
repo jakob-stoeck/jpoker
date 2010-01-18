@@ -2063,6 +2063,55 @@ test("jpoker.server.tablePick waiting", function(){
 	equals(server.callbacks[0][0], callback, 'tablePick callback still in place');
     });
 
+
+test("jpoker.server.tableQuit", function(){
+        expect(3);
+	stop();
+	var player_serial = 42;
+	var game_id = 100;
+
+        var PokerServer = function() {};
+
+        PokerServer.prototype = {
+            outgoing: '[]',
+
+            handle: function(packet) { }
+        };
+
+        ActiveXObject.prototype.server = new PokerServer();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+	server.serial = player_serial;
+	var sendPacket = server.sendPacket;
+        server.sendPacket = function(packet, callback) {
+	    if (packet.type == 'PacketPokerTableQuit') {		
+		equals(packet.game_id, game_id);
+		equals(server.state, server.TABLE_QUIT);
+		callback();
+		equals(server.state, server.RUNNING);
+		server.queueRunning(start_and_cleanup);
+	    }
+        };
+        server.tableQuit(game_id);
+    });
+
+test("jpoker.server.tableQuit not logged", function(){
+        expect(1);
+	stop();
+
+        var server = jpoker.serverCreate({ url: 'url' });
+
+        server.serial = 0;
+
+        var dialog = jpoker.dialog;
+        jpoker.dialog = function(message) {
+            equals(message.indexOf("must be logged in") >= 0, true, "should be logged");
+            jpoker.dialog = dialog;
+            start_and_cleanup();
+        };	
+        server.tableQuit(100);
+    });
+
 test("jpoker.server.setInterval", function(){
 	expect(1);
 	stop();
@@ -2543,6 +2592,26 @@ test("jpoker.connection:sendPacket", function(){
         equals(handled[2].type, type);
         equals(self.connected(), true, "connected()");
     });
+
+test("jpoker.connection:sendPacket callback", function(){
+         expect(1);
+	 stop();
+         var PokerServer = function() {};
+
+         PokerServer.prototype = {
+             outgoing: '[]',
+
+             handle: function(packet) { }
+         };
+
+         ActiveXObject.prototype.server = new PokerServer();
+	 
+         var self = new jpoker.connection();
+         self.sendPacket({ type: 'foo'}, function() {
+		 ok(true, 'callback called');
+		 start_and_cleanup();
+	     });
+     });
 
 test("jpoker.connection:dequeueIncoming clearTimeout", function(){
         expect(1);
@@ -5870,12 +5939,13 @@ test("jpoker.plugins.table: PacketPokerBoardCards", function(){
     });
 
 test("jpoker.plugins.table: PacketPokerTableQuit", function(){
-        expect(6);
+        expect(7);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
+	server.serial = 42;
 
         var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
@@ -5887,7 +5957,9 @@ test("jpoker.plugins.table: PacketPokerTableQuit", function(){
         server.sendPacket = function(packet) {
             equals(packet.type, 'PacketPokerTableQuit');
             equals(packet.game_id, game_id);
+	    equals(server.state, server.TABLE_QUIT);
             sent = true;
+	    server.setState(server.RUNNING);
         };
         server.setTimeout = function(callback, delay) { callback(); };
         equals($("#game_window" + id).size(), 1, 'game element exists');
@@ -5977,7 +6049,6 @@ test("jpoker.plugins.table: quit callback PacketPokerTableMove", function(){
 	
 	place.jpoker('table', 'url', game_id);
         table.handler(server, game_id, { type: 'PacketPokerTableMove', game_id: game_id });
-        $("#quit" + id).click();
 	jpoker.plugins.table.callback.quit = callback;
 	start_and_cleanup();
     });
