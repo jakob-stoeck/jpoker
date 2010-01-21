@@ -4590,6 +4590,7 @@
         rebuy_options: { width: 'none', height: 'none', autoOpen: false, resizable: false },
 
         rebuy: function(url, game_id, serial, id) {
+	    $('#rebuy' + id).show();
 	    var server = jpoker.getServer(url);
             var player = jpoker.getPlayer(url, game_id, serial);
             if(!player) {
@@ -4605,7 +4606,7 @@
             }
             var packet_type;
             var label;
-            if(player.state == 'buyin') {
+            if ((player.state == 'buyin') && !player.buy_in_payed) {
                 packet_type = 'PacketPokerBuyIn';
                 label = _("Buy In");
             } else {

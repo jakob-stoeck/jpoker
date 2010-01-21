@@ -8844,7 +8844,7 @@ test("jpoker.plugins.player: jpoker_self class", function(){
     });
 
 test("jpoker.plugins.player: rebuy", function(){
-        expect(25);
+        expect(30);
 
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
@@ -8898,6 +8898,22 @@ test("jpoker.plugins.player: rebuy", function(){
         equals(sent, true, 'BuyIn packet sent');
         equals(rebuy.parents().is(':hidden'), true, 'dialog hidden');
 
+	player.buy_in_payed = true;
+        sent = false;
+        sendPacket = server.sendPacket;
+        server.sendPacket = function(packet) {
+            server.sendPacket = sendPacket;
+            equals(packet.type, 'PacketPokerRebuy');
+            sent = true;
+        };
+	$("#rebuy" + id).hide().click();
+        $("button", rebuy).click();
+        equals(sent, true, 'Rebuy packet sent');
+        equals(rebuy.parents().is(':hidden'), true, 'dialog hidden');
+	
+	$("#rebuy" + id).hide();
+	jpoker.plugins.playerSelf.rebuy('url', game_id, player.serial, id);
+	equals($("#rebuy" + id).is(":visible"), true, "rebuy should be shown if cancelled");
 
         // rebuy
         player.state = 'playing';
