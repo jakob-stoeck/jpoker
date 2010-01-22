@@ -9204,7 +9204,7 @@ test("jpoker.plugins.player: no rebuy dialog if tablepicker", function() {
     });
 
 test("jpoker.plugins.player: no rebuy if money", function() {
-	expect(1);
+	expect(3);
 
         var id = 'jpoker' + jpoker.serial;
 	var server = jpoker.serverCreate({ url: 'url' });
@@ -9216,7 +9216,8 @@ test("jpoker.plugins.player: no rebuy if money", function() {
 	
 	var table_packet = { id: game_id, currency_serial: currency_serial };
 	server.tables[game_id] = new jpoker.table(server, table_packet);    
-	server.tables[game_id].buyIn.min = 1000;
+	server.tables[game_id].buyIn.min = 500;
+	server.tables[game_id].buyIn.max = 1000;
 	server.tables[game_id].buyIn.bankroll = 1000;
 	server.tables[game_id].is_tourney = false;
 	
@@ -9230,7 +9231,20 @@ test("jpoker.plugins.player: no rebuy if money", function() {
 		ok(false, 'rebuy should not be clicked');
 	    });
 	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerChips',
-		    money: 100,
+		    money: 10000,
+		    bet: 0,
+		    serial: player_serial,
+		    game_id: game_id });
+	equals(rebuy.is(':visible'), true, 'rebuy visible');
+	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerChips',
+		    money: 100000,
+		    bet: 0,
+		    serial: player_serial,
+		    game_id: game_id });
+	equals(rebuy.is(':visible'), false, 'rebuy hidden');
+	server.tables[game_id].buyIn.bankroll = 100;
+	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerChips',
+		    money: 10000,
 		    bet: 0,
 		    serial: player_serial,
 		    game_id: game_id });

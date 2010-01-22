@@ -4771,8 +4771,8 @@
         chips: function(player, id) {
             var table = jpoker.getTable(player.url, player.game_id);
             if(table.state == 'end') {
-                var limits = table.buyInLimits();
-                if(player.money < limits[2]) {
+                var limits = table.buyIn;
+                if(player.money < limits.max) {
                     $('#rebuy' + id).show();
                 } else {
                     $('#rebuy' + id).hide();
