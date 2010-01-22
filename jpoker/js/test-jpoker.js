@@ -3761,6 +3761,26 @@ test("jpoker.plugins.tableList getHTML should not list tourney table", function(
 	cleanup(id);
     });
 
+test("jpoker.plugins.tableList getHTML add class for full and empty table", function(){
+        expect(6);
+
+        var TABLE_LIST_PACKET = {"players": 4, "type": "PacketPokerTableList", "packets": []};
+	TABLE_LIST_PACKET.packets.push({"observers":0,"name":"Cayrryns1","percent_flop":0,"average_pot":0,"skin":"default","variant":"holdem","hands_per_hour":0,"betting_structure":"100-200-no-limit","currency_serial":1,"muck_timeout":5,"players":0,"waiting":0,"tourney_serial":0,"seats":10,"player_timeout":60,"type":"PacketPokerTable","id":40});
+	TABLE_LIST_PACKET.packets.push({"observers":0,"name":"Cayrryns2","percent_flop":0,"average_pot":0,"skin":"default","variant":"holdem","hands_per_hour":0,"betting_structure":"100-200-no-limit","currency_serial":1,"muck_timeout":5,"players":10,"waiting":0,"tourney_serial":0,"seats":10,"player_timeout":60,"type":"PacketPokerTable","id":41});
+	TABLE_LIST_PACKET.packets.push({"observers":0,"name":"Cayrryns3","percent_flop":0,"average_pot":0,"skin":"default","variant":"holdem","hands_per_hour":0,"betting_structure":"100-200-no-limit","currency_serial":1,"muck_timeout":5,"players":5,"waiting":0,"tourney_serial":0,"seats":10,"player_timeout":60,"type":"PacketPokerTable","id":42});
+	
+	var id = jpoker.uid();
+	var element = $('<div class=\'jpoker_table_list\' id=\'' + id + '\'></div>').appendTo("#main");
+	element.html(jpoker.plugins.tableList.getHTML(id, TABLE_LIST_PACKET));
+	equals($("table tbody tr", element).length, 3, '3 tables');
+	equals($("table tbody tr").eq(0).hasClass('jpoker_table_list_table_empty'), true);
+	equals($("table tbody tr").eq(0).hasClass('jpoker_table_list_table_full'), false);
+	equals($("table tbody tr").eq(1).hasClass('jpoker_table_list_table_empty'), false);
+	equals($("table tbody tr").eq(1).hasClass('jpoker_table_list_table_full'), true);
+	equals($("table tbody tr").eq(2).attr('class'), '');
+	cleanup(id);
+    });
+
 //
 // tourneyList
 //

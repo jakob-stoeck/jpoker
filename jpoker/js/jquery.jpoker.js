@@ -2522,6 +2522,13 @@
 		var link = t.link.supplant({link: link_pattern.supplant({game_id: subpacket.game_id}), name: subpacket.name});
 		subpacket.name = link;
 	    }
+	    if (subpacket.players == subpacket.seats) {
+		subpacket.status_class =  'jpoker_table_list_table_full';
+	    } else if (subpacket.players === 0) {
+		subpacket.status_class = 'jpoker_table_list_table_empty';
+	    } else {
+		subpacket.status_class = '';
+	    }
             html.push(t.rows.supplant(subpacket));
         }
         html.push(t.footer);
@@ -2531,7 +2538,7 @@
 
     jpoker.plugins.tableList.templates = {
         header : '<table><thead><tr><th>{name}</th><th>{players}</th><th>{seats}</th><th>{betting_structure}</th><th>{average_pot}</th><th>{hands_per_hour}</th><th>{percent_flop}</th></tr></thead><tbody>',
-        rows : '<tr id=\'{id}\' title=\'' + _("Click to join the table") + '\'><td>{name}</td><td>{players}</td><td>{seats}</td><td>{betting_structure}</td><td>{average_pot}</td><td>{hands_per_hour}</td><td>{percent_flop}</td></tr>',
+        rows : '<tr id=\'{id}\' title=\'' + _("Click to join the table") + '\' class=\'{status_class}\'><td>{name}</td><td>{players}</td><td>{seats}</td><td>{betting_structure}</td><td>{average_pot}</td><td>{hands_per_hour}</td><td>{percent_flop}</td></tr>',
         footer : '</tbody></table>',
 	link: '<a href=\'{link}\'>{name}</a>',
 	pager: '<div class=\'pager\'><input class=\'pagesize\' value=\'10\'></input><ul class=\'pagelinks\'></ul></div>',
