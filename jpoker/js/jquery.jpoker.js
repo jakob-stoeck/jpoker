@@ -185,28 +185,28 @@
         },
 
         error: function(reason) {
-	    var str = '';
-            try {
-                if (reason.xhr) {
-                    // We need to give stringify a whitelist so that it doesn't throw an error if it's called on a 
-                    // XMLHttpRequest object, and we can't really detect it with instanceof... so let's assume all .xhr
-                    // are XMLHttpRequest objects
-                    var copy = {};
-                    for(key in reason) {
-                        copy[key] = reason[key];
-                    }
-                    copy.xhr = JSON.stringify(copy.xhr, ['status', 'responseText', 'readyState']);
-                    str = JSON.stringify(copy);
-                } else {
-                    str = JSON.stringify(reason);
-                }
-                str += '\n\n' + printStackTrace({guess:true}).slice(2).join('\n');
-                str += '\n\n' + navigator.userAgent;
-            } catch(e) {
-                str += 'attempt to stringify failed with exception: ' + e.toString();
-            }
-            this.uninit();
-            this.errorHandler(reason, str);
+// 	    var str = '';
+//             try {
+//                 if (reason.xhr) {
+//                     // We need to give stringify a whitelist so that it doesn't throw an error if it's called on a 
+//                     // XMLHttpRequest object, and we can't really detect it with instanceof... so let's assume all .xhr
+//                     // are XMLHttpRequest objects
+//                     var copy = {};
+//                     for(key in reason) {
+//                         copy[key] = reason[key];
+//                     }
+//                     copy.xhr = JSON.stringify(copy.xhr, ['status', 'responseText', 'readyState']);
+//                     str = JSON.stringify(copy);
+//                 } else {
+//                     str = JSON.stringify(reason);
+//                 }
+//                 str += '\n\n' + printStackTrace({guess:true}).slice(2).join('\n');
+//                 str += '\n\n' + navigator.userAgent;
+//             } catch(e) {
+//                 str += 'attempt to stringify failed with exception: ' + e.toString();
+//             }
+//             this.uninit();
+//             this.errorHandler(reason, str);
         },
 
         errorHandler: function(reason, str) {
