@@ -63,7 +63,6 @@
 				if (!href.match(/https?:\/\//)) {
 					href = 'http://' + window.location.hostname + href;
 				}
-				$.jpoker.message('gettext href ' + href);
 				try {
 					$.ajax({
 						type: 'GET',
