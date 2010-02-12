@@ -59,10 +59,15 @@
 			$.gt.setLang($('html').attr('lang'));
 			$('link[rel=gettext][lang=' + this.lang + ']').each(function(){
 				var lang = this.lang;
+				var href = this.href;
+				if (!href.match(/https?:\/\//)) {
+					href = 'http://' + window.location.hostname + href;
+				}
+				$.jpoker.message('gettext href ' + href);
 				try {
 					$.ajax({
 						type: 'GET',
-						url: this.href,
+						url: href,
 						async: false,
 						dataType: 'json',
 						success: function(data){
