@@ -64,10 +64,11 @@
 						type: 'GET',
 						url: this.href,
 						async: false,
+						dataType: 'json',
 						success: function(data){
 							$.gt.messages[lang] = $.gt.messages[lang] || {};
 							try {
-								var messages = eval('(' + data + ')');
+								var messages = data;
 							} catch(e) {
 								return;
 							}
