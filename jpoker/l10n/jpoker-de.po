@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: jpoker VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-12 18:32+0100\n"
-"PO-Revision-Date: 2008-11-25 16:30+0200\n"
+"PO-Revision-Date: 2010-02-12 18:53+0100\n"
 "Last-Translator: devteam <devteam@orbus.fr>\n"
 "Language-Team: <pokersource-users@gna.org>\n"
 "MIME-Version: 1.0\n"
@@ -109,7 +109,6 @@ msgstr "Buy in:"
 
 # Translation #52731 (de)
 #: jpoker/js/jquery.jpoker.js:4552
-#, fuzzy
 msgid "Call"
 msgstr "Mitgehen"
 
@@ -119,17 +118,16 @@ msgstr ""
 
 # Translation #51818 (de)
 #: jpoker/js/jquery.jpoker.js:4551
-#, fuzzy
 msgid "Check"
-msgstr "Passen"
+msgstr "Checken"
 
 #: jpoker/js/jquery.jpoker.js:4549
 msgid "Check/Call any"
-msgstr ""
+msgstr "Checken/Mitgehen"
 
 #: jpoker/js/jquery.jpoker.js:4548
 msgid "Check/Fold"
-msgstr ""
+msgstr "Checken/Passen"
 
 #: jpoker/js/jquery.jpoker.js:5669
 msgid "Click here to automatically pick a table"
@@ -430,7 +428,6 @@ msgstr "Preise"
 
 # Translation #52741 (de)
 #: jpoker/js/jquery.jpoker.js:4550
-#, fuzzy
 msgid "Raise"
 msgstr "Erhöhen"
 
@@ -466,9 +463,8 @@ msgstr "Sitze"
 
 # Translation #51797 (de)
 #: jpoker/js/jquery.jpoker.js:3437
-#, fuzzy
 msgid "Seats: "
-msgstr "Sitze"
+msgstr "Sitze: "
 
 # Translation #55500 (de)
 #: jpoker/js/jquery.jpoker.js:4500
@@ -482,9 +478,8 @@ msgstr "Anmelden"
 
 # Translation #55529 (de)
 #: jpoker/js/jquery.jpoker.js:4629
-#, fuzzy
 msgid "Sit in"
-msgstr "hinsetzen"
+msgstr "Einsteigen"
 
 # Translation #55502 (de)
 #: jpoker/js/jquery.jpoker.js:2702
@@ -641,9 +636,8 @@ msgstr "Variante"
 
 # Translation #51810 (de)
 #: jpoker/js/jquery.jpoker.js:3435
-#, fuzzy
 msgid "Variant: "
-msgstr "Variante"
+msgstr "Variante: "
 
 # Translation #51798 (de)
 #: jpoker/js/jquery.jpoker.js:2506
@@ -679,7 +673,7 @@ msgstr ""
 # Translation #51818 (de)
 #: jpoker/js/jquery.jpoker.js:2198 jpoker/js/jquery.jpoker.js:4374
 msgid "check"
-msgstr "Passen"
+msgstr "checken"
 
 # Translation #51806 (de)
 #: jpoker/js/jquery.jpoker.js:4747
@@ -709,9 +703,8 @@ msgstr "Passen"
 
 # Translation #55530 (de)
 #: jpoker/js/jquery.jpoker.js:4424
-#, fuzzy
 msgid "fold/sit out"
-msgstr "Aufstehen"
+msgstr "Passen/Aussetzen"
 
 # Translation #51801 (de)
 #: jpoker/js/jquery.jpoker.js:3233
@@ -730,9 +723,8 @@ msgstr "nicht genügend Geld"
 
 # Translation #51800 (de)
 #: jpoker/js/jquery.jpoker.js:3287
-#, fuzzy
 msgid "password: "
-msgstr "Passwort:"
+msgstr "Passwort: "
 
 # Translation #51803 (de)
 #: jpoker/js/jquery.jpoker.js:3163
@@ -769,12 +761,12 @@ msgstr "am laufen"
 # Translation #55529 (de)
 #: jpoker/js/jquery.jpoker.js:4446
 msgid "sit in"
-msgstr "hinsetzen"
+msgstr "Einsteigen"
 
 # Translation #55530 (de)
 #: jpoker/js/jquery.jpoker.js:4407
 msgid "sit out"
-msgstr "Aufstehen"
+msgstr "Aussetzen"
 
 # Translation #51804 (de)
 #: jpoker/js/jquery.jpoker.js:3166
