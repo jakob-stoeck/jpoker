@@ -1,7 +1,5 @@
 .jpoker_login, .jpoker_logout {
-	font-size:12px;
-	font-family:"trebuchet MS",arial,helvetica,sans-serif;
-	color:#444;
+	color: #444;
 }
 
 .jpoker_login {
@@ -20,7 +18,7 @@
  	font-weight: bold;
 }
 
-.jpoker_logout a, .jpoker_logout a:hover{
+.jpoker_logout a, .jpoker_logout a:hover {
 	background: transparent;
 	color: #009E03;
 	text-decoration:none;
