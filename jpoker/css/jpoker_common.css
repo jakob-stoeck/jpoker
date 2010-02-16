@@ -16,3 +16,8 @@
 	background: #17691c;
 	color: #fff;
 }
+
+.jpoker_widget label,
+.jpoker_widget input {
+	vertical-align: middle;
+}
