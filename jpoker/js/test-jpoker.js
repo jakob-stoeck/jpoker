@@ -7969,6 +7969,7 @@ test("jpoker.plugins.player: PacketPokerPlayerCards", function(){
         var player_serial = 1;
         var player_seat = 2;
         server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+        table.handler(server, game_id, { type: 'PacketPokerDealer', dealer: player_seat, game_id: game_id });
         var player = server.tables[game_id].serial2player[player_serial];
         equals(player.serial, player_serial, "player_serial");
 
