@@ -1,5 +1,6 @@
 .jpoker_tablepicker_submit {
     text-transform: uppercase;
+	cursor: pointer;
 }
 
 .jpoker_tablepicker_show_options {

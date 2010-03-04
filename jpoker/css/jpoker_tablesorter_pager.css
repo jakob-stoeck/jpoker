@@ -1,27 +1,26 @@
 ul.pagelinks {
-	padding-left:5px;
+	padding: 0;
 }
 
-.pager .pagelinks .current {
-    font-weight:bold;
+.pager {
+	font-size: 1.1em;
+	color: #444;
 }
+
+.pager ul {
+	margin: 0;
+	line-height: 2em;
+}
+
 .pager .pagelinks li {
     display: inline;
     margin-right: 0.5em;
 }
+
+.pager .pagelinks .current {
+    font-weight: bold;
+}
+
 .pager .pagesize {
     display: none;
-}
-
-
-.pager {
-	font-size:14px;
-	font-family:"trebuchet MS",arial,helvetica,sans-serif;
-	color:#444;
-}
-
-
-.pager ul {
-	margin:0;
-	line-height: 30px;
 }
