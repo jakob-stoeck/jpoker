@@ -1904,9 +1904,6 @@
                     server.setState(server.RUNNING, 'PacketPokerStreamMode');
                     break;
 
-                case 'PacketPokerTableMove':
-		    break;
-
                 case 'PacketPokerTableDestroy':
                     table.uninit(packet);
                     delete server.tables[game_id];
@@ -2349,6 +2346,7 @@
                 case 'PacketPokerSelfInPosition':
 		case 'PacketPokerTimeoutWarning':
 		case 'PacketPokerTimeoutNotice':
+		case 'PacketPokerTableMove':
                 this.notifyUpdate(packet);
                 break;
 
@@ -4026,6 +4024,10 @@
 	    jpoker.plugins.player.handStrength(player, packet.hand, id);
 	    break;
 
+	    case 'PacketPokerTableMove':
+	    jpoker.plugins.player.tableMove(player, packet, id);
+	    break;
+
 	    case 'PacketPokerEndRound':
 	    jpoker.plugins.player.action(player, id);
 	    break;
@@ -4106,6 +4108,12 @@
 	handStrength: function(player, hand, id) {
             if(jpoker.getServer(player.url).serial == player.serial) {
                 jpoker.plugins.playerSelf.handStrength(player, hand, id);
+            }
+	},
+
+	tableMove: function(player, packet, id) {
+            if(jpoker.getServer(player.url).serial == player.serial) {
+                jpoker.plugins.playerSelf.tableMove(player, packet, id);
             }
 	},
 
@@ -4715,6 +4723,10 @@
             jpoker.plugins.playerSelf.callback.hand_strength.display_done(hand_strength_element);
 	},
 
+	tableMove: function(player, packet, id) {
+            jpoker.plugins.playerSelf.callback.table_move(packet);
+	},
+
         sit: function(player, id) {
             var name = $('#player_seat' + player.seat + '_name' + id);
             var url = player.url;
@@ -5028,7 +5040,10 @@
 		}
 	    },
 
-            hand_strength: { display_done : function() { } }
+            hand_strength: { display_done : function() { } },
+	    
+	    table_move: function(packet) {
+	    }
         }
     };
 

@@ -10346,6 +10346,43 @@ test("jpoker.plugins.playerSelf.auto_action radio checkbox", function(){
         cleanup(id);
     });
 
+test("jpoker.plugins.playerSelf table move", function(){
+	expect(1);
+
+	var place = $("#main");
+
+        var id = 'jpoker' + jpoker.serial;
+        var player_serial = 1;
+        var game_id = 100;
+        var money = 1000;
+
+	var server = jpoker.serverCreate({ url: 'url' });
+	var currency_serial = 42;
+	var table_packet = { id: game_id, currency_serial: currency_serial };
+	server.tables[game_id] = new jpoker.table(server, table_packet);
+
+	// table
+	place.jpoker('table', 'url', game_id);
+
+	// player
+	server.serial = player_serial;
+	var player_seat = 2;
+	server.tables[game_id].handler(server, game_id, { type: 'PacketPokerPlayerArrive', seat: player_seat, serial: player_serial, game_id: game_id });
+	var player = server.tables[game_id].serial2player[player_serial];
+        var table = server.tables[game_id];
+	var table_move = jpoker.plugins.playerSelf.callback.table_move;
+	jpoker.plugins.playerSelf.callback.table_move = function(packet) {
+	    equals(packet.to_game_id, 101);
+	};
+	table.handler(server, game_id, { type: 'PacketPokerTableMove', game_id: game_id, serial: player_serial, to_game_id: game_id+1 });
+	jpoker.plugins.playerSelf.callback.table_move = function(packet) {
+	    ok(false, 'should not be called');
+	};
+	table.handler(server, game_id, { type: 'PacketPokerTableMove', game_id: game_id, serial: player_serial+1, to_game_id: game_id+1 });
+	jpoker.plugins.playerSelf.callback.table_move = table_move;
+	cleanup(id);
+    });
+
 
 test("jpoker.plugins.places", function(){
         expect(9);
