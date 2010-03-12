@@ -3208,6 +3208,12 @@
                     var element = document.getElementById(id);
                     if(element) {
                         var e = $(element);
+			var loginDisplayed = $('.jpoker_login_name', element).length == 1;
+			
+			if (server.loggedIn() === false && loginDisplayed) {
+			    return true;
+			}
+
                         e.html(login.getHTML(server, opts));
                         if(server.loggedIn()) {
                             e.click(function() {
