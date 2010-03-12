@@ -5342,7 +5342,7 @@ $.fn.triggerKeydown = function(keyCode) {
 };
 
 test("jpoker.plugins.login", function(){
-        expect(11);
+        expect(12);
 
         var server = jpoker.serverCreate({ url: 'url' });
         var place = $("#main");
@@ -5397,6 +5397,10 @@ test("jpoker.plugins.login", function(){
         equals(server.loggedIn(), false, "logged out");
 	content = $("#" + id).text();
 	equals(content.indexOf("user:") >= 0, true, "user:");
+
+	$(".jpoker_login_name", place).attr('value', expected.name);
+        server.notifyUpdate();
+	equals($(".jpoker_login_name", place).attr('value'), expected.name);
 
 	$("#" + id).remove();
 	server.notifyUpdate();
