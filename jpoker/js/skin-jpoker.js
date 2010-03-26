@@ -1872,7 +1872,7 @@ function jpoker_81_2_tourneyDetailsRunningWithPager(place) {
 
 	for (var i = 0; i < 200; ++i) {
 	    var player_money = 140+i;
-	    var player_name = "user" + i;
+	    var player_name = "BOTRiryeevR" + i;
 	    var player_serial = 'X' + i;
 	    if (i & 2) {
 		TOURNEY_MANAGER_PACKET.user2properties[player_serial] = {"money": player_money, "table_serial": 606, "name": player_name, "rank": -1};
@@ -1907,7 +1907,7 @@ function jpoker_81_3_tourneyDetailsRegularRunningWithPager(place) {
 
 	for (var i = 0; i < 200; ++i) {
 	    var player_money = 140+i;
-	    var player_name = "user" + i;
+	    var player_name = "BOTRiryeevR" + i;
 	    var player_serial = 'X' + i;
 	    if (i & 2) {
 		TOURNEY_MANAGER_PACKET.user2properties[player_serial] = {"money": player_money, "table_serial": 606, "name": player_name, "rank": -1};
