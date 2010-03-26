@@ -185,28 +185,28 @@
         },
 
         error: function(reason) {
-	    var str = '';
-            try {
-                if (reason.xhr) {
-                    // We need to give stringify a whitelist so that it doesn't throw an error if it's called on a
-                    // XMLHttpRequest object, and we can't really detect it with instanceof... so let's assume all .xhr
-                    // are XMLHttpRequest objects
-                    var copy = {};
-                    for(key in reason) {
-                        copy[key] = reason[key];
-                    }
-                    copy.xhr = JSON.stringify(copy.xhr, ['status', 'responseText', 'readyState']);
-                    str = JSON.stringify(copy);
-                } else {
-                    str = JSON.stringify(reason);
-                }
-                str += '\n\n' + printStackTrace({guess:true}).slice(2).join('\n');
-                str += '\n\n' + navigator.userAgent;
-            } catch(e) {
-                str += 'attempt to stringify failed with exception: ' + e.toString();
-            }
-            this.uninit();
-            this.errorHandler(reason, str);
+// 	    var str = '';
+//             try {
+//                 if (reason.xhr) {
+//                     // We need to give stringify a whitelist so that it doesn't throw an error if it's called on a 
+//                     // XMLHttpRequest object, and we can't really detect it with instanceof... so let's assume all .xhr
+//                     // are XMLHttpRequest objects
+//                     var copy = {};
+//                     for(key in reason) {
+//                         copy[key] = reason[key];
+//                     }
+//                     copy.xhr = JSON.stringify(copy.xhr, ['status', 'responseText', 'readyState']);
+//                     str = JSON.stringify(copy);
+//                 } else {
+//                     str = JSON.stringify(reason);
+//                 }
+//                 str += '\n\n' + printStackTrace({guess:true}).slice(2).join('\n');
+//                 str += '\n\n' + navigator.userAgent;
+//             } catch(e) {
+//                 str += 'attempt to stringify failed with exception: ' + e.toString();
+//             }
+//             this.uninit();
+//             this.errorHandler(reason, str);
         },
 
         errorHandler: function(reason, str) {
@@ -4385,7 +4385,7 @@
             var serial = packet.serial;
             var player = table.serial2player[serial];
             var names = [ 'check', 'call', 'raise', 'fold', 'allin', 'pot', 'halfpot', 'threequarterpot' ];
-            var labels = [ _("check"), _("call") + ' <span class=\'jpoker_call_amount\'></span>', _("raise"), _("fold"), _("all in"), _("pot"), _("1/2"), _("3/4") ];
+            var labels = [ _("check"), _("call") + ' <span class=\'jpoker_call_amount\'></span>', _("Raise"), _("fold"), _("all in"), _("pot"), _("1/2"), _("3/4") ];
             for(var i = 0; i < names.length; i++) {
                 $('#' + names[i] + id).html(jpoker.plugins.playerSelf.templates.action.supplant({ action: labels[i] })).hover(function(){
 			$(this).addClass('hover');
@@ -4562,7 +4562,7 @@
 			auto_check_fold_label: _("Check/Fold"),
 			auto_check_call_label: _("Check/Call any"),
 			auto_raise_label: _("Raise"),
-			auto_check_label: _("Check"),
+			auto_check_label: _("check"),
 			auto_call_label: _("Call")
 		    }));
 	    $('.jpoker_auto_action', auto_action_element).hide();
@@ -5185,7 +5185,7 @@
 	template: '<div class=\'jpoker_raise_label\'>{raise_label}</div><div class=\'jpoker_raise_bound jpoker_raise_min\'>{raise_min}</div><div class=\'jpoker_raise_current\' title=\'{raise_current_title}\'>{raise_current}</div><div class=\'jpoker_raise_bound jpoker_raise_max\'>{raise_max}</div><div class=\'ui-slider-1\'><div class=\'ui-slider-handle\'></div></div>',
 	getHTML: function(betLimit) {
 	    var t = this.template;
-	    return t.supplant({raise_label: _("raise"),
+	    return t.supplant({raise_label: _("Raise"),
 						raise_min: jpoker.chips.SHORT(betLimit.min),
 						raise_current_title: Math.floor(betLimit.min*100),
 						raise_current: jpoker.chips.SHORT(betLimit.min),
