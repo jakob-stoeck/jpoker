@@ -1732,6 +1732,41 @@ function jpoker_57_stats(place) {
         server.sendPacket('ping');
 }
 
+function jpoker_58_tourneyRank(place) {
+        setUp();
+        if(explain) {
+            $('#explain').append('<b>jpoker_56_tourneyBreak</b> ');
+            $('#explain').append('Tournaments is on break, resume time is displayed.');
+            $('#explain').append('<hr>');
+        }
+
+        var game_id = 100;
+        var player_serial = 200;
+        var packets = [
+{ type: 'PacketPokerTable', id: game_id }
+                       ];
+        var money = 2;
+        var bet = 8;
+        for(var i = 0; i < 2; i++) {
+            packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
+            packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money , bet: bet });
+	    packets.push({ type: 'PacketPokerCheck', serial: player_serial + i, game_id: game_id });
+            bet *= 10;
+            money *= 10;
+        }
+	packets.push({ type: 'PacketPokerTourneyRank', game_id: game_id, serial: player_serial, rank: 1, players: 1000, money: 1000});
+
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
+}
+
 function jpoker_60_text(place) {
         setUp();
         $('#text').show();
