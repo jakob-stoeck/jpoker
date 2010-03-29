@@ -97,6 +97,9 @@
 
             this.copyright_options.containerWidth = '400px';
             this.copyright_options.containerHeight = '300px';
+
+            this.plugins.table.rank.options.containerWidth = '300px';
+            this.plugins.table.rank.options.containerHeight = '200px';
         },
 
         other_compatibility: function() {
@@ -112,6 +115,9 @@
 
             this.copyright_options.containerWidth = '100%';
             this.copyright_options.containerHeight = '100%';
+
+            this.plugins.table.rank.options.containerWidth = '100%';
+            this.plugins.table.rank.options.containerHeight = '100%';
         },
 
         copyrightTimeout: 5000,
@@ -3745,15 +3751,24 @@
     };
 
     jpoker.plugins.table.rank = function(table, packet, id) {
+	var rankDialog = $('#jpokerRankDialog');
+	if(rankDialog.size() === 0) {
+	    $('body').append('<div id=\'jpokerRankDialog\' class=\'jpoker_jquery_ui\' />');
+	    rankDialog = $('#jpokerRankDialog');
+	    jpoker.message(jpoker.plugins.table.rank.options);
+	    rankDialog.dialog(jpoker.plugins.table.rank.options);
+	}
         var rank = _(jpoker.plugins.table.templates.rank); // necessary because i18n is inactive when the template is first read
-        jpoker.dialog(rank.supplant(packet));
+        rankDialog.html(rank.supplant(packet)).dialog('open');
         var url = table.url;
-        $('#jpokerDialog .jpoker_tournament_details').click(function() {
+        $('#jpokerRankDialog .jpoker_tournament_details').click(function() {
                 var server = jpoker.getServer(url);
                 if(server) {
                     server.rankClick(server, packet.serial);
                 }});
     };
+
+    jpoker.plugins.table.rank.options = { width: 'none', height: 'none', autoOpen: false, resizable: false, dialogClass: 'jpoker_dialog_rank'};
 
     jpoker.plugins.table.templates = {
         room: 'expected to be overriden by mockup.js but was not',
