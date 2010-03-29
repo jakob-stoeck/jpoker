@@ -2933,6 +2933,7 @@
 			'min_money': _("Min money"),
 			'goto_table': _("Go to table")
 		    }));
+	    var table_index = 0;
 	    $.each(packet.table2serials, function(table, players) {
 		    if (table != '-1') {
 			var row = {
@@ -2953,7 +2954,9 @@
 			} else {
 			    row.goto_table = t.tables.goto_table_link.supplant({'goto_table_label': _("Go to table"), 'link': link_pattern.supplant({game_id: table.substr(1)})});
 			}
+			row.oddEven = table_index&1 ? 'odd' : 'even';
 			html.push(t.tables.rows.supplant(row));
+			table_index += 1;
 		    }
 		});
 	    html.push(t.tables.footer);
