@@ -2789,6 +2789,8 @@
 			    }
                             $(element).html(tourneyDetails.getHTML(id, packet, logged, registered, opts.link_pattern));
 
+			    $('.jpoker_tourney_details_players table').tablesorter({widgets: ['zebra'], sortList: tourneyDetails.templates.players[packet.tourney.state].sortList});
+
 			    $('.jpoker_tourney_details_table', element).click(function() {
 				    var table_details = $('.jpoker_tourney_details_table_details', element);
                                     table_details.html(tourneyDetails.getHTMLTableDetails(id, packet, $(this).attr('id')));
@@ -2997,27 +2999,32 @@
 	    registering : {
 		header : '<table cellspacing=\'0\'><thead><tr class=\'jpoker_thead_caption\'><th>{caption}</th></tr><tr><th>{name}</th></tr></thead><tbody>',
 		rows : '<tr class=\'{oddEven}\'><td>{name}</td></tr>',
-		footer : '</tbody></table>'
+		footer : '</tbody></table>',
+ 		sortList : [[0,0]]
 	    },
 	    running : {
 		header : '<table cellspacing=\'0\'><thead><tr class=\'jpoker_thead_caption\'><th colspan=\'3\'>{caption}</th></tr><tr><th>{name}</th><th>{money}</th><th>{rank}</th></tr></thead><tbody>',
 		rows : '<tr class=\'{oddEven}\'><td>{name}</td><td>{money}</td><td>{rank}</td></tr>',
-		footer : '</tbody></table>'
+		footer : '</tbody></table>',
+		sortList : [[1,1]]
 	    },
 	    'break' : {
 		header : '<table cellspacing=\'0\'><thead><tr class=\'jpoker_thead_caption\'><th colspan=\'3\'>{caption}</th></tr><tr><th>{name}</th><th>{money}</th><th>{rank}</th></tr></thead><tbody>',
 		rows : '<tr class=\'{oddEven}\'><td>{name}</td><td>{money}</td><td>{rank}</td></tr>',
-		footer : '</tbody></table>'
+		footer : '</tbody></table>',
+		sortList : [[1,1]]
 	    },
 	    breakwait : {
 		header : '<table cellspacing=\'0\'><thead><tr class=\'jpoker_thead_caption\'><th colspan=\'3\'>{caption}</th></tr><tr><th>{name}</th><th>{money}</th><th>{rank}</th></tr></thead><tbody>',
 		rows : '<tr class=\'{oddEven}\'><td>{name}</td><td>{money}</td><td>{rank}</td></tr>',
-		footer : '</tbody></table>'
+		footer : '</tbody></table>',
+		sortList : [[1,1]]
 	    },
 	    complete : {
 		header : '<table cellspacing=\'0\'><thead><tr class=\'jpoker_thead_caption\'><th colspan=\'2\'>{caption}</th></tr><tr><th>{name}</th><th>{rank}</th></tr></thead><tbody>',
 		rows : '<tr class=\'{oddEven}\'><td>{name}</td><td>{rank}</td></tr>',
-		footer : '</tbody></table>'
+		footer : '</tbody></table>',
+		sortList : [[1,0]]
 	    },
 	    header: '<div class=\'jpoker_tourney_details_players\'>',
 	    footer: '</div>'
