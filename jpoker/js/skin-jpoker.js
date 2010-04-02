@@ -1945,10 +1945,14 @@ function jpoker_81_3_tourneyDetailsRegularRunningWithPager(place) {
 	    var player_name = "BOTRiryeevR" + i;
 	    var player_serial = 'X' + i;
 	    if (i & 2) {
-		TOURNEY_MANAGER_PACKET.user2properties[player_serial] = {"money": player_money, "table_serial": 606, "name": player_name, "rank": -1};
+		TOURNEY_MANAGER_PACKET.user2properties[player_serial] = {"money": player_money, "table_serial": 606+i, "name": player_name, "rank": -1};
 	    } else {
-		TOURNEY_MANAGER_PACKET.user2properties[player_serial] = {"money": player_money, "table_serial": 606, "name": player_name, "rank": i+i};
+		TOURNEY_MANAGER_PACKET.user2properties[player_serial] = {"money": player_money, "table_serial": 606+i, "name": player_name, "rank": i+i};
 	    }
+	    if (TOURNEY_MANAGER_PACKET.table2serials['X' + 606 + i] == undefined) {
+		TOURNEY_MANAGER_PACKET.table2serials['X' + 606 + i] = [];
+	    }
+	    TOURNEY_MANAGER_PACKET.table2serials['X' + 606 + i].push(i);
 	}
 
 	var tourney_serial = TOURNEY_MANAGER_PACKET.tourney_serial;

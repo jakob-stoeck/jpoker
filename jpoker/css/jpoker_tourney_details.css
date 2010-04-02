@@ -59,7 +59,6 @@
 }
 
 .jpoker_tourney_details_prizes table,
-.jpoker_tourney_details_tables table {
 	border: 5px solid #009E03;
 	border-top: none;
 }
@@ -160,4 +159,15 @@ a.jpoker_tourney_details_tables_goto_table {
 
 .jpoker_tourney_details .pager {
 	text-align: center;
+}
+
+.jpoker_tourney_details .jpoker_tourney_details_tables {
+    width: 420px;
+    border: 5px solid #009E03;
+    height: 12em;
+    overflow: auto;
+}
+
+.jpoker_tourney_details .jpoker_tourney_details_table_details {
+    margin-top: 10px;    
 }
