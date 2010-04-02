@@ -2789,7 +2789,9 @@
 			    }
                             $(element).html(tourneyDetails.getHTML(id, packet, logged, registered, opts.link_pattern));
 
-			    $('.jpoker_tourney_details_players table').tablesorter({widgets: ['zebra'], sortList: tourneyDetails.templates.players[packet.tourney.state].sortList});
+			    if ($('.jpoker_tourney_details_players table tbody tr').length > 0) {
+				$('.jpoker_tourney_details_players table').tablesorter({widgets: ['zebra'], sortList: tourneyDetails.templates.players[packet.tourney.state].sortList});
+			    }
 
 			    $('.jpoker_tourney_details_table', element).click(function() {
 				    var table_details = $('.jpoker_tourney_details_table_details', element);
