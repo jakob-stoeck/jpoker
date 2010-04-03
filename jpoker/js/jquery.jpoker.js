@@ -842,6 +842,9 @@
                     dataType: 'json',
                     global: false, // do not fire global events
                     success: function(data, status) {
+                        if(jpoker.verbose > 0) {
+                            jpoker.message('success ' + data);
+                        }
                         if($this.getConnectionState() != 'connected') {
                             $this.setConnectionState('connected');
                         }

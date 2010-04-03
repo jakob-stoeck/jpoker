@@ -18,14 +18,14 @@ VERSION=2.0.0
 
 SHELL = /bin/bash
 
-install: jpoker-binary-${VERSION}
-	mkdir -p ${DESTDIR}usr/share
-	cp -a jpoker-binary-${VERSION} ${DESTDIR}usr/share/jpoker
-
 all:
 
 dist: jpoker-binary-${VERSION} 
 	tar -cvf jpoker-binary-${VERSION}.tar jpoker-binary-${VERSION}
+
+install: jpoker-binary-${VERSION}
+	mkdir -p ${DESTDIR}usr/share
+	cp -a jpoker-binary-${VERSION} ${DESTDIR}usr/share/jpoker
 
 clean: 
 	rm -fr jpoker-binary-${VERSION}.tar
@@ -64,7 +64,7 @@ maintainer-dist: build
 	rm -fr jpoker-binary-${VERSION}
 	${MAKE} jpoker-binary-${VERSION}
 	${MAKE} maintainer-clean
-	dir=$$(basename $$(pwd)) ; cd .. ; rm -f jpoker-${VERSION} ; ln -s $$dir jpoker-${VERSION} ; tar --exclude=jpoker-${VERSION}/debian -zcvf jpoker_${VERSION}.orig.tar.gz jpoker-${VERSION}/*
+	dir=$$(basename $$(pwd)) ; cd .. ; rm -f jpoker-${VERSION} ; ln -s $$dir jpoker-${VERSION} ; tar --exclude=jpoker-${VERSION}/debian -zcvf jpoker_${VERSION}.orig.tar.gz jpoker-${VERSION}/.
 
 #
 # clean all except the "binary" release (i.e. the set of files that 
@@ -161,14 +161,14 @@ EMPTY=tiddlywiki-2.3.html
 
 jpoker/index-%.html: jpoker/JpokerPlugin/* jpoker/index-*/* jpoker/index/* jpoker/tiddlers/* jpoker/markup/*
 	cp ${EMPTY} $@
-	${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-$* jpoker/index jpoker/tiddlers jpoker/markup $@
+	${RUBY} ${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-$* jpoker/index jpoker/tiddlers jpoker/markup $@
 
 jpoker/index.html: jpoker/index-en.html
 	cp jpoker/index-en.html jpoker/index.html
 
 jpoker/poker.html: jpoker/JpokerPlugin/* jpoker/poker/* jpoker/markup/*
 	cp ${EMPTY} $@
-	${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/poker jpoker/markup $@
+	${RUBY} ${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/poker jpoker/markup $@
 
 #
 # Gather css, js and l10n files that are to be inlined in the TiddlyWiki
@@ -198,7 +198,7 @@ jpoker/standalone:
 #
 jpoker/standalone/index-%.html: jpoker/JpokerPlugin/* jpoker/index-*/* jpoker/index/* jpoker/tiddlers/* jpoker/tiddlers-standalone/* jpoker/standalone jpoker/standalone-temp-% mockup gems/bin/tiddlywiki_cp
 	cp -f ${EMPTY} $@
-	${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-$* jpoker/index jpoker/tiddlers jpoker/tiddlers-standalone/* jpoker/standalone-temp-$*/* $@
+	${RUBY} ${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-$* jpoker/index jpoker/tiddlers jpoker/tiddlers-standalone/* jpoker/standalone-temp-$*/* $@
 	# copy images to standalone directory
 	cp -R -f jpoker/images jpoker/standalone/images
 	cp -R -f jpoker/css/images jpoker/standalone
