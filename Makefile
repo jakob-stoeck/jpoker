@@ -64,7 +64,7 @@ maintainer-dist: build
 	rm -fr jpoker-binary-${VERSION}
 	${MAKE} jpoker-binary-${VERSION}
 	${MAKE} maintainer-clean
-	dir=$$(basename $$(pwd)) ; cd .. ; rm -f jpoker-${VERSION} ; ln -s $$dir jpoker-${VERSION} ; tar --exclude=jpoker-${VERSION}/debian -zcvf jpoker_${VERSION}.orig.tar.gz jpoker-${VERSION}/*
+	dir=$$(basename $$(pwd)) ; cd .. ; rm -f jpoker-${VERSION} ; ln -s $$dir jpoker-${VERSION} ; tar --exclude=jpoker-${VERSION}/debian -zcvf jpoker_${VERSION}.orig.tar.gz jpoker-${VERSION}/.
 
 #
 # clean all except the "binary" release (i.e. the set of files that 
