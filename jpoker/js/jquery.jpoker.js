@@ -4296,9 +4296,9 @@
 		    var bet = $('#player_seat' + player.seat + '_bet' + id);
 		    var bet_position = bet.getPosition();
 		    var money = $('#player_seat' + player.seat + '_money' + id);
+		    var money_position = money.getPosition();
 		    var seat_offset = $('#seat'+ player.seat + id).getOffset();
 		    var player_seat_offset = $('#player_seat'+ player.seat + id).getOffset();
-		    var money_position = money.getPosition();
 		    money_position.top += player_seat_offset.top;
 		    money_position.left += player_seat_offset.left;
 		    money_position.top -= seat_offset.top;
