@@ -9584,7 +9584,7 @@ test("jpoker.plugins.player: sitout", function(){
     });
 
 test("jpoker.plugins.player: sitout fold", function(){
-        expect(16);
+        expect(18);
 
         var id = 'jpoker' + jpoker.serial;
         var player_serial = 1;
@@ -9596,6 +9596,12 @@ test("jpoker.plugins.player: sitout fold", function(){
 
         // click on sitout, packet sent and sitout button hides
         var sitout = $("#sitout_fold" + id);
+
+	sitout.trigger('mouseenter');
+	equals(sitout.hasClass('hover'), true, 'hasClass hover');
+	sitout.trigger('mouseleave');
+	equals(sitout.hasClass('hover'), false, '!hasClass hover');
+
         equals(sitout.length, 1);
         equals(sitout.is(':visible'), true, 'sitout button visible');
         var sent = false;
