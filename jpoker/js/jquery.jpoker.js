@@ -1,6 +1,6 @@
 //
-//     Copyright (C) 2008, 2009 Loic Dachary <loic@dachary.org>
-//     Copyright (C) 2008, 2009 Johan Euphrosine <proppy@aminche.com>
+//     Copyright (C) 2008 - 2010 Loic Dachary <loic@dachary.org>
+//     Copyright (C) 2008 - 2010 Johan Euphrosine <proppy@aminche.com>
 //     Copyright (C) 2008, 2009 Saq Imtiaz <lewcid@gmail.com>
 //
 //     This program is free software: you can redistribute it and/or modify
