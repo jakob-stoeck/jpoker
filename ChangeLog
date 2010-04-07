@@ -1,6 +1,729 @@
-2009-08-12  Loic Dachary <loic@dachary.org>
+2010-04-07  Loic Dachary <loic@dachary.org>
 
 	* Release 2.0.0
+
+	* sound/Makefile:
+	switch back to ming based solution because swftools is obsolete
+	[d68042dd6623] [tip]
+
+	* merge release tags
+	[e4ddedf2f6b7]
+
+2010-04-07  Loic Dachary <loic@dachary.org>
+
+	* .hgtags:
+	Added tag jpoker-2.0.0-1 for changeset 7813f0449122
+	[2ff560336782]
+
+	* .hgtags:
+	Removed tag jpoker-2.0.0-1
+	[7813f0449122] [jpoker-2.0.0-1]
+
+2010-04-07  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/test-jpoker.js:
+	allow for rounding errors when checking for animation positions
+	[f602aed3117d]
+
+	* merge release tags
+	[93be25de39b4]
+
+2010-04-07  Loic Dachary <loic@dachary.org>
+
+	* .hgtags:
+	Added tag jpoker-2.0.0-1 for changeset 4d895cb19e83
+	[6e614cb9714b]
+
+	* .hgtags:
+	Removed tag jpoker-2.0.0-1
+	[4d895cb19e83]
+
+2010-04-07  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/test-jpoker.js:
+	add tests about adding and removing the hover class on the
+	sitout/fold button
+	[a3fadf475894]
+
+	* merge release tags
+	[68ec79bb1697]
+
+	* jpoker/js/jquery.jpoker.js:
+	cosmetic move of lines
+	[41eb155f00fc]
+
+2010-04-07  Loic Dachary <loic@dachary.org>
+
+	* .hgtags:
+	Added tag jpoker-2.0.0-1 for changeset 7bcd46f4fe5b
+	[a67ce626d15c]
+
+	* .hgtags:
+	Removed tag jpoker-2.0.0-1
+	[7bcd46f4fe5b]
+
+2010-04-07  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/test-jpoker.js:
+	test the call of the deal_card animation callback even when there is
+	no dealer (hence no animation)
+	[a565bb257c02]
+
+	* merge release tags
+	[68a03da2f79b]
+
+	* debian/copyright:
+	update reference download url
+	[733e93c0ad5f]
+
+	* jpoker/js/jquery.jpoker.js:
+	copyright date update
+	[f65d226182d8]
+
+2010-04-06  Loic Dachary <loic@dachary.org>
+
+	* .hgtags:
+	Added tag jpoker-2.0.0-1 for changeset 37bc92ff7830
+	[1965dd2b3b1a]
+
+	* .hgtags:
+	Removed tag jpoker-2.0.0-1
+	[37bc92ff7830]
+
+2010-04-07  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/test-jpoker.js:
+	add jpoker.server.handler PacketPokerTourneyStart
+	[44c21771fd14]
+
+2010-04-03  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	merge proppy changes
+	[8e21c54b5918]
+
+	* jpoker/js/jquery.jpoker.js:
+	display the raw incoming packet in case of success, for debug
+	[4c6f83226f7e]
+
+	* Makefile:
+	get all files from jpoker-version by not using * but . instead
+	[1ecd002eb76c]
+
+2010-03-12  Johan Euphrosine  <proppy@aminche.com>
+
+	* windmill/fold.py:
+	add windmill based test
+	[c792c7119b69]
+
+	* merge
+	[efbdf187cce1]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.login should not reset input, if logged out and login
+	form already displayed
+	[0b716f07395c]
+
+2010-03-05  Loic Dachary <loic@dachary.org>
+
+	* .hgtags:
+	Added tag jpoker-2.0.0-1 for changeset 8061eeac3fee
+	[c23400c3dfdb]
+
+	* .hgtags:
+	Removed tag jpoker-2.0.0-1
+	[8061eeac3fee]
+
+2010-03-04  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add jpoker.plugins.playerSelf table move
+	[9c80e505a9bb]
+
+	* jpoker/js/test-jpoker.js:
+	fix test jpoker.plugins.player: PacketPokerPlayerCards
+	[68e60e5c5b95]
+
+2010-02-16  Ulrike Uhlig  <u@curlybracket.net>
+
+	* jpoker/css/jpoker_tablesorter_pager.css:
+	order, general cleanup
+	[226d2771fdfc]
+
+	* jpoker/css/jpoker_tourney_details.css:
+	no empty spaces and eof
+	[afc761bf59fd]
+
+	* jpoker/css/jpoker_tourney_details.css:
+	if there is no other info in the grey block, we can just put the
+	announced and cancelled info over the whole width.
+	[e675505c487a]
+
+	* jpoker/css/jpoker_common.css, jpoker/css/jpoker_server_status.css,
+	jpoker/css/jpoker_tablepicker.css,
+	jpoker/css/jpoker_tourney_details.css:
+	general cleanup and simplification
+	[5c577cef166e]
+
+	* jpoker/js/jquery.jpoker.js:
+	just cleaning spaces
+	[82dbd6db2056]
+
+	* jpoker/css/jpoker_regular_tourney_list.css:
+	General cleaning and pulling together instructions.
+	[9c830972fc29]
+
+	* jpoker/css/jpoker_login.css:
+	There is no need to specify font size here, as we inherit it from
+	jpoker_widget.
+	[85aac7473369]
+
+	* jpoker/css/jpoker_copyright.css:
+	general cleaning, put same instructions together in one. Fixed font-
+	size, because this does not depend on jpoker_widget, but on the
+	containing parent, which is probabably a website having its own
+	style. I made the 'dismiss' button more userfriendly, so you can
+	click on the whole button, not just on the text. I also took away
+	the text decoration of this button as it coincides with the border
+	of the button itself.
+	[0e887939313f]
+
+	* jpoker/css/jpoker_common.css:
+	added a general font size to the widget so contained elements can
+	inherit it. added outline none to get rid of the dotted outline when
+	clicking on links in firefox. added a comment.
+	[c7d1d1609d4b]
+
+2010-02-15  Ulrike Uhlig  <u@curlybracket.net>
+
+	* merge
+	[144ca7a8b58b]
+
+	* jpoker/l10n/jpoker-de.po:
+	converted to lowercase all words that should be lowercase in german,
+	i.e. verbs, adverbs and adjectives.
+	[69d6d2e0ef9f]
+
+2010-02-15  Loic Dachary <loic@dachary.org>
+
+	* jpoker/l10n/jpoker-de.json:
+	update de.json
+	[2f0ebb799868]
+
+	* merge proppy changes
+	[fd0082e99ee8]
+
+2010-02-15  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/l10n/jpoker-de.po:
+	rikeko update of de translation
+	[f05db7250bf5]
+
+2010-02-12  Loic Dachary <loic@dachary.org>
+
+	* .hgtags:
+	Added tag jpoker-2.0.0-1 for changeset 27ed2d9bc9d4
+	[c0bdc6f263df]
+
+	* .hgtags:
+	Removed tag jpoker-2.0.0-1
+	[27ed2d9bc9d4]
+
+2010-02-12  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/js/jquery.gettext.js:
+	remove jpoker.message in jquery.gettext
+	[ecdde982b4f8]
+
+	* jpoker/l10n/jpoker-de.json, jpoker/l10n/jpoker-de.po:
+	update german translation, remove a few fuzzy flags
+	[55b0607930e7]
+
+	* jpoker/l10n/jpoker-da.po, jpoker/l10n/jpoker-de.po, jpoker/l10n
+	/jpoker-en.po, jpoker/l10n/jpoker-en_CA.po, jpoker/l10n/jpoker-
+	en_US.po, jpoker/l10n/jpoker-es.po, jpoker/l10n/jpoker-fi.po,
+	jpoker/l10n/jpoker-fr.po, jpoker/l10n/jpoker-fr_BE.po, jpoker/l10n
+	/jpoker-fr_CA.po, jpoker/l10n/jpoker-fr_FX.po, jpoker/l10n/jpoker-
+	it.po, jpoker/l10n/jpoker-ja.po, jpoker/l10n/jpoker-nb.po,
+	jpoker/l10n/jpoker-nl.po, jpoker/l10n/jpoker-pt.po, jpoker/l10n
+	/jpoker-sv.po:
+	update po
+	[7e271d8ce61e]
+
+	* jpoker/js/jquery.gettext.js:
+	jquery.jpoker.js should use absolute urls for ajax request in case
+	they are proxied.
+
+	Original Author: Chandan Kudige
+
+	Reported upstream: http://plugins.jquery.com/node/13084
+	[ffc2fc29f38b]
+
+	* jpoker/js/jquery.gettext.js:
+	jquery.gettext.js should use dataType instead of eval for json
+	decoding.
+
+	Reported upstream: http://plugins.jquery.com/node/12971
+	[31d1a82738ec]
+
+2010-02-03  Loic Dachary <loic@dachary.org>
+
+	* Makefile:
+	allow for RUBY=ruby + install is no longer the default target
+	[fb4a1197c75a]
+
+2010-01-22  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	rebuy should be shown if money < buyIn.max instead of money <
+	min(buyIn.max, bankroll)
+	[1d599e16185b]
+
+2010-01-22  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.tableList.getHTML add css classes for full and empty
+	table
+	[995bd65e4da2]
+
+2010-01-21  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	send PacketPokerBuyIn only if player.buy_in_payed is false, send
+	PacketPokerRebuy otherwise, always show rebuy button when
+	playerSelf.rebuy is called: to allow clicking if canceled
+	[6775dc34e273]
+
+2010-01-18  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js:
+	jslint
+	[0089d1d57ac5]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add server.tableQuit
+	[28dcc5d92493]
+
+2009-12-11  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/js/jquery.ajaxQueue.js:
+	allow ajax_queue original $.ajax override
+	[ab32e196c4fc]
+
+2009-11-24  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/test-jpoker.js:
+	check that the table has been removed from the list of tables
+	[c22f0117c55a]
+
+	* jpoker/js/test-jpoker.js:
+	check state after sending packet
+	[a01028c8c848]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	implement tableInformation
+	[9d3783a822cd]
+
+2009-11-17  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/js/skin-jpoker.js:
+	add jpoker_skin_override_xhr
+	[698f192485f8]
+
+2009-10-28  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	min value of the slider must be * 100
+	[1f34b772483b]
+
+2009-10-22  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/css/jpoker_table.css, jpoker/js/jquery.jpoker.js, jpoker/js
+	/test-jpoker.js:
+	add sitout_fold button
+	[f4a6a2b9309e]
+
+2009-10-21  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/js/skin-jpoker.js:
+	jslint fixes
+	[de3de06376e9]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.player: animation pot2money 2x players same pot
+	[189c921495b3]
+
+	* jpoker/js/skin-jpoker.js:
+	add PacketPokerChipsPot2Player to jpoker_08_all
+	[1283a337abaa]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js, jpoker/l10n
+	/jpoker-da.po, jpoker/l10n/jpoker-de.po, jpoker/l10n/jpoker-en.po,
+	jpoker/l10n/jpoker-en_CA.po, jpoker/l10n/jpoker-en_US.po,
+	jpoker/l10n/jpoker-es.po, jpoker/l10n/jpoker-fi.po, jpoker/l10n
+	/jpoker-fr.po, jpoker/l10n/jpoker-fr_BE.po, jpoker/l10n/jpoker-
+	fr_CA.po, jpoker/l10n/jpoker-fr_FX.po, jpoker/l10n/jpoker-it.po,
+	jpoker/l10n/jpoker-ja.po, jpoker/l10n/jpoker-nb.po, jpoker/l10n
+	/jpoker-nl.po, jpoker/l10n/jpoker-pt.po, jpoker/l10n/jpoker-sv.po:
+	jpoker.plugins.player: animation pot2money
+	[22cf006e80cd]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	add sitin checkbox to rebuy dialog
+	[4cbb8da8d239]
+
+2009-10-20  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	callback must be called by the deal_card animation no matter what
+	[b391076683c3]
+
+2009-10-19  Loic Dachary <loic@dachary.org>
+
+	* jpoker/css/jpoker_table_layout.css, jpoker/images/mockup.svg,
+	jpoker/js/jquery.jpoker.js, jpoker/js/mockup.js, jpoker/js/test-
+	jpoker.js, jpoker/l10n/jpoker-da.po, jpoker/l10n/jpoker-de.po,
+	jpoker/l10n/jpoker-en.po, jpoker/l10n/jpoker-en_CA.po, jpoker/l10n
+	/jpoker-en_US.po, jpoker/l10n/jpoker-es.po, jpoker/l10n/jpoker-
+	fi.po, jpoker/l10n/jpoker-fr.po, jpoker/l10n/jpoker-fr_BE.po,
+	jpoker/l10n/jpoker-fr_CA.po, jpoker/l10n/jpoker-fr_FX.po,
+	jpoker/l10n/jpoker-it.po, jpoker/l10n/jpoker-ja.po, jpoker/l10n
+	/jpoker-nb.po, jpoker/l10n/jpoker-nl.po, jpoker/l10n/jpoker-pt.po,
+	jpoker/l10n/jpoker-sv.po:
+	add pot, half pot, three quarter of a pot buttons
+	[5c3c8d035903]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	cards are turned face up at the end of the player cards animation,
+	not before
+	[74ee6187dbbc]
+
+	* jpoker/js/test-jpoker.js:
+	fix jpoker.plugins.player: jpoker_self because the
+	jpoker_player_self class is set on element up
+	[d84ecdf67668]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	play a sound when the logged in player has won more money from the
+	pot than what he put in it
+	[d253c81bd569]
+
+	* jpoker/css/jpoker_table.css:
+	player_self is one level up, fix the CSS accordingly for the
+	decoration of the click-to-sit
+	[a8b3807fb636]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js,
+	sound/Makefile, sound/player_timeout_notice.ogg,
+	sound/player_timeout_warning.ogg, sound/player_win.ogg:
+	add sounds for timeout warning and notice
+	[56835e06fd30]
+
+	* jpoker/css/jpoker_table.css, jpoker/js/jquery.jpoker.js:
+	remove hole cards for self by moving the jpoker_player_self
+	[62fd007e544a]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	userinfo is set with PlayerInfo when possible
+	[2786aaf6f665]
+
+2009-10-16  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	do not expire cookie for now
+	[6a57256a04ff]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	jpoker.plugins.playerSelf.callback.hand_strength.display_done is
+	called whenever the hand strength is displayed
+	[b0826fa0c3bd]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	the flag sit_out_sent is set when a SitOut packet has been sent to
+	the poker server and no Sit or SitOut packet has been received by
+	the client
+	[f2c6949ca5d0]
+
+2009-10-15  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	use pixels instead of percent when animating. This is because the
+	cur(true) function of jquery will return the size of the element
+	being animated in pixels instead of percentage, when it is not null
+	and the animation will be done with a mixture of percentage and
+	pixel size.
+	[01ded7c443fb]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js, jpoker/l10n
+	/jpoker-da.po, jpoker/l10n/jpoker-de.po, jpoker/l10n/jpoker-en.po,
+	jpoker/l10n/jpoker-en_CA.po, jpoker/l10n/jpoker-en_US.po,
+	jpoker/l10n/jpoker-es.po, jpoker/l10n/jpoker-fi.po, jpoker/l10n
+	/jpoker-fr.po, jpoker/l10n/jpoker-fr_BE.po, jpoker/l10n/jpoker-
+	fr_CA.po, jpoker/l10n/jpoker-fr_FX.po, jpoker/l10n/jpoker-it.po,
+	jpoker/l10n/jpoker-ja.po, jpoker/l10n/jpoker-nb.po, jpoker/l10n
+	/jpoker-nl.po, jpoker/l10n/jpoker-pt.po, jpoker/l10n/jpoker-sv.po:
+	currency formatting is now using coma to format thousands
+	[183e59046f93]
+
+2009-10-14  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	dont set the broke player flag when the player is flag all in
+	because it means his money is in the pot
+	[29d4bf323483]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	show rebuy dialog when the player is broke
+	[c07caaef00b3]
+
+2009-10-03  Loic Dachary <loic@dachary.org>
+
+	* upstream merge
+	[6a81e3881b53]
+
+2009-10-03  Loic Dachary <loic@dachary.org>
+
+	* .hgtags:
+	Added tag jpoker-2.0.0-1 for changeset 442ba3a14a43
+	[f62f47b2da76]
+
+	* .hgtags:
+	Removed tag jpoker-2.0.0-1
+	[442ba3a14a43]
+
+2009-10-03  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	disable long poll when an error occurs to avoid looping
+	[edeb3b2a1e29]
+
+2009-10-02  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	login templates are in the options
+	[5020f3b9caa1]
+
+2009-10-01  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	move playerSelf html snippets to template variables
+	[717449bf3395]
+
+2009-09-30  Loic Dachary <loic@dachary.org>
+
+	* jpoker/css/jpoker_table.css, jpoker/css/jpoker_table_layout.css,
+	jpoker/images/mockup.svg, jpoker/js/jquery.jpoker.js,
+	jpoker/js/mockup.js, jpoker/js/test-jpoker.js, jpoker/l10n/jpoker-
+	da.po, jpoker/l10n/jpoker-de.po, jpoker/l10n/jpoker-en.po,
+	jpoker/l10n/jpoker-en_CA.po, jpoker/l10n/jpoker-en_US.po,
+	jpoker/l10n/jpoker-es.po, jpoker/l10n/jpoker-fi.po, jpoker/l10n
+	/jpoker-fr.po, jpoker/l10n/jpoker-fr_BE.po, jpoker/l10n/jpoker-
+	fr_CA.po, jpoker/l10n/jpoker-fr_FX.po, jpoker/l10n/jpoker-it.po,
+	jpoker/l10n/jpoker-ja.po, jpoker/l10n/jpoker-nb.po, jpoker/l10n
+	/jpoker-nl.po, jpoker/l10n/jpoker-pt.po, jpoker/l10n/jpoker-sv.po:
+	sound control implementation
+	[7d066adfa258]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	isolate preference save function
+	[552684d3ca76]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	sounds can be disabled by preferences
+	[9a775da38294]
+
+2009-09-26  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/test-jpoker.js:
+	jlint fixes
+	[4ecc366f69f6]
+
+2009-09-24  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js:
+	use each instead of [0] so that the function works even when the
+	element is not in the template
+	[c215673183b2]
+
+	* jpoker/js/skin-jpoker.js:
+	disable long poll for skinning
+	[037f6d942a91]
+
+2009-09-10  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	receivePacket must not be called when PollReturn completes
+	[22513c38d279]
+
+2009-09-10  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	PacketLongPoll -> PacketPokerLongPoll
+	[435dae76e10a]
+
+2009-08-30  Loic Dachary <loic@dachary.org>
+
+	* merge upstream
+	[2e20eb6d445f]
+
+	* jpoker/js/jquery.ajaxQueue.js, jpoker/js/jquery.jpoker.js, jpoker/js
+	/test-jpoker.js:
+	General description of the LongPoll implementation:
+
+	When the connection is created, a LongPoll packet is launched before
+	anything else and the LongPoll logic described below is initiated.
+	The first LongPoll packet is emitted to initiate the logic and the
+	pendingLongPoll flag is set.
+
+	When a packet is sent, if the pendingLongPoll flag is set, a
+	LongPollReturn packet is sent. Contrary to all other packets, it is
+	not sent using ajaxQueue. If it was it would be blocked because the
+	LongPoll packet has not returned yet. The server is expected to make
+	sure the LongPoll packet returns. When the LongPoll packet returns,
+	the ajaxQueue will pop the next packet and send it to server.
+
+	If a packet has not been sent for more than longPollFrequency, a
+	LongPoll packet is sent. It is expected that the server will take a
+	long time, possibly minutes before returning. The pendingLongPoll
+	flag is set.
+
+	Details of the LongPoll implementation:
+
+	The scheduleLongPoll function will always setTimeout for longPoll in
+	the [minLongPollFrequency,longPollFrequency] range. The delta
+	argument is always in the [0,longPollFrequency] range.
+
+	The original sendPacket is renamed sendPacketAjax and the "mode" is
+	given in argument instead of being set from the settings. The
+	success callback of ajax calls the receivePacket function instead of
+	calling directly queueIncoming with the data received. The
+	sendPacket/receivePacket are in charge of implementing the LongPoll
+	logic described above.
+
+	Various bug fixes and modifications:
+
+	For testing purposes, when the longPollFrequency is -1 (and the
+	tests set it to -1) the LongPoll logic is deactivated.
+
+	Remove the "port" variable from jquery.ajaxQueue.js and the "abort"
+	mode because it's not used in the jpoker context. In addition jpoker
+	was bugous because it missed the "undefined" suffix when emptying
+	the ajax queue.
+
+	Remove the "mode" variable from jpoker.connection.defaults because
+	it has never been used by callers.
+
+	The PacketPoll packets implementation for tables and tourney is
+	removed.
+
+	The Ping packet is no longer used and the associated logic is
+	obsoleted in favor of LongPoll.
+	[75b8def96587]
+
+2009-08-21  Loic Dachary <loic@dachary.org>
+
+	* .hgtags:
+	Added tag jpoker-2.0.0-1 for changeset f78ce62c5987
+	[d4954de90b2a]
+
+	* .hgtags:
+	Removed tag jpoker-2.0.0-1
+	[f78ce62c5987]
+
+2009-08-21  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	UPLOAD avatar URL must carry the auth argument because there no
+	longer is a cookie
+	[d192883a1ef6]
+
+2009-08-18  Loic Dachary <loic@dachary.org>
+
+	* .hgtags:
+	Added tag jpoker-2.0.0-1 for changeset 947beb4cab74
+	[be19a1894c34]
+
+	* .hgtags:
+	Removed tag jpoker-2.0.0-1
+	[947beb4cab74]
+
+2009-08-18  Johan Euphrosine  <proppy@aminche.com>
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker.js:
+	don't show sit_seat if playerleave and self player still sit at the
+	table
+	[4ef77236b80d]
+
+2009-08-18  Loic Dachary <loic@dachary.org>
+
+	* .hgtags:
+	Added tag jpoker-2.0.0-1 for changeset bbc0214860f4
+	[527068e92b0f]
+
+	* .hgtags:
+	Removed tag jpoker-2.0.0-1
+	[bbc0214860f4]
+
+2009-08-17  Loic Dachary <loic@dachary.org>
+
+	* merge tags
+	[07499e21c0cb]
+
+2009-08-14  Loic Dachary <loic@dachary.org>
+
+	* jpoker/js/test-jpoker.js:
+	test serverDestroy
+	[95aa73602dab]
+
+	* jpoker/js/jquery.jpoker.js, jpoker/js/test-jpoker-backward.js,
+	jpoker/js/test-jpoker.js, jpoker/js/testrunner.js:
+	Compatibility with poker-network 2.0.0. Instead of relying on a
+	cookie and the name= arguement of the URL, use the auth= and uid=
+	arguments of the URL only. The auth= is a session hash that is set
+	by poker-network to remember the serial. The uid= is a hash that is
+	unique to each jpoker server instance. It allows the server to keep
+	the packets between polls. The auth= hash is stored in a cookie so
+	that it can be shared between tabs.
+
+	The "count" cookie and server data member that was designed to
+	forbid multiple sessions for a given user have been removed because
+	it is now allowed.
+
+	By default the cookie that stores the auth= hash expires after one
+	hour.
+	[27edc1c21560]
+
+2009-08-14  Loic Dachary <loic@dachary.org>
+
+	* .hgtags:
+	Added tag jpoker-2.0.0-1 for changeset 69c9cc5aa293
+	[fa0218cf85da]
+
+	* .hgtags:
+	Removed tag jpoker-2.0.0-1
+	[69c9cc5aa293]
+
+	* jpoker-opensocial.xml:
+	opensocial: fix url prefix
+	[84ea866dc72b]
+
+	* .hgtags:
+	Added tag jpoker-2.0.0-1 for changeset 85ad75397230
+	[2880787f84f7]
+
+	* .hgtags:
+	Removed tag jpoker-2.0.0-1
+	[85ad75397230]
+
+2009-08-13  Loic Dachary <loic@dachary.org>
+
+	* appdata-opensocial.xml, jpoker-opensocial.xml:
+	opensocial: relative path
+	[34cbcd0e54be]
+
+	* jpoker-opensocial.xml, jpoker/css/jpoker_table.css:
+	opensocial: doReconnectAlways: true, fix avatar size
+	[73bfe71c6bf7]
 
 2009-08-07  Loic Dachary <loic@dachary.org>
 
@@ -2823,7 +3546,7 @@
 	* merge proppy changes
 	[3bdd81d97a07]
 
-2008-10-31  root  <root@jspoker.pokersource.info>
+2008-10-31  Loic Dachary <loic@dachary.org>
 
 	* merge no rejoin setState(running)
 	[e5b5559c088c]
