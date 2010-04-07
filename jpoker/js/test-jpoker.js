@@ -7239,8 +7239,10 @@ test("jpoker.plugins.player: animation deal_card board turn", function(){
 		    jpoker.plugins.table.callback.animation.deal_card = table_deal_card;
 		    start_and_cleanup();
 		});
-	    equals(Math.round(board3.getOffset().top  + board3.height()/2.0 -  dealer.height()/2.0), dealer.getOffset().top, 'move from dealer top');
-	    equals(Math.round(board3.getOffset().left + board3.width()/2.0 -  dealer.width()/2.0), dealer.getOffset().left, 'move from dealer left');
+            var top = board3.getOffset().top  + board3.height()/2.0 -  dealer.height()/2.0;
+	    ok(Math.abs(top - dealer.getOffset().top) < 1, 'move from dealer top');
+            var left = board3.getOffset().left + board3.width()/2.0 -  dealer.width()/2.0;
+	    ok(Math.abs(left - dealer.getOffset().left) < 1, 'move from dealer left');
 	    equals(board3.css('opacity'), 0.0, 'opacity 0');
 	};
 	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [1,2,3,4] });
@@ -7291,8 +7293,10 @@ test("jpoker.plugins.player: animation deal_card board river", function(){
 		    jpoker.plugins.table.callback.animation.deal_card = table_deal_card;
 		    start_and_cleanup();
 		});
-	    equals(Math.round(board4.getOffset().top  + board4.height()/2.0 -  dealer.height()/2.0), dealer.getOffset().top, 'move from dealer top');
-	    equals(Math.round(board4.getOffset().left + board4.width()/2.0 -  dealer.width()/2.0), dealer.getOffset().left, 'move from dealer left');
+            var top = board4.getOffset().top  + board4.height()/2.0 -  dealer.height()/2.0;
+	    ok(Math.abs(top - dealer.getOffset().top) < 1, 'move from dealer top');
+            var left = board4.getOffset().left + board4.width()/2.0 -  dealer.width()/2.0;
+	    ok(Math.abs(left - dealer.getOffset().left) < 1, 'move from dealer left');
 	    equals(board4.css('opacity'), 0.0, 'opacity 0');
 	};
 	table.handler(server, game_id, { type: 'PacketPokerBoardCards', game_id: game_id, cards: [1,2,3,4,5] });
