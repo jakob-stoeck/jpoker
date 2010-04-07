@@ -1,5 +1,5 @@
 #
-#     Copyright (C) 2008 Loic Dachary <loic@dachary.org>
+#     Copyright (C) 2008 - 2010 Loic Dachary <loic@dachary.org>
 #
 #     This program is free software: you can redistribute it and/or modify
 #     it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ build : $(SWFS) $(WAVS)
 
 clean:
 	rm -f $(SWFS) $(WAVS) soundswiff
-#	rm -f ../jpoker/*.swf
+
 
 soundswiff: soundswiff.c
 	gcc -Wall -o $@ $< -lming
@@ -48,5 +48,5 @@ license:
 	oggdec $<
 
 %.swf : %.wav 
-#	./soundswiff $< $@
-	wav2swf --samplerate $(shell file $<  | perl -n -e '/(\d+)\sHz/; print $$1;') --output $@ --definesound  $<
+	./soundswiff $< $@
+
