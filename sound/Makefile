@@ -31,7 +31,7 @@ SOUNDS = \
 SWFS = $(SOUNDS:.ogg=.swf)
 WAVS = $(SOUNDS:.ogg=.wav)
 
-build : $(SWFS) $(WAVS)
+build : soundswiff $(SWFS) $(WAVS)
 	cp *.swf ../jpoker
 
 clean:
