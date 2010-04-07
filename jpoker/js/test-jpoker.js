@@ -1,6 +1,6 @@
 //
-//     Copyright (C) 2008, 2009 Loic Dachary <loic@dachary.org>
-//     Copyright (C) 2008, 2009 Johan Euphrosine <proppy@aminche.com>
+//     Copyright (C) 2008 - 2010 Loic Dachary <loic@dachary.org>
+//     Copyright (C) 2008 - 2010 Johan Euphrosine <proppy@aminche.com>
 //
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU General Public License as published by
@@ -650,6 +650,18 @@ test("jpoker.server.handler PacketPokerMessage/GameMessage ", function(){
         server.handler(server, 0, { type: 'PacketPokerGameMessage', string: message });
         equals(dialog.text().indexOf(message) >= 0, true, 'found (2)');
         dialog.dialog('destroy');
+        cleanup();
+    });
+
+test("jpoker.server.handler PacketPokerTourneyStart", function(){
+        expect(2);
+	
+        var server = jpoker.serverCreate({ url: 'url' });
+	server.tableJoin = function(table_serial) {
+            equals(table_serial, 42);
+	    ok(true, 'spawnTable called');	    
+	};
+        server.handler(server, 0, { type: 'PacketPokerTourneyStart', table_serial: 42 });	
         cleanup();
     });
 
