@@ -155,6 +155,26 @@
             this.servers = {};
         },
 
+        quit: function(callback) {
+            var server;
+            for(var url in this.servers) {
+                server = this.servers[url];
+                break;
+            }
+            if(server === undefined) {
+                if(callback !== undefined) {
+                    callback();
+                }
+                return true;
+            } else {
+                server.quit(function(server) {
+                        delete jpoker.servers[url];
+                        jpoker.quit(callback);
+                    });
+                return false;
+            }
+        },
+
         now: function() { return (new Date()).getTime(); },
 
         uid: function() { return 'jpoker' + $.jpoker.serial++ ; },
@@ -623,6 +643,7 @@
 
             LOGIN: 'loging',
             RUNNING: 'running',
+            QUITTING: 'quitting',
             USER_INFO: 'retrieving user info',
             RECONNECT: 'trying to reconnect',
             MY: 'searching my tables',
@@ -705,9 +726,13 @@
                 this.longPoll();
             },
 
+            quit: function() {
+                this.longPollFrequency = -1;
+            },
+
             error: function(reason) {
 		jpoker.watchable.prototype.setCallbacks.call(this);
-                this.longPollFrequency = -1;
+                this.quit();
                 this.reset();
                 this.setConnectionState('disconnected');
                 jpoker.error(reason);
@@ -843,7 +868,7 @@
                     global: false, // do not fire global events
                     success: function(data, status) {
                         if(jpoker.verbose > 0) {
-                            jpoker.message('success ' + data);
+                            jpoker.message('success ' + json_data + ' returned ' + data);
                         }
                         if($this.getConnectionState() != 'connected') {
                             $this.setConnectionState('connected');
@@ -856,15 +881,20 @@
 			}
                     },
                     error: function(xhr, status, error) {
+                        if(jpoker.verbose > 0) {
+                            jpoker.message('error callback fire for ' + json_data);
+                        }
                         if(status == 'timeout') {
                             $this.setConnectionState('disconnected');
                             $this.reset();
                         } else {
 			    switch (xhr.status) {
+			    case 0: // when the browser aborts xhr ( unload for instance )
+                            return; // discard the error
 			    case 12152:
 			    case 12030:
 			    case 12031:
-			    ++retry;
+ 			    ++retry;
 			    if (retry < $this.retryCount) {
 				return false; // retry
 			    }
@@ -1071,6 +1101,20 @@
                 jpoker.connection.prototype.reset.call(this);
                 this.stateQueue = [];
                 this.setState(this.RUNNING, 'reset');
+            },
+
+            quit: function(callback) {
+                this.queueRunning(function(server) {
+                        jpoker.connection.prototype.quit.call(server);
+                        server.setState(server.QUITTING, 'quit');
+                        server.sendPacket({ type: 'PacketQuit' }, 
+                                          function() {
+                                              server.uninit();
+                                              if (callback !== undefined) {
+                                                  callback(server);
+                                              }
+                                          });
+                    });
             },
 
             queueRunning: function(callback) {
@@ -3725,7 +3769,7 @@
     jpoker.plugins.table.destroy = function(table, what, packet, id) {
         // it is enough to destroy the DOM elements, even for players
         if(jpoker.verbose) {
-            jpoker.message('plugins.table.destroy ' + id + ' game: ' + table.game_id);
+            jpoker.message('plugins.table.destroy ' + id);
         }
 	jpoker.plugins.table.callback.quit(table, packet);
         $('#game_window' + id).remove();
