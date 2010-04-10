@@ -63,6 +63,16 @@ config.macros.jpokerLogin = {
     }
 };
 
+config.macros.jpokerQuit = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+        var confirmQuit = function() {
+            $(place).html("The connection to the poker server has been terminated. Please reload the page to establish a new connection");
+        };
+        $(place).html('Disconnecting from the poker server ... ');
+        $.jpoker.quit(confirmQuit);
+    }
+};
+
 config.macros.jpokerServerStatus = {
     handler: function(place, macroName, params, wikifier, paramString, tiddler) {
         $(place).jpoker('serverStatus', config.jpoker.restURL);
