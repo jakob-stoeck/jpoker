@@ -211,6 +211,28 @@ test("jpoker.error", function() {
 	jpoker.uninit = jpokerUninit;
 });
 
+test("jpoker.quit", function() {
+        expect(2);
+        stop();
+        jpoker.serverCreate({ url: 'url1' });
+        jpoker.serverCreate({ url: 'url2' });
+        var quit = jpoker.server.prototype.quit;
+        jpoker.server.prototype.quit = function(callback) {
+            var server = this;
+            setTimeout(function() {
+                    ok(true, 'quit called');
+                    callback(server);
+                }, 50);
+        };
+        jpoker.quit(function() {
+                for(var url in jpoker.servers) {
+                    ok(0, url + ' should not be here');
+                }
+                jpoker.server.prototype.quit = quit;
+                start_and_cleanup();
+            });
+    });
+
 test("jpoker.error alert", function() {
         expect(3);
 	var error_reason = "error reason";
@@ -716,6 +738,34 @@ test("jpoker.server.{de,}queueRunning", function(){
         equals(server.stateQueue.length, 0, 'no more callbacks');
         cleanup();
     });
+
+test("jpoker.server.quit", function(){
+         expect(6);
+         stop();
+         var PokerServer = function() {};
+
+         var game_id = 6;
+         PokerServer.prototype = {
+             outgoing: '[]',
+
+             handle: function(packet) { 
+                 equals(packet, '{"type":"PacketQuit"}', 'packet quit');
+             }
+         };
+
+         ActiveXObject.prototype.server = new PokerServer();
+
+         var server = jpoker.serverCreate({ url: 'url' });
+         equals(server.getState(), server.RUNNING, 'running');
+         equals(server.blocked, false, 'connection is not blocked');
+         server.longPollFrequency = 1;
+         server.quit(function(server) {
+                 equals(server.longPollFrequency, -1, 'long poll frequency');
+                 equals(server.getState(), server.RUNNING, 'running');
+                 equals(server.blocked, true, 'connection is blocked');
+                 start_and_cleanup();
+             });
+});
 
 test("jpoker.server.init reconnect", function(){
         expect(3);
@@ -2411,6 +2461,36 @@ test("jpoker.connection:sendPacket error 500", function(){
         ActiveXObject.defaults.status = 500;
         self.sendPacket({type: 'type'});
         ActiveXObject.defaults.status = 200;
+    });
+
+test("jpoker.connection:sendPacket abort ajax is ignored", function(){
+        expect(2);
+        stop();
+        var self = new jpoker.connection(); 
+	var _ajax = self.ajax;
+        var jpokerError = jpoker.error;
+        jpoker.error = function(reason) {
+            ok(false, 'jpoker error must not be called called');
+        };
+	self.ajax = function(settings) {
+	    var _error = settings.error;
+	    settings.error = function(xhr, status, error) {
+		var result = _error(xhr, status, error);
+		ActiveXObject.defaults.status = 200;
+		ok(true, 'error ignored');
+                equals(result, undefined, 'do not retry');
+		jpoker.error = jpokerError;
+		start();
+		return result;
+	    };
+	    settings.success = function() {
+		ok(false, 'unexpected success');
+		jpoker.error = jpokerError;
+	    };
+	    _ajax(settings);
+	};
+        ActiveXObject.defaults.status = 0;
+        self.sendPacket({type: 'type'});
     });
 
 test("jpoker.connection:sendPacket retry 12152", function(){
