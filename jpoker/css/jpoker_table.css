@@ -545,3 +545,7 @@
 .jpoker_table .jpoker_ptable_sitout_fold .jpoker_sitout {
     text-transform: none;
 }
+
+.jpoker_table .jpoker_auto_action input {
+    width: auto;
+}
