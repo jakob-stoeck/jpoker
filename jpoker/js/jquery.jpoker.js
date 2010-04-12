@@ -212,7 +212,7 @@
                     // XMLHttpRequest object, and we can't really detect it with instanceof... so let's assume all .xhr
                     // are XMLHttpRequest objects
                     var copy = {};
-                    for(key in reason) {
+                    for(var key in reason) {
                         copy[key] = reason[key];
                     }
                     copy.xhr = JSON.stringify(copy.xhr, ['status', 'responseText', 'readyState']);
