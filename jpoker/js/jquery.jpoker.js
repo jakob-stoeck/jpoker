@@ -92,6 +92,9 @@
             this.dialog_options.containerWidth = '300px';
             this.dialog_options.containerHeight = '200px';
 
+            this.error_dialog_options.containerWidth = '300px';
+            this.error_dialog_options.containerHeight = '200px';
+
             this.plugins.playerSelf.rebuy_options.containerWidth = '300px';
             this.plugins.playerSelf.rebuy_options.containerHeight = '200px';
 
@@ -187,10 +190,6 @@
 
 	console : window.console,
 
-	alert: function(str) {
-	    alert(str);
-	},
-
         message: function(str) {
             if(jpoker.console) { jpoker.console.log(str); }
         },
@@ -235,12 +234,25 @@
             this.errorHandler(reason, str);
         },
 
+        error_template: '<span class=\'jquery_error_message\'>{message} <a href="">{retry}</a></span> <div class=\'jquery_error_details\'><pre>{details}</pre></div>',
+
+        error_dialog_options: { width: 'none', height: 'none', autoOpen: false, dialog: true, title: 'jpoker error'},
+
         errorHandler: function(reason, str) {
             if (jpoker.console) {
                 this.message(str);
-	    } else {
-		this.alert(str);
 	    }
+            var errorDialog = $('#jpokerErrorDialog');
+            if(errorDialog.size() === 0) {
+                $('body').append('<div id=\'jpokerErrorDialog\' class=\'jpoker_jquery_ui\' />');
+                errorDialog = $('#jpokerErrorDialog');
+                errorDialog.dialog(jpoker.error_dialog_options);
+            }
+            var info = { 'details': str,
+                         'message': _("Lost connection to the poker server."),
+                         'retry': _("Click to retry.")
+            };
+            errorDialog.html(this.error_template.supplant(info)).dialog('open');
             throw reason;
         },
 
@@ -3738,7 +3750,9 @@
 	if(rankDialog.size() === 0) {
 	    $('body').append('<div id=\'jpokerRankDialog\' class=\'jpoker_jquery_ui\' />');
 	    rankDialog = $('#jpokerRankDialog');
-	    jpoker.message(jpoker.plugins.table.rank.options);
+	    if(jpoker.verbose > 0) {
+                jpoker.message(jpoker.plugins.table.rank.options);
+            }
 	    rankDialog.dialog(jpoker.plugins.table.rank.options);
 	}
         var rank = _(jpoker.plugins.table.templates.rank); // necessary because i18n is inactive when the template is first read

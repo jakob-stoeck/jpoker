@@ -21,3 +21,11 @@
 .jpoker_widget input {
 	vertical-align: middle;
 }
+
+#jpokerErrorDialog .jquery_error_message {
+    font-weight: bold;
+}
+
+#jpokerErrorDialog .jquery_error_details {
+    padding-top: 1em;
+}

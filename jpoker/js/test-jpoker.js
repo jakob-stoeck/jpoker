@@ -106,6 +106,7 @@ var cleanup = function(id) {
     $('#jpokerRebuy').dialog('close').remove();
     $('#jpokerOptionsDialog').dialog('close').remove();
     $('#jpokerRankDialog').dialog('close').remove();
+    $('#jpokerErrorDialog').dialog('close').remove();
 };
 
 var start_and_cleanup = function(id) {
@@ -163,16 +164,6 @@ test("jpoker: get{Server,Table,Player}", function() {
         jpoker.servers = {};
     });
 
-test("jpoker.alert", function() {
-    expect(1);
-    var windowAlert = window.alert;
-    window.alert = function(message) {
-	equals(message, 'foo', 'alert called');
-    };
-    jpoker.alert('foo');
-    window.alert = windowAlert;
-});
-
 test("jpoker.gettext", function() {
     expect(2);
     equals(_("login"), "test_gettext_override");
@@ -186,16 +177,12 @@ test("jpoker.error", function() {
         expect(4);
 	var error_reason = "error reason";
 	var jpokerMessage = jpoker.message;
-	var jpokerAlert = jpoker.alert;
 	var jpokerConsole = jpoker.console;
 	jpoker.console = function(reason) {
 	};
 	jpoker.message = function(string) {	    
 	    ok(/\(.*\)/.exec(string) ,"jpoker.message stack trace message");
 	    ok(string.indexOf(navigator.userAgent) >=0 ,"jpoker.message userAgent");
-	};
-	jpoker.alert = function(reason) {
-	    ok(false, 'alert not called');
 	};
 	jpokerUninit = jpoker.uninit;
 	jpoker.uninit = function() {
@@ -207,7 +194,6 @@ test("jpoker.error", function() {
 	    equals(reason, error_reason, "error_reason thrown");
 	}
 	jpoker.message = jpokerMessage;
-	jpoker.alert = jpokerAlert;
 	jpoker.console = jpokerConsole;
 	jpoker.uninit = jpokerUninit;
 });
@@ -234,25 +220,6 @@ test("jpoker.quit", function() {
             });
     });
 
-test("jpoker.error alert", function() {
-        expect(3);
-	var error_reason = "error reason";
-	var jpokerConsole = jpoker.console;
-	jpoker.console = undefined;
-	var jpokerAlert = jpoker.alert;
-	jpoker.alert = function(string) {
-	    jpoker.alert = jpokerAlert;
-	    ok(/\(.*\)/.exec(string) ,"jpoker.message stack trace message");
-	    ok(string.indexOf(navigator.userAgent) >=0 ,"jpoker.message userAgent");
-	};
-	try {
-	    jpoker.error(error_reason);
-	} catch (reason) {
-	    equals(reason, error_reason, "error_reason thrown");
-	}
-	jpoker.console = jpokerConsole;
-});
-
 test("jpoker.error printStackTrace throw", function() {
         expect(2);
         var handler = jpoker.errorHandler;
@@ -270,24 +237,34 @@ test("jpoker.error printStackTrace throw", function() {
     });
 
 test("jpoker.error object", function() {
-        expect(4);
+        expect(1);
 	var error_reason = {message: "error reason", "xhr": {status: 500, foo: 'bar'}};
-	var jpokerConsole = jpoker.console;
-	jpoker.console = undefined;
-	var jpokerAlert = jpoker.alert;
-	jpoker.alert = function(reason) {
-	    jpoker.alert = jpokerAlert;
-	    equals(reason.indexOf('error reason') >= 0, true, "jpoker.alert error reason");
-	    equals(reason.indexOf('status') >= 0, true, "jpoker.alert status not filtered");
-	    equals(reason.indexOf('foo') >= 0, false, "jpoker.alert foo filtered");
-	};
 	try {
 	    jpoker.error(error_reason);
 	} catch (reason) {
 	    equals(reason.message, error_reason.message, "error_reason thrown");
 	}
-	jpoker.console = jpokerConsole;
 });
+
+test("jpoker.errorHandler", function() {
+        expect(3);
+	var jpokerConsole = jpoker.console;
+        var error = 'error text';
+        var reason = 'error reason';
+        var reason_object = { message: reason, "xhr": { status: 500, foo: 'bar' } };
+	jpoker.console = undefined;
+        caught = false;
+        try {
+            jpoker.errorHandler(reason_object, error);
+        } catch(e) {
+            caught = true;
+            equals(e.message, reason, e.message + ' contains ' + reason);
+        }
+        ok(caught, 'caught');
+        var text = $('#jpokerErrorDialog').text();
+        ok(text.indexOf(error) >= 0, text + ' contains ' + error);
+	jpoker.console = jpokerConsole;
+    });
 
 //
 // jpoker.watchable
@@ -2196,14 +2173,9 @@ test("jpoker.server.urls", function() {
      });
 
 test("jpoker.server.error: throw correct exception", function() {
-        expect(2);
-	var jpokerAlert = jpoker.alert;
+        expect(1);
 	var jpokerConsole = jpoker.console;	
 	jpoker.console = undefined;
-	jpoker.alert = function(e) {
-	    jpoker.alert = jpokerAlert;
-	    equals(e.indexOf('dummy error') >= 0, true, 'dummy error');
-	};
 	var server = jpoker.serverCreate({ url: 'url' });
 	server.state = 'unknown';
 	server.registerHandler(0, function() {
@@ -8278,7 +8250,7 @@ test("jpoker.plugins.player: PokerSit/SitOut", function(){
         server.sendPacket = function() {};
         sit.click();
         jpoker.dialog = dialog;
-        equals(called, true, "alert because broke");
+        equals(called, true, "broke");
 
         cleanup(id);
     });
