@@ -1,67 +1,54 @@
 Copyright for all files not mentionned below:
 
-   (c) 2008 Loic Dachary <loic@dachary.org>
-   (c) 2008 Johan Euphrosine <proppy@aminche.com>
+   (c) 2008 - 2010 Loic Dachary <loic@dachary.org>
+   (c) 2008 - 2010 Johan Euphrosine <proppy@aminche.com>
    (c) 2008 Saq Imtiaz <lewcid@gmail.com>
         Licensed under GPLv3+
 
-Copyright for:
-        mo2json.py jpoker/js/jquery.gettext.js 
+  Copyright for:
+        jpoker/js/jquery.dynDateTime.js
+
+   (c) 2008 thetoolman@gmail.com
+       Licensed under LGPLv3+
+
+  Copyright for:
+        mo2json.py jpoker/jquery.gettext.js jpoker/jquery.printf.js 
 
    (c) 2008 Sabin Iacob (m0n5t3r) <iacobs@m0n5t3r.info>
         Licensed under GPLv3+
 
-Copyright for:
-	jpoker/js/jquery.js jpoker/js/jquery.ajaxQueue.js
+  Copyright for:
+	jpoker/jquery.js jpoker/jquery.ajaxQueue.js
 
    (c) 2007 John Resig (jquery.com)
 	Licensed under MIT
 
-Copyright for:
-	jpoker/js/ui.{base,draggable,droppable,resizable}.js
-	jpoker/js/ui.{slider,sortable}.js
-
-   (c) 2007, 2008  Paul Bakaus  (ui.jquery.com)
-        Richard D. Worth (rdworth.org), Klaus Hartl (stilbuero.de)
-	Licensed under MIT
-
-Copyright for:
-	jpoker/js/ui.{dialog,selectable}.js
-
-   (c) 2008  Richard D. Worth (rdworth.org)
-	Licensed under MIT
-
-Copyright for:
-	jpoker/js/ui.tabs.js
-
-   (c) 2008  Klaus Hartl (stilbuero.de)
-	Licensed under MIT
-
-Copyright for:
-	jpoker/js/ui.accordion.js
-
-   (c) 2007  Jorn Zaefferer
-	Licensed under MIT
-
-Copyright for:
-	jpoker/js/jquery.tablesorter.js
+  Copyright for:
+	jpoker/jquery.tablesorter.js
+	jpoker/jquery.tablesorter.pager.js
 
    (c) 2007 Christian Bach
-	Licensed under MIT
+   (c) 2008 Johan Euphrosine
+        Dual licensed under the MIT and GPL licenses:
 
-Copyright for:
-	tiddlywiki as found in tiddlywiki-2.3.html
+  Copyright for:
+	jpoker/jquery.form.js
+
+        Dual licensed under the MIT and GPL licenses
+
+  Copyright for:
+	tiddlywiki as found in jpoker/poker.html
 
    (c) UnaMesa Association 2004-2007
-	Modified BSD
+	Licensed under Modified BSD
 
-Copyright for:
+  Copyright for:
         jpoker/index-fr/FrenchTranslationPlugin.tiddler
 
    (c) 2008 ocalTW@gmail.com
 	Creative Commons Attribution-ShareAlike 3.0 
 
-Copyright for:
+  Copyright for:
         jpoker/index/404Plugin.js
         jpoker/index/ActiveMenuLinksPlugin.js
         jpoker/index/PublisherPluginBeta.js
@@ -73,13 +60,7 @@ Copyright for:
 	Creative Commons Attribution-ShareAlike 3.0 
         GPLv3+
 
-Copyright for:
-        jpoker/index/SinglePageModePlugin.js
-
-   (c) 2008 Eric Shulman http://www.TiddlyTools.com/
-	Creative Commons Attribution-ShareAlike 2.5
-
-Copyright for:
+  Copyright for:
         jpoker/index/WebDavPlugin.js
 
    (c) 2007, 2008 Saq Imtiaz <lewcid@gmail.com>
@@ -87,25 +68,11 @@ Copyright for:
 	Creative Commons Attribution-ShareAlike 3.0 
         GPLv3+
 
-Copyright for:
+  Copyright for:
 	jpoker/index/GenerateRssByTagPlugin.js
 
    (c) 2007 BidiX@bidix.info
 	Licensed under Modified BSD
 
-
-Public domain:
+  Public domain:
         http://www.JSON.org/js.html 2008 jpoker/js/json2.js
-
-Copyright for:
-	  jpoker/jpoker/js/jquery.validate.js
-
-   (c) 2006 - 2008 Jörn Zaefferer
-        licensed under the MIT
-
-
-Copyright for:
-	  jpoker/jpoker/js/jquery.strftime.js
-
-   (c) 2008 Emmanuel Benoît
-        licensed under the MIT
