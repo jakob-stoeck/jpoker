@@ -68,11 +68,11 @@
 
         jpoker_version: '2.0.0',
 
-        jpoker_sources: 'http://jspoker.pokersource.info/packaging-farm/jpoker/gnulinux/debian/lenny/src/jpoker_{jpoker-version}.orig.tar.gz',
+        jpoker_sources: 'http://jspoker.pokersource.info/packaging-farm/jpoker/gnulinux/debian/squeeze/src/jpoker_{jpoker-version}.orig.tar.gz',
 
         poker_network_version: '2.0.0',
 
-        poker_network_sources: 'http://farmpoker.pokersource.info/packaging-farm/poker-network/gnulinux/debian/lenny/src/poker-network_{poker-network-version}.orig.tar.gz',
+        poker_network_sources: 'http://farmpoker.pokersource.info/packaging-farm/poker-network/gnulinux/debian/squeeze/src/poker-network_{poker-network-version}.orig.tar.gz',
 
         sound: 'embed width=\'1\' height=\'1\' pluginspage=\'http://getgnash.org/\' type=\'application/x-shockwave-flash\' ',
 
@@ -118,7 +118,7 @@
 
         copyright_options: { width: 'none', height: 'none' },
 
-        copyright_template: '<div id=\'jpoker_copyright\'><div class=\'jpoker_copyright_image\'></div><div class=\'jpoker_software\'>jpoker-{jpoker-version} and poker-network-{poker-network-version}</div><div class=\'jpoker_authors\'><div><span>Copyright 1993-2009 Loic Dachary, Johan Euphrosine and <a onclick=\'window.open(this.href); return false\' href=\'http://pokersource.eu/#Copyright\'>al.</a></div></div><div class=\'jpoker_license\'>This program is free software: you can redistribute it and/or modify it under the terms of the <a onclick=\'window.open(this.href); return false\' href=\'http://www.fsf.org/licensing/licenses/gpl.txt\'>GNU General Public License</a> and <a onclick=\'window.open(this.href); return false\' href=\'http://www.fsf.org/licensing/licenses/agpl.txt\'>GNU Affero General Public License</a> as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</div> <div class=\'jpoker_download\'>Download <a onclick=\'window.open(this.href); return false\' href=\'{jpoker-sources}\'>jpoker sources</a> and <a onclick=\'window.open(this.href); return false\' href=\'{poker-network-sources}\'>poker-network sources</a><div class=\'jpoker_outflop_image\'></div><div class=\'jpoker_outflop\'>OutFlop provides services and software to create and operate multiplayer online poker rooms. Our expertise ranges from web based solutions well suited to local businesses up to large scale, international operations. Learn more about <a onclick=\'window.open(this.href); return false\' href=\'http://outflop.me\'>OutFlop poker software</a></div></div>',
+        copyright_template: '<div id=\'jpoker_copyright\'><div class=\'jpoker_copyright_image\'></div><div class=\'jpoker_software\'>jpoker-{jpoker-version} and poker-network-{poker-network-version}</div><div class=\'jpoker_authors\'><div><span>Copyright 1993-2010 Loic Dachary, Johan Euphrosine and <a onclick=\'window.open(this.href); return false\' href=\'http://pokersource.eu/#Copyright\'>al.</a></div></div><div class=\'jpoker_license\'>This program is free software: you can redistribute it and/or modify it under the terms of the <a onclick=\'window.open(this.href); return false\' href=\'http://www.fsf.org/licensing/licenses/gpl.txt\'>GNU General Public License</a> and <a onclick=\'window.open(this.href); return false\' href=\'http://www.fsf.org/licensing/licenses/agpl.txt\'>GNU Affero General Public License</a> as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</div> <div class=\'jpoker_download\'>Download <a onclick=\'window.open(this.href); return false\' href=\'{jpoker-sources}\'>jpoker sources</a> and <a onclick=\'window.open(this.href); return false\' href=\'{poker-network-sources}\'>poker-network sources</a><div class=\'jpoker_outflop_image\'></div><div class=\'jpoker_outflop\'>OutFlop provides services and software to create and operate multiplayer online poker rooms. Our expertise ranges from web based solutions well suited to local businesses up to large scale, international operations. Learn more about <a onclick=\'window.open(this.href); return false\' href=\'http://outflop.me\'>OutFlop poker software</a></div></div>',
 
         copyright_text: 'replaced by copyright_template with substitutions',
 
@@ -3805,7 +3805,7 @@
     jpoker.plugins.table.templates = {
         room: 'expected to be overriden by mockup.js but was not',
 	tourney_break: '<div>{label}</div><div>{date}</div>',
-	powered_by: '<a title=\'Powered by Pokersource\' href=\'javascript://\' >Powered by Pokersource</a>',
+	powered_by: '<a title=\'Powered by jpoker\' href=\'javascript://\' onclick=\'$.jpoker.copyright()\' >Powered by jpoker</a>',
 	chat: '<div class=\'jpoker_chat_input\'><input value=\'chat here\' type=\'text\' width=\'100%\' /></div><div class=\'jpoker_chat_history_player_box\'><div class=\'jpoker_chat_history_player_heading\'>{chat_history_player_label}</div><div class=\'jpoker_chat_history_player\'></div></div><div class=\'jpoker_chat_history_dealer_box\'><div class=\'jpoker_chat_history_dealer_heading\'>{chat_history_dealer_label}</div><div class=\'jpoker_chat_history_dealer\'></div></div>',
         placeholder: _("connecting to table {name}"),
 	table_info: '<div class=\'jpoker_table_info_name\'><span class=\'jpoker_table_info_name_label\'>{name_label}</span>{name}</div><div class=\'jpoker_table_info_variant\'><span class=\'jpoker_table_info_variant_label\'>{variant_label}</span>{variant}</div><div class=\'jpoker_table_info_blind\'><span class=\'jpoker_table_info_blind_label\'>{betting_structure_label}</span>{betting_structure}</div><div class=\'jpoker_table_info_seats\'><span class=\'jpoker_table_info_seats_label\'>{seats_label}</span>{max_players}</div><div class=\'jpoker_table_info_flop\'>{percent_flop}<span class=\'jpoker_table_info_flop_label\'>{percent_flop_label}</span></div><div class=\'jpoker_table_info_player_timeout\'><span class=\'jpoker_table_info_player_timeout_label\'>{player_timeout_label}</span>{player_timeout}</div><div class=\'jpoker_table_info_muck_timeout\'><span class=\'jpoker_table_info_muck_timeout_label\'>{muck_timeout_label}</span>{muck_timeout}</div><div class=\'jpoker_table_info_level\'></div>',
