@@ -732,7 +732,7 @@
 
             error: function(reason) {
 		jpoker.watchable.prototype.setCallbacks.call(this);
-                this.quit();
+                jpoker.connection.prototype.quit.call(this);
                 this.reset();
                 this.setConnectionState('disconnected');
                 jpoker.error(reason);
