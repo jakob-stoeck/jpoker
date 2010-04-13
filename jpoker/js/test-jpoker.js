@@ -5731,7 +5731,8 @@ test("jpoker.plugins.table: PacketPokerTourneyRank", function(){
         var place = $("#main");
         var id = 'jpoker' + jpoker.serial;
 
-        var rank_packet = { type: 'PacketPokerTourneyRank', game_id: game_id, serial: 1010, rank: 22, players: 44, money: 55 };
+        var money = 5501;
+        var rank_packet = { type: 'PacketPokerTourneyRank', game_id: game_id, serial: 1010, rank: 22, players: 44, money: money };
 
         place.jpoker('table', 'url', game_id);
 
@@ -5739,7 +5740,7 @@ test("jpoker.plugins.table: PacketPokerTourneyRank", function(){
 	    equals(rank_packet.serial, tourney_serial);
 	};
 	table.handler(server, game_id, rank_packet);
-        equals($('#jpokerDialog').text().indexOf(rank_packet.money) >= 0, true, rank_packet.money);
+        equals($('#jpokerDialog').text().indexOf(money/100.0) >= 0, true, 'rank money properly formated ' + money + ' is ' + money / 100.0);
         $('#jpokerDialog .jpoker_tournament_details').click();
 
         cleanup(id);

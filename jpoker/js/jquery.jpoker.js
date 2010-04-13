@@ -3793,6 +3793,7 @@
 
     jpoker.plugins.table.rank = function(table, packet, id) {
         var rank = _(jpoker.plugins.table.templates.rank); // necessary because i18n is inactive when the template is first read
+        packet.money = jpoker.chips.LONG(packet.money/100.0);
         jpoker.dialog(rank.supplant(packet));
         var url = table.url;
         $('#jpokerDialog .jpoker_tournament_details').click(function() {
