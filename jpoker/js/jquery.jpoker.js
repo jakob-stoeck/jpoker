@@ -97,6 +97,9 @@
 
             this.copyright_options.containerWidth = '400px';
             this.copyright_options.containerHeight = '300px';
+
+            this.plugins.table.rank.options.containerWidth = '300px';
+            this.plugins.table.rank.options.containerHeight = '200px';
         },
 
         other_compatibility: function() {
@@ -112,6 +115,9 @@
 
             this.copyright_options.containerWidth = '100%';
             this.copyright_options.containerHeight = '100%';
+
+            this.plugins.table.rank.options.containerWidth = '100%';
+            this.plugins.table.rank.options.containerHeight = '100%';
         },
 
         copyrightTimeout: 5000,
@@ -2754,6 +2760,10 @@
 			    }
                             $(element).html(tourneyDetails.getHTML(id, packet, logged, registered, opts.link_pattern));
 
+			    if ($('.jpoker_tourney_details_players table tbody tr').length > 0) {
+				$('.jpoker_tourney_details_players table').tablesorter({widgets: ['zebra'], sortList: tourneyDetails.templates.players[packet.tourney.state].sortList});
+			    }
+
 			    $('.jpoker_tourney_details_table', element).click(function() {
 				    var table_details = $('.jpoker_tourney_details_table_details', element);
                                     table_details.html(tourneyDetails.getHTMLTableDetails(id, packet, $(this).attr('id')));
@@ -2898,6 +2908,7 @@
 			'min_money': _("Min money"),
 			'goto_table': _("Go to table")
 		    }));
+	    var table_index = 0;
 	    $.each(packet.table2serials, function(table, players) {
 		    if (table != '-1') {
 			var row = {
@@ -2918,7 +2929,9 @@
 			} else {
 			    row.goto_table = t.tables.goto_table_link.supplant({'goto_table_label': _("Go to table"), 'link': link_pattern.supplant({game_id: table.substr(1)})});
 			}
+			row.oddEven = table_index&1 ? 'odd' : 'even';
 			html.push(t.tables.rows.supplant(row));
+			table_index += 1;
 		    }
 		});
 	    html.push(t.tables.footer);
@@ -2959,27 +2972,32 @@
 	    registering : {
 		header : '<table cellspacing=\'0\'><thead><tr class=\'jpoker_thead_caption\'><th>{caption}</th></tr><tr><th>{name}</th></tr></thead><tbody>',
 		rows : '<tr class=\'{oddEven}\'><td>{name}</td></tr>',
-		footer : '</tbody></table>'
+		footer : '</tbody></table>',
+ 		sortList : [[0,0]]
 	    },
 	    running : {
 		header : '<table cellspacing=\'0\'><thead><tr class=\'jpoker_thead_caption\'><th colspan=\'3\'>{caption}</th></tr><tr><th>{name}</th><th>{money}</th><th>{rank}</th></tr></thead><tbody>',
 		rows : '<tr class=\'{oddEven}\'><td>{name}</td><td>{money}</td><td>{rank}</td></tr>',
-		footer : '</tbody></table>'
+		footer : '</tbody></table>',
+		sortList : [[1,1]]
 	    },
 	    'break' : {
 		header : '<table cellspacing=\'0\'><thead><tr class=\'jpoker_thead_caption\'><th colspan=\'3\'>{caption}</th></tr><tr><th>{name}</th><th>{money}</th><th>{rank}</th></tr></thead><tbody>',
 		rows : '<tr class=\'{oddEven}\'><td>{name}</td><td>{money}</td><td>{rank}</td></tr>',
-		footer : '</tbody></table>'
+		footer : '</tbody></table>',
+		sortList : [[1,1]]
 	    },
 	    breakwait : {
 		header : '<table cellspacing=\'0\'><thead><tr class=\'jpoker_thead_caption\'><th colspan=\'3\'>{caption}</th></tr><tr><th>{name}</th><th>{money}</th><th>{rank}</th></tr></thead><tbody>',
 		rows : '<tr class=\'{oddEven}\'><td>{name}</td><td>{money}</td><td>{rank}</td></tr>',
-		footer : '</tbody></table>'
+		footer : '</tbody></table>',
+		sortList : [[1,1]]
 	    },
 	    complete : {
 		header : '<table cellspacing=\'0\'><thead><tr class=\'jpoker_thead_caption\'><th colspan=\'2\'>{caption}</th></tr><tr><th>{name}</th><th>{rank}</th></tr></thead><tbody>',
 		rows : '<tr class=\'{oddEven}\'><td>{name}</td><td>{rank}</td></tr>',
-		footer : '</tbody></table>'
+		footer : '</tbody></table>',
+		sortList : [[1,0]]
 	    },
 	    header: '<div class=\'jpoker_tourney_details_players\'>',
 	    footer: '</div>'
@@ -3716,16 +3734,25 @@
     };
 
     jpoker.plugins.table.rank = function(table, packet, id) {
+	var rankDialog = $('#jpokerRankDialog');
+	if(rankDialog.size() === 0) {
+	    $('body').append('<div id=\'jpokerRankDialog\' class=\'jpoker_jquery_ui\' />');
+	    rankDialog = $('#jpokerRankDialog');
+	    jpoker.message(jpoker.plugins.table.rank.options);
+	    rankDialog.dialog(jpoker.plugins.table.rank.options);
+	}
         var rank = _(jpoker.plugins.table.templates.rank); // necessary because i18n is inactive when the template is first read
         packet.money = jpoker.chips.LONG(packet.money/100.0);
-        jpoker.dialog(rank.supplant(packet));
+        rankDialog.html(rank.supplant(packet)).dialog('open');
         var url = table.url;
-        $('#jpokerDialog .jpoker_tournament_details').click(function() {
+        $('#jpokerRankDialog .jpoker_tournament_details').click(function() {
                 var server = jpoker.getServer(url);
                 if(server) {
                     server.rankClick(server, packet.serial);
                 }});
     };
+
+    jpoker.plugins.table.rank.options = { width: 'none', height: 'none', autoOpen: false, resizable: false, dialogClass: 'jpoker_dialog_rank'};
 
     jpoker.plugins.table.templates = {
         room: 'expected to be overriden by mockup.js but was not',
@@ -4357,7 +4384,7 @@
             var serial = packet.serial;
             var player = table.serial2player[serial];
             var names = [ 'check', 'call', 'raise', 'fold', 'allin', 'pot', 'halfpot', 'threequarterpot' ];
-            var labels = [ _("check"), _("call") + ' <span class=\'jpoker_call_amount\'></span>', _("raise"), _("fold"), _("all in"), _("pot"), _("1/2"), _("3/4") ];
+            var labels = [ _("check"), _("call") + ' <span class=\'jpoker_call_amount\'></span>', _("Raise"), _("fold"), _("all in"), _("pot"), _("1/2"), _("3/4") ];
             for(var i = 0; i < names.length; i++) {
                 $('#' + names[i] + id).html(jpoker.plugins.playerSelf.templates.action.supplant({ action: labels[i] })).hover(function(){
 			$(this).addClass('hover');
@@ -4534,7 +4561,7 @@
 			auto_check_fold_label: _("Check/Fold"),
 			auto_check_call_label: _("Check/Call any"),
 			auto_raise_label: _("Raise"),
-			auto_check_label: _("Check"),
+			auto_check_label: _("check"),
 			auto_call_label: _("Call")
 		    }));
 	    $('.jpoker_auto_action', auto_action_element).hide();
@@ -5157,7 +5184,7 @@
 	template: '<div class=\'jpoker_raise_label\'>{raise_label}</div><div class=\'jpoker_raise_bound jpoker_raise_min\'>{raise_min}</div><div class=\'jpoker_raise_current\' title=\'{raise_current_title}\'>{raise_current}</div><div class=\'jpoker_raise_bound jpoker_raise_max\'>{raise_max}</div><div class=\'ui-slider-1\'><div class=\'ui-slider-handle\'></div></div>',
 	getHTML: function(betLimit) {
 	    var t = this.template;
-	    return t.supplant({raise_label: _("raise"),
+	    return t.supplant({raise_label: _("Raise"),
 						raise_min: jpoker.chips.SHORT(betLimit.min),
 						raise_current_title: Math.floor(betLimit.min*100),
 						raise_current: jpoker.chips.SHORT(betLimit.min),

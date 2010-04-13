@@ -1732,6 +1732,41 @@ function jpoker_57_stats(place) {
         server.sendPacket('ping');
 }
 
+function jpoker_58_tourneyRank(place) {
+        setUp();
+        if(explain) {
+            $('#explain').append('<b>jpoker_56_tourneyBreak</b> ');
+            $('#explain').append('Tournaments is on break, resume time is displayed.');
+            $('#explain').append('<hr>');
+        }
+
+        var game_id = 100;
+        var player_serial = 200;
+        var packets = [
+{ type: 'PacketPokerTable', id: game_id }
+                       ];
+        var money = 2;
+        var bet = 8;
+        for(var i = 0; i < 2; i++) {
+            packets.push({ type: 'PacketPokerPlayerArrive', serial: player_serial + i, game_id: game_id, seat: i, name: 'username' + i });
+            packets.push({ type: 'PacketPokerPlayerChips', serial: player_serial + i, game_id: game_id, money: money , bet: bet });
+	    packets.push({ type: 'PacketPokerCheck', serial: player_serial + i, game_id: game_id });
+            bet *= 10;
+            money *= 10;
+        }
+	packets.push({ type: 'PacketPokerTourneyRank', game_id: game_id, serial: player_serial, rank: 1, players: 1000, money: 1000});
+
+        ActiveXObject.prototype.server = {
+            outgoing: JSON.stringify(packets),
+            handle: function(packet) { }
+        };
+        var server = $.jpoker.getServer('url');
+        server.spawnTable = function(server, packet) {
+	    $(place).jpoker('table', 'url', game_id, 'ONE');
+	};
+        server.sendPacket('ping');
+}
+
 function jpoker_60_text(place) {
         setUp();
         $('#text').show();
@@ -1860,6 +1895,80 @@ function jpoker_81_1_tourneyDetailsRegularRunning(place) {
         $(place).jpoker('tourneyDetails', 'url', tourney_serial.toString());
 }
 
+function jpoker_81_2_tourneyDetailsRunningWithPager(place) {
+        setUp();
+        if(explain) {
+            $('#explain').append('<b>jpoker_81_tourneyDetailsRunning</b> ');
+            $('#explain').append('Details of a sitngo running tournament.');
+            $('#explain').append('<hr>');
+        }
+
+	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": 100000, "table_serial": 606, "name": "user1", "rank": -1}, "X5": {"money": 100000, "table_serial": 606, "name": "user2", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4,5], "X707": [4,5], "X808": [4,5]}, "type": 149, "tourney": {"registered": 2, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Sit and Go 2 players", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "running", "buy_in": 300000, "add_on_count": 0, "description_short": "Sit and Go 2 players, Holdem", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0, "rank2prize": [1000000, 100000]}, "type": "PacketPokerTourneyManager"};
+
+	for (var i = 0; i < 200; ++i) {
+	    var player_money = 140+i;
+	    var player_name = "BOTRiryeevR" + i;
+	    var player_serial = 'X' + i;
+	    if (i & 2) {
+		TOURNEY_MANAGER_PACKET.user2properties[player_serial] = {"money": player_money, "table_serial": 606, "name": player_name, "rank": -1};
+	    } else {
+		TOURNEY_MANAGER_PACKET.user2properties[player_serial] = {"money": player_money, "table_serial": 606, "name": player_name, "rank": i+i};
+	    }
+	}
+
+	var tourney_serial = TOURNEY_MANAGER_PACKET.tourney_serial;
+	var players_count = 1;
+
+        var PokerServer = function() {};
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TOURNEY_MANAGER_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+        ActiveXObject.prototype.server = new PokerServer();
+
+        $(place).jpoker('tourneyDetails', 'url', tourney_serial.toString());
+}
+
+function jpoker_81_3_tourneyDetailsRegularRunningWithPager(place) {
+        setUp();
+        if(explain) {
+            $('#explain').append('<b>jpoker_81_1_tourneyDetailsRegularRunning</b> ');
+            $('#explain').append('Details of a regular running tournament.');
+            $('#explain').append('<hr>');
+        }
+
+	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": 100000, "table_serial": 606, "name": "user1", "rank": -1}, "X5": {"money": 100000, "table_serial": 606, "name": "user2", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4,5]}, "type": 149, "tourney": {"registered": 2, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Regular tournament long description", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "running", "buy_in": 300000, "add_on_count": 0, "description_short": "Regular tournament", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 0, "rank2prize": [1000000, 100000]}, "type": "PacketPokerTourneyManager"};
+
+	for (var i = 0; i < 200; ++i) {
+	    var player_money = 140+i;
+	    var player_name = "BOTRiryeevR" + i;
+	    var player_serial = 'X' + i;
+	    if (i & 2) {
+		TOURNEY_MANAGER_PACKET.user2properties[player_serial] = {"money": player_money, "table_serial": 606+i, "name": player_name, "rank": -1};
+	    } else {
+		TOURNEY_MANAGER_PACKET.user2properties[player_serial] = {"money": player_money, "table_serial": 606+i, "name": player_name, "rank": i+i};
+	    }
+	    if (TOURNEY_MANAGER_PACKET.table2serials['X' + 606 + i] == undefined) {
+		TOURNEY_MANAGER_PACKET.table2serials['X' + 606 + i] = [];
+	    }
+	    TOURNEY_MANAGER_PACKET.table2serials['X' + 606 + i].push(i);
+	}
+
+	var tourney_serial = TOURNEY_MANAGER_PACKET.tourney_serial;
+	var players_count = 1;
+
+        var PokerServer = function() {};
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TOURNEY_MANAGER_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+        ActiveXObject.prototype.server = new PokerServer();
+
+        $(place).jpoker('tourneyDetails', 'url', tourney_serial.toString());
+}
+
 function jpoker_82_tourneyDetailsCompleted(place) {
         setUp();
         if(explain) {
@@ -1893,6 +2002,37 @@ function jpoker_82_1_tourneyDetailsRegularCompleted(place) {
         }
 
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": -1, "table_serial": 606, "name": "user1", "rank": 1}, "X5": {"money": -1, "table_serial": 606, "name": "user2", "rank": 2}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4,5]}, "type": 149, "tourney": {"registered": 2, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Regular tournament long description", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "complete", "buy_in": 300000, "add_on_count": 0, "description_short": "Regular tournament", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 0, "rank2prize": [1000000, 100000]}, "type": "PacketPokerTourneyManager"};
+
+	var tourney_serial = TOURNEY_MANAGER_PACKET.tourney_serial;
+	var players_count = 1;
+
+        var PokerServer = function() {};
+        PokerServer.prototype = {
+            outgoing: "[ " + JSON.stringify(TOURNEY_MANAGER_PACKET) + " ]",
+
+            handle: function(packet) { }
+        };
+        ActiveXObject.prototype.server = new PokerServer();
+
+        $(place).jpoker('tourneyDetails', 'url', tourney_serial.toString());
+}
+
+function jpoker_82_2_tourneyDetailsRegularCompletedWithPager(place) {
+        setUp();
+        if(explain) {
+            $('#explain').append('<b>jpoker_82_1_tourneyDetailsRegularCompleted</b> ');
+            $('#explain').append('Details of a regular completed tournament.');
+            $('#explain').append('<hr>');
+        }
+
+	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": -1, "table_serial": 606, "name": "user1", "rank": 1}, "X5": {"money": -1, "table_serial": 606, "name": "user2", "rank": 2}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4,5]}, "type": 149, "tourney": {"registered": 2, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Regular tournament long description", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "complete", "buy_in": 300000, "add_on_count": 0, "description_short": "Regular tournament", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "n", "rebuy_delay": 0, "rank2prize": [1000000, 100000]}, "type": "PacketPokerTourneyManager"};
+
+	for (var i = 0; i < 200; ++i) {
+	    var player_money = 140+i;
+	    var player_name = "user" + i;
+	    var player_serial = 'X' + i;
+	    TOURNEY_MANAGER_PACKET.user2properties[player_serial] = {"money": player_money, "table_serial": -1, "name": player_name, "rank": 200-i};
+	}
 
 	var tourney_serial = TOURNEY_MANAGER_PACKET.tourney_serial;
 	var players_count = 1;

@@ -337,6 +337,12 @@
     width: 300px;
 }
 
+#jpokerRankDialog
+{
+    height: 150px;
+    width: 300px;
+}
+
 #jpokerRebuy .jpoker_rebuy_min {
 	position:absolute;
 	left:65px;

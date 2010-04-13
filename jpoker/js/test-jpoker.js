@@ -105,6 +105,7 @@ var cleanup = function(id) {
     $('#jpokerDialog').dialog('close').remove();
     $('#jpokerRebuy').dialog('close').remove();
     $('#jpokerOptionsDialog').dialog('close').remove();
+    $('#jpokerRankDialog').dialog('close').remove();
 };
 
 var start_and_cleanup = function(id) {
@@ -4439,7 +4440,7 @@ test("jpoker.plugins.tourneyDetails templates players", function(){
     });
 
 test("jpoker.plugins.tourneyDetails templates tables", function(){
-	expect(23);
+	expect(25);
 	
 	var TOURNEY_MANAGER_PACKET = {"user2properties": {"X4": {"money": 100000, "table_serial": 606, "name": "user1", "rank": -1}, "X5": {"money": 200000, "table_serial": 606, "name": "user2", "rank": -1}, "X6": {"money": 300000, "table_serial": 607, "name": "user3", "rank": -1}, "X7": {"money": 400000, "table_serial": 608, "name": "user3", "rank": -1}, "X8": {"money": 500000, "table_serial": 608, "name": "user4", "rank": -1}}, "length": 3, "tourney_serial": 1, "table2serials": {"X606": [4,5], "X607": [6,7,8]}, "type": 149, "tourney": {"registered": 4, "betting_structure": "level-15-30-no-limit", "currency_serial": 1, "description_long": "Sit and Go 2 players", "breaks_interval": 3600, "serial": 1, "rebuy_count": 0, "state": "running", "buy_in": 300000, "add_on_count": 0, "description_short": "Sit and Go 2 players, Holdem", "player_timeout": 60, "players_quota": 2, "rake": 0, "add_on": 0, "start_time": 0, "breaks_first": 7200, "variant": "holdem", "players_min": 2, "schedule_serial": 1, "add_on_delay": 60, "name": "sitngo2", "finish_time": 0, "prize_min": 0, "breaks_duration": 300, "seats_per_game": 2, "bailor_serial": 0, "sit_n_go": "y", "rebuy_delay": 0}, "type": "PacketPokerTourneyManager"};
 	$.each(TOURNEY_MANAGER_PACKET.user2properties, function(serial, player) {
@@ -4467,6 +4468,7 @@ test("jpoker.plugins.tourneyDetails templates tables", function(){
 
 	var table1 = $(".jpoker_tourney_details_tables tr", element).eq(2);
 	equals(table1.attr("id"), "X606");
+	equals(table1.hasClass('even'), true);
 	ok(table1.hasClass("jpoker_tourney_details_table"), "jpoker_tourney_details_table class");
 	equals(table1.children().eq(0).html(), "606");
 	equals(table1.children().eq(1).html(), "2");
@@ -4476,6 +4478,7 @@ test("jpoker.plugins.tourneyDetails templates tables", function(){
 
 	var table2 = $(".jpoker_tourney_details_tables tr", element).eq(3);
 	equals(table2.attr("id"), "X607");
+	equals(table2.hasClass('odd'), true);
 	ok(table2.hasClass("jpoker_tourney_details_table"), "jpoker_tourney_details_table class");
 	equals(table2.children().eq(0).html(), "607");
 	equals(table2.children().eq(1).html(), "3");
@@ -5586,7 +5589,7 @@ test("jpoker.plugins.table: PacketPokerTourneyBreak callback.tourney_break/resum
     });
 
 test("jpoker.plugins.table: PacketPokerTourneyRank", function(){
-        expect(2);
+        expect(3);
         var game_id = 100;
 	var packet = {"type": "PacketPokerTable", "id": game_id, "name": "One", "percent_flop" : 98, "betting_structure": "level-15-30-no-limit"};
         var server = jpoker.serverCreate({ url: 'url' });
@@ -5604,8 +5607,9 @@ test("jpoker.plugins.table: PacketPokerTourneyRank", function(){
 	    equals(rank_packet.serial, tourney_serial);
 	};
 	table.handler(server, game_id, rank_packet);
-        equals($('#jpokerDialog').text().indexOf(money/100.0) >= 0, true, 'rank money properly formated ' + money + ' is ' + money / 100.0);
-        $('#jpokerDialog .jpoker_tournament_details').click();
+        equals($('#jpokerRankDialog').text().indexOf(money/100.0) >= 0, true, 'rank money properly formated ' + money + ' is ' + money / 100.0);
+	equals($('.ui-dialog').hasClass('jpoker_dialog_rank'), true);
+        $('#jpokerRankDialog .jpoker_tournament_details').click();
 
         cleanup(id);
     });
@@ -5718,7 +5722,7 @@ test("jpoker.plugins.table: PokerPlayerArrive/Leave (Self)", function(){
         equals(table.seats[0], player_serial, "player 1");
         equals(table.serial2player[player_serial].serial, player_serial, "player 1 in player2serial");
         var names = [ 'check', 'call', 'raise', 'fold' ];
-	var texts = [ 'check', 'call ', 'raise', 'fold' ];
+	var texts = [ 'check', 'call ', 'Raise', 'fold' ];
         for(var i = 0; i < names.length; i++) {
             equals($("#" + names[i] + id).text(), texts[i]);
         }
@@ -8569,7 +8573,7 @@ test("jpoker.plugins.player: PacketPokerSelfInPosition/LostPosition", function()
         ok($("#game_window" + id).hasClass('jpoker_self_in_position'), 'jpoker_self_in_position is set');
 	ok($("#game_window" + id).hasClass('jpoker_ptable'), 'jpoker_ptable');
         var raise = $('#raise_range' + id);
-	equals($(".jpoker_raise_label", raise).html(), 'raise', 'raise label');
+	equals($(".jpoker_raise_label", raise).html(), 'Raise', 'raise label');
         equals($(".jpoker_raise_min", raise).html(), Z.table.betLimit.min, 'min');
         equals($(".jpoker_raise_current", raise).html(), Z.table.betLimit.min, 'current');
         equals($(".jpoker_raise_max", raise).html(), Z.table.betLimit.max, 'max');
