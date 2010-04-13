@@ -1070,7 +1070,6 @@
             init: function() {
                 jpoker.connection.prototype.init.call(this);
                 this.tables = {};
-		this.tourneys = {};
                 this.tableLists = {};
                 this.timers = {};
                 this.serial = 0;
@@ -1089,10 +1088,6 @@
 			table.uninit();
 		    });
 		this.tables = {};
-		$.each(this.tourneys, function(game_id, tourney) {
-			tourney.uninit();
-		    });
-		this.tourneys = {};
                 jpoker.connection.prototype.uninit.call(this);
             },
 
@@ -1481,10 +1476,6 @@
                             var table_id = packet.tables[i];
                             server.tableJoin(table_id);
                         }
-                        for(var j = 0; j < packet.tourneys.length; j++) {
-                            var tourney_serial = packet.tourneys[j];
-                            server.tourneyJoin(tourney_serial);
-                        }
                         server.getUserInfo();
 			server.queueRunning(function(server) { server.reconnectFinish(server); });
                         server.setState(server.RUNNING, 'rejoin');
@@ -1571,7 +1562,6 @@
 			server.sendPacket({'type': 'PacketPokerTourneyRegister', 'serial': server.serial, 'game_id' : game_id});
 			server.registerHandler(game_id, function(server, game_id, packet) {
 				if (packet.type == 'PacketPokerTourneyRegister') {
-				    server.tourneyJoin(packet.game_id);
 				    server.notifyUpdate(packet);
 				    server.queueRunning(function() {
 					    if (server.timers.tourneyDetails !== undefined) {
@@ -1637,11 +1627,6 @@
 				return true;
 			    });
 		    });
-	    },
-
-	    tourneyJoin: function(game_id) {
-		var tourney = new jpoker.tourney(this, game_id);
-		this.tourneys[game_id] = tourney;
 	    },
 
 	    getPersonalInfo : function() {
@@ -2100,67 +2085,6 @@
                 return true;
             }
         });
-
-    //
-    // tourney
-    //
-    jpoker.tourney = function(server, game_id) {
-        $.extend(this, jpoker.tourney.defaults);
-	this.game_id = game_id;
-        this.url = server.url;
-        this.init();
-        server.registerHandler(game_id, this.handler);
-	server.registerHandler(0, this.handler);
-    };
-
-    jpoker.tourney.defaults = {
-    };
-
-    jpoker.tourney.prototype = $.extend({}, jpoker.watchable.prototype, {
-            init: function() {
-                jpoker.watchable.prototype.init.call(this);
-                this.reset();
-            },
-
-            uninit: function() {
-                jpoker.watchable.prototype.uninit.call(this);
-            },
-
-            reset: function() { },
-
-            handler: function(server, game_id, packet) {
-                if(jpoker.verbose > 0) {
-                    jpoker.message('tourney.handler ' + JSON.stringify(packet));
-                }
-
-                var tourney_serial = packet.tourney_serial;
-                var tourney = server.tourneys[tourney_serial];
-                if(!tourney) {
-                    tourney_serial = packet.game_id;
-                    tourney = server.tourneys[tourney_serial];
-                }
-                if(!tourney) {
-                    // packets unrelated to an existing tourney are silently discarded
-                    if(jpoker.verbose > 1) {
-                        jpoker.message('tourney.handler: packet discarded');
-                    }
-                    return true;
-                }
-                var url = server.url;
-
-                switch(packet.type) {
-
-                case 'PacketPokerTourneyFinish':
-                case 'PacketPokerTourneyUnregister':
-                     tourney.uninit();
-                     delete server.tourneys[tourney_serial];
-                     break;
-		}
-
-		return true;
-	    }
-
-	});
 
     //
     // player

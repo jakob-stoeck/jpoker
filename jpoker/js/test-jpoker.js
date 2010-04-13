@@ -621,14 +621,10 @@ test("jpoker.Crypto b32 str", function (){
     });
 
 test("jpoker.serverDestroy", function(){
-         expect(2);
+         expect(1);
 
          var server = jpoker.serverCreate({ url: 'url' });
-         server.tourneys = {
-             1: { 'uninit': function() { } }
-         };
          jpoker.serverDestroy('url');
-         equals(server.tourneys[1], undefined);
          equals(jpoker.servers.url, undefined);
 });
 
@@ -637,27 +633,19 @@ test("jpoker.serverDestroy", function(){
 //
 
 test("jpoker.server.uninit", function() {
-	expect(4);
+	expect(2);
         var server = jpoker.serverCreate({ url: 'url' });
 	var game_id = 42;
         var table_packet = { id: game_id };
         server.tables[game_id] = new jpoker.table(server, table_packet);
-	var tourney_serial = 43;
-        server.tourneys[game_id] = new jpoker.tourney(server, tourney_serial);
 
 	server.tables[game_id].uninit = function() {
 	    ok(true, "table uninit called");	    
 	};
-	server.tourneys[game_id].uninit = function() {
-	    ok(true, "tourney uninit called");
-	};
 	server.uninit();
 	var table_count = 0;
 	for (var table in server.tables) { ++table_count; }
-	var tourney_count = 0;
-	for (var tourneys_count in server.tourneys) { ++tourney_count; }
 	equals(table_count, 0, "server.tables empty");
-	equals(tourney_count, 0, "server.tourneys empty");
     });
 
 test("jpoker.server.handler PacketPokerMessage/GameMessage ", function(){
@@ -995,7 +983,7 @@ test("jpoker.server.tableInformation", function(){
 });
 
 test("jpoker.server.rejoin", function(){
-        expect(6);
+        expect(5);
         stop();
 
 	var reconnectFinish = jpoker.server.defaults.reconnectFinish;
@@ -1008,11 +996,10 @@ test("jpoker.server.rejoin", function(){
         var server = jpoker.serverCreate({ url: 'url' });
         var id = 'jpoker' + jpoker.serial;
         var game_id = 100;
-	var tourney_serial = 200;
 
         var PokerServer = function() {};
         PokerServer.prototype = {
-            outgoing: '[{"type": "PacketPokerPlayerPlaces", "tables": [' + game_id + '], "tourneys": [' + tourney_serial + ']}]',
+            outgoing: '[{"type": "PacketPokerPlayerPlaces", "tables": [' + game_id + '], "tourneys": []}]',
 
             handle: function(packet) { }
         };
@@ -1022,9 +1009,6 @@ test("jpoker.server.rejoin", function(){
         server.tables[game_id] = new jpoker.table(server, table_packet);
         var table = server.tables[game_id];
         server.notifyUpdate(table_packet);
-
-        server.tourneys[tourney_serial] = new jpoker.tourney(server, tourney_serial);
-        var tourney = server.tourneys[tourney_serial];
 
         var player_serial = 43;
         var player_seat = 2;
@@ -1056,9 +1040,6 @@ test("jpoker.server.rejoin", function(){
             });
         server.tableJoin = function(other_game_id) {
             equals(other_game_id, game_id, 'rejoin same table');
-        };
-        server.tourneyJoin = function(game_id) {
-            equals(game_id, tourney_serial, 'rejoin same tourney');
         };
 
         server.getUserInfo = function() {
@@ -1301,16 +1282,6 @@ test("jpoker.server.bankroll", function(){
 	equals(table.buyIn.bankroll, money, 'table.buyIn.bankroll');
 
         cleanup();
-    });
-
-test("jpoker.server.tourneyJoin", function(){
-        expect(1);
-	
-	var game_id = 42;
-        var server = jpoker.serverCreate({ url: 'url' });
-        server.tourneyJoin(game_id);
-	ok(game_id in server.tourneys, 'tourney created');
-	cleanup();
     });
 
 test("jpoker.server.tourneyRegister", function(){
@@ -3008,7 +2979,7 @@ test("jpoker.table.reinit", function(){
     });
 
 
-test("jpoker.table or tourney", function() {
+test("jpoker.table or tourney table or not", function() {
 	expect(2);
         var server = jpoker.serverCreate({ url: 'url' });
 	var table = new jpoker.table(server, {"type": "PacketPokerTable", "id": 101, "betting_structure": "15-30-no-limit"});
@@ -3289,91 +3260,6 @@ test("jpoker.table: max_player", function() {
 	cleanup();
     });
 
-//
-// tourney
-//
-test("jpoker.tourney.init", function(){
-        expect(4);
-        stop();
-
-        var server = jpoker.serverCreate({ url: 'url' });
-	server.serial = 42;
-        var game_id = 100;
-
-        var PokerServer = function() {};
-
-        PokerServer.prototype = {
-            outgoing: '[{"type": "PacketPokerTourneyRegister", "game_id": ' + game_id + ', "tag": "fixme"}]',
-
-            handle: function(packet) {
-                equals(packet, '{"type":"PacketPokerTourneyRegister","serial":42,"game_id":' + game_id + '}');
-            }
-        };
-
-        ActiveXObject.prototype.server = new PokerServer();
-
-        var handler = function(server, what, packet) {
-            if(packet.type == "PacketPokerTourneyRegister") {
-                equals(packet.game_id, game_id);
-                equals(game_id in server.tourneys, true, game_id + " created");
-                equals(server.tourneys[game_id].game_id, game_id, "id");
-                start_and_cleanup();
-		return false;
-            }
-            return true;
-        };
-        server.registerUpdate(handler);
-        server.tourneyRegister(game_id);
-    });
-
-
-test("jpoker.tourney.init registerHandler", function(){
-	expect(2);
-        var server = jpoker.serverCreate({ url: 'url' });
-        var game_id = 100;
-	var handlers = [];
-	server.registerHandler = function(id, handler) {
-	    handlers.push(id);
-	};
-        var tourney = new jpoker.tourney(server, game_id);
-	equals(game_id, handlers[0], 'registerHandler(100)');
-	equals(0, handlers[1], 'registerHandler(0)');
-    });
-
-test("jpoker.tourney.uninit", function(){
-        expect(2);
-
-        var server = jpoker.serverCreate({ url: 'url' });
-        var game_id = 100;
-        var tourney = new jpoker.tourney(server, game_id);
-        server.tourneys[game_id] = tourney;
-        var notified = false;
-        var handler = function() {
-            notified = true;
-        };
-        tourney.registerDestroy(handler);
-        tourney.handler(server, game_id, { type: 'PacketPokerTourneyUnregister', game_id: game_id });
-        equals(notified, true, 'destroy callback called');
-        equals(game_id in server.tourneys, false, 'tourney removed from server');
-    });
-
-test("jpoker.tourney.uninit: PacketPokerTourneyFinish", function(){
-        expect(2);
-
-        var server = jpoker.serverCreate({ url: 'url' });
-        var game_id = 100;
-        var tourney = new jpoker.tourney(server, game_id);
-        server.tourneys[game_id] = tourney;
-        var notified = false;
-        var handler = function() {
-            notified = true;
-        };
-        tourney.registerDestroy(handler);
-        tourney.handler(server, 0, { type: 'PacketPokerTourneyFinish', tourney_serial: game_id });
-        equals(notified, true, 'destroy callback called');
-        equals(game_id in server.tourneys, false, 'tourney removed from server');
-    });
-
 test("jpoker.table.handler: PacketPokerShowdown", function(){
          expect(2);
          var server = jpoker.serverCreate({ url: 'url' });
@@ -3397,28 +3283,6 @@ test("jpoker.table.handler: PacketPokerShowdown", function(){
 	 jpoker.now = jpokerNow;
 	 cleanup();
      });
-
-test("jpoker.tourney.handler: unknown tourney", function(){
-        expect(2);
-        var server = jpoker.serverCreate({ url: 'url' });
-
-        var game_id = 100;
-        server.tourneys[game_id] = new jpoker.tourney(server, game_id);
-        var tourney = server.tourneys[game_id];
-
-        jpokerMessage = jpoker.message;
-	var messages = [];
-        jpoker.message = function(message) {
-	    messages.push(message);
-        };
-	var verbose = jpoker.verbose;
-	jpoker.verbose = 2;
-	tourney.handler(server, game_id, { 'type': 'Packet', 'game_id': 101 });
-	equals(messages[0].indexOf("tourney.handler") >= 0, true, "tourney handler");
-	equals(messages[1].indexOf("packet discarded") >= 0, true, "unknown tourney");
-	jpoker.verbose = verbose;
-	jpoker.message = jpokerMessage;
-    });
 
 //
 // player
@@ -6624,12 +6488,13 @@ test("jpoker.plugins.table: callback.tourney_end", function(){
 	var tourney_serial = 42;
 	table.tourney_serial = tourney_serial;
 	   
+        var money = 1000;
         place.jpoker('table', 'url', game_id);
 	equals(table.tourney_rank, undefined, 'tourney_rank undefined');
-        table.handler(server, game_id, { 'type': 'PacketPokerTourneyRank', 'serial': tourney_serial, 'game_id': game_id, 'rank': 1, 'players': 10, 'money': 1000});
+        table.handler(server, game_id, { 'type': 'PacketPokerTourneyRank', 'serial': tourney_serial, 'game_id': game_id, 'rank': 1, 'players': 10, 'money': money});
 	equals(table.tourney_rank.rank, 1, 'tourney_rank.rank');
 	equals(table.tourney_rank.players, 10, 'tourney_rank.players');
-	equals(table.tourney_rank.money, 1000, 'tourney_rank.money');
+	equals(table.tourney_rank.money, money / 100.0, 'tourney_rank.money');
 	
 	var jpoker_table_callback_tourney_end = jpoker.plugins.table.callback.tourney_end;
 	jpoker.plugins.table.callback.tourney_end = function(table) {
@@ -6638,6 +6503,7 @@ test("jpoker.plugins.table: callback.tourney_end", function(){
 	    equals($('#game_window' + id).length, 0, 'game window removed');
 	};
 	table.handler(server, game_id, { 'type': 'PacketPokerTableDestroy', 'game_id': game_id });
+	cleanup();
     });
 
 test("jpoker.plugins.table: callback.tourney_end default", function(){
