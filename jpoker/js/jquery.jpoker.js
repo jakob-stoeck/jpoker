@@ -236,7 +236,7 @@
 
         error_template: '<span class=\'jquery_error_message\'>{message} <a href="">{retry}</a></span> <div class=\'jquery_error_details\'><pre>{details}</pre></div>',
 
-        error_dialog_options: { width: 'none', height: 'none', autoOpen: false, dialog: true, title: 'jpoker error'},
+        error_dialog_options: { width: 'none', height: 'none', autoOpen: false, dialog: true, title: 'jpoker error' },
 
         errorHandler: function(reason, str) {
             if (jpoker.console) {
