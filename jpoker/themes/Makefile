@@ -1,5 +1,5 @@
 #
-#     Copyright (C) 2008 - 2010 Loic Dachary <loic@dachary.org>
+#     Copyright (C) 2010 Loic Dachary <loic@dachary.org>
 #
 #     This program is free software: you can redistribute it and/or modify
 #     it under the terms of the GNU General Public License as published by
@@ -14,39 +14,17 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-SOUNDS = \
-	player_arrive.ogg \
-	player_hand.ogg \
-	player_bet.ogg \
-	player_call.ogg \
-	player_fold.ogg \
-	player_check.ogg \
-	player_fold.ogg \
-	player_timeout_notice.ogg \
-	player_timeout_warning.ogg \
-	player_win.ogg \
-	deal_card.ogg
+# Each sub-directory is expected to have the following structure:
+#
+# name/css
+# name/css/all.css # there must be nothing else necessary to include in 
+#                  # the HTML page.
+# name/css/images  # images supporting the CSS.
+# name/js          # JS supporting the theme.
+# name/sounds      # swf sound files required by jpoker.
+# name/skin        # HTML files demonstrating each aspect of the theme.
+#
+THEMES=pokersource.eu-2009
 
-
-SWFS = $(SOUNDS:.ogg=.swf)
-WAVS = $(SOUNDS:.ogg=.wav)
-
-build : soundswiff $(SWFS) $(WAVS)
-	cp *.swf ../jpoker
-
-clean:
-	rm -f $(SWFS) $(WAVS) soundswiff
-
-
-soundswiff: soundswiff.c
-	gcc -Wall -o $@ $< -lming
-
-license:
-	for file in $(SOUNDS) ; do vorbiscomment $$file -w -c copyright.txt ; done
-
-%.wav : %.ogg
-	oggdec $<
-
-%.swf : %.wav 
-	./soundswiff $< $@
-
+all build install clobber clean maintainer-clean check:
+	for i in ${THEMES} ; do ${MAKE} -C $$i ; done
