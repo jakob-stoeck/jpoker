@@ -4,8 +4,8 @@
 |''Author:''|Loic Dachary (loic@dachary.org)|
 |''Source:''|http://jspoker.pokersource.info/jpoker/#JpokerPlugin.tiddler|
 |''Code Repository:''|http://upstream.jspoker.pokersource.info/|
-|''Version:''|1.0|
-|''Date:''|Apr 5, 2008|
+|''Version:''|2.0|
+|''Date:''|Apr 18, 2010|
 |''License:''|[[GNU GPLv3+|http://gnu.org/licenses/gpl.txt]]|
 |''~CoreVersion:''|2.3.0|
 ***/
@@ -46,6 +46,7 @@ $.jpoker.server.defaults.placeTourneyRowClick = function(server, id) {
 };
 
 $.jpoker.verbose = 6;
+$.jpoker.sound_directory = '../../../themes/pokersource.eu-2009/sounds/';
 
 $(document).ready(function() {
   $.jpoker.copyright();

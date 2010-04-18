@@ -16,18 +16,19 @@
 #
 VERSION=2.0.0
 
-SHELL = /bin/bash
+SUBDIRS=jpoker/themes jpoker/sites
 
-all:
+all build install clobber clean maintainer-clean check::
+	for i in ${SUBDIRS} ; do ${MAKE} -C $$i $@ ; done
 
-dist: jpoker-binary-${VERSION} 
+dist: build jpoker-binary-${VERSION} 
 	tar -cvf jpoker-binary-${VERSION}.tar jpoker-binary-${VERSION}
 
-install: jpoker-binary-${VERSION}
+install:: jpoker-binary-${VERSION}
 	mkdir -p ${DESTDIR}usr/share
 	cp -a jpoker-binary-${VERSION} ${DESTDIR}usr/share/jpoker
 
-clean: 
+clean:: 
 	rm -fr jpoker-binary-${VERSION}.tar
 
 #
@@ -41,24 +42,20 @@ reinstall:
 jpoker-binary-${VERSION}:
 	mkdir jpoker-binary-${VERSION}
 	cp README.binary jpoker-binary-${VERSION}/README
-	cp -a jpoker/index.html jpoker/index-*.html jpoker-binary-${VERSION}
+	mkdir -p jpoker-binary-${VERSION}/jpoker/sites/pokersource.eu 
+	cp -a jpoker/sites/pokersource.eu/binary jpoker-binary-${VERSION}/jpoker/sites/pokersource.eu
 	mkdir jpoker-binary-${VERSION}/jquery
 	cp -a jpoker/jquery/themes jpoker-binary-${VERSION}/jquery
 	cp -a jpoker/jquery/jquery-1.2.6.js jpoker-binary-${VERSION}/jquery
 	cp -a jpoker/jquery/ui jpoker-binary-${VERSION}/jquery
 	cp -a jpoker/js jpoker-binary-${VERSION}
-	cp -a jpoker/css jpoker-binary-${VERSION}
+	mkdir -p jpoker-binary-${VERSION}/jpoker/themes/pokersource.eu-2009
+	cp -a jpoker/themes/pokersource.eu-2009/css jpoker-binary-${VERSION}/jpoker/themes/pokersource.eu-2009
+	cp -a jpoker/themes/pokersource.eu-2009/sounds jpoker-binary-${VERSION}/jpoker/themes/pokersource.eu-2009
 	mkdir jpoker-binary-${VERSION}/l10n
 	cp -a jpoker/l10n/*.json jpoker-binary-${VERSION}/l10n
-	cp -a jpoker/images jpoker-binary-${VERSION}
-	cp -a jpoker/*.swf jpoker-binary-${VERSION}
-	cp -a jpoker-opensocial.xml jpoker-binary-${VERSION}
 
-build: i18n cook mockup check
-	-cd jpoker ; x-www-browser index.html || true
-
-sound:
-	cd sound ; make build
+build:: i18n check
 
 maintainer-dist: build
 	rm -fr jpoker-binary-${VERSION}
@@ -74,18 +71,11 @@ maintainer-dist: build
 # dependencies to these tools may require a significant amount of work
 # depending on the GNU/Linux distribution.
 #
-maintainer-clean: 
-	cd sound ; ${MAKE} clean
+maintainer-clean::
 	rm -fr tests
 	rm -f messages.pot 
-	rm -f jpoker/{index,poker}.html ${LANG_TW}
 	rm -fr ${LINGUAS:%=%/} jpoker/l10n/*.mo
-	rm -f jpoker/index.200* jpoker/index-fr.200* jpoker/poker.200* 
-	rm -f jpoker/mockup.html
-	rm -f jpoker/images/mockup_plain.svg
 	rm -f *.pyc
-	rm -f ${IMAGES}
-	rm -fr jpoker/standalone
 
 #
 # remove all that cannot be re-generated This is different from the
@@ -96,21 +86,17 @@ maintainer-clean:
 # randomly fails with no good reason (i.e. it will sometime succeed if
 # the command is run a second time).
 #
-clobber: maintainer-clean
+clobber:: maintainer-clean
 	rm -fr jpoker-binary-${VERSION}*
-	rm -fr gems
-	rm -fr jpoker/*.swf
 
 LINGUAS = $(shell grep -v ^\# jpoker/l10n/LINGUAS)
 LANG_DIR = jpoker/l10n
 
-STANDALONE_TW = $(LINGUAS:%=jpoker/standalone/index-%.html)
 # 
 # because english is the default language, it has no
 # associated .json file
 #
 LANG_JSON = $(LINGUAS:%=${LANG_DIR}/jpoker-%.json)
-LANG_TW = $(LINGUAS:%=jpoker/index-%.html)
 
 messages.pot: jpoker/js/jquery.jpoker.js
 	xgettext --extract-all \
@@ -136,94 +122,11 @@ ${LANG_DIR}/jpoker-%.json: ${LANG_DIR}/%.mo
 
 i18n: ${LANG_JSON}
 
-update_gems: 
-	rm -fr gems
-	${MAKE} gems/bin/tiddlywiki_cp
-
-# retry at most 4 times if there is an error because gem randomly fails
-gems/bin/tiddlywiki_cp: 
-	gem install --include-dependencies --no-rdoc --no-ri --install-dir gems tiddlywiki_cp
-	patch -d gems/gems/tiddlywiki_cp-0.5.3 -p1 < tiddlywiki_cp_locale2lang.patch
-	# ruby1.8 & rubygems backward compatibility fix for when the gems is built with ruby1.9 and
-	# used with ruby1.8
-	# http://code.whytheluckystiff.net/list/shoes/2008/11/14/4469-re-hacking-shoes.html
-	perl -pi -e 's/ s.respond_to\? :required_rubygems_version=/ s.public_methods.include?("required_rubygems_version=")/' gems/specifications/*.gemspec
-	perl -pi -e 's/ s.respond_to\? :specification_version / s.public_methods.include?("specification_version=") /' gems/specifications/*.gemspec
-
-jpoker/index-%.html: gems/bin/tiddlywiki_cp 
-jpoker/index.html: gems/bin/tiddlywiki_cp 
-jpoker/poker.html: gems/bin/tiddlywiki_cp
-#jpoker/standalone/index-%.html : gems/bin/tiddlywiki_cp
-
-GEMSCONTEXT=GEM_HOME=gems gems/bin/
-
-EMPTY=tiddlywiki-2.3.html
-
-jpoker/index-%.html: jpoker/JpokerPlugin/* jpoker/index-*/* jpoker/index/* jpoker/tiddlers/* jpoker/markup/*
-	cp ${EMPTY} $@
-	${RUBY} ${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-$* jpoker/index jpoker/tiddlers jpoker/markup $@
-
-jpoker/index.html: jpoker/index-en.html
-	cp jpoker/index-en.html jpoker/index.html
-
-jpoker/poker.html: jpoker/JpokerPlugin/* jpoker/poker/* jpoker/markup/*
-	cp ${EMPTY} $@
-	${RUBY} ${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/poker jpoker/markup $@
-
-#
-# Gather css, js and l10n files that are to be inlined in the TiddlyWiki
-#
-jpoker/standalone-temp-% : jpoker/markup/MarkupPostBody.tiddler jpoker/js/* jpoker/jquery/* jpoker/css/* jpoker/tiddlers-standalone/* i18n mockup
-	if [ -d $@ ]; then rm -fr $@;fi
-	mkdir $@
-	#
-	# Parse MarkupPostBody for list of js files, copy them and create .div files.
-	cd jpoker; declare -i a=1 ; sed -ne 's/.*src="\([^"]*\)".*/\1/p' < markup/MarkupPostBody.tiddler | while read file ; do printf 'title="%02d_%s" author="script" tags="excludeLists excludeSearch systemConfig"\n' $$a "$$file" > standalone-temp-$*/$${file##*/}.div ; cp $$file standalone-temp-$*/; let a++ ; done
-	#
-	# Flatten all css files to one file and create a .div file
-	ruby getcss.rb jpoker/css/jpoker.css -d $@/jpoker.css
-	printf 'title="JpokerStyleSheet" author="script"\n' > $@/"jpoker.css.div";
-	#
-	# If lang is not en, convert json file to a plugin js file and create .div file
-	if [ -a ${LANG_DIR}/jpoker-$*.json ]; then sed "1i\$$.gt.setLang('$*');$$.gt.messages.$*=" ${LANG_DIR}/jpoker-$*.json > $@/"jpoker-$*.js"; printf 'title="%s-JpokerJson" author="script" tags="excludeLists excludeSearch systemConfig"\n' $* > $@/"jpoker-$*.js.div"; fi
-
-#
-# Create output folder for standalone files
-#
-jpoker/standalone:
-	if [ ! -d jpoker/standalone ]; then mkdir jpoker/standalone;fi
-
-#
-# Create standalone files with inlined CSS, JavaScript and l10n
-#
-jpoker/standalone/index-%.html: jpoker/JpokerPlugin/* jpoker/index-*/* jpoker/index/* jpoker/tiddlers/* jpoker/tiddlers-standalone/* jpoker/standalone jpoker/standalone-temp-% mockup gems/bin/tiddlywiki_cp
-	cp -f ${EMPTY} $@
-	${RUBY} ${GEMSCONTEXT}tiddlywiki_cp -a jpoker/JpokerPlugin jpoker/index-$* jpoker/index jpoker/tiddlers jpoker/tiddlers-standalone/* jpoker/standalone-temp-$*/* $@
-	# copy images to standalone directory
-	cp -R -f jpoker/images jpoker/standalone/images
-	cp -R -f jpoker/css/images jpoker/standalone
-	cp -R -f jpoker/css/jpoker_jquery_ui/i jpoker/standalone
-	rm -fr jpoker/standalone-temp-$*
-
-jpoker/standalone/index.html: jpoker/standalone/index-en.html
-	cp jpoker/standalone/index-en.html $@
-
-standalone: ${STANDALONE_TW} jpoker/standalone/index.html
-
-cook:	jpoker/poker.html ${LANG_TW} jpoker/index.html standalone
-
 # mimic when a new lang shows
 newlang:
 	msginit -l fr_FR -o fr.po -i messages.pot
-	python generateLangTiddlers.py
-	# add the generate json file to jpoker/markup/MarkupPreHead.tiddler
-	# add the generate locale to jpoker/JpokerPlugin/JpokerPlugin.tiddler lang2locale
-#	msginit -l ja_JP -o jp.po -i messages.pot
 
-check:
-	python test-svg2html.py
-	python test-svgflatten.py
-	python test-generateLangTiddlers.py
+check::
 	-rm -fr tests ; jscoverage jpoker tests
 	-cd tests ; x-www-browser jscoverage.html?test-jpoker.html # replace with jaxer when http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=474050 closed
 
@@ -240,25 +143,10 @@ copyright:
 mtime:
 	for f in `hg manifest`; do touch --date="`hg log -l1 --template '{date|isodate}' $$f`" $$f; done
 
-mockup: jpoker/mockup.html
-jpoker/mockup.html: jpoker/images/mockup_plain.svg
-	( \
-		echo "// generated with make mockup, DO NOT EDIT" ; \
-		echo -n '$$.jpoker.plugins.table.templates.room = ' ; \
-		python svgflatten.py < jpoker/images/mockup_plain.svg | python svg2html.py --json || true ; \
-	)  > jpoker/js/mockup.js
-	python svgflatten.py < jpoker/images/mockup_plain.svg | python svg2html.py --html | tidy -indent 2>/dev/null > jpoker/mockup.html || true
-	perl -pi -e 's:</head>:<link href="css/jpoker_table_layout.css" rel="stylesheet" type="text/css" /></head>:' jpoker/mockup.html
-	python svgflatten.py < jpoker/images/mockup_plain.svg | python svg2html.py --css > jpoker/css/jpoker_table_layout.css
-
-jpoker/images/mockup_plain.svg: jpoker/images/mockup.svg
-	inkscape --without-gui --vacuum-defs --export-plain-svg=jpoker/images/mockup_plain.svg jpoker/images/mockup.svg
-	perl -pi -e 's/xmlns="http:\/\/www.w3.org\/2000\/svg"//' jpoker/images/mockup_plain.svg
-
 jslint:
 	jslint jpoker/js/jquery.jpoker.js
 	jslint jpoker/js/test-jpoker.js
 	jslint jpoker/js/skin-jpoker.js
 	jslint jpoker/js/printstacktrace.js
 
-.PHONY: tests sound jslint
+.PHONY: tests

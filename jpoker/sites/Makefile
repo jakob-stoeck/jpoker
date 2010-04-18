@@ -18,4 +18,4 @@
 SITES=pokersource.eu
 
 all build install clobber clean maintainer-clean check::
-	for i in ${THEMES} ; do ${MAKE} -C $$i $@ ; done
+	for i in ${SITES} ; do ${MAKE} -C $$i $@ ; done

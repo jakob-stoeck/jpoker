@@ -27,7 +27,10 @@ build:: makedir cook check
 check::
 	python test-generateLangTiddlers.py
 
-maintainer-clean::
+clean:: 
+	rm -fr standalone-temp-* *.pyc
+
+maintainer-clean:: clean
 	rm -fr ${BINDIR}
 
 clobber:: maintainer-clean
@@ -67,7 +70,7 @@ GEMSCONTEXT=GEM_HOME=gems gems/bin/
 
 EMPTY=tiddlywiki-2.3.html
 
-${BINDIR}/index-%.html: JpokerPlugin/* index-*/* index/* tiddlers/* markup/*
+${BINDIR}/index-%.html: JpokerPlugin/* index-*/* index/* tiddlers/* markup/*  gems/bin/tiddlywiki_cp
 	cp ${EMPTY} $@
 	${RUBY} ${GEMSCONTEXT}tiddlywiki_cp -a JpokerPlugin index-$* index tiddlers markup $@
 
@@ -93,13 +96,15 @@ standalone-temp-% : markup/MarkupPostBody.tiddler ${JPOKERDIR}/js/* ${JPOKERDIR}
 #
 # Create standalone files with inlined CSS, JavaScript and l10n
 #
-${BINDIR}/standalone/index-%.html: JpokerPlugin/* index-*/* index/* tiddlers/* tiddlers-standalone/* standalone-temp-% gems/bin/tiddlywiki_cp
+${BINDIR}/standalone/images:
+	cp -R -f ${THEMEDIR}/css/images ${BINDIR}/standalone
+
+${BINDIR}/standalone/i:
+	cp -R -f ${THEMEDIR}/css/jpoker_jquery_ui/i ${BINDIR}/standalone
+
+${BINDIR}/standalone/index-%.html: JpokerPlugin/* index-*/* index/* tiddlers/* tiddlers-standalone/* standalone-temp-% gems/bin/tiddlywiki_cp ${BINDIR}/standalone/images ${BINDIR}/standalone/i
 	cp -f ${EMPTY} $@
 	${RUBY} ${GEMSCONTEXT}tiddlywiki_cp -a JpokerPlugin index-$* index tiddlers tiddlers-standalone/* standalone-temp-$*/* $@
-	# copy images to standalone directory
-	cp -R -f ${THEMEDIR}/css/images ${BINDIR}/standalone
-	cp -R -f ${THEMEDIR}/css/jpoker_jquery_ui/i ${BINDIR}/standalone
-	rm -fr standalone-temp-$*
 
 ${BINDIR}/standalone/index.html: ${BINDIR}/standalone/index-en.html
 	cp ${BINDIR}/standalone/index-en.html $@
