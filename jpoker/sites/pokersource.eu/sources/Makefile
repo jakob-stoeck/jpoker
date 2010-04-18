@@ -28,7 +28,7 @@ check::
 	python test-generateLangTiddlers.py
 
 maintainer-clean::
-	rm -f ${BINDIR}
+	rm -fr ${BINDIR}
 
 clobber:: maintainer-clean
 	rm -fr gems

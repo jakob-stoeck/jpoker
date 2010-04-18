@@ -30,6 +30,10 @@ clean::
 	rm -f mockup.html
 	rm -f *.pyc
 
+clobber::
+	rm -f images/mockup_plain.svg
+	rm -f mockup.html
+
 build:: all
 
 all:: mockup.html
