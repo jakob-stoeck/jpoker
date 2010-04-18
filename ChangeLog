@@ -1,6 +1,14 @@
-2010-04-07  Loic Dachary <loic@dachary.org>
+2010-04-18  loic  <loic@dachary.org>
 
 	* Release 2.0.0
+
+	* reorganize themes and sites
+
+	* debian/apache2/sites-available/jpoker:
+	redirect the default URL to the pokersource.eu site
+	[d1a361b30929] [tip]
+
+2010-04-07  Loic Dachary <loic@dachary.org>
 
 	* sound/Makefile:
 	switch back to ming based solution because swftools is obsolete
