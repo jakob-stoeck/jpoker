@@ -15,10 +15,12 @@
 #     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-SUBDIRS=sounds-source
+SUBDIRS=sounds-sources
+
+JPOKERDIR=../..
 
 all build install clobber clean maintainer-clean check::
-	for i in ${SUBDIRS} ; do ${MAKE} -C $$i ; done
+	for i in ${SUBDIRS} ; do ${MAKE} -C $$i $@ ; done
 
 check::
 	python test-svg2html.py
@@ -26,7 +28,10 @@ check::
 
 clean::
 	rm -f mockup.html
- 
+	rm -f *.pyc
+
+build:: all
+
 all:: mockup.html
 
 mockup.html: images/mockup_plain.svg
@@ -34,7 +39,7 @@ mockup.html: images/mockup_plain.svg
 		echo "// generated with make mockup, DO NOT EDIT" ; \
 		echo -n '$$.jpoker.plugins.table.templates.room = ' ; \
 		python svgflatten.py < images/mockup_plain.svg | python svg2html.py --json || true ; \
-	)  > jpoker/js/mockup.js
+	)  > ${JPOKERDIR}/js/mockup.js
 	python svgflatten.py < images/mockup_plain.svg | python svg2html.py --html | tidy -indent 2>/dev/null > mockup.html || true
 	perl -pi -e 's:</head>:<link href="css/jpoker_table_layout.css" rel="stylesheet" type="text/css" /></head>:' mockup.html
 	python svgflatten.py < images/mockup_plain.svg | python svg2html.py --css > css/jpoker_table_layout.css

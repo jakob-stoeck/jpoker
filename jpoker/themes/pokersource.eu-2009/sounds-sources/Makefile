@@ -31,13 +31,17 @@ SOUNDS = \
 SWFS = $(SOUNDS:.ogg=.swf)
 WAVS = $(SOUNDS:.ogg=.wav)
 
-all install clobber clean check:
+all build install clobber clean maintainer-clean check::
 
-build : soundswiff $(SWFS) $(WAVS)
+build:: soundswiff $(SWFS) $(WAVS)
+	mkdir -p ../sounds
 	cp *.swf ../sounds
 
-maintainer-clean:
+maintainer-clean::
 	rm -f $(SWFS) $(WAVS) soundswiff
+
+clobber::
+	rm -fr ../sounds
 
 soundswiff: soundswiff.c
 	gcc -Wall -o $@ $< -lming

@@ -27,4 +27,4 @@
 THEMES=pokersource.eu-2009
 
 all build install clobber clean maintainer-clean check:
-	for i in ${THEMES} ; do ${MAKE} -C $$i ; done
+	for i in ${THEMES} ; do ${MAKE} -C $$i $@ ; done
