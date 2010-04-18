@@ -1,5 +1,6 @@
 <!--{{{-->
 <link rel="alternate" type="application/rss+xml" title="RSS" href="index.xml"/>
+<link rel="shortcut icon" href="../../../themes/pokersource.eu-2009/css/images/favicon.ico" type="image/x-icon" />
 <link href="../../../l10n/jpoker-da.json" lang="da" rel="gettext"/>
 <link href="../../../l10n/jpoker-de.json" lang="de" rel="gettext"/>
 <link href="../../../l10n/jpoker-en.json" lang="en" rel="gettext"/>
