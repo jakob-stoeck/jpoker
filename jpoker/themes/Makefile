@@ -24,7 +24,7 @@
 # name/sounds      # swf sound files required by jpoker.
 # name/skin        # HTML files demonstrating each aspect of the theme.
 #
-THEMES=pokersource.eu-2009
+THEMES=pokersource.eu-2009 pokersource.eu
 
 all build install clobber clean maintainer-clean check::
 	for i in ${THEMES} ; do ${MAKE} -C $$i $@ ; done

@@ -1,5 +1,5 @@
 #
-#     Copyright (C) 2010 Loic Dachary <loic@dachary.org>
+#     Copyright (C) 2008 - 2010 Loic Dachary <loic@dachary.org>
 #
 #     This program is free software: you can redistribute it and/or modify
 #     it under the terms of the GNU General Public License as published by
@@ -14,8 +14,44 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+SOUNDS = \
+	player_arrive.ogg \
+	player_hand.ogg \
+	player_bet.ogg \
+	player_call.ogg \
+	player_fold.ogg \
+	player_check.ogg \
+	player_fold.ogg \
+	player_timeout_notice.ogg \
+	player_timeout_warning.ogg \
+	player_win.ogg \
+	deal_card.ogg
 
-SITES=pokersource.eu-2009 pokersource.eu
+
+SWFS = $(SOUNDS:.ogg=.swf)
+WAVS = $(SOUNDS:.ogg=.wav)
 
 all build install clobber clean maintainer-clean check::
-	for i in ${SITES} ; do ${MAKE} -C $$i $@ ; done
+
+build:: soundswiff $(SWFS) $(WAVS)
+	mkdir -p ../sounds
+	cp *.swf ../sounds
+
+maintainer-clean::
+	rm -f $(SWFS) $(WAVS) soundswiff
+
+clobber::
+	rm -fr ../sounds
+
+soundswiff: soundswiff.c
+	gcc -Wall -o $@ $< -lming
+
+license:
+	for file in $(SOUNDS) ; do vorbiscomment $$file -w -c copyright.txt ; done
+
+%.wav : %.ogg
+	oggdec $<
+
+%.swf : %.wav 
+	./soundswiff $< $@
+

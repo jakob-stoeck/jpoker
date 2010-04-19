@@ -1,5 +1,5 @@
 #
-#     Copyright (C) 2010 Loic Dachary <loic@dachary.org>
+#     Copyright (C) 2008 - 2010 Loic Dachary <loic@dachary.org>
 #
 #     This program is free software: you can redistribute it and/or modify
 #     it under the terms of the GNU General Public License as published by
@@ -14,8 +14,5 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-
-SITES=pokersource.eu-2009 pokersource.eu
-
 all build install clobber clean maintainer-clean check::
-	for i in ${SITES} ; do ${MAKE} -C $$i $@ ; done
+	${MAKE} -C sources $@
