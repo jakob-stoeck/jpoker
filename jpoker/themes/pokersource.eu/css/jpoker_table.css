@@ -345,6 +345,7 @@
 	left:65px;
 	top:55px;
 	font-size:18px;
+        color: #3e7c32;
 }
 
 #jpokerRebuy .jpoker_rebuy_max {
@@ -352,6 +353,7 @@
 	left:253px;
 	top:55px;
 	font-size:18px;
+        color: #3e7c32;
 }
 
 #jpokerRebuy .jpoker_rebuy_current {
@@ -362,7 +364,7 @@
 	font-weight:bold;
 	width:100%;
 	text-align:center;
-	color:#006902;
+	color:#3e7c32;
 }
 
 .jpoker_jquery_ui.ui-dialog #jpokerRebuy.ui-dialog-content {
@@ -377,8 +379,14 @@
 	text-align: center;
 }
 
+.jpoker_jquery_ui.ui-dialog #jpokerRebuy .jpoker_auto_sitin {
+	position: absolute;
+	bottom: 8px;
+	right: 8px;
+}
+
 .jpoker_jquery_ui.ui-dialog #jpokerRebuy .ui-dialog-buttonpane button {
-	background:#006902;
+	background:#3e7c32;
 	color:#fff;
 	cursor:pointer;
 	font-size:17px;
@@ -388,7 +396,7 @@
 }
 
 .jpoker_jquery_ui.ui-dialog #jpokerRebuy .ui-dialog-buttonpane button:hover {
-	background:#009E03;
+	background:#254a1e;
 }
 
 .jpoker_sit_seat {
