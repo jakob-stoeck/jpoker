@@ -42,16 +42,16 @@ reinstall:
 jpoker-binary-${VERSION}:
 	mkdir jpoker-binary-${VERSION}
 	cp README.binary jpoker-binary-${VERSION}/README
-	mkdir -p jpoker-binary-${VERSION}/jpoker/sites/pokersource.eu 
-	cp -a jpoker/sites/pokersource.eu/binary jpoker-binary-${VERSION}/jpoker/sites/pokersource.eu
+	mkdir -p jpoker-binary-${VERSION}/sites/pokersource.eu 
+	cp -a jpoker/sites/pokersource.eu/binary jpoker-binary-${VERSION}/sites/pokersource.eu
 	mkdir jpoker-binary-${VERSION}/jquery
 	cp -a jpoker/jquery/themes jpoker-binary-${VERSION}/jquery
 	cp -a jpoker/jquery/jquery-1.2.6.js jpoker-binary-${VERSION}/jquery
 	cp -a jpoker/jquery/ui jpoker-binary-${VERSION}/jquery
 	cp -a jpoker/js jpoker-binary-${VERSION}
-	mkdir -p jpoker-binary-${VERSION}/jpoker/themes/pokersource.eu-2009
-	cp -a jpoker/themes/pokersource.eu-2009/css jpoker-binary-${VERSION}/jpoker/themes/pokersource.eu-2009
-	cp -a jpoker/themes/pokersource.eu-2009/sounds jpoker-binary-${VERSION}/jpoker/themes/pokersource.eu-2009
+	mkdir -p jpoker-binary-${VERSION}/themes/pokersource.eu-2009
+	cp -a jpoker/themes/pokersource.eu-2009/css jpoker-binary-${VERSION}/themes/pokersource.eu-2009
+	cp -a jpoker/themes/pokersource.eu-2009/sounds jpoker-binary-${VERSION}/themes/pokersource.eu-2009
 	mkdir jpoker-binary-${VERSION}/l10n
 	cp -a jpoker/l10n/*.json jpoker-binary-${VERSION}/l10n
 
