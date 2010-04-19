@@ -17,37 +17,5 @@
 
 SUBDIRS=sounds-sources
 
-JPOKERDIR=../..
-
 all build install clobber clean maintainer-clean check::
 	for i in ${SUBDIRS} ; do ${MAKE} -C $$i $@ ; done
-
-check::
-	python test-svg2html.py
-	python test-svgflatten.py
-
-clean::
-	rm -f mockup.html
-	rm -f *.pyc
-
-clobber:: clean
-	rm -f images/mockup_plain.svg
-	rm -f mockup.html
-
-build:: all
-
-all:: mockup.html
-
-mockup.html: images/mockup_plain.svg
-	( \
-		echo "// generated with make mockup, DO NOT EDIT" ; \
-		echo -n '$$.jpoker.plugins.table.templates.room = ' ; \
-		python svgflatten.py < images/mockup_plain.svg | python svg2html.py --json || true ; \
-	)  > ${JPOKERDIR}/js/mockup.js
-	python svgflatten.py < images/mockup_plain.svg | python svg2html.py --html | tidy -indent 2>/dev/null > mockup.html || true
-	perl -pi -e 's:</head>:<link href="css/jpoker_table_layout.css" rel="stylesheet" type="text/css" /></head>:' mockup.html
-	python svgflatten.py < images/mockup_plain.svg | python svg2html.py --css > css/jpoker_table_layout.css
-
-images/mockup_plain.svg: images/mockup.svg
-	inkscape --without-gui --vacuum-defs --export-plain-svg=images/mockup_plain.svg images/mockup.svg
-	perl -pi -e 's/xmlns="http:\/\/www.w3.org\/2000\/svg"//' images/mockup_plain.svg
