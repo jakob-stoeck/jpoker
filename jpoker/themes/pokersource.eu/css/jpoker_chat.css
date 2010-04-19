@@ -1,4 +1,5 @@
 .jpoker_chat_history_player_box {
+    border: 3px solid #3E7C32;
     position: absolute;
     top: 400px;
     left: 7px;
@@ -6,6 +7,7 @@
 }
 
 .jpoker_chat_history_player_heading, .jpoker_chat_history_dealer_heading {
+    background-color:#3E7C32;
     height: 18px;
     text-transform: uppercase;
     font-weight: bold;
@@ -14,13 +16,15 @@
 }
 
 .jpoker_chat_history_player {
-    background-color: white;
+    background-color: #99CC8F;
     overflow: auto;
     height: 87px;
 }
 
 .jpoker_chat_input {
-    border-top :1px solid black;
+    border-left: 3px solid #3E7C32;
+    border-right: 3px solid #3E7C32;
+    border-bottom: 3px solid #3E7C32;
     left :7px;
     position :absolute;
     top: 505px;
@@ -35,6 +39,7 @@
 }
 
 .jpoker_chat_history_dealer_box {
+    border: 3px solid #3E7C32;
     position: absolute;
     top: 400px;
     left: 516px;
@@ -51,7 +56,7 @@
 }
 
 .jpoker_chat_history_dealer .jpoker_chat_message {
-    color: red;
+    color: #193214;
     line-height: 1.5em;
 }
 
@@ -59,8 +64,7 @@
 	padding:0 0.2em;
 }
 .jpoker_chat_history_dealer{
-	background: #ddd;
-	border-top:1px solid #ccc;
+	background: #99CC8F;
 }
 
 .jpoker_chat_prefix{

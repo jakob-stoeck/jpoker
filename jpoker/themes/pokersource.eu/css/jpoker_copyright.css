@@ -9,6 +9,7 @@
     width: 400px;
     padding: 2em;
     text-align: center;
+    display: none;
 }
 
 #jpoker_copyright a {
