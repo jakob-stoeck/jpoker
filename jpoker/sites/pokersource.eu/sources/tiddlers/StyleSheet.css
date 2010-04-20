@@ -12,6 +12,7 @@ body {
 
 html, body, #contentWrapper {
 	height: 100%;
+        background-color: #e8f2e6;
 }
 
 body #contentWrapper {
@@ -97,11 +98,6 @@ body #contentWrapper {
 	text-align:center;
 	font-weight: bold;
 	color: [[ColorPalette::TertiaryDark]];
-}
-
-#stickyfooter, #stickybod {
-	border-left:1px solid [[ColorPalette::TertiaryLight]];
-	 border-right: 1px solid [[ColorPalette::TertiaryLight]];
 }
 
 .viewer{
@@ -309,29 +305,30 @@ ul.suckerfish li ul {z-index:999;}
 #menu ul.suckerfish li a {
 	padding: 0.5em 1.5em;
 	color: #FFF;
-	background: #009E03;
+	background: #3e7c32;
 	border-bottom: 0;
 	font-weight:bold;
+	border-right: 1px solid #FFF;
+        width: auto;
+}
+
+#menu ul.suckerfish li li a {
+    width: 9em;
 }
 
 #menu ul.suckerfish li:hover a, #menu ul.suckerfish li.sfhover a{
-	background: #17691C;
+	background: #254a1e;
 }
 
 #menu ul.suckerfish li:hover ul a, #menu ul.suckerfish li.sfhover ul a{
-	color: #000;
-	background: #eff3fa;
-	border-top:1px solid #FFF;
+	color: #fff;
+	background: #254a1e;
+	border-top: 1px solid #FFF;
 }
 
 #menu ul.suckerfish ul li a:hover {
-	background: #e0e8f5;
+	background: #3e7c32;
 }
-
-#menu ul.suckerfish li {
-	border-left: 1px solid #17691C;
-}
-
 
 /*
 Jpoker overrides below here

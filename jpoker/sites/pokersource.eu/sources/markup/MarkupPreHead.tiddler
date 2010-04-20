@@ -1,6 +1,6 @@
 <!--{{{-->
 <link rel="alternate" type="application/rss+xml" title="RSS" href="index.xml"/>
-<link rel="shortcut icon" href="../../../themes/pokersource.eu-2009/css/images/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="../../../themes/pokersource.eu/css/images/favicon.ico" type="image/x-icon" />
 <link href="../../../l10n/jpoker-da.json" lang="da" rel="gettext"/>
 <link href="../../../l10n/jpoker-de.json" lang="de" rel="gettext"/>
 <link href="../../../l10n/jpoker-en.json" lang="en" rel="gettext"/>
@@ -18,5 +18,5 @@
 <link href="../../../l10n/jpoker-nl.json" lang="nl" rel="gettext"/>
 <link href="../../../l10n/jpoker-pt.json" lang="pt" rel="gettext"/>
 <link href="../../../l10n/jpoker-sv.json" lang="sv" rel="gettext"/>
-<link href="../../../themes/pokersource.eu-2009/css/jpoker.css" rel="stylesheet" type="text/css" />
+<link href="../../../themes/pokersource.eu/css/jpoker.css" rel="stylesheet" type="text/css" />
 <!--}}}-->

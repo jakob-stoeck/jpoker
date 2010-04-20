@@ -1,5 +1,5 @@
 .jpoker_table .jpoker_ptable { width:760px; height:530px; position:relative; }
-.jpoker_table .jpoker_ptable_game_background { width:760px; height:530px; position:absolute; top:0px; left:0px; }
+.jpoker_table .jpoker_ptable_game_background { width:760px; height:530px; position:absolute; top:0px; left:0px; background-color: #e8f2e6; }
 .jpoker_table .jpoker_ptable_table { width:482px; height:228px; position:absolute; top:91px; left:140px; background-repeat: no-repeat; background-image:url("images/jpoker_table/table.png");}
 .jpoker_table .jpoker_ptable_board0 { width:37px; height:45px; position:absolute; top:159px; left:281px; background-image:url("images/jpoker_table/cards/small-back.png");}
 .jpoker_table .jpoker_ptable_board1 { width:37px; height:45px; position:absolute; top:159px; left:323px; background-image:url("images/jpoker_table/cards/small-back.png");}
