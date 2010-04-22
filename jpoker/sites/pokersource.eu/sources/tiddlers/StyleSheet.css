@@ -5,14 +5,13 @@ html, * {
 }
 
 body {
-	background:[[ColorPalette::TertiaryPale]];
+	background: #5F8000 url(../../../themes/pokersource.eu/css/images/body-background.gif) repeat-y scroll center top;
 	color:[[ColorPalette::TertiaryDark]];
 	font-family:"trebuchet MS",arial,helvetica,sans-serif;
 }
 
 html, body, #contentWrapper {
 	height: 100%;
-        background-color: #e8f2e6;
 }
 
 body #contentWrapper {
@@ -22,46 +21,36 @@ body #contentWrapper {
 #contentWrapper {
 	width: 840px;
 	margin:0 auto;
-	background:[[ColorPalette::Background]];
-}
-
-#header {
-	padding:15px 15px 0px 15px;
+/*	background:[[ColorPalette::Background]];*/
+        background: #5F8000 url(../../../themes/pokersource.eu/css/images/contentWrapper-background.jpg) no-repeat scroll left top;
 }
 
 #pokLogin {
-	float:right;
-/*
-	padding:10px;
-	background:[[ColorPalette::TertiaryPale]];
-	border: 1px solid [[ColorPalette::TertiaryLight]];
-*/
+    width: 300px;
+    height: 80px;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 #headerTitle{
 	/*font-size: 3.5em;*/
 	padding-bottom:0.5em;
 	height:87px;
-	float:left;
 }
 
-#headerTitle img{
-	float:left;
-	padding-bottom:0.8em;
-	margin-right:2em;
-}
-
-#headerImage{
-	background: transparent url("images/banner.jpg") no-repeat;
-	height:156px;
-	clear:both;
-	padding-bottom:0.5em;
+#header{
+	background: transparent url("../../../themes/pokersource.eu/css/images/top-background.jpg") no-repeat left top;
+        position: relative;
+        height: 125px;
+	display:block;
 }
 
 #menu {
 	background:[[ColorPalette::PrimaryMid]];
 	padding: 9px;
-	clear:both
+	width: 840px;
+        height: 32px;
 }
 
 #stickybod{
@@ -90,7 +79,7 @@ body #contentWrapper {
 }
 
 #footer{
-	background:[[ColorPalette::TertiaryPale]];
+	background:#c0cc9e;
 	height:60px;
 	border-top:5px solid [[ColorPalette::PrimaryMid]];
 	margin:0pt auto;
@@ -124,7 +113,7 @@ body #contentWrapper {
 }
 
 .shadow .title {
-	color:#17691C;
+	color:#3f4a1e;
 }
 
 .subtitle {
@@ -305,8 +294,9 @@ ul.suckerfish li ul {z-index:999;}
 #menu ul.suckerfish li a {
 	padding: 0.5em 1.5em;
 	color: #FFF;
-	background: #3e7c32;
+	background: #81AC00;
 	border-bottom: 0;
+	border-left: 0;
 	font-weight:bold;
 	border-right: 1px solid #FFF;
         width: auto;
@@ -317,17 +307,21 @@ ul.suckerfish li ul {z-index:999;}
 }
 
 #menu ul.suckerfish li:hover a, #menu ul.suckerfish li.sfhover a{
-	background: #254a1e;
+	background: #3f4a1e;
 }
 
 #menu ul.suckerfish li:hover ul a, #menu ul.suckerfish li.sfhover ul a{
 	color: #fff;
-	background: #254a1e;
+	background: #3f4a1e;
 	border-top: 1px solid #FFF;
 }
 
 #menu ul.suckerfish ul li a:hover {
-	background: #3e7c32;
+	background: #81AC00;
+}
+
+#menu ul.suckerfish li {
+    border-left: none;
 }
 
 /*

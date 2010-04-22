@@ -3,15 +3,15 @@
 
 .jpoker_jquery_ui .ui-dialog,
 .jpoker_jquery_ui.ui-dialog {
-	background-color: #99cc8f;
-	border:1px solid #3e7c32;
+	background-color: #bdcc8f;
+	border:1px solid #567300;
 	font-family: "trebuchet MS",arial,helvetica,sans-serif;
 }
 
 .jpoker_jquery_ui .ui-dialog .ui-dialog-titlebar,
 .jpoker_jquery_ui.ui-dialog .ui-dialog-titlebar {
-	border-bottom: 1px solid #99cc8f;
-	background-color: #3e7c32;
+	border-bottom: 1px solid #bdcc8f;
+	background-color: #567300;
 	padding: 0px;
 	height: 28px;
 	_height: 29px;
@@ -74,25 +74,25 @@
 
 /* Dialog handle styles */
 .jpoker_jquery_ui .ui-dialog .ui-resizable-n,
-.jpoker_jquery_ui.ui-dialog .ui-resizable-n { cursor: n-resize; height: 6px; width: 100%; top: 0px; left: 0px; background-color: #3E7C32; }
+.jpoker_jquery_ui.ui-dialog .ui-resizable-n { cursor: n-resize; height: 6px; width: 100%; top: 0px; left: 0px; background-color: #567300; }
 
 .jpoker_jquery_ui .ui-dialog .ui-resizable-s,
-.jpoker_jquery_ui.ui-dialog .ui-resizable-s { cursor: s-resize; height: 8px; width: 100%; bottom: 0px; left: 0px; background-color: #3E7C32; }
+.jpoker_jquery_ui.ui-dialog .ui-resizable-s { cursor: s-resize; height: 8px; width: 100%; bottom: 0px; left: 0px; background-color: #567300; }
 
 .jpoker_jquery_ui .ui-dialog .ui-resizable-e,
-.jpoker_jquery_ui.ui-dialog .ui-resizable-e { cursor: e-resize; width: 7px; right: 0px; top: 0px; height: 100%; background-color: #3E7C32; }
+.jpoker_jquery_ui.ui-dialog .ui-resizable-e { cursor: e-resize; width: 7px; right: 0px; top: 0px; height: 100%; background-color: #567300; }
 
 .jpoker_jquery_ui .ui-dialog .ui-resizable-w,
-.jpoker_jquery_ui.ui-dialog .ui-resizable-w { cursor: w-resize; width: 7px; left: 0px; top: 0px; height: 100%; background-color: #3E7C32; }
+.jpoker_jquery_ui.ui-dialog .ui-resizable-w { cursor: w-resize; width: 7px; left: 0px; top: 0px; height: 100%; background-color: #567300; }
 
 .jpoker_jquery_ui .ui-dialog .ui-resizable-se,
-.jpoker_jquery_ui.ui-dialog .ui-resizable-se { cursor: se-resize; width: 9px; height: 9px; right: 0px; bottom: 0px; background-color: #3E7C32; }
+.jpoker_jquery_ui.ui-dialog .ui-resizable-se { cursor: se-resize; width: 9px; height: 9px; right: 0px; bottom: 0px; background-color: #567300; }
 
 .jpoker_jquery_ui .ui-dialog .ui-resizable-sw,
-.jpoker_jquery_ui.ui-dialog .ui-resizable-sw { cursor: sw-resize; width: 9px; height: 9px; left: 0px; bottom: 0px; background-color: #3E7C32; }
+.jpoker_jquery_ui.ui-dialog .ui-resizable-sw { cursor: sw-resize; width: 9px; height: 9px; left: 0px; bottom: 0px; background-color: #567300; }
 
 .jpoker_jquery_ui .ui-dialog .ui-resizable-nw,
-.jpoker_jquery_ui.ui-dialog .ui-resizable-nw { cursor: nw-resize; width: 9px; height: 29px; left: 0px; top: 0px; background-color: #3E7C32; }
+.jpoker_jquery_ui.ui-dialog .ui-resizable-nw { cursor: nw-resize; width: 9px; height: 29px; left: 0px; top: 0px; background-color: #567300; }
 
 .jpoker_jquery_ui .ui-dialog .ui-resizable-ne,
-.jpoker_jquery_ui.ui-dialog .ui-resizable-ne { cursor: ne-resize; width: 9px; height: 29px; right: 0px; top: 0px; background-color: #3E7C32; }
+.jpoker_jquery_ui.ui-dialog .ui-resizable-ne { cursor: ne-resize; width: 9px; height: 29px; right: 0px; top: 0px; background-color: #567300; }

@@ -50,8 +50,12 @@ jpoker-binary-${VERSION}:
 	cp -a jpoker/jquery/ui jpoker-binary-${VERSION}/jquery
 	cp -a jpoker/js jpoker-binary-${VERSION}
 	mkdir -p jpoker-binary-${VERSION}/themes/pokersource.eu-2009
-	cp -a jpoker/themes/pokersource.eu-2009/css jpoker-binary-${VERSION}/themes/pokersource.eu-2009
-	cp -a jpoker/themes/pokersource.eu-2009/sounds jpoker-binary-${VERSION}/themes/pokersource.eu-2009
+	rsync -av --exclude  --delete-excluded \
+		--include '/*/css' \
+		--include '/*/js' \
+		--include '/*/sounds' \
+		--exclude '/*/*' \
+		jpoker/themes/ jpoker-binary-${VERSION}/themes/
 	mkdir jpoker-binary-${VERSION}/l10n
 	cp -a jpoker/l10n/*.json jpoker-binary-${VERSION}/l10n
 

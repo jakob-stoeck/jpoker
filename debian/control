@@ -4,7 +4,7 @@ Uploaders: Ola Lundqvist <opal@debian.org>, Johan Euphrosine (proppy) <proppy@am
 Section: web
 Priority: optional
 Standards-Version: 3.8.1
-Build-Depends: debhelper (>= 5), cdbs, gettext, python, python-simplejson, python-libxml2, tidy, ruby, rubygems | rubygems1.8, wget, inkscape
+Build-Depends: debhelper (>= 5), cdbs, gettext, python, python-simplejson, python-libxml2, tidy, ruby, rubygems | rubygems1.8, wget, inkscape, rsync
 
 Package: jpoker
 Architecture: all
