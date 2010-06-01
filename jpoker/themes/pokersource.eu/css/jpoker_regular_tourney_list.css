@@ -16,14 +16,14 @@
 	cursor: default;
 }
 .jpoker_regular_tourney_list .odd {
-	background: #CCFFBF;
+	background: #81AC00;
 }
 .jpoker_regular_tourney_list .headerSortUp,
 .jpoker_regular_tourney_list .headerSortDown {
-    background: #73BF60;
+    background: #81AC00;
 }
 .jpoker_regular_tourney_list tr.hover {
-	background: #73BF60;
+	background: #81AC00;
 	color: #fff;
 }
 

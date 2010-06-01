@@ -22,7 +22,7 @@
 	width: 290px;
 	float: right;
 	border: 5px solid #009E03;
-	background:#CCFFBF;
+	background:#81AC00;
     height: 12em;
     overflow: auto;
 }
@@ -31,7 +31,7 @@
 .jpoker_tourney_details .jpoker_tourney_details_prizes,
 .jpoker_tourney_details .jpoker_tourney_details_tables {
 	width: 370px;
-	background: #CCFFBF;
+	background: #81AC00;
 }
 
 .jpoker_tourney_details .jpoker_tourney_details_info.jpoker_tourney_details_announced,
@@ -68,7 +68,7 @@
 }
 
 .jpoker_tourney_details_tables table tr.hover {
-	background: #73BF60;
+	background: #81AC00;
 	color: #fff;
 }
 
@@ -121,7 +121,7 @@
 }
 
 .jpoker_tourney_details .pager {
-	background: #CCFFBF;
+	background: #81AC00;
 	margin-left: -1px;
 	border: 1px solid #92CF81;
 	border-top:none;

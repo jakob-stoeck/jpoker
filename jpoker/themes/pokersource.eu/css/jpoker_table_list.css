@@ -1,13 +1,9 @@
-.jpoker_table_list table {
-	border:1px solid #24B300;
-}
-
 .jpoker_table_list td {
 	padding: 0.5em 1em;
 }
 
 .jpoker_table_list tr.odd {
-	background:#CCFFBF;
+	background:#81AC00;
 }
 
 .jpoker_table_list th {
@@ -19,7 +15,7 @@
 }
 
 .jpoker_table_list tr.hover {
-	background:#73BF60;
+	background:#81AC00;
 	color:#fff;
 }
 
@@ -28,7 +24,6 @@
 	border-collapse:collapse;
 	font-size:14px;
 	font-family:"trebuchet MS",arial,helvetica,sans-serif;
-	color:#444;
 }
 
 .jpoker_widget.jpoker_table_list table th, .jpoker_widget.jpoker_table_list table thead td, .jpoker_widget.jpoker_table_list table th, .jpoker_widget.jpoker_table_list table thead td {
