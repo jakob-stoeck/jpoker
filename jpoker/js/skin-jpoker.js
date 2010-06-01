@@ -888,6 +888,24 @@ function jpoker_32_connectedTablesPlayers(place) {
         $(place).jpoker('serverStatus', 'url');
 }
 
+function jpoker_33_connectedAll(place) {
+        setUp();
+        if(explain) {
+            $('#explain').append('<b>jpoker_32_connectedAll</b> ');
+            $('#explain').append('connected to server, with cash game tables with players and tournaments with players.');
+            $('#explain').append('<hr>');
+        }
+
+        var server = $.jpoker.getServer('url');
+
+        server.connectionState = 'connected';
+        server.tablesCount = 10;
+        server.tourneysCount = 20;
+        server.playersCount = 33;
+        server.playersTourneysCount = 43;
+        $(place).jpoker('serverStatus', 'url');
+}
+
 function jpoker_40_tableList(place) {
         setUp();
         if(explain) {

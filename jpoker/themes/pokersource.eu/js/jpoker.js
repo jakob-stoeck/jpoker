@@ -16,7 +16,7 @@
 //
 (function($) {
     $.jpoker.plugins.login.templates.login = 
-        '<ul>' +
+        '<ul class=\'jpoker_login_login\'>' +
         ' <li class=\'jpoker_login_label\'>' +
         '  <div class=\'jpoker_login_name_label\'>{login}</div>' +
         '  <div class=\'jpoker_login_password_label\'>{password}</div>' +
@@ -30,4 +30,5 @@
         '  <div class=\'jpoker_login_signup\'><input type=\'text\' class=\'jpoker_login_signup\' value=\'{signup}\' /></div>' +
         ' </li>' + 
         '</ul>';
+    $.jpoker.plugins.serverStatus.templates.players = '<div class=\'jpoker_server_status_players\'> <span class=\'jpoker_server_status_players_count\'>{count}</span> <span class=\'jpoker_server_status_players_label\'>{players}</span> online <span class=\'jpoker_server_status_more\'>more...</span></div>';
 })(jQuery);

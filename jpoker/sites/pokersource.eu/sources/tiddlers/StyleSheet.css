@@ -25,24 +25,24 @@ body #contentWrapper {
         background: #5F8000 url(../../../themes/pokersource.eu/css/images/contentWrapper-background.jpg) no-repeat scroll left top;
 }
 
+#jpokerServerStatus {
+    position: absolute;
+    top: 0;
+    left: 430px;
+}
+
 #pokLogin {
-    width: 300px;
-    height: 80px;
     position: absolute;
     top: 0;
     right: 0;
 }
 
 #headerTitle{
-	/*font-size: 3.5em;*/
-	padding-bottom:0.5em;
-	height:87px;
 }
 
 #header{
-	background: transparent url("../../../themes/pokersource.eu/css/images/top-background.jpg") no-repeat left top;
         position: relative;
-        height: 125px;
+        height: 32px;
 	display:block;
 }
 
