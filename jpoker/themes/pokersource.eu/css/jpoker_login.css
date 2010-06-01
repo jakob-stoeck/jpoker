@@ -1,12 +1,19 @@
 .jpoker_login {
-    background: transparent url(images/login-background.gif) repeat-x left bottom;
+    background: #81ac00;
     font-size: 15px;
     font-weight: bold;
     color: #FFF;
-    height: 40px;
-    width: 280px;
-    padding: 10px 10px 5px 10px;
-    line-height: 35px;
+    overflow: hidden;
+    padding: 0px 10px;
+    line-height: 32px;
+}
+
+.jpoker_login_login {
+    height: 32px;
+}
+
+.jpoker_login_login:hover {
+    height: 64px;
 }
 
 .jpoker_login ul {
@@ -24,6 +31,7 @@
 .jpoker_login li div {
     height: 22px;
     line-height: 20px;
+    padding: 5px 0px;
 }
 
 .jpoker_login input {
@@ -65,5 +73,6 @@
 }
 
 .jpoker_login .jpoker_logout a {
-    padding: 5px;
+    padding: 3px 6px;
+    border: 1px solid #fff;
 }

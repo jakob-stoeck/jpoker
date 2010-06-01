@@ -11,7 +11,7 @@
 }
 
 .jpoker_tourney_details .jpoker_tourney_name {
-	color: #17691C;
+	color: #567300;
 	font-size: 1.6em;
 	font-weight: bold;
 	padding: 6px 5px;
@@ -73,7 +73,7 @@
 }
 
 .jpoker_tourney_details table thead tr {
-	border: 1px solid #17691C;
+	border: 1px solid #567300;
 	border-top: 0;
 	border-bottom: 0;
 }
@@ -91,7 +91,7 @@
 }
 
 .jpoker_tourney_details table th {
-	background: #17691C;
+	background: #567300;
 	color: #fff;
 }
 
@@ -111,13 +111,13 @@
 	font-weight: bold;
 	font-size: 1.3em;
 	background: #009E03;
-	border: 3px solid #17691C;
+	border: 3px solid #567300;
 	color: #fff;
 	cursor: pointer;
 }
 
 .jpoker_tourney_details_register input:hover {
-	background: #17691C;
+	background: #567300;
 }
 
 .jpoker_tourney_details .pager {
@@ -129,18 +129,18 @@
 }
 
 .jpoker_tourney_details .pager a {
-	color: #17691C;
+	color: #567300;
 	text-decoration:none;
 }
 
 .jpoker_tourney_details .pager a:hover {
 	color: #fff;
-	background: #17691C;
+	background: #567300;
 }
 
 .jpoker_tourney_details_tables_goto_table {
 	background: #009E03;
-	border: 1px solid #17691C;
+	border: 1px solid #567300;
 	color: #fff;
 	cursor: pointer;
 }
@@ -154,7 +154,7 @@ a.jpoker_tourney_details_tables_goto_table {
 }
 
 .jpoker_tourney_details_tables_goto_table:hover {
-	background: #17691C;
+	background: #567300;
 }
 
 .jpoker_tourney_details .pager {

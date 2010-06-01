@@ -7,13 +7,13 @@
 }
 
 .jpoker_widget a {
-	color : #17691c;
+	color : #567300;
 	text-decoration: none;
 	outline: none;
 }
 
 .jpoker_widget a:hover {
-	background: #17691c;
+	background: #567300;
 	color: #fff;
 }
 
