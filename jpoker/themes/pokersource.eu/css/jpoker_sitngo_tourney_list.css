@@ -14,11 +14,12 @@
 .jpoker_sitngo_tourney_list .odd {
 	background:#81AC00;
 }
-.jpoker_sitngo_tourney_list .headerSortUp {
-        background:#81AC00;
+.jpoker_widget.jpoker_sitngo_tourney_list table th.headerSortUp {
+    background: #C0CC9E;
+    color: #000;
 }
-.jpoker_sitngo_tourney_list .headerSortDown {
-        background:#81AC00;
+.jpoker_widget.jpoker_sitngo_tourney_list table th.headerSortDown {
+    background: #81AC00;
 }
 .jpoker_sitngo_tourney_list tr.hover {
 	background:#81AC00;

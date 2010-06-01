@@ -6,6 +6,15 @@
 	background:#81AC00;
 }
 
+.jpoker_widget.jpoker_table_list table th.headerSortUp {
+    background: #C0CC9E;
+    color: #000;
+}
+
+.jpoker_widget.jpoker_table_list table th.headerSortDown {
+    background: #81AC00;
+}
+
 .jpoker_table_list th {
 	background: #81AC00;
 }
