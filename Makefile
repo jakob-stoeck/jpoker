@@ -114,7 +114,7 @@ messages.pot: jpoker/js/jquery.jpoker.js
 ${LANG_DIR}/jpoker-%.po: messages.pot
 	msgmerge -s -U $@ messages.pot
 	touch $@
-	: now edit with kbabel $<
+	: now edit with poedit $@
 
 ${LANG_DIR}/%.mo: ${LANG_DIR}/jpoker-%.po
 	msgfmt --check --output-file $@ $<

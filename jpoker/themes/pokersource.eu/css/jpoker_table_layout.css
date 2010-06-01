@@ -16,16 +16,16 @@
 .jpoker_table .jpoker_ptable_fold { width:44px; height:30px; position:absolute; top:408px; left:386px; background-image:url("images/jpoker_table/fold.png");}
 .jpoker_table .jpoker_ptable_raise { width:44px; height:30px; position:absolute; top:442px; left:289px; background-image:url("images/jpoker_table/raise.png");}
 .jpoker_table .jpoker_ptable_raise_range { width:94px; height:50px; position:absolute; top:477px; left:338px; background-image:url("images/jpoker_table/raise_slider_dock.png");}
-.jpoker_table .jpoker_ptable_sit_seat0 { width:70px; height:87px; position:absolute; top:68px; left:88px; background-image:url("images/jpoker_table/seat-sit.gif");}
-.jpoker_table .jpoker_ptable_sit_seat1 { width:70px; height:87px; position:absolute; top:34px; left:202px; background-image:url("images/jpoker_table/seat-sit.gif");}
-.jpoker_table .jpoker_ptable_sit_seat2 { width:70px; height:87px; position:absolute; top:18px; left:347px; background-image:url("images/jpoker_table/seat-sit.gif");}
-.jpoker_table .jpoker_ptable_sit_seat3 { width:70px; height:87px; position:absolute; top:34px; left:500px; background-image:url("images/jpoker_table/seat-sit.gif");}
-.jpoker_table .jpoker_ptable_sit_seat4 { width:70px; height:87px; position:absolute; top:71px; left:605px; background-image:url("images/jpoker_table/seat-sit.gif");}
-.jpoker_table .jpoker_ptable_sit_seat5 { width:70px; height:87px; position:absolute; top:255px; left:605px; background-image:url("images/jpoker_table/seat-sit.gif");}
-.jpoker_table .jpoker_ptable_sit_seat6 { width:70px; height:87px; position:absolute; top:284px; left:500px; background-image:url("images/jpoker_table/seat-sit.gif");}
-.jpoker_table .jpoker_ptable_sit_seat7 { width:70px; height:87px; position:absolute; top:294px; left:347px; background-image:url("images/jpoker_table/seat-sit.gif");}
-.jpoker_table .jpoker_ptable_sit_seat8 { width:70px; height:87px; position:absolute; top:286px; left:202px; background-image:url("images/jpoker_table/seat-sit.gif");}
-.jpoker_table .jpoker_ptable_sit_seat9 { width:70px; height:87px; position:absolute; top:255px; left:88px; background-image:url("images/jpoker_table/seat-sit.gif");}
+.jpoker_table .jpoker_ptable_sit_seat0 { width:70px; height:71px; position:absolute; top:68px; left:88px; background-image:url("images/jpoker_table/seat-sit.png");}
+.jpoker_table .jpoker_ptable_sit_seat1 { width:70px; height:71px; position:absolute; top:34px; left:202px; background-image:url("images/jpoker_table/seat-sit.png");}
+.jpoker_table .jpoker_ptable_sit_seat2 { width:70px; height:71px; position:absolute; top:18px; left:347px; background-image:url("images/jpoker_table/seat-sit.png");}
+.jpoker_table .jpoker_ptable_sit_seat3 { width:70px; height:71px; position:absolute; top:34px; left:500px; background-image:url("images/jpoker_table/seat-sit.png");}
+.jpoker_table .jpoker_ptable_sit_seat4 { width:70px; height:71px; position:absolute; top:71px; left:605px; background-image:url("images/jpoker_table/seat-sit.png");}
+.jpoker_table .jpoker_ptable_sit_seat5 { width:70px; height:71px; position:absolute; top:255px; left:605px; background-image:url("images/jpoker_table/seat-sit.png");}
+.jpoker_table .jpoker_ptable_sit_seat6 { width:70px; height:71px; position:absolute; top:284px; left:500px; background-image:url("images/jpoker_table/seat-sit.png");}
+.jpoker_table .jpoker_ptable_sit_seat7 { width:70px; height:71px; position:absolute; top:294px; left:347px; background-image:url("images/jpoker_table/seat-sit.png");}
+.jpoker_table .jpoker_ptable_sit_seat8 { width:70px; height:71px; position:absolute; top:286px; left:202px; background-image:url("images/jpoker_table/seat-sit.png");}
+.jpoker_table .jpoker_ptable_sit_seat9 { width:70px; height:71px; position:absolute; top:255px; left:88px; background-image:url("images/jpoker_table/seat-sit.png");}
 .jpoker_table .jpoker_ptable_player_seat0_background { width:70px; height:87px; position:absolute; top:68px; left:88px; background-color: #567300;}
 .jpoker_table .jpoker_ptable_player_seat0_name { width:63.912312px; height:10px; position:absolute; top:70px; left:90px; }
 .jpoker_table .jpoker_ptable_player_seat0_avatar { width:63px; height:43px; position:absolute; top:92px; left:91px; background-image:url("images/jpoker_table/avatar.gif");}

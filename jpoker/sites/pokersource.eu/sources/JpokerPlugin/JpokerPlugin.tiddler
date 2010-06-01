@@ -49,6 +49,7 @@ $.jpoker.verbose = 6;
 $.jpoker.sound_directory = '../../../themes/pokersource.eu-2009/sounds/';
 
 $(document).ready(function() {
+  $.jpoker.main();
   $.jpoker.copyright();
 });
 

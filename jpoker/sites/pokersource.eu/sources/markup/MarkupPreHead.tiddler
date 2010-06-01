@@ -9,6 +9,7 @@
 <link href="../../../l10n/jpoker-es.json" lang="es" rel="gettext"/>
 <link href="../../../l10n/jpoker-fi.json" lang="fi" rel="gettext"/>
 <link href="../../../l10n/jpoker-fr.json" lang="fr" rel="gettext"/>
+<link href="../../../themes/pokersource.eu/l10n/jpoker-fr.json" lang="fr" rel="gettext"/>
 <link href="../../../l10n/jpoker-fr_BE.json" lang="fr_BE" rel="gettext"/>
 <link href="../../../l10n/jpoker-fr_CA.json" lang="fr_CA" rel="gettext"/>
 <link href="../../../l10n/jpoker-fr_FX.json" lang="fr_FX" rel="gettext"/>
