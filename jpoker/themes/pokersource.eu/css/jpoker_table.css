@@ -148,6 +148,13 @@
 	cursor: pointer;
 }
 
+.jpoker_sit_seat .jpoker_click_to_seat {
+    font-size:20px;
+    font-weight:bold;
+    left:10px;
+    position:absolute;
+    top:10px;
+}
 
 .jpoker_table .jpoker_player_seat .jpoker_name {
 	overflow:hidden;

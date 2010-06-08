@@ -37,14 +37,15 @@
 	<script language="JavaScript" type="text/javascript" src="../../../js/printstacktrace.js"></script>
 	<script language="JavaScript" type="text/javascript" src="../../../js/json2.js"></script>
 	<script language="JavaScript" type="text/javascript" src="../../../js/jquery.jpoker.js"></script>
-	<script language="JavaScript" type="text/javascript" src="../../../js/mockup.js"></script>
 	<script language="JavaScript" type="text/javascript" src="../../../js/skin-jpoker.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../js/jpoker.js"></script>
 	<script type="text/javascript">
           $.jpoker.verbose = 1;
           $.jpoker.sound_directory = '../sounds/';
           $.jpoker.copyrightTimeout = 20000000;
 	  $(document).ready(function() {
 		jpoker_skin_permalink();
+                $.jpoker.main();
 	  });
         </script>
         <link href="../css/jpoker.css" rel="stylesheet" type="text/css" />
