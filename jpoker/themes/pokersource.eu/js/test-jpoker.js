@@ -75,13 +75,18 @@ test("jpoker: setTemplates", function() {
     });
 
 test("jpoker: setLocale", function() {
-        expect(3);
+        expect(4);
 
 	$.cookie('jpoker_preferences_global', null);
         ok($.jpoker.global_preferences === undefined, 'global is undefined');
         $.jpoker.setLocale();
         equals($.jpoker.global_preferences.lang, 'en');
         ok($.cookie('jpoker_preferences_global') === null, 'cookie global is null');
+
+	$.cookie('jpoker_preferences_global', '{"lang":"fr"}');
+        $.jpoker.setLocale();
+        equals($.jpoker.global_preferences.lang, 'fr'); // overrides the default 'en'
+	$.cookie('jpoker_preferences_global', null);
     });
 
 function reset_locale() {
