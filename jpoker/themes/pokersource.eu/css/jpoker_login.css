@@ -4,16 +4,15 @@
     font-weight: bold;
     color: #FFF;
     overflow: hidden;
-    padding: 0px 10px;
-    line-height: 32px;
+    line-height: 27px;
 }
 
 .jpoker_login_login {
-    height: 32px;
+    height: 27px;
 }
 
 .jpoker_login_login:hover {
-    height: 64px;
+    height: 54px;
 }
 
 .jpoker_login ul {
@@ -29,9 +28,9 @@
 }
 
 .jpoker_login li div {
-    height: 22px;
+    height: 20px;
     line-height: 20px;
-    padding: 5px 0px;
+    padding: 2px 0px;
 }
 
 .jpoker_login input {

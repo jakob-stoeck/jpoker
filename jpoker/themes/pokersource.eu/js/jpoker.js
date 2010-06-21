@@ -17,7 +17,36 @@
 (function($) {
     var jpoker = $.jpoker;
 
+    jpoker.selectors = {
+        'table': '#table'
+    };
+
     jpoker.main = function() {
+        this.setTemplates();
+        this.setSpawnTable();
+        this.setLocale();
+    };
+
+    jpoker.setSpawnTable = function() {
+        jpoker.server.defaults.spawnTable = function(server, packet) {
+            server.setLocale(jpoker.global_preferences.lang, packet.game_id);
+            $($.jpoker.selectors.table).jpoker('table', server.url, packet.game_id, packet.name);
+        };
+    };
+
+    jpoker.reload = function() { document.location.href = ''; };
+
+    jpoker.setLocale = function() {
+        jpoker.preferences.prototype.lang = $("html").attr("lang");
+        this.global_preferences = new jpoker.preferences('global');
+    };
+
+    jpoker.changeLocale = function(lang) {
+        this.global_preferences.extend({ lang: lang });
+        this.reload();
+    };
+
+    jpoker.setTemplates = function() {
         jpoker.plugins.login.templates.login = 
         '<ul class=\'jpoker_login_login\'>' +
         ' <li class=\'jpoker_login_label\'>' +
