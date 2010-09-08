@@ -61,11 +61,11 @@
     <script src="../../themes/pokersource.eu/js/jpoker.js" type="text/javascript"></script>
     <script type="text/javascript">
       $(document).ready(function() {
-      var url = '/POKER_REST';
+      var url = 'http://pokersource.eu/POKER_REST';
       $.jpoker.sound_directory = '../../themes/pokersource.eu/sounds/';
       $.jpoker.main();
       $('#login').jpoker('login', url);
-      $('#table).jpoker('featuredTable', url);
+      $('#table').jpoker('featuredTable', url);
       });
     </script>
   </head>
@@ -121,7 +121,7 @@
                   <li><a href='javascript://' class='fi'>Finish</a></li>
                   <li><a href='$.jpoker.setLocale("fr")' class='fr'>French</a></li>
                   <li><a href='javascript://' class='fr_BE'>French (Belgium)</a></li>
-                  <li><a href='javascript://' class='fr_CA>French (Canada)</a></li>
+                  <li><a href='javascript://' class='fr_CA'>French (Canada)</a></li>
                 </ul>
               </li>
             </dd>
